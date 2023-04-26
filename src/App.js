@@ -4,8 +4,7 @@ function App() {
       <Route path="/" element={<Home />}></Route>
       <Route path="/login" element={<Login />}></Route>
       <Route path="/signup" element={<Signup />}></Route>
-      <Route path="/signup/user" element={<SignUpUser />}></Route>
-      <Route path="/signup/planner" element={<SignUpPlanner />}></Route>
+      <Route path="/signup/:category" element={<SignUpForm />}></Route>
       <Route path="/passwordSearch" element={<PasswordSearch />} />
       <Route
         path="/passwordSearch/temporaryPasswordLogin"
