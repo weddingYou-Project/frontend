@@ -1,0 +1,15 @@
+.myestimate{
+    display:flex;
+    flex-direction: column;
+}
+
+.myestimate p{
+    font-size:0.8em;
+    margin:0 auto;
+    margin-top:3px;
+    font-weight: bold;
+}
+
+.myestimate:hover{
+    cursor:pointer;
+}
