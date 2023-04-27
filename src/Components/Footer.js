@@ -1,9 +1,18 @@
 import "../Css/footer.css";
+import React from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 function Footer() {
+  const navigate = useNavigate();
+  const category = useParams();
   return (
     <div class="footer">
-      <div class="icon">
+      <div
+        class="icon"
+        onClick={() => {
+          //전체 메뉴 바 보여주기
+        }}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="40"
@@ -14,9 +23,14 @@ function Footer() {
         >
           <path d="M2.5 3.5a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-11zm2-2a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM0 13a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 16 13V6a1.5 1.5 0 0 0-1.5-1.5h-13A1.5 1.5 0 0 0 0 6v7zm1.5.5A.5.5 0 0 1 1 13V6a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5h-13z" />
         </svg>
-        <p>내 견적</p>
+        <p>전체 메뉴</p>
       </div>
-      <div class="icon">
+      <div
+        class="icon"
+        onClick={() => {
+          navigate("/");
+        }}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="40"
@@ -32,7 +46,12 @@ function Footer() {
         </svg>
         <p>플래너</p>
       </div>
-      <div class="icon">
+      <div
+        class="icon"
+        onClick={() => {
+          navigate("/");
+        }}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="40"
@@ -46,7 +65,12 @@ function Footer() {
         </svg>
         <p>홈</p>
       </div>
-      <div class="icon">
+      <div
+        class="icon"
+        onClick={() => {
+          navigate("/");
+        }}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="40"
@@ -61,7 +85,12 @@ function Footer() {
         </svg>
         <p>견적</p>
       </div>
-      <div class="icon">
+      <div
+        class="icon"
+        onClick={() => {
+          navigate(`/mypage/${category}`);
+        }}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="40"

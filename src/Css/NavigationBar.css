@@ -1,0 +1,13 @@
+.navigationbar{
+    display:flex;
+    flex-direction: row;
+    padding-top:15px;
+    width:560px;
+}
+
+.navigationbar p{
+    display:inline-block;
+    margin:0 auto;
+    margin-top:15px;
+    margin-bottom:20px;
+}

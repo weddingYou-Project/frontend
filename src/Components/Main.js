@@ -1,11 +1,13 @@
 import "../Css/footer.css";
 import "../Css/main.css";
 import Footer from "./Footer.js";
+import NavigationBar from "./NavigationBar";
 
 function Main() {
   return (
     <div>
       <div class="mainlayout">
+        <NavigationBar />
         <div class="content">
           Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sunt a,
           illum nulla pariatur veritatis quas ad distinctio ducimus,

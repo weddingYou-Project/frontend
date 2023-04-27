@@ -13,7 +13,7 @@
 .icon{
     display:flex;
     flex-direction: column;
-    padding:0 32px;
+    padding:0 30px;
     align-items: center;
 }
 
