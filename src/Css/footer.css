@@ -4,13 +4,16 @@
     padding-top:20px;
     position:fixed;
     bottom:0;
+    padding-bottom: 15px;
     background-color: white;
+    border-radius:10px;
+    
 }
 
 .icon{
     display:flex;
     flex-direction: column;
-    padding:0 33px;
+    padding:0 32px;
     align-items: center;
 }
 

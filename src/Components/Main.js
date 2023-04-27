@@ -346,8 +346,8 @@ function Main() {
           Cupiditate dolore dolores accusamus, esse dolorem suscipit soluta
           nihil vero nesciunt error consequuntur.
         </div>
+        <Footer />
       </div>
-      <Footer />
     </div>
   );
 }
