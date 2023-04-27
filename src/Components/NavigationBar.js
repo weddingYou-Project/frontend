@@ -2,8 +2,7 @@ import BackButton from "./BackButton";
 import "../Css/NavigationBar.css";
 import MyEstimate from "./MyEstimate";
 
-function NavigationBar() {
-  const title = "제목";
+function NavigationBar({ title }) {
   return (
     <div class="navigationbar">
       <BackButton />

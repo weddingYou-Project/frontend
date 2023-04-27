@@ -1,10 +1,11 @@
 import "../Css/main.css";
-import Main from "../Components/Main";
+import NavigationBar from "../Components/NavigationBar";
 
 function Mypage() {
+  const title = "마이페이지";
   return (
-    <div>
-      <Main />
+    <div class="mypage">
+      <NavigationBar title={title} />
     </div>
   );
 }
