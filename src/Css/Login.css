@@ -1,0 +1,52 @@
+.logo {
+    margin-top: 20%;
+    margin-bottom: 10%;
+    width: 200px;
+    height: 200px;
+    border-radius: 1.5rem;
+}
+
+.loginmessage {
+    float: right;
+    font-size: xx-small;
+}
+
+.searchmessage {
+    float: right;
+    font-size: small;
+    text-decoration: none;
+}
+
+.signupmessage {
+    text-decoration: none;
+}
+
+.bi-chevron-left{
+    margin-top: 10px;
+    font-size: 40px;
+    line-height: 40px;
+}
+
+h3 {
+    margin-top: 15px;
+}
+
+.btn-custom {
+    width: 256px;
+    height: 30px;
+    border-radius: 5px;
+    border-width: 1px;
+    border-color: rgba(138, 138, 138, 0.533);
+    background-color: white;
+}
+
+.btn-custom:hover {
+    border-color: black;
+    border-width: 2px;
+}
+
+.backbutton {
+    padding-top: 10px;
+    background-color: white;
+    border: none;
+}

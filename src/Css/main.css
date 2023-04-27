@@ -4,3 +4,14 @@
 유효성검사 input size (server-side bootstrap input)
 
 */
+
+body {
+    background-color: rgb(240, 240, 240);
+}
+.mainlayout {
+    margin: 0 auto;
+    width: 560px;
+    height: 1000px;
+    background-color: white;
+}
+
