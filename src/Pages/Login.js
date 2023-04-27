@@ -35,14 +35,10 @@ function Login() {
             <div class="mb-3">
               <input
                 type="text"
-                class="form-control"
+                class="inputarea"
                 placeholder="아이디(이메일)"
               />
-              <input
-                type="password"
-                class="form-control"
-                placeholder="비밀번호"
-              />
+              <input type="password" class="inputarea" placeholder="비밀번호" />
             </div>
             <a className="searchmessage" href="#">
               비밀번호를 잊으셨나요?

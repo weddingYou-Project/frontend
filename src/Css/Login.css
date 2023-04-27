@@ -39,3 +39,12 @@ h3 {
     border-width: 2px;
 }
 
+.inputarea {
+    margin-bottom: 6px;
+    width: 256px;
+    height: 40px;
+    border-radius: 1px;
+    border-width: 1px;
+    border-color: rgba(138, 138, 138, 0.533);
+    background-color: white;
+}
