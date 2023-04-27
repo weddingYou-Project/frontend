@@ -48,3 +48,24 @@ h3 {
     border-color: rgba(138, 138, 138, 0.533);
     background-color: white;
 }
+
+.title {
+    height: 60px;
+    width: 100%;
+    position: relative;
+    bottom: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid grey;
+}
+
+.btn-custom-tomain {
+    margin-top: 15px;
+    width: 256px;
+    height: 30px;
+    border-radius: 5px;
+    border-width: 1px;
+    border-color: rgba(138, 138, 138, 0.533);
+    background-color: white;
+}

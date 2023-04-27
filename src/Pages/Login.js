@@ -2,22 +2,13 @@ import "../Css/main.css";
 import "../Css/Login.css";
 import imgLogo from "../Assets/logo.png";
 import BackButton from "../Components/Backbutton";
+import { Link } from "react-router-dom";
 
 function Login() {
   return (
     <div className="mainlayout">
-      <div class="container text-center">
-        <div class="row">
-          <div class="col-1">
-            <BackButton />
-          </div>
-          <div class="col-10" align="center">
-            <h3>로그인</h3>
-          </div>
-          <div class="col-1"></div>
-        </div>
-      </div>
-      <hr />
+      <BackButton />
+      <div className="title">로그인</div>
       <div class="container text-center">
         <div class="row">
           <div class="col"></div>
@@ -40,9 +31,9 @@ function Login() {
               />
               <input type="password" class="inputarea" placeholder="비밀번호" />
             </div>
-            <a className="searchmessage" href="#">
+            <Link to="/passwordSearch" className="searchmessage">
               비밀번호를 잊으셨나요?
-            </a>
+            </Link>
           </div>
           <div class="col"></div>
         </div>
