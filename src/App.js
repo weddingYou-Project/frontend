@@ -1,3 +1,15 @@
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./Pages/Home";
+import Login from "./Pages/Login";
+import Signup from "./Pages/Signup";
+import SignUpForm from "./Pages/SignUpForm";
+import PasswordSearch from "./Pages/PasswordSearch";
+import TemporaryPasswordLogin from "./Pages/TemporaryPasswordLogin";
+import PasswordChange from "./Pages/PasswordChange";
+import MyPage from "./Pages/MyPage";
+import UserUpdate from "./Pages/UserUpdate";
+import NotFound from "./Pages/NotFound";
+
 function App() {
   return (
     <Routes>
