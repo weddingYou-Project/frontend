@@ -3,10 +3,11 @@ import "../Css/NavigationBar.css";
 import MyEstimate from "./MyEstimate";
 
 function NavigationBar() {
+  const title = "제목";
   return (
     <div class="navigationbar">
       <BackButton />
-      <p>제목</p>
+      <p>{title}</p>
       <MyEstimate />
     </div>
   );
