@@ -2,8 +2,8 @@
     display:flex;
     padding:5px 5px;
     position:fixed;
-    bottom:70px;
-    
+    bottom:0;
+    background-color: white;
 }
 
 .icon{
