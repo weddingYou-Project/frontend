@@ -1,0 +1,58 @@
+
+.Signup-wrap {
+width: 560px;
+height: 100%;
+margin: 0 auto;
+background: cadetblue;
+}
+
+.Signup-header {
+    height: 60px;
+    width: 100%;
+    background: coral;
+    position: relative;
+    bottom: 60px;
+}
+
+.Signup-logo {
+    width: 400px;
+    height: 400px;
+    background: darkkhaki;
+    margin: 0 auto;
+    margin-top: 100px;
+}
+
+.Signup-button {
+    width: 400px;
+    height: 100px;
+    margin: 0 auto;
+    background: gainsboro;
+    margin-top: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Signup-backicon {
+    width: 60px;
+    height: 60px;
+    background: darkgrey;
+    position: relative;
+    z-index: 10;
+}
+
+
+.btn-bd-primary {
+    --bs-btn-font-weight: 600;
+    --bs-btn-color: var(--bs-white);
+    --bs-btn-bg: var(--bd-violet);
+    --bs-btn-border-color: var(--bd-violet);
+    --bs-btn-border-radius: .5rem;
+    --bs-btn-hover-color: var(--bs-white);
+    --bs-btn-hover-bg: #{shade-color($bd-violet, 10%)};
+    --bs-btn-hover-border-color: #{shade-color($bd-violet, 10%)};
+    --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
+    --bs-btn-active-color: var(--bs-btn-hover-color);
+    --bs-btn-active-bg: #{shade-color($bd-violet, 20%)};
+    --bs-btn-active-border-color: #{shade-color($bd-violet, 20%)};
+  }
