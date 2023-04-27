@@ -15,3 +15,14 @@ body {
     background-color: white;
 }
 
+.backbutton {
+    padding-top: 10px;
+    background-color: white;
+    border: none;
+}
+
+.bi-chevron-left{
+    margin-top: 10px;
+    font-size: 40px;
+    line-height: 40px;
+}
