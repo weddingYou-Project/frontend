@@ -1,4 +1,5 @@
 .footer{
+    width: 560px;
     display:flex;
     padding:0;
     padding-top:20px;
@@ -7,13 +8,12 @@
     padding-bottom: 15px;
     background-color: white;
     border-radius:10px;
-    
 }
 
 .icon{
     display:flex;
     flex-direction: column;
-    padding:0 30px;
+    padding:0 32px;
     align-items: center;
 }
 

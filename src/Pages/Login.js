@@ -3,6 +3,7 @@ import "../Css/Login.css";
 import imgLogo from "../Assets/logo.png";
 import BackButton from "../Components/Backbutton";
 import { Link } from "react-router-dom";
+import Footer from "../Components/Footer";
 
 function Login() {
   return (
@@ -50,6 +51,7 @@ function Login() {
           </a>
         </p>
       </div>
+      <Footer />
     </div>
   );
 }
