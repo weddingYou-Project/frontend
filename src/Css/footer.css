@@ -1,6 +1,7 @@
 .footer{
     display:flex;
-    padding:5px 5px;
+    padding:0;
+    padding-top:20px;
     position:fixed;
     bottom:0;
     background-color: white;
