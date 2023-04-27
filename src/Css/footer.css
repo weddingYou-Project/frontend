@@ -1,0 +1,24 @@
+.footer{
+    display:flex;
+    padding:5px 5px;
+    position:fixed;
+    bottom:70px;
+    
+}
+
+.icon{
+    display:flex;
+    flex-direction: column;
+    padding:0 33px;
+    align-items: center;
+}
+
+.icon:hover{
+    cursor:pointer;
+}
+
+.icon p{
+    font-size:0.8em;
+    margin:0 auto;
+    font-weight: bold;
+}
