@@ -5,7 +5,7 @@
     font-weight: bold;
     letter-spacing: 0.1em;
     height:3em;
-    width:200px;
+    width:250px;
     border-radius: 10px;
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
   }
@@ -14,11 +14,24 @@
   .btn-colour-1:active,
   .btn-colour-1:focus,
   .btn-colour-1.active {
-    background: #ab29da;
     color: #ffffff;
     transition:0.5s;
   }
 
+  .update{
+    margin-top:40px;
+  }
+
   .input-group{
     width:320px;
+  }
+
+  .logout{
+    margin-top: 20px;
+    width:150px;
+    margin-right:10px;
+  }
+
+  .deleteMember{
+    width:150px;
   }

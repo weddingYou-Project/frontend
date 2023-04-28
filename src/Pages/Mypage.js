@@ -191,7 +191,7 @@ function Mypage() {
           </div>
           <button
             type="button"
-            class="btn-colour-1"
+            class="update btn-colour-1"
             data-bs-toggle="modal"
             data-bs-target="#passwordcheckmodal"
             onClick={deletePassword}
@@ -199,22 +199,24 @@ function Mypage() {
             정보 수정하기
           </button>
 
-          <button
-            className="btn-custom"
-            onClick={() => {
-              navigate("/login");
-            }}
-          >
-            로그아웃
-          </button>
-          <button
-            type="button"
-            className="btn-custom"
-            data-bs-toggle="modal"
-            data-bs-target="#deleteMemberModal"
-          >
-            회원탈퇴
-          </button>
+          <div>
+            <button
+              className="logout btn-colour-1"
+              onClick={() => {
+                navigate("/login");
+              }}
+            >
+              로그아웃
+            </button>
+            <button
+              type="button"
+              className="deleteMember btn-colour-1"
+              data-bs-toggle="modal"
+              data-bs-target="#deleteMemberModal"
+            >
+              회원탈퇴
+            </button>
+          </div>
         </form>
       </div>
       <Footer />
