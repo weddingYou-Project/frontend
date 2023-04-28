@@ -22,6 +22,7 @@ function Mypage() {
   const passwordInput = useRef();
 
   const passwordcheckmodal = useRef();
+  const passwordcheckMessageModal = useRef();
   const passwordFeedback = useRef();
   const passwordConfirm = useRef();
   const [passwordcheckmessage, setPasswordCheckMessage] = useState("");
@@ -68,6 +69,11 @@ function Mypage() {
     passwordInput.current.classList.remove("is-invalid");
     passwordInput.current.classList.remove("is-valid");
     passwordFeedback.current.classList.add("invisible");
+  };
+
+  const submitPasswordCheck = (e) => {
+    if (e.key === "Enter") {
+    }
   };
 
   useEffect(() => {
@@ -283,6 +289,8 @@ function Mypage() {
                   ref={passwordInput}
                   value={passwordCheck}
                   onChange={onChange}
+                  placeholder="현재 비밀번호를 입력해주세요."
+                  onKeyPress={submitPasswordCheck}
                   required
                   autocomplete="off"
                 />
@@ -322,6 +330,7 @@ function Mypage() {
       <div
         class="modal fade"
         id="passwordcheckMessageModal"
+        ref={passwordcheckMessageModal}
         tabindex="-1"
         aria-labelledby="passwordcheckMessageModal"
         aria-hidden="true"
@@ -377,17 +386,14 @@ function Mypage() {
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
-              <h1
-                class="modal-title justify-content-center fs-5"
-                id="deleteMemberModal"
-              >
+              <h1 class="modal-title text-center fs-5" id="deleteMemberModal">
                 - 회원 탈퇴 -
               </h1>
             </div>
-            <div class="modal-body">
+            <div class="modal-body text-center">
               그동안 감사했습니다😢 이렇게 가신다니 아쉬워요 (T_T)
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer justify-content-center">
               <button
                 type="button"
                 class="btn btn-primary"

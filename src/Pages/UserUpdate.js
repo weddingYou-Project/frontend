@@ -184,6 +184,21 @@ function UserUpdate() {
     }
   };
 
+  const updateCheck = () => {
+    if (
+      !passwordInput.current.classList.contains("is-invalid") &&
+      !phoneInput.current.classList.contains("is-invalid") &&
+      !emailInput.current.classList.contains("is-invalid") &&
+      !careerInput.current.classList.contains("is-invalid")
+    ) {
+      {
+        /* 수정가능 */
+      }
+    } else {
+      alert("수정 불가능합니다.");
+    }
+  };
+
   return (
     <div class="mainlayout">
       <NavigationBar title={title} />
@@ -353,7 +368,11 @@ function UserUpdate() {
             </div>
           ) : null}
           <div class="col-12">
-            <button class="btn-colour-1 updatebtn" type="submit">
+            <button
+              class="btn-colour-1 updatebtn"
+              type="submit"
+              onClick={updateCheck}
+            >
               회원정보 수정하기
             </button>
           </div>
