@@ -1,9 +1,12 @@
 import "../Css/main.css";
+import "../Css/mypage.css";
 import NavigationBar from "../Components/NavigationBar";
 import Footer from "../Components/Footer";
+import React, { useState, useRef } from "react";
 
 function Mypage() {
   const title = "마이페이지";
+
   return (
     <div class="mainlayout">
       <NavigationBar title={title} />
@@ -17,12 +20,11 @@ function Mypage() {
             <div class="col col-md-7">
               <input
                 type="text"
-                class="form-control is-valid"
+                class="form-control "
                 id="name"
                 value=""
                 required
               />
-              <div class="valid-feedback text-start">Looks good!</div>
             </div>
           </div>
           <div class="row justify-content-md-center mb-2">
@@ -32,12 +34,11 @@ function Mypage() {
             <div class="has-validation col col-md-7">
               <input
                 type="text"
-                class="form-control is-valid"
+                class="form-control "
                 id="password"
                 value=""
                 required
               />
-              <div class="valid-feedback text-start">Looks good!</div>
             </div>
           </div>
           <div class="row justify-content-md-center mb-2">
@@ -47,12 +48,11 @@ function Mypage() {
             <div class="has-validation col col-md-7">
               <input
                 type="text"
-                class="form-control is-valid"
+                class="form-control "
                 id="email"
                 value=""
                 required
               />
-              <div class="valid-feedback text-start">Looks good!</div>
             </div>
           </div>
           <div class="row justify-content-md-center mb-2">
@@ -62,12 +62,11 @@ function Mypage() {
             <div class="has-validation col col-md-7">
               <input
                 type="text"
-                class="form-control is-valid"
+                class="form-control "
                 id="phone"
                 value=""
                 required
               />
-              <div class="valid-feedback text-start">Looks good!</div>
             </div>
           </div>
           <div class="row justify-content-md-center mb-2">
@@ -75,70 +74,37 @@ function Mypage() {
               성별
             </label>
             <div class="has-validation col col-md-7">
-              <div class="form-check mb-3">
-                <input
-                  type="checkbox"
-                  class="form-check-input"
-                  id="woman"
-                  required
-                />
-                <label class="form-check-label" for="woman">
-                  여자
-                </label>
-                <input
-                  type="checkbox"
-                  class="form-check-input"
-                  id="man"
-                  required
-                />
-                <label class="form-check-label" for="man">
-                  남자
-                </label>
-                <div class="invalid-feedback">
-                  Example invalid feedback text
+              <div class="form-check row justify-content-md-start  mb-3">
+                <div class="form-check-inline col col-md-2 p-2">
+                  <input
+                    type="radio"
+                    class="form-check-input"
+                    id="male"
+                    name="gender"
+                    required
+                  />
+                  <label class="form-check-label" for="male">
+                    남
+                  </label>
+                </div>
+                <div class="form-check-inline col col-md-2 p-2">
+                  <input
+                    type="radio"
+                    class="form-check-input"
+                    id="female"
+                    name="gender"
+                    required
+                  />
+                  <label class="form-check-label" for="female">
+                    여
+                  </label>
                 </div>
               </div>
             </div>
           </div>
 
-          <div class="row justify-content-md-center mb-2">
-            <label for="email" class="form-label col col-md-2">
-              이메일
-            </label>
-            <div class="input-group has-validation">
-              <input
-                type="text"
-                class="form-control emailinput is-invalid"
-                id="email"
-                aria-describedby="inputGroupPrepend3 emailFeedback"
-                required
-              />
-              <div id="emailFeedback" class="invalid-feedback">
-                올바른 이메일 주소를 적어주세요
-              </div>
-            </div>
-          </div>
-
           <div class="col-12">
-            <div class="form-check">
-              <input
-                class="form-check-input is-invalid"
-                type="checkbox"
-                value=""
-                id="invalidCheck3"
-                aria-describedby="invalidCheck3Feedback"
-                required
-              />
-              <label class="form-check-label" for="invalidCheck3">
-                Agree to terms and conditions
-              </label>
-              <div id="invalidCheck3Feedback" class="invalid-feedback">
-                You must agree before submitting.
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <button class="btn btn-primary" type="submit">
+            <button class="btn-bd-primary infochange" type="submit">
               정보수정하기
             </button>
           </div>
