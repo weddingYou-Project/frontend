@@ -1,5 +1,5 @@
 .logo {
-    margin-top: 20%;
+    margin-top: 50%;
     margin-bottom: 10%;
     width: 200px;
     height: 200px;
@@ -25,20 +25,6 @@ h3 {
     margin-top: 15px;
 }
 
-.btn-custom {
-    width: 256px;
-    height: 30px;
-    border-radius: 5px;
-    border-width: 1px;
-    border-color: rgba(138, 138, 138, 0.533);
-    background-color: white;
-}
-
-.btn-custom:hover {
-    border-color: black;
-    border-width: 2px;
-}
-
 .inputarea {
     margin-bottom: 6px;
     width: 256px;
@@ -60,6 +46,20 @@ h3 {
     border-bottom: 1px solid grey;
 }
 
+.btn-custom1 {
+    width: 256px;
+    height: 30px;
+    border-radius: 5px;
+    border-width: 1px;
+    border-color: rgba(138, 138, 138, 0.533);
+    background-color: white;
+}
+
+.btn-custom1:hover {
+    border-color: black;
+    border-width: 2px;
+}
+
 .btn-custom-tomain {
     margin-top: 15px;
     width: 256px;
@@ -68,4 +68,8 @@ h3 {
     border-width: 1px;
     border-color: rgba(138, 138, 138, 0.533);
     background-color: white;
+}
+
+.form-label {
+    float: left;
 }

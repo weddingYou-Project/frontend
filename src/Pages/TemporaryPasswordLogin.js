@@ -39,7 +39,7 @@ function TemporaryPasswordLogin() {
           <div class="col"></div>
         </div>
         <br />
-        <button type="submit" class="btn-custom">
+        <button type="submit" class="btn-custom1">
           <Link
             to="/passwordSearch/temporaryPasswordLogin/passwordChange"
             className="SLogin"

@@ -45,7 +45,7 @@ function Login() {
             <div class="col"></div>
           </div>
           <br />
-          <button type="submit" class="btn-custom">
+          <button type="submit" class="btn-custom1">
             로그인
           </button>
         </form>
@@ -53,9 +53,9 @@ function Login() {
         <br />
         <p>
           처음 오셨나요? &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="#" className="signupmessage">
+          <Link to="/signup" className="signupmessage">
             회원가입
-          </a>
+          </Link>
         </p>
       </div>
       <Footer />

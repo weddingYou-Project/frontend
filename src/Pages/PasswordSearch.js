@@ -74,7 +74,7 @@ function PasswordSearch() {
         <div class="row">
           <div class="col-2"></div>
           <div class="col-8">
-            <div className="infotext">
+            <div className="infotext3">
               <input type="text" class="inputarea" placeholder="이메일" />
             </div>
           </div>
@@ -83,8 +83,8 @@ function PasswordSearch() {
         <div class="row">
           <div class="col-2"></div>
           <div class="col-8">
-            <div className="infotext">
-              <button type="submit" class="btn-custom" onClick={openModal}>
+            <div className="infotext3">
+              <button type="submit" class="btn-custom1" onClick={openModal}>
                 임시 비밀번호 전송
               </button>
             </div>
@@ -102,7 +102,7 @@ function PasswordSearch() {
           <div class="row">
             <div class="col-2"></div>
             <div class="col-8">
-              <div className="infotext">
+              <div className="infotext3">
                 <i class="bi bi-dash-lg"></i>&nbsp;&nbsp;
                 <span>임시 비밀번호 전송 완료</span>&nbsp;&nbsp;
                 <i class="bi bi-dash-lg"></i>
@@ -123,7 +123,7 @@ function PasswordSearch() {
             <div class="col-1"></div>
           </div>
           <br />
-          <button class="btn-custom">
+          <button class="btn-custom1">
             <Link
               to="/passwordSearch/temporaryPasswordLogin"
               className="SLogin"

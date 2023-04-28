@@ -6,6 +6,7 @@ import Modal from "react-modal";
 import { Link } from "react-router-dom";
 import Footer from "../Components/Footer";
 import NavigationBar from "../Components/NavigationBar";
+import { useState, useEffect } from "react";
 
 function PasswordChange() {
   const ModalStyle = {
@@ -43,6 +44,56 @@ function PasswordChange() {
     setIsOpen(false);
   }
 
+  let [passwordcheck, setPasswordcheck] = useState(false);
+  let [passwordcheck2, setPasswordcheck2] = useState(false);
+
+  let [password, setPassword] = useState("");
+  let [password2, setPassword2] = useState("");
+
+  let [passwordstyle, setPasswordstyle] = useState("");
+  let [passwordstyle2, setPasswordstyle2] = useState("");
+
+  useEffect(() => {
+    if (password === "") {
+      setPasswordstyle("");
+      setPasswordcheck(false);
+    }
+    if (password2 === "" || password2 === null) {
+      setPasswordstyle2("");
+      setPasswordcheck2(false);
+    } else if (password === password2) {
+      setPasswordstyle2("is-valid");
+      setPasswordcheck2(true);
+    } else {
+      setPasswordstyle2("is-invalid");
+      setPasswordcheck2(false);
+    }
+  }, [password, password2, setPasswordcheck2]);
+
+  const EventHandlerPassword = (e) => {
+    const passwordRegExp =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+\\\|\[\]{};:\'",.<>\/?]).{8,}$/;
+    setPassword(e.target.value);
+    if (passwordRegExp.test(e.target.value)) {
+      setPasswordstyle("is-valid");
+      setPasswordcheck(true);
+    } else {
+      setPasswordstyle("is-invalid");
+      setPasswordcheck(false);
+    }
+  };
+
+  const EventHandlerPassword2 = (e) => {
+    setPassword2(e.target.value);
+    if (password === e.target.value) {
+      setPasswordstyle2("is-valid");
+      setPasswordcheck2(true);
+    } else {
+      setPasswordstyle2("is-invalid");
+      setPasswordcheck2(false);
+    }
+  };
+
   return (
     <div className="mainlayout">
       <NavigationBar title={"비밀번호 변경하기"} />
@@ -56,31 +107,43 @@ function PasswordChange() {
         </div>
       </div>
       <div class="container text-center">
-        <form>
-          <div class="row">
-            <div class="col"></div>
-            <div class="col-6">
-              <p className="loginmessage">변경할 비밀번호를 입력하세요</p>
-              <div class="mb-3">
-                <input
-                  type="password"
-                  class="inputarea"
-                  placeholder="변경할 비밀번호"
-                />
-                <input
-                  type="password"
-                  class="inputarea"
-                  placeholder="비밀번호 확인"
-                />
-              </div>
+        {/* <form> */}
+        <div class="row">
+          <div class="col"></div>
+          <div class="col-6">
+            {/* <p className="loginmessage">변경할 비밀번호를 입력하세요</p> */}
+            <div class="mb-3">
+              <InputComp
+                content="변경할 비밀번호"
+                EventHandler={EventHandlerPassword}
+                style={passwordstyle}
+                message="최소8자 이상, 대문자, 소문자, 숫자, 특수문자를 포함"
+                length={20}
+                type="password"
+              />
+              <InputComp
+                content="비밀번호 확인"
+                EventHandler={EventHandlerPassword2}
+                style={passwordstyle2}
+                message="비밀번호 불일치"
+                length={20}
+                type="password"
+              />
             </div>
-            <div class="col"></div>
           </div>
-          <br />
-          <button type="submit" class="btn-custom" onClick={openModal}>
-            비밀번호 변경하기
-          </button>
-        </form>
+          <div class="col"></div>
+        </div>
+        <br />
+        <button
+          type="submit"
+          class="btn-custom1"
+          onClick={openModal}
+          disabled={!passwordcheck || !passwordcheck2}
+        >
+          비밀번호 변경하기
+        </button>
+        {/* </form> */}
+        <br />
         <button type="submit" class="btn-custom-tomain">
           <Link to="/login" className="SLogin">
             메인으로 돌아가기
@@ -120,7 +183,7 @@ function PasswordChange() {
             <div class="col-1"></div>
           </div>
           <br />
-          <button class="btn-custom">
+          <button class="btn-custom1">
             <Link to="/login" className="SLogin">
               메인으로 돌아가기
             </Link>
@@ -133,3 +196,39 @@ function PasswordChange() {
 }
 
 export default PasswordChange;
+
+const InputComp = ({
+  EventHandler,
+  content,
+  style,
+  message,
+  length,
+  type,
+  value,
+}) => {
+  return (
+    <>
+      <div className="col-md-4" style={{ width: 256 }}>
+        <label htmlFor="validationServer01" className="form-label">
+          <span style={{ fontSize: 10 }}>{content}</span>
+        </label>
+        <input
+          type={type}
+          className={`form-control ${style}`}
+          id="validationServer01"
+          required
+          onChange={EventHandler}
+          maxLength={length}
+          value={value}
+        />
+        <div
+          id="validationServer03Feedback"
+          class="invalid-feedback"
+          style={{ fontSize: 5 }}
+        >
+          {message}
+        </div>
+      </div>
+    </>
+  );
+};
