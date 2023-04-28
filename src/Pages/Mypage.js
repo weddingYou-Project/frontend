@@ -1,9 +1,64 @@
 import "../Css/main.css";
+import "../Css/mypage.css";
 import NavigationBar from "../Components/NavigationBar";
 import Footer from "../Components/Footer";
+import React, { useState, useRef } from "react";
 
 function Mypage() {
   const title = "마이페이지";
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [gender, setGender] = useState("");
+
+  const nameInput = useRef();
+  const passwordInput = useRef();
+  const emailInput = useRef();
+  const phoneInput = useRef();
+  const genderInput = useRef();
+
+  const [nameMessage, setNameMessage] = useState("looks good!");
+  const [passwordMessage, setPasswordMessage] = useState("looks good!");
+  const [emailMessage, setEmailMessage] = useState("looks good!");
+  const [phoneMessage, setPhoneMessage] = useState("looks good!");
+  const [genderMessage, setGenderMessage] = useState("");
+
+  const onChange = (e) => {
+    if (e.target.id === "name") {
+      setName(e.target.value);
+      const nameFeedback = document.querySelector(".name-feedback");
+      if (nameInput.current.value !== "") {
+        setNameMessage("looks good!");
+        nameInput.current.classList.remove("is-invalid");
+        nameInput.current.classList.add("is-valid");
+        nameFeedback.classList.remove("invisible");
+        nameFeedback.classList.remove("invalid-feedback");
+        nameFeedback.classList.add("valid-feedback");
+      } else {
+        setNameMessage("이름을 입력하세요");
+        nameFeedback.classList.remove("valid-feedback");
+        nameFeedback.classList.add("invalid-feedback");
+        nameInput.current.classList.remove("is-valid");
+        nameInput.current.classList.add("is-invalid");
+      }
+    } else if (e.target.id === "password") {
+      setPassword(e.target.value);
+      const passwordFeedback = document.querySelector(".password-feedback");
+      if (passwordInput.current.value !== "") {
+        passwordInput.current.classList.add("is-valid");
+      } else {
+        passwordInput.current.classList.remove("is-valid");
+      }
+    } else if (e.target.id === "email") {
+      setEmail(e.target.value);
+    } else if (e.target.id === "phone") {
+      setPhone(e.target.value);
+    } else if (e.target.id === "gender") {
+      setGender(e.target.value);
+    }
+  };
+
   return (
     <div class="mainlayout">
       <NavigationBar title={title} />
@@ -17,12 +72,16 @@ function Mypage() {
             <div class="col col-md-7">
               <input
                 type="text"
-                class="form-control is-valid"
+                class="form-control "
                 id="name"
-                value=""
+                ref={nameInput}
+                value={name}
+                onChange={onChange}
                 required
               />
-              <div class="valid-feedback text-start">Looks good!</div>
+              <div class="invisible text-start name-feedback">
+                {nameMessage}
+              </div>
             </div>
           </div>
           <div class="row justify-content-md-center mb-2">
@@ -32,12 +91,16 @@ function Mypage() {
             <div class="has-validation col col-md-7">
               <input
                 type="text"
-                class="form-control is-valid"
+                class="form-control "
                 id="password"
-                value=""
+                ref={passwordInput}
+                value={password}
+                onChange={onChange}
                 required
               />
-              <div class="valid-feedback text-start">Looks good!</div>
+              <div class="invisible text-start password-feedback">
+                {passwordMessage}
+              </div>
             </div>
           </div>
           <div class="row justify-content-md-center mb-2">
@@ -47,12 +110,16 @@ function Mypage() {
             <div class="has-validation col col-md-7">
               <input
                 type="text"
-                class="form-control is-valid"
+                class="form-control "
                 id="email"
-                value=""
+                ref={emailInput}
+                value={email}
+                onChange={onChange}
                 required
               />
-              <div class="valid-feedback text-start">Looks good!</div>
+              <div class="invisible text-start email-feedback">
+                {emailMessage}
+              </div>
             </div>
           </div>
           <div class="row justify-content-md-center mb-2">
@@ -62,12 +129,16 @@ function Mypage() {
             <div class="has-validation col col-md-7">
               <input
                 type="text"
-                class="form-control is-valid"
+                class="form-control "
                 id="phone"
-                value=""
+                ref={phoneInput}
+                value={phone}
+                onChange={onChange}
                 required
               />
-              <div class="valid-feedback text-start">Looks good!</div>
+              <div class="invisible text-start phone-feedback">
+                {phoneMessage}
+              </div>
             </div>
           </div>
           <div class="row justify-content-md-center mb-2">
@@ -75,46 +146,32 @@ function Mypage() {
               성별
             </label>
             <div class="has-validation col col-md-7">
-              <div class="form-check mb-3">
-                <input
-                  type="checkbox"
-                  class="form-check-input"
-                  id="woman"
-                  required
-                />
-                <label class="form-check-label" for="woman">
-                  여자
-                </label>
-                <input
-                  type="checkbox"
-                  class="form-check-input"
-                  id="man"
-                  required
-                />
-                <label class="form-check-label" for="man">
-                  남자
-                </label>
-                <div class="invalid-feedback">
-                  Example invalid feedback text
+              <div class="form-check row justify-content-md-start  mb-3">
+                <div class="form-check-inline col col-md-2 p-2">
+                  <input
+                    type="radio"
+                    class="form-check-input"
+                    id="male"
+                    name="gender"
+                    required
+                  />
+                  <label class="form-check-label" for="male">
+                    남
+                  </label>
                 </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="row justify-content-md-center mb-2">
-            <label for="email" class="form-label col col-md-2">
-              이메일
-            </label>
-            <div class="input-group has-validation">
-              <input
-                type="text"
-                class="form-control emailinput is-invalid"
-                id="email"
-                aria-describedby="inputGroupPrepend3 emailFeedback"
-                required
-              />
-              <div id="emailFeedback" class="invalid-feedback">
-                올바른 이메일 주소를 적어주세요
+                <div class="form-check-inline col col-md-2 p-2">
+                  <input
+                    type="radio"
+                    class="form-check-input"
+                    id="female"
+                    name="gender"
+                    required
+                  />
+                  <label class="form-check-label" for="female">
+                    여
+                  </label>
+                  <div class="invalid-feedback">{genderMessage}</div>
+                </div>
               </div>
             </div>
           </div>
@@ -138,7 +195,7 @@ function Mypage() {
             </div>
           </div>
           <div class="col-12">
-            <button class="btn btn-primary" type="submit">
+            <button class="btn btn-primary infochange" type="submit">
               정보수정하기
             </button>
           </div>
