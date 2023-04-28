@@ -344,7 +344,7 @@ const InputComp = ({
     <>
       <div className="col-md-4" style={{ width: 256 }}>
         <label htmlFor="validationServer01" className="form-label">
-          <span style={{ fontSize: 5 }}>{content}</span>
+          <span style={{ fontSize: 15 }}>{content}</span>
         </label>
         <input
           type={type}
@@ -358,7 +358,7 @@ const InputComp = ({
         <div
           id="validationServer03Feedback"
           class="invalid-feedback"
-          style={{ fontSize: 5 }}
+          style={{ fontSize: 10 }}
         >
           {message}
         </div>
