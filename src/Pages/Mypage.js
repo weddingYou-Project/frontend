@@ -144,40 +144,54 @@ function Mypage() {
             </div>
           </div>
           <div className="row justify-content-md-center mb-2">
-            <label htmlFor="password" className="form-label col col-md-2 mt-2">
+            <label htmlFor="gender" className="form-label col col-md-2 mt-2">
               성별
             </label>
-            <div className="has-validation col col-md-7">
-              <div className="form-check row justify-content-md-start  mb-3">
-                <div className="form-check-inline col col-md-2 p-2">
-                  <input
-                    type="radio"
-                    className="form-check-input"
-                    id="male"
-                    name="gender"
-                    checked
-                  />
-                  <label className="form-check-label" htmlFor="male">
-                    남
-                  </label>
-                </div>
-                <div className="form-check-inline col col-md-2 p-2">
-                  <input
-                    type="radio"
-                    className="form-check-input"
-                    id="female"
-                    name="gender"
-                  />
-                  <label className="form-check-label" htmlFor="female">
-                    여
-                  </label>
-                </div>
+            <div class="input-group">
+              <div class="input-group-text">
+                <input
+                  class="form-check-input mt-0"
+                  type="radio"
+                  value=""
+                  name="gender"
+                  htmlFor="male"
+                  checked
+                  disabled
+                  aria-label="Radio button for following text input"
+                />
               </div>
+              <input
+                type="text"
+                class="form-control"
+                id="male"
+                aria-label="male btn"
+                value="남자"
+                disabled
+              />
+              <div class="input-group-text">
+                <input
+                  class="form-check-input mt-0"
+                  type="radio"
+                  value=""
+                  name="gender"
+                  htmlFor="female"
+                  disabled
+                  aria-label="Radio button for following text input"
+                />
+              </div>
+              <input
+                type="text"
+                class="form-control"
+                id="female"
+                aria-label="female btn"
+                value="여자"
+                disabled
+              />
             </div>
           </div>
           <button
             type="button"
-            class="btn-custom"
+            class="btn-colour-1"
             data-bs-toggle="modal"
             data-bs-target="#passwordcheckmodal"
             onClick={deletePassword}
