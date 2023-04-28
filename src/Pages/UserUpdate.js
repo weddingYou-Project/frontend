@@ -253,6 +253,7 @@ function UserUpdate() {
                 id="male"
                 aria-label="male btn"
                 value="남자"
+                disabled
               />
               <div class="input-group-text">
                 <input
@@ -270,13 +271,14 @@ function UserUpdate() {
                 id="female"
                 aria-label="female btn"
                 value="여자"
+                disabled
               />
             </div>
             {userOrPlanner === "플래너" ? null : <div></div>}
           </div>
 
           <div class="col-12">
-            <button class="btn btn-primary infochange" type="submit">
+            <button class="btn-colour-1 updatebtn" type="submit">
               회원정보 수정하기
             </button>
           </div>
