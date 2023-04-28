@@ -39,15 +39,19 @@ function Mypage() {
         passwordFeedback.current.classList.add("valid-feedback");
         passwordConfirm.current.disabled = false;
       } else {
-        setPasswordMessage(
-          "최소8자 이상, 대문자, 소문자, 숫자, 특수문자를 포함"
-        );
+        if (e.target.value === "") {
+          setPasswordMessage("비밀번호를 입력해주세요.");
+        } else {
+          setPasswordMessage(
+            "최소8자 이상, 대문자, 소문자, 숫자, 특수문자를 포함"
+          );
+        }
+
         passwordInput.current.classList.add("is-invalid");
         passwordFeedback.current.classList.add("invalid-feedback");
         passwordFeedback.current.classList.remove("invisible");
         passwordFeedback.current.classList.remove("valid-feedback");
         passwordInput.current.classList.remove("is-valid");
-        console.log(passwordConfirm.current);
         passwordConfirm.current.disabled = true;
       }
       setPasswordCheck(e.target.value);
@@ -80,7 +84,7 @@ function Mypage() {
   return (
     <div className="mainlayout">
       <NavigationBar title={title} />
-      <div className="content container text-center">
+      <div className="content mypagecontainer text-center">
         <form className="col">
           <img src="" alt="" />
           <div className="row justify-content-md-center mb-2">
@@ -247,7 +251,7 @@ function Mypage() {
               ></button>
             </div>
             <div class="modal-body">
-              <div class="has-validation col col-md-7">
+              <div class="has-validation col col-md-10">
                 <input
                   type="password"
                   class="form-control "

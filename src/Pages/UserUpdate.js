@@ -1,5 +1,6 @@
 import "../Css/main.css";
 import "../Css/mypage.css";
+import "../Css/userupdate.css";
 import NavigationBar from "../Components/NavigationBar";
 import Footer from "../Components/Footer";
 import React, { useState, useRef } from "react";
@@ -136,7 +137,7 @@ function UserUpdate() {
   return (
     <div class="mainlayout">
       <NavigationBar title={title} />
-      <div class="content container text-center">
+      <div class="content userupdatecontainer text-center">
         <form class="col">
           <img src="" alt="" />
           <div class="row justify-content-md-center mb-2">
@@ -231,35 +232,45 @@ function UserUpdate() {
             </div>
           </div>
           <div class="row justify-content-md-center mb-2">
-            <label for="gender" class="form-label col col-md-2 mt-2">
+            <label htmlFor="gender" className="form-label col col-md-2 mt-2">
               성별
             </label>
-            <div class="has-validation col col-md-7">
-              <div class="form-check row justify-content-md-start  mb-3">
-                <div class="form-check-inline col col-md-2 p-2">
-                  <input
-                    type="radio"
-                    class="form-check-input"
-                    id="male"
-                    name="gender"
-                  />
-                  <label class="form-check-label" for="male">
-                    남
-                  </label>
-                </div>
-                <div class="form-check-inline col col-md-2 p-2">
-                  <input
-                    type="radio"
-                    class="form-check-input"
-                    id="female"
-                    name="gender"
-                  />
-                  <label class="form-check-label" for="female">
-                    여
-                  </label>
-                  <div class="invalid-feedback">{genderMessage}</div>
-                </div>
+            <div class="input-group">
+              <div class="input-group-text">
+                <input
+                  class="form-check-input mt-0"
+                  type="radio"
+                  value=""
+                  name="gender"
+                  htmlFor="male"
+                  checked
+                  aria-label="Radio button for following text input"
+                />
               </div>
+              <input
+                type="text"
+                class="form-control"
+                id="male"
+                aria-label="male btn"
+                value="남자"
+              />
+              <div class="input-group-text">
+                <input
+                  class="form-check-input mt-0"
+                  type="radio"
+                  value=""
+                  name="gender"
+                  htmlFor="female"
+                  aria-label="Radio button for following text input"
+                />
+              </div>
+              <input
+                type="text"
+                class="form-control"
+                id="female"
+                aria-label="female btn"
+                value="여자"
+              />
             </div>
             {userOrPlanner === "플래너" ? null : <div></div>}
           </div>

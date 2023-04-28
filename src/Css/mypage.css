@@ -1,3 +1,10 @@
+.mypagecontainer{
+    margin-top:50px;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .btn-colour-1 {
     color: #fff;
     background-color: #d70571;
