@@ -15,9 +15,12 @@ function Mypage() {
   const [email, setEmail] = useState("abc@naver.com");
   const [phone, setPhone] = useState("010-1234-5678");
   const [gender, setGender] = useState("");
+  const [career, setCareer] = useState(10);
+
   const [passwordMessage, setPasswordMessage] = useState("looks good!");
   const [passwordCheck, setPasswordCheck] = useState("");
   const passwordInput = useRef();
+
   const passwordcheckmodal = useRef();
   const passwordFeedback = useRef();
   const passwordConfirm = useRef();
@@ -193,6 +196,27 @@ function Mypage() {
               />
             </div>
           </div>
+          {category === "planner" ? (
+            <div class="row justify-content-md-center mb-2 mt-4">
+              <label for="phone" class="form-label col col-md-2 mt-2">
+                경력
+              </label>
+              <div class="has-validation col col-md-7">
+                <input
+                  type="number"
+                  class="form-control "
+                  id="career"
+                  value={career}
+                  onChange={onChange}
+                  placeholder={career}
+                  autoComplete="off"
+                  min="0"
+                  max="30"
+                  disabled
+                />
+              </div>
+            </div>
+          ) : null}
           <button
             type="button"
             class="update btn-colour-1"
