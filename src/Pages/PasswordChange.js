@@ -56,30 +56,31 @@ function PasswordChange() {
         </div>
       </div>
       <div class="container text-center">
-        <div class="row">
-          <div class="col"></div>
-          <div class="col-6">
-            <p className="loginmessage">변경할 비밀번호를 입력하세요</p>
-            <div class="mb-3">
-              <input
-                type="password"
-                class="inputarea"
-                placeholder="변경할 비밀번호"
-              />
-              <input
-                type="password"
-                class="inputarea"
-                placeholder="비밀번호 확인"
-              />
+        <form>
+          <div class="row">
+            <div class="col"></div>
+            <div class="col-6">
+              <p className="loginmessage">변경할 비밀번호를 입력하세요</p>
+              <div class="mb-3">
+                <input
+                  type="password"
+                  class="inputarea"
+                  placeholder="변경할 비밀번호"
+                />
+                <input
+                  type="password"
+                  class="inputarea"
+                  placeholder="비밀번호 확인"
+                />
+              </div>
             </div>
+            <div class="col"></div>
           </div>
-          <div class="col"></div>
-        </div>
-        <br />
-        <button type="submit" class="btn-custom" onClick={openModal}>
-          비밀번호 변경하기
-        </button>
-        <br />
+          <br />
+          <button type="submit" class="btn-custom" onClick={openModal}>
+            비밀번호 변경하기
+          </button>
+        </form>
         <button type="submit" class="btn-custom-tomain">
           <Link to="/login" className="SLogin">
             메인으로 돌아가기
