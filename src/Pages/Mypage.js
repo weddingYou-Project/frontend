@@ -2,12 +2,13 @@ import "../Css/main.css";
 import "../Css/mypage.css";
 import NavigationBar from "../Components/NavigationBar";
 import Footer from "../Components/Footer";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Modal from "react-modal";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 function Mypage() {
   const title = "마이페이지";
+  const navigate = useNavigate();
   const ModalStyle = {
     overlay: {
       position: "fixed",
@@ -45,7 +46,7 @@ function Mypage() {
   }
 
   const [name, setName] = useState("");
-  const [password, setPassword] = useState("");
+  const [password, setPassword] = useState("Kj7878**");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [gender, setGender] = useState("");
@@ -54,6 +55,11 @@ function Mypage() {
   const passwordInput = useRef();
 
   const passwordFeedback = useRef();
+  const passwordConfirm = useRef();
+  const [passwordcheckmessage, setPasswordCheckMessage] = useState("");
+
+  const { category } = useParams();
+
   const onChange = (e) => {
     if (e.target.id === "passwordcheck") {
       console.log(e.target.value);
@@ -66,6 +72,7 @@ function Mypage() {
         passwordFeedback.current.classList.remove("invisible");
         passwordFeedback.current.classList.remove("invalid-feedback");
         passwordFeedback.current.classList.add("valid-feedback");
+        passwordConfirm.current.disabled = false;
       } else {
         setPasswordMessage(
           "최소8자 이상, 대문자, 소문자, 숫자, 특수문자를 포함"
@@ -75,6 +82,8 @@ function Mypage() {
         passwordFeedback.current.classList.remove("invisible");
         passwordFeedback.current.classList.remove("valid-feedback");
         passwordInput.current.classList.remove("is-valid");
+        console.log(passwordConfirm.current);
+        passwordConfirm.current.disabled = true;
       }
       setPasswordCheck(e.target.value);
     }
@@ -87,6 +96,20 @@ function Mypage() {
     passwordInput.current.classList.remove("is-invalid");
     passwordInput.current.classList.remove("is-valid");
     passwordFeedback.current.classList.add("invisible");
+  };
+
+  useEffect(() => {
+    if (passwordCheck === password) {
+      setPasswordCheckMessage("비밀번호 확인 완료!");
+    } else {
+      setPasswordCheckMessage("비밀번호가 틀립니다. 다시 입력하세요.");
+    }
+  }, [passwordCheck, password]);
+
+  const gotoUpdatePage = () => {
+    if (passwordcheckmessage === "비밀번호 확인 완료!") {
+      navigate(`/mypage/${category}/userupdate`);
+    }
   };
 
   return (
@@ -187,30 +210,36 @@ function Mypage() {
             type="button"
             class="btn-custom"
             data-bs-toggle="modal"
-            data-bs-target="#exampleModal"
+            data-bs-target="#passwordcheckmodal"
           >
             정보 수정하기
           </button>
 
-          <button className="btn-custom">
-            <Link to="/login" className="SLogin">
-              로그아웃
-            </Link>
+          <button
+            className="btn-custom"
+            onClick={() => {
+              navigate("/login");
+            }}
+          >
+            로그아웃
           </button>
-          <button className="btn-custom">
-            <Link to="/login" className="SLogin">
-              회원탈퇴
-            </Link>
+          <button
+            type="button"
+            className="btn-custom"
+            data-bs-toggle="modal"
+            data-bs-target="#deleteMemberModal"
+          >
+            회원탈퇴
           </button>
         </form>
       </div>
       <Footer />
-      {/* modal 창 */}
+      {/* 비밀번호 확인 modal 창 */}
       <div
         class="modal fade"
-        id="exampleModal"
+        id="passwordcheckmodal"
         tabindex="-1"
-        aria-labelledby="exampleModalLabel"
+        aria-labelledby="passwordcheckmodal"
         aria-hidden="true"
       >
         <div class="modal-dialog modal-dialog-centered">
@@ -218,7 +247,7 @@ function Mypage() {
             <div class="modal-header">
               <h1
                 class="modal-title justify-content-center fs-5"
-                id="exampleModalLabel"
+                id="passwordcheckmodal"
               >
                 - 비밀번호 확인 -
               </h1>
@@ -257,15 +286,108 @@ function Mypage() {
                 data-bs-dismiss="modal"
                 onClick={deletePassword}
               >
-                Close
+                닫기
               </button>
-              <button type="button" class="btn btn-primary">
-                Save changes
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#passwordcheckMessageModal"
+                ref={passwordConfirm}
+                disabled
+              >
+                확인
               </button>
             </div>
           </div>
         </div>
       </div>
+      {/* 비밀번호 확인 모달 */}
+      {/* 비밀번호 확인 메시지 창 */}
+      <div
+        class="modal fade"
+        id="passwordcheckMessageModal"
+        tabindex="-1"
+        aria-labelledby="passwordcheckMessageModal"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1
+                class="modal-title justify-content-center fs-5"
+                id="passwordcheckMessageModal"
+              >
+                - 비밀번호 확인 -
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                onClick={deletePassword}
+              ></button>
+            </div>
+            <div class="modal-body">{passwordcheckmessage}</div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+                onClick={deletePassword}
+              >
+                닫기
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-bs-dismiss="modal"
+                onClick={gotoUpdatePage}
+              >
+                확인
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* 비밀번호 확인 메시지 모달 */}
+      {/* 회원 탈퇴 메시지 창 */}
+      <div
+        class="modal fade"
+        id="deleteMemberModal"
+        tabindex="-1"
+        aria-labelledby="deleteMemberModal"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1
+                class="modal-title justify-content-center fs-5"
+                id="deleteMemberModal"
+              >
+                - 회원 탈퇴 -
+              </h1>
+            </div>
+            <div class="modal-body">
+              그동안 감사했습니다😢 이렇게 가신다니 아쉬워요 (T_T)
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-bs-dismiss="modal"
+                onClick={() => {
+                  navigate("/");
+                }}
+              >
+                메인페이지로
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* 비밀번호 확인 모달 */}
     </div>
   );
 }
