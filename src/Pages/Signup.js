@@ -13,7 +13,9 @@ function Signup() {
           <i class="bi bi-chevron-left" style={{ fontSize: 30 }}></i>
         </div>
         <div className="Signup-header">회원가입</div>
+
         <div className="Signup-logo"></div>
+
         <div className="Signup-button">
           {/*버튼 맘에 안드므로 다시 만들 예정임. */}
           <button
@@ -33,6 +35,8 @@ function Signup() {
             플래너 회원
           </button>
         </div>
+        {/*빈공간 채우는 박스입니다. */}
+        <div style={{ height: 230 }}></div>
       </div>
     </div>
   );

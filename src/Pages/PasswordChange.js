@@ -224,7 +224,7 @@ const InputComp = ({
         <div
           id="validationServer03Feedback"
           className="invalid-feedback"
-          style={{ fontSize: 5 }}
+          style={{ fontSize: 10 }}
         >
           {message}
         </div>
