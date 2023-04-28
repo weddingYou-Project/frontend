@@ -3,7 +3,7 @@ import "../Css/mypage.css";
 import "../Css/userupdate.css";
 import NavigationBar from "../Components/NavigationBar";
 import Footer from "../Components/Footer";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 function UserUpdate() {
@@ -17,27 +17,35 @@ function UserUpdate() {
   const title = `${userOrPlanner}정보 수정`;
   const [name, setName] = useState("귀엽조(수정불가)");
   const [password, setPassword] = useState("Ab1234**");
+  const defaultPassword = "Ab1234**";
   const [email, setEmail] = useState("abc@naver.com");
+  const defaultEmail = "abc@naver.com";
   const [phone, setPhone] = useState("010-1234-5678");
+  const defaultPhone = "010-1234-5678";
   const [gender, setGender] = useState("");
-  const [career, setCareer] = useState(0);
+  const defaultGender = gender;
+  const [career, setCareer] = useState(10);
+  const defaultCareer = 10;
 
   const nameInput = useRef();
   const passwordInput = useRef();
   const emailInput = useRef();
   const phoneInput = useRef();
   const genderInput = useRef();
+  const careerInput = useRef();
 
   const nameFeedback = useRef();
   const passwordFeedback = useRef();
   const emailFeedback = useRef();
   const phoneFeedback = useRef();
+  const careerFeedback = useRef();
 
   const [nameMessage, setNameMessage] = useState("looks good!");
   const [passwordMessage, setPasswordMessage] = useState("looks good!");
   const [emailMessage, setEmailMessage] = useState("looks good!");
   const [phoneMessage, setPhoneMessage] = useState("looks good!");
   const [genderMessage, setGenderMessage] = useState("looks good!");
+  const [careerMessage, setCareerMessage] = useState("looks good!");
 
   const onChange = (e) => {
     if (e.target.id === "password") {
@@ -45,12 +53,21 @@ function UserUpdate() {
       const passwordRegExp =
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+\\\|\[\]{};:\'",.<>\/?]).{8,}$/;
       if (passwordRegExp.test(e.target.value)) {
-        setPasswordMessage("올바른 비밀번호 형식입니다");
-        passwordInput.current.classList.remove("is-invalid");
-        passwordInput.current.classList.add("is-valid");
-        passwordFeedback.current.classList.remove("invisible");
-        passwordFeedback.current.classList.remove("invalid-feedback");
-        passwordFeedback.current.classList.add("valid-feedback");
+        if (e.target.value === defaultPassword) {
+          setPasswordMessage("same password");
+          passwordFeedback.current.classList.add("invisible");
+          passwordFeedback.current.classList.remove("valid-feedback");
+          passwordFeedback.current.classList.remove("invalid-feedback");
+          passwordInput.current.classList.remove("is-valid");
+          passwordInput.current.classList.remove("is-invalid");
+        } else {
+          setPasswordMessage("올바른 비밀번호 형식입니다");
+          passwordInput.current.classList.remove("is-invalid");
+          passwordInput.current.classList.add("is-valid");
+          passwordFeedback.current.classList.remove("invisible");
+          passwordFeedback.current.classList.remove("invalid-feedback");
+          passwordFeedback.current.classList.add("valid-feedback");
+        }
       } else {
         if (e.target.value === "") {
           setPasswordMessage("비밀번호를 작성해주세요.");
@@ -69,12 +86,20 @@ function UserUpdate() {
       setEmail(e.target.value);
       const emailRegExp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
       if (emailRegExp.test(e.target.value)) {
-        setEmailMessage("올바른 이메일 형식입니다.");
-        emailInput.current.classList.remove("is-invalid");
-        emailInput.current.classList.add("is-valid");
-        emailFeedback.current.classList.remove("invisible");
-        emailFeedback.current.classList.remove("invalid-feedback");
-        emailFeedback.current.classList.add("valid-feedback");
+        if (e.target.value === defaultEmail) {
+          emailFeedback.current.classList.add("invisible");
+          emailFeedback.current.classList.remove("valid-feedback");
+          emailFeedback.current.classList.remove("invalid-feedback");
+          emailInput.current.classList.remove("is-valid");
+          emailInput.current.classList.remove("is-invalid");
+        } else {
+          setEmailMessage("올바른 이메일 형식입니다.");
+          emailInput.current.classList.remove("is-invalid");
+          emailInput.current.classList.add("is-valid");
+          emailFeedback.current.classList.remove("invisible");
+          emailFeedback.current.classList.remove("invalid-feedback");
+          emailFeedback.current.classList.add("valid-feedback");
+        }
       } else {
         if (e.target.value === "") {
           setEmailMessage("이메일을 작성해주세요.");
@@ -98,12 +123,20 @@ function UserUpdate() {
       );
       const phoneRegExp = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
       if (phoneRegExp.test(e.target.value.slice(0, 13))) {
-        setPhoneMessage("올바른 핸드폰 번호입니다.");
-        phoneInput.current.classList.remove("is-invalid");
-        phoneInput.current.classList.add("is-valid");
-        phoneFeedback.current.classList.remove("invisible");
-        phoneFeedback.current.classList.remove("invalid-feedback");
-        phoneFeedback.current.classList.add("valid-feedback");
+        if (e.target.value === defaultPhone) {
+          phoneFeedback.current.classList.add("invisible");
+          phoneFeedback.current.classList.remove("valid-feedback");
+          phoneFeedback.current.classList.remove("invalid-feedback");
+          phoneInput.current.classList.remove("is-valid");
+          phoneInput.current.classList.remove("is-invalid");
+        } else {
+          setPhoneMessage("올바른 핸드폰 번호입니다.");
+          phoneInput.current.classList.remove("is-invalid");
+          phoneInput.current.classList.add("is-valid");
+          phoneFeedback.current.classList.remove("invisible");
+          phoneFeedback.current.classList.remove("invalid-feedback");
+          phoneFeedback.current.classList.add("valid-feedback");
+        }
       } else {
         if (e.target.value === "") {
           setPhoneMessage("핸드폰 번호를 입력해주세요");
@@ -117,21 +150,37 @@ function UserUpdate() {
         phoneInput.current.classList.add("is-invalid");
       }
     } else if (e.target.id === "career") {
-      setGender(e.target.value);
-
-      // if (emailRegExp.test(e.target.value)) {
-      //   emailInput.current.classList.remove("is-invalid");
-      //   emailInput.current.classList.add("is-valid");
-      //   emailFeedback.classList.remove("invisible");
-      //   emailFeedback.classList.remove("invalid-feedback");
-      //   emailFeedback.classList.add("valid-feedback");
-      // } else {
-      //   setNameMessage("이름을 입력하세요");
-      //   emailFeedback.classList.remove("valid-feedback");
-      //   emailFeedback.classList.add("invalid-feedback");
-      //   emailInput.current.classList.remove("is-valid");
-      //   emailInput.current.classList.add("is-invalid");
-      // }
+      setCareer(e.target.value);
+      if (parseInt(e.target.value) >= 0 && parseInt(e.target.value) <= 30) {
+        if (parseInt(e.target.value) === defaultCareer) {
+          console.log("a");
+          careerFeedback.current.classList.add("invisible");
+          careerFeedback.current.classList.remove("valid-feedback");
+          careerFeedback.current.classList.remove("invalid-feedback");
+          careerInput.current.classList.remove("is-valid");
+          careerInput.current.classList.remove("is-invalid");
+        } else {
+          setCareerMessage("looks good!");
+          careerInput.current.classList.remove("is-invalid");
+          careerInput.current.classList.add("is-valid");
+          careerFeedback.current.classList.remove("invisible");
+          careerFeedback.current.classList.remove("invalid-feedback");
+          careerFeedback.current.classList.add("valid-feedback");
+        }
+      } else {
+        if (parseInt(e.target.value) > 30) {
+          setCareerMessage("경력은 30년까지 입력 가능합니다.");
+        } else if (e.target.value === "") {
+          setCareerMessage("경력을 입력하세요.");
+        } else {
+          setCareerMessage("올바른 경력을 입력하세요.");
+        }
+        careerFeedback.current.classList.remove("invisible");
+        careerFeedback.current.classList.remove("valid-feedback");
+        careerFeedback.current.classList.add("invalid-feedback");
+        careerInput.current.classList.remove("is-valid");
+        careerInput.current.classList.add("is-invalid");
+      }
     }
   };
 
@@ -275,9 +324,34 @@ function UserUpdate() {
                 disabled
               />
             </div>
-            {userOrPlanner === "플래너" ? <div></div> : null}
           </div>
-
+          {userOrPlanner === "플래너" ? (
+            <div class="row justify-content-md-center mb-2 mt-4">
+              <label for="phone" class="form-label col col-md-2 mt-2">
+                경력
+              </label>
+              <div class="has-validation col col-md-7">
+                <input
+                  type="number"
+                  class="form-control "
+                  id="career"
+                  ref={careerInput}
+                  value={career}
+                  onChange={onChange}
+                  placeholder={career}
+                  autoComplete="off"
+                  min="0"
+                  max="30"
+                />
+                <div
+                  class="invisible text-start phone-feedback"
+                  ref={careerFeedback}
+                >
+                  {careerMessage}
+                </div>
+              </div>
+            </div>
+          ) : null}
           <div class="col-12">
             <button class="btn-colour-1 updatebtn" type="submit">
               회원정보 수정하기
