@@ -2,115 +2,392 @@ import "../Css/main.css";
 import "../Css/mypage.css";
 import NavigationBar from "../Components/NavigationBar";
 import Footer from "../Components/Footer";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import Modal from "react-modal";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 function Mypage() {
   const title = "마이페이지";
+  const navigate = useNavigate();
+  const ModalStyle = {
+    overlay: {
+      position: "fixed",
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundColor: "rgba(255, 255, 255, 0.45)",
+      zIndex: 10,
+    },
+    content: {
+      display: "flex",
+      justifyContent: "center",
+      background: "#FAFAFA",
+      overflow: "auto",
+      top: "30vh",
+      left: "32vw",
+      right: "32vw",
+      bottom: "30vh",
+      WebkitOverflowScrolling: "touch",
+      borderRadius: "14px",
+      outline: "none",
+      zIndex: 10,
+    },
+  };
+
+  const [modalIsOpen, setIsOpen] = React.useState(false);
+
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+  }
+
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("Kj7878**");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [gender, setGender] = useState("");
+  const [passwordMessage, setPasswordMessage] = useState("looks good!");
+  const [passwordCheck, setPasswordCheck] = useState("");
+  const passwordInput = useRef();
+
+  const passwordFeedback = useRef();
+  const passwordConfirm = useRef();
+  const [passwordcheckmessage, setPasswordCheckMessage] = useState("");
+
+  const { category } = useParams();
+
+  const onChange = (e) => {
+    if (e.target.id === "passwordcheck") {
+      console.log(e.target.value);
+      const passwordRegExp =
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+\\\|\[\]{};:\'",.<>\/?]).{8,}$/;
+      if (passwordRegExp.test(e.target.value)) {
+        setPasswordMessage("looks good!");
+        passwordInput.current.classList.remove("is-invalid");
+        passwordInput.current.classList.add("is-valid");
+        passwordFeedback.current.classList.remove("invisible");
+        passwordFeedback.current.classList.remove("invalid-feedback");
+        passwordFeedback.current.classList.add("valid-feedback");
+        passwordConfirm.current.disabled = false;
+      } else {
+        setPasswordMessage(
+          "최소8자 이상, 대문자, 소문자, 숫자, 특수문자를 포함"
+        );
+        passwordInput.current.classList.add("is-invalid");
+        passwordFeedback.current.classList.add("invalid-feedback");
+        passwordFeedback.current.classList.remove("invisible");
+        passwordFeedback.current.classList.remove("valid-feedback");
+        passwordInput.current.classList.remove("is-valid");
+        console.log(passwordConfirm.current);
+        passwordConfirm.current.disabled = true;
+      }
+      setPasswordCheck(e.target.value);
+    }
+  };
+
+  const deletePassword = () => {
+    setPasswordCheck("");
+    passwordFeedback.current.classList.remove("invalid-feedback");
+    passwordFeedback.current.classList.remove("valid-feedback");
+    passwordInput.current.classList.remove("is-invalid");
+    passwordInput.current.classList.remove("is-valid");
+    passwordFeedback.current.classList.add("invisible");
+  };
+
+  useEffect(() => {
+    if (passwordCheck === password) {
+      setPasswordCheckMessage("비밀번호 확인 완료!");
+    } else {
+      setPasswordCheckMessage("비밀번호가 틀립니다. 다시 입력하세요.");
+    }
+  }, [passwordCheck, password]);
+
+  const gotoUpdatePage = () => {
+    if (passwordcheckmessage === "비밀번호 확인 완료!") {
+      navigate(`/mypage/${category}/userupdate`);
+    }
+  };
 
   return (
-    <div class="mainlayout">
+    <div className="mainlayout">
       <NavigationBar title={title} />
-      <div class="content container text-center">
-        <form class="col">
+      <div className="content container text-center">
+        <form className="col">
           <img src="" alt="" />
-          <div class="row justify-content-md-center mb-2">
-            <label for="name" class="form-label col col-md-2 mt-2">
+          <div className="row justify-content-md-center mb-2">
+            <label htmlFor="name" className="form-label col col-md-2 mt-2">
               이름
             </label>
-            <div class="col col-md-7">
+            <div className="col col-md-7">
               <input
                 type="text"
-                class="form-control "
+                className="form-control "
                 id="name"
-                value=""
-                required
+                value={name}
+                autocomplete="off"
               />
             </div>
           </div>
-          <div class="row justify-content-md-center mb-2">
-            <label for="password" class="form-label col col-md-2 mt-2">
+          <div className="row justify-content-md-center mb-2">
+            <label htmlFor="password" className="form-label col col-md-2 mt-2">
               비밀번호
             </label>
-            <div class="has-validation col col-md-7">
+            <div className="has-validation col col-md-7">
               <input
                 type="text"
-                class="form-control "
+                className="form-control "
                 id="password"
-                value=""
-                required
+                value={password}
+                autocomplete="off"
               />
             </div>
           </div>
-          <div class="row justify-content-md-center mb-2">
-            <label for="email" class="form-label col col-md-2 mt-2">
+          <div className="row justify-content-md-center mb-2">
+            <label htmlFor="email" className="form-label col col-md-2 mt-2">
               이메일
             </label>
-            <div class="has-validation col col-md-7">
+            <div className="has-validation col col-md-7">
               <input
                 type="text"
-                class="form-control "
+                className="form-control "
                 id="email"
-                value=""
-                required
+                value={email}
+                autocomplete="off"
               />
             </div>
           </div>
-          <div class="row justify-content-md-center mb-2">
-            <label for="phone" class="form-label col col-md-2 mt-2">
+          <div className="row justify-content-md-center mb-2">
+            <label htmlFor="phone" className="form-label col col-md-2 mt-2">
               휴대폰
             </label>
-            <div class="has-validation col col-md-7">
+            <div className="has-validation col col-md-7">
               <input
                 type="text"
-                class="form-control "
+                className="form-control "
                 id="phone"
-                value=""
-                required
+                value={phone}
+                autocomplete="off"
               />
             </div>
           </div>
-          <div class="row justify-content-md-center mb-2">
-            <label for="password" class="form-label col col-md-2 mt-2">
+          <div className="row justify-content-md-center mb-2">
+            <label htmlFor="password" className="form-label col col-md-2 mt-2">
               성별
             </label>
-            <div class="has-validation col col-md-7">
-              <div class="form-check row justify-content-md-start  mb-3">
-                <div class="form-check-inline col col-md-2 p-2">
+            <div className="has-validation col col-md-7">
+              <div className="form-check row justify-content-md-start  mb-3">
+                <div className="form-check-inline col col-md-2 p-2">
                   <input
                     type="radio"
-                    class="form-check-input"
+                    className="form-check-input"
                     id="male"
                     name="gender"
-                    required
+                    checked
                   />
-                  <label class="form-check-label" for="male">
+                  <label className="form-check-label" htmlFor="male">
                     남
                   </label>
                 </div>
-                <div class="form-check-inline col col-md-2 p-2">
+                <div className="form-check-inline col col-md-2 p-2">
                   <input
                     type="radio"
-                    class="form-check-input"
+                    className="form-check-input"
                     id="female"
                     name="gender"
-                    required
                   />
-                  <label class="form-check-label" for="female">
+                  <label className="form-check-label" htmlFor="female">
                     여
                   </label>
                 </div>
               </div>
             </div>
           </div>
+          <button
+            type="button"
+            class="btn-custom"
+            data-bs-toggle="modal"
+            data-bs-target="#passwordcheckmodal"
+          >
+            정보 수정하기
+          </button>
 
-          <div class="col-12">
-            <button class="btn-bd-primary infochange" type="submit">
-              정보수정하기
-            </button>
-          </div>
+          <button
+            className="btn-custom"
+            onClick={() => {
+              navigate("/login");
+            }}
+          >
+            로그아웃
+          </button>
+          <button
+            type="button"
+            className="btn-custom"
+            data-bs-toggle="modal"
+            data-bs-target="#deleteMemberModal"
+          >
+            회원탈퇴
+          </button>
         </form>
       </div>
       <Footer />
+      {/* 비밀번호 확인 modal 창 */}
+      <div
+        class="modal fade"
+        id="passwordcheckmodal"
+        tabindex="-1"
+        aria-labelledby="passwordcheckmodal"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1
+                class="modal-title justify-content-center fs-5"
+                id="passwordcheckmodal"
+              >
+                - 비밀번호 확인 -
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                onClick={deletePassword}
+              ></button>
+            </div>
+            <div class="modal-body">
+              <div class="has-validation col col-md-7">
+                <input
+                  type="password"
+                  class="form-control "
+                  id="passwordcheck"
+                  ref={passwordInput}
+                  value={passwordCheck}
+                  onChange={onChange}
+                  required
+                  autocomplete="off"
+                />
+                <div
+                  class="invisible text-start password-feedback"
+                  ref={passwordFeedback}
+                >
+                  {passwordMessage}
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+                onClick={deletePassword}
+              >
+                닫기
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#passwordcheckMessageModal"
+                ref={passwordConfirm}
+                disabled
+              >
+                확인
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* 비밀번호 확인 모달 */}
+      {/* 비밀번호 확인 메시지 창 */}
+      <div
+        class="modal fade"
+        id="passwordcheckMessageModal"
+        tabindex="-1"
+        aria-labelledby="passwordcheckMessageModal"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1
+                class="modal-title justify-content-center fs-5"
+                id="passwordcheckMessageModal"
+              >
+                - 비밀번호 확인 -
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                onClick={deletePassword}
+              ></button>
+            </div>
+            <div class="modal-body">{passwordcheckmessage}</div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+                onClick={deletePassword}
+              >
+                닫기
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-bs-dismiss="modal"
+                onClick={gotoUpdatePage}
+              >
+                확인
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* 비밀번호 확인 메시지 모달 */}
+      {/* 회원 탈퇴 메시지 창 */}
+      <div
+        class="modal fade"
+        id="deleteMemberModal"
+        tabindex="-1"
+        aria-labelledby="deleteMemberModal"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1
+                class="modal-title justify-content-center fs-5"
+                id="deleteMemberModal"
+              >
+                - 회원 탈퇴 -
+              </h1>
+            </div>
+            <div class="modal-body">
+              그동안 감사했습니다😢 이렇게 가신다니 아쉬워요 (T_T)
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-bs-dismiss="modal"
+                onClick={() => {
+                  navigate("/");
+                }}
+              >
+                메인페이지로
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* 비밀번호 확인 모달 */}
     </div>
   );
 }

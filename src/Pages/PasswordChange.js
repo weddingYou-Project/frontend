@@ -162,7 +162,7 @@ function PasswordChange() {
           <div className="row">
             <div className="col-2"></div>
             <div className="col-8">
-              <div className="infotext">
+              <div className="infotext3">
                 <i className="bi bi-dash-lg"></i>&nbsp;&nbsp;
                 <span>비밀번호 변경 완료</span>&nbsp;&nbsp;
                 <i className="bi bi-dash-lg"></i>
@@ -174,7 +174,7 @@ function PasswordChange() {
           <div className="row">
             <div className="col-1"></div>
             <div className="col-10">
-              <div className="infotext1">
+              <div className="infotext3">
                 비밀번호가 변경되었습니다.
                 <br />
                 바뀐 비밀번호로 로그인해주세요!

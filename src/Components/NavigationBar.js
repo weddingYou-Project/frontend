@@ -4,7 +4,7 @@ import MyEstimate from "./MyEstimate";
 
 function NavigationBar({ title }) {
   return (
-    <div class="navigationbar">
+    <div className="navigationbar">
       <BackButton />
       <p>{title}</p>
       <MyEstimate />
