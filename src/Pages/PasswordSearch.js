@@ -1,9 +1,10 @@
 import React from "react";
 import "../Css/main.css";
 import "../Css/PasswordSearch.css";
-import BackButton from "../Components/Backbutton";
 import Modal from "react-modal";
 import { Link } from "react-router-dom";
+import Footer from "../Components/Footer";
+import NavigationBar from "../Components/NavigationBar";
 
 function PasswordSearch() {
   const ModalStyle = {
@@ -43,8 +44,7 @@ function PasswordSearch() {
 
   return (
     <div className="mainlayout">
-      <BackButton />
-      <div className="title">비밀번호 찾기</div>
+      <NavigationBar title={"비밀번호 찾기"} />
       <br />
       <div class="container text-center">
         <div class="row">
@@ -133,6 +133,7 @@ function PasswordSearch() {
           </button>
         </div>
       </Modal>
+      <Footer />
     </div>
   );
 }

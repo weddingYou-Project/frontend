@@ -1,15 +1,14 @@
 import "../Css/main.css";
 import "../Css/Login.css";
 import imgLogo from "../Assets/logo.png";
-import BackButton from "../Components/Backbutton";
 import { Link } from "react-router-dom";
 import Footer from "../Components/Footer";
+import NavigationBar from "../Components/NavigationBar";
 
 function Login() {
   return (
     <div className="mainlayout">
-      <BackButton />
-      <div className="title">로그인</div>
+      <NavigationBar title={"로그인"} />
       <div class="container text-center">
         <div class="row">
           <div class="col"></div>

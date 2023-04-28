@@ -2,9 +2,10 @@ import React from "react";
 import "../Css/main.css";
 import "../Css/Login.css";
 import imgLogo from "../Assets/logo.png";
-import BackButton from "../Components/Backbutton";
 import Modal from "react-modal";
 import { Link } from "react-router-dom";
+import Footer from "../Components/Footer";
+import NavigationBar from "../Components/NavigationBar";
 
 function PasswordChange() {
   const ModalStyle = {
@@ -44,8 +45,7 @@ function PasswordChange() {
 
   return (
     <div className="mainlayout">
-      <BackButton />
-      <div className="title">비밀번호 변경하기</div>
+      <NavigationBar title={"비밀번호 변경하기"} />
       <div class="container text-center">
         <div class="row">
           <div class="col"></div>
@@ -126,6 +126,7 @@ function PasswordChange() {
           </button>
         </div>
       </Modal>
+      <Footer />
     </div>
   );
 }
