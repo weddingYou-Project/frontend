@@ -3,8 +3,12 @@ import { Navigate, useNavigate, useParams } from "react-router-dom";
 import "../Css/Signup.css";
 import axios from "axios";
 import React, { useEffect } from "react";
+import SignupSuccess from "./SignupSuccess";
 
 function SignupForm() {
+  //회원가입 성공 여부
+  let [sign, setsign] = useState("before");
+
   let { category } = useParams();
   let navigate = useNavigate();
 
@@ -173,152 +177,158 @@ function SignupForm() {
     navigate(-1);
   };
   //뒤로가기 버튼 함수
-
-  return (
-    <div className="bg">
-      <div className="Signup-wrap">
-        <div className="Signup-backicon" onClick={handleBack}>
-          <i className="bi bi-chevron-left" style={{ fontSize: 30 }}></i>
-        </div>
-        {category === "user" && <div className="Signup-header">일반회원</div>}
-        {category === "planner" && (
-          <div className="Signup-header">플래너회원</div>
-        )}
-
-        <div className="Signup-guidebar">
-          <div className="guideline"></div>
-          <span>회원가입</span>
-          <div className="guideline"></div>
-        </div>
-
-        <div className="Signup-inputwrap">
-          <InputComp
-            content="이름"
-            EventHandler={EventHandlerName}
-            style={namestyle}
-            message="올바른 이름을 작성해주세요"
-            length={5}
-            type="text"
-          />
-          <InputComp
-            content="이메일"
-            EventHandler={EventHandleremail}
-            style={emailstyle}
-            message="올바른 이메일 형식으로 작성해주세요"
-            length={100}
-            type="text"
-          />
-          <InputComp
-            content="비밀번호"
-            EventHandler={EventHandlerPassword}
-            style={passwordstyle}
-            message="최소8자 이상, 대문자, 소문자, 숫자, 특수문자를 포함"
-            length={20}
-            type="password"
-          />
-          <InputComp
-            content="비밀번호 확인"
-            EventHandler={EventHandlerPassword2}
-            style={passwordstyle2}
-            message="비밀번호 불일치"
-            length={20}
-            type="password"
-          />
-          <InputComp
-            content="핸드폰"
-            EventHandler={EventHandlerPhone}
-            style={phonestyle}
-            message="올바른 핸드폰 번호가 아닙니다."
-            length={11}
-            type="text"
-          />
-          {category === "planner" && (
-            <InputComp
-              content="경력 (단위: 년 , 최대 30)"
-              type="number"
-              value={career}
-              EventHandler={EventHandlerCareer}
-              message={
-                career > 30
-                  ? "최대 경력은 30년입니다."
-                  : "올바른 숫자를 입력해주세요"
-              }
-              style={careerstyle}
-              length={2}
-            />
-          )}
-        </div>
-
-        <div className="Signup-acceptwrap">
-          <CheckboxComp
-            Handler={CheckHandlerAll}
-            checked={check.ageCheck && check.membershipCheck}
-            message="모두확인, 동의합니다."
-          />
-
-          <CheckboxComp
-            Handler={CheckHandler}
-            checked={check.ageCheck}
-            message="만14세 이상입니다. (필수)"
-            name="ageCheck"
-          />
-
-          <CheckboxComp
-            Handler={CheckHandler}
-            checked={check.membershipCheck}
-            message="회원약관 (필수)"
-            name="membershipCheck"
-          />
-
-          <div className="Signup-contentbox">
-            <div className="contentbar">
-              <span style={{ fontSize: 13 }}>개인정보수집</span>
-            </div>
-            <div className="left">
-              <span>목적</span>
-            </div>
-            <div className="right">
-              <span>개인 식별,서비스 제공을 위한 연락처 수집</span>
-            </div>
-            <div className="left">
-              <span>항목</span>
-            </div>
-            <div className="right">
-              <span>개인정보 및 이용상품 정보 등</span>
-            </div>
-            <div className="left">
-              <span>기간</span>
-            </div>
-            <div className="right">
-              <span>회원 탈퇴 시 즉시 파기</span>
-            </div>
+  if (sign === "before") {
+    return (
+      <div className="bg">
+        <div className="Signup-wrap">
+          <div className="Signup-backicon" onClick={handleBack}>
+            <i className="bi bi-chevron-left" style={{ fontSize: 30 }}></i>
           </div>
-          <div style={{ clear: "both" }}></div>
-          <div style={{ clear: "both" }}></div>
-        </div>
+          {category === "user" && <div className="Signup-header">일반회원</div>}
+          {category === "planner" && (
+            <div className="Signup-header">플래너회원</div>
+          )}
 
-        <div className="Signup-button">
-          <button
-            className="btn-custom"
-            disabled={
-              !check.ageCheck ||
-              !check.membershipCheck ||
-              !namecheck ||
-              !emailcheck ||
-              !phonecheck ||
-              !passwordcheck ||
-              !passwordcheck2 ||
-              !careercheck
-            }
-          >
-            가입하기
-          </button>
+          <div className="Signup-guidebar">
+            <div className="guideline"></div>
+            <span>회원가입</span>
+            <div className="guideline"></div>
+          </div>
+
+          <div className="Signup-inputwrap">
+            <InputComp
+              content="이름"
+              EventHandler={EventHandlerName}
+              style={namestyle}
+              message="올바른 이름을 작성해주세요"
+              length={5}
+              type="text"
+            />
+            <InputComp
+              content="이메일"
+              EventHandler={EventHandleremail}
+              style={emailstyle}
+              message="올바른 이메일 형식으로 작성해주세요"
+              length={100}
+              type="text"
+            />
+            <InputComp
+              content="비밀번호"
+              EventHandler={EventHandlerPassword}
+              style={passwordstyle}
+              message="최소8자 이상, 대문자, 소문자, 숫자, 특수문자를 포함"
+              length={20}
+              type="password"
+            />
+            <InputComp
+              content="비밀번호 확인"
+              EventHandler={EventHandlerPassword2}
+              style={passwordstyle2}
+              message="비밀번호 불일치"
+              length={20}
+              type="password"
+            />
+            <InputComp
+              content="핸드폰"
+              EventHandler={EventHandlerPhone}
+              style={phonestyle}
+              message="올바른 핸드폰 번호가 아닙니다."
+              length={11}
+              type="text"
+            />
+            {category === "planner" && (
+              <InputComp
+                content="경력 (단위: 년 , 최대 30)"
+                type="number"
+                value={career}
+                EventHandler={EventHandlerCareer}
+                message={
+                  career > 30
+                    ? "최대 경력은 30년입니다."
+                    : "올바른 숫자를 입력해주세요"
+                }
+                style={careerstyle}
+                length={2}
+              />
+            )}
+          </div>
+
+          <div className="Signup-acceptwrap">
+            <CheckboxComp
+              Handler={CheckHandlerAll}
+              checked={check.ageCheck && check.membershipCheck}
+              message="모두확인, 동의합니다."
+            />
+
+            <CheckboxComp
+              Handler={CheckHandler}
+              checked={check.ageCheck}
+              message="만14세 이상입니다. (필수)"
+              name="ageCheck"
+            />
+
+            <CheckboxComp
+              Handler={CheckHandler}
+              checked={check.membershipCheck}
+              message="회원약관 (필수)"
+              name="membershipCheck"
+            />
+
+            <div className="Signup-contentbox">
+              <div className="contentbar">
+                <span style={{ fontSize: 13 }}>개인정보수집</span>
+              </div>
+              <div className="left">
+                <span>목적</span>
+              </div>
+              <div className="right">
+                <span>개인 식별,서비스 제공을 위한 연락처 수집</span>
+              </div>
+              <div className="left">
+                <span>항목</span>
+              </div>
+              <div className="right">
+                <span>개인정보 및 이용상품 정보 등</span>
+              </div>
+              <div className="left">
+                <span>기간</span>
+              </div>
+              <div className="right">
+                <span>회원 탈퇴 시 즉시 파기</span>
+              </div>
+            </div>
+            <div style={{ clear: "both" }}></div>
+            <div style={{ clear: "both" }}></div>
+          </div>
+
+          <div className="Signup-button">
+            <button
+              className="btn-custom"
+              disabled={
+                !check.ageCheck ||
+                !check.membershipCheck ||
+                !namecheck ||
+                !emailcheck ||
+                !phonecheck ||
+                !passwordcheck ||
+                !passwordcheck2 ||
+                !careercheck
+              }
+              onClick={() => {
+                //엑시오스 함수 자리
+                setsign("after");
+              }}
+            >
+              가입하기
+            </button>
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  } else if (sign === "after") {
+    return <SignupSuccess></SignupSuccess>;
+  }
 }
-
 export default SignupForm;
 
 const InputComp = ({
