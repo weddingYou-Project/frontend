@@ -22,7 +22,7 @@ function Login() {
         <div class="row">
           <div class="col"></div>
           <div class="col-6">
-            <p className="loginmessage">아이디(이메일)로 로그인하기</p>
+            {/* <p className="loginmessage">아이디(이메일)로 로그인하기</p> */}
             <div class="mb-3">
               <input
                 type="text"

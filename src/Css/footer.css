@@ -1,5 +1,5 @@
 .footer{
-    width: 560px;
+    width: 556px;
     display:flex;
     padding:0;
     padding-top:20px;
@@ -13,7 +13,8 @@
 .icon{
     display:flex;
     flex-direction: column;
-    padding:0 32px;
+    padding:0 31px;
+    margin-left: 1px;
     align-items: center;
 }
 
