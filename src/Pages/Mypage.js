@@ -7,22 +7,142 @@ function Mypage() {
   return (
     <div class="mainlayout">
       <NavigationBar title={title} />
-      <div class="content">
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Illum nihil,
-        cumque neque rerum nostrum fuga molestiae voluptatem laudantium! Illo
-        veritatis placeat eligendi reiciendis recusandae minima enim nulla
-        facere temporibus autem? Architecto dolorem harum voluptatem, dolores !
-        Fuga possimus similique amet rerum rem delectus, ipsa esse nam saepe
-        maiores ipsam blanditiis impedit porro obcaecati sunt sed aspernatur in
-        asperiores facere, aliquam consequatur provident cupiditate. Modi, enim
-        quos. Quis nihil aspernatur eveniet minima beatae quibusdam, quaerat
-        sequi doloremque labore, praesentium consectetur assumenda laboriosam
-        nostrum animi necessitatibus iusto aliquam tenetur. Quod a porro
-        doloremque pariatur magni repellat dicta aperiam! Sapiente at eligendi
-        quasi aut explicabo culpa maiores iste ipsam impedit architecto
-        exercitationem, suscipit, nesciunt deserunt illo, cumque ullam? Alias
-        perferendis qui dolorem libero saepe soluta nulla assumenda blanditiis
-        nam!
+      <div class="content container text-center">
+        <form class="col">
+          <img src="" alt="" />
+          <div class="row justify-content-md-center mb-2">
+            <label for="name" class="form-label col col-md-2 mt-2">
+              이름
+            </label>
+            <div class="col col-md-7">
+              <input
+                type="text"
+                class="form-control is-valid"
+                id="name"
+                value=""
+                required
+              />
+              <div class="valid-feedback text-start">Looks good!</div>
+            </div>
+          </div>
+          <div class="row justify-content-md-center mb-2">
+            <label for="password" class="form-label col col-md-2 mt-2">
+              비밀번호
+            </label>
+            <div class="has-validation col col-md-7">
+              <input
+                type="text"
+                class="form-control is-valid"
+                id="password"
+                value=""
+                required
+              />
+              <div class="valid-feedback text-start">Looks good!</div>
+            </div>
+          </div>
+          <div class="row justify-content-md-center mb-2">
+            <label for="email" class="form-label col col-md-2 mt-2">
+              이메일
+            </label>
+            <div class="has-validation col col-md-7">
+              <input
+                type="text"
+                class="form-control is-valid"
+                id="email"
+                value=""
+                required
+              />
+              <div class="valid-feedback text-start">Looks good!</div>
+            </div>
+          </div>
+          <div class="row justify-content-md-center mb-2">
+            <label for="phone" class="form-label col col-md-2 mt-2">
+              휴대폰
+            </label>
+            <div class="has-validation col col-md-7">
+              <input
+                type="text"
+                class="form-control is-valid"
+                id="phone"
+                value=""
+                required
+              />
+              <div class="valid-feedback text-start">Looks good!</div>
+            </div>
+          </div>
+          <div class="row justify-content-md-center mb-2">
+            <label for="password" class="form-label col col-md-2 mt-2">
+              성별
+            </label>
+            <div class="has-validation col col-md-7">
+              <div class="form-check mb-3">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  id="woman"
+                  required
+                />
+                <label class="form-check-label" for="woman">
+                  여자
+                </label>
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  id="man"
+                  required
+                />
+                <label class="form-check-label" for="man">
+                  남자
+                </label>
+                <div class="invalid-feedback">
+                  Example invalid feedback text
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row justify-content-md-center mb-2">
+            <label for="email" class="form-label col col-md-2">
+              이메일
+            </label>
+            <div class="input-group has-validation">
+              <input
+                type="text"
+                class="form-control emailinput is-invalid"
+                id="email"
+                aria-describedby="inputGroupPrepend3 emailFeedback"
+                required
+              />
+              <div id="emailFeedback" class="invalid-feedback">
+                올바른 이메일 주소를 적어주세요
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12">
+            <div class="form-check">
+              <input
+                class="form-check-input is-invalid"
+                type="checkbox"
+                value=""
+                id="invalidCheck3"
+                aria-describedby="invalidCheck3Feedback"
+                required
+              />
+              <label class="form-check-label" for="invalidCheck3">
+                Agree to terms and conditions
+              </label>
+              <div id="invalidCheck3Feedback" class="invalid-feedback">
+                You must agree before submitting.
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <button class="btn btn-primary" type="submit">
+              정보수정하기
+            </button>
+          </div>
+        </form>
       </div>
       <Footer />
     </div>

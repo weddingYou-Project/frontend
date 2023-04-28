@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 function Footer() {
   const navigate = useNavigate();
-  const category = useParams();
+  const { category } = useParams();
   return (
     <div class="footer">
       <div
