@@ -47,6 +47,9 @@ function UserUpdate() {
   const [genderMessage, setGenderMessage] = useState("looks good!");
   const [careerMessage, setCareerMessage] = useState("looks good!");
 
+  const [allcheck, setAllCheck] = useState(true);
+  const [anyChange, setAnyChange] = useState(false);
+
   const onChange = (e) => {
     if (e.target.id === "password") {
       setPassword(e.target.value);
@@ -67,6 +70,7 @@ function UserUpdate() {
           passwordFeedback.current.classList.remove("invisible");
           passwordFeedback.current.classList.remove("invalid-feedback");
           passwordFeedback.current.classList.add("valid-feedback");
+          setAnyChange(true);
         }
       } else {
         if (e.target.value === "") {
@@ -81,6 +85,7 @@ function UserUpdate() {
         passwordFeedback.current.classList.add("invalid-feedback");
         passwordInput.current.classList.remove("is-valid");
         passwordInput.current.classList.add("is-invalid");
+        setAllCheck(false);
       }
     } else if (e.target.id === "email") {
       setEmail(e.target.value);
@@ -99,6 +104,7 @@ function UserUpdate() {
           emailFeedback.current.classList.remove("invisible");
           emailFeedback.current.classList.remove("invalid-feedback");
           emailFeedback.current.classList.add("valid-feedback");
+          setAnyChange(true);
         }
       } else {
         if (e.target.value === "") {
@@ -112,6 +118,7 @@ function UserUpdate() {
         emailFeedback.current.classList.add("invalid-feedback");
         emailInput.current.classList.remove("is-valid");
         emailInput.current.classList.add("is-invalid");
+        setAllCheck(false);
       }
     } else if (e.target.id === "phone") {
       setPhone(
@@ -136,6 +143,7 @@ function UserUpdate() {
           phoneFeedback.current.classList.remove("invisible");
           phoneFeedback.current.classList.remove("invalid-feedback");
           phoneFeedback.current.classList.add("valid-feedback");
+          setAnyChange(true);
         }
       } else {
         if (e.target.value === "") {
@@ -148,12 +156,12 @@ function UserUpdate() {
         phoneFeedback.current.classList.add("invalid-feedback");
         phoneInput.current.classList.remove("is-valid");
         phoneInput.current.classList.add("is-invalid");
+        setAllCheck(false);
       }
     } else if (e.target.id === "career") {
       setCareer(e.target.value);
       if (parseInt(e.target.value) >= 0 && parseInt(e.target.value) <= 30) {
         if (parseInt(e.target.value) === defaultCareer) {
-          console.log("a");
           careerFeedback.current.classList.add("invisible");
           careerFeedback.current.classList.remove("valid-feedback");
           careerFeedback.current.classList.remove("invalid-feedback");
@@ -166,6 +174,7 @@ function UserUpdate() {
           careerFeedback.current.classList.remove("invisible");
           careerFeedback.current.classList.remove("invalid-feedback");
           careerFeedback.current.classList.add("valid-feedback");
+          setAnyChange(true);
         }
       } else {
         if (parseInt(e.target.value) > 30) {
@@ -180,22 +189,22 @@ function UserUpdate() {
         careerFeedback.current.classList.add("invalid-feedback");
         careerInput.current.classList.remove("is-valid");
         careerInput.current.classList.add("is-invalid");
+        setAllCheck(false);
       }
     }
   };
 
   const updateCheck = () => {
-    if (
-      !passwordInput.current.classList.contains("is-invalid") &&
-      !phoneInput.current.classList.contains("is-invalid") &&
-      !emailInput.current.classList.contains("is-invalid") &&
-      !careerInput.current.classList.contains("is-invalid")
-    ) {
+    if (allcheck === true && anyChange === true) {
       {
         /* 수정가능 */
       }
     } else {
-      alert("수정 불가능합니다.");
+      if (allcheck === false) {
+        alert("수정 불가능합니다.");
+      } else if (anyChange === false) {
+        alert("변경 내용이 없습니다.");
+      }
     }
   };
 
