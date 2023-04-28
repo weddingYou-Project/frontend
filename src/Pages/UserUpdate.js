@@ -20,6 +20,7 @@ function UserUpdate() {
   const [email, setEmail] = useState("abc@naver.com");
   const [phone, setPhone] = useState("010-1234-5678");
   const [gender, setGender] = useState("");
+  const [career, setCareer] = useState(0);
 
   const nameInput = useRef();
   const passwordInput = useRef();
@@ -115,9 +116,9 @@ function UserUpdate() {
         phoneInput.current.classList.remove("is-valid");
         phoneInput.current.classList.add("is-invalid");
       }
-    } else if (e.target.id === "gender") {
+    } else if (e.target.id === "career") {
       setGender(e.target.value);
-      const genderFeedback = document.querySelector(".gender-feedback");
+
       // if (emailRegExp.test(e.target.value)) {
       //   emailInput.current.classList.remove("is-invalid");
       //   emailInput.current.classList.add("is-valid");
@@ -274,7 +275,7 @@ function UserUpdate() {
                 disabled
               />
             </div>
-            {userOrPlanner === "플래너" ? null : <div></div>}
+            {userOrPlanner === "플래너" ? <div></div> : null}
           </div>
 
           <div class="col-12">
