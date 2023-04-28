@@ -9,51 +9,16 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 function Mypage() {
   const title = "마이페이지";
   const navigate = useNavigate();
-  const ModalStyle = {
-    overlay: {
-      position: "fixed",
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      backgroundColor: "rgba(255, 255, 255, 0.45)",
-      zIndex: 10,
-    },
-    content: {
-      display: "flex",
-      justifyContent: "center",
-      background: "#FAFAFA",
-      overflow: "auto",
-      top: "30vh",
-      left: "32vw",
-      right: "32vw",
-      bottom: "30vh",
-      WebkitOverflowScrolling: "touch",
-      borderRadius: "14px",
-      outline: "none",
-      zIndex: 10,
-    },
-  };
 
-  const [modalIsOpen, setIsOpen] = React.useState(false);
-
-  function openModal() {
-    setIsOpen(true);
-  }
-
-  function closeModal() {
-    setIsOpen(false);
-  }
-
-  const [name, setName] = useState("");
-  const [password, setPassword] = useState("Kj7878**");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
+  const [name, setName] = useState("귀엽조");
+  const [password, setPassword] = useState("Ab1234**");
+  const [email, setEmail] = useState("abc@naver.com");
+  const [phone, setPhone] = useState("010-1234-5678");
   const [gender, setGender] = useState("");
   const [passwordMessage, setPasswordMessage] = useState("looks good!");
   const [passwordCheck, setPasswordCheck] = useState("");
   const passwordInput = useRef();
-
+  const passwordcheckmodal = useRef();
   const passwordFeedback = useRef();
   const passwordConfirm = useRef();
   const [passwordcheckmessage, setPasswordCheckMessage] = useState("");
@@ -122,13 +87,14 @@ function Mypage() {
             <label htmlFor="name" className="form-label col col-md-2 mt-2">
               이름
             </label>
-            <div className="col col-md-7">
+            <div className="col col-md-7 mb-4">
               <input
                 type="text"
                 className="form-control "
                 id="name"
                 value={name}
                 autocomplete="off"
+                disabled
               />
             </div>
           </div>
@@ -136,13 +102,14 @@ function Mypage() {
             <label htmlFor="password" className="form-label col col-md-2 mt-2">
               비밀번호
             </label>
-            <div className="has-validation col col-md-7">
+            <div className="has-validation col col-md-7 mb-4">
               <input
                 type="text"
                 className="form-control "
                 id="password"
                 value={password}
                 autocomplete="off"
+                disabled
               />
             </div>
           </div>
@@ -150,13 +117,14 @@ function Mypage() {
             <label htmlFor="email" className="form-label col col-md-2 mt-2">
               이메일
             </label>
-            <div className="has-validation col col-md-7">
+            <div className="has-validation col col-md-7 mb-4">
               <input
                 type="text"
                 className="form-control "
                 id="email"
                 value={email}
                 autocomplete="off"
+                disabled
               />
             </div>
           </div>
@@ -164,13 +132,14 @@ function Mypage() {
             <label htmlFor="phone" className="form-label col col-md-2 mt-2">
               휴대폰
             </label>
-            <div className="has-validation col col-md-7">
+            <div className="has-validation col col-md-7 mb-4">
               <input
                 type="text"
                 className="form-control "
                 id="phone"
                 value={phone}
                 autocomplete="off"
+                disabled
               />
             </div>
           </div>
@@ -211,6 +180,7 @@ function Mypage() {
             class="btn-custom"
             data-bs-toggle="modal"
             data-bs-target="#passwordcheckmodal"
+            onClick={deletePassword}
           >
             정보 수정하기
           </button>
@@ -241,6 +211,7 @@ function Mypage() {
         tabindex="-1"
         aria-labelledby="passwordcheckmodal"
         aria-hidden="true"
+        ref={passwordcheckmodal}
       >
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
