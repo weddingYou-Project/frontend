@@ -5,8 +5,8 @@ function BackButton() {
   const navigate = useNavigate();
 
   return (
-    <button className="backbutton" onClick={() => navigate(-1)}>
-      <i className="bi bi-chevron-left"></i>
+    <button class="backbutton" onClick={() => navigate(-1)}>
+      <i class="bi bi-chevron-left"></i>
     </button>
   );
 }
