@@ -46,50 +46,50 @@ function PasswordSearch() {
     <div className="mainlayout">
       <NavigationBar title={"비밀번호 찾기"} />
       <br />
-      <div class="container text-center">
-        <div class="row">
-          <div class="col-2"></div>
-          <div class="col-8">
+      <div className="container text-center">
+        <div className="row">
+          <div className="col-2"></div>
+          <div className="col-8">
             <div className="infotext">
-              <i class="bi bi-dash-lg"></i>&nbsp;&nbsp;
+              <i className="bi bi-dash-lg"></i>&nbsp;&nbsp;
               <span>임시 비밀번호 받기</span>&nbsp;&nbsp;
-              <i class="bi bi-dash-lg"></i>
+              <i className="bi bi-dash-lg"></i>
             </div>
           </div>
-          <div class="col-2"></div>
+          <div className="col-2"></div>
         </div>
-        <div class="container text-center">
-          <div class="row">
-            <div class="col-2"></div>
-            <div class="col-8">
+        <div className="container text-center">
+          <div className="row">
+            <div className="col-2"></div>
+            <div className="col-8">
               <div className="infotext2">
                 등록되어 있는 이메일을 입력하시고
                 <br />
                 임시 비밀번호 전송 버튼을 눌러주세요.
               </div>
             </div>
-            <div class="col-2"></div>
+            <div className="col-2"></div>
           </div>
         </div>
-        <div class="row">
-          <div class="col-2"></div>
-          <div class="col-8">
+        <div className="row">
+          <div className="col-2"></div>
+          <div className="col-8">
             <div className="infotext3">
-              <input type="text" class="inputarea" placeholder="이메일" />
+              <input type="text" className="inputarea" placeholder="이메일" />
             </div>
           </div>
-          <div class="col-2"></div>
+          <div className="col-2"></div>
         </div>
-        <div class="row">
-          <div class="col-2"></div>
-          <div class="col-8">
+        <div className="row">
+          <div className="col-2"></div>
+          <div className="col-8">
             <div className="infotext3">
-              <button type="submit" class="btn-custom1" onClick={openModal}>
+              <button type="submit" className="btn-custom1" onClick={openModal}>
                 임시 비밀번호 전송
               </button>
             </div>
           </div>
-          <div class="col-2"></div>
+          <div className="col-2"></div>
         </div>
       </div>
       <Modal
@@ -98,32 +98,32 @@ function PasswordSearch() {
         style={ModalStyle}
         contentLabel="Example Modal"
       >
-        <div class="container text-center">
-          <div class="row">
-            <div class="col-2"></div>
-            <div class="col-8">
+        <div className="container text-center">
+          <div className="row">
+            <div className="col-2"></div>
+            <div className="col-8">
               <div className="infotext3">
-                <i class="bi bi-dash-lg"></i>&nbsp;&nbsp;
+                <i clclassNameass="bi bi-dash-lg"></i>&nbsp;&nbsp;
                 <span>임시 비밀번호 전송 완료</span>&nbsp;&nbsp;
-                <i class="bi bi-dash-lg"></i>
+                <i className="bi bi-dash-lg"></i>
               </div>
             </div>
-            <div class="col-2"></div>
+            <div className="col-2"></div>
           </div>
           <br />
-          <div class="row">
-            <div class="col-1"></div>
-            <div class="col-10">
+          <div className="row">
+            <div className="col-1"></div>
+            <div className="col-10">
               <div className="infotext1">
                 임시 비밀번호가 이메일로 전송되었습니다.
                 <br />
                 확인 후 로그인과 비밀번호 변경을 해주세요!
               </div>
             </div>
-            <div class="col-1"></div>
+            <div className="col-1"></div>
           </div>
           <br />
-          <button class="btn-custom1">
+          <button className="btn-custom1">
             <Link
               to="/passwordSearch/temporaryPasswordLogin"
               className="SLogin"

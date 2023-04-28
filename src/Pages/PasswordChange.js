@@ -97,22 +97,22 @@ function PasswordChange() {
   return (
     <div className="mainlayout">
       <NavigationBar title={"비밀번호 변경하기"} />
-      <div class="container text-center">
-        <div class="row">
-          <div class="col"></div>
-          <div class="col-6">
+      <div className="container text-center">
+        <div className="row">
+          <div className="col"></div>
+          <div className="col-6">
             <img className="logo" src={imgLogo} alt="로고" />
           </div>
-          <div class="col"></div>
+          <div className="col"></div>
         </div>
       </div>
-      <div class="container text-center">
+      <div className="container text-center">
         {/* <form> */}
-        <div class="row">
-          <div class="col"></div>
-          <div class="col-6">
+        <div className="row">
+          <div className="col"></div>
+          <div className="col-6">
             {/* <p className="loginmessage">변경할 비밀번호를 입력하세요</p> */}
-            <div class="mb-3">
+            <div className="mb-3">
               <InputComp
                 content="변경할 비밀번호"
                 EventHandler={EventHandlerPassword}
@@ -131,12 +131,12 @@ function PasswordChange() {
               />
             </div>
           </div>
-          <div class="col"></div>
+          <div className="col"></div>
         </div>
         <br />
         <button
           type="submit"
-          class="btn-custom1"
+          className="btn-custom1"
           onClick={openModal}
           disabled={!passwordcheck || !passwordcheck2}
         >
@@ -144,7 +144,7 @@ function PasswordChange() {
         </button>
         {/* </form> */}
         <br />
-        <button type="submit" class="btn-custom-tomain">
+        <button type="submit" className="btn-custom-tomain">
           <Link to="/login" className="SLogin">
             메인으로 돌아가기
           </Link>
@@ -158,32 +158,32 @@ function PasswordChange() {
         style={ModalStyle}
         contentLabel="Example Modal"
       >
-        <div class="container text-center">
-          <div class="row">
-            <div class="col-2"></div>
-            <div class="col-8">
+        <div className="container text-center">
+          <div className="row">
+            <div className="col-2"></div>
+            <div className="col-8">
               <div className="infotext">
-                <i class="bi bi-dash-lg"></i>&nbsp;&nbsp;
+                <i className="bi bi-dash-lg"></i>&nbsp;&nbsp;
                 <span>비밀번호 변경 완료</span>&nbsp;&nbsp;
-                <i class="bi bi-dash-lg"></i>
+                <i className="bi bi-dash-lg"></i>
               </div>
             </div>
-            <div class="col-2"></div>
+            <div claclassNamess="col-2"></div>
           </div>
           <br />
-          <div class="row">
-            <div class="col-1"></div>
-            <div class="col-10">
+          <div className="row">
+            <div className="col-1"></div>
+            <div className="col-10">
               <div className="infotext1">
                 비밀번호가 변경되었습니다.
                 <br />
                 바뀐 비밀번호로 로그인해주세요!
               </div>
             </div>
-            <div class="col-1"></div>
+            <div className="col-1"></div>
           </div>
           <br />
-          <button class="btn-custom1">
+          <button className="btn-custom1">
             <Link to="/login" className="SLogin">
               메인으로 돌아가기
             </Link>
@@ -223,7 +223,7 @@ const InputComp = ({
         />
         <div
           id="validationServer03Feedback"
-          class="invalid-feedback"
+          className="invalid-feedback"
           style={{ fontSize: 5 }}
         >
           {message}
