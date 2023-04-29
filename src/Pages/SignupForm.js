@@ -177,6 +177,26 @@ function SignupForm() {
     navigate(-1);
   };
   //뒤로가기 버튼 함수
+
+  //회원가입 axios 함수
+  const userRegister = () => {
+    axios
+      .post("/user", {
+        name: name,
+        password: password,
+        email: email,
+        phoneNum: phone,
+      })
+      .then((res) => {
+        console.log("성공");
+        console.log(res);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+  //
+
   if (sign === "before") {
     return (
       <div className="bg">
@@ -316,7 +336,8 @@ function SignupForm() {
               }
               onClick={() => {
                 //엑시오스 함수 자리
-                setsign("after");
+                // setsign("after");
+                userRegister();
               }}
             >
               가입하기
