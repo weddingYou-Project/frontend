@@ -20,6 +20,7 @@ function SignupForm() {
   let [passwordcheck2, setPasswordcheck2] = useState(false);
   let [phonecheck, setPhonecheck] = useState(false);
   let [careercheck, setCareercheck] = useState(true);
+  let [duplicatecheck, setDuplicatecheck] = useState(true);
   let [check, setcheck] = useState({
     ageCheck: false,
     membershipCheck: false,
@@ -114,6 +115,7 @@ function SignupForm() {
   const EventHandleremail = (e) => {
     const emailRegExp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     setEmail(e.target.value);
+    setDuplicatecheck(true);
     if (emailRegExp.test(e.target.value)) {
       setEmailcheck(true);
       setEmailstyle("is-valid");
@@ -181,7 +183,7 @@ function SignupForm() {
   //회원가입 axios 함수
   const userRegister = () => {
     axios
-      .post("/user", {
+      .post("/user/userRegister", {
         name: name,
         password: password,
         email: email,
@@ -190,9 +192,13 @@ function SignupForm() {
       .then((res) => {
         console.log("성공");
         console.log(res);
+        setsign("after");
       })
       .catch((e) => {
         console.log(e);
+        setEmailstyle("is-invalid");
+        setEmailcheck(false);
+        setDuplicatecheck(false);
       });
   };
   //
@@ -228,7 +234,11 @@ function SignupForm() {
               content="이메일"
               EventHandler={EventHandleremail}
               style={emailstyle}
-              message="올바른 이메일 형식으로 작성해주세요"
+              message={
+                duplicatecheck === false
+                  ? "중복된 이메일입니다."
+                  : "올바른 이메일 형식으로 작성해주세요"
+              }
               length={100}
               type="text"
             />
