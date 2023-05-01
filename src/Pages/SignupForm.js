@@ -33,6 +33,7 @@ function SignupForm() {
   let [password2, setPassword2] = useState("");
   let [email, setEmail] = useState("");
   let [phone, setPhone] = useState("");
+  let [gender, setGender] = useState("male");
   let [career, setCareer] = useState(0);
   //스타일 상태값
   let [namestyle, setNamestyle] = useState("");
@@ -127,8 +128,11 @@ function SignupForm() {
 
   const EventHandlerPhone = (e) => {
     const phoneRegExp = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
-    setPhone(e.target.value);
-    if (phoneRegExp.test(e.target.value)) {
+    const phone = e.target.value
+      .replace(/[^0-9]/g, "")
+      .replace(/([0-9]{2,3})([0-9]{3,4})([0-9]{4})/, "$1-$2-$3");
+    setPhone(phone);
+    if (phoneRegExp.test(phone)) {
       setPhonecheck(true);
       setPhonestyle("is-valid");
     } else {
@@ -137,9 +141,14 @@ function SignupForm() {
     }
   };
 
+  const EventHandlerGender = (e) => {
+    setGender(e.target.value);
+    console.log(gender);
+  };
+
   const EventHandlerCareer = (e) => {
     setCareer(e.target.value);
-    const CareerRegExp = /^[0-9]*$/;
+    const CareerRegExp = /^(?!0[0-9])[0-9]+$/;
     if (CareerRegExp.test(e.target.value) && e.target.value <= 30) {
       setCareerstyle("is-valid");
       setCareercheck(true);
@@ -182,24 +191,49 @@ function SignupForm() {
 
   //회원가입 axios 함수
   const userRegister = () => {
-    axios
-      .post("http://localhost:8080/user/userRegister", {
-        name: name,
-        password: password,
-        email: email,
-        phoneNum: phone,
-      })
-      .then((res) => {
-        console.log("성공");
-        console.log(res);
-        setsign("after");
-      })
-      .catch((e) => {
-        console.log(e);
-        setEmailstyle("is-invalid");
-        setEmailcheck(false);
-        setDuplicatecheck(false);
-      });
+    if (category === "user") {
+      axios
+        .post("http://localhost:8080/user/userRegister", {
+          name: name,
+          password: password,
+          email: email,
+          phoneNum: phone,
+          gender: gender,
+        })
+        .then((res) => {
+          console.log("성공");
+          console.log(res);
+          setsign("after");
+        })
+        .catch((e) => {
+          console.log(e);
+          setEmailstyle("is-invalid");
+          setEmailcheck(false);
+          setDuplicatecheck(false);
+        });
+    }
+    if (category === "planner") {
+      axios
+        .post("http://localhost:8080/planner/plannerRegister", {
+          name: name,
+          password: password,
+          email: email,
+          phoneNum: phone,
+          gender: gender,
+          career: career,
+        })
+        .then((res) => {
+          console.log("성공");
+          console.log(res);
+          setsign("after");
+        })
+        .catch((e) => {
+          console.log(e);
+          setEmailstyle("is-invalid");
+          setEmailcheck(false);
+          setDuplicatecheck(false);
+        });
+    }
   };
   //
 
@@ -263,9 +297,65 @@ function SignupForm() {
               EventHandler={EventHandlerPhone}
               style={phonestyle}
               message="올바른 핸드폰 번호가 아닙니다."
-              length={11}
+              length={13}
               type="text"
+              value={phone}
             />
+            <div class="row justify-content-md-center mb-2">
+              <label
+                htmlFor="gender"
+                className="form-label col col-md-2 mt-2"
+                style={{ flex: "1 0 0%" }}
+              >
+                성별
+              </label>
+              <div class="input-group" id="gender">
+                <div class="input-group-text">
+                  <input
+                    class="form-check-input mt-0"
+                    type="radio"
+                    value="male"
+                    name="gender"
+                    htmlFor="male"
+                    checked={gender === "male"}
+                    onChange={EventHandlerGender}
+                    aria-label="Radio button for following text input"
+                    style={{ cursor: "pointer" }}
+                  />
+                </div>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="male"
+                  aria-label="male btn"
+                  value="남자"
+                  disabled
+                  style={{ background: "white" }}
+                />
+                <div class="input-group-text">
+                  <input
+                    class="form-check-input mt-0"
+                    type="radio"
+                    value="female"
+                    name="gender"
+                    checked={gender === "female"}
+                    htmlFor="female"
+                    onChange={EventHandlerGender}
+                    aria-label="Radio button for following text input"
+                    style={{ cursor: "pointer" }}
+                  />
+                </div>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="female"
+                  aria-label="female btn"
+                  value="여자"
+                  disabled
+                  style={{ background: "white" }}
+                />
+              </div>
+            </div>
             {category === "planner" && (
               <InputComp
                 content="경력 (단위: 년 , 최대 30)"
@@ -353,6 +443,7 @@ function SignupForm() {
               가입하기
             </button>
           </div>
+          <div style={{ height: 94.19 }}></div>
         </div>
       </div>
     );
