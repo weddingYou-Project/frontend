@@ -51,6 +51,9 @@ function UserUpdate() {
   const [anyChange, setAnyChange] = useState(false);
 
   const onChange = (e) => {
+    //초기화 설정
+    setAllCheck(true);
+    setAnyChange(false);
     if (e.target.id === "password") {
       setPassword(e.target.value);
       const passwordRegExp =
@@ -198,11 +201,14 @@ function UserUpdate() {
     if (allcheck === true && anyChange === true) {
       {
         /* 수정가능 */
+        alert("수정 가능합니다.");
       }
     } else {
       if (allcheck === false) {
+        //형식 틀릴 때
         alert("수정 불가능합니다.");
       } else if (anyChange === false) {
+        //변경 내용 없을 때
         alert("변경 내용이 없습니다.");
       }
     }
