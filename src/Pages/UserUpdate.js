@@ -22,8 +22,8 @@ function UserUpdate() {
   const defaultEmail = "abc@naver.com";
   const [phone, setPhone] = useState("010-1234-5678");
   const defaultPhone = "010-1234-5678";
-  const [gender, setGender] = useState("");
-  const defaultGender = gender;
+  const [gender, setGender] = useState("male");
+  const defaultGender = "male";
   const [career, setCareer] = useState(10);
   const defaultCareer = 10;
 
@@ -160,6 +160,18 @@ function UserUpdate() {
         phoneInput.current.classList.remove("is-valid");
         phoneInput.current.classList.add("is-invalid");
         setAllCheck(false);
+      }
+    } else if (e.target.name === "gender") {
+      if (e.target.checked === true) {
+        //선택된 값이
+        if (e.target.value === defaultGender) {
+          //기본 값이면
+          //변경사항 없음
+        } else {
+          //기본 값이 아니면
+          setAnyChange(true);
+          //변경사항 생김
+        }
       }
     } else if (e.target.id === "career") {
       setCareer(e.target.value);
@@ -315,15 +327,16 @@ function UserUpdate() {
             <label htmlFor="gender" className="form-label col col-md-2 mt-2">
               성별
             </label>
-            <div class="input-group">
+            <div class="input-group" id="gender" onChange={onChange}>
               <div class="input-group-text">
                 <input
                   class="form-check-input mt-0"
                   type="radio"
-                  value=""
+                  value="male"
                   name="gender"
                   htmlFor="male"
                   checked
+                  onChange={onChange}
                   aria-label="Radio button for following text input"
                 />
               </div>
@@ -339,9 +352,10 @@ function UserUpdate() {
                 <input
                   class="form-check-input mt-0"
                   type="radio"
-                  value=""
+                  value="female"
                   name="gender"
                   htmlFor="female"
+                  onChange={onChange}
                   aria-label="Radio button for following text input"
                 />
               </div>
