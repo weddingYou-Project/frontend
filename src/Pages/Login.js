@@ -1,55 +1,64 @@
 import "../Css/main.css";
 import "../Css/Login.css";
 import imgLogo from "../Assets/logo.png";
-import BackButton from "../Components/Backbutton";
 import { Link } from "react-router-dom";
+import Footer from "../Components/Footer";
+import NavigationBar from "../Components/NavigationBar";
 
 function Login() {
   return (
     <div className="mainlayout">
-      <BackButton />
-      <div className="title">로그인</div>
-      <div class="container text-center">
-        <div class="row">
-          <div class="col"></div>
-          <div class="col-6">
+      <NavigationBar title={"로그인"} />
+      <div className="container text-center">
+        <div className="row">
+          <div className="col"></div>
+          <div className="col-6">
             <img className="logo" src={imgLogo} alt="로고" />
           </div>
-          <div class="col"></div>
+          <div className="col"></div>
         </div>
       </div>
-      <div class="container text-center">
-        <div class="row">
-          <div class="col"></div>
-          <div class="col-6">
-            <p className="loginmessage">아이디(이메일)로 로그인하기</p>
-            <div class="mb-3">
-              <input
-                type="text"
-                class="inputarea"
-                placeholder="아이디(이메일)"
-              />
-              <input type="password" class="inputarea" placeholder="비밀번호" />
+      <div className="container text-center">
+        <form>
+          <div className="row">
+            <div className="col"></div>
+            <div className="col-6">
+              {/* <p className="loginmessage">아이디(이메일)로 로그인하기</p> */}
+              <div className="mb-3">
+                <input
+                  type="text"
+                  className="inputarea"
+                  placeholder="아이디(이메일)"
+                  required=""
+                />
+                <input
+                  type="password"
+                  className="inputarea"
+                  placeholder="비밀번호"
+                  required=""
+                />
+              </div>
+              <Link to="/passwordSearch" className="searchmessage">
+                비밀번호를 잊으셨나요?
+              </Link>
             </div>
-            <Link to="/passwordSearch" className="searchmessage">
-              비밀번호를 잊으셨나요?
-            </Link>
+            <div className="col"></div>
           </div>
-          <div class="col"></div>
-        </div>
-        <br />
-        <button type="submit" class="btn-custom">
-          로그인
-        </button>
+          <br />
+          <button type="submit" className="btn-custom1">
+            로그인
+          </button>
+        </form>
         <br />
         <br />
         <p>
           처음 오셨나요? &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="#" className="signupmessage">
+          <Link to="/signup" className="signupmessage">
             회원가입
-          </a>
+          </Link>
         </p>
       </div>
+      <Footer />
     </div>
   );
 }

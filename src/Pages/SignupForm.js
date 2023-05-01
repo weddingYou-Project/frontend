@@ -1,5 +1,422 @@
-function SignupForm() {
-  return <div></div>;
-}
+import { useState } from "react";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
+import "../Css/Signup.css";
+import axios from "axios";
+import React, { useEffect } from "react";
+import SignupSuccess from "./SignupSuccess";
 
+function SignupForm() {
+  //회원가입 성공 여부
+  let [sign, setsign] = useState("before");
+
+  let { category } = useParams();
+  let navigate = useNavigate();
+
+  //제약조건
+  let [checkAll, setCheckAll] = useState(false);
+  let [namecheck, setNamecheck] = useState(false);
+  let [emailcheck, setEmailcheck] = useState(false);
+  let [passwordcheck, setPasswordcheck] = useState(false);
+  let [passwordcheck2, setPasswordcheck2] = useState(false);
+  let [phonecheck, setPhonecheck] = useState(false);
+  let [careercheck, setCareercheck] = useState(true);
+  let [duplicatecheck, setDuplicatecheck] = useState(true);
+  let [check, setcheck] = useState({
+    ageCheck: false,
+    membershipCheck: false,
+  });
+  //제약조건
+
+  //상태값
+  let [name, setName] = useState("");
+  let [password, setPassword] = useState("");
+  let [password2, setPassword2] = useState("");
+  let [email, setEmail] = useState("");
+  let [phone, setPhone] = useState("");
+  let [career, setCareer] = useState(0);
+  //스타일 상태값
+  let [namestyle, setNamestyle] = useState("");
+  let [phonestyle, setPhonestyle] = useState("");
+  let [passwordstyle, setPasswordstyle] = useState("");
+  let [passwordstyle2, setPasswordstyle2] = useState("");
+  let [emailstyle, setEmailstyle] = useState("");
+  let [careerstyle, setCareerstyle] = useState("is-valid");
+  //상태값 끝
+
+  //회원 정보 입력 함수 + 유효성 검사 로직
+  useEffect(() => {
+    if (phone === "") {
+      setPhonestyle("");
+      setPhonecheck(false);
+    }
+    if (email === "") {
+      setEmailstyle("");
+      setEmailcheck(false);
+    }
+    if (password === "") {
+      setPasswordstyle("");
+      setPasswordcheck(false);
+    }
+    if (name === "") {
+      setNamestyle("");
+      setNamecheck(false);
+    }
+    if (career === "") {
+      setCareerstyle("");
+      setCareercheck(false);
+    }
+    if (password2 === "" || password2 === null) {
+      setPasswordstyle2("");
+      setPasswordcheck2(false);
+    } else if (password === password2) {
+      setPasswordstyle2("is-valid");
+      setPasswordcheck2(true);
+    } else {
+      setPasswordstyle2("is-invalid");
+      setPasswordcheck2(false);
+    }
+  }, [password, password2, setPasswordcheck2, name, email, phone, career]);
+
+  const EventHandlerName = (e) => {
+    const koreanNameRegExp = /^[가-힣\s]+$/;
+    setName(e.target.value);
+    if (koreanNameRegExp.test(e.target.value)) {
+      setNamecheck(true);
+      setNamestyle("is-valid");
+    } else {
+      setNamecheck(false);
+      setNamestyle("is-invalid");
+    }
+  };
+  const EventHandlerPassword = (e) => {
+    const passwordRegExp =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+\\\|\[\]{};:\'",.<>\/?]).{8,}$/;
+    setPassword(e.target.value);
+    if (passwordRegExp.test(e.target.value)) {
+      setPasswordstyle("is-valid");
+      setPasswordcheck(true);
+    } else {
+      setPasswordstyle("is-invalid");
+      setPasswordcheck(false);
+    }
+  };
+
+  const EventHandlerPassword2 = (e) => {
+    setPassword2(e.target.value);
+    if (password === e.target.value) {
+      setPasswordstyle2("is-valid");
+      setPasswordcheck2(true);
+    } else {
+      setPasswordstyle2("is-invalid");
+      setPasswordcheck2(false);
+    }
+  };
+
+  const EventHandleremail = (e) => {
+    const emailRegExp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    setEmail(e.target.value);
+    setDuplicatecheck(true);
+    if (emailRegExp.test(e.target.value)) {
+      setEmailcheck(true);
+      setEmailstyle("is-valid");
+    } else {
+      setEmailcheck(false);
+      setEmailstyle("is-invalid");
+    }
+  };
+
+  const EventHandlerPhone = (e) => {
+    const phoneRegExp = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
+    setPhone(e.target.value);
+    if (phoneRegExp.test(e.target.value)) {
+      setPhonecheck(true);
+      setPhonestyle("is-valid");
+    } else {
+      setPhonecheck(false);
+      setPhonestyle("is-invalid");
+    }
+  };
+
+  const EventHandlerCareer = (e) => {
+    setCareer(e.target.value);
+    const CareerRegExp = /^[0-9]*$/;
+    if (CareerRegExp.test(e.target.value) && e.target.value <= 30) {
+      setCareerstyle("is-valid");
+      setCareercheck(true);
+    } else {
+      setCareerstyle("is-invalid");
+      setCareercheck(false);
+    }
+  };
+
+  //회원 정보 입력 함수 끝
+
+  //체크박스 관련 함수
+  const CheckHandler = (e) => {
+    let copy = { ...check, [e.target.name]: e.target.checked };
+    setcheck(copy);
+    console.log(check);
+  };
+  const CheckHandlerAll = () => {
+    if (checkAll === false) {
+      setcheck({
+        ageCheck: true,
+        membershipCheck: true,
+      });
+      setCheckAll(true);
+    } else if (checkAll === true) {
+      setcheck({
+        ageCheck: false,
+        membershipCheck: false,
+      });
+      setCheckAll(false);
+    }
+  };
+  //체크박스 관련 함수
+
+  //뒤로가기 버튼 함수
+  const handleBack = () => {
+    navigate(-1);
+  };
+  //뒤로가기 버튼 함수
+
+  //회원가입 axios 함수
+  const userRegister = () => {
+    axios
+      .post("http://localhost:8080/user/userRegister", {
+        name: name,
+        password: password,
+        email: email,
+        phoneNum: phone,
+      })
+      .then((res) => {
+        console.log("성공");
+        console.log(res);
+        setsign("after");
+      })
+      .catch((e) => {
+        console.log(e);
+        setEmailstyle("is-invalid");
+        setEmailcheck(false);
+        setDuplicatecheck(false);
+      });
+  };
+  //
+
+  if (sign === "before") {
+    return (
+      <div className="bg">
+        <div className="Signup-wrap">
+          <div className="Signup-backicon" onClick={handleBack}>
+            <i className="bi bi-chevron-left" style={{ fontSize: 30 }}></i>
+          </div>
+          {category === "user" && <div className="Signup-header">일반회원</div>}
+          {category === "planner" && (
+            <div className="Signup-header">플래너회원</div>
+          )}
+
+          <div className="Signup-guidebar">
+            <div className="guideline"></div>
+            <span>회원가입</span>
+            <div className="guideline"></div>
+          </div>
+
+          <div className="Signup-inputwrap">
+            <InputComp
+              content="이름"
+              EventHandler={EventHandlerName}
+              style={namestyle}
+              message="올바른 이름을 작성해주세요"
+              length={5}
+              type="text"
+            />
+            <InputComp
+              content="이메일"
+              EventHandler={EventHandleremail}
+              style={emailstyle}
+              message={
+                duplicatecheck === false
+                  ? "중복된 이메일입니다."
+                  : "올바른 이메일 형식으로 작성해주세요"
+              }
+              length={100}
+              type="text"
+            />
+            <InputComp
+              content="비밀번호"
+              EventHandler={EventHandlerPassword}
+              style={passwordstyle}
+              message="최소8자 이상, 대문자, 소문자, 숫자, 특수문자를 포함"
+              length={20}
+              type="password"
+            />
+            <InputComp
+              content="비밀번호 확인"
+              EventHandler={EventHandlerPassword2}
+              style={passwordstyle2}
+              message="비밀번호 불일치"
+              length={20}
+              type="password"
+            />
+            <InputComp
+              content="핸드폰"
+              EventHandler={EventHandlerPhone}
+              style={phonestyle}
+              message="올바른 핸드폰 번호가 아닙니다."
+              length={11}
+              type="text"
+            />
+            {category === "planner" && (
+              <InputComp
+                content="경력 (단위: 년 , 최대 30)"
+                type="number"
+                value={career}
+                EventHandler={EventHandlerCareer}
+                message={
+                  career > 30
+                    ? "최대 경력은 30년입니다."
+                    : "올바른 숫자를 입력해주세요"
+                }
+                style={careerstyle}
+                length={2}
+              />
+            )}
+          </div>
+
+          <div className="Signup-acceptwrap">
+            <CheckboxComp
+              Handler={CheckHandlerAll}
+              checked={check.ageCheck && check.membershipCheck}
+              message="모두확인, 동의합니다."
+            />
+
+            <CheckboxComp
+              Handler={CheckHandler}
+              checked={check.ageCheck}
+              message="만14세 이상입니다. (필수)"
+              name="ageCheck"
+            />
+
+            <CheckboxComp
+              Handler={CheckHandler}
+              checked={check.membershipCheck}
+              message="회원약관 (필수)"
+              name="membershipCheck"
+            />
+
+            <div className="Signup-contentbox">
+              <div className="contentbar">
+                <span style={{ fontSize: 13 }}>개인정보수집</span>
+              </div>
+              <div className="left">
+                <span>목적</span>
+              </div>
+              <div className="right">
+                <span>개인 식별,서비스 제공을 위한 연락처 수집</span>
+              </div>
+              <div className="left">
+                <span>항목</span>
+              </div>
+              <div className="right">
+                <span>개인정보 및 이용상품 정보 등</span>
+              </div>
+              <div className="left">
+                <span>기간</span>
+              </div>
+              <div className="right">
+                <span>회원 탈퇴 시 즉시 파기</span>
+              </div>
+            </div>
+            <div style={{ clear: "both" }}></div>
+            <div style={{ clear: "both" }}></div>
+          </div>
+
+          <div className="Signup-button">
+            <button
+              className="btn-custom"
+              disabled={
+                !check.ageCheck ||
+                !check.membershipCheck ||
+                !namecheck ||
+                !emailcheck ||
+                !phonecheck ||
+                !passwordcheck ||
+                !passwordcheck2 ||
+                !careercheck
+              }
+              onClick={() => {
+                //엑시오스 함수 자리
+                // setsign("after");
+                userRegister();
+              }}
+            >
+              가입하기
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  } else if (sign === "after") {
+    return <SignupSuccess></SignupSuccess>;
+  }
+}
 export default SignupForm;
+
+const InputComp = ({
+  EventHandler,
+  content,
+  style,
+  message,
+  length,
+  type,
+  value,
+}) => {
+  return (
+    <>
+      <div className="col-md-4" style={{ width: 256 }}>
+        <label htmlFor="validationServer01" className="form-label">
+          <span style={{ fontSize: 15 }}>{content}</span>
+        </label>
+        <input
+          type={type}
+          className={`form-control ${style}`}
+          id="validationServer01"
+          required
+          onChange={EventHandler}
+          maxLength={length}
+          value={value}
+        />
+        <div
+          id="validationServer03Feedback"
+          class="invalid-feedback"
+          style={{ fontSize: 10 }}
+        >
+          {message}
+        </div>
+      </div>
+    </>
+  );
+};
+
+const CheckboxComp = ({ Handler, checked, message, name }) => {
+  return (
+    <div className="Signup-checkbox">
+      <>
+        <div className="form-check">
+          <input
+            className="form-check-input"
+            type="checkbox"
+            onClick={Handler}
+            checked={checked}
+            name={name}
+            id="flexCheckChecked"
+            style={{ cursor: "pointer" }}
+          />
+          <label className="form-check-label" htmlFor="flexCheckChecked">
+            {message}
+          </label>
+        </div>
+      </>
+    </div>
+  );
+};
