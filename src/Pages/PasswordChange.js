@@ -1,49 +1,14 @@
 import React from "react";
 import "../Css/main.css";
 import "../Css/Login.css";
+import "../Css/PasswordSearch.css";
 import imgLogo from "../Assets/logo.png";
-import Modal from "react-modal";
 import { Link } from "react-router-dom";
 import Footer from "../Components/Footer";
 import NavigationBar from "../Components/NavigationBar";
 import { useState, useEffect } from "react";
 
 function PasswordChange() {
-  const ModalStyle = {
-    overlay: {
-      position: "fixed",
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      backgroundColor: "rgba(255, 255, 255, 0.45)",
-      zIndex: 10,
-    },
-    content: {
-      display: "flex",
-      justifyContent: "center",
-      background: "#FAFAFA",
-      overflow: "auto",
-      width: "470px",
-      height: "300px",
-      margin: "auto",
-      WebkitOverflowScrolling: "touch",
-      borderRadius: "14px",
-      outline: "none",
-      zIndex: 10,
-    },
-  };
-
-  const [modalIsOpen, setIsOpen] = React.useState(false);
-
-  function openModal() {
-    setIsOpen(true);
-  }
-
-  function closeModal() {
-    setIsOpen(false);
-  }
-
   let [passwordcheck, setPasswordcheck] = useState(false);
   let [passwordcheck2, setPasswordcheck2] = useState(false);
 
@@ -137,7 +102,8 @@ function PasswordChange() {
         <button
           type="submit"
           className="btn-custom1"
-          onClick={openModal}
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal"
           disabled={!passwordcheck || !passwordcheck2}
         >
           비밀번호 변경하기
@@ -152,44 +118,39 @@ function PasswordChange() {
         <br />
         <br />
       </div>
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        style={ModalStyle}
-        contentLabel="Example Modal"
+      <div
+        class="modal fade"
+        id="exampleModal"
+        tabindex="-1"
+        aria-labelledby="PasswordChange"
+        aria-hidden="true"
       >
-        <div className="container text-center">
-          <div className="row">
-            <div className="col-2"></div>
-            <div className="col-8">
-              <div className="infotext3">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <div className="infotext4">
                 <i className="bi bi-dash-lg"></i>&nbsp;&nbsp;
                 <span>비밀번호 변경 완료</span>&nbsp;&nbsp;
                 <i className="bi bi-dash-lg"></i>
               </div>
             </div>
-            <div claclassNamess="col-2"></div>
-          </div>
-          <br />
-          <div className="row">
-            <div className="col-1"></div>
-            <div className="col-10">
-              <div className="infotext3">
+            <div class="modal-body infotext4">
+              <div className="infotext4">
                 비밀번호가 변경되었습니다.
                 <br />
                 바뀐 비밀번호로 로그인해주세요!
               </div>
             </div>
-            <div className="col-1"></div>
+            <div class="modal-footer infotext4">
+              <button type="button" class="btn-custom1" data-bs-dismiss="modal">
+                <Link to="/login" className="SLogin">
+                  메인으로 돌아가기
+                </Link>
+              </button>
+            </div>
           </div>
-          <br />
-          <button className="btn-custom1">
-            <Link to="/login" className="SLogin">
-              메인으로 돌아가기
-            </Link>
-          </button>
         </div>
-      </Modal>
+      </div>
       <Footer />
     </div>
   );
