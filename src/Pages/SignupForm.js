@@ -183,7 +183,7 @@ function SignupForm() {
   //회원가입 axios 함수
   const userRegister = () => {
     axios
-      .post("/user/userRegister", {
+      .post("http://localhost:8080/user/userRegister", {
         name: name,
         password: password,
         email: email,
