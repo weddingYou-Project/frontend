@@ -1,0 +1,35 @@
+.navigationbar{
+    display:flex;
+    flex-direction: row;
+    padding-top:15px;
+    width:560px;
+    padding:20px;
+}
+
+.navigationbar p{
+    display:inline-block;
+    margin:0 auto;
+    margin-top:15px;
+   
+}
+
+.backicon {
+    width: 60px;
+    height: 60px;
+    background: rgb(255, 255, 255);
+    position: relative;
+    z-index: 10;
+}
+
+.backbutton {
+    margin-top: 10px;
+    position: relative;
+    background-color: white;
+    border: none;
+}
+
+.bi-chevron-left{
+    font-size: 40px;
+    line-height: 40px;
+}
+
