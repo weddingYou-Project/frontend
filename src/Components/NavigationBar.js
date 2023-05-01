@@ -10,7 +10,7 @@ function NavigationBar({ title }) {
     <div className="navigationbar">
       <BackButton />
       <p>{title}</p>
-      {path.indexOf("mypage") && path.indexOf("userupdate") === -1 ? (
+      {path.indexOf("mypage") === 1 && path.indexOf("userupdate") === -1 ? (
         <MyEstimate />
       ) : null}
     </div>
