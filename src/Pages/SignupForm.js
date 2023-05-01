@@ -198,7 +198,7 @@ function SignupForm() {
           password: password,
           email: email,
           phoneNum: phone,
-          //gender : gender
+          gender: gender,
         })
         .then((res) => {
           console.log("성공");
@@ -214,7 +214,7 @@ function SignupForm() {
     }
     if (category === "planner") {
       axios
-        .post("http://localhost:8080/user/plannerRegister(가칭)", {
+        .post("http://localhost:8080/planner/plannerRegister", {
           name: name,
           password: password,
           email: email,
