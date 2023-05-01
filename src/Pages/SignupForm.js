@@ -139,7 +139,7 @@ function SignupForm() {
 
   const EventHandlerCareer = (e) => {
     setCareer(e.target.value);
-    const CareerRegExp = /^[0-9]*$/;
+    const CareerRegExp = /^(?!0[0-9])[0-9]+$/;
     if (CareerRegExp.test(e.target.value) && e.target.value <= 30) {
       setCareerstyle("is-valid");
       setCareercheck(true);
@@ -353,6 +353,7 @@ function SignupForm() {
               가입하기
             </button>
           </div>
+          <div style={{ height: 94.19 }}></div>
         </div>
       </div>
     );
