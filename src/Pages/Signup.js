@@ -1,5 +1,6 @@
 import "../Css/Signup.css";
 import { useNavigate } from "react-router-dom";
+import Footer from "../Components/Footer";
 
 function Signup() {
   const navigate = useNavigate();
@@ -37,6 +38,7 @@ function Signup() {
         </div>
         {/*빈공간 채우는 박스입니다. */}
         <div style={{ height: 230 }}></div>
+        <Footer />
       </div>
     </div>
   );
