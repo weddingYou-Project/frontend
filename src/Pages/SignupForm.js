@@ -81,7 +81,10 @@ function SignupForm() {
   }, [password, password2, setPasswordcheck2, name, email, phone, career]);
   useEffect(() => {
     const signupbtn = document.querySelector("#signupbtn");
-    console.log(signupbtn);
+    //console.log(signupbtn);
+    if (category === "user") {
+      setCareercheck(true);
+    }
     if (signupbtn.disabled === false && checkAll === true) {
       signupbtn.classList.remove("btn-colour-2");
       signupbtn.classList.add("btn-colour-1");
@@ -274,6 +277,7 @@ function SignupForm() {
               message="올바른 이름을 작성해주세요"
               length={5}
               type="text"
+              autoComplete="off"
             />
             <InputComp
               content="이메일"
@@ -286,6 +290,7 @@ function SignupForm() {
               }
               length={100}
               type="text"
+              autoComplete="off"
             />
             <InputComp
               content="비밀번호"
@@ -294,6 +299,7 @@ function SignupForm() {
               message="최소8자 이상, 대문자, 소문자, 숫자, 특수문자를 포함"
               length={20}
               type="password"
+              autoComplete="off"
             />
             <InputComp
               content="비밀번호 확인"
@@ -302,6 +308,7 @@ function SignupForm() {
               message="비밀번호 불일치"
               length={20}
               type="password"
+              autoComplete="off"
             />
             <InputComp
               content="핸드폰"
@@ -311,6 +318,7 @@ function SignupForm() {
               length={13}
               type="text"
               value={phone}
+              autoComplete="off"
             />
             <div class="row justify-content-md-center mb-2">
               <label
@@ -380,6 +388,7 @@ function SignupForm() {
                 }
                 style={careerstyle}
                 length={2}
+                autoComplete="off"
               />
             )}
           </div>
