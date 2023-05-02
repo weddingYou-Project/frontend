@@ -23,7 +23,6 @@ function TemporaryPasswordLogin() {
         <div className="row">
           <div className="col"></div>
           <div className="col-6">
-            <p className="loginmessage">아이디(이메일)로 로그인하기</p>
             <div className="mb-3">
               <input
                 type="text"
