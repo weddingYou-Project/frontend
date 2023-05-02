@@ -210,7 +210,8 @@ function UserUpdate() {
     }
   };
 
-  const updateCheck = () => {
+  const updateCheck = (e) => {
+    e.preventDefault();
     if (allcheck === true && anyChange === true) {
       {
         /* 수정가능 */
