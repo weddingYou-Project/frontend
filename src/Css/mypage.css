@@ -22,10 +22,7 @@
     background-color: #105ff1;
     transition:0.5s;
   }
-  .btn-colour-2:disabled {
-    pointer-events: none;
-    background: grey;
-  }
+
   .btn-colour-2 {
     color: #f9f5f5;
     background-color: #407ef1;
@@ -37,7 +34,10 @@
     border-radius: 10px;
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
   }
-
+  .btn-colour-2:disabled {
+    pointer-events: none;
+    background: grey;
+  }
   .update{
     margin-top:40px;
   }

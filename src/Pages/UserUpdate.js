@@ -31,7 +31,8 @@ function UserUpdate() {
   const passwordInput = useRef();
   const emailInput = useRef();
   const phoneInput = useRef();
-  const genderInput = useRef();
+  const maleInput = useRef();
+  const femaleInput = useRef();
   const careerInput = useRef();
 
   const nameFeedback = useRef();
@@ -44,11 +45,43 @@ function UserUpdate() {
   const [passwordMessage, setPasswordMessage] = useState("looks good!");
   const [emailMessage, setEmailMessage] = useState("looks good!");
   const [phoneMessage, setPhoneMessage] = useState("looks good!");
-  const [genderMessage, setGenderMessage] = useState("looks good!");
   const [careerMessage, setCareerMessage] = useState("looks good!");
+  const [genderMessage, setGenderMessage] = useState("looks good!");
 
   const [allcheck, setAllCheck] = useState(true);
   const [anyChange, setAnyChange] = useState(false);
+
+  useEffect(() => {
+    checkInputs();
+  });
+
+  const setDefaultValue = () => {
+    setPassword(defaultPassword);
+    setEmail(defaultEmail);
+    setPhone(defaultPhone);
+    setGender(defaultGender);
+    setCareer(defaultCareer);
+    passwordFeedback.current.classList.add("invisible");
+    passwordFeedback.current.classList.remove("valid-feedback");
+    passwordFeedback.current.classList.remove("invalid-feedback");
+    passwordInput.current.classList.remove("is-valid");
+    passwordInput.current.classList.remove("is-invalid");
+    setPasswordMessage("returning to default");
+
+    emailFeedback.current.classList.add("invisible");
+    emailFeedback.current.classList.remove("valid-feedback");
+    emailFeedback.current.classList.remove("invalid-feedback");
+    emailInput.current.classList.remove("is-valid");
+    emailInput.current.classList.remove("is-invalid");
+
+    phoneFeedback.current.classList.add("invisible");
+    phoneFeedback.current.classList.remove("valid-feedback");
+    phoneFeedback.current.classList.remove("invalid-feedback");
+    phoneInput.current.classList.remove("is-valid");
+    phoneInput.current.classList.remove("is-invalid");
+    setAllCheck(true);
+    setAnyChange(false);
+  };
 
   const onChange = (e) => {
     //초기화 설정
@@ -163,14 +196,18 @@ function UserUpdate() {
       }
     } else if (e.target.name === "gender") {
       setGender(e.target.value);
+      console.log(e.target.value);
       if (e.target.checked === true) {
         //선택된 값이
+
         if (e.target.value === defaultGender) {
           //기본 값이면
-          //변경사항 없음
-        } else {
+          setGenderMessage("invalid");
+        } else if (e.target.value !== defaultGender) {
           //기본 값이 아니면
+          console.log("바뀜");
           setAnyChange(true);
+          setGenderMessage("valid");
           //변경사항 생김
         }
       }
@@ -215,8 +252,72 @@ function UserUpdate() {
     }
   };
 
+  const checkInputs = () => {
+    console.log("current gender : ", gender);
+    console.log("defaultGender : ", defaultGender);
+    if (category === "user") {
+      if (
+        passwordInput.current.value === defaultPassword &&
+        emailInput.current.value === defaultEmail &&
+        phoneInput.current.value === defaultPhone &&
+        gender === defaultGender
+      ) {
+        setAnyChange(false);
+      }
+
+      if (
+        passwordFeedback.current.classList.contains("invalid-feedback") ||
+        emailFeedback.current.classList.contains("invalid-feedback") ||
+        phoneFeedback.current.classList.contains("invalid-feedback")
+      ) {
+        setAllCheck(false);
+      }
+
+      if (
+        passwordFeedback.current.classList.contains("valid-feedback") ||
+        emailFeedback.current.classList.contains("valid-feedback") ||
+        phoneFeedback.current.classList.contains("valid-feedback") ||
+        gender !== defaultGender
+      ) {
+        console.log("a true");
+        setAnyChange(true);
+      }
+    } else if (category === "planner") {
+      if (
+        passwordInput.current.value === defaultPassword &&
+        emailInput.current.value === defaultEmail &&
+        phoneInput.current.value === defaultPhone &&
+        gender === defaultGender &&
+        careerInput.current.value === defaultCareer
+      ) {
+        setAnyChange(false);
+      }
+      if (
+        passwordFeedback.current.classList.contains("invalid-feedback") ||
+        emailFeedback.current.classList.contains("invalid-feedback") ||
+        phoneFeedback.current.classList.contains("invalid-feedback") ||
+        careerFeedback.current.classList.contains("invalid-feedback")
+      ) {
+        setAllCheck(false);
+      }
+      if (
+        passwordFeedback.current.classList.contains("valid-feedback") ||
+        emailFeedback.current.classList.contains("valid-feedback") ||
+        phoneFeedback.current.classList.contains("valid-feedback") ||
+        careerFeedback.current.classList.contains("valid-feedback") ||
+        gender !== defaultGender
+      ) {
+        setAnyChange(true);
+      }
+    }
+  };
+  console.log("allcheck : ", allcheck);
+  console.log("anychange : ", anyChange);
   const updateCheck = (e) => {
     e.preventDefault();
+
+    console.log("updatecheck : ", allcheck);
+    console.log("updatecheck : ", anyChange);
     if (allcheck === true && anyChange === true) {
       {
         /* 수정가능 */
@@ -230,6 +331,7 @@ function UserUpdate() {
         //변경 내용 없을 때
         alert("변경 내용이 없습니다.");
       }
+      setDefaultValue();
     }
   };
 
@@ -323,6 +425,7 @@ function UserUpdate() {
                 onChange={onChange}
                 placeholder={phone}
                 autoComplete="off"
+                maxLength="13"
               />
               <div
                 class="invisible text-start phone-feedback"
@@ -336,7 +439,13 @@ function UserUpdate() {
             <label htmlFor="gender" className="form-label col col-md-2 mt-2">
               성별
             </label>
-            <div class="input-group" id="gender" onChange={onChange}>
+            <div
+              class="input-group"
+              id="gender"
+              name="gender"
+              onChange={onChange}
+              value={gender}
+            >
               <div class="input-group-text">
                 <input
                   class="form-check-input mt-0"
@@ -348,6 +457,7 @@ function UserUpdate() {
                   onChange={onChange}
                   aria-label="Radio button for following text input"
                   style={{ cursor: "pointer" }}
+                  ref={maleInput}
                 />
               </div>
               <input
@@ -370,6 +480,7 @@ function UserUpdate() {
                   aria-label="Radio button for following text input"
                   style={{ cursor: "pointer" }}
                   checked={gender === "female"}
+                  ref={femaleInput}
                 />
               </div>
               <input

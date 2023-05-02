@@ -81,7 +81,10 @@ function SignupForm() {
   }, [password, password2, setPasswordcheck2, name, email, phone, career]);
   useEffect(() => {
     const signupbtn = document.querySelector("#signupbtn");
-    console.log(signupbtn);
+    //console.log(signupbtn);
+    if (category === "user") {
+      setCareercheck(true);
+    }
     if (signupbtn.disabled === false && checkAll === true) {
       signupbtn.classList.remove("btn-colour-2");
       signupbtn.classList.add("btn-colour-1");
@@ -90,6 +93,8 @@ function SignupForm() {
       signupbtn.classList.remove("btn-colour-1");
     }
   });
+
+  console.log(document.querySelector("#name"));
   const EventHandlerName = (e) => {
     const koreanNameRegExp = /^[가-힣\s]+$/;
     setName(e.target.value);
@@ -375,7 +380,7 @@ function SignupForm() {
                 EventHandler={EventHandlerCareer}
                 message={
                   career > 30
-                    ? "최대 경력은 30년입니다."
+                    ? "경력은 30년까지 입력 가능합니다."
                     : "올바른 숫자를 입력해주세요"
                 }
                 style={careerstyle}
@@ -489,6 +494,7 @@ const InputComp = ({
           onChange={EventHandler}
           maxLength={length}
           value={value}
+          autoComplete="off"
         />
         <div
           id="validationServer03Feedback"
