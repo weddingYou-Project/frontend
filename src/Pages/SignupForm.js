@@ -36,7 +36,7 @@ function SignupForm() {
   let [email, setEmail] = useState("");
   let [phone, setPhone] = useState("");
   let [gender, setGender] = useState("male");
-  let [career, setCareer] = useState(0);
+  let [career, setCareer] = useState("");
   //스타일 상태값
   let [namestyle, setNamestyle] = useState("");
   let [phonestyle, setPhonestyle] = useState("");
