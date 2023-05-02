@@ -13,7 +13,7 @@ function Signup() {
     <div className="bg">
       <div className="mainlayout">
         <div className="Signup-backicon" onClick={handleBack}>
-          <i class="bi bi-chevron-left" style={{ fontSize: 30 }}></i>
+          <i class="bi bi-chevron-left" style={{ fontSize: 40 }}></i>
         </div>
         <div className="Signup-header">회원가입</div>
 

@@ -20,15 +20,16 @@ border-radius: 10px;
 }
 
 .Signup-header {
-    height: 60px;
+    height: 72px;
     width: 100%;
     /* background: coral; */
     position: relative;
-    bottom: 60px;
+    bottom: 72px;
     display: flex;
     justify-content: center;
     align-items: center;
     border-bottom: 1px solid grey;
+    font-size: 1.5rem;
 }
 
 .Signup-logo {
@@ -58,7 +59,7 @@ border-radius: 10px;
 
 .Signup-backicon {
     width: 60px;
-    height: 60px;
+    height: 72px;
     /* background: darkgrey; */
     position: relative;
     z-index: 10;
