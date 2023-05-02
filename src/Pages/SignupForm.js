@@ -93,6 +93,8 @@ function SignupForm() {
       signupbtn.classList.remove("btn-colour-1");
     }
   });
+
+  console.log(document.querySelector("#name"));
   const EventHandlerName = (e) => {
     const koreanNameRegExp = /^[가-힣\s]+$/;
     setName(e.target.value);
@@ -277,7 +279,6 @@ function SignupForm() {
               message="올바른 이름을 작성해주세요"
               length={5}
               type="text"
-              autoComplete="off"
             />
             <InputComp
               content="이메일"
@@ -290,7 +291,6 @@ function SignupForm() {
               }
               length={100}
               type="text"
-              autoComplete="off"
             />
             <InputComp
               content="비밀번호"
@@ -299,7 +299,6 @@ function SignupForm() {
               message="최소8자 이상, 대문자, 소문자, 숫자, 특수문자를 포함"
               length={20}
               type="password"
-              autoComplete="off"
             />
             <InputComp
               content="비밀번호 확인"
@@ -308,7 +307,6 @@ function SignupForm() {
               message="비밀번호 불일치"
               length={20}
               type="password"
-              autoComplete="off"
             />
             <InputComp
               content="핸드폰"
@@ -318,7 +316,6 @@ function SignupForm() {
               length={13}
               type="text"
               value={phone}
-              autoComplete="off"
             />
             <div class="row justify-content-md-center mb-2">
               <label
@@ -383,12 +380,11 @@ function SignupForm() {
                 EventHandler={EventHandlerCareer}
                 message={
                   career > 30
-                    ? "최대 경력은 30년입니다."
+                    ? "경력은 30년까지 입력 가능합니다."
                     : "올바른 숫자를 입력해주세요"
                 }
                 style={careerstyle}
                 length={2}
-                autoComplete="off"
               />
             )}
           </div>
@@ -498,6 +494,7 @@ const InputComp = ({
           onChange={EventHandler}
           maxLength={length}
           value={value}
+          autoComplete="off"
         />
         <div
           id="validationServer03Feedback"
