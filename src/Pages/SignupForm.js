@@ -243,7 +243,7 @@ function SignupForm() {
       <div className="bg">
         <div className="Signup-wrap">
           <div className="Signup-backicon" onClick={handleBack}>
-            <i className="bi bi-chevron-left" style={{ fontSize: 30 }}></i>
+            <i className="bi bi-chevron-left" style={{ fontSize: 40 }}></i>
           </div>
           {category === "user" && <div className="Signup-header">일반회원</div>}
           {category === "planner" && (
