@@ -162,6 +162,7 @@ function UserUpdate() {
         setAllCheck(false);
       }
     } else if (e.target.name === "gender") {
+      setGender(e.target.value);
       if (e.target.checked === true) {
         //선택된 값이
         if (e.target.value === defaultGender) {
@@ -175,7 +176,12 @@ function UserUpdate() {
       }
     } else if (e.target.id === "career") {
       setCareer(e.target.value);
-      if (parseInt(e.target.value) >= 0 && parseInt(e.target.value) <= 30) {
+      const CareerRegExp = /^(?!0[0-9])[0-9]+$/;
+      if (
+        CareerRegExp.test(e.target.value) &&
+        parseInt(e.target.value) >= 0 &&
+        parseInt(e.target.value) <= 30
+      ) {
         if (parseInt(e.target.value) === defaultCareer) {
           careerFeedback.current.classList.add("invisible");
           careerFeedback.current.classList.remove("valid-feedback");
@@ -209,7 +215,8 @@ function UserUpdate() {
     }
   };
 
-  const updateCheck = () => {
+  const updateCheck = (e) => {
+    e.preventDefault();
     if (allcheck === true && anyChange === true) {
       {
         /* 수정가능 */
@@ -268,6 +275,7 @@ function UserUpdate() {
                 placeholder={password}
                 onChange={onChange}
                 autoComplete="off"
+                maxLength="20"
               />
               <div
                 class="invisible text-start password-feedback"
@@ -291,6 +299,7 @@ function UserUpdate() {
                 placeholder={email}
                 onChange={onChange}
                 autoComplete="off"
+                maxLength="100"
               />
               <div
                 class="invisible text-start email-feedback"
@@ -335,9 +344,10 @@ function UserUpdate() {
                   value="male"
                   name="gender"
                   htmlFor="male"
-                  checked
+                  checked={gender === "male"}
                   onChange={onChange}
                   aria-label="Radio button for following text input"
+                  style={{ cursor: "pointer" }}
                 />
               </div>
               <input
@@ -346,6 +356,7 @@ function UserUpdate() {
                 id="male"
                 aria-label="male btn"
                 value="남자"
+                style={{ background: "white" }}
                 disabled
               />
               <div class="input-group-text">
@@ -357,6 +368,8 @@ function UserUpdate() {
                   htmlFor="female"
                   onChange={onChange}
                   aria-label="Radio button for following text input"
+                  style={{ cursor: "pointer" }}
+                  checked={gender === "female"}
                 />
               </div>
               <input
@@ -365,6 +378,7 @@ function UserUpdate() {
                 id="female"
                 aria-label="female btn"
                 value="여자"
+                style={{ background: "white" }}
                 disabled
               />
             </div>

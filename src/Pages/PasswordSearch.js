@@ -4,6 +4,7 @@ import "../Css/PasswordSearch.css";
 import { Link } from "react-router-dom";
 import Footer from "../Components/Footer";
 import NavigationBar from "../Components/NavigationBar";
+import "../Css/mypage.css";
 
 function PasswordSearch() {
   return (
@@ -50,7 +51,7 @@ function PasswordSearch() {
             <div className="infotext3">
               <button
                 type="button"
-                className="btn-custom1"
+                className="btn-colour-1"
                 data-bs-toggle="modal"
                 data-bs-target="#exampleModal"
               >
@@ -85,10 +86,14 @@ function PasswordSearch() {
               </div>
             </div>
             <div class="modal-footer infotext4">
-              <button type="button" class="btn-custom1" data-bs-dismiss="modal">
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-bs-dismiss="modal"
+              >
                 <Link
                   to="/passwordSearch/temporaryPasswordLogin"
-                  className="SLogin"
+                  style={{ color: "white", textDecorationLine: "none" }}
                 >
                   임시 로그인 하기
                 </Link>

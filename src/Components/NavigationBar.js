@@ -12,7 +12,9 @@ function NavigationBar({ title }) {
       <p>{title}</p>
       {path.indexOf("mypage") === 1 && path.indexOf("userupdate") === -1 ? (
         <MyEstimate />
-      ) : null}
+      ) : (
+        <div className="empty"></div>
+      )}
     </div>
   );
 }

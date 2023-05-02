@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import React, { useEffect } from "react";
 import { useState } from "react";
+import "../Css/mypage.css";
 
 const SignupSuccess = () => {
   let [top, setTop] = useState(20);
@@ -46,7 +47,7 @@ const SignupSuccess = () => {
               onClick={() => {
                 navigate("/login");
               }}
-              className="btn-custom"
+              className="btn-colour-1"
               style={{ width: 256 }}
             >
               로그인하러 가기

@@ -6,9 +6,9 @@
 }
 
 .btn-colour-1 {
-    color: #fff;
-    background-color: #d70571;
-    border-color:aliceblue;
+    color: #f9f5f5;
+    background-color: #407ef1;
+    border:none;
     font-weight: bold;
     letter-spacing: 0.1em;
     height:3em;
@@ -17,12 +17,25 @@
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
   }
   
-  .btn-colour-1:hover,
-  .btn-colour-1:active,
-  .btn-colour-1:focus,
-  .btn-colour-1.active {
+  .btn-colour-1:hover {
     color: #ffffff;
+    background-color: #105ff1;
     transition:0.5s;
+  }
+  .btn-colour-2:disabled {
+    pointer-events: none;
+    background: grey;
+  }
+  .btn-colour-2 {
+    color: #f9f5f5;
+    background-color: #407ef1;
+    border:none;
+    font-weight: bold;
+    letter-spacing: 0.1em;
+    height:3em;
+    width:250px;
+    border-radius: 10px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
   }
 
   .update{
