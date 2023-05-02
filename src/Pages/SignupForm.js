@@ -5,6 +5,7 @@ import axios from "axios";
 import React, { useEffect } from "react";
 import SignupSuccess from "./SignupSuccess";
 import Footer from "../Components/Footer";
+import "../Css/mypage.css";
 
 function SignupForm() {
   //회원가입 성공 여부
@@ -423,7 +424,7 @@ function SignupForm() {
 
           <div className="Signup-button">
             <button
-              className="btn-custom"
+              className="btn-colour-1"
               disabled={
                 !check.ageCheck ||
                 !check.membershipCheck ||

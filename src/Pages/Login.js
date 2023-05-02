@@ -1,5 +1,6 @@
 import "../Css/main.css";
 import "../Css/Login.css";
+import "../Css/mypage.css";
 import imgLogo from "../Assets/logo.png";
 import { Link } from "react-router-dom";
 import Footer from "../Components/Footer";
@@ -45,7 +46,7 @@ function Login() {
             <div className="col"></div>
           </div>
           <br />
-          <button type="submit" className="btn-custom1">
+          <button type="submit" className="btn-colour-1 ">
             로그인
           </button>
         </form>

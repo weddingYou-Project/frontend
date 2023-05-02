@@ -2,6 +2,7 @@ import "../Css/Signup.css";
 import "../Css/main.css";
 import { useNavigate } from "react-router-dom";
 import Footer from "../Components/Footer";
+import "../Css/mypage.css";
 
 function Signup() {
   const navigate = useNavigate();
@@ -24,7 +25,8 @@ function Signup() {
             onClick={() => {
               navigate("./user");
             }}
-            className="btn-custom2"
+            className="btn-colour-1"
+            style={{ marginRight: "15px" }}
           >
             일반회원
           </button>
@@ -32,7 +34,7 @@ function Signup() {
             onClick={() => {
               navigate("./planner");
             }}
-            className="btn-custom2"
+            className="btn-colour-1"
           >
             플래너 회원
           </button>

@@ -4,6 +4,7 @@ import imgLogo from "../Assets/logo.png";
 import { Link } from "react-router-dom";
 import Footer from "../Components/Footer";
 import NavigationBar from "../Components/NavigationBar";
+import "../Css/mypage.css";
 
 function TemporaryPasswordLogin() {
   return (
@@ -39,10 +40,10 @@ function TemporaryPasswordLogin() {
           <div className="col"></div>
         </div>
         <br />
-        <button type="submit" className="btn-custom1">
+        <button type="submit" className="btn-colour-1">
           <Link
             to="/passwordSearch/temporaryPasswordLogin/passwordChange"
-            className="SLogin"
+            style={{ color: "white", textDecorationLine: "none" }}
           >
             로그인
           </Link>
