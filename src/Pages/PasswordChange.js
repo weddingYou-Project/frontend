@@ -149,10 +149,13 @@ function PasswordChange() {
             <div class="modal-footer infotext4">
               <button
                 type="button"
-                class="btn-colour-1"
+                class="btn btn-primary"
                 data-bs-dismiss="modal"
               >
-                <Link to="/login" className="SLogin">
+                <Link
+                  to="/login"
+                  style={{ color: "white", textDecorationLine: "none" }}
+                >
                   메인으로 돌아가기
                 </Link>
               </button>
