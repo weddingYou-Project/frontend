@@ -162,6 +162,7 @@ function UserUpdate() {
         setAllCheck(false);
       }
     } else if (e.target.name === "gender") {
+      setGender(e.target.value);
       if (e.target.checked === true) {
         //선택된 값이
         if (e.target.value === defaultGender) {
@@ -335,9 +336,10 @@ function UserUpdate() {
                   value="male"
                   name="gender"
                   htmlFor="male"
-                  checked
+                  checked={gender === "male"}
                   onChange={onChange}
                   aria-label="Radio button for following text input"
+                  style={{ cursor: "pointer" }}
                 />
               </div>
               <input
@@ -346,6 +348,7 @@ function UserUpdate() {
                 id="male"
                 aria-label="male btn"
                 value="남자"
+                style={{ background: "white" }}
                 disabled
               />
               <div class="input-group-text">
@@ -357,6 +360,8 @@ function UserUpdate() {
                   htmlFor="female"
                   onChange={onChange}
                   aria-label="Radio button for following text input"
+                  style={{ cursor: "pointer" }}
+                  checked={gender === "female"}
                 />
               </div>
               <input
@@ -365,6 +370,7 @@ function UserUpdate() {
                 id="female"
                 aria-label="female btn"
                 value="여자"
+                style={{ background: "white" }}
                 disabled
               />
             </div>
