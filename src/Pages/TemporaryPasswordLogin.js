@@ -28,6 +28,7 @@ function TemporaryPasswordLogin() {
                 type="text"
                 className="inputarea"
                 placeholder="아이디(이메일)"
+                maxLength="100"
               />
               <input
                 type="password"
