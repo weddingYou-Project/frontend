@@ -4,6 +4,7 @@ import "../Css/Signup.css";
 import axios from "axios";
 import React, { useEffect } from "react";
 import SignupSuccess from "./SignupSuccess";
+import Footer from "../Components/Footer";
 
 function SignupForm() {
   //회원가입 성공 여부
@@ -444,6 +445,7 @@ function SignupForm() {
             </button>
           </div>
           <div style={{ height: 94.19 }}></div>
+          <Footer />
         </div>
       </div>
     );
