@@ -176,7 +176,12 @@ function UserUpdate() {
       }
     } else if (e.target.id === "career") {
       setCareer(e.target.value);
-      if (parseInt(e.target.value) >= 0 && parseInt(e.target.value) <= 30) {
+      const CareerRegExp = /^(?!0[0-9])[0-9]+$/;
+      if (
+        CareerRegExp.test(e.target.value) &&
+        parseInt(e.target.value) >= 0 &&
+        parseInt(e.target.value) <= 30
+      ) {
         if (parseInt(e.target.value) === defaultCareer) {
           careerFeedback.current.classList.add("invisible");
           careerFeedback.current.classList.remove("valid-feedback");

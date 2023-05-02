@@ -144,7 +144,7 @@ function SignupForm() {
 
   const EventHandlerGender = (e) => {
     setGender(e.target.value);
-    console.log(gender);
+    //console.log(gender);
   };
 
   const EventHandlerCareer = (e) => {
