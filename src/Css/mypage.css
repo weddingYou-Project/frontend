@@ -7,22 +7,20 @@
 
 .btn-colour-1 {
     color: #fff;
-    background-color: #d70571;
-    border-color:aliceblue;
+    background-color: #2093ff;
+    border-style: none;
     font-weight: bold;
     letter-spacing: 0.1em;
     height:3em;
     width:250px;
     border-radius: 10px;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    
   }
   
-  .btn-colour-1:hover,
-  .btn-colour-1:active,
-  .btn-colour-1:focus,
-  .btn-colour-1.active {
-    color: #ffffff;
-    transition:0.5s;
+  .btn-colour-1:hover {
+    background-color: #0051ff;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    transition:0.3s;
   }
 
   .update{
