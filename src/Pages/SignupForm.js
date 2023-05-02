@@ -236,7 +236,6 @@ function SignupForm() {
         });
     }
   };
-  //
 
   if (sign === "before") {
     return (

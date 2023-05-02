@@ -1,4 +1,5 @@
 import "../Css/Signup.css";
+import "../Css/main.css";
 import { useNavigate } from "react-router-dom";
 import Footer from "../Components/Footer";
 
@@ -9,7 +10,7 @@ function Signup() {
   };
   return (
     <div className="bg">
-      <div className="Signup-wrap">
+      <div className="mainlayout">
         <div className="Signup-backicon" onClick={handleBack}>
           <i class="bi bi-chevron-left" style={{ fontSize: 30 }}></i>
         </div>
