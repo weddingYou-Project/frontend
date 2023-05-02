@@ -20,6 +20,7 @@ function PasswordChange() {
   let [passwordstyle2, setPasswordstyle2] = useState("");
 
   useEffect(() => {
+    const changepasswordbtn = document.querySelector("#changepasswordbtn");
     if (password === "") {
       setPasswordstyle("");
       setPasswordcheck(false);
@@ -29,6 +30,8 @@ function PasswordChange() {
       setPasswordcheck2(false);
     } else if (password === password2) {
       setPasswordstyle2("is-valid");
+      changepasswordbtn.classList.remove("btn-colour-2");
+      changepasswordbtn.classList.add("btn-colour-1");
       setPasswordcheck2(true);
     } else {
       setPasswordstyle2("is-invalid");
@@ -102,11 +105,12 @@ function PasswordChange() {
         <br />
         <button
           type="submit"
-          className="btn-colour-1"
+          className="btn-colour-2"
           data-bs-toggle="modal"
           data-bs-target="#exampleModal"
           disabled={!passwordcheck || !passwordcheck2}
           style={{ marginBottom: "15px" }}
+          id="changepasswordbtn"
         >
           비밀번호 변경하기
         </button>
