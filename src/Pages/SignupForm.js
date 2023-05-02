@@ -5,6 +5,7 @@ import axios from "axios";
 import React, { useEffect } from "react";
 import SignupSuccess from "./SignupSuccess";
 import Footer from "../Components/Footer";
+import "../Css/mypage.css";
 
 function SignupForm() {
   //회원가입 성공 여부
@@ -78,7 +79,17 @@ function SignupForm() {
       setPasswordcheck2(false);
     }
   }, [password, password2, setPasswordcheck2, name, email, phone, career]);
-
+  useEffect(() => {
+    const signupbtn = document.querySelector("#signupbtn");
+    console.log(signupbtn);
+    if (signupbtn.disabled === false && checkAll === true) {
+      signupbtn.classList.remove("btn-colour-2");
+      signupbtn.classList.add("btn-colour-1");
+    } else {
+      signupbtn.classList.add("btn-colour-2");
+      signupbtn.classList.remove("btn-colour-1");
+    }
+  });
   const EventHandlerName = (e) => {
     const koreanNameRegExp = /^[가-힣\s]+$/;
     setName(e.target.value);
@@ -144,7 +155,7 @@ function SignupForm() {
 
   const EventHandlerGender = (e) => {
     setGender(e.target.value);
-    console.log(gender);
+    //console.log(gender);
   };
 
   const EventHandlerCareer = (e) => {
@@ -165,7 +176,7 @@ function SignupForm() {
   const CheckHandler = (e) => {
     let copy = { ...check, [e.target.name]: e.target.checked };
     setcheck(copy);
-    console.log(check);
+    // console.log(check);
   };
   const CheckHandlerAll = () => {
     if (checkAll === false) {
@@ -236,7 +247,6 @@ function SignupForm() {
         });
     }
   };
-  //
 
   if (sign === "before") {
     return (
@@ -424,7 +434,7 @@ function SignupForm() {
 
           <div className="Signup-button">
             <button
-              className="btn-custom"
+              className="btn-colour-2"
               disabled={
                 !check.ageCheck ||
                 !check.membershipCheck ||
@@ -440,6 +450,7 @@ function SignupForm() {
                 // setsign("after");
                 userRegister();
               }}
+              id="signupbtn"
             >
               가입하기
             </button>

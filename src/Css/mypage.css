@@ -6,9 +6,9 @@
 }
 
 .btn-colour-1 {
-    color: #fff;
-    background-color: #2093ff;
-    border-style: none;
+    color: #f9f5f5;
+    background-color: #407ef1;
+    border:none;
     font-weight: bold;
     letter-spacing: 0.1em;
     height:3em;
@@ -18,9 +18,21 @@
   }
   
   .btn-colour-1:hover {
-    background-color: #0051ff;
+    color: #ffffff;
+    background-color: #105ff1;
+    transition:0.5s;
+  }
+
+  .btn-colour-2 {
+    color: #f9f5f5;
+    background-color: #407ef1;
+    border:none;
+    font-weight: bold;
+    letter-spacing: 0.1em;
+    height:3em;
+    width:250px;
+    border-radius: 10px;
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-    transition:0.3s;
   }
 
   .update{

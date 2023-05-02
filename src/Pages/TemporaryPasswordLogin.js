@@ -6,6 +6,7 @@ import Footer from "../Components/Footer";
 import NavigationBar from "../Components/NavigationBar";
 import { useState } from "react";
 import axios from "axios";
+import "../Css/mypage.css";
 
 function TemporaryPasswordLogin() {
   const [inputId, setInputId] = useState("");
@@ -108,7 +109,6 @@ function TemporaryPasswordLogin() {
         <div className="row">
           <div className="col"></div>
           <div className="col-6">
-            <p className="loginmessage">아이디(이메일)로 로그인하기</p>
             <div className="mb-3">
               <input
                 type="text"
@@ -171,10 +171,10 @@ function TemporaryPasswordLogin() {
           <div className="col"></div>
         </div>
         <br />
-        <button type="submit" className="btn-custom1">
+        <button type="submit" className="btn-colour-1">
           <Link
             to="/passwordSearch/temporaryPasswordLogin/passwordChange"
-            className="SLogin"
+            style={{ color: "white", textDecorationLine: "none" }}
           >
             로그인
           </Link>

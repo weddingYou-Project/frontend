@@ -1,12 +1,50 @@
 import "../Css/footer.css";
 import React from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useRef } from "react";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 
 function Footer() {
   const navigate = useNavigate();
   const { category } = useParams();
+  const location = useLocation();
+  const path = location.pathname;
+  useEffect(() => {
+    const footer = document.querySelector("#footer");
+    if (path.indexOf(`signup/${category}`) === 1) {
+      console.log(footer.classList);
+      footer.classList.remove("footer");
+      footer.classList.add("footer-border-remove");
+    } else {
+      footer.classList.add("footer");
+      footer.classList.remove("footer-border-remove");
+    }
+  }, []);
+  // console.log("HAHA", footer.current);
+  // window.addEventListener("onload", () => {
+  //   if (location.pathname === `signup/${category}`) {
+  //     console.log(footer.current);
+  //     footer.current.classList.remove("footer");
+  //     footer.current.classList.add("footer-border-remove");
+  //   }
+  // });
+
+  window.addEventListener("scroll", () => {
+    const footer = document.querySelector("#footer");
+    if (document.body.clientHeight === window.scrollY + window.innerHeight) {
+      footer.classList.remove("footer-border-remove");
+      footer.classList.add("footer");
+      console.log(1);
+    } else if (
+      document.body.clientHeight >
+      window.scrollY + window.innerHeight
+    ) {
+      footer.classList.add("footer-border-remove");
+      footer.classList.remove("footer");
+    }
+  });
+
   return (
-    <div className="footer">
+    <div className="footer" id="footer">
       <div
         className="icon"
         onClick={() => {

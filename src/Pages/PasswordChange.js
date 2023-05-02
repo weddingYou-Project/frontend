@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import Footer from "../Components/Footer";
 import NavigationBar from "../Components/NavigationBar";
 import { useState, useEffect } from "react";
+import "../Css/mypage.css";
 
 function PasswordChange() {
   let [passwordcheck, setPasswordcheck] = useState(false);
@@ -19,6 +20,7 @@ function PasswordChange() {
   let [passwordstyle2, setPasswordstyle2] = useState("");
 
   useEffect(() => {
+    const changepasswordbtn = document.querySelector("#changepasswordbtn");
     if (password === "") {
       setPasswordstyle("");
       setPasswordcheck(false);
@@ -28,6 +30,8 @@ function PasswordChange() {
       setPasswordcheck2(false);
     } else if (password === password2) {
       setPasswordstyle2("is-valid");
+      changepasswordbtn.classList.remove("btn-colour-2");
+      changepasswordbtn.classList.add("btn-colour-1");
       setPasswordcheck2(true);
     } else {
       setPasswordstyle2("is-invalid");
@@ -101,17 +105,22 @@ function PasswordChange() {
         <br />
         <button
           type="submit"
-          className="btn-custom1"
+          className="btn-colour-2"
           data-bs-toggle="modal"
           data-bs-target="#exampleModal"
           disabled={!passwordcheck || !passwordcheck2}
+          style={{ marginBottom: "15px" }}
+          id="changepasswordbtn"
         >
           비밀번호 변경하기
         </button>
         {/* </form> */}
         <br />
-        <button type="submit" className="btn-custom-tomain">
-          <Link to="/login" className="SLogin">
+        <button type="submit" className="btn-colour-1">
+          <Link
+            to="/login"
+            style={{ color: "white", textDecorationLine: "none" }}
+          >
             메인으로 돌아가기
           </Link>
         </button>
@@ -142,8 +151,15 @@ function PasswordChange() {
               </div>
             </div>
             <div class="modal-footer infotext4">
-              <button type="button" class="btn-custom1" data-bs-dismiss="modal">
-                <Link to="/login" className="SLogin">
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-bs-dismiss="modal"
+              >
+                <Link
+                  to="/login"
+                  style={{ color: "white", textDecorationLine: "none" }}
+                >
                   메인으로 돌아가기
                 </Link>
               </button>
