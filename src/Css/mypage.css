@@ -22,6 +22,10 @@
     background-color: #105ff1;
     transition:0.5s;
   }
+  .btn-colour-2:disabled {
+    pointer-events: none;
+    background: grey;
+  }
   .btn-colour-2 {
     color: #f9f5f5;
     background-color: #407ef1;
