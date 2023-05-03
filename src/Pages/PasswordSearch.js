@@ -50,7 +50,7 @@ function PasswordSearch() {
         })
         .then((res) => {
           console.log(res);
-          if (res.data !== "임시 비밀번호를 이메일로 전송했습니다.") {
+          if (res.data === 1) {
             setHidden1(false);
             console.log(
               "======================",
@@ -62,12 +62,7 @@ function PasswordSearch() {
             document.location.href = "/passwordSearch";
           }
         })
-        .catch(
-          alert(
-            "입력하신 id 가 일치하지 않습니다.",
-            (document.location.href = "/passwordSearch")
-          )
-        );
+        .catch();
     }
   };
 
