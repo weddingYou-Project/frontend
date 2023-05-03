@@ -32,62 +32,45 @@ function Login() {
 
     if (Role === "회원") {
       axios
-        .post("http://localhost:8080/user/login", {
+        .post("/user/login", {
           email: inputId,
           password: inputPw,
         })
         .then((res) => {
           console.log(res);
           console.log("res.data.email :: ", res.data.email);
-          console.log("res.data.msg :: ", res.data.msg);
-          if (res.data.email === undefined) {
-            // id 일치하지 않는 경우 user_Id = undefined, msg = '입력하신 id 가 일치하지 않습니다.'
-            console.log("======================", res.data.msg);
-            alert("입력하신 id 가 일치하지 않습니다.");
+          if (inputId === null || inputPw === null) {
+            alert("회원정보를 입력해주세요");
+          } else if (res.data.email === undefined || res.data.email === null) {
+            alert("입력하신 id나 password가 일치하지 않습니다.");
             // document.location.href = "/login";
-          } else if (res.data.email === null) {
-            // id는 있지만, pw 는 다른 경우 user_Id = null , msg = undefined
-            console.log(
-              "======================",
-              "입력하신 비밀번호 가 일치하지 않습니다."
-            );
-            alert("입력하신 비밀번호 가 일치하지 않습니다.");
-          } else if (res.data.email === inputId) {
-            // id, pw 모두 일치 userId = userId1, msg = undefined
-            console.log("======================", "로그인 성공");
+          } else {
+            console.log("======================", "유저 로그인 성공");
+            console.log(res.data.email);
+            sessionStorage.setItem("email", res.data.email);
             sessionStorage.setItem("user_name", res.data.name); // sessionStorage에 name을 user_name이라는 key 값으로 저장
           }
-          // 작업 완료 되면 페이지 이동(새로고침)
         })
         .catch();
     } else if (Role === "플래너") {
       axios
-        .post("http://localhost:8080/planner/login", {
+        .post("/planner/login", {
           email: inputId,
           password: inputPw,
         })
         .then((res) => {
           console.log(res);
-          console.log("res.data.user_Id :: ", res.data.user_Id);
-          console.log("res.data.msg :: ", res.data.msg);
-          if (res.data.email === undefined) {
-            // id 일치하지 않는 경우 user_Id = undefined, msg = '입력하신 id 가 일치하지 않습니다.'
-            console.log("======================", res.data.msg);
-            alert("입력하신 id 가 일치하지 않습니다.");
-          } else if (res.data.email === null) {
-            // id는 있지만, pw 는 다른 경우 user_Id = null , msg = undefined
-            console.log(
-              "======================",
-              "입력하신 비밀번호 가 일치하지 않습니다."
-            );
-            alert("입력하신 비밀번호 가 일치하지 않습니다.");
-          } else if (res.data.email === inputId) {
-            // id, pw 모두 일치 userId = userId1, msg = undefined
-            console.log("======================", "로그인 성공");
-            sessionStorage.setItem("planner_name", res.data.name); // sessionStorage에 name을 planner_name이라는 key 값으로 저장
+          console.log("res.data.email :: ", res.data.email);
+          if (inputId === null || inputPw === null) {
+            alert("회원정보를 입력해주세요");
+          } else if (res.data.email === undefined || res.data.email === null) {
+            alert("입력하신 id나 password가 일치하지 않습니다.");
+            // document.location.href = "/login";
+          } else {
+            console.log("======================", "플래너 로그인 성공");
+            sessionStorage.setItem("email", res.data.email);
+            sessionStorage.setItem("planner_name", res.data.name); // sessionStorage에 name을 user_name이라는 key 값으로 저장
           }
-          // 작업 완료 되면 페이지 이동(새로고침)
-          document.location.href = "/";
         })
         .catch();
     }
@@ -183,7 +166,7 @@ function Login() {
           </div>
           <br />
           <button
-            type="submit"
+            type="button"
             className="btn-colour-1 "
             onClick={onClickLogin}
           >

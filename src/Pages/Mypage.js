@@ -293,6 +293,7 @@ function Mypage() {
                   onKeyPress={submitPasswordCheck}
                   required
                   autocomplete="off"
+                  maxLength="20"
                 />
                 <div
                   class="invisible text-start password-feedback"

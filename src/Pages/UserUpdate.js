@@ -275,6 +275,7 @@ function UserUpdate() {
                 placeholder={password}
                 onChange={onChange}
                 autoComplete="off"
+                maxLength="20"
               />
               <div
                 class="invisible text-start password-feedback"
@@ -298,6 +299,7 @@ function UserUpdate() {
                 placeholder={email}
                 onChange={onChange}
                 autoComplete="off"
+                maxLength="100"
               />
               <div
                 class="invisible text-start email-feedback"

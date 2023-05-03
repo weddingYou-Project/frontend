@@ -10,6 +10,7 @@ import "../Css/mypage.css";
 
 function PasswordSearch() {
   const [inputId, setInputId] = useState("");
+  const [hidden, setHidden1] = useState(true);
   const [Role, setRole] = useState("회원");
 
   const handleInputId = (e) => {
@@ -26,46 +27,47 @@ function PasswordSearch() {
 
     if (Role === "회원") {
       axios
-        .post("http://localhost:8080/user/login", {
+        .post("user/forgotPassword", {
           email: inputId,
         })
         .then((res) => {
           console.log(res);
           console.log("res.data.user_Id :: ", res.data.user_Id);
-          if (res.data.email === undefined) {
-            // id 일치하지 않는 경우 user_Id = undefined, msg = '입력하신 id 가 일치하지 않습니다.'
-            console.log("======================", res.data.msg);
+          if (res.data === 1) {
+            setHidden1(false);
+            console.log("======================", "유저 임시비밀번호 전송성공");
+          } else {
+            setHidden1(true);
             alert("입력하신 id 가 일치하지 않습니다.");
-          } else if (res.data.email === inputId) {
-            // id, pw 모두 일치 userId = userId1, msg = undefined
-            console.log("======================", "로그인 성공");
-            sessionStorage.setItem("user_name", res.data.name); // sessionStorage에 name을 user_name이라는 key 값으로 저장
+            document.location.href = "/passwordSearch";
           }
-          // 작업 완료 되면 페이지 이동(새로고침)
-          // document.location.href = "/";
         })
         .catch();
     } else if (Role === "플래너") {
       axios
-        .post("http://localhost:8080/plannerlogin", {
+        .post("planner/forgotPassword", {
           email: inputId,
         })
         .then((res) => {
           console.log(res);
-          console.log("res.data.user_Id :: ", res.data.user_Id);
-          if (res.data.email === undefined) {
-            // id 일치하지 않는 경우 user_Id = undefined, msg = '입력하신 id 가 일치하지 않습니다.'
-            console.log("======================", res.data.msg);
+          if (res.data !== "임시 비밀번호를 이메일로 전송했습니다.") {
+            setHidden1(false);
+            console.log(
+              "======================",
+              "플래너 임시비밀번호 전송성공"
+            );
+          } else {
+            setHidden1(true);
             alert("입력하신 id 가 일치하지 않습니다.");
-          } else if (res.data.email === inputId) {
-            // id, pw 모두 일치 userId = userId1, msg = undefined
-            console.log("======================", "로그인 성공");
-            sessionStorage.setItem("planner_name", res.data.name); // sessionStorage에 name을 planner_name이라는 key 값으로 저장
+            document.location.href = "/passwordSearch";
           }
-          // 작업 완료 되면 페이지 이동(새로고침)
-          // document.location.href = "/";
         })
-        .catch();
+        .catch(
+          alert(
+            "입력하신 id 가 일치하지 않습니다.",
+            (document.location.href = "/passwordSearch")
+          )
+        );
     }
   };
 
@@ -183,6 +185,7 @@ function PasswordSearch() {
         tabindex="-1"
         aria-labelledby="PasswordSearch"
         aria-hidden="true"
+        hidden={hidden}
       >
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
