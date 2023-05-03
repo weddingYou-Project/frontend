@@ -10,7 +10,7 @@
 .navigationbar p{
     display:inline-block;
     margin: 0 auto;
-    margin-top:15px;
+    margin-top:10px;
    font-size: 1.5rem;
 }
 
@@ -30,8 +30,8 @@
 }
 
 .bi-chevron-left{
-    font-size: 40px;
-    line-height: 40px;
+    font-size: 30px;
+    line-height: 30px;
 }
 
 .empty{
