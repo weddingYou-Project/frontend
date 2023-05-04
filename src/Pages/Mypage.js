@@ -103,6 +103,31 @@ function Mypage() {
         });
     }
   };
+
+  const deleteMemer = () => {
+    if (category === "user") {
+      axios
+        .post("/user/userDelete", userEmail)
+        .then((res) => {
+          console.log("성공");
+          console.log(res);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+    if (category === "planner") {
+      axios
+        .post("planner/plannerDelete", userEmail)
+        .then((res) => {
+          console.log("성공");
+          console.log(res);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+  };
   useEffect(() => {
     viewDefaultInfo();
   }, []);
@@ -322,6 +347,7 @@ function Mypage() {
               className="deleteMember btn-colour-1"
               data-bs-toggle="modal"
               data-bs-target="#deleteMemberModal"
+              onClick={deleteMemer}
             >
               회원탈퇴
             </button>
