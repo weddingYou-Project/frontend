@@ -400,12 +400,12 @@ function UserUpdate() {
     }
     if (category === "planner") {
       axios
-        .post("planner/plannerSearch", { email: userEmail })
+        .post("/planner/plannerSearch", { email: userEmail })
         .then((res) => {
           console.log("조회 성공");
           console.log(res);
           axios
-            .post("/planner/plannerUpdate", {
+            .post("/planner/userUpdate", {
               password: password,
               email: email,
               phoneNum: phone,
