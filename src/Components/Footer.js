@@ -20,14 +20,6 @@ function Footer() {
       footer.classList.remove("footer-border-remove");
     }
   }, []);
-  // console.log("HAHA", footer.current);
-  // window.addEventListener("onload", () => {
-  //   if (location.pathname === `signup/${category}`) {
-  //     console.log(footer.current);
-  //     footer.current.classList.remove("footer");
-  //     footer.current.classList.add("footer-border-remove");
-  //   }
-  // });
 
   window.addEventListener("scroll", () => {
     if (document.body.clientHeight === window.scrollY + window.innerHeight) {
