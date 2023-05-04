@@ -8,43 +8,6 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 function Mypage() {
-  const userEmail = window.localStorage.getItem("userEmail");
-
-  useEffect(() => {
-    if (category === "user") {
-      axios
-        .post("/user/userSearch", userEmail)
-        .then((res) => {
-          console.log("성공");
-          console.log(res);
-          setName(res.name);
-          setEmail(res.email);
-          setPassword(res.password);
-          setPhone(res.phone_number);
-          setGender(res.gender);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    }
-    if (category === "planner") {
-      axios
-        .post("planner/plannerSearch", userEmail)
-        .then((res) => {
-          console.log("성공");
-          console.log(res);
-          setName(res.name);
-          setEmail(res.email);
-          setPassword(res.password);
-          setPhone(res.phone_number);
-          setGender(res.gender);
-          setCareer(res.planner_career);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    }
-  }, []);
   const title = "마이페이지";
   const navigate = useNavigate();
 
@@ -67,6 +30,86 @@ function Mypage() {
   const [passwordcheckmessage, setPasswordCheckMessage] = useState("");
 
   const { category } = useParams();
+
+  const userEmail = sessionStorage.getItem("email");
+
+  const viewDefaultInfo = () => {
+    if (category === "user") {
+      axios
+        .post("/user/userSearch", userEmail)
+        .then((res) => {
+          console.log("성공");
+          console.log(res);
+          setName(res.data.name);
+          setEmail(res.data.email);
+          setPassword(res.data.password);
+          setPhone(res.data.phone_number);
+          setGender(res.data.gender);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+    if (category === "planner") {
+      axios
+        .post("planner/plannerSearch", userEmail)
+        .then((res) => {
+          console.log("성공");
+          console.log(res);
+          setName(res.data.name);
+          setEmail(res.data.email);
+          setPassword(res.data.password);
+          setPhone(res.data.phone_number);
+          setGender(res.data.gender);
+          setCareer(res.data.planner_career);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+  };
+
+  const checkPasswordInfo = () => {
+    if (category === "user") {
+      axios
+        .post("/user/userSearch", userEmail)
+        .then((res) => {
+          console.log("성공");
+          console.log(res);
+          if (passwordCheck === res.data.password) {
+            setPasswordCheckMessage("비밀번호 확인 완료!");
+          } else {
+            setPasswordCheckMessage("비밀번호가 틀립니다. 다시 입력하세요.");
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+    if (category === "planner") {
+      axios
+        .post("planner/plannerSearch", userEmail)
+        .then((res) => {
+          console.log("성공");
+          console.log(res);
+          if (passwordCheck === res.data.password) {
+            setPasswordCheckMessage("비밀번호 확인 완료!");
+          } else {
+            setPasswordCheckMessage("비밀번호가 틀립니다. 다시 입력하세요.");
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+  };
+  useEffect(() => {
+    viewDefaultInfo();
+  }, []);
+
+  useEffect(() => {
+    checkPasswordInfo();
+  }, [passwordCheck, password]);
 
   const onChange = (e) => {
     if (e.target.id === "passwordcheck") {
@@ -114,14 +157,6 @@ function Mypage() {
     if (e.key === "Enter") {
     }
   };
-
-  useEffect(() => {
-    if (passwordCheck === password) {
-      setPasswordCheckMessage("비밀번호 확인 완료!");
-    } else {
-      setPasswordCheckMessage("비밀번호가 틀립니다. 다시 입력하세요.");
-    }
-  }, [passwordCheck, password]);
 
   const gotoUpdatePage = () => {
     if (passwordcheckmessage === "비밀번호 확인 완료!") {
