@@ -8,6 +8,32 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 function Mypage() {
+  const userEmail = window.localStorage.getItem("userEmail");
+
+  useEffect(() => {
+    if (category === "user") {
+      axios
+        .post("http://localhost:8080/user/userSearch", userEmail)
+        .then((res) => {
+          console.log("성공");
+          console.log(res);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+    if (category === "planner") {
+      axios
+        .post("http://localhost:8080/planner/plannerSearch", userEmail)
+        .then((res) => {
+          console.log("성공");
+          console.log(res);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+  }, []);
   const title = "마이페이지";
   const navigate = useNavigate();
 
