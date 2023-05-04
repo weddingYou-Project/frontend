@@ -48,8 +48,7 @@ function Mypage() {
           setGender(res.data.gender);
         })
         .catch((e) => {
-          alert("찾으시는 정보가 없습니다");
-          navigate("/");
+          navigate("/*");
         });
     }
     if (category === "planner") {
@@ -66,7 +65,7 @@ function Mypage() {
           setCareer(res.data.plannerCareerYears);
         })
         .catch((e) => {
-          console.log(e);
+          navigate("/*");
         });
     }
   };
@@ -134,6 +133,9 @@ function Mypage() {
   };
   useEffect(() => {
     viewDefaultInfo();
+    if (category !== "user" && category !== "planner") {
+      navigate("/*");
+    }
   }, []);
 
   useEffect(() => {

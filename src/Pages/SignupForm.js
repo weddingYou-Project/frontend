@@ -10,9 +10,11 @@ import "../Css/mypage.css";
 function SignupForm() {
   //회원가입 성공 여부
   let [sign, setsign] = useState("before");
-
-  let { category } = useParams();
   let navigate = useNavigate();
+  let { category } = useParams();
+  if (category !== "user" && category !== "planner") {
+    navigate("/*");
+  }
 
   //제약조건
   let [checkAll, setCheckAll] = useState(false);

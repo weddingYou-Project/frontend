@@ -20,7 +20,6 @@ function Signup() {
         <div className="Signup-logo"></div>
 
         <div className="Signup-button">
-          {/*버튼 맘에 안드므로 다시 만들 예정임. */}
           <button
             onClick={() => {
               navigate("./user");
