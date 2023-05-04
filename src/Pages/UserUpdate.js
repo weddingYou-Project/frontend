@@ -5,6 +5,7 @@ import NavigationBar from "../Components/NavigationBar";
 import Footer from "../Components/Footer";
 import React, { useState, useRef, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import axios from "axios";
 
 function UserUpdate() {
   const { category } = useParams();
@@ -15,17 +16,17 @@ function UserUpdate() {
     userOrPlanner = "플래너";
   }
   const title = `${userOrPlanner}정보 수정`;
-  const [name, setName] = useState("귀엽조(수정불가)");
-  const [password, setPassword] = useState("Ab1234**");
-  const defaultPassword = "Ab1234**";
-  const [email, setEmail] = useState("abc@naver.com");
-  const defaultEmail = "abc@naver.com";
-  const [phone, setPhone] = useState("010-1234-5678");
-  const defaultPhone = "010-1234-5678";
-  const [gender, setGender] = useState("male");
-  const defaultGender = "male";
-  const [career, setCareer] = useState(10);
-  const defaultCareer = 10;
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
+  const [defaultPassword, setDefaultPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [defaultEmail, setDefaultEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [defaultPhone, setDefaultPhone] = useState("");
+  const [gender, setGender] = useState("");
+  const [defaultGender, setDefaultGender] = useState("");
+  const [career, setCareer] = useState(0);
+  const [defaultCareer, setDefaultCareer] = useState(0);
 
   const nameInput = useRef();
   const passwordInput = useRef();
@@ -51,6 +52,54 @@ function UserUpdate() {
   const [allcheck, setAllCheck] = useState(true);
   const [anyChange, setAnyChange] = useState(false);
 
+  const userEmail = sessionStorage.getItem("email");
+  useEffect(() => {
+    viewDefaultInfo();
+  }, []);
+  const viewDefaultInfo = () => {
+    if (category === "user") {
+      axios
+        .post("/user/userSearch", userEmail)
+        .then((res) => {
+          console.log("성공");
+          console.log(res);
+          setName(res.data.name);
+          setEmail(res.data.email);
+          setDefaultEmail(res.data.email);
+          setPassword(res.data.password);
+          setDefaultPassword(res.data.password);
+          setPhone(res.data.phone_number);
+          setDefaultPhone(res.data.phone_number);
+          setGender(res.data.gender);
+          setDefaultGender(res.data.gender);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+    if (category === "planner") {
+      axios
+        .post("planner/plannerSearch", userEmail)
+        .then((res) => {
+          console.log("성공");
+          console.log(res);
+          setName(res.data.name);
+          setEmail(res.data.email);
+          setDefaultEmail(res.data.email);
+          setPassword(res.data.password);
+          setDefaultPassword(res.data.password);
+          setPhone(res.data.phone_number);
+          setDefaultPhone(res.data.phone_number);
+          setGender(res.data.gender);
+          setDefaultGender(res.data.gender);
+          setCareer(res.data.planner_career);
+          setDefaultCareer(res.data.planner_career);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+  };
   useEffect(() => {
     checkInputs();
   });
