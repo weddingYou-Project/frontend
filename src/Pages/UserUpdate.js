@@ -100,6 +100,7 @@ function UserUpdate() {
         });
     }
   };
+
   useEffect(() => {
     checkInputs();
   });
@@ -362,6 +363,79 @@ function UserUpdate() {
   };
   console.log("allcheck : ", allcheck);
   console.log("anychange : ", anyChange);
+
+  const updateInfo = () => {
+    if (category === "user") {
+      axios
+        .post("/user/userSearch", userEmail)
+        .then((res) => {
+          console.log("조회 성공");
+          console.log(res);
+          axios
+            .post("/user/userUpdate", {
+              password: password,
+              email: email,
+              phoneNum: phone,
+              gender: gender,
+            })
+            .then((res) => {
+              console.log("업데이트 성공");
+              console.log(res);
+              setEmail(res.data.email);
+              setDefaultEmail(res.data.email);
+              setPassword(res.data.password);
+              setDefaultPassword(res.data.password);
+              setPhone(res.data.phone_number);
+              setDefaultPhone(res.data.phone_number);
+              setGender(res.data.gender);
+              setDefaultGender(res.data.gender);
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+    if (category === "planner") {
+      axios
+        .post("planner/plannerSearch", userEmail)
+        .then((res) => {
+          console.log("조회 성공");
+          console.log(res);
+          axios
+            .post("/planner/plannerUpdate", {
+              password: password,
+              email: email,
+              phoneNum: phone,
+              gender: gender,
+              career: career,
+            })
+            .then((res) => {
+              console.log("업데이트 성공");
+              console.log(res);
+              setEmail(res.data.email);
+              setDefaultEmail(res.data.email);
+              setPassword(res.data.password);
+              setDefaultPassword(res.data.password);
+              setPhone(res.data.phone_number);
+              setDefaultPhone(res.data.phone_number);
+              setGender(res.data.gender);
+              setDefaultGender(res.data.gender);
+              setCareer(res.data.planner_career);
+              setDefaultCareer(res.data.planner_career);
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+  };
+
   const updateCheck = (e) => {
     e.preventDefault();
 
@@ -371,6 +445,7 @@ function UserUpdate() {
       {
         /* 수정가능 */
         alert("수정 가능합니다.");
+        updateInfo();
       }
     } else {
       if (allcheck === false) {
