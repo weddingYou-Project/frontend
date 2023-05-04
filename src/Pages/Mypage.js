@@ -17,6 +17,11 @@ function Mypage() {
         .then((res) => {
           console.log("성공");
           console.log(res);
+          setName(res.name);
+          setEmail(res.email);
+          setPassword(res.password);
+          setPhone(res.phone_number);
+          setGender(res.gender);
         })
         .catch((e) => {
           console.log(e);
@@ -28,6 +33,12 @@ function Mypage() {
         .then((res) => {
           console.log("성공");
           console.log(res);
+          setName(res.name);
+          setEmail(res.email);
+          setPassword(res.password);
+          setPhone(res.phone_number);
+          setGender(res.gender);
+          setCareer(res.planner_career);
         })
         .catch((e) => {
           console.log(e);
@@ -37,11 +48,12 @@ function Mypage() {
   const title = "마이페이지";
   const navigate = useNavigate();
 
-  const [name, setName] = useState("귀엽조");
-  const [password, setPassword] = useState("Ab1234**");
-  const [email, setEmail] = useState("abc@naver.com");
-  const [phone, setPhone] = useState("010-1234-5678");
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [gender, setGender] = useState("");
+
   const [career, setCareer] = useState(10);
 
   const [passwordMessage, setPasswordMessage] = useState("looks good!");
@@ -195,7 +207,7 @@ function Mypage() {
                   value=""
                   name="gender"
                   htmlFor="male"
-                  checked
+                  checked={gender === "male" ? true : false}
                   disabled
                   aria-label="Radio button for following text input"
                 />
@@ -215,6 +227,7 @@ function Mypage() {
                   value=""
                   name="gender"
                   htmlFor="female"
+                  checked={gender === "female" ? true : false}
                   disabled
                   aria-label="Radio button for following text input"
                 />
