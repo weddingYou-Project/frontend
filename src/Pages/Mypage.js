@@ -17,7 +17,7 @@ function Mypage() {
   const [phone, setPhone] = useState("");
   const [gender, setGender] = useState("");
 
-  const [career, setCareer] = useState(10);
+  const [career, setCareer] = useState("");
 
   const [passwordMessage, setPasswordMessage] = useState("looks good!");
   const [passwordCheck, setPasswordCheck] = useState("");
@@ -31,19 +31,20 @@ function Mypage() {
 
   const { category } = useParams();
 
-  const userEmail = sessionStorage.getItem("email");
+  const userEmail = window.sessionStorage.getItem("email");
+  // console.log(userEmail);
 
   const viewDefaultInfo = () => {
     if (category === "user") {
       axios
-        .post("/user/userSearch", userEmail)
+        .post("/user/userSearch", { email: userEmail })
         .then((res) => {
           console.log("성공");
           console.log(res);
           setName(res.data.name);
           setEmail(res.data.email);
           setPassword(res.data.password);
-          setPhone(res.data.phone_number);
+          setPhone(res.data.phoneNum);
           setGender(res.data.gender);
         })
         .catch((e) => {
@@ -52,16 +53,16 @@ function Mypage() {
     }
     if (category === "planner") {
       axios
-        .post("planner/plannerSearch", userEmail)
+        .post("/planner/plannerSearch", { email: userEmail })
         .then((res) => {
           console.log("성공");
           console.log(res);
           setName(res.data.name);
           setEmail(res.data.email);
           setPassword(res.data.password);
-          setPhone(res.data.phone_number);
+          setPhone(res.data.phoneNum);
           setGender(res.data.gender);
-          setCareer(res.data.planner_career);
+          setCareer(res.data.plannerCareerYears);
         })
         .catch((e) => {
           console.log(e);
@@ -72,7 +73,7 @@ function Mypage() {
   const checkPasswordInfo = () => {
     if (category === "user") {
       axios
-        .post("/user/userSearch", userEmail)
+        .post("/user/userSearch", { email: userEmail })
         .then((res) => {
           console.log("성공");
           console.log(res);
@@ -88,7 +89,7 @@ function Mypage() {
     }
     if (category === "planner") {
       axios
-        .post("planner/plannerSearch", userEmail)
+        .post("/planner/plannerSearch", { email: userEmail })
         .then((res) => {
           console.log("성공");
           console.log(res);

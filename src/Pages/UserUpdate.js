@@ -59,7 +59,7 @@ function UserUpdate() {
   const viewDefaultInfo = () => {
     if (category === "user") {
       axios
-        .post("/user/userSearch", userEmail)
+        .post("/user/userSearch", { email: userEmail })
         .then((res) => {
           console.log("성공");
           console.log(res);
@@ -68,8 +68,8 @@ function UserUpdate() {
           setDefaultEmail(res.data.email);
           setPassword(res.data.password);
           setDefaultPassword(res.data.password);
-          setPhone(res.data.phone_number);
-          setDefaultPhone(res.data.phone_number);
+          setPhone(res.data.phoneNum);
+          setDefaultPhone(res.data.phoneNum);
           setGender(res.data.gender);
           setDefaultGender(res.data.gender);
         })
@@ -79,7 +79,7 @@ function UserUpdate() {
     }
     if (category === "planner") {
       axios
-        .post("planner/plannerSearch", userEmail)
+        .post("/planner/plannerSearch", { email: userEmail })
         .then((res) => {
           console.log("성공");
           console.log(res);
@@ -88,12 +88,12 @@ function UserUpdate() {
           setDefaultEmail(res.data.email);
           setPassword(res.data.password);
           setDefaultPassword(res.data.password);
-          setPhone(res.data.phone_number);
-          setDefaultPhone(res.data.phone_number);
+          setPhone(res.data.phoneNum);
+          setDefaultPhone(res.data.phoneNum);
           setGender(res.data.gender);
           setDefaultGender(res.data.gender);
-          setCareer(res.data.planner_career);
-          setDefaultCareer(res.data.planner_career);
+          setCareer(res.data.plannerCareerYears);
+          setDefaultCareer(res.data.plannerCareerYears);
         })
         .catch((e) => {
           console.log(e);
@@ -367,7 +367,7 @@ function UserUpdate() {
   const updateInfo = () => {
     if (category === "user") {
       axios
-        .post("/user/userSearch", userEmail)
+        .post("/user/userSearch", { email: userEmail })
         .then((res) => {
           console.log("조회 성공");
           console.log(res);
@@ -400,7 +400,7 @@ function UserUpdate() {
     }
     if (category === "planner") {
       axios
-        .post("planner/plannerSearch", userEmail)
+        .post("planner/plannerSearch", { email: userEmail })
         .then((res) => {
           console.log("조회 성공");
           console.log(res);
