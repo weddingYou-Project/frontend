@@ -48,7 +48,8 @@ function Mypage() {
           setGender(res.data.gender);
         })
         .catch((e) => {
-          console.log(e);
+          alert("찾으시는 정보가 없습니다");
+          navigate("/");
         });
     }
     if (category === "planner") {
@@ -105,13 +106,14 @@ function Mypage() {
     }
   };
 
-  const deleteMemer = () => {
+  const deleteMember = () => {
     if (category === "user") {
       axios
-        .post("/user/userDelete", userEmail)
+        .post("/user/userDelete", { email: userEmail })
         .then((res) => {
           console.log("성공");
           console.log(res);
+          window.sessionStorage.clear();
         })
         .catch((e) => {
           console.log(e);
@@ -119,10 +121,11 @@ function Mypage() {
     }
     if (category === "planner") {
       axios
-        .post("planner/plannerDelete", userEmail)
+        .post("/planner/plannerDelete", { email: userEmail })
         .then((res) => {
           console.log("성공");
           console.log(res);
+          window.sessionStorage.clear();
         })
         .catch((e) => {
           console.log(e);
@@ -188,6 +191,10 @@ function Mypage() {
     if (passwordcheckmessage === "비밀번호 확인 완료!") {
       navigate(`/mypage/${category}/userupdate`);
     }
+  };
+
+  const logout = () => {
+    window.sessionStorage.clear();
   };
 
   return (
@@ -338,6 +345,7 @@ function Mypage() {
             <button
               className="logout btn-colour-1"
               onClick={() => {
+                logout();
                 navigate("/login");
               }}
             >
@@ -348,7 +356,6 @@ function Mypage() {
               className="deleteMember btn-colour-1"
               data-bs-toggle="modal"
               data-bs-target="#deleteMemberModal"
-              onClick={deleteMemer}
             >
               회원탈퇴
             </button>
@@ -502,7 +509,8 @@ function Mypage() {
                 class="btn btn-primary"
                 data-bs-dismiss="modal"
                 onClick={() => {
-                  navigate("/");
+                  deleteMember();
+                  navigate("/", { return: true });
                 }}
               >
                 메인페이지로
