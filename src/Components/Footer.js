@@ -1,6 +1,6 @@
 import "../Css/footer.css";
 import React from "react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 
 function Footer() {
@@ -8,6 +8,7 @@ function Footer() {
   const { category } = useParams();
   const location = useLocation();
   const path = location.pathname;
+  const [footerborder, setFooterBorder] = useState(false);
   useEffect(() => {
     const footer = document.querySelector("#footer");
     if (path.indexOf(`signup/${category}`) === 1) {
@@ -29,22 +30,21 @@ function Footer() {
   // });
 
   window.addEventListener("scroll", () => {
-    const footer = document.querySelector("#footer");
     if (document.body.clientHeight === window.scrollY + window.innerHeight) {
-      footer.classList.remove("footer-border-remove");
-      footer.classList.add("footer");
-      console.log(1);
+      setFooterBorder(true);
     } else if (
       document.body.clientHeight >
       window.scrollY + window.innerHeight
     ) {
-      footer.classList.add("footer-border-remove");
-      footer.classList.remove("footer");
+      setFooterBorder(false);
     }
   });
 
   return (
-    <div className="footer" id="footer">
+    <div
+      className={!footerborder ? "footer-border-remove" : "footer"}
+      id="footer"
+    >
       <div
         className="icon"
         onClick={() => {
