@@ -5,6 +5,7 @@ import Footer from "../Components/Footer";
 import React, { useState, useRef, useEffect } from "react";
 import Modal from "react-modal";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
 
 function Mypage() {
   const title = "마이페이지";
