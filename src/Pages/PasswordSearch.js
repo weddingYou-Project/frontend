@@ -4,9 +4,68 @@ import "../Css/PasswordSearch.css";
 import { Link } from "react-router-dom";
 import Footer from "../Components/Footer";
 import NavigationBar from "../Components/NavigationBar";
+import { useState } from "react";
+import axios from "axios";
 import "../Css/mypage.css";
 
 function PasswordSearch() {
+  const [inputId, setInputId] = useState("");
+  const [hidden, setHidden1] = useState(true);
+  const [Role, setRole] = useState("회원");
+
+  const handleInputId = (e) => {
+    setInputId(e.target.value);
+  };
+
+  const handleRole = (e) => {
+    setRole(e.target.value);
+  };
+
+  const onClicksend = () => {
+    console.log("click send");
+    console.log("ID : ", inputId);
+
+    if (Role === "회원") {
+      axios
+        .post("user/forgotPassword", {
+          email: inputId,
+        })
+        .then((res) => {
+          console.log(res);
+          console.log("res.data.user_Id :: ", res.data.user_Id);
+          if (res.data === 1) {
+            setHidden1(false);
+            console.log("======================", "유저 임시비밀번호 전송성공");
+          } else {
+            setHidden1(true);
+            alert("입력하신 id 가 일치하지 않습니다.");
+            document.location.href = "/passwordSearch";
+          }
+        })
+        .catch();
+    } else if (Role === "플래너") {
+      axios
+        .post("planner/forgotPassword", {
+          email: inputId,
+        })
+        .then((res) => {
+          console.log(res);
+          if (res.data === 1) {
+            setHidden1(false);
+            console.log(
+              "======================",
+              "플래너 임시비밀번호 전송성공"
+            );
+          } else {
+            setHidden1(true);
+            alert("입력하신 id 가 일치하지 않습니다.");
+            document.location.href = "/passwordSearch";
+          }
+        })
+        .catch();
+    }
+  };
+
   return (
     <div className="mainlayout">
       <NavigationBar title={"비밀번호 찾기"} />
@@ -37,13 +96,65 @@ function PasswordSearch() {
           </div>
         </div>
         <div className="row">
-          <div className="col-2"></div>
-          <div className="col-8">
+          <div className="col-3"></div>
+          <div className="col-6">
             <div className="infotext3">
-              <input type="text" className="inputarea" placeholder="이메일" />
+              <input
+                type="text"
+                className="inputarea"
+                placeholder="이메일"
+                value={inputId}
+                onChange={handleInputId}
+              />
+            </div>
+            <div class="input-group" id="Role" style={{ width: 256 }}>
+              <div class="input-group-text">
+                <input
+                  class="form-check-input mt-0"
+                  type="radio"
+                  value="회원"
+                  name="Role"
+                  htmlFor="회원"
+                  checked={Role === "회원"}
+                  onChange={handleRole}
+                  aria-label="Radio button for following text input"
+                  style={{ cursor: "pointer" }}
+                />
+              </div>
+              <input
+                type="text"
+                class="form-control"
+                id="custom"
+                aria-label="custom btn"
+                value="회원"
+                disabled
+                style={{ background: "white" }}
+              />
+              <div class="input-group-text">
+                <input
+                  class="form-check-input mt-0"
+                  type="radio"
+                  value="플래너"
+                  name="Role"
+                  checked={Role === "플래너"}
+                  htmlFor="플래너"
+                  onChange={handleRole}
+                  aria-label="Radio button for following text input"
+                  style={{ cursor: "pointer" }}
+                />
+              </div>
+              <input
+                type="text"
+                class="form-control"
+                id="planner"
+                aria-label="palnner btn"
+                value="플래너"
+                disabled
+                style={{ background: "white" }}
+              />
             </div>
           </div>
-          <div className="col-2"></div>
+          <div className="col-3"></div>
         </div>
         <div className="row">
           <div className="col-2"></div>
@@ -54,6 +165,7 @@ function PasswordSearch() {
                 className="btn-colour-1"
                 data-bs-toggle="modal"
                 data-bs-target="#exampleModal"
+                onClick={onClicksend}
               >
                 임시 비밀번호 전송
               </button>
@@ -68,6 +180,7 @@ function PasswordSearch() {
         tabindex="-1"
         aria-labelledby="PasswordSearch"
         aria-hidden="true"
+        hidden={hidden}
       >
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">

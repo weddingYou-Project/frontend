@@ -8,6 +8,7 @@ import Footer from "../Components/Footer";
 import NavigationBar from "../Components/NavigationBar";
 import { useState, useEffect } from "react";
 import "../Css/mypage.css";
+import axios from "axios";
 
 function PasswordChange() {
   let [passwordcheck, setPasswordcheck] = useState(false);
@@ -18,6 +19,37 @@ function PasswordChange() {
 
   let [passwordstyle, setPasswordstyle] = useState("");
   let [passwordstyle2, setPasswordstyle2] = useState("");
+
+  const onClickpwUpdate = () => {
+    console.log("click pwUpdate");
+    console.log("PW : ", password);
+
+    if (sessionStorage.getItem("user_name") !== null) {
+      axios
+        .post("/user/updatePassword", {
+          email: sessionStorage.getItem("email"),
+          password: password,
+        })
+        .then((res) => {
+          console.log(res);
+          console.log("======================", "유저 비밀번호 변경완료");
+          sessionStorage.clear();
+        })
+        .catch();
+    } else {
+      axios
+        .post("/planner/updatePassword", {
+          email: sessionStorage.getItem("email"),
+          password: password,
+        })
+        .then((res) => {
+          console.log(res);
+          console.log("======================", "플래너 비밀번호 변경완료");
+          sessionStorage.clear();
+        })
+        .catch();
+    }
+  };
 
   useEffect(() => {
     const changepasswordbtn = document.querySelector("#changepasswordbtn");
@@ -111,6 +143,7 @@ function PasswordChange() {
           disabled={!passwordcheck || !passwordcheck2}
           style={{ marginBottom: "15px" }}
           id="changepasswordbtn"
+          onClick={onClickpwUpdate}
         >
           비밀번호 변경하기
         </button>
