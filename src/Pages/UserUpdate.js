@@ -133,6 +133,29 @@ function UserUpdate() {
     setAnyChange(false);
   };
 
+  const removeValidation = () => {
+    passwordFeedback.current.classList.add("invisible");
+    passwordFeedback.current.classList.remove("valid-feedback");
+    passwordFeedback.current.classList.remove("invalid-feedback");
+    passwordInput.current.classList.remove("is-valid");
+    passwordInput.current.classList.remove("is-invalid");
+    setPasswordMessage("returning to default");
+
+    emailFeedback.current.classList.add("invisible");
+    emailFeedback.current.classList.remove("valid-feedback");
+    emailFeedback.current.classList.remove("invalid-feedback");
+    emailInput.current.classList.remove("is-valid");
+    emailInput.current.classList.remove("is-invalid");
+
+    phoneFeedback.current.classList.add("invisible");
+    phoneFeedback.current.classList.remove("valid-feedback");
+    phoneFeedback.current.classList.remove("invalid-feedback");
+    phoneInput.current.classList.remove("is-valid");
+    phoneInput.current.classList.remove("is-invalid");
+    setAllCheck(true);
+    setAnyChange(false);
+  };
+
   const onChange = (e) => {
     //초기화 설정
     setAllCheck(true);
@@ -386,8 +409,8 @@ function UserUpdate() {
               setDefaultEmail(res.data.email);
               setPassword(res.data.password);
               setDefaultPassword(res.data.password);
-              setPhone(res.data.phone_number);
-              setDefaultPhone(res.data.phone_number);
+              setPhone(res.data.phoneNum);
+              setDefaultPhone(res.data.phoneNum);
               setGender(res.data.gender);
               setDefaultGender(res.data.gender);
               window.sessionStorage.setItem("email", email);
@@ -425,12 +448,12 @@ function UserUpdate() {
               setDefaultEmail(res.data.email);
               setPassword(res.data.password);
               setDefaultPassword(res.data.password);
-              setPhone(res.data.phone_number);
-              setDefaultPhone(res.data.phone_number);
+              setPhone(res.data.phoneNum);
+              setDefaultPhone(res.data.phoneNum);
               setGender(res.data.gender);
               setDefaultGender(res.data.gender);
-              setCareer(res.data.planner_career);
-              setDefaultCareer(res.data.planner_career);
+              setCareer(res.data.plannerCareerYears);
+              setDefaultCareer(res.data.plannerCareerYears);
               window.sessionStorage.setItem("email", email);
             })
             .catch((e) => {
@@ -453,6 +476,7 @@ function UserUpdate() {
         /* 수정가능 */
         alert("수정 가능합니다.");
         updateInfo();
+        removeValidation();
       }
     } else {
       if (allcheck === false) {
