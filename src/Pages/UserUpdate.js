@@ -19,7 +19,7 @@ function UserUpdate() {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [defaultPassword, setDefaultPassword] = useState("");
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(sessionStorage.getItem("email"));
   const [defaultEmail, setDefaultEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [defaultPhone, setDefaultPhone] = useState("");
@@ -59,7 +59,7 @@ function UserUpdate() {
   const viewDefaultInfo = () => {
     if (category === "user") {
       axios
-        .post("/user/userSearch", { email: userEmail })
+        .post("/user/userSearch", { email: email })
         .then((res) => {
           console.log("성공");
           console.log(res);
@@ -79,7 +79,7 @@ function UserUpdate() {
     }
     if (category === "planner") {
       axios
-        .post("/planner/plannerSearch", { email: userEmail })
+        .post("/planner/plannerSearch", { email: email })
         .then((res) => {
           console.log("성공");
           console.log(res);
@@ -367,12 +367,13 @@ function UserUpdate() {
   const updateInfo = () => {
     if (category === "user") {
       axios
-        .post("/user/userSearch", { email: userEmail })
+        .post("/user/userSearch", { email: sessionStorage.getItem("email") })
         .then((res) => {
           console.log("조회 성공");
           console.log(res);
           axios
             .post("/user/userUpdate", {
+              preemail: sessionStorage.getItem("email"),
               password: password,
               email: email,
               phoneNum: phone,
@@ -389,23 +390,28 @@ function UserUpdate() {
               setDefaultPhone(res.data.phone_number);
               setGender(res.data.gender);
               setDefaultGender(res.data.gender);
+              window.sessionStorage.setItem("email", email);
             })
             .catch((e) => {
               console.log(e);
             });
         })
         .catch((e) => {
-          console.log(e);
+          console.log(email);
+          console.log("조회실패");
         });
     }
     if (category === "planner") {
       axios
-        .post("/planner/plannerSearch", { email: userEmail })
+        .post("/planner/plannerSearch", {
+          email: sessionStorage.getItem("email"),
+        })
         .then((res) => {
           console.log("조회 성공");
           console.log(res);
           axios
             .post("/planner/userUpdate", {
+              preemail: sessionStorage.getItem("email"),
               password: password,
               email: email,
               phoneNum: phone,
@@ -425,6 +431,7 @@ function UserUpdate() {
               setDefaultGender(res.data.gender);
               setCareer(res.data.planner_career);
               setDefaultCareer(res.data.planner_career);
+              window.sessionStorage.setItem("email", email);
             })
             .catch((e) => {
               console.log(e);
