@@ -13,7 +13,7 @@ function Mypage() {
   useEffect(() => {
     if (category === "user") {
       axios
-        .post("http://localhost:8080/user/userSearch", userEmail)
+        .post("/user/userSearch", userEmail)
         .then((res) => {
           console.log("성공");
           console.log(res);
@@ -29,7 +29,7 @@ function Mypage() {
     }
     if (category === "planner") {
       axios
-        .post("http://localhost:8080/planner/plannerSearch", userEmail)
+        .post("planner/plannerSearch", userEmail)
         .then((res) => {
           console.log("성공");
           console.log(res);

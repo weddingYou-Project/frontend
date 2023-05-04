@@ -92,7 +92,16 @@ function SignupForm() {
       signupbtn.classList.add("btn-colour-2");
       signupbtn.classList.remove("btn-colour-1");
     }
-  });
+  }, [
+    checkAll,
+    namecheck,
+    emailcheck,
+    passwordcheck,
+    passwordcheck2,
+    phonecheck,
+    careercheck,
+    duplicatecheck,
+  ]);
 
   console.log(document.querySelector("#name"));
   const EventHandlerName = (e) => {
@@ -210,7 +219,7 @@ function SignupForm() {
   const userRegister = () => {
     if (category === "user") {
       axios
-        .post("http://localhost:8080/user/userRegister", {
+        .post("/user/register", {
           name: name,
           password: password,
           email: email,
@@ -231,7 +240,7 @@ function SignupForm() {
     }
     if (category === "planner") {
       axios
-        .post("http://localhost:8080/planner/plannerRegister", {
+        .post("/planner/register", {
           name: name,
           password: password,
           email: email,
