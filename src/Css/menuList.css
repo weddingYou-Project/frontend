@@ -1,24 +1,24 @@
-.menu_list {
+.menu-list {
   display: flex;
   justify-content: center;
   margin: 2rem 0;
 }
 
-.menu_list_left {
+.menu-list-left {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 50%;
 }
 
-.menu_list_right {
+.menu-list-right {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 50%;
 }
 
-.menu_list_item {
+.menu-list-item {
   display: block;
   margin: 0.5rem 0;
   color: #000000;
@@ -27,11 +27,11 @@
   font-weight: 400;
 }
 
-.menu_list_item:hover .menu_list_item_text {
+.menu-list-item:hover .menu-list-item-text {
   color: #00bfff;
 }
 
-.menu_list_item_text {
+.menu-list-item-text {
   display: inline-block;
   border: none;
   padding: 0;
