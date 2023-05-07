@@ -130,16 +130,51 @@ function UserUpdate() {
   };
 
   const emailDuplicateCheck = (e) => {
-    console.log(e.target.value);
+    console.log("emailchange" + e.target.value);
     if (category === "user") {
-      axios
-        .post("/user/userSearch", {
-          email: e.target.value,
-        })
-        .then((res) => {
-          console.log("성공");
-          console.log(res);
-          if (defaultEmail !== e.target.value) {
+      if (e.target.value !== defaultEmail) {
+        axios
+          .post("/user/userSearch", {
+            email: e.target.value,
+          })
+          .then((res) => {
+            console.log("성공");
+            console.log(res);
+            if (res.data === "") {
+              setEmailDuplicate(false);
+              setEmailMessage("올바른 이메일 형식입니다.");
+              emailInput.current.classList.remove("is-invalid");
+              emailInput.current.classList.add("is-valid");
+              emailFeedback.current.classList.remove("invisible");
+              emailFeedback.current.classList.remove("invalid-feedback");
+              emailFeedback.current.classList.add("valid-feedback");
+              setAllCheck(true);
+              setAnyChange(true);
+            } else {
+              setEmailDuplicate(true);
+              setEmailMessage("이메일이 중복됩니다.");
+              emailFeedback.current.classList.remove("invisible");
+              emailFeedback.current.classList.remove("valid-feedback");
+              emailFeedback.current.classList.add("invalid-feedback");
+              emailInput.current.classList.remove("is-valid");
+              emailInput.current.classList.add("is-invalid");
+              setAllCheck(false);
+            }
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      }
+    }
+    if (category === "planner") {
+      if (e.target.value !== defaultEmail) {
+        axios
+          .post("/planner/plannerSearch", {
+            email: e.target.value,
+          })
+          .then((res) => {
+            console.log("성공");
+            console.log(res);
             setEmailDuplicate(true);
             setEmailMessage("이메일이 중복됩니다.");
             emailFeedback.current.classList.remove("invisible");
@@ -148,50 +183,20 @@ function UserUpdate() {
             emailInput.current.classList.remove("is-valid");
             emailInput.current.classList.add("is-invalid");
             setAllCheck(false);
-          }
-        })
-        .catch((e) => {
-          console.log(e);
-          setEmailDuplicate(false);
-          setEmailMessage("올바른 이메일 형식입니다.");
-          emailInput.current.classList.remove("is-invalid");
-          emailInput.current.classList.add("is-valid");
-          emailFeedback.current.classList.remove("invisible");
-          emailFeedback.current.classList.remove("invalid-feedback");
-          emailFeedback.current.classList.add("valid-feedback");
-          setAllCheck(true);
-          setAnyChange(true);
-        });
-    }
-    if (category === "planner") {
-      axios
-        .post("/planner/plannerSearch", {
-          email: e.target.value,
-        })
-        .then((res) => {
-          console.log("성공");
-          console.log(res);
-          setEmailDuplicate(true);
-          setEmailMessage("이메일이 중복됩니다.");
-          emailFeedback.current.classList.remove("invisible");
-          emailFeedback.current.classList.remove("valid-feedback");
-          emailFeedback.current.classList.add("invalid-feedback");
-          emailInput.current.classList.remove("is-valid");
-          emailInput.current.classList.add("is-invalid");
-          setAllCheck(false);
-        })
-        .catch((e) => {
-          console.log(e);
-          setEmailDuplicate(false);
-          setEmailMessage("올바른 이메일 형식입니다.");
-          emailInput.current.classList.remove("is-invalid");
-          emailInput.current.classList.add("is-valid");
-          emailFeedback.current.classList.remove("invisible");
-          emailFeedback.current.classList.remove("invalid-feedback");
-          emailFeedback.current.classList.add("valid-feedback");
-          setAllCheck(true);
-          setAnyChange(true);
-        });
+          })
+          .catch((e) => {
+            console.log(e);
+            setEmailDuplicate(false);
+            setEmailMessage("올바른 이메일 형식입니다.");
+            emailInput.current.classList.remove("is-invalid");
+            emailInput.current.classList.add("is-valid");
+            emailFeedback.current.classList.remove("invisible");
+            emailFeedback.current.classList.remove("invalid-feedback");
+            emailFeedback.current.classList.add("valid-feedback");
+            setAllCheck(true);
+            setAnyChange(true);
+          });
+      }
     }
   };
 
