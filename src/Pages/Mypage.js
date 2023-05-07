@@ -228,7 +228,12 @@ function Mypage() {
       <NavigationBar title={title} />
       <div
         className="content mypagecontainer text-center"
-        style={{ minHeight: "100vh", height: "100%", width: "100%", zIndex: 1 }}
+        style={{
+          minHeight: "100vh",
+          height: "900px",
+          width: "100%",
+          zIndex: 1,
+        }}
       >
         <form className="col">
           <img
@@ -237,7 +242,7 @@ function Mypage() {
               width: "200px",
               height: "200px",
               marginBottom: "30px",
-              marginTop: "-10px",
+              marginTop: "-160px",
             }}
             alt={profileimage}
           />
@@ -435,6 +440,7 @@ function Mypage() {
             data-bs-toggle="modal"
             data-bs-target="#passwordcheckmodal"
             onClick={deletePassword}
+            style={{ marginTop: "20px" }}
           >
             정보 수정하기
           </button>

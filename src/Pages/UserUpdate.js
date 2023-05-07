@@ -307,24 +307,6 @@ function UserUpdate() {
           emailInput.current.classList.remove("is-invalid");
         } else {
           emailDuplicateCheck(e);
-          //  if (emailDuplicate === false) {
-          //   setEmailMessage("올바른 이메일 형식입니다.");
-          //   emailInput.current.classList.remove("is-invalid");
-          //   emailInput.current.classList.add("is-valid");
-          //   emailFeedback.current.classList.remove("invisible");
-          //   emailFeedback.current.classList.remove("invalid-feedback");
-          //   emailFeedback.current.classList.add("valid-feedback");
-          //   setAnyChange(true);
-          // }
-          // } else {
-          //   setEmailMessage("이메일이 중복됩니다.");
-          //   emailFeedback.current.classList.remove("invisible");
-          //   emailFeedback.current.classList.remove("valid-feedback");
-          //   emailFeedback.current.classList.add("invalid-feedback");
-          //   emailInput.current.classList.remove("is-valid");
-          //   emailInput.current.classList.add("is-invalid");
-          //   setAllCheck(false);
-          // }
         }
       } else {
         if (e.target.value === "") {
@@ -631,11 +613,17 @@ function UserUpdate() {
   };
 
   return (
-    <div class="mainlayout">
+    <div class="mainlayout" style={{ minHeight: "100vh", height: "100%" }}>
       <NavigationBar title={title} />
       <div
         class="userupdatecontainer text-center"
-        style={{ height: "700px", width: "100%", zIndex: 1 }}
+        style={{
+          minHeight: "100vh",
+          height: "800px",
+          width: "100%",
+          marginTop: "30px",
+          zIndex: 1,
+        }}
       >
         <form style={{ width: "560px", height: "600px", zIndex: 3 }}>
           <div
@@ -643,7 +631,7 @@ function UserUpdate() {
               display: "flex",
               alginItems: "center",
               justifyContent: "center",
-              marginBottom: "20px",
+              marginBottom: "30px",
             }}
           >
             <img
@@ -652,6 +640,8 @@ function UserUpdate() {
                 width: "200px",
                 height: "200px",
                 cursor: "pointer",
+                marginTop: "-160px",
+                marginBottom: "-20px",
               }}
               alt={profileimage}
               data-bs-toggle="modal"
@@ -857,11 +847,21 @@ function UserUpdate() {
             </div>
           </div>
           {userOrPlanner === "플래너" ? (
-            <div class="justify-content-md-center mb-2 mt-4">
-              <label for="phone" class="form-label mt-2">
+            <div
+              class="justify-content-md-center mb-2 mt-4"
+              style={{ display: "flex", flexDirection: "row" }}
+            >
+              <label
+                for="phone"
+                class="form-label mt-2"
+                style={{ marginRight: "10px", width: "200px" }}
+              >
                 경력
               </label>
-              <div class="has-validation ">
+              <div
+                class="has-validation "
+                style={{ width: "250px", marginRight: "20px" }}
+              >
                 <input
                   type="number"
                   class="form-control "
@@ -888,6 +888,7 @@ function UserUpdate() {
               class="btn-colour-1 updatebtn"
               type="submit"
               onClick={updateCheck}
+              style={{ marginTop: "-10px" }}
             >
               회원정보 수정하기
             </button>
