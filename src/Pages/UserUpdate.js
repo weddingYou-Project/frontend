@@ -96,6 +96,7 @@ function UserUpdate() {
           const reader = new FileReader();
           reader.onload = () => {
             setDefaultViewUrl(reader.result);
+            setPreviewUrl(reader.result);
             console.log("reader.result : ", reader.result);
           };
           reader.readAsDataURL(blob);
