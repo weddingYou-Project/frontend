@@ -90,7 +90,15 @@ function Login() {
           <div className="col"></div>
         </div>
       </div>
-      <div className="container text-center">
+      <div
+        className="container text-center"
+        style={{
+          // minHeight: "100vh",
+          height: "400px",
+          width: "100%",
+          zIndex: 1,
+        }}
+      >
         <form>
           <div className="row">
             <div className="col"></div>
