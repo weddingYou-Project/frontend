@@ -91,6 +91,27 @@ function Mypage() {
         .catch((e) => {
           navigate("/*");
         });
+      axios
+        .post("/planner/getprofileImg", { email: email })
+        .then((res) => {
+          const byteCharacters = atob(res.data);
+          const byteNumbers = new Array(byteCharacters.length);
+          for (let i = 0; i < byteCharacters.length; i++) {
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
+          }
+          const byteArray = new Uint8Array(byteNumbers);
+          const blob = new Blob([byteArray], { type: "image/jpeg" });
+
+          const reader = new FileReader();
+          reader.onload = () => {
+            setPreviewUrl(reader.result);
+            console.log("reader.result : ", reader.result);
+          };
+          reader.readAsDataURL(blob);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     }
   };
 
@@ -238,12 +259,21 @@ function Mypage() {
         <form className="col">
           <img
             src={previewUrl}
-            style={{
-              width: "200px",
-              height: "200px",
-              marginBottom: "30px",
-              marginTop: "-160px",
-            }}
+            style={
+              category === "user"
+                ? {
+                    width: "200px",
+                    height: "200px",
+                    marginBottom: "30px",
+                    marginTop: "-165px",
+                  }
+                : {
+                    width: "200px",
+                    height: "200px",
+                    marginBottom: "20px",
+                    marginTop: "-115px",
+                  }
+            }
             alt={profileimage}
           />
           <div
