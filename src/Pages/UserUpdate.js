@@ -244,12 +244,23 @@ function UserUpdate() {
     emailFeedback.current.classList.remove("invalid-feedback");
     emailInput.current.classList.remove("is-valid");
     emailInput.current.classList.remove("is-invalid");
+    setEmailMessage("returning to default");
 
     phoneFeedback.current.classList.add("invisible");
     phoneFeedback.current.classList.remove("valid-feedback");
     phoneFeedback.current.classList.remove("invalid-feedback");
     phoneInput.current.classList.remove("is-valid");
     phoneInput.current.classList.remove("is-invalid");
+    setPhoneMessage("returning to default");
+
+    if (category === "planner") {
+      careerFeedback.current.classList.add("invisible");
+      careerFeedback.current.classList.remove("valid-feedback");
+      careerFeedback.current.classList.remove("invalid-feedback");
+      careerInput.current.classList.remove("is-valid");
+      careerInput.current.classList.remove("is-invalid");
+      setCareerMessage("returning to default");
+    }
     setAllCheck(true);
     setAnyChange(false);
   };
@@ -273,6 +284,15 @@ function UserUpdate() {
     phoneFeedback.current.classList.remove("invalid-feedback");
     phoneInput.current.classList.remove("is-valid");
     phoneInput.current.classList.remove("is-invalid");
+
+    if (category === "planner") {
+      careerFeedback.current.classList.add("invisible");
+      careerFeedback.current.classList.remove("valid-feedback");
+      careerFeedback.current.classList.remove("invalid-feedback");
+      careerInput.current.classList.remove("is-valid");
+      careerInput.current.classList.remove("is-invalid");
+    }
+
     setAllCheck(true);
     setAnyChange(false);
   };
@@ -934,7 +954,7 @@ function UserUpdate() {
               class="btn-colour-1 updatebtn"
               type="submit"
               onClick={updateCheck}
-              style={category === "user" ? null : { marginTop: "-10px" }}
+              style={category === "user" ? null : { marginTop: "-1px" }}
             >
               회원정보 수정하기
             </button>

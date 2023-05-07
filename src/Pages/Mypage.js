@@ -289,7 +289,7 @@ function Mypage() {
             </label>
             <div
               className=" mb-4"
-              style={{ width: "270px", marginRight: "20px" }}
+              style={{ width: "250px", marginRight: "20px" }}
             >
               <input
                 type="text"
@@ -314,7 +314,7 @@ function Mypage() {
             </label>
             <div
               className="has-validation  mb-4"
-              style={{ width: "270px", marginRight: "20px" }}
+              style={{ width: "250px", marginRight: "20px" }}
             >
               <input
                 type="text"
@@ -339,7 +339,7 @@ function Mypage() {
             </label>
             <div
               className="has-validation  mb-4"
-              style={{ width: "270px", marginRight: "20px" }}
+              style={{ width: "250px", marginRight: "20px" }}
             >
               <input
                 type="text"
@@ -364,7 +364,7 @@ function Mypage() {
             </label>
             <div
               className="has-validation  mb-4"
-              style={{ width: "270px", marginRight: "20px" }}
+              style={{ width: "250px", marginRight: "20px" }}
             >
               <input
                 type="text"
@@ -389,7 +389,7 @@ function Mypage() {
             </label>
             <div
               class="input-group"
-              style={{ width: "270px", marginRight: "20px" }}
+              style={{ width: "250px", marginRight: "20px" }}
             >
               <div class="input-group-text">
                 <input
@@ -447,7 +447,7 @@ function Mypage() {
               </label>
               <div
                 class="has-validation "
-                style={{ width: "270px", marginRight: "20px" }}
+                style={{ width: "250px", marginRight: "20px" }}
               >
                 <input
                   type="number"
