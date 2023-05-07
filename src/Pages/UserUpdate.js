@@ -77,14 +77,6 @@ function UserUpdate() {
           setDefaultPhone(res.data.phoneNum);
           setGender(res.data.gender);
           setDefaultGender(res.data.gender);
-          // const selectedFile = e.target.files[0];
-          // setProfileImg(selectedFile);
-          // const fileReader = new FileReader();
-          // fileReader.onload = () => {
-          //   setPreviewUrl(fileReader.result);
-          //   console.log("filereader.result : ", fileReader.result);
-          // };
-          // fileReader.readAsDataURL(selectedFile);
         })
         .catch((e) => {
           console.log(e);
@@ -92,7 +84,6 @@ function UserUpdate() {
       axios
         .post("/user/getprofileImg", { email: email })
         .then((res) => {
-          console.log("res:" + res.data);
           const byteCharacters = atob(res.data);
           const byteNumbers = new Array(byteCharacters.length);
           for (let i = 0; i < byteCharacters.length; i++) {
@@ -638,40 +629,39 @@ function UserUpdate() {
         class="userupdatecontainer text-center"
         style={{ height: "700px", width: "100%", zIndex: 1 }}
       >
-        <form
-          class="col"
-          style={{ width: "560px", height: "600px", zIndex: 3 }}
-        >
+        <form style={{ width: "560px", height: "600px", zIndex: 3 }}>
           <div
-            class="row justify-content-md-center mb-2"
-            style={{ display: "flex", justifyContent: "center", width: "100%" }}
+            style={{
+              display: "flex",
+              alginItems: "center",
+              justifyContent: "center",
+              marginBottom: "20px",
+            }}
           >
-            <div
+            <img
+              src={previewUrl}
               style={{
-                display: "flex",
-                alginItems: "center",
-                justifyContent: "center",
-                marginBottom: "20px",
-                width: "100%",
-                height: "100%",
+                width: "200px",
+                height: "200px",
+                cursor: "pointer",
               }}
+              alt={profileimage}
+              data-bs-toggle="modal"
+              data-bs-target="#profileUpdateModal"
+            />
+          </div>
+          <div
+            class="justify-content-md-center mb-2"
+            style={{ display: "flex", flexDirection: "row", width: "100%" }}
+          >
+            <label
+              for="name"
+              class="form-label mt-2 text-center"
+              style={{ marginRight: "10px", width: "200px" }}
             >
-              <img
-                src={previewUrl}
-                style={{
-                  width: "200px",
-                  height: "200px",
-                  cursor: "pointer",
-                }}
-                alt={profileimage}
-                data-bs-toggle="modal"
-                data-bs-target="#profileUpdateModal"
-              />
-            </div>
-            <label for="name" class="form-label col col-md-4 mt-2 text-center">
               이름
             </label>
-            <div class="col col-md-6">
+            <div style={{ width: "250px", marginRight: "20px" }}>
               <input
                 type="text"
                 class="form-control "
@@ -689,14 +679,21 @@ function UserUpdate() {
               </div>
             </div>
           </div>
-          <div class="row justify-content-md-center mb-2">
+          <div
+            class="justify-content-md-center mb-2"
+            style={{ display: "flex", flexDirection: "row" }}
+          >
             <label
               for="password"
-              class="form-label col col-md-4 mt-2 text-center"
+              class="form-label mt-2 text-center"
+              style={{ marginRight: "10px", width: "200px" }}
             >
               비밀번호
             </label>
-            <div class="has-validation col col-md-7">
+            <div
+              class="has-validation "
+              style={{ width: "250px", marginRight: "20px" }}
+            >
               <input
                 type="text"
                 class="form-control "
@@ -716,11 +713,21 @@ function UserUpdate() {
               </div>
             </div>
           </div>
-          <div class="row justify-content-md-center mb-2">
-            <label for="email" class="form-label col col-md-2 mt-2">
+          <div
+            class="justify-content-md-center mb-2"
+            style={{ display: "flex", flexDirection: "row" }}
+          >
+            <label
+              for="email"
+              class="form-label mt-2"
+              style={{ marginRight: "10px", width: "200px" }}
+            >
               이메일
             </label>
-            <div class="has-validation col col-md-7">
+            <div
+              class="has-validation "
+              style={{ width: "250px", marginRight: "20px" }}
+            >
               <input
                 type="text"
                 class="form-control "
@@ -740,11 +747,21 @@ function UserUpdate() {
               </div>
             </div>
           </div>
-          <div class="row justify-content-md-center mb-2">
-            <label for="phone" class="form-label col col-md-2 mt-2">
+          <div
+            class="justify-content-md-center mb-2"
+            style={{ display: "flex", flexDirection: "row" }}
+          >
+            <label
+              for="phone"
+              class="form-label mt-2"
+              style={{ marginRight: "10px", width: "200px" }}
+            >
               휴대폰
             </label>
-            <div class="has-validation col col-md-7">
+            <div
+              class="has-validation"
+              style={{ width: "250px", marginRight: "20px" }}
+            >
               <input
                 type="text"
                 class="form-control "
@@ -764,8 +781,15 @@ function UserUpdate() {
               </div>
             </div>
           </div>
-          <div class="row justify-content-md-center mb-2">
-            <label htmlFor="gender" className="form-label col col-md-2 mt-2">
+          <div
+            class="justify-content-md-center mb-2"
+            style={{ display: "flex", flexDirection: "row" }}
+          >
+            <label
+              htmlFor="gender"
+              className="form-label  mt-2"
+              style={{ marginRight: "10px", width: "200px" }}
+            >
               성별
             </label>
             <div
@@ -774,6 +798,7 @@ function UserUpdate() {
               name="gender"
               onChange={onChange}
               value={gender}
+              style={{ width: "250px", marginRight: "20px" }}
             >
               <div class="input-group-text">
                 <input
@@ -824,11 +849,11 @@ function UserUpdate() {
             </div>
           </div>
           {userOrPlanner === "플래너" ? (
-            <div class="row justify-content-md-center mb-2 mt-4">
-              <label for="phone" class="form-label col col-md-2 mt-2">
+            <div class="justify-content-md-center mb-2 mt-4">
+              <label for="phone" class="form-label mt-2">
                 경력
               </label>
-              <div class="has-validation col col-md-7">
+              <div class="has-validation ">
                 <input
                   type="number"
                   class="form-control "
@@ -940,7 +965,7 @@ function UserUpdate() {
               <button
                 type="button"
                 class="btn btn-primary"
-                data-bs-toggle="modal"
+                data-bs-dismiss="modal"
                 onClick={updateProfile}
               >
                 변경하기
