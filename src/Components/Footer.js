@@ -118,7 +118,12 @@ function Footer() {
       <div
         className="icon"
         onClick={() => {
-          navigate(`/mypage/${category}`);
+          if (sessionStorage.getItem("category") !== null) {
+            const category = sessionStorage.getItem("category");
+            navigate(`/mypage/${category}`);
+          } else {
+            navigate(`/*`);
+          }
         }}
       >
         <svg
