@@ -53,6 +53,27 @@ function Mypage() {
         .catch((e) => {
           navigate("/*");
         });
+      axios
+        .post("/user/getprofileImg", { email: email })
+        .then((res) => {
+          const byteCharacters = atob(res.data);
+          const byteNumbers = new Array(byteCharacters.length);
+          for (let i = 0; i < byteCharacters.length; i++) {
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
+          }
+          const byteArray = new Uint8Array(byteNumbers);
+          const blob = new Blob([byteArray], { type: "image/jpeg" });
+
+          const reader = new FileReader();
+          reader.onload = () => {
+            setPreviewUrl(reader.result);
+            console.log("reader.result : ", reader.result);
+          };
+          reader.readAsDataURL(blob);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     }
     if (category === "planner") {
       axios
@@ -139,7 +160,7 @@ function Mypage() {
     if (category !== "user" && category !== "planner") {
       navigate("/*");
     }
-  }, []);
+  });
 
   useEffect(() => {
     checkPasswordInfo();
@@ -203,25 +224,38 @@ function Mypage() {
   };
 
   return (
-    <div className="mainlayout">
+    <div className="mainlayout" style={{ minHeight: "100vh", height: "100%" }}>
       <NavigationBar title={title} />
-      <div className="content mypagecontainer text-center">
+      <div
+        className="content mypagecontainer text-center"
+        style={{ minHeight: "100vh", height: "100%", width: "100%", zIndex: 1 }}
+      >
         <form className="col">
           <img
             src={previewUrl}
             style={{
               width: "200px",
               height: "200px",
-              marginBottom: "10px",
+              marginBottom: "30px",
               marginTop: "-10px",
             }}
             alt={profileimage}
           />
-          <div className="row justify-content-md-center mb-2">
-            <label htmlFor="name" className="form-label col col-md-2 mt-2">
+          <div
+            className=" justify-content-md-center mb-2"
+            style={{ display: "flex", flexDirection: "row", width: "100%" }}
+          >
+            <label
+              htmlFor="name"
+              className="form-label  mt-2"
+              style={{ marginRight: "10px", width: "200px" }}
+            >
               이름
             </label>
-            <div className="col col-md-7 mb-4">
+            <div
+              className=" mb-4"
+              style={{ width: "270px", marginRight: "20px" }}
+            >
               <input
                 type="text"
                 className="form-control "
@@ -232,11 +266,21 @@ function Mypage() {
               />
             </div>
           </div>
-          <div className="row justify-content-md-center mb-2">
-            <label htmlFor="password" className="form-label col col-md-2 mt-2">
+          <div
+            className=" justify-content-md-center mb-2"
+            style={{ display: "flex", flexDirection: "row", width: "100%" }}
+          >
+            <label
+              htmlFor="password"
+              className="form-label  mt-2"
+              style={{ marginRight: "10px", width: "200px" }}
+            >
               비밀번호
             </label>
-            <div className="has-validation col col-md-7 mb-4">
+            <div
+              className="has-validation  mb-4"
+              style={{ width: "270px", marginRight: "20px" }}
+            >
               <input
                 type="text"
                 className="form-control "
@@ -247,11 +291,21 @@ function Mypage() {
               />
             </div>
           </div>
-          <div className="row justify-content-md-center mb-2">
-            <label htmlFor="email" className="form-label col col-md-2 mt-2">
+          <div
+            className=" justify-content-md-center mb-2"
+            style={{ display: "flex", flexDirection: "row", width: "100%" }}
+          >
+            <label
+              htmlFor="email"
+              className="form-label  mt-2"
+              style={{ marginRight: "10px", width: "200px" }}
+            >
               이메일
             </label>
-            <div className="has-validation col col-md-7 mb-4">
+            <div
+              className="has-validation  mb-4"
+              style={{ width: "270px", marginRight: "20px" }}
+            >
               <input
                 type="text"
                 className="form-control "
@@ -262,11 +316,21 @@ function Mypage() {
               />
             </div>
           </div>
-          <div className="row justify-content-md-center mb-2">
-            <label htmlFor="phone" className="form-label col col-md-2 mt-2">
+          <div
+            className=" justify-content-md-center mb-2"
+            style={{ display: "flex", flexDirection: "row", width: "100%" }}
+          >
+            <label
+              htmlFor="phone"
+              className="form-label  mt-2"
+              style={{ marginRight: "10px", width: "200px" }}
+            >
               휴대폰
             </label>
-            <div className="has-validation col col-md-7 mb-4">
+            <div
+              className="has-validation  mb-4"
+              style={{ width: "270px", marginRight: "20px" }}
+            >
               <input
                 type="text"
                 className="form-control "
@@ -277,11 +341,21 @@ function Mypage() {
               />
             </div>
           </div>
-          <div className="row justify-content-md-center mb-2">
-            <label htmlFor="gender" className="form-label col col-md-2 mt-2">
+          <div
+            className=" justify-content-md-center mb-2"
+            style={{ display: "flex", flexDirection: "row", width: "100%" }}
+          >
+            <label
+              htmlFor="gender"
+              className="form-label  mt-2"
+              style={{ marginRight: "10px", width: "200px" }}
+            >
               성별
             </label>
-            <div class="input-group">
+            <div
+              class="input-group"
+              style={{ width: "270px", marginRight: "20px" }}
+            >
               <div class="input-group-text">
                 <input
                   class="form-check-input mt-0"
@@ -325,11 +399,21 @@ function Mypage() {
             </div>
           </div>
           {category === "planner" ? (
-            <div class="row justify-content-md-center mb-2 mt-4">
-              <label for="phone" class="form-label col col-md-2 mt-2">
+            <div
+              class=" justify-content-md-center mb-2 mt-4"
+              style={{ display: "flex", flexDirection: "row", width: "100%" }}
+            >
+              <label
+                for="phone"
+                class="form-label mt-2"
+                style={{ marginRight: "10px", width: "200px" }}
+              >
                 경력
               </label>
-              <div class="has-validation col col-md-7">
+              <div
+                class="has-validation "
+                style={{ width: "270px", marginRight: "20px" }}
+              >
                 <input
                   type="number"
                   class="form-control "
