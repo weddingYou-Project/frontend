@@ -30,6 +30,7 @@ function UserUpdate() {
   const [defaultCareer, setDefaultCareer] = useState(0);
   const [profileImg, setProfileImg] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(profileimage);
+  const [defaultViewUrl, setDefaultViewUrl] = useState(profileimage);
 
   const nameInput = useRef();
   const passwordInput = useRef();
@@ -94,7 +95,7 @@ function UserUpdate() {
           setProfileImg(blob);
           const reader = new FileReader();
           reader.onload = () => {
-            setPreviewUrl(reader.result);
+            setDefaultViewUrl(reader.result);
             console.log("reader.result : ", reader.result);
           };
           reader.readAsDataURL(blob);
@@ -593,6 +594,7 @@ function UserUpdate() {
       })
       .then((res) => {
         console.log(res);
+        setDefaultViewUrl(previewUrl);
       })
       .catch((e) => {
         console.log(e);
@@ -639,7 +641,7 @@ function UserUpdate() {
             }}
           >
             <img
-              src={previewUrl}
+              src={defaultViewUrl}
               style={{
                 width: "200px",
                 height: "200px",
