@@ -112,14 +112,16 @@ function UserUpdate() {
         .then((res) => {
           console.log("성공");
           console.log(res);
-          setEmailDuplicate(true);
-          setEmailMessage("이메일이 중복됩니다.");
-          emailFeedback.current.classList.remove("invisible");
-          emailFeedback.current.classList.remove("valid-feedback");
-          emailFeedback.current.classList.add("invalid-feedback");
-          emailInput.current.classList.remove("is-valid");
-          emailInput.current.classList.add("is-invalid");
-          setAllCheck(false);
+          if (defaultEmail !== e.target.value) {
+            setEmailDuplicate(true);
+            setEmailMessage("이메일이 중복됩니다.");
+            emailFeedback.current.classList.remove("invisible");
+            emailFeedback.current.classList.remove("valid-feedback");
+            emailFeedback.current.classList.add("invalid-feedback");
+            emailInput.current.classList.remove("is-valid");
+            emailInput.current.classList.add("is-invalid");
+            setAllCheck(false);
+          }
         })
         .catch((e) => {
           console.log(e);
