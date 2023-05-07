@@ -42,6 +42,7 @@ function UserUpdate() {
   const emailFeedback = useRef();
   const phoneFeedback = useRef();
   const careerFeedback = useRef();
+  const profileUpdateModal = useRef();
 
   const [nameMessage, setNameMessage] = useState("looks good!");
   const [passwordMessage, setPasswordMessage] = useState("looks good!");
@@ -548,6 +549,10 @@ function UserUpdate() {
     }
   };
 
+  const onChangeProfile = (e) => {
+    console.log(e.target.files[0]);
+  };
+
   const updateCheck = (e) => {
     e.preventDefault();
 
@@ -583,8 +588,11 @@ function UserUpdate() {
               height: "200px",
               marginBottom: "10px",
               marginTop: "-50px",
+              cursor: "pointer",
             }}
             alt={profileimage}
+            data-bs-toggle="modal"
+            data-bs-target="#profileUpdateModal"
           />
           <div class="row justify-content-md-center mb-2">
             <label for="name" class="form-label col col-md-2 mt-2">
@@ -778,6 +786,68 @@ function UserUpdate() {
         </form>
       </div>
       <Footer />
+      {/* 프로필 변경 업로드 파일 올리는 모달창 */}
+      <div
+        class="modal fade"
+        id="profileUpdateModal"
+        tabindex="-1"
+        aria-labelledby="profileUpdateModal"
+        aria-hidden="true"
+        ref={profileUpdateModal}
+      >
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1
+                class="modal-title justify-content-center fs-5"
+                id="profileUpdateModal"
+              >
+                - 프로필 변경 -
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <div class="has-validation col col-md-10">
+                <input
+                  type="file"
+                  class="form-control"
+                  id="profileInput"
+                  //  ref={profileInput}
+                  //  value={profileImg}
+                  onChange={onChangeProfile}
+                  placeholder="업로드할 이미지"
+                  required
+                  autocomplete="off"
+                />
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                닫기
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-bs-toggle="modal"
+                //    ref={passwordConfirm}
+                // onClick={updateProfile}
+              >
+                변경하기
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* 비밀번호 확인 모달 */}
     </div>
   );
 }
