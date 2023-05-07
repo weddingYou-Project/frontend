@@ -126,6 +126,28 @@ function UserUpdate() {
         .catch((e) => {
           console.log(e);
         });
+      axios
+        .post("/planner/getprofileImg", { email: email })
+        .then((res) => {
+          const byteCharacters = atob(res.data);
+          const byteNumbers = new Array(byteCharacters.length);
+          for (let i = 0; i < byteCharacters.length; i++) {
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
+          }
+          const byteArray = new Uint8Array(byteNumbers);
+          const blob = new Blob([byteArray], { type: "image/jpeg" });
+          setProfileImg(blob);
+          const reader = new FileReader();
+          reader.onload = () => {
+            setDefaultViewUrl(reader.result);
+            setPreviewUrl(reader.result);
+            console.log("reader.result : ", reader.result);
+          };
+          reader.readAsDataURL(blob);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     }
   };
 
@@ -576,17 +598,31 @@ function UserUpdate() {
     const formData = new FormData();
     formData.append("file", profileImg);
     formData.append("useremail", sessionStorage.getItem("email"));
-    axios
-      .post("/user/updateprofileImg", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      })
-      .then((res) => {
-        console.log(res);
-        setDefaultViewUrl(previewUrl);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    if (category === "user") {
+      axios
+        .post("/user/updateprofileImg", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        })
+        .then((res) => {
+          console.log(res);
+          setDefaultViewUrl(previewUrl);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    } else if (category === "planner") {
+      axios
+        .post("/planner/updateprofileImg", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        })
+        .then((res) => {
+          console.log(res);
+          setDefaultViewUrl(previewUrl);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
   };
 
   const updateCheck = (e) => {
@@ -636,13 +672,23 @@ function UserUpdate() {
           >
             <img
               src={defaultViewUrl}
-              style={{
-                width: "200px",
-                height: "200px",
-                cursor: "pointer",
-                marginTop: "-160px",
-                marginBottom: "-20px",
-              }}
+              style={
+                category === "user"
+                  ? {
+                      width: "200px",
+                      height: "200px",
+                      cursor: "pointer",
+                      marginTop: "-160px",
+                      marginBottom: "20px",
+                    }
+                  : {
+                      width: "200px",
+                      height: "200px",
+                      cursor: "pointer",
+                      marginTop: "-160px",
+                      marginBottom: "10px",
+                    }
+              }
               alt={profileimage}
               data-bs-toggle="modal"
               data-bs-target="#profileUpdateModal"
@@ -888,7 +934,7 @@ function UserUpdate() {
               class="btn-colour-1 updatebtn"
               type="submit"
               onClick={updateCheck}
-              style={{ marginTop: "-10px" }}
+              style={category === "user" ? null : { marginTop: "-10px" }}
             >
               회원정보 수정하기
             </button>
