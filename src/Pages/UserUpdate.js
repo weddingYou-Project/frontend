@@ -1,6 +1,7 @@
 import "../Css/main.css";
 import "../Css/mypage.css";
 import "../Css/userupdate.css";
+import profileimage from "../Assets/defaultprofileimage.jpg";
 import NavigationBar from "../Components/NavigationBar";
 import Footer from "../Components/Footer";
 import React, { useState, useRef, useEffect } from "react";
@@ -575,7 +576,16 @@ function UserUpdate() {
       <NavigationBar title={title} />
       <div class="content userupdatecontainer text-center">
         <form class="col">
-          <img src="" alt="" />
+          <img
+            src={profileimage}
+            style={{
+              width: "200px",
+              height: "200px",
+              marginBottom: "10px",
+              marginTop: "-50px",
+            }}
+            alt={profileimage}
+          />
           <div class="row justify-content-md-center mb-2">
             <label for="name" class="form-label col col-md-2 mt-2">
               이름

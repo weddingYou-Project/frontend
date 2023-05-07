@@ -1,5 +1,6 @@
 import "../Css/main.css";
 import "../Css/mypage.css";
+import profileimage from "../Assets/defaultprofileimage.jpg";
 import NavigationBar from "../Components/NavigationBar";
 import Footer from "../Components/Footer";
 import React, { useState, useRef, useEffect } from "react";
@@ -204,7 +205,16 @@ function Mypage() {
       <NavigationBar title={title} />
       <div className="content mypagecontainer text-center">
         <form className="col">
-          <img src="" alt="" />
+          <img
+            src={profileimage}
+            style={{
+              width: "200px",
+              height: "200px",
+              marginBottom: "10px",
+              marginTop: "-10px",
+            }}
+            alt={profileimage}
+          />
           <div className="row justify-content-md-center mb-2">
             <label htmlFor="name" className="form-label col col-md-2 mt-2">
               이름
