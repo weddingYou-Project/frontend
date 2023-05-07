@@ -77,26 +77,40 @@ function UserUpdate() {
           setDefaultPhone(res.data.phoneNum);
           setGender(res.data.gender);
           setDefaultGender(res.data.gender);
-          setPreviewUrl(res.data.userImg);
-          setProfileImg(res.data.userImg);
-          const fileReader = new FileReader();
-          fileReader.onload = () => {
-            setPreviewUrl(fileReader.result);
-            console.log(fileReader.result);
-          };
-          fileReader.readAsDataURL(res.data.userImg);
+          // const selectedFile = e.target.files[0];
+          // setProfileImg(selectedFile);
+          // const fileReader = new FileReader();
+          // fileReader.onload = () => {
+          //   setPreviewUrl(fileReader.result);
+          //   console.log("filereader.result : ", fileReader.result);
+          // };
+          // fileReader.readAsDataURL(selectedFile);
         })
         .catch((e) => {
           console.log(e);
         });
-      // axios
-      //   .get("/user/getprofileImg", { email: email })
-      //   .then((res) => {
-      //     //setPreviewUrl(res.data.userImg);
-      //   })
-      //   .catch((e) => {
-      //     console.log(e);
-      //   });
+      axios
+        .post("/user/getprofileImg", { email: email })
+        .then((res) => {
+          console.log("res:" + res.data);
+          const byteCharacters = atob(res.data);
+          const byteNumbers = new Array(byteCharacters.length);
+          for (let i = 0; i < byteCharacters.length; i++) {
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
+          }
+          const byteArray = new Uint8Array(byteNumbers);
+          const blob = new Blob([byteArray], { type: "image/jpeg" });
+          setProfileImg(blob);
+          const reader = new FileReader();
+          reader.onload = () => {
+            setPreviewUrl(reader.result);
+            console.log("reader.result : ", reader.result);
+          };
+          reader.readAsDataURL(blob);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     }
     if (category === "planner") {
       axios
@@ -573,7 +587,7 @@ function UserUpdate() {
     const fileReader = new FileReader();
     fileReader.onload = () => {
       setPreviewUrl(fileReader.result);
-      //console.log(fileReader.result);
+      console.log("filereader.result : ", fileReader.result);
     };
     fileReader.readAsDataURL(selectedFile);
   };
@@ -620,26 +634,44 @@ function UserUpdate() {
   return (
     <div class="mainlayout">
       <NavigationBar title={title} />
-      <div class="content userupdatecontainer text-center">
-        <form class="col">
-          <img
-            src={previewUrl}
-            style={{
-              width: "200px",
-              height: "200px",
-              marginBottom: "10px",
-              marginTop: "-50px",
-              cursor: "pointer",
-            }}
-            alt={profileimage}
-            data-bs-toggle="modal"
-            data-bs-target="#profileUpdateModal"
-          />
-          <div class="row justify-content-md-center mb-2">
-            <label for="name" class="form-label col col-md-2 mt-2">
+      <div
+        class="userupdatecontainer text-center"
+        style={{ height: "700px", width: "100%", zIndex: 1 }}
+      >
+        <form
+          class="col"
+          style={{ width: "560px", height: "600px", zIndex: 3 }}
+        >
+          <div
+            class="row justify-content-md-center mb-2"
+            style={{ display: "flex", justifyContent: "center", width: "100%" }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alginItems: "center",
+                justifyContent: "center",
+                marginBottom: "20px",
+                width: "100%",
+                height: "100%",
+              }}
+            >
+              <img
+                src={previewUrl}
+                style={{
+                  width: "200px",
+                  height: "200px",
+                  cursor: "pointer",
+                }}
+                alt={profileimage}
+                data-bs-toggle="modal"
+                data-bs-target="#profileUpdateModal"
+              />
+            </div>
+            <label for="name" class="form-label col col-md-4 mt-2 text-center">
               이름
             </label>
-            <div class="col col-md-7">
+            <div class="col col-md-6">
               <input
                 type="text"
                 class="form-control "
@@ -658,7 +690,10 @@ function UserUpdate() {
             </div>
           </div>
           <div class="row justify-content-md-center mb-2">
-            <label for="password" class="form-label col col-md-2 mt-2">
+            <label
+              for="password"
+              class="form-label col col-md-4 mt-2 text-center"
+            >
               비밀번호
             </label>
             <div class="has-validation col col-md-7">
@@ -852,8 +887,22 @@ function UserUpdate() {
                 aria-label="Close"
               ></button>
             </div>
-            <div class="modal-body">
-              <div class="has-validation col col-md-10">
+            <div
+              class="modal-body"
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alginItems: "center",
+                displayContent: "center",
+                height: "100%",
+                width: "100%",
+                marginTop: "50px",
+              }}
+            >
+              <div
+                class="has-validation col col-md-10"
+                style={{ height: "100%", width: "100%" }}
+              >
                 <img
                   src={previewUrl}
                   style={{
