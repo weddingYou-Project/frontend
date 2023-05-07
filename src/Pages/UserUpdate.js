@@ -557,6 +557,7 @@ function UserUpdate() {
     const fileReader = new FileReader();
     fileReader.onload = () => {
       setPreviewUrl(fileReader.result);
+      console.log(fileReader.result);
     };
     fileReader.readAsDataURL(selectedFile);
   };
@@ -566,7 +567,7 @@ function UserUpdate() {
     formData.append("file", profileImg);
     formData.append("useremail", sessionStorage.getItem("email"));
     axios
-      .post("/user/profileImg", formData, {
+      .post("/user/updateprofileImg", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       })
       .then((res) => {
@@ -841,8 +842,6 @@ function UserUpdate() {
                   type="file"
                   class="form-control"
                   id="profileInput"
-                  //  ref={profileInput}
-                  //  value={profileImg}
                   onChange={onChangeProfile}
                   placeholder="업로드할 이미지"
                   required
