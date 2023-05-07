@@ -77,10 +77,26 @@ function UserUpdate() {
           setDefaultPhone(res.data.phoneNum);
           setGender(res.data.gender);
           setDefaultGender(res.data.gender);
+          setPreviewUrl(res.data.userImg);
+          setProfileImg(res.data.userImg);
+          const fileReader = new FileReader();
+          fileReader.onload = () => {
+            setPreviewUrl(fileReader.result);
+            console.log(fileReader.result);
+          };
+          fileReader.readAsDataURL(res.data.userImg);
         })
         .catch((e) => {
           console.log(e);
         });
+      // axios
+      //   .get("/user/getprofileImg", { email: email })
+      //   .then((res) => {
+      //     //setPreviewUrl(res.data.userImg);
+      //   })
+      //   .catch((e) => {
+      //     console.log(e);
+      //   });
     }
     if (category === "planner") {
       axios
@@ -557,7 +573,7 @@ function UserUpdate() {
     const fileReader = new FileReader();
     fileReader.onload = () => {
       setPreviewUrl(fileReader.result);
-      console.log(fileReader.result);
+      //console.log(fileReader.result);
     };
     fileReader.readAsDataURL(selectedFile);
   };
@@ -838,6 +854,20 @@ function UserUpdate() {
             </div>
             <div class="modal-body">
               <div class="has-validation col col-md-10">
+                <img
+                  src={previewUrl}
+                  style={{
+                    width: "200px",
+                    height: "200px",
+                    marginBottom: "20px",
+                    marginTop: "-50px",
+                    cursor: "pointer",
+                    marginLeft: "140px",
+                  }}
+                  alt={profileimage}
+                  data-bs-toggle="modal"
+                  data-bs-target="#profileUpdateModal"
+                />
                 <input
                   type="file"
                   class="form-control"
@@ -862,7 +892,6 @@ function UserUpdate() {
                 type="button"
                 class="btn btn-primary"
                 data-bs-toggle="modal"
-                //    ref={passwordConfirm}
                 onClick={updateProfile}
               >
                 변경하기
@@ -871,7 +900,7 @@ function UserUpdate() {
           </div>
         </div>
       </div>
-      {/* 비밀번호 확인 모달 */}
+      {/*프로필 변경 업로드 파일 올리는 모달창 */}
     </div>
   );
 }
