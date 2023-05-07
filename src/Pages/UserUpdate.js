@@ -28,6 +28,8 @@ function UserUpdate() {
   const [defaultGender, setDefaultGender] = useState("");
   const [career, setCareer] = useState(0);
   const [defaultCareer, setDefaultCareer] = useState(0);
+  const [profileImg, setProfileImg] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(profileimage);
 
   const nameInput = useRef();
   const passwordInput = useRef();
@@ -550,7 +552,29 @@ function UserUpdate() {
   };
 
   const onChangeProfile = (e) => {
-    console.log(e.target.files[0]);
+    const selectedFile = e.target.files[0];
+    setProfileImg(selectedFile);
+    const fileReader = new FileReader();
+    fileReader.onload = () => {
+      setPreviewUrl(fileReader.result);
+    };
+    fileReader.readAsDataURL(selectedFile);
+  };
+
+  const updateProfile = (e) => {
+    const formData = new FormData();
+    formData.append("file", profileImg);
+    formData.append("useremail", sessionStorage.getItem("email"));
+    axios
+      .post("/user/profileImg", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
   const updateCheck = (e) => {
@@ -582,7 +606,7 @@ function UserUpdate() {
       <div class="content userupdatecontainer text-center">
         <form class="col">
           <img
-            src={profileimage}
+            src={previewUrl}
             style={{
               width: "200px",
               height: "200px",
@@ -823,6 +847,7 @@ function UserUpdate() {
                   placeholder="업로드할 이미지"
                   required
                   autocomplete="off"
+                  enctype="multipart/form-data"
                 />
               </div>
             </div>
@@ -839,7 +864,7 @@ function UserUpdate() {
                 class="btn btn-primary"
                 data-bs-toggle="modal"
                 //    ref={passwordConfirm}
-                // onClick={updateProfile}
+                onClick={updateProfile}
               >
                 변경하기
               </button>

@@ -30,6 +30,8 @@ function Mypage() {
   const passwordConfirm = useRef();
   const [passwordcheckmessage, setPasswordCheckMessage] = useState("");
 
+  const [previewUrl, setPreviewUrl] = useState(profileimage);
+
   const { category } = useParams();
 
   const userEmail = window.sessionStorage.getItem("email");
@@ -206,7 +208,7 @@ function Mypage() {
       <div className="content mypagecontainer text-center">
         <form className="col">
           <img
-            src={profileimage}
+            src={previewUrl}
             style={{
               width: "200px",
               height: "200px",
