@@ -13,14 +13,20 @@ function NotFound() {
   const images = [Loadingimg1, Loadingimg2, Loadingimg3];
   const [selectImg, setSelectImg] = useState();
   const navigate = useNavigate();
-  let [top, setTop] = useState(20);
+  let [top, setTop] = useState(70);
   let [opacity, setOpacity] = useState(0);
+  let [imgTop, setImgTop] = useState(120);
+  let [imgOpacity, setImgOpacity] = useState(0);
 
   useEffect(() => {
     setTimeout(() => {
-      setTop(100);
+      setTop(110);
       setOpacity(1);
     }, 200);
+    setTimeout(() => {
+      setImgTop(170);
+      setImgOpacity(1);
+    }, 600);
     setNum(Math.floor(Math.random() * 3));
     setSelectImg(images[num]);
   }, []);
@@ -60,9 +66,10 @@ function NotFound() {
               fontSize: "1.5em",
               zIndex: 1,
               marginBottom: "30px",
-              marginTop: "-20px",
+              marginTop: "-40px",
               top: top,
               opacity: opacity,
+              fontFamily: "Nanum Myeongjo",
             }}
             className="Signup-SuccessMessage"
           >
@@ -71,7 +78,16 @@ function NotFound() {
           <img
             src={images[num]}
             alt=""
-            style={{ width: "100%", height: "400px", marginBottom: "30px" }}
+            style={{
+              display: "block",
+              width: "300px",
+              height: "400px",
+              marginBottom: "30px",
+              transition: "all 1.5s",
+              marginTop: "-10px",
+              top: imgTop,
+              opacity: imgOpacity,
+            }}
           />
           <button
             type="button"
