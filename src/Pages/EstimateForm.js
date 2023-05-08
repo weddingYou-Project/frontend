@@ -4,7 +4,7 @@ import "../Css/EstimateForm.css";
 import personCentered from "../Assets/logo.png";
 //
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRef } from "react";
 //컴포넌트
@@ -13,6 +13,11 @@ import BackButton from "../Components/Backbutton";
 import NavigationBar from "../Components/NavigationBar";
 
 const EstimateForm = () => {
+  //Ref
+  let dateRef = useRef();
+  let regionRef = useRef();
+  let budgetRef = useRef();
+
   let [weddingdate, setweddingdate] = useState({
     datefirst: "",
     datesecond: "",
@@ -33,21 +38,25 @@ const EstimateForm = () => {
   let [makeup, setmakeup] = useState([]);
   let [images, setimages] = useState([]);
 
-  //결혼날짜, 결혼지역, 예산
-  let onChangehandler = (e) => {
-    if (e.target.id === "weddingdate") {
-      let copy = { ...weddingdate, [e.target.name]: e.target.value };
-      setweddingdate(copy);
-    }
+  //아코디언 스타일 state
+  let [acco1, setacco1] = useState("");
+  let [acco2, setacco2] = useState("");
 
-    if (e.target.id === "weddingregion") {
-      let copy = { ...weddingregion, [e.target.name]: e.target.value };
-      setweddingregion(copy);
-    }
+  //날짜
+  const weddingdateSelect = (e) => {
+    let copy = { ...weddingdate, [e.target.name]: e.target.value };
+    setweddingdate(copy);
+  };
 
-    if (e.target.id === "budget") {
-      setbudget(e.target.value);
-    }
+  //지역
+  const weddingregionSelect = (e) => {
+    let copy = { ...weddingregion, [e.target.name]: e.target.value };
+    setweddingregion(copy);
+  };
+
+  //예산
+  const budgetSelect = (e) => {
+    setbudget(e.target.value);
   };
 
   //스튜디오
@@ -57,11 +66,31 @@ const EstimateForm = () => {
     } else setstudio(e.target.value);
   };
 
-  //신혼여행
-  const honeymoonSelect = (e) => {
-    if (honeymoon === e.target.value) {
+  //신혼여행 국내 해외 아코디언
+  const honeymoonaccodian = (e) => {
+    if (acco1 === "") {
+      setacco1("view");
+      setacco2("");
       sethoneymoon("");
-    } else sethoneymoon(e.target.value);
+    } else {
+      setacco1("");
+      sethoneymoon("");
+    }
+  };
+  const honeymoonaccodian2 = (e) => {
+    if (acco2 === "") {
+      setacco2("view");
+      setacco1("");
+      sethoneymoon("");
+    } else {
+      setacco2("");
+      sethoneymoon("");
+    }
+  };
+
+  //신혼여행지 선택
+  const honeymoonSelect = (e) => {
+    sethoneymoon(e.target.value);
   };
 
   //드레스
@@ -118,6 +147,7 @@ const EstimateForm = () => {
     }
   };
 
+  //이미지 파일 첨부
   const imageSelect = (e) => {
     setimages(e.target.files);
   };
@@ -145,15 +175,27 @@ const EstimateForm = () => {
   const onSubmit = () => {
     if (weddingdate.datefirst === "") {
       alert("1순위 날짜 입력은 필수입니다.");
+      dateRef.current.focus();
       return false;
     }
+    if (
+      weddingdate.datefirst === weddingdate.datesecond ||
+      weddingdate.datefirst === weddingdate.datethird
+    ) {
+      alert("각각 다른 날짜를 선택해주세요");
+      dateRef.current.focus();
+      return false;
+    }
+
     if (weddingregion.regionfirst === "") {
       alert("1순위 지역 입력은 필수입니다.");
+      regionRef.current.focus();
       return false;
     }
 
     if (budget === 0) {
       alert("예산 입력은 필수입니다.");
+      budgetRef.current.focus();
       return false;
     }
 
@@ -196,7 +238,7 @@ const EstimateForm = () => {
         <div className="contentbox">
           <h5
             onClick={() => {
-              console.log(studio);
+              console.log(weddingregion);
             }}
           >
             희망 결혼 예정일
@@ -205,10 +247,10 @@ const EstimateForm = () => {
             <span>1순위</span>
             <input
               type="date"
+              ref={dateRef}
               className="form-control"
-              onChange={onChangehandler}
+              onChange={weddingdateSelect}
               name="datefirst"
-              id="weddingdate"
             />
           </div>
           <div className="choosebox">
@@ -216,9 +258,8 @@ const EstimateForm = () => {
             <input
               type="date"
               className="form-control"
-              onChange={onChangehandler}
+              onChange={weddingdateSelect}
               name="datesecond"
-              id="weddingdate"
             />
           </div>
           <div className="choosebox">
@@ -226,9 +267,8 @@ const EstimateForm = () => {
             <input
               type="date"
               className="form-control"
-              onChange={onChangehandler}
+              onChange={weddingdateSelect}
               name="datethird"
-              id="weddingdate"
             />
           </div>
           {/* <hr></hr> */}
@@ -237,35 +277,32 @@ const EstimateForm = () => {
           <h5>희망 결혼 지역</h5>
           <div className="choosebox">
             <span>1순위</span>
-            <input
+            {/* <input
               type="text"
               className="w-100 form-control"
-              onChange={onChangehandler}
+              onChange={weddingregionSelect}
               name="regionfirst"
-              id="weddingregion"
+              ref={regionRef}
+            /> */}
+            <RegionList
+              name="regionfirst"
+              weddingregionSelect={weddingregionSelect}
             />
           </div>
           <div className="choosebox">
             <span>2순위</span>
-            <input
-              type="text"
-              className="w-100 form-control"
-              onChange={onChangehandler}
+            <RegionList
               name="regionsecond"
-              id="weddingregion"
+              weddingregionSelect={weddingregionSelect}
             />
           </div>
           <div className="choosebox">
             <span>3순위</span>
-            <input
-              type="text"
-              className="w-100 form-control"
-              onChange={onChangehandler}
+            <RegionList
               name="regionthird"
-              id="weddingregion"
+              weddingregionSelect={weddingregionSelect}
             />
           </div>
-          {/* <hr></hr> */}
         </div>
         <div className="contentbox">
           <h5>예산</h5>
@@ -274,8 +311,8 @@ const EstimateForm = () => {
               type="text"
               className="w-100 form-control budget-input"
               value={budget}
-              id="budget"
-              onChange={onChangehandler}
+              onChange={budgetSelect}
+              ref={budgetRef}
             />
           </div>
           원{/* <hr></hr> */}
@@ -531,8 +568,8 @@ const EstimateForm = () => {
               type="radio"
               name="honeymoon"
               value="해외"
-              onClick={honeymoonSelect}
-              checked={honeymoon === "해외"}
+              onClick={honeymoonaccodian}
+              checked={acco1 === "view"}
               className="displaynone"
             />
             <label htmlFor="해외" className="label-design w-100 cursor">
@@ -545,15 +582,155 @@ const EstimateForm = () => {
               type="radio"
               name="honeymoon"
               value="국내"
-              onClick={honeymoonSelect}
-              checked={honeymoon === "국내"}
+              onClick={honeymoonaccodian2}
+              checked={acco2 === "view"}
               className="displaynone"
             />
             <label htmlFor="국내" className="label-design w-100 cursor">
               국내
             </label>
           </div>
+          <div className={`hideeee ${acco1}`}>
+            <select
+              class="form-select form-select-lg mb-3 cursor"
+              aria-label=".form-select-lg example"
+              onChange={honeymoonSelect}
+              style={{ fontSize: 15 }}
+            >
+              <option selected={acco1 === "view"} disabled>
+                해외 여행지를 선택해주세요
+              </option>
+              <optgroup label="아시아">
+                <option value="발리">발리</option>
+                <option value="코타키나발루">코타키나발루</option>
+                <option value="푸꾸옥제도">푸꾸옥제도</option>
+                <option value="하노이">하노이</option>
+                <option value="다낭">다낭</option>
+                <option value="호치민">호치민</option>
+                <option value="태국(방콕)">태국</option>
+                <option value="후쿠오카">후쿠오카</option>
+                <option value="오사카">오사카</option>
+                <option value="괌">괌</option>
+              </optgroup>
+              <optgroup label="북미">
+                <option value="하와이">하와이</option>
+                <option value="라스베이거스">라스베이거스</option>
+                <option value="로스앤젤레스">로스앤젤레스</option>
+                <option value="샌프란시스코">샌프란시스코</option>
+                <option value="뉴욕">뉴욕</option>
+                <option value="알래스카">알래스카</option>
+                <option value="캐나다">캐나다</option>
+                <option value="멕시코">멕시코</option>
+              </optgroup>
+              <optgroup label="유럽">
+                <option value="파리">파리</option>
+                <option value="로마">로마</option>
+                <option value="베니스">베니스</option>
+                <option value="프라하">프라하</option>
+                <option value="마드리드">마드리드</option>
+                <option value="바르셀로나">바르셀로나</option>
+                <option value="프라하">프라하</option>
+                <option value="산토리니">산토리니</option>
+                <option value="런던">런던</option>
+              </optgroup>
+              <optgroup label="중동">
+                <option value="두바이">두바이</option>
+                <option value="아부다비">아부다비</option>
+              </optgroup>
+              <optgroup label="오세아니아">
+                <option value="시드니">시드니</option>
+                <option value="골드코스트">골드코스트</option>
+                <option value="케언즈">케언즈</option>
+                <option value="뉴질랜드">뉴질랜드</option>
+              </optgroup>
+              <optgroup label="북유럽">
+                <option value="스웨덴">스웨덴</option>
+                <option value="노르웨이">노르웨이</option>
+                <option value="핀란드">핀란드</option>
+                <option value="덴마크">덴마크</option>
+              </optgroup>
+              <optgroup label="남미">
+                <option value="칠레">칠레</option>
+                <option value="아르헨티나">아르헨티나</option>
+                <option value="페루">페루</option>
+              </optgroup>
+              <optgroup label="아프리카">
+                <option value="모로코">모로코</option>
+                <option value="남아프리카공화국">남아프리카공화국</option>
+              </optgroup>
+              <optgroup label="기타">
+                <option value="해외-기타">기타</option>
+              </optgroup>
+            </select>
+          </div>
+          <div className={`hideeee ${acco2}`}>
+            <select
+              class="form-select form-select-lg mb-3 cursor"
+              aria-label=".form-select-lg example"
+              onChange={honeymoonSelect}
+              style={{ fontSize: 15 }}
+            >
+              <option selected={acco2 === "view"} disabled>
+                국내여행지를 선택해주세요
+              </option>
+              <optgroup label="섬">
+                <option value="제주도">제주도</option>
+                <option value="울릉도">울릉도</option>
+                <option value="남해도">남해도</option>
+                <option value="강화도">강화도</option>
+                <option value="완도">완도</option>
+                <option value="거제도"></option>
+              </optgroup>
+              <optgroup label="경기도">
+                <option value="가평">가평</option>
+                <option value="파주">파주</option>
+                <option value="양평">양평</option>
+              </optgroup>
+              <optgroup label="경상남도">
+                <option value="남해">남해</option>
+                <option value="통영">통영</option>
+                <option value="부산">부산</option>
+              </optgroup>
+              <optgroup label="경상북도">
+                <option value="안동">안동</option>
+                <option value="경주">경주</option>
+                <option value="포항">포항</option>
+              </optgroup>
+              <optgroup label="전라남도">
+                <option value="목포">목포</option>
+                <option value="여수">여수</option>
+                <option value="순천">순천</option>
+              </optgroup>
+              <optgroup label="전라북도">
+                <option value="전주">전주</option>
+                <option value="군산">군산</option>
+                <option value="순천">순천</option>
+                <option value="고창">고창</option>
+              </optgroup>
+              <optgroup label="충청남도">
+                <option value="보령">보령</option>
+                <option value="태안">태안</option>
+                <option value="아산">아산</option>
+              </optgroup>
+              <optgroup label="충청북도">
+                <option value="청주">청주</option>
+                <option value="단양">단양</option>
+                <option value="제천">제천</option>
+              </optgroup>
+              <optgroup label="강원도">
+                <option value="강릉">강릉</option>
+                <option value="속초">속초</option>
+                <option value="양양">양양</option>
+                <option value="춘천">춘천</option>
+                <option value="홍천">홍천</option>
+              </optgroup>
+              <optgroup label="기타">
+                <option value="국내-기타">기타</option>
+              </optgroup>
+            </select>
+          </div>
         </div>
+
         <div className="contentbox">
           <h5>사진첨부</h5>
           <div className="choosebox">
@@ -639,6 +816,7 @@ const StudioModal = () => {
                 image1="https://www.iwedding.co.kr/_next/image?url=https%3A%2F%2Fwww.iwedding.co.kr%2Fcenter%2Fwebsite%2Fbrandplus%2F1667180129.jpg&w=1920&q=75"
                 image2="https://www.iwedding.co.kr/center/iweddingb/product/800_11679_1665982500_05988600_3232256100.jpg"
                 image3="https://www.iwedding.co.kr/center/iweddingb/product/800_1708_1665976697_88410900_3232256100.jpg"
+                comment="인물중심의 스튜디오입니다. 인물을 강조합니다."
               />
               <AccordionComp
                 heading={2}
@@ -647,6 +825,7 @@ const StudioModal = () => {
                 image1="https://www.iwedding.co.kr/_next/image?url=https%3A%2F%2Fwww.iwedding.co.kr%2Fcenter%2Fwebsite%2Fbrandplus%2F1663831599.jpg&w=1920&q=75"
                 image2="https://www.iwedding.co.kr/_next/image?url=https%3A%2F%2Fwww.iwedding.co.kr%2Fcenter%2Fwebsite%2Fbrandplus%2F1663808804.jpg&w=1920&q=75"
                 image3="https://www.iwedding.co.kr/center/iweddingb/product/800_13581_1665985281_96465800_3232256098.jpg"
+                comment="배경중심의 스튜디오입니다. 배경을 강조합니다."
               />
               <AccordionComp
                 heading={3}
@@ -655,6 +834,7 @@ const StudioModal = () => {
                 image1="https://www.iwedding.co.kr/center/iweddingb/product/800_12512_1666920642_83238100_3232256098.jpg"
                 image2="https://www.iwedding.co.kr/center/iweddingb/product/800_12544_1666688374_16242500_3232256098.jpg"
                 image3="https://www.iwedding.co.kr/center/iweddingb/product/800_13300_1668503581_00621700_3232256098.jpg"
+                comment="인물과 배경 모두 강조합니다."
               />
             </div>
           </div>
@@ -686,7 +866,7 @@ const DressModal = () => {
         <div className="modal-content">
           <div className="modal-header">
             <h1 className="modal-title fs-5" id="exampleModalLabel">
-              스튜디오
+              드레스
             </h1>
             <button
               type="button"
@@ -740,7 +920,7 @@ const MakeupModal = () => {
         <div className="modal-content">
           <div className="modal-header">
             <h1 className="modal-title fs-5" id="exampleModalLabel">
-              스튜디오
+              메이크업
             </h1>
             <button
               type="button"
@@ -781,6 +961,7 @@ const AccordionComp = ({
   image1,
   image2,
   image3,
+  comment,
 }) => {
   return (
     <div className="accordion-item">
@@ -805,7 +986,7 @@ const AccordionComp = ({
         <div className="accordion-body p-0">
           <div className="exampleimagebox">
             <div className="exampleimage">
-              <캐러셀
+              <Carousel
                 image1={image1}
                 image2={image2}
                 image3={image3}
@@ -813,17 +994,18 @@ const AccordionComp = ({
               />
             </div>
           </div>
-          <br></br>
 
-          <h5>설명</h5>
-          <p>인물 중심의 스튜디오입니다. </p>
+          <div className="Accordion-explanation">
+            <h5>설명</h5>
+            <p>{comment}</p>
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-const 캐러셀 = ({ image1, image2, image3, collapse, heading }) => {
+const Carousel = ({ image1, image2, image3, collapse, heading }) => {
   return (
     <div
       id={`carouselExampleDark${heading}`}
@@ -900,5 +1082,249 @@ const 캐러셀 = ({ image1, image2, image3, collapse, heading }) => {
         <span className="visually-hidden">Next</span>
       </button>
     </div>
+  );
+};
+
+const RegionList = ({ name, weddingregionSelect }) => {
+  return (
+    <>
+      <select
+        class="form-select form-select-lg mb-3 cursor"
+        aria-label=".form-select-lg example"
+        style={{ fontSize: 14 }}
+        name={name}
+        onChange={weddingregionSelect}
+      >
+        <option value="">미선택</option>
+        <optgroup label="제주도 및 광역시">
+          <option value="부산광역시">부산광역시</option>
+          <option value="인천광역시">인천광역시</option>
+          <option value="대구광역시">대구광역시</option>
+          <option value="대전광역시">대전광역시</option>
+          <option value="광주광역시">광주광역시</option>
+          <option value="울산광역시">울산광역시</option>
+          <option value="제주도">제주도</option>
+        </optgroup>
+        <optgroup label="서울">
+          <option value="서울강남구">강남구</option>
+          <option value="서울강동구">강동구</option>
+          <option value="서울강북구">강북구</option>
+          <option value="서울강서구">강서구</option>
+          <option value="서울관악구">관악구</option>
+          <option value="서울광진구">광진구</option>
+          <option value="서울구로구">구로구</option>
+          <option value="서울금천구">금천구</option>
+          <option value="서울노원구">노원구</option>
+          <option value="서울도봉구">도봉구</option>
+          <option value="서울동대문구">동대문구</option>
+          <option value="서울동작구">동작구</option>
+          <option value="서울마포구">마포구</option>
+          <option value="서울서대문구">서대문구</option>
+          <option value="서울서초구">서초구</option>
+          <option value="서울성동구">성동구</option>
+          <option value="서울성북구">성북구</option>
+          <option value="서울송파구">송파구</option>
+          <option value="서울양천구">양천구</option>
+          <option value="서울영등포구">영등포구</option>
+          <option value="서울용산구">용산구</option>
+          <option value="서울은평구">은평구</option>
+          <option value="서울종로구">종로구</option>
+          <option value="서울중구">중구</option>
+          <option value="서울중랑구">중랑구</option>
+        </optgroup>
+        <optgroup label="경기도">
+          <option value="가평군">가평군</option>
+          <option value="고양시">고양시</option>
+          <option value="과천시">과천시</option>
+          <option value="광명시">광명시</option>
+          <option value="광주시">광주시</option>
+          <option value="구리시">구리시</option>
+          <option value="군포시">군포시</option>
+          <option value="김포시">김포시</option>
+          <option value="남양주시">남양주시</option>
+          <option value="동두천시">동두천시</option>
+          <option value="부천시">부천시</option>
+          <option value="성남시">성남시</option>
+          <option value="수원시">수원시</option>
+          <option value="시흥시">시흥시</option>
+          <option value="안산시">안산시</option>
+          <option value="안성시">안성시</option>
+          <option value="안양시">안양시</option>
+          <option value="양주시">양주시</option>
+          <option value="양평군">양평군</option>
+          <option value="여주시">여주시</option>
+          <option value="연천군">연천군</option>
+          <option value="오산시">오산시</option>
+          <option value="용인시">용인시</option>
+          <option value="의왕시">의왕시</option>
+          <option value="의정부시">의정부시</option>
+          <option value="이천시">이천시</option>
+          <option value="파주시">파주시</option>
+          <option value="평택시">평택시</option>
+          <option value="포천시">포천시</option>
+          <option value="하남시">하남시</option>
+          <option value="화성시">화성시</option>
+        </optgroup>
+        <optgroup label="강원도">
+          <option value="강릉시">강릉시</option>
+          <option value="고성군">고성군</option>
+          <option value="동해시">동해시</option>
+          <option value="삼척시">삼척시</option>
+          <option value="속초시">속초시</option>
+          <option value="양구군">양구군</option>
+          <option value="양양군">양양군</option>
+          <option value="영월군">영월군</option>
+          <option value="원주시">원주시</option>
+          <option value="인제군">인제군</option>
+          <option value="정선군">정선군</option>
+          <option value="철원군">철원군</option>
+          <option value="춘천시">춘천시</option>
+          <option value="태백시">태백시</option>
+          <option value="평창군">평창군</option>
+          <option value="홍천군">홍천군</option>
+          <option value="화천군">화천군</option>
+          <option value="횡성군">횡성군</option>
+        </optgroup>
+        <optgroup label="충청남도">
+          <option value="계룡시">계룡시</option>
+          <option value="공주시">공주시</option>
+          <option value="금산군">금산군</option>
+          <option value="논산시">논산시</option>
+          <option value="당진시">당진시</option>
+          <option value="보령시">보령시</option>
+          <option value="부여군">부여군</option>
+          <option value="서산시">서산시</option>
+          <option value="서천군">서천군</option>
+          <option value="아산시">아산시</option>
+          <option value="예산군">예산군</option>
+          <option value="천안시">천안시</option>
+          <option value="청양군">청양군</option>
+          <option value="태안군">태안군</option>
+          <option value="홍성군">홍성군</option>
+        </optgroup>
+        <optgroup label="충청북도">
+          <option value="괴산군">괴산군</option>
+          <option value="단양군">단양군</option>
+          <option value="보은군">보은군</option>
+          <option value="영동군">영동군</option>
+          <option value="옥천군">옥천군</option>
+          <option value="음성군">음성군</option>
+          <option value="제천시">제천시</option>
+          <option value="증평군">증평군</option>
+          <option value="진천군">진천군</option>
+          <option value="청원군">청원군</option>
+          <option value="청주시">청주시</option>
+          <option value="충주시">충주시</option>
+        </optgroup>
+        <optgroup label="전라북도">
+          <option value="고창군">고창군</option>
+          <option value="군산시">군산시</option>
+          <option value="김제시">김제시</option>
+          <option value="남원시">남원시</option>
+          <option value="무주군">무주군</option>
+          <option value="부안군">부안군</option>
+          <option value="순창군">순창군</option>
+          <option value="완주군">완주군</option>
+          <option value="익산시">익산시</option>
+          <option value="임실군">임실군</option>
+          <option value="전주시">전주시</option>
+          <option value="정읍시">정읍시</option>
+        </optgroup>
+        <optgroup label="전라남도">
+          <option value="강진군">강진군</option>
+          <option value="고흥군">고흥군</option>
+          <option value="곡성군">곡성군</option>
+          <option value="광양시">광양시</option>
+          <option value="장성군">장성군</option>
+          <option value="나주시">나주시</option>
+          <option value="담양군">담양군</option>
+          <option value="목포시">목포시</option>
+          <option value="무안군">무안군</option>
+          <option value="보성군">보성군</option>
+          <option value="순천시">순천시</option>
+          <option value="신안군">신안군</option>
+          <option value="여수시">여수시</option>
+          <option value="영광군">영광군</option>
+          <option value="영암군">영암군</option>
+          <option value="완도군">완도군</option>
+          <option value="장성군">장성군</option>
+          <option value="장흥군">장흥군</option>
+          <option value="진도군">진도군</option>
+          <option value="함평군">함평군</option>
+          <option value="해남군">해남군</option>
+          <option value="화순군">화순군</option>
+        </optgroup>
+        <optgroup label="경상북도">
+          <option value="경산시">경산시</option>
+          <option value="경주시">경주시</option>
+          <option value="고령군">고령군</option>
+          <option value="구미시">구미시</option>
+          <option value="군위군">군위군</option>
+          <option value="김천시">김천시</option>
+          <option value="문경시">문경시</option>
+          <option value="봉화군">봉화군</option>
+          <option value="상주시">상주시</option>
+          <option value="성주군">성주군</option>
+          <option value="안동시">안동시</option>
+          <option value="영덕군">영덕군</option>
+          <option value="영양군">영양군</option>
+          <option value="영주시">영주시</option>
+          <option value="영천시">영천시</option>
+          <option value="예천군">예천군</option>
+          <option value="울릉군">울릉군</option>
+          <option value="울진군">울진군</option>
+          <option value="의성군">의성군</option>
+          <option value="청도군">청도군</option>
+          <option value="청송군">청송군</option>
+          <option value="칠곡군">칠곡군</option>
+          <option value="포항시">포항시</option>
+        </optgroup>
+        <optgroup label="경상북도">
+          <option value="경산시">경산시</option>
+          <option value="경주시">경주시</option>
+          <option value="고령군">고령군</option>
+          <option value="구미시">구미시</option>
+          <option value="군위군">군위군</option>
+          <option value="김천시">김천시</option>
+          <option value="문경시">문경시</option>
+          <option value="봉화군">봉화군</option>
+          <option value="상주시">상주시</option>
+          <option value="성주군">성주군</option>
+          <option value="안동시">안동시</option>
+          <option value="영덕군">영덕군</option>
+          <option value="영양군">영양군</option>
+          <option value="영주시">영주시</option>
+          <option value="영천시">영천시</option>
+          <option value="예천군">예천군</option>
+          <option value="울릉군">울릉군</option>
+          <option value="울진군">울진군</option>
+          <option value="의성군">의성군</option>
+          <option value="청도군">청도군</option>
+          <option value="청송군">청송군</option>
+          <option value="칠곡군">칠곡군</option>
+          <option value="포항시">포항시</option>
+        </optgroup>
+        <optgroup label="경상남도">
+          <option value="거제시">거제시</option>
+          <option value="거창군">거창군</option>
+          <option value="고성군">고성군</option>
+          <option value="김해시">김해시</option>
+          <option value="남해군">남해군</option>
+          <option value="밀양시">밀양시</option>
+          <option value="사천시">사천시</option>
+          <option value="산청군">산청군</option>
+          <option value="양산시">양산시</option>
+          <option value="의령군">의령군</option>
+          <option value="진주쉬">진주쉬</option>
+          <option value="창녕군">창녕군</option>
+          <option value="창원시">창원시</option>
+          <option value="통영시">통영시</option>
+          <option value="하동군">하동군</option>
+          <option value="함안군">함안군</option>
+          <option value="함양군">함양군</option>
+          <option value="합천군">합천군</option>
+        </optgroup>
+      </select>
+    </>
   );
 };
