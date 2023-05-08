@@ -705,7 +705,7 @@ function UserUpdate() {
                       width: "200px",
                       height: "200px",
                       cursor: "pointer",
-                      marginTop: "-160px",
+                      marginTop: "-130px",
                       marginBottom: "10px",
                     }
               }
