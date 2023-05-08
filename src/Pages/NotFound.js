@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import BackButton from "../Components/Backbutton";
 import "../Css/Signup.css";
+import "../Css/NotFound.css";
 
 function NotFound() {
   const [num, setNum] = useState(0);
@@ -13,27 +14,30 @@ function NotFound() {
   const images = [Loadingimg1, Loadingimg2, Loadingimg3];
   const [selectImg, setSelectImg] = useState();
   const navigate = useNavigate();
-  let [top, setTop] = useState(70);
+  let [top, setTop] = useState(80);
   let [opacity, setOpacity] = useState(0);
   let [imgTop, setImgTop] = useState(120);
   let [imgOpacity, setImgOpacity] = useState(0);
-
+  let [pTop, setPTop] = useState(60);
+  let [pOpacity, setPOpacity] = useState(0);
   useEffect(() => {
     setTimeout(() => {
-      setTop(110);
+      setTop(50);
       setOpacity(1);
     }, 200);
     setTimeout(() => {
+      setPTop(150);
+      setPOpacity(1);
+    }, 500);
+    setTimeout(() => {
       setImgTop(170);
       setImgOpacity(1);
-    }, 600);
+    }, 500);
     setNum(Math.floor(Math.random() * 3));
     setSelectImg(images[num]);
   }, []);
   return (
-    <div
-      style={{ minHeight: "100vh", height: "700px", width: "100%", zIndex: 1 }}
-    >
+    <div style={{}}>
       <div
         className="mainlayout"
         style={{
@@ -58,22 +62,25 @@ function NotFound() {
             flexDirection: "column",
             display: "flex",
             margin: "0 auto",
-            height: "100%",
+            minHeight: "100vh",
+            height: "900px",
+            width: "100%",
+            zIndex: 1,
+            // minHeight: "100vh",
           }}
         >
           <p
             style={{
               fontSize: "1.5em",
               zIndex: 1,
-              marginBottom: "30px",
               marginTop: "-40px",
-              top: top,
-              opacity: opacity,
+              top: pTop,
+              opacity: pOpacity,
+              transition: "all 1s",
               fontFamily: "Nanum Myeongjo",
             }}
-            className="Signup-SuccessMessage"
           >
-            Access Denied!😢
+            WEDDING YOU
           </p>
           <img
             src={images[num]}
@@ -82,22 +89,43 @@ function NotFound() {
               display: "block",
               width: "300px",
               height: "400px",
-              marginBottom: "30px",
-              transition: "all 1.5s",
+              marginBottom: "80px",
+              transition: "all 1s",
               marginTop: "-10px",
               top: imgTop,
               opacity: imgOpacity,
             }}
           />
-          <button
-            type="button"
-            className="btn-colour-1 "
-            onClick={() => {
-              navigate("/");
+          <div
+            style={{
+              width: "100%",
+              height: "100px",
+              marginTop: "-60px",
+              marginBottom: "0px",
+              display: "flex",
+              justifyContent: "center",
+              position: "relative",
             }}
           >
-            홈으로
-          </button>
+            <p
+              style={{ opacity: opacity, position: "absolute", bottom: top }}
+              className="accessdenied"
+            >
+              Access Denied!😢
+            </p>
+          </div>
+
+          <div>
+            <button
+              type="button"
+              className="btn-colour-1 "
+              onClick={() => {
+                navigate("/");
+              }}
+            >
+              홈으로
+            </button>
+          </div>
         </div>
         <Footer />
       </div>
