@@ -8,9 +8,10 @@ import BackButton from "../Components/Backbutton";
 import "../Css/Signup.css";
 
 function NotFound() {
-  const num = Math.floor(Math.random() * 3);
+  const [num, setNum] = useState(0);
 
   const images = [Loadingimg1, Loadingimg2, Loadingimg3];
+  const [selectImg, setSelectImg] = useState();
   const navigate = useNavigate();
   let [top, setTop] = useState(20);
   let [opacity, setOpacity] = useState(0);
@@ -20,6 +21,8 @@ function NotFound() {
       setTop(120);
       setOpacity(1);
     }, 200);
+    setNum(Math.floor(Math.random() * 3));
+    setSelectImg(images[num]);
   });
   return (
     <div
