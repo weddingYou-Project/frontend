@@ -12,9 +12,11 @@ function SignupForm() {
   let [sign, setsign] = useState("before");
   let navigate = useNavigate();
   let { category } = useParams();
-  if (category !== "user" && category !== "planner") {
-    navigate("/*");
-  }
+  useEffect(() => {
+    if (category !== "user" && category !== "planner") {
+      navigate("/*");
+    }
+  });
 
   //제약조건
   let [checkAll, setCheckAll] = useState(false);
