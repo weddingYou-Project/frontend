@@ -30,7 +30,7 @@ function Mypage() {
   const passwordConfirm = useRef();
   const [passwordcheckmessage, setPasswordCheckMessage] = useState("");
 
-  const [previewUrl, setPreviewUrl] = useState(profileimage);
+  const [previewUrl, setPreviewUrl] = useState(null);
 
   const { category } = useParams();
 
@@ -54,8 +54,7 @@ function Mypage() {
           setGender(res.data.gender);
         })
         .catch((e) => {
-          console.log(1);
-          navigate("/*");
+          console.log(e);
         });
       axios
         .post("/user/getprofileImg", { email: email })
@@ -76,7 +75,7 @@ function Mypage() {
           reader.readAsDataURL(blob);
         })
         .catch((e) => {
-          console.log(e);
+          setPreviewUrl(profileimage);
         });
     }
     if (category === "planner") {
@@ -93,7 +92,7 @@ function Mypage() {
           setCareer(res.data.plannerCareerYears);
         })
         .catch((e) => {
-          navigate("/*");
+          console.log(e);
         });
       axios
         .post("/planner/getprofileImg", { email: email })
@@ -114,7 +113,7 @@ function Mypage() {
           reader.readAsDataURL(blob);
         })
         .catch((e) => {
-          console.log(e);
+          setPreviewUrl(profileimage);
         });
     }
   };
@@ -279,25 +278,30 @@ function Mypage() {
         }}
       >
         <form className="col">
-          <img
-            src={previewUrl}
-            style={
-              category === "user"
-                ? {
-                    width: "200px",
-                    height: "200px",
-                    marginBottom: "30px",
-                    marginTop: "-165px",
-                  }
-                : {
-                    width: "200px",
-                    height: "200px",
-                    marginBottom: "20px",
-                    marginTop: "-115px",
-                  }
-            }
-            alt={profileimage}
-          />
+          {previewUrl === null ? (
+            <div style={{ width: "200px", height: "200px" }}></div>
+          ) : (
+            <img
+              src={previewUrl}
+              style={
+                category === "user"
+                  ? {
+                      width: "200px",
+                      height: "200px",
+                      marginBottom: "30px",
+                      marginTop: "-165px",
+                    }
+                  : {
+                      width: "200px",
+                      height: "200px",
+                      marginBottom: "20px",
+                      marginTop: "-115px",
+                    }
+              }
+              alt={profileimage}
+            />
+          )}
+
           <div
             className=" justify-content-md-center mb-2"
             style={{ display: "flex", flexDirection: "row", width: "100%" }}

@@ -29,8 +29,8 @@ function UserUpdate() {
   const [career, setCareer] = useState(0);
   const [defaultCareer, setDefaultCareer] = useState(0);
   const [profileImg, setProfileImg] = useState(null);
-  const [previewUrl, setPreviewUrl] = useState(profileimage);
-  const [defaultViewUrl, setDefaultViewUrl] = useState(profileimage);
+  const [previewUrl, setPreviewUrl] = useState(null);
+  const [defaultViewUrl, setDefaultViewUrl] = useState(null);
 
   const nameInput = useRef();
   const passwordInput = useRef();
@@ -105,7 +105,7 @@ function UserUpdate() {
           setDefaultGender(res.data.gender);
         })
         .catch((e) => {
-          navigate("/*");
+          console.log(e);
         });
       axios
         .post("/user/getprofileImg", { email: email })
@@ -127,7 +127,8 @@ function UserUpdate() {
           reader.readAsDataURL(blob);
         })
         .catch((e) => {
-          console.log(e);
+          setDefaultViewUrl(profileimage);
+          setPreviewUrl(profileimage);
         });
     }
     if (category === "planner") {
@@ -149,7 +150,7 @@ function UserUpdate() {
           setDefaultCareer(res.data.plannerCareerYears);
         })
         .catch((e) => {
-          navigate("/*");
+          console.log(e);
         });
       axios
         .post("/planner/getprofileImg", { email: email })
@@ -171,7 +172,8 @@ function UserUpdate() {
           reader.readAsDataURL(blob);
         })
         .catch((e) => {
-          console.log(e);
+          setDefaultViewUrl(profileimage);
+          setPreviewUrl(profileimage);
         });
     }
   };
@@ -715,29 +717,33 @@ function UserUpdate() {
               marginBottom: "30px",
             }}
           >
-            <img
-              src={defaultViewUrl}
-              style={
-                category === "user"
-                  ? {
-                      width: "200px",
-                      height: "200px",
-                      cursor: "pointer",
-                      marginTop: "-110px",
-                      marginBottom: "20px",
-                    }
-                  : {
-                      width: "200px",
-                      height: "200px",
-                      cursor: "pointer",
-                      marginTop: "-130px",
-                      marginBottom: "10px",
-                    }
-              }
-              alt={profileimage}
-              data-bs-toggle="modal"
-              data-bs-target="#profileUpdateModal"
-            />
+            {defaultViewUrl === null ? (
+              <div style={{ width: "200px", height: "200px" }}></div>
+            ) : (
+              <img
+                src={defaultViewUrl}
+                style={
+                  category === "user"
+                    ? {
+                        width: "200px",
+                        height: "200px",
+                        cursor: "pointer",
+                        marginTop: "-110px",
+                        marginBottom: "20px",
+                      }
+                    : {
+                        width: "200px",
+                        height: "200px",
+                        cursor: "pointer",
+                        marginTop: "-130px",
+                        marginBottom: "10px",
+                      }
+                }
+                alt={profileimage}
+                data-bs-toggle="modal"
+                data-bs-target="#profileUpdateModal"
+              />
+            )}
           </div>
           <div
             class="justify-content-md-center mb-2"
