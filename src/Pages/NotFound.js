@@ -2,7 +2,7 @@ import Footer from "../Components/Footer";
 import Loadingimg1 from "../Assets/loading img1.jpg";
 import Loadingimg2 from "../Assets/loading img2.jpg";
 import Loadingimg3 from "../Assets/loading img3.jpg";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import BackButton from "../Components/Backbutton";
 import "../Css/Signup.css";
@@ -12,6 +12,8 @@ function NotFound() {
   const [num, setNum] = useState(0);
 
   const images = [Loadingimg1, Loadingimg2, Loadingimg3];
+  const location = useLocation();
+  const path = location.pathname;
   const [selectImg, setSelectImg] = useState();
   const navigate = useNavigate();
   let [top, setTop] = useState(80);
@@ -120,10 +122,14 @@ function NotFound() {
               type="button"
               className="btn-colour-1 "
               onClick={() => {
-                navigate("/");
+                if (path.indexOf("mypage") !== -1) {
+                  navigate("/");
+                } else {
+                  navigate("/login");
+                }
               }}
             >
-              홈으로
+              돌아가기
             </button>
           </div>
         </div>

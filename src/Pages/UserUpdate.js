@@ -81,7 +81,8 @@ function UserUpdate() {
       path.indexOf("planner") !== -1
     ) {
       navigate("/*");
-    } else if (
+    }
+    if (
       sessionStorage.getItem("category") === "planner" &&
       path.indexOf("user/userupdate") !== -1
     ) {
@@ -739,19 +740,19 @@ function UserUpdate() {
                         width: "200px",
                         height: "200px",
                         cursor: "pointer",
-                        marginTop: "-110px",
-                        marginBottom: "20px",
+                        marginTop: "-120px",
+                        marginBottom: "10px",
                       }
                     : {
                         width: "200px",
                         height: "200px",
                         cursor: "pointer",
-                        marginTop: "-130px",
-                        marginBottom: "10px",
+                        marginTop: "-110px",
                       }
                 }
                 data-bs-toggle="modal"
                 data-bs-target="#profileUpdateModal"
+                alt=""
               />
             )}
           </div>

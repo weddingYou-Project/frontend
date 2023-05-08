@@ -302,6 +302,7 @@ function Mypage() {
                       marginTop: "-115px",
                     }
               }
+              alt=""
             />
           )}
 
