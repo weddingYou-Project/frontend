@@ -181,6 +181,9 @@ function Mypage() {
     }
   };
   useEffect(() => {
+    viewDefaultInfo();
+    console.log(path);
+    console.log(path.indexOf("planner"));
     if (category !== "user" && category !== "planner") {
       navigate("/*");
     }
@@ -192,18 +195,16 @@ function Mypage() {
     }
     if (
       sessionStorage.getItem("category") === "user" &&
-      path.indexOf("planner") === 1
+      path.indexOf("planner") !== -1
     ) {
-      console.log("denied");
       navigate("/*");
     } else if (
       sessionStorage.getItem("category") === "planner" &&
-      path.indexOf("user") === 1
+      path.indexOf("user") !== -1
     ) {
       navigate("/*");
     }
-    viewDefaultInfo();
-  });
+  }, []);
 
   useEffect(() => {
     checkPasswordInfo();

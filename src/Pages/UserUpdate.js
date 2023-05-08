@@ -76,13 +76,12 @@ function UserUpdate() {
     }
     if (
       sessionStorage.getItem("category") === "user" &&
-      path.indexOf("planner") === 1
+      path.indexOf("planner") !== -1
     ) {
-      console.log("denied");
       navigate("/*");
     } else if (
       sessionStorage.getItem("category") === "planner" &&
-      path.indexOf("user") === 1
+      path.indexOf("user") !== -1
     ) {
       navigate("/*");
     }
