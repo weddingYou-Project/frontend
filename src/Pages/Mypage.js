@@ -259,7 +259,9 @@ function Mypage() {
 
   const gotoUpdatePage = () => {
     if (passwordcheckmessage === "비밀번호 확인 완료!") {
-      navigate(`/mypage/${category}/userupdate`);
+      navigate(`/mypage/${category}/userupdate`, {
+        state: true,
+      });
     }
   };
 

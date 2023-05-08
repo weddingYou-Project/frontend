@@ -9,7 +9,9 @@ import { useParams, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 
 function UserUpdate() {
+  const { state: passwordCheck } = useLocation();
   const { category } = useParams();
+
   let userOrPlanner = "";
   if (category === "user") {
     userOrPlanner = "회원";
@@ -20,7 +22,7 @@ function UserUpdate() {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [defaultPassword, setDefaultPassword] = useState("");
-  const [email, setEmail] = useState(sessionStorage.getItem("email"));
+  const [email, setEmail] = useState(sessionStorage.getItem(""));
   const [defaultEmail, setDefaultEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [defaultPhone, setDefaultPhone] = useState("");
@@ -85,11 +87,17 @@ function UserUpdate() {
     ) {
       navigate("/*");
     }
+    //console.log("check:" + passwordCheck);
+    if (passwordCheck !== true) {
+      //userupdate에 url로 접근할 경우 mypage로 navigate
+      navigate(`/mypage/${category}`);
+      alert("정보수정을 하려면 비밀번호를 입력하세요!");
+    }
   }, []);
   const viewDefaultInfo = () => {
     if (category === "user") {
       axios
-        .post("/user/userSearch", { email: email })
+        .post("/user/userSearch", { email: sessionStorage.getItem("email") })
         .then((res) => {
           console.log("성공");
           console.log(res);
@@ -107,7 +115,7 @@ function UserUpdate() {
           console.log(e);
         });
       axios
-        .post("/user/getprofileImg", { email: email })
+        .post("/user/getprofileImg", { email: sessionStorage.getItem("email") })
         .then((res) => {
           const byteCharacters = atob(res.data);
           const byteNumbers = new Array(byteCharacters.length);
@@ -132,7 +140,9 @@ function UserUpdate() {
     }
     if (category === "planner") {
       axios
-        .post("/planner/plannerSearch", { email: email })
+        .post("/planner/plannerSearch", {
+          email: sessionStorage.getItem("email"),
+        })
         .then((res) => {
           console.log("성공");
           console.log(res);
@@ -152,7 +162,9 @@ function UserUpdate() {
           console.log(e);
         });
       axios
-        .post("/planner/getprofileImg", { email: email })
+        .post("/planner/getprofileImg", {
+          email: sessionStorage.getItem("email"),
+        })
         .then((res) => {
           const byteCharacters = atob(res.data);
           const byteNumbers = new Array(byteCharacters.length);
@@ -717,7 +729,7 @@ function UserUpdate() {
             }}
           >
             {defaultViewUrl === null ? (
-              <div style={{ width: "200px", height: "200px" }}></div>
+              <div style={{ width: "200px", height: "100px" }}></div>
             ) : (
               <img
                 src={defaultViewUrl}
