@@ -1,13 +1,13 @@
 import "../Css/footer.css";
 import "../Css/main.css";
 import Footer from "../Components/Footer.js";
-import NavigationBar from "../Components/NavigationBar";
+import SearchBar from "../Components/SearchBar";
 
 function Home() {
   return (
     <div>
       <div class="mainlayout">
-        <NavigationBar />
+        <SearchBar />
         <div class="content"></div>
         <Footer />
       </div>
