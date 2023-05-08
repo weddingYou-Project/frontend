@@ -107,7 +107,7 @@ function PasswordChange() {
           <div className="col"></div>
         </div>
       </div>
-      <div className="container text-center">
+      <div className="container text-center" style={{ height: "450px" }}>
         {/* <form> */}
         <div className="row">
           <div className="col"></div>

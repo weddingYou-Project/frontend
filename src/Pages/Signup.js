@@ -39,7 +39,7 @@ function Signup() {
           </button>
         </div>
         {/*빈공간 채우는 박스입니다. */}
-        <div style={{ height: 230 }}></div>
+        <div style={{ height: 150 }}></div>
         <Footer />
       </div>
     </div>

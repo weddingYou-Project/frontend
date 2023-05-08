@@ -17,7 +17,11 @@ function Footer() {
     if (path.indexOf(`signup/${category}`) === 1) {
       footer.classList.remove("footer");
       footer.classList.add("footer-border-remove");
-    } else if (path.indexOf("login") === 1 || path.indexOf(`password`) === 1) {
+    } else if (
+      path.indexOf("login") === 1 ||
+      path.indexOf(`password`) === 1 ||
+      path === "/signup"
+    ) {
       footer.classList.add("footer");
       footer.classList.remove("footer-border-remove");
       if (window.innerHeight !== document.body.clientHeight) {
@@ -50,7 +54,11 @@ function Footer() {
     if (path.indexOf(`signup/${category}`) === 1) {
       footer.classList.remove("footer");
       footer.classList.add("footer-border-remove");
-    } else if (path.indexOf("login") === 1 || path.indexOf(`password`) === 1) {
+    } else if (
+      path.indexOf("login") === 1 ||
+      path.indexOf(`password`) === 1 ||
+      path === "/signup"
+    ) {
       footer.classList.add("footer");
       footer.classList.remove("footer-border-remove");
       if (window.innerHeight !== document.body.clientHeight) {
