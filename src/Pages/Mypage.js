@@ -5,7 +5,7 @@ import NavigationBar from "../Components/NavigationBar";
 import Footer from "../Components/Footer";
 import React, { useState, useRef, useEffect } from "react";
 import Modal from "react-modal";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams, useLocation } from "react-router-dom";
 import axios from "axios";
 
 function Mypage() {
@@ -35,6 +35,9 @@ function Mypage() {
   const { category } = useParams();
 
   const userEmail = window.sessionStorage.getItem("email");
+
+  const location = useLocation();
+  const path = location.pathname;
   // console.log(userEmail);
 
   const viewDefaultInfo = () => {
@@ -51,6 +54,7 @@ function Mypage() {
           setGender(res.data.gender);
         })
         .catch((e) => {
+          console.log(1);
           navigate("/*");
         });
       axios
@@ -178,7 +182,22 @@ function Mypage() {
   };
   useEffect(() => {
     viewDefaultInfo();
-    if (category !== "user" || category !== "planner") {
+    if (
+      sessionStorage.getItem("category") !== "user" &&
+      sessionStorage.getItem("category") !== "planner"
+    ) {
+      navigate("/*");
+    }
+    if (
+      sessionStorage.getItem("category") === "user" &&
+      path.indexOf("planner") === 1
+    ) {
+      console.log("denied");
+      navigate("/*");
+    } else if (
+      sessionStorage.getItem("category") === "planner" &&
+      path.indexOf("user") === 1
+    ) {
       navigate("/*");
     }
   });

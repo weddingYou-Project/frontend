@@ -5,7 +5,7 @@ import profileimage from "../Assets/defaultprofileimage.jpg";
 import NavigationBar from "../Components/NavigationBar";
 import Footer from "../Components/Footer";
 import React, { useState, useRef, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 
 function UserUpdate() {
@@ -59,11 +59,28 @@ function UserUpdate() {
   const [emailDuplicate, setEmailDuplicate] = useState(false);
 
   const navigate = useNavigate();
-
+  const location = useLocation();
+  const path = location.pathname;
   const userEmail = sessionStorage.getItem("email");
+
   useEffect(() => {
     viewDefaultInfo();
-    if (category !== "user" || category !== "planner") {
+    if (
+      sessionStorage.getItem("category") !== "user" &&
+      sessionStorage.getItem("category") !== "planner"
+    ) {
+      navigate("/*");
+    }
+    if (
+      sessionStorage.getItem("category") === "user" &&
+      path.indexOf("planner") === 1
+    ) {
+      console.log("denied");
+      navigate("/*");
+    } else if (
+      sessionStorage.getItem("category") === "planner" &&
+      path.indexOf("user") === 1
+    ) {
       navigate("/*");
     }
   }, []);
