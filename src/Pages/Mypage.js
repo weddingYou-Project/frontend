@@ -182,6 +182,9 @@ function Mypage() {
   };
   useEffect(() => {
     viewDefaultInfo();
+    if (category !== "user" && category !== "planner") {
+      navigate("/*");
+    }
     if (
       sessionStorage.getItem("category") !== "user" &&
       sessionStorage.getItem("category") !== "planner"
