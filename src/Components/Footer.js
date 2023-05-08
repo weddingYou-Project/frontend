@@ -9,19 +9,50 @@ function Footer() {
   const location = useLocation();
   const path = location.pathname;
   const [footerborder, setFooterBorder] = useState(false);
-  useEffect(() => {
+
+  window.addEventListener("resize", (event) => {
+    // 창크기 바뀌었을 때
     console.log("clientheight :" + document.body.clientHeight);
     const footer = document.querySelector("#footer");
     if (path.indexOf(`signup/${category}`) === 1) {
-      console.log(footer.classList);
       footer.classList.remove("footer");
       footer.classList.add("footer-border-remove");
     } else if (path.indexOf("login") === 1 || path.indexOf(`password`) === 1) {
-      console.log(document.body.clientHeight);
-      console.log(window.innerHeight);
       footer.classList.add("footer");
       footer.classList.remove("footer-border-remove");
+      if (window.innerHeight !== document.body.clientHeight) {
+        footer.classList.remove("footer");
+        footer.classList.add("footer-border-remove");
+      }
+    } else {
+      footer.classList.remove("footer");
+      footer.classList.add("footer-border-remove");
+    }
+    console.log(document.body.clientHeight);
+    console.log(window.scrollY + window.innerHeight);
+    if (
+      document.body.clientHeight - (window.scrollY + window.innerHeight) < 1 ||
+      window.scrollY + window.innerHeight - document.body.clientHeight < 1
+    ) {
+      setFooterBorder(true);
+    } else if (
+      document.body.clientHeight >
+      window.scrollY + window.innerHeight
+    ) {
+      setFooterBorder(false);
+    }
+  });
 
+  useEffect(() => {
+    // 처음 창을 열었을 때
+    //   console.log("clientheight :" + document.body.clientHeight);
+    const footer = document.querySelector("#footer");
+    if (path.indexOf(`signup/${category}`) === 1) {
+      footer.classList.remove("footer");
+      footer.classList.add("footer-border-remove");
+    } else if (path.indexOf("login") === 1 || path.indexOf(`password`) === 1) {
+      footer.classList.add("footer");
+      footer.classList.remove("footer-border-remove");
       if (window.innerHeight !== document.body.clientHeight) {
         footer.classList.remove("footer");
         footer.classList.add("footer-border-remove");
@@ -31,12 +62,10 @@ function Footer() {
       footer.classList.add("footer-border-remove");
     }
   }, []);
-  console.log("clientheight :" + document.body.clientHeight);
+
   window.addEventListener("scroll", () => {
-    console.log("innerheight :" + window.innerHeight);
-    console.log("scroll : " + window.scrollY);
-    console.log("sum : " + (window.innerHeight + window.scrollY));
-    console.log("clientheight :" + document.body.clientHeight);
+    console.log(document.body.clientHeight);
+    console.log(window.scrollY + window.innerHeight);
     if (
       document.body.clientHeight - (window.scrollY + window.innerHeight) <
       1
