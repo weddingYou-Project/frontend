@@ -15,14 +15,20 @@ function Footer() {
       console.log(footer.classList);
       footer.classList.remove("footer");
       footer.classList.add("footer-border-remove");
-    } else {
+    } else if (path.indexOf("login") === 1) {
       footer.classList.add("footer");
       footer.classList.remove("footer-border-remove");
+    } else {
+      footer.classList.remove("footer");
+      footer.classList.add("footer-border-remove");
     }
   }, []);
 
   window.addEventListener("scroll", () => {
-    if (document.body.clientHeight === window.scrollY + window.innerHeight) {
+    if (
+      document.body.clientHeight - (window.scrollY + window.innerHeight) <
+      1
+    ) {
       setFooterBorder(true);
     } else if (
       document.body.clientHeight >
