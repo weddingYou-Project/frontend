@@ -18,7 +18,7 @@ function NotFound() {
 
   useEffect(() => {
     setTimeout(() => {
-      setTop(120);
+      setTop(100);
       setOpacity(1);
     }, 200);
     setNum(Math.floor(Math.random() * 3));

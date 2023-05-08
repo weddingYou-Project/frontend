@@ -5,7 +5,7 @@ import profileimage from "../Assets/defaultprofileimage.jpg";
 import NavigationBar from "../Components/NavigationBar";
 import Footer from "../Components/Footer";
 import React, { useState, useRef, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function UserUpdate() {
@@ -58,9 +58,14 @@ function UserUpdate() {
   const [anyChange, setAnyChange] = useState(false);
   const [emailDuplicate, setEmailDuplicate] = useState(false);
 
+  const navigate = useNavigate();
+
   const userEmail = sessionStorage.getItem("email");
   useEffect(() => {
     viewDefaultInfo();
+    if (category !== "user" || category !== "planner") {
+      navigate("/*");
+    }
   }, []);
   const viewDefaultInfo = () => {
     if (category === "user") {
@@ -80,7 +85,7 @@ function UserUpdate() {
           setDefaultGender(res.data.gender);
         })
         .catch((e) => {
-          console.log(e);
+          navigate("/*");
         });
       axios
         .post("/user/getprofileImg", { email: email })
@@ -124,7 +129,7 @@ function UserUpdate() {
           setDefaultCareer(res.data.plannerCareerYears);
         })
         .catch((e) => {
-          console.log(e);
+          navigate("/*");
         });
       axios
         .post("/planner/getprofileImg", { email: email })

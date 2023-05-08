@@ -178,7 +178,7 @@ function Mypage() {
   };
   useEffect(() => {
     viewDefaultInfo();
-    if (category !== "user" && category !== "planner") {
+    if (category !== "user" || category !== "planner") {
       navigate("/*");
     }
   });

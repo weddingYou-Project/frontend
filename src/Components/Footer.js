@@ -12,7 +12,7 @@ function Footer() {
 
   window.addEventListener("resize", (event) => {
     // 창크기 바뀌었을 때
-    console.log("clientheight :" + document.body.clientHeight);
+    //console.log("clientheight :" + document.body.clientHeight);
     const footer = document.querySelector("#footer");
     if (path.indexOf(`signup/${category}`) === 1) {
       footer.classList.remove("footer");
@@ -32,8 +32,8 @@ function Footer() {
       footer.classList.remove("footer");
       footer.classList.add("footer-border-remove");
     }
-    console.log(document.body.clientHeight);
-    console.log(window.scrollY + window.innerHeight);
+    // console.log(document.body.clientHeight);
+    // console.log(window.scrollY + window.innerHeight);
     if (
       document.body.clientHeight - (window.scrollY + window.innerHeight) < 1 ||
       window.scrollY + window.innerHeight - document.body.clientHeight < 1
@@ -72,8 +72,8 @@ function Footer() {
   }, []);
 
   window.addEventListener("scroll", () => {
-    console.log(document.body.clientHeight);
-    console.log(window.scrollY + window.innerHeight);
+    // console.log(document.body.clientHeight);
+    // console.log(window.scrollY + window.innerHeight);
     if (
       document.body.clientHeight - (window.scrollY + window.innerHeight) <
       1
