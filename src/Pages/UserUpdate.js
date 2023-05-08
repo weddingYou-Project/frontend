@@ -739,7 +739,6 @@ function UserUpdate() {
                         marginBottom: "10px",
                       }
                 }
-                alt={profileimage}
                 data-bs-toggle="modal"
                 data-bs-target="#profileUpdateModal"
               />

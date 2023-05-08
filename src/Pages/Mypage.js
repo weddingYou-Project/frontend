@@ -57,7 +57,7 @@ function Mypage() {
           console.log(e);
         });
       axios
-        .post("/user/getprofileImg", { email: email })
+        .post("/user/getprofileImg", { email: userEmail })
         .then((res) => {
           const byteCharacters = atob(res.data);
           const byteNumbers = new Array(byteCharacters.length);
@@ -95,7 +95,7 @@ function Mypage() {
           console.log(e);
         });
       axios
-        .post("/planner/getprofileImg", { email: email })
+        .post("/planner/getprofileImg", { email: userEmail })
         .then((res) => {
           const byteCharacters = atob(res.data);
           const byteNumbers = new Array(byteCharacters.length);
@@ -108,11 +108,12 @@ function Mypage() {
           const reader = new FileReader();
           reader.onload = () => {
             setPreviewUrl(reader.result);
-            console.log("reader.result : ", reader.result);
+            //console.log("reader.result : ", reader.result);
           };
           reader.readAsDataURL(blob);
         })
         .catch((e) => {
+          console.log(e);
           setPreviewUrl(profileimage);
         });
     }
@@ -180,7 +181,6 @@ function Mypage() {
     }
   };
   useEffect(() => {
-    viewDefaultInfo();
     if (category !== "user" && category !== "planner") {
       navigate("/*");
     }
@@ -202,6 +202,7 @@ function Mypage() {
     ) {
       navigate("/*");
     }
+    viewDefaultInfo();
   });
 
   useEffect(() => {
@@ -298,7 +299,6 @@ function Mypage() {
                       marginTop: "-115px",
                     }
               }
-              alt={profileimage}
             />
           )}
 
