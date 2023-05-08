@@ -23,7 +23,7 @@ function NotFound() {
     }, 200);
     setNum(Math.floor(Math.random() * 3));
     setSelectImg(images[num]);
-  });
+  }, []);
   return (
     <div
       style={{ minHeight: "100vh", height: "700px", width: "100%", zIndex: 1 }}
