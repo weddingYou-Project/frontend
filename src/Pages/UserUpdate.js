@@ -83,7 +83,7 @@ function UserUpdate() {
       navigate("/*");
     } else if (
       sessionStorage.getItem("category") === "planner" &&
-      path.indexOf("user") !== -1
+      path.indexOf("user/userupdate") !== -1
     ) {
       navigate("/*");
     }
