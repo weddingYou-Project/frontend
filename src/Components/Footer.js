@@ -10,21 +10,33 @@ function Footer() {
   const path = location.pathname;
   const [footerborder, setFooterBorder] = useState(false);
   useEffect(() => {
+    console.log("clientheight :" + document.body.clientHeight);
     const footer = document.querySelector("#footer");
     if (path.indexOf(`signup/${category}`) === 1) {
       console.log(footer.classList);
       footer.classList.remove("footer");
       footer.classList.add("footer-border-remove");
-    } else if (path.indexOf("login") === 1) {
+    } else if (path.indexOf("login") === 1 || path.indexOf(`password`) === 1) {
+      console.log(document.body.clientHeight);
+      console.log(window.innerHeight);
       footer.classList.add("footer");
       footer.classList.remove("footer-border-remove");
+
+      if (window.innerHeight !== document.body.clientHeight) {
+        footer.classList.remove("footer");
+        footer.classList.add("footer-border-remove");
+      }
     } else {
       footer.classList.remove("footer");
       footer.classList.add("footer-border-remove");
     }
   }, []);
-
+  console.log("clientheight :" + document.body.clientHeight);
   window.addEventListener("scroll", () => {
+    console.log("innerheight :" + window.innerHeight);
+    console.log("scroll : " + window.scrollY);
+    console.log("sum : " + (window.innerHeight + window.scrollY));
+    console.log("clientheight :" + document.body.clientHeight);
     if (
       document.body.clientHeight - (window.scrollY + window.innerHeight) <
       1
