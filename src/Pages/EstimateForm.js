@@ -166,7 +166,12 @@ const EstimateForm = () => {
 
   //이미지 파일 첨부
   const imageSelect = (e) => {
-    setimages(e.target.files);
+    if (e.target.files.length > 5) {
+      alert("파일 첨부는 5개까지 가능합니다.");
+      e.target.value = null;
+    } else {
+      setimages(e.target.files);
+    }
   };
 
   //요청사항
@@ -220,10 +225,15 @@ const EstimateForm = () => {
       alert("스튜디오 입력은 필수입니다.");
       return false;
     }
-
+    let integerBudget;
     let formData = new FormData();
+    if (budget === "") {
+      integerBudget = 0;
+    } else {
+      integerBudget = parseInt(budget.replace(/,/g, ""));
+    }
     formData.append("weddingdate", submitdate);
-    formData.append("budget", budget);
+    formData.append("budget", integerBudget);
     formData.append("region", submitregion);
     formData.append("honeymoon", honeymoon);
     formData.append("makeup", submitmakeup);
@@ -242,6 +252,7 @@ const EstimateForm = () => {
         console.log("성공");
       })
       .catch((e) => {
+        alert("홈페이지에 오류가 발생하였습니다. 다시 시도해주세요");
         console.log(e);
       });
   };
