@@ -48,7 +48,8 @@ function Login() {
             console.log("======================", "유저 로그인 성공");
             console.log(res.data.email);
             sessionStorage.setItem("email", res.data.email);
-            sessionStorage.setItem("user_name", res.data.name); // sessionStorage에 name을 user_name이라는 key 값으로 저장
+            sessionStorage.setItem("category", "user");
+            // sessionStorage.setItem("user_name", res.data.name); // sessionStorage에 name을 user_name이라는 key 값으로 저장
           }
         })
         .catch();
@@ -69,7 +70,8 @@ function Login() {
           } else {
             console.log("======================", "플래너 로그인 성공");
             sessionStorage.setItem("email", res.data.email);
-            sessionStorage.setItem("planner_name", res.data.name); // sessionStorage에 name을 user_name이라는 key 값으로 저장
+            sessionStorage.setItem("category", "planner");
+            // sessionStorage.setItem("planner_name", res.data.name); // sessionStorage에 name을 user_name이라는 key 값으로 저장
           }
         })
         .catch();
@@ -88,7 +90,15 @@ function Login() {
           <div className="col"></div>
         </div>
       </div>
-      <div className="container text-center">
+      <div
+        className="container text-center"
+        style={{
+          // minHeight: "100vh",
+          height: "400px",
+          width: "100%",
+          zIndex: 1,
+        }}
+      >
         <form>
           <div className="row">
             <div className="col"></div>

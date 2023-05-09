@@ -7,13 +7,14 @@
 
 .mainlayout{
     width:560px;
-    height: 100vh;
+    height: 100%;
     margin:auto;
     padding-bottom:10px;
     border-radius:10px;
     border: 2px solid rgb(173, 166, 166);
     background-color: white;
     min-height:100vh;
+    font-family: 'Nunito', sans-serif;
 }
 
 .content{
@@ -28,3 +29,37 @@
 body {
     background-color: rgb(240, 240, 240);
 }
+
+.btn-colour-1 {
+    color: #f9f5f5;
+    background-color: #407ef1;
+    border:none;
+    font-weight: bold;
+    letter-spacing: 0.1em;
+    height:3em;
+    width:250px;
+    border-radius: 10px;
+    
+  }
+  
+  .btn-colour-1:hover {
+    color: #ffffff;
+    background-color: #105ff1;
+    transition:0.5s;
+  }
+
+  .btn-colour-2 {
+    color: #f9f5f5;
+    background-color: #407ef1;
+    border:none;
+    font-weight: bold;
+    letter-spacing: 0.1em;
+    height:3em;
+    width:250px;
+    border-radius: 10px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  }
+  .btn-colour-2:disabled {
+    pointer-events: none;
+    background: grey;
+  }

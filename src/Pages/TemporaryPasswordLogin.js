@@ -1,7 +1,7 @@
 import "../Css/main.css";
 import "../Css/Login.css";
 import imgLogo from "../Assets/logo.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Footer from "../Components/Footer";
 import NavigationBar from "../Components/NavigationBar";
 import { useState } from "react";
@@ -25,6 +25,8 @@ function TemporaryPasswordLogin() {
     setRole(e.target.value);
   };
 
+  const navigate = useNavigate();
+
   const onClickLogin = () => {
     console.log("click login");
     console.log("ID : ", inputId);
@@ -47,9 +49,10 @@ function TemporaryPasswordLogin() {
             // id, pw 모두 일치 userId = userId1, msg = undefined
             console.log("======================", "로그인 성공");
             sessionStorage.setItem("email", res.data.email);
-            sessionStorage.setItem("user_name", res.data.name); // sessionStorage에 name을 user_name이라는 key 값으로 저장
-            document.location.href =
-              "/passwordSearch/temporaryPasswordLogin/passwordChange";
+            // sessionStorage.setItem("user_name", res.data.name); // sessionStorage에 name을 user_name이라는 key 값으로 저장
+            navigate(`/passwordSearch/temporaryPasswordLogin/passwordChange`, {
+              state: true,
+            });
           }
         })
         .catch();
@@ -70,9 +73,10 @@ function TemporaryPasswordLogin() {
             // id, pw 모두 일치 userId = userId1, msg = undefined
             console.log("======================", "로그인 성공");
             sessionStorage.setItem("email", res.data.email);
-            sessionStorage.setItem("planner_name", res.data.name); // sessionStorage에 name을 user_name이라는 key 값으로 저장
-            document.location.href =
-              "/passwordSearch/temporaryPasswordLogin/passwordChange";
+            // sessionStorage.setItem("planner_name", res.data.name); // sessionStorage에 name을 user_name이라는 key 값으로 저장
+            navigate(`/passwordSearch/temporaryPasswordLogin/passwordChange`, {
+              state: true,
+            });
           }
         })
         .catch();
@@ -91,7 +95,7 @@ function TemporaryPasswordLogin() {
           <div className="col"></div>
         </div>
       </div>
-      <div className="container text-center">
+      <div className="container text-center" style={{ height: "400px" }}>
         <div className="row">
           <div className="col"></div>
           <div className="col-6">
@@ -163,12 +167,7 @@ function TemporaryPasswordLogin() {
         </div>
         <br />
         <button type="button" className="btn-colour-1" onClick={onClickLogin}>
-          {/* <Link
-            to="/passwordSearch/temporaryPasswordLogin/passwordChange"
-            style={{ color: "white", textDecorationLine: "none" }}
-          > */}
           로그인
-          {/* </Link> */}
         </button>
         <br />
         <br />

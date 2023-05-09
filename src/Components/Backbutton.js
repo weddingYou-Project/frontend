@@ -1,12 +1,40 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 function BackButton() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const path = location.pathname;
 
   return (
     <div className="backicon">
-      <button class="backbutton" onClick={() => navigate(-1)}>
+      <button
+        class="backbutton"
+        onClick={() => {
+          console.log(path);
+          if (
+            path === "/mypage/user" ||
+            path === "/mypage/planner" ||
+            path === "/login"
+          ) {
+            navigate("/");
+          } else if (path === "/passwordSearch") {
+            navigate("/login");
+          } else if (path === "/passwordSearch/temporaryPasswordLogin") {
+            navigate("/passwordSearch");
+          } else if (
+            path === "/passwordSearch/temporaryPasswordLogin/passwordChange"
+          ) {
+            navigate("/passwordSearch/temporaryPasswordLogin");
+          } else if (path === "/signup") {
+            navigate("/login");
+          } else if (path === "/signup/user" || path === "/signup/planner") {
+            navigate("/login");
+          } else {
+            navigate(-1);
+          }
+        }}
+      >
         <i class="bi bi-chevron-left"></i>
       </button>
     </div>
