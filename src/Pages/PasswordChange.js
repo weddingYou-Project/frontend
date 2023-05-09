@@ -3,7 +3,7 @@ import "../Css/main.css";
 import "../Css/Login.css";
 import "../Css/PasswordSearch.css";
 import imgLogo from "../Assets/logo.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import Footer from "../Components/Footer";
 import NavigationBar from "../Components/NavigationBar";
 import { useState, useEffect } from "react";
@@ -19,6 +19,16 @@ function PasswordChange() {
 
   let [passwordstyle, setPasswordstyle] = useState("");
   let [passwordstyle2, setPasswordstyle2] = useState("");
+
+  const navigate = useNavigate();
+  const { state: temporaryPasswordCheck } = useLocation();
+  useEffect(() => {
+    //임시비밀번호 입력하지 않고 passwordchange url 접근 불가
+    if (temporaryPasswordCheck !== true) {
+      navigate(`/passwordSearch/temporaryPasswordLogin`);
+      alert("비밀번호 변경을 하려면 임시 비밀번호를 입력하세요!");
+    }
+  }, []);
 
   const onClickpwUpdate = () => {
     console.log("click pwUpdate");

@@ -88,7 +88,7 @@ function UserUpdate() {
     ) {
       navigate("/*");
     }
-    //console.log("check:" + passwordCheck);
+
     if (passwordCheck !== true) {
       //userupdate에 url로 접근할 경우 mypage로 navigate
       navigate(`/mypage/${category}`);

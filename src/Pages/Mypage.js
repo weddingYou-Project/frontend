@@ -39,7 +39,31 @@ function Mypage() {
   const location = useLocation();
   const path = location.pathname;
   // console.log(userEmail);
-
+  useEffect(() => {
+    viewDefaultInfo();
+    console.log(path);
+    console.log(path.indexOf("planner"));
+    if (category !== "user" && category !== "planner") {
+      navigate("/*");
+    }
+    if (
+      sessionStorage.getItem("category") !== "user" &&
+      sessionStorage.getItem("category") !== "planner"
+    ) {
+      navigate("/*");
+    }
+    if (
+      sessionStorage.getItem("category") === "user" &&
+      path.indexOf("planner") !== -1
+    ) {
+      navigate("/*");
+    } else if (
+      sessionStorage.getItem("category") === "planner" &&
+      path.indexOf("user") !== -1
+    ) {
+      navigate("/*");
+    }
+  }, []);
   const viewDefaultInfo = () => {
     if (category === "user") {
       axios
@@ -180,31 +204,6 @@ function Mypage() {
         });
     }
   };
-  useEffect(() => {
-    viewDefaultInfo();
-    console.log(path);
-    console.log(path.indexOf("planner"));
-    if (category !== "user" && category !== "planner") {
-      navigate("/*");
-    }
-    if (
-      sessionStorage.getItem("category") !== "user" &&
-      sessionStorage.getItem("category") !== "planner"
-    ) {
-      navigate("/*");
-    }
-    if (
-      sessionStorage.getItem("category") === "user" &&
-      path.indexOf("planner") !== -1
-    ) {
-      navigate("/*");
-    } else if (
-      sessionStorage.getItem("category") === "planner" &&
-      path.indexOf("user") !== -1
-    ) {
-      navigate("/*");
-    }
-  }, []);
 
   useEffect(() => {
     checkPasswordInfo();
