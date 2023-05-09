@@ -215,14 +215,8 @@ const EstimateForm = () => {
       return false;
     }
 
-    if (budget === 0) {
-      alert("예산 입력은 필수입니다.");
-      budgetRef.current.focus();
-      return false;
-    }
-
     if (studio === "") {
-      alert("스튜디오 입력은 필수입니다.");
+      alert("스튜디오 선택은 필수입니다.");
       return false;
     }
     let integerBudget;
@@ -792,7 +786,13 @@ const EstimateForm = () => {
               multiple
               onChange={imageSelect}
               accept="image/*"
+              id="uploadimage"
+              className="displaynone"
             />
+            <label htmlFor="uploadimage" className="cursor imageupload-btn">
+              사진첨부하기
+            </label>
+            {images.length > 0 && <span>{images.length}개의 파일</span>}
           </div>
         </div>
         <div className="contentbox" style={{ borderBottom: "none" }}>

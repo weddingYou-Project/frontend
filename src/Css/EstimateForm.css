@@ -15,7 +15,7 @@
 .contentbox {
     width: 100%;
     margin-top: 15px;
-    border-bottom: 1px solid rgb(182, 179, 179);
+    border-bottom: 1px solid rgb(233, 233, 233);
     padding: 20px 0;
     /* background: coral; */
 }
@@ -61,7 +61,7 @@ input[type="radio"]:checked + label {
 
 
 .borderBottom {
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid rgb(206, 206, 206);
 }
 
 
@@ -146,4 +146,21 @@ input[type="radio"]:checked + label {
 li {
     list-style: none;
     margin-top: 3px;
+}
+
+
+.imageupload-btn {
+    padding: 5px 20px;
+    background: #eee;
+    color:black;
+    border-radius: 5px;
+}
+
+
+.imageupload-btn:hover {
+    background: #dddddd;
+}
+
+.budget-btn:hover {
+    background: #dddddd;
 }
