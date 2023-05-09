@@ -344,7 +344,7 @@ const EstimateForm = () => {
               ref={budgetRef}
             />
             <div
-              className="budget-btn"
+              className="budget-btn cursor"
               onClick={() => {
                 increasebudget1(1000000);
               }}
@@ -352,7 +352,7 @@ const EstimateForm = () => {
               +1백만
             </div>
             <div
-              className="budget-btn"
+              className="budget-btn cursor"
               onClick={() => {
                 increasebudget1(100000);
               }}
@@ -360,7 +360,7 @@ const EstimateForm = () => {
               +1십만
             </div>
             <div
-              className="budget-btn"
+              className="budget-btn cursor"
               onClick={() => {
                 increasebudget1(10000);
               }}
@@ -538,15 +538,15 @@ const EstimateForm = () => {
           </div>
           <div className="choosebox">
             <input
-              id="우아한"
+              id="포인트"
               type="checkbox"
               name="makeup"
               value="우아한"
               onChange={makeupcheck}
               className="displaynone"
             />
-            <label htmlFor="우아한" className="label-design w-100 cursor">
-              우아한
+            <label htmlFor="포인트" className="label-design w-100 cursor">
+              포인트
             </label>
           </div>
           <div className="choosebox">
@@ -869,7 +869,9 @@ const StudioModal = () => {
                 image1="https://www.iwedding.co.kr/_next/image?url=https%3A%2F%2Fwww.iwedding.co.kr%2Fcenter%2Fwebsite%2Fbrandplus%2F1667180129.jpg&w=1920&q=75"
                 image2="https://www.iwedding.co.kr/center/iweddingb/product/800_11679_1665982500_05988600_3232256100.jpg"
                 image3="https://www.iwedding.co.kr/center/iweddingb/product/800_1708_1665976697_88410900_3232256100.jpg"
-                comment="인물중심의 스튜디오입니다. 인물을 강조합니다."
+                comment1="깔끔한 배경에서 인물중심의 촬영을 진행해요!"
+                comment2="심플하고 깨끗한 이미지의 결과물!"
+                comment3="오래두고 보아도 질리지 않는 장점이 있어요!"
               />
               <AccordionComp
                 heading={2}
@@ -878,7 +880,9 @@ const StudioModal = () => {
                 image1="https://www.iwedding.co.kr/_next/image?url=https%3A%2F%2Fwww.iwedding.co.kr%2Fcenter%2Fwebsite%2Fbrandplus%2F1663831599.jpg&w=1920&q=75"
                 image2="https://www.iwedding.co.kr/_next/image?url=https%3A%2F%2Fwww.iwedding.co.kr%2Fcenter%2Fwebsite%2Fbrandplus%2F1663808804.jpg&w=1920&q=75"
                 image3="https://www.iwedding.co.kr/center/iweddingb/product/800_13581_1665985281_96465800_3232256098.jpg"
-                comment="배경중심의 스튜디오입니다. 배경을 강조합니다."
+                comment1="촬영 자체의 특별한 경험을 선사해요!"
+                comment2="스튜디오 고유의 배경과 분위기를 담을 수 있답니다!"
+                comment3="화려한 배경 덕에 부담이 덜해요!"
               />
               <AccordionComp
                 heading={3}
@@ -887,7 +891,9 @@ const StudioModal = () => {
                 image1="https://www.iwedding.co.kr/center/iweddingb/product/800_12512_1666920642_83238100_3232256098.jpg"
                 image2="https://www.iwedding.co.kr/center/iweddingb/product/800_12544_1666688374_16242500_3232256098.jpg"
                 image3="https://www.iwedding.co.kr/center/iweddingb/product/800_13300_1668503581_00621700_3232256098.jpg"
-                comment="인물과 배경 모두 강조합니다."
+                comment1="요즘 가장 인기있는 스타일이에요!"
+                comment2="배경과 인물 모두 예쁘게 담을 수 있답니다~"
+                comment3="자연스러운 행동위주의 연출도 가능해요!"
               />
             </div>
           </div>
@@ -897,7 +903,7 @@ const StudioModal = () => {
               className="btn btn-secondary"
               data-bs-dismiss="modal"
             >
-              Close
+              닫기
             </button>
           </div>
         </div>
@@ -937,6 +943,9 @@ const DressModal = () => {
                 image1="https://www.iwedding.co.kr/center/iweddingb/product/800_co_sl_d120_2001_1632361176_65452700_3232256100.jpg"
                 image2="https://www.iwedding.co.kr/center/iweddingb/product/800_4250_1668583465_80283900_3232256100.jpg"
                 image3="https://www.iwedding.co.kr/center/iweddingb/product/800___1665453271_05641100_3232256098.jpg"
+                comment1="키가 크시고 마르신 분들에게 추천해요!"
+                comment2="허리와 힙을 강조해요!"
+                comment3="하지만 움직임에 제약이 많은 단점이 있습니다."
               />
               <AccordionComp
                 heading={5}
@@ -945,6 +954,9 @@ const DressModal = () => {
                 image1="https://www.iwedding.co.kr/center/iweddingb/product/800_5350_1679279312_93081100_3232256098.jpg"
                 image2="https://www.iwedding.co.kr/center/iweddingb/product/800_4365_1674628854_18110500_3232256100.jpg"
                 image3="https://www.iwedding.co.kr/center/iweddingb/product/800_12996_1677040520_50476000_3232256099.jpg"
+                comment1="어떤 체형이든 잘 어울립니다!"
+                comment2="키가 커보이는 스타일이에요!"
+                comment3="하체가 통통하신 분들에게도 추천!"
               />
               <AccordionComp
                 heading={6}
@@ -953,6 +965,9 @@ const DressModal = () => {
                 image1="https://www.iwedding.co.kr/center/iweddingb/product/800_4794_1679476555_79191600_3232256099.jpg"
                 image2="https://www.iwedding.co.kr/center/iweddingb/product/800___1665130500_49819100_3232256100.jpg"
                 image3="https://www.iwedding.co.kr/center/iweddingb/product/800___1665454832_07143300_3232256099.jpg"
+                comment1="섹시함과 성숙함을 함께 나타낼 수 있어요!"
+                comment2="날씬하신 분들께 추천합니다!"
+                comment3="슬림한 느낌을 줍니다"
               />
               <AccordionComp
                 heading={7}
@@ -961,6 +976,9 @@ const DressModal = () => {
                 image1="https://www.iwedding.co.kr/center/iweddingb/product/800_5218_1675921472_92970900_3232256099.jpg"
                 image2="https://www.iwedding.co.kr/center/iweddingb/product/800_4796_1679476532_21876000_3232256099.jpg"
                 image3="https://www.iwedding.co.kr/center/iweddingb/product/800_14256_1681265613_43329300_3232256100.jpg"
+                comment1="허리부터 풍성하게 퍼지는 라인이 특징입니다"
+                comment2="통통한 하체를 커버하기에 좋습니다"
+                comment3="키가 작고 마른 신부님들에게도 추천해요!"
               />
               <AccordionComp
                 heading={8}
@@ -969,6 +987,9 @@ const DressModal = () => {
                 image1="https://www.iwedding.co.kr/center/iweddingb/product/800_14083_1675239691_84022800_3232256098.jpg"
                 image2="https://www.iwedding.co.kr/center/iweddingb/product/800_co_sl_d247_14923_1649140504_74715200_3232256100.jpg"
                 image3="https://www.iwedding.co.kr/center/iweddingb/product/800_co_sl_d276_6631_1582187346_70709200_3232256098.jpg"
+                comment1="날씬해보이는 드레스 스타일입니다!"
+                comment2="직사각형 체형분들에게 추천해요"
+                comment3="하체가 길어보인답니다~"
               />
               <AccordionComp
                 heading={9}
@@ -977,6 +998,9 @@ const DressModal = () => {
                 image1="https://www.iwedding.co.kr/center/iweddingb/product/800_17534_1673254073_72786200_3232256099.jpg"
                 image2="https://www.iwedding.co.kr/center/iweddingb/product/800_15343_1674625658_77782300_3232256100.jpg"
                 image3="https://www.iwedding.co.kr/center/iweddingb/product/800_13164_1676956927_35327800_3232256098.jpg"
+                comment1="화려한 장식을 더한 드레스입니다!"
+                comment2="여성적인 매력을 어필하기에 좋아요!"
+                comment3="허리선이 굵은 분들에게 추천해요!"
               />
             </div>
           </div>
@@ -986,7 +1010,7 @@ const DressModal = () => {
               className="btn btn-secondary"
               data-bs-dismiss="modal"
             >
-              Close
+              닫기
             </button>
           </div>
         </div>
@@ -1019,12 +1043,72 @@ const MakeupModal = () => {
           </div>
           <div className="modal-body">
             <div className="accordion" id="accordionExample">
-              <AccordionComp heading={10} collapse="ten" topic="로맨틱한" />
-              <AccordionComp heading={11} collapse="eleven" topic="우아한" />
-              <AccordionComp heading={12} collapse="twelve" topic="내추럴" />
-              <AccordionComp heading={13} collapse="thirteen" topic="스모키" />
-              <AccordionComp heading={14} collapse="fourteen" topic="큐티" />
-              <AccordionComp heading={15} collapse="fifteen" topic="러블리" />
+              <AccordionComp
+                heading={10}
+                collapse="ten"
+                topic="로맨틱한"
+                image1="https://www.iwedding.co.kr/center/iweddingb/product/800_2294_1680250969_59017300_3232256099.jpg"
+                image2="https://www.iwedding.co.kr/center/iweddingb/product/800_co_sl_m056_14449_1640850193_39487800_3232256099.jpg"
+                image3="https://www.iwedding.co.kr/center/iweddingb/product/800_co_sl_m205_13076_1624261891_10019500_3232256100.jpg"
+                comment1="촉촉하고 투명한 느낌을 줍니다!"
+                comment2="핑크색의 색조를 많이 사용해요!"
+                comment3="피부가 하얀분들에게 추천해요!"
+              />
+              <AccordionComp
+                heading={11}
+                collapse="eleven"
+                topic="포인트"
+                image1="https://www.iwedding.co.kr/center/iweddingb/product/800_17895_1680164863_59917800_3232256100.jpg"
+                image2="https://www.iwedding.co.kr/center/iweddingb/product/800_17622_1673943339_73525400_3232256100.jpg"
+                image3="https://www.iwedding.co.kr/center/iweddingb/product/800_co_sl_m051_15898_1654237244_14286700_3232256099.jpg"
+                comment1="내추럴 메이크업에서 포인트를 더한 메이크업입니다!"
+                comment2="수수한 느낌보다는 화려한 느낌을 살려줍니다"
+                comment3="스타일이 조금은 과해서 스튜디오 촬영 때 많이 이용되는 스타일입니다"
+              />
+              <AccordionComp
+                heading={12}
+                collapse="twelve"
+                topic="내추럴"
+                image1="https://www.iwedding.co.kr/center/iweddingb/product/800_co_sl_m114_1711_1647822940_71648700_3232256099.jpg"
+                image2="https://www.iwedding.co.kr/center/iweddingb/product/800_co_sl_m209_15869_1653530666_48849500_3232256098.jpg"
+                image3="https://www.iwedding.co.kr/center/iweddingb/product/800_co_sl_m134_4309_1661326982_18419000_3232256098.jpg"
+                comment1="가장 기본적인 스타일입니다!"
+                comment2="평소 메이크업을 잘 하지 않는 분들에게 추천드려요"
+                comment3="자연스럽고 깨끗해 보이는 점이 장점입니다."
+              />
+              <AccordionComp
+                heading={13}
+                collapse="thirteen"
+                topic="스모키"
+                image1="https://www.iwedding.co.kr/center/iweddingb/product/800_co_sl_m122_1845_1628473766_68122500_3232256099.jpg"
+                image2="https://www.iwedding.co.kr/center/iweddingb/product/800_1844_1678866654_71494500_3232256100.jpg"
+                image3="https://www.iwedding.co.kr/center/iweddingb/product/800_co_sl_m199_6483_1585638230_88987100_3232256098.jpg"
+                comment1="눈매를 강조하는 화장입니다!"
+                comment2="이목구비가 뚜렷하게 보이는 장점이 있어요!"
+                comment3="하지만 평소에 인상이 쎄시다면 추천드리지 않습니다"
+              />
+              <AccordionComp
+                heading={14}
+                collapse="fourteen"
+                topic="큐티"
+                image1="https://www.iwedding.co.kr/center/iweddingb/product/800_co_sl_m205_13078_1624261921_87529100_3232256100.jpg"
+                image2="https://www.iwedding.co.kr/center/iweddingb/product/800_co_sl_m197_6298_1628237690_62191600_3232256098.jpg"
+                image3="https://www.iwedding.co.kr/center/iweddingb/product/800_co_sl_m152_12803_1652060864_24013300_3232256099.jpg"
+                comment1="상큼하고 귀여운 모습의 연출이 가능해요"
+                comment2="동그랗게 올린 머리가 특징입니다!"
+                comment3="얼굴이 크시거나, 이마가 넓으시다면 피하시는 게 좋습니다"
+              />
+              <AccordionComp
+                heading={15}
+                collapse="fifteen"
+                topic="러블리"
+                image1="https://www.iwedding.co.kr/center/iweddingb/product/800_17670_1676267275_58014900_3232256099.jpg"
+                image2="https://www.iwedding.co.kr/_next/image?url=https%3A%2F%2Fwww.iwedding.co.kr%2Fcenter%2Fwebsite%2Fbrandplus%2F1663894788.jpg&w=1920&q=75"
+                image3="https://www.iwedding.co.kr/center/iweddingb/product/800_co_sl_m175_6093_1604471404_02327900_3232256100.jpg"
+                comment1="얼굴에 화사함을 주는 스타일입니다"
+                comment2="어려보이는 효과를 줍니다"
+                comment3="갓 짜낸 과즙을 담아낸 듯한 스타일이에요"
+              />
             </div>
           </div>
           <div className="modal-footer">
@@ -1033,7 +1117,7 @@ const MakeupModal = () => {
               className="btn btn-secondary"
               data-bs-dismiss="modal"
             >
-              Close
+              닫기
             </button>
           </div>
         </div>
@@ -1049,6 +1133,10 @@ const AccordionComp = ({
   image1,
   image2,
   image3,
+  comment1,
+  comment2,
+  comment3,
+  comment4,
   comment,
 }) => {
   return (
@@ -1084,8 +1172,12 @@ const AccordionComp = ({
           </div>
 
           <div className="Accordion-explanation">
-            <h5>설명</h5>
-            <p>{comment}</p>
+            <h5>설명 및 특징</h5>
+            <ul>
+              <li>- {comment1}</li>
+              <li>- {comment2}</li>
+              <li>- {comment3}</li>
+            </ul>
           </div>
         </div>
       </div>
