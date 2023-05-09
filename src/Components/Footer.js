@@ -49,6 +49,7 @@ function Footer() {
         className="icon"
         onClick={() => {
           //전체 메뉴 바 보여주기
+          navigate("/menu");
         }}
       >
         <svg

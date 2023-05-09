@@ -13,15 +13,7 @@ const menuItems = [
   { name: "부케", link: "./bouquet" },
 ];
 
-const MenuItem = ({ name, link }) => {
-  return (
-    <Link to={link} className="menu-list-item">
-      <div className="menu-list-item-text">{name}</div>
-    </Link>
-  );
-};
-
-const MenuList = () => {
+const MenuList = ({ menuItems }) => {
   const title = "메뉴";
 
   return (
@@ -31,12 +23,16 @@ const MenuList = () => {
         <div className="menu-list">
           <div className="menu-list-left">
             {menuItems.slice(0, 3).map((item, index) => (
-              <MenuItem key={index} {...item} />
+              <Link to={item.link} key={index} className="menu-list-item">
+                <div className="menu-list-item-text">{item.name}</div>
+              </Link>
             ))}
           </div>
           <div className="menu-list-right">
             {menuItems.slice(3).map((item, index) => (
-              <MenuItem key={index} {...item} />
+              <Link to={item.link} key={index} className="menu-list-item">
+                <div className="menu-list-item-text">{item.name}</div>
+              </Link>
             ))}
           </div>
         </div>
@@ -46,4 +42,6 @@ const MenuList = () => {
   );
 };
 
-export default MenuList;
+export default function App() {
+  return <MenuList menuItems={menuItems} />;
+}
