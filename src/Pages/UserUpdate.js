@@ -787,6 +787,7 @@ function UserUpdate() {
               <div
                 class="invisible text-start name-feedback"
                 ref={nameFeedback}
+                style={{ fontSize: "1.1em" }}
               >
                 {nameMessage}
               </div>
@@ -822,6 +823,7 @@ function UserUpdate() {
               <div
                 class="invisible text-start password-feedback"
                 ref={passwordFeedback}
+                style={{ fontSize: "1.1em" }}
               >
                 {passwordMessage}
               </div>
@@ -857,6 +859,7 @@ function UserUpdate() {
               <div
                 class="invisible text-start email-feedback"
                 ref={emailFeedback}
+                style={{ fontSize: "1.1em" }}
               >
                 {emailMessage}
               </div>
@@ -892,6 +895,7 @@ function UserUpdate() {
               <div
                 class="invisible text-start phone-feedback"
                 ref={phoneFeedback}
+                style={{ fontSize: "1.1em" }}
               >
                 {phoneMessage}
               </div>
@@ -1000,6 +1004,7 @@ function UserUpdate() {
                 <div
                   class="invisible text-start phone-feedback"
                   ref={careerFeedback}
+                  style={{ fontSize: "1.1em" }}
                 >
                   {careerMessage}
                 </div>
