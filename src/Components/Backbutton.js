@@ -5,6 +5,7 @@ function BackButton() {
   const navigate = useNavigate();
   const location = useLocation();
   const path = location.pathname;
+
   return (
     <div className="backicon">
       <button
