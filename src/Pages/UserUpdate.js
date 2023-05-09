@@ -67,31 +67,26 @@ function UserUpdate() {
 
   useEffect(() => {
     viewDefaultInfo();
-    console.log(path);
     if (category !== "user" && category !== "planner") {
       //mypage/sdf 입력했을 때
-      console.log(1);
       navigate("/*");
     } else if (
       sessionStorage.getItem("category") !== "user" &&
       sessionStorage.getItem("category") !== "planner"
     ) {
       //로그인을 하지 않은 상태일때
-      console.log(2);
       navigate("/*");
     } else if (
       sessionStorage.getItem("category") === "user" &&
       path.indexOf("planner") !== -1
     ) {
       //user 로그인은 했지만 planner url로 들어가고자 할 때
-      console.log(31);
       navigate("/mypageupdate");
     } else if (
       sessionStorage.getItem("category") === "planner" &&
       path.indexOf("user/userupdate") !== -1
     ) {
       //planner 로그인은 했지만 user url로 들어가고자 할 때
-      console.log(4);
       navigate("/mypageupdate");
     } else if (passwordCheck !== true) {
       //userupdate에 url로 접근할 경우 mypage로 navigate
@@ -104,8 +99,6 @@ function UserUpdate() {
       axios
         .post("/user/userSearch", { email: sessionStorage.getItem("email") })
         .then((res) => {
-          console.log("성공");
-          console.log(res);
           setName(res.data.name);
           setEmail(res.data.email);
           setDefaultEmail(res.data.email);
@@ -134,7 +127,6 @@ function UserUpdate() {
           reader.onload = () => {
             setDefaultViewUrl(reader.result);
             setPreviewUrl(reader.result);
-            console.log("reader.result : ", reader.result);
           };
           reader.readAsDataURL(blob);
         })
@@ -149,8 +141,6 @@ function UserUpdate() {
           email: sessionStorage.getItem("email"),
         })
         .then((res) => {
-          console.log("성공");
-          console.log(res);
           setName(res.data.name);
           setEmail(res.data.email);
           setDefaultEmail(res.data.email);
@@ -183,7 +173,6 @@ function UserUpdate() {
           reader.onload = () => {
             setDefaultViewUrl(reader.result);
             setPreviewUrl(reader.result);
-            console.log("reader.result : ", reader.result);
           };
           reader.readAsDataURL(blob);
         })
@@ -195,7 +184,6 @@ function UserUpdate() {
   };
 
   const emailDuplicateCheck = (e) => {
-    console.log("emailchange" + e.target.value);
     if (category === "user") {
       if (e.target.value !== defaultEmail) {
         axios
@@ -203,8 +191,6 @@ function UserUpdate() {
             email: e.target.value,
           })
           .then((res) => {
-            console.log("성공");
-            console.log(res);
             if (res.data === "") {
               setEmailDuplicate(false);
               setEmailMessage("올바른 이메일 형식입니다.");
@@ -238,8 +224,6 @@ function UserUpdate() {
             email: e.target.value,
           })
           .then((res) => {
-            console.log("성공");
-            console.log(res);
             setEmailDuplicate(true);
             setEmailMessage("이메일이 중복됩니다.");
             emailFeedback.current.classList.remove("invisible");
@@ -447,7 +431,6 @@ function UserUpdate() {
       }
     } else if (e.target.name === "gender") {
       setGender(e.target.value);
-      console.log(e.target.value);
       if (e.target.checked === true) {
         //선택된 값이
 
@@ -456,7 +439,6 @@ function UserUpdate() {
           setGenderMessage("invalid");
         } else if (e.target.value !== defaultGender) {
           //기본 값이 아니면
-          console.log("바뀜");
           setAnyChange(true);
           setGenderMessage("valid");
           //변경사항 생김
@@ -504,8 +486,6 @@ function UserUpdate() {
   };
 
   const checkInputs = () => {
-    console.log("current gender : ", gender);
-    console.log("defaultGender : ", defaultGender);
     if (category === "user") {
       if (
         passwordInput.current.value === defaultPassword &&
@@ -561,16 +541,14 @@ function UserUpdate() {
       }
     }
   };
-  console.log("allcheck : ", allcheck);
-  console.log("anychange : ", anyChange);
+  // console.log("allcheck : ", allcheck);
+  // console.log("anychange : ", anyChange);
 
   const updateInfo = () => {
     if (category === "user") {
       axios
         .post("/user/userSearch", { email: sessionStorage.getItem("email") })
         .then((res) => {
-          console.log("조회 성공");
-          console.log(res);
           axios
             .post("/user/userUpdate", {
               preemail: sessionStorage.getItem("email"),
@@ -580,8 +558,6 @@ function UserUpdate() {
               gender: gender,
             })
             .then((res) => {
-              console.log("업데이트 성공");
-              console.log(res);
               setEmail(res.data.email);
               setDefaultEmail(res.data.email);
               setPassword(res.data.password);
@@ -599,7 +575,7 @@ function UserUpdate() {
             });
         })
         .catch((e) => {
-          console.log("조회실패");
+          console.log(e);
         });
     }
     if (category === "planner") {
@@ -608,8 +584,6 @@ function UserUpdate() {
           email: sessionStorage.getItem("email"),
         })
         .then((res) => {
-          console.log("조회 성공");
-          console.log(res);
           axios
             .post("/planner/userUpdate", {
               preemail: sessionStorage.getItem("email"),
@@ -620,8 +594,6 @@ function UserUpdate() {
               career: career,
             })
             .then((res) => {
-              console.log("업데이트 성공");
-              console.log(res);
               setEmail(res.data.email);
               setDefaultEmail(res.data.email);
               setPassword(res.data.password);
@@ -652,7 +624,6 @@ function UserUpdate() {
     const fileReader = new FileReader();
     fileReader.onload = () => {
       setPreviewUrl(fileReader.result);
-      console.log("filereader.result : ", fileReader.result);
     };
     fileReader.readAsDataURL(selectedFile);
   };
@@ -667,7 +638,6 @@ function UserUpdate() {
           headers: { "Content-Type": "multipart/form-data" },
         })
         .then((res) => {
-          console.log(res);
           setDefaultViewUrl(previewUrl);
         })
         .catch((e) => {
@@ -679,7 +649,6 @@ function UserUpdate() {
           headers: { "Content-Type": "multipart/form-data" },
         })
         .then((res) => {
-          console.log(res);
           setDefaultViewUrl(previewUrl);
         })
         .catch((e) => {
@@ -691,8 +660,6 @@ function UserUpdate() {
   const updateCheck = (e) => {
     e.preventDefault();
 
-    console.log("updatecheck : ", allcheck);
-    console.log("updatecheck : ", anyChange);
     if (allcheck === true && anyChange === true) {
       {
         /* 수정가능 */
