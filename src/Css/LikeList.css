@@ -1,0 +1,15 @@
+.margin {
+    width: 100px;
+    margin: 15px;
+}
+
+.right {
+    width: 60px;
+    margin: 15px;
+    float: right;
+}
+
+.sortItem {
+    width: 60px;
+}
+

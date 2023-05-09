@@ -38,30 +38,25 @@ function Mypage() {
 
   const location = useLocation();
   const path = location.pathname;
-  // console.log(userEmail);
   useEffect(() => {
     viewDefaultInfo();
-    console.log(path);
-    console.log(path.indexOf("planner"));
     if (category !== "user" && category !== "planner") {
       navigate("/*");
-    }
-    if (
+    } else if (
       sessionStorage.getItem("category") !== "user" &&
       sessionStorage.getItem("category") !== "planner"
     ) {
       navigate("/*");
-    }
-    if (
+    } else if (
       sessionStorage.getItem("category") === "user" &&
       path.indexOf("planner") !== -1
     ) {
-      navigate("/*");
+      navigate("/mypageabc");
     } else if (
       sessionStorage.getItem("category") === "planner" &&
       path.indexOf("user") !== -1
     ) {
-      navigate("/*");
+      navigate("/mypageabc");
     }
   }, []);
   const viewDefaultInfo = () => {
@@ -69,8 +64,6 @@ function Mypage() {
       axios
         .post("/user/userSearch", { email: userEmail })
         .then((res) => {
-          console.log("성공");
-          console.log(res);
           setName(res.data.name);
           setEmail(res.data.email);
           setPassword(res.data.password);
@@ -94,7 +87,6 @@ function Mypage() {
           const reader = new FileReader();
           reader.onload = () => {
             setPreviewUrl(reader.result);
-            console.log("reader.result : ", reader.result);
           };
           reader.readAsDataURL(blob);
         })
@@ -106,8 +98,6 @@ function Mypage() {
       axios
         .post("/planner/plannerSearch", { email: userEmail })
         .then((res) => {
-          console.log("성공");
-          console.log(res);
           setName(res.data.name);
           setEmail(res.data.email);
           setPassword(res.data.password);
@@ -132,13 +122,11 @@ function Mypage() {
           const reader = new FileReader();
           reader.onload = () => {
             setPreviewUrl(reader.result);
-            //console.log("reader.result : ", reader.result);
           };
           reader.readAsDataURL(blob);
         })
         .catch((e) => {
           console.log(e);
-          setPreviewUrl(profileimage);
         });
     }
   };
@@ -148,8 +136,6 @@ function Mypage() {
       axios
         .post("/user/userSearch", { email: userEmail })
         .then((res) => {
-          console.log("성공");
-          console.log(res);
           if (passwordCheck === res.data.password) {
             setPasswordCheckMessage("비밀번호 확인 완료!");
           } else {
@@ -164,8 +150,6 @@ function Mypage() {
       axios
         .post("/planner/plannerSearch", { email: userEmail })
         .then((res) => {
-          console.log("성공");
-          console.log(res);
           if (passwordCheck === res.data.password) {
             setPasswordCheckMessage("비밀번호 확인 완료!");
           } else {
@@ -183,8 +167,6 @@ function Mypage() {
       axios
         .post("/user/userDelete", { email: userEmail })
         .then((res) => {
-          console.log("성공");
-          console.log(res);
           window.sessionStorage.clear();
         })
         .catch((e) => {
@@ -195,8 +177,6 @@ function Mypage() {
       axios
         .post("/planner/plannerDelete", { email: userEmail })
         .then((res) => {
-          console.log("성공");
-          console.log(res);
           window.sessionStorage.clear();
         })
         .catch((e) => {
@@ -211,7 +191,6 @@ function Mypage() {
 
   const onChange = (e) => {
     if (e.target.id === "passwordcheck") {
-      console.log(e.target.value);
       const passwordRegExp =
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+\\\|\[\]{};:\'",.<>\/?]).{8,}$/;
       if (passwordRegExp.test(e.target.value)) {
@@ -275,36 +254,38 @@ function Mypage() {
         className="content mypagecontainer text-center"
         style={{
           minHeight: "100vh",
-          height: "900px",
+          height: "100%",
           width: "100%",
           zIndex: 1,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "start",
         }}
       >
-        <form className="col">
-          {previewUrl === null ? (
-            <div style={{ width: "200px", height: "200px" }}></div>
-          ) : (
-            <img
-              src={previewUrl}
-              style={
-                category === "user"
-                  ? {
-                      width: "200px",
-                      height: "200px",
-                      marginBottom: "30px",
-                      marginTop: "-165px",
-                    }
-                  : {
-                      width: "200px",
-                      height: "200px",
-                      marginBottom: "20px",
-                      marginTop: "-115px",
-                    }
-              }
-              alt=""
-            />
-          )}
-
+        {previewUrl === null ? (
+          <div style={{ width: "200px", height: "200px" }}></div>
+        ) : (
+          <img
+            src={previewUrl}
+            style={
+              category === "user"
+                ? {
+                    width: "200px",
+                    height: "200px",
+                    marginBottom: "20px",
+                    marginTop: "-85px",
+                  }
+                : {
+                    width: "200px",
+                    height: "200px",
+                    marginBottom: "20px",
+                    marginTop: "-95px",
+                  }
+            }
+            alt=""
+          />
+        )}
+        <form style={{ marginTop: "10px" }}>
           <div
             className=" justify-content-md-center mb-2"
             style={{ display: "flex", flexDirection: "row", width: "100%" }}
@@ -312,7 +293,7 @@ function Mypage() {
             <label
               htmlFor="name"
               className="form-label  mt-2"
-              style={{ marginRight: "10px", width: "200px" }}
+              style={{ marginRight: "10px", width: "200px", fontSize: "1.3em" }}
             >
               이름
             </label>
@@ -327,6 +308,7 @@ function Mypage() {
                 value={name}
                 autocomplete="off"
                 disabled
+                style={{ fontSize: "1.1em" }}
               />
             </div>
           </div>
@@ -337,7 +319,7 @@ function Mypage() {
             <label
               htmlFor="password"
               className="form-label  mt-2"
-              style={{ marginRight: "10px", width: "200px" }}
+              style={{ marginRight: "10px", width: "200px", fontSize: "1.3em" }}
             >
               비밀번호
             </label>
@@ -352,6 +334,7 @@ function Mypage() {
                 value={password}
                 autocomplete="off"
                 disabled
+                style={{ fontSize: "1.1em" }}
               />
             </div>
           </div>
@@ -362,7 +345,7 @@ function Mypage() {
             <label
               htmlFor="email"
               className="form-label  mt-2"
-              style={{ marginRight: "10px", width: "200px" }}
+              style={{ marginRight: "10px", width: "200px", fontSize: "1.3em" }}
             >
               이메일
             </label>
@@ -377,6 +360,7 @@ function Mypage() {
                 value={email}
                 autocomplete="off"
                 disabled
+                style={{ fontSize: "1.1em" }}
               />
             </div>
           </div>
@@ -387,7 +371,7 @@ function Mypage() {
             <label
               htmlFor="phone"
               className="form-label  mt-2"
-              style={{ marginRight: "10px", width: "200px" }}
+              style={{ marginRight: "10px", width: "200px", fontSize: "1.3em" }}
             >
               휴대폰
             </label>
@@ -402,6 +386,7 @@ function Mypage() {
                 value={phone}
                 autocomplete="off"
                 disabled
+                style={{ fontSize: "1.1em" }}
               />
             </div>
           </div>
@@ -412,7 +397,7 @@ function Mypage() {
             <label
               htmlFor="gender"
               className="form-label  mt-2"
-              style={{ marginRight: "10px", width: "200px" }}
+              style={{ marginRight: "10px", width: "200px", fontSize: "1.3em" }}
             >
               성별
             </label>
@@ -439,6 +424,7 @@ function Mypage() {
                 aria-label="male btn"
                 value="남자"
                 disabled
+                style={{ fontSize: "1.1em" }}
               />
               <div class="input-group-text">
                 <input
@@ -459,6 +445,7 @@ function Mypage() {
                 aria-label="female btn"
                 value="여자"
                 disabled
+                style={{ fontSize: "1.1em" }}
               />
             </div>
           </div>
@@ -470,7 +457,11 @@ function Mypage() {
               <label
                 for="phone"
                 class="form-label mt-2"
-                style={{ marginRight: "10px", width: "200px" }}
+                style={{
+                  marginRight: "10px",
+                  width: "200px",
+                  fontSize: "1.3em",
+                }}
               >
                 경력
               </label>
@@ -489,6 +480,7 @@ function Mypage() {
                   min="0"
                   max="30"
                   disabled
+                  style={{ fontSize: "1.1em" }}
                 />
               </div>
             </div>
@@ -539,8 +531,9 @@ function Mypage() {
           <div class="modal-content">
             <div class="modal-header">
               <h1
-                class="modal-title justify-content-center fs-5"
+                class="modal-title justify-content-center "
                 id="passwordcheckmodal"
+                style={{ fontSize: "1.5em" }}
               >
                 - 비밀번호 확인 -
               </h1>
@@ -561,6 +554,7 @@ function Mypage() {
                   ref={passwordInput}
                   value={passwordCheck}
                   onChange={onChange}
+                  style={{ fontSize: "1.2em" }}
                   placeholder="현재 비밀번호를 입력해주세요."
                   onKeyPress={submitPasswordCheck}
                   required
@@ -569,6 +563,7 @@ function Mypage() {
                 />
                 <div
                   class="invisible text-start password-feedback"
+                  style={{ fontSize: "1em" }}
                   ref={passwordFeedback}
                 >
                   {passwordMessage}
@@ -612,8 +607,9 @@ function Mypage() {
           <div class="modal-content">
             <div class="modal-header">
               <h1
-                class="modal-title justify-content-center fs-5"
+                class="modal-title justify-content-center"
                 id="passwordcheckMessageModal"
+                style={{ fontSize: "1.5em" }}
               >
                 - 비밀번호 확인 -
               </h1>
@@ -625,7 +621,9 @@ function Mypage() {
                 onClick={deletePassword}
               ></button>
             </div>
-            <div class="modal-body">{passwordcheckmessage}</div>
+            <div class="modal-body" style={{ fontSize: "1.2em" }}>
+              {passwordcheckmessage}
+            </div>
             <div class="modal-footer">
               <button
                 type="button"
@@ -659,11 +657,15 @@ function Mypage() {
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
-              <h1 class="modal-title text-center fs-5" id="deleteMemberModal">
+              <h1
+                class="modal-title text-center "
+                id="deleteMemberModal"
+                style={{ fontSize: "1.4em" }}
+              >
                 - 회원 탈퇴 -
               </h1>
             </div>
-            <div class="modal-body text-center">
+            <div class="modal-body text-center" style={{ fontSize: "1.2em" }}>
               그동안 감사했습니다😢 이렇게 가신다니 아쉬워요 (T_T)
             </div>
             <div class="modal-footer justify-content-center">
@@ -675,6 +677,7 @@ function Mypage() {
                   deleteMember();
                   navigate("/", { return: true });
                 }}
+                style={{ fontSize: "1.3em" }}
               >
                 메인페이지로
               </button>

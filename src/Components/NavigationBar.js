@@ -9,7 +9,7 @@ function NavigationBar({ title }) {
   return (
     <div className="navigationbar">
       <BackButton />
-      <p>{title}</p>
+      <p style={{ fontSize: "1.8em" }}>{title} </p>
       {path.indexOf("mypage") === 1 && path.indexOf("userupdate") === -1 ? (
         <MyEstimate />
       ) : (

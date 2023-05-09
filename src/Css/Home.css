@@ -63,9 +63,14 @@
     width: 262px;
     margin: 0 auto;
     text-align: center;
+    font-size: 1.5rem;
 }
 
 .contentBox {
     height: 80vh;
     overflow: scroll;
+}
+
+.sortingList {
+    font-size: 1.4rem;
 }

@@ -122,8 +122,13 @@ function NotFound() {
               type="button"
               className="btn-colour-1 "
               onClick={() => {
-                if (path.indexOf("mypage") !== -1) {
-                  navigate("/");
+                if (path.indexOf("mypageabc") !== -1) {
+                  navigate(`/mypage/${sessionStorage.getItem("category")}`);
+                } else if (path.indexOf("mypageupdate") !== -1) {
+                  navigate(
+                    `/mypage/${sessionStorage.getItem("category")}/userupdate`,
+                    { state: true }
+                  );
                 } else {
                   navigate("/login");
                 }

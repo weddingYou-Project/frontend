@@ -67,29 +67,33 @@ function UserUpdate() {
 
   useEffect(() => {
     viewDefaultInfo();
+    console.log(path);
     if (category !== "user" && category !== "planner") {
+      //mypage/sdf 입력했을 때
+      console.log(1);
       navigate("/*");
-    }
-    if (
+    } else if (
       sessionStorage.getItem("category") !== "user" &&
       sessionStorage.getItem("category") !== "planner"
     ) {
+      //로그인을 하지 않은 상태일때
+      console.log(2);
       navigate("/*");
-    }
-    if (
+    } else if (
       sessionStorage.getItem("category") === "user" &&
       path.indexOf("planner") !== -1
     ) {
-      navigate("/*");
-    }
-    if (
+      //user 로그인은 했지만 planner url로 들어가고자 할 때
+      console.log(31);
+      navigate("/mypageupdate");
+    } else if (
       sessionStorage.getItem("category") === "planner" &&
       path.indexOf("user/userupdate") !== -1
     ) {
-      navigate("/*");
-    }
-
-    if (passwordCheck !== true) {
+      //planner 로그인은 했지만 user url로 들어가고자 할 때
+      console.log(4);
+      navigate("/mypageupdate");
+    } else if (passwordCheck !== true) {
       //userupdate에 url로 접근할 경우 mypage로 navigate
       navigate(`/mypage/${category}`);
       alert("정보수정을 하려면 비밀번호를 입력하세요!");
@@ -711,16 +715,45 @@ function UserUpdate() {
     <div class="mainlayout" style={{ minHeight: "100vh", height: "100%" }}>
       <NavigationBar title={title} />
       <div
-        class="userupdatecontainer text-center"
+        class="mypagecontainer text-center"
         style={{
           minHeight: "100vh",
-          height: "800px",
+          height: "830px",
           width: "100%",
-          marginTop: "30px",
           zIndex: 1,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "start",
+          paddingTop: "130px",
         }}
       >
-        <form style={{ width: "560px", height: "600px", zIndex: 3 }}>
+        {defaultViewUrl === null ? (
+          <div style={{ width: "200px", height: "100px" }}></div>
+        ) : (
+          <img
+            src={defaultViewUrl}
+            style={
+              category === "user"
+                ? {
+                    width: "200px",
+                    height: "200px",
+                    cursor: "pointer",
+                    marginTop: "-100px",
+                    marginBottom: "10px",
+                  }
+                : {
+                    width: "200px",
+                    height: "200px",
+                    cursor: "pointer",
+                    marginTop: "-110px",
+                  }
+            }
+            data-bs-toggle="modal"
+            data-bs-target="#profileUpdateModal"
+            alt=""
+          />
+        )}
+        <form style={{ width: "560px", height: "610px", zIndex: 3 }}>
           <div
             style={{
               display: "flex",
@@ -728,34 +761,7 @@ function UserUpdate() {
               justifyContent: "center",
               marginBottom: "30px",
             }}
-          >
-            {defaultViewUrl === null ? (
-              <div style={{ width: "200px", height: "100px" }}></div>
-            ) : (
-              <img
-                src={defaultViewUrl}
-                style={
-                  category === "user"
-                    ? {
-                        width: "200px",
-                        height: "200px",
-                        cursor: "pointer",
-                        marginTop: "-120px",
-                        marginBottom: "10px",
-                      }
-                    : {
-                        width: "200px",
-                        height: "200px",
-                        cursor: "pointer",
-                        marginTop: "-110px",
-                      }
-                }
-                data-bs-toggle="modal"
-                data-bs-target="#profileUpdateModal"
-                alt=""
-              />
-            )}
-          </div>
+          ></div>
           <div
             class="justify-content-md-center mb-2"
             style={{ display: "flex", flexDirection: "row", width: "100%" }}
@@ -763,7 +769,7 @@ function UserUpdate() {
             <label
               for="name"
               class="form-label mt-2 text-center"
-              style={{ marginRight: "10px", width: "200px" }}
+              style={{ marginRight: "10px", width: "200px", fontSize: "1.3em" }}
             >
               이름
             </label>
@@ -776,10 +782,12 @@ function UserUpdate() {
                 value={name}
                 autoComplete="off"
                 disabled
+                style={{ fontSize: "1.1em" }}
               />
               <div
                 class="invisible text-start name-feedback"
                 ref={nameFeedback}
+                style={{ fontSize: "1.1em" }}
               >
                 {nameMessage}
               </div>
@@ -792,7 +800,7 @@ function UserUpdate() {
             <label
               for="password"
               class="form-label mt-2 text-center"
-              style={{ marginRight: "10px", width: "200px" }}
+              style={{ marginRight: "10px", width: "200px", fontSize: "1.3em" }}
             >
               비밀번호
             </label>
@@ -810,10 +818,12 @@ function UserUpdate() {
                 onChange={onChange}
                 autoComplete="off"
                 maxLength="20"
+                style={{ fontSize: "1.1em" }}
               />
               <div
                 class="invisible text-start password-feedback"
                 ref={passwordFeedback}
+                style={{ fontSize: "1.1em" }}
               >
                 {passwordMessage}
               </div>
@@ -826,7 +836,7 @@ function UserUpdate() {
             <label
               for="email"
               class="form-label mt-2"
-              style={{ marginRight: "10px", width: "200px" }}
+              style={{ marginRight: "10px", width: "200px", fontSize: "1.3em" }}
             >
               이메일
             </label>
@@ -844,10 +854,12 @@ function UserUpdate() {
                 onChange={onChange}
                 autoComplete="off"
                 maxLength="100"
+                style={{ fontSize: "1.1em" }}
               />
               <div
                 class="invisible text-start email-feedback"
                 ref={emailFeedback}
+                style={{ fontSize: "1.1em" }}
               >
                 {emailMessage}
               </div>
@@ -860,7 +872,7 @@ function UserUpdate() {
             <label
               for="phone"
               class="form-label mt-2"
-              style={{ marginRight: "10px", width: "200px" }}
+              style={{ marginRight: "10px", width: "200px", fontSize: "1.3em" }}
             >
               휴대폰
             </label>
@@ -878,10 +890,12 @@ function UserUpdate() {
                 placeholder={phone}
                 autoComplete="off"
                 maxLength="13"
+                style={{ fontSize: "1.1em" }}
               />
               <div
                 class="invisible text-start phone-feedback"
                 ref={phoneFeedback}
+                style={{ fontSize: "1.1em" }}
               >
                 {phoneMessage}
               </div>
@@ -894,7 +908,7 @@ function UserUpdate() {
             <label
               htmlFor="gender"
               className="form-label  mt-2"
-              style={{ marginRight: "10px", width: "200px" }}
+              style={{ marginRight: "10px", width: "200px", fontSize: "1.3em" }}
             >
               성별
             </label>
@@ -926,7 +940,7 @@ function UserUpdate() {
                 id="male"
                 aria-label="male btn"
                 value="남자"
-                style={{ background: "white" }}
+                style={{ background: "white", fontSize: "1.1em" }}
                 disabled
               />
               <div class="input-group-text">
@@ -949,7 +963,7 @@ function UserUpdate() {
                 id="female"
                 aria-label="female btn"
                 value="여자"
-                style={{ background: "white" }}
+                style={{ background: "white", fontSize: "1.1em" }}
                 disabled
               />
             </div>
@@ -962,7 +976,11 @@ function UserUpdate() {
               <label
                 for="phone"
                 class="form-label mt-2"
-                style={{ marginRight: "10px", width: "200px" }}
+                style={{
+                  marginRight: "10px",
+                  width: "200px",
+                  fontSize: "1.3em",
+                }}
               >
                 경력
               </label>
@@ -981,10 +999,12 @@ function UserUpdate() {
                   autoComplete="off"
                   min="0"
                   max="30"
+                  style={{ fontSize: "1.1em" }}
                 />
                 <div
                   class="invisible text-start phone-feedback"
                   ref={careerFeedback}
+                  style={{ fontSize: "1.1em" }}
                 >
                   {careerMessage}
                 </div>
@@ -1017,8 +1037,9 @@ function UserUpdate() {
           <div class="modal-content">
             <div class="modal-header">
               <h1
-                class="modal-title justify-content-center fs-5"
+                class="modal-title justify-content-center "
                 id="profileUpdateModal"
+                style={{ fontSize: "1.5em" }}
               >
                 - 프로필 변경 -
               </h1>
@@ -1068,6 +1089,7 @@ function UserUpdate() {
                   required
                   autocomplete="off"
                   enctype="multipart/form-data"
+                  style={{ fontSize: "1.3em" }}
                 />
               </div>
             </div>

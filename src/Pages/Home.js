@@ -27,7 +27,7 @@ function Home() {
       </div>
       <div className="NavBar">
         <nav id="navbar-example2" class="navbar bg-light px-3 mb-3">
-          <ul class="nav">
+          <ul class="nav sortingList">
             <li class="nav-item">
               <a class="nav-link" href="#scrollspyHeading1">
                 웨딩홀
@@ -104,6 +104,8 @@ function Home() {
                   class="d-block w-50 center"
                   alt="..."
                 />
+                <br />
+                <div className="itemName">(이름) (좋아요수)</div>
               </div>
               <div class="carousel-item">
                 <img
@@ -111,6 +113,8 @@ function Home() {
                   class="d-block w-50 center"
                   alt="..."
                 />
+                <br />
+                <div className="itemName">(이름) (좋아요수)</div>
               </div>
               <div class="carousel-item">
                 <img
@@ -118,6 +122,8 @@ function Home() {
                   class="d-block w-50 center"
                   alt="..."
                 />
+                <br />
+                <div className="itemName">(이름) (좋아요수)</div>
               </div>
             </div>
             <button
@@ -145,8 +151,6 @@ function Home() {
               <span class="visually-hidden">Next</span>
             </button>
           </div>
-          <br />
-          <div className="itemName">(이름) (좋아요수)</div>
           <hr />
           <h4 id="scrollspyHeading2">
             <svg
