@@ -1,0 +1,71 @@
+.mainlogo {
+    margin: 10px;
+    width: 65px;
+    height: 65px;
+    border-radius: 5px;
+}
+
+.searchbar {
+    width: 390px;
+    height: 50px;
+    border-radius: 5px;
+    border-width: 1px;
+    border-color: rgba(138, 138, 138, 0.533);
+    background-color: white;
+}
+
+.likeicon {
+    margin: 10px 10px 10px 20px;
+}
+
+.likeicon:hover {
+    fill: rgb(255, 0, 0);
+}
+
+.probutton {
+  box-sizing: content-box;
+  position: fixed;
+  margin-left: 480px;
+  left: auto;
+  bottom: 100px;
+  float: right;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #00f7ff;
+  color: rgb(0, 0, 0);
+  text-align: center;
+  font-size: 12px;
+  cursor: pointer;
+  border-style: solid;
+  border-width: 2px;
+  z-index: 100;
+}
+  
+
+.probutton:hover {
+    border-color: rgb(55, 0, 255);
+}
+
+.red {
+    fill: red;
+}
+
+.center {
+    margin: 0 auto;
+}
+
+.fadeBtnColor {
+    background-color: rgba(0, 255, 255, 0.5);
+}
+
+.itemName {
+    width: 262px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.contentBox {
+    height: 80vh;
+    overflow: scroll;
+}
