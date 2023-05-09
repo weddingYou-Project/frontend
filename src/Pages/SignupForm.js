@@ -5,6 +5,7 @@ import axios from "axios";
 import React, { useEffect } from "react";
 import SignupSuccess from "./SignupSuccess";
 import Footer from "../Components/Footer";
+import NavigationBar from "../Components/NavigationBar";
 import "../Css/mypage.css";
 
 function SignupForm() {
@@ -270,12 +271,10 @@ function SignupForm() {
     return (
       <div className="bg">
         <div className="Signup-wrap">
-          <div className="Signup-backicon" onClick={handleBack}>
-            <i className="bi bi-chevron-left" style={{ fontSize: 40 }}></i>
-          </div>
-          {category === "user" && <div className="Signup-header">일반회원</div>}
-          {category === "planner" && (
-            <div className="Signup-header">플래너회원</div>
+          {category === "user" ? (
+            <NavigationBar title={"일반회원"} />
+          ) : (
+            <NavigationBar title={"플래너회원"} />
           )}
 
           <div className="Signup-guidebar">

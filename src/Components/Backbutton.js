@@ -11,8 +11,25 @@ function BackButton() {
       <button
         class="backbutton"
         onClick={() => {
-          if (path === "/mypage/user" || path === "/mypage/planner") {
+          console.log(path);
+          if (
+            path === "/mypage/user" ||
+            path === "/mypage/planner" ||
+            path === "/login"
+          ) {
             navigate("/");
+          } else if (path === "/passwordSearch") {
+            navigate("/login");
+          } else if (path === "/passwordSearch/temporaryPasswordLogin") {
+            navigate("/passwordSearch");
+          } else if (
+            path === "/passwordSearch/temporaryPasswordLogin/passwordChange"
+          ) {
+            navigate("/passwordSearch/temporaryPasswordLogin");
+          } else if (path === "/signup") {
+            navigate("/login");
+          } else if (path === "/signup/user" || path === "/signup/planner") {
+            navigate("/login");
           } else {
             navigate(-1);
           }

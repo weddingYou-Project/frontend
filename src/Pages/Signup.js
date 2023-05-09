@@ -3,7 +3,7 @@ import "../Css/main.css";
 import { useNavigate } from "react-router-dom";
 import Footer from "../Components/Footer";
 import "../Css/mypage.css";
-
+import NavigationBar from "../Components/NavigationBar";
 function Signup() {
   const navigate = useNavigate();
   const handleBack = () => {
@@ -12,10 +12,7 @@ function Signup() {
   return (
     <div className="bg">
       <div className="mainlayout">
-        <div className="Signup-backicon" onClick={handleBack}>
-          <i class="bi bi-chevron-left" style={{ fontSize: 40 }}></i>
-        </div>
-        <div className="Signup-header">회원가입</div>
+        <NavigationBar title={"회원가입"} />
 
         <div className="Signup-logo"></div>
 
