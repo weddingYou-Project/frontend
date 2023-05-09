@@ -28,10 +28,6 @@ function TemporaryPasswordLogin() {
   const navigate = useNavigate();
 
   const onClickLogin = () => {
-    console.log("click login");
-    console.log("ID : ", inputId);
-    console.log("PW : ", inputPw);
-
     if (Role === "회원") {
       axios
         .post("/user/login", {
@@ -39,7 +35,6 @@ function TemporaryPasswordLogin() {
           password: inputPw,
         })
         .then((res) => {
-          console.log(res);
           console.log("res.data.email :: ", res.data.email);
           if (inputId === null || inputPw === null) {
             alert("회원정보를 입력해주세요");
@@ -63,7 +58,6 @@ function TemporaryPasswordLogin() {
           password: inputPw,
         })
         .then((res) => {
-          console.log(res);
           console.log("res.data.email :: ", res.data.email);
           if (inputId === null || inputPw === null) {
             alert("회원정보를 입력해주세요");
@@ -107,6 +101,7 @@ function TemporaryPasswordLogin() {
                 maxLength="100"
                 value={inputId}
                 onChange={handleInputId}
+                style={{ fontSize: "1.2em" }}
               />
               <input
                 type="password"
@@ -114,6 +109,7 @@ function TemporaryPasswordLogin() {
                 placeholder="임시 비밀번호"
                 value={inputPw}
                 onChange={handleInputPw}
+                style={{ fontSize: "1.2em" }}
               />
               <div class="input-group" id="Role" style={{ width: 256 }}>
                 <div class="input-group-text">
@@ -136,7 +132,7 @@ function TemporaryPasswordLogin() {
                   aria-label="custom btn"
                   value="회원"
                   disabled
-                  style={{ background: "white" }}
+                  style={{ background: "white", fontSize: "1.2em" }}
                 />
                 <div class="input-group-text">
                   <input
@@ -158,7 +154,7 @@ function TemporaryPasswordLogin() {
                   aria-label="palnner btn"
                   value="플래너"
                   disabled
-                  style={{ background: "white" }}
+                  style={{ background: "white", fontSize: "1.2em" }}
                 />
               </div>
             </div>
