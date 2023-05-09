@@ -30,7 +30,7 @@ const EstimateForm = () => {
     regionthird: "",
   });
 
-  let [budget, setbudget] = useState(0);
+  let [budget, setbudget] = useState("");
   let [studio, setstudio] = useState("");
   let [honeymoon, sethoneymoon] = useState("");
   let [requirement, setrequirement] = useState("");
@@ -56,7 +56,24 @@ const EstimateForm = () => {
 
   //예산
   const budgetSelect = (e) => {
-    setbudget(e.target.value);
+    const budgetRegex = /\B(?=(\d{3})+(?!\d))/g;
+    const newValue = e.target.value
+      .replace(/\D/g, "")
+      .replace(budgetRegex, ",");
+    setbudget(newValue);
+  };
+
+  const increasebudget1 = (value) => {
+    const budgetRegex = /\B(?=(\d{3})+(?!\d))/g;
+    let val = parseInt(budget.replace(/,/g, ""));
+    if (isNaN(val)) {
+      val = 0;
+    }
+    const newValue = (val + value)
+      .toString()
+      .replace(/\D/g, "")
+      .replace(budgetRegex, ",");
+    setbudget(newValue);
   };
 
   //스튜디오
@@ -238,7 +255,7 @@ const EstimateForm = () => {
         <div className="contentbox">
           <h5
             onClick={() => {
-              console.log(weddingregion);
+              console.log(budget);
             }}
           >
             희망 결혼 예정일
@@ -287,6 +304,7 @@ const EstimateForm = () => {
             <RegionList
               name="regionfirst"
               weddingregionSelect={weddingregionSelect}
+              regionRef={regionRef}
             />
           </div>
           <div className="choosebox">
@@ -314,8 +332,32 @@ const EstimateForm = () => {
               onChange={budgetSelect}
               ref={budgetRef}
             />
+            <div
+              className="budget-btn"
+              onClick={() => {
+                increasebudget1(1000000);
+              }}
+            >
+              +1백만
+            </div>
+            <div
+              className="budget-btn"
+              onClick={() => {
+                increasebudget1(100000);
+              }}
+            >
+              +1십만
+            </div>
+            <div
+              className="budget-btn"
+              onClick={() => {
+                increasebudget1(10000);
+              }}
+            >
+              +1만
+            </div>
           </div>
-          원{/* <hr></hr> */}
+          <span>원</span>
         </div>
         <div className="contentbox">
           <h5>스튜디오</h5>
@@ -498,54 +540,54 @@ const EstimateForm = () => {
           </div>
           <div className="choosebox">
             <input
-              id="클래식"
+              id="내추럴"
               type="checkbox"
               name="makeup"
-              value="클래식"
+              value="내추럴"
               onChange={makeupcheck}
               className="displaynone"
             />
-            <label htmlFor="클래식" className="label-design w-100 cursor">
-              클래식
+            <label htmlFor="내추럴" className="label-design w-100 cursor">
+              내추럴
             </label>
           </div>
           <div className="choosebox">
             <input
-              id="모던한"
+              id="스모키"
               type="checkbox"
               name="makeup"
-              value="모던한"
+              value="스모키"
               onChange={makeupcheck}
               className="displaynone"
             />
-            <label htmlFor="모던한" className="label-design w-100 cursor">
-              모던한
+            <label htmlFor="스모키" className="label-design w-100 cursor">
+              스모키
             </label>
           </div>
           <div className="choosebox">
             <input
-              id="세련된"
+              id="큐티"
               type="checkbox"
               name="makeup"
-              value="세련된"
+              value="큐티"
               onChange={makeupcheck}
               className="displaynone"
             />
-            <label htmlFor="세련된" className="label-design w-100 cursor">
-              세련된
+            <label htmlFor="큐티" className="label-design w-100 cursor">
+              큐티
             </label>
           </div>
           <div className="choosebox">
             <input
-              id="사랑스런"
+              id="러블리"
               type="checkbox"
               name="makeup"
-              value="사랑스런"
+              value="러블리"
               onChange={makeupcheck}
               className="displaynone"
             />
-            <label htmlFor="사랑스런" className="label-design w-100 cursor">
-              사랑스런
+            <label htmlFor="러블리" className="label-design w-100 cursor">
+              러블리
             </label>
           </div>
           <span>
@@ -882,14 +924,49 @@ const DressModal = () => {
                 collapse="four"
                 topic="머메이드"
                 image1="https://www.iwedding.co.kr/center/iweddingb/product/800_co_sl_d120_2001_1632361176_65452700_3232256100.jpg"
-                image2="https://ygdress.com/web/product/big/DNW102_1.jpg"
+                image2="https://www.iwedding.co.kr/center/iweddingb/product/800_4250_1668583465_80283900_3232256100.jpg"
                 image3="https://www.iwedding.co.kr/center/iweddingb/product/800___1665453271_05641100_3232256098.jpg"
               />
-              <AccordionComp heading={5} collapse="five" topic="A라인" />
-              <AccordionComp heading={6} collapse="six" topic="H라인" />
-              <AccordionComp heading={7} collapse="seven" topic="벨라인" />
-              <AccordionComp heading={8} collapse="eight" topic="엠파이어" />
-              <AccordionComp heading={9} collapse="nine" topic="프린세스" />
+              <AccordionComp
+                heading={5}
+                collapse="five"
+                topic="A라인"
+                image1="https://www.iwedding.co.kr/center/iweddingb/product/800_5350_1679279312_93081100_3232256098.jpg"
+                image2="https://www.iwedding.co.kr/center/iweddingb/product/800_4365_1674628854_18110500_3232256100.jpg"
+                image3="https://www.iwedding.co.kr/center/iweddingb/product/800_12996_1677040520_50476000_3232256099.jpg"
+              />
+              <AccordionComp
+                heading={6}
+                collapse="six"
+                topic="H라인"
+                image1="https://www.iwedding.co.kr/center/iweddingb/product/800_4794_1679476555_79191600_3232256099.jpg"
+                image2="https://www.iwedding.co.kr/center/iweddingb/product/800___1665130500_49819100_3232256100.jpg"
+                image3="https://www.iwedding.co.kr/center/iweddingb/product/800___1665454832_07143300_3232256099.jpg"
+              />
+              <AccordionComp
+                heading={7}
+                collapse="seven"
+                topic="벨라인"
+                image1="https://www.iwedding.co.kr/center/iweddingb/product/800_5218_1675921472_92970900_3232256099.jpg"
+                image2="https://www.iwedding.co.kr/center/iweddingb/product/800_4796_1679476532_21876000_3232256099.jpg"
+                image3="https://www.iwedding.co.kr/center/iweddingb/product/800_14256_1681265613_43329300_3232256100.jpg"
+              />
+              <AccordionComp
+                heading={8}
+                collapse="eight"
+                topic="엠파이어"
+                image1="https://www.iwedding.co.kr/center/iweddingb/product/800_14083_1675239691_84022800_3232256098.jpg"
+                image2="https://www.iwedding.co.kr/center/iweddingb/product/800_co_sl_d247_14923_1649140504_74715200_3232256100.jpg"
+                image3="https://www.iwedding.co.kr/center/iweddingb/product/800_co_sl_d276_6631_1582187346_70709200_3232256098.jpg"
+              />
+              <AccordionComp
+                heading={9}
+                collapse="nine"
+                topic="프린세스"
+                image1="https://www.iwedding.co.kr/center/iweddingb/product/800_17534_1673254073_72786200_3232256099.jpg"
+                image2="https://www.iwedding.co.kr/center/iweddingb/product/800_15343_1674625658_77782300_3232256100.jpg"
+                image3="https://www.iwedding.co.kr/center/iweddingb/product/800_13164_1676956927_35327800_3232256098.jpg"
+              />
             </div>
           </div>
           <div className="modal-footer">
@@ -933,10 +1010,10 @@ const MakeupModal = () => {
             <div className="accordion" id="accordionExample">
               <AccordionComp heading={10} collapse="ten" topic="로맨틱한" />
               <AccordionComp heading={11} collapse="eleven" topic="우아한" />
-              <AccordionComp heading={12} collapse="twelve" topic="클래식" />
-              <AccordionComp heading={13} collapse="thirteen" topic="모던한" />
-              <AccordionComp heading={14} collapse="fourteen" topic="세련된" />
-              <AccordionComp heading={15} collapse="fifteen" topic="사랑스런" />
+              <AccordionComp heading={12} collapse="twelve" topic="내추럴" />
+              <AccordionComp heading={13} collapse="thirteen" topic="스모키" />
+              <AccordionComp heading={14} collapse="fourteen" topic="큐티" />
+              <AccordionComp heading={15} collapse="fifteen" topic="러블리" />
             </div>
           </div>
           <div className="modal-footer">
@@ -1085,7 +1162,7 @@ const Carousel = ({ image1, image2, image3, collapse, heading }) => {
   );
 };
 
-const RegionList = ({ name, weddingregionSelect }) => {
+const RegionList = ({ name, weddingregionSelect, regionRef }) => {
   return (
     <>
       <select
@@ -1094,6 +1171,7 @@ const RegionList = ({ name, weddingregionSelect }) => {
         style={{ fontSize: 14 }}
         name={name}
         onChange={weddingregionSelect}
+        ref={regionRef}
       >
         <option value="">미선택</option>
         <optgroup label="제주도 및 광역시">
