@@ -39,24 +39,6 @@ const Weddinghall = () => {
     setIsModalOpen(false);
   };
 
-  const modalStyles = {
-    overlay: {
-      backgroundColor: "rgba(0, 0, 0, 0.7)",
-      zIndex: 999,
-    },
-    content: {
-      top: "50%",
-      left: "50%",
-      right: "auto",
-      bottom: "auto",
-      marginRight: "-50%",
-      transform: "translate(-50%, -50%)",
-      width: "80%",
-      height: "80%",
-      padding: "2rem",
-    },
-  };
-
   return (
     <div className="mainlayout">
       <NavigationBar title={title} />
@@ -86,11 +68,7 @@ const Weddinghall = () => {
           ))}
       </div>
       {selectedImage && (
-        <Modal
-          isOpen={isModalOpen}
-          onRequestClose={handleCloseModal}
-          style={modalStyles}
-        >
+        <Modal isOpen={isModalOpen} onRequestClose={handleCloseModal}>
           <div className="modal-content">
             <div className="modal-image">
               <img src={selectedImage.src} alt={selectedImage.alt} />
