@@ -35,7 +35,7 @@ function BackButton() {
           } else if (path.indexOf("/planner/userupdate") !== -1) {
             navigate("/mypage/planner");
           } else {
-            navigate(-1);
+            navigate("/login");
           }
         }}
       >
