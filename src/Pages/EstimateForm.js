@@ -13,6 +13,13 @@ import BackButton from "../Components/Backbutton";
 import NavigationBar from "../Components/NavigationBar";
 
 const EstimateForm = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (window.sessionStorage.getItem("email") === null) {
+      navigate("../login");
+    }
+  }, []);
+
   //Ref
   let dateRef = useRef();
   let regionRef = useRef();
@@ -254,8 +261,6 @@ const EstimateForm = () => {
         });
     }
   };
-
-  const navigate = useNavigate();
 
   return (
     <div className="mainlayout" style={{ height: "100%" }}>
@@ -1500,7 +1505,7 @@ const RegionList = ({ name, weddingregionSelect, regionRef }) => {
           <option value="산청군">산청군</option>
           <option value="양산시">양산시</option>
           <option value="의령군">의령군</option>
-          <option value="진주쉬">진주쉬</option>
+          <option value="진주시">진주시</option>
           <option value="창녕군">창녕군</option>
           <option value="창원시">창원시</option>
           <option value="통영시">통영시</option>
