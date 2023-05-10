@@ -189,6 +189,18 @@ const EstimateForm = () => {
   const imageClear = () => {
     setimages([]);
   };
+  //이미지 파일 개별 삭제
+  const deleteimage = (image) => {
+    let copy = [...images];
+    for (let i = 0; i < copy.length; i++) {
+      console.log(i);
+      if (copy[i].name === image) {
+        copy.splice(i, 1);
+        setimages(copy);
+        break;
+      }
+    }
+  };
 
   //요청사항
   const requirementChange = (e) => {
@@ -278,7 +290,7 @@ const EstimateForm = () => {
         <div className="contentbox">
           <h5
             onClick={() => {
-              console.log(budget);
+              console.log(images);
             }}
           >
             희망 결혼 예정일
@@ -798,7 +810,7 @@ const EstimateForm = () => {
 
         <div className="contentbox">
           <h5>이미지첨부</h5>
-          <div className="choosebox">
+          <div className="choosebox" style={{ width: "70%" }}>
             <input
               type="file"
               multiple
@@ -810,7 +822,27 @@ const EstimateForm = () => {
             <label htmlFor="uploadimage" className="cursor imageupload-btn">
               이미지첨부하기
             </label>
-            {images.length > 0 && (
+            <div style={{ marginTop: 5 }}>
+              {images.map((image, index) => {
+                return (
+                  <div className="imagefilenamebox">
+                    <div className="imagefilenamecontent">
+                      <span>{image.name}</span>
+                      <div
+                        className="imagefilename-overlay cursor"
+                        onClick={() => {
+                          deleteimage(image.name);
+                        }}
+                      >
+                        <i class="bi bi-x-lg"></i>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* {images.length > 0 && (
               <span>
                 {images.length}개의 이미지{" "}
                 <div
@@ -822,7 +854,7 @@ const EstimateForm = () => {
                   취소
                 </div>
               </span>
-            )}
+            )} */}
           </div>
         </div>
         <div className="contentbox" style={{ borderBottom: "none" }}>

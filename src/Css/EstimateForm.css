@@ -158,8 +158,7 @@ li {
     background: #eee;
     color:black;
     border-radius: 5px;
-    width: 152px;
-    
+    width: 152px;       
 }
 
 
@@ -196,3 +195,43 @@ input[type=date] {
 h5 {
     font-weight: 600;
 }
+
+.imagefilenamebox {
+    padding: 3px;
+    width: 33%;
+    float: left;
+}
+.imagefilenamecontent {
+    background: gray;
+    border-radius: 10px;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden; 
+    padding: 4px 10px;
+    color : white;
+    font-size: 15px;
+    position: relative;
+}
+
+.imagefilename-overlay {
+    width: 100%;
+    height: 100%;
+    bottom: 0;
+    right: 0;
+    border-radius:0px;
+    position: absolute;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s;
+    opacity: 0;
+    padding: 4px 10px;
+}
+
+.imagefilename-overlay:hover {
+    opacity: 1;
+}
+
+
