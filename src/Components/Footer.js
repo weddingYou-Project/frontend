@@ -1,6 +1,6 @@
 import "../Css/footer.css";
 import React from "react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 
 function Footer() {
@@ -8,43 +8,90 @@ function Footer() {
   const { category } = useParams();
   const location = useLocation();
   const path = location.pathname;
-  useEffect(() => {
+  const [footerborder, setFooterBorder] = useState(false);
+
+  window.addEventListener("resize", (event) => {
+    // 창크기 바뀌었을 때
+    //console.log("clientheight :" + document.body.clientHeight);
     const footer = document.querySelector("#footer");
     if (path.indexOf(`signup/${category}`) === 1) {
-      console.log(footer.classList);
       footer.classList.remove("footer");
       footer.classList.add("footer-border-remove");
+    } else if (
+      path.indexOf("login") === 1 ||
+      path.indexOf(`password`) === 1 ||
+      path === "/signup"
+    ) {
+      footer.classList.add("footer");
+      footer.classList.remove("footer-border-remove");
+      if (window.innerHeight !== document.body.clientHeight) {
+        footer.classList.remove("footer");
+        footer.classList.add("footer-border-remove");
+      }
     } else {
-      footer.classList.add("footer");
-      footer.classList.remove("footer-border-remove");
+      footer.classList.remove("footer");
+      footer.classList.add("footer-border-remove");
     }
-  }, []);
-  // console.log("HAHA", footer.current);
-  // window.addEventListener("onload", () => {
-  //   if (location.pathname === `signup/${category}`) {
-  //     console.log(footer.current);
-  //     footer.current.classList.remove("footer");
-  //     footer.current.classList.add("footer-border-remove");
-  //   }
-  // });
-
-  window.addEventListener("scroll", () => {
-    const footer = document.querySelector("#footer");
-    if (document.body.clientHeight === window.scrollY + window.innerHeight) {
-      footer.classList.remove("footer-border-remove");
-      footer.classList.add("footer");
-      console.log(1);
+    // console.log(document.body.clientHeight);
+    // console.log(window.scrollY + window.innerHeight);
+    if (
+      document.body.clientHeight - (window.scrollY + window.innerHeight) < 1 ||
+      window.scrollY + window.innerHeight - document.body.clientHeight < 1
+    ) {
+      setFooterBorder(true);
     } else if (
       document.body.clientHeight >
       window.scrollY + window.innerHeight
     ) {
-      footer.classList.add("footer-border-remove");
+      setFooterBorder(false);
+    }
+  });
+
+  useEffect(() => {
+    // 처음 창을 열었을 때
+    //   console.log("clientheight :" + document.body.clientHeight);
+    const footer = document.querySelector("#footer");
+    if (path.indexOf(`signup/${category}`) === 1) {
       footer.classList.remove("footer");
+      footer.classList.add("footer-border-remove");
+    } else if (
+      path.indexOf("login") === 1 ||
+      path.indexOf(`password`) === 1 ||
+      path === "/signup"
+    ) {
+      footer.classList.add("footer");
+      footer.classList.remove("footer-border-remove");
+      if (window.innerHeight !== document.body.clientHeight) {
+        footer.classList.remove("footer");
+        footer.classList.add("footer-border-remove");
+      }
+    } else {
+      footer.classList.remove("footer");
+      footer.classList.add("footer-border-remove");
+    }
+  }, []);
+
+  window.addEventListener("scroll", () => {
+    // console.log(document.body.clientHeight);
+    // console.log(window.scrollY + window.innerHeight);
+    if (
+      document.body.clientHeight - (window.scrollY + window.innerHeight) <
+      1
+    ) {
+      setFooterBorder(true);
+    } else if (
+      document.body.clientHeight >
+      window.scrollY + window.innerHeight
+    ) {
+      setFooterBorder(false);
     }
   });
 
   return (
-    <div className="footer" id="footer">
+    <div
+      className={!footerborder ? "footer-border-remove" : "footer"}
+      id="footer"
+    >
       <div
         className="icon"
         onClick={() => {
@@ -126,7 +173,12 @@ function Footer() {
       <div
         className="icon"
         onClick={() => {
-          navigate(`/mypage/${category}`);
+          if (sessionStorage.getItem("category") !== null) {
+            const category = sessionStorage.getItem("category");
+            navigate(`/mypage/${category}`);
+          } else {
+            navigate(`/*`);
+          }
         }}
       >
         <svg

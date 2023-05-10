@@ -5,14 +5,19 @@ import axios from "axios";
 import React, { useEffect } from "react";
 import SignupSuccess from "./SignupSuccess";
 import Footer from "../Components/Footer";
+import NavigationBar from "../Components/NavigationBar";
 import "../Css/mypage.css";
 
 function SignupForm() {
   //회원가입 성공 여부
   let [sign, setsign] = useState("before");
-
-  let { category } = useParams();
   let navigate = useNavigate();
+  let { category } = useParams();
+  useEffect(() => {
+    if (category !== "user" && category !== "planner") {
+      navigate("/*");
+    }
+  });
 
   //제약조건
   let [checkAll, setCheckAll] = useState(false);
@@ -92,7 +97,16 @@ function SignupForm() {
       signupbtn.classList.add("btn-colour-2");
       signupbtn.classList.remove("btn-colour-1");
     }
-  });
+  }, [
+    checkAll,
+    namecheck,
+    emailcheck,
+    passwordcheck,
+    passwordcheck2,
+    phonecheck,
+    careercheck,
+    duplicatecheck,
+  ]);
 
   console.log(document.querySelector("#name"));
   const EventHandlerName = (e) => {
@@ -210,7 +224,7 @@ function SignupForm() {
   const userRegister = () => {
     if (category === "user") {
       axios
-        .post("http://localhost:8080/user/userRegister", {
+        .post("/user/register", {
           name: name,
           password: password,
           email: email,
@@ -231,7 +245,7 @@ function SignupForm() {
     }
     if (category === "planner") {
       axios
-        .post("http://localhost:8080/planner/plannerRegister", {
+        .post("/planner/register", {
           name: name,
           password: password,
           email: email,
@@ -257,12 +271,10 @@ function SignupForm() {
     return (
       <div className="bg">
         <div className="Signup-wrap">
-          <div className="Signup-backicon" onClick={handleBack}>
-            <i className="bi bi-chevron-left" style={{ fontSize: 40 }}></i>
-          </div>
-          {category === "user" && <div className="Signup-header">일반회원</div>}
-          {category === "planner" && (
-            <div className="Signup-header">플래너회원</div>
+          {category === "user" ? (
+            <NavigationBar title={"일반회원"} />
+          ) : (
+            <NavigationBar title={"플래너회원"} />
           )}
 
           <div className="Signup-guidebar">

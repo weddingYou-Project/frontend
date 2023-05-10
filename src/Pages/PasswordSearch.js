@@ -70,7 +70,7 @@ function PasswordSearch() {
     <div className="mainlayout">
       <NavigationBar title={"비밀번호 찾기"} />
       <br />
-      <div className="container text-center">
+      <div className="container text-center" style={{ height: "700px" }}>
         <div className="row">
           <div className="col-2"></div>
           <div className="col-8">
@@ -171,7 +171,6 @@ function PasswordSearch() {
               </button>
             </div>
           </div>
-          <div className="col-2"></div>
         </div>
       </div>
       <div

@@ -1,21 +1,24 @@
 import "../Css/main.css";
 import "../Css/mypage.css";
+import profileimage from "../Assets/defaultprofileimage.jpg";
 import NavigationBar from "../Components/NavigationBar";
 import Footer from "../Components/Footer";
 import React, { useState, useRef, useEffect } from "react";
 import Modal from "react-modal";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams, useLocation } from "react-router-dom";
+import axios from "axios";
 
 function Mypage() {
   const title = "마이페이지";
   const navigate = useNavigate();
 
-  const [name, setName] = useState("귀엽조");
-  const [password, setPassword] = useState("Ab1234**");
-  const [email, setEmail] = useState("abc@naver.com");
-  const [phone, setPhone] = useState("010-1234-5678");
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [gender, setGender] = useState("");
-  const [career, setCareer] = useState(10);
+
+  const [career, setCareer] = useState("");
 
   const [passwordMessage, setPasswordMessage] = useState("looks good!");
   const [passwordCheck, setPasswordCheck] = useState("");
@@ -27,7 +30,184 @@ function Mypage() {
   const passwordConfirm = useRef();
   const [passwordcheckmessage, setPasswordCheckMessage] = useState("");
 
+  const [previewUrl, setPreviewUrl] = useState(null);
+
   const { category } = useParams();
+
+  const userEmail = window.sessionStorage.getItem("email");
+
+  const location = useLocation();
+  const path = location.pathname;
+  // console.log(userEmail);
+  useEffect(() => {
+    viewDefaultInfo();
+    console.log(path);
+    console.log(path.indexOf("planner"));
+    if (category !== "user" && category !== "planner") {
+      navigate("/*");
+    }
+    if (
+      sessionStorage.getItem("category") !== "user" &&
+      sessionStorage.getItem("category") !== "planner"
+    ) {
+      navigate("/*");
+    }
+    if (
+      sessionStorage.getItem("category") === "user" &&
+      path.indexOf("planner") !== -1
+    ) {
+      navigate("/*");
+    } else if (
+      sessionStorage.getItem("category") === "planner" &&
+      path.indexOf("user") !== -1
+    ) {
+      navigate("/*");
+    }
+  }, []);
+  const viewDefaultInfo = () => {
+    if (category === "user") {
+      axios
+        .post("/user/userSearch", { email: userEmail })
+        .then((res) => {
+          console.log("성공");
+          console.log(res);
+          setName(res.data.name);
+          setEmail(res.data.email);
+          setPassword(res.data.password);
+          setPhone(res.data.phoneNum);
+          setGender(res.data.gender);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+      axios
+        .post("/user/getprofileImg", { email: userEmail })
+        .then((res) => {
+          const byteCharacters = atob(res.data);
+          const byteNumbers = new Array(byteCharacters.length);
+          for (let i = 0; i < byteCharacters.length; i++) {
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
+          }
+          const byteArray = new Uint8Array(byteNumbers);
+          const blob = new Blob([byteArray], { type: "image/jpeg" });
+
+          const reader = new FileReader();
+          reader.onload = () => {
+            setPreviewUrl(reader.result);
+            console.log("reader.result : ", reader.result);
+          };
+          reader.readAsDataURL(blob);
+        })
+        .catch((e) => {
+          setPreviewUrl(profileimage);
+        });
+    }
+    if (category === "planner") {
+      axios
+        .post("/planner/plannerSearch", { email: userEmail })
+        .then((res) => {
+          console.log("성공");
+          console.log(res);
+          setName(res.data.name);
+          setEmail(res.data.email);
+          setPassword(res.data.password);
+          setPhone(res.data.phoneNum);
+          setGender(res.data.gender);
+          setCareer(res.data.plannerCareerYears);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+      axios
+        .post("/planner/getprofileImg", { email: userEmail })
+        .then((res) => {
+          const byteCharacters = atob(res.data);
+          const byteNumbers = new Array(byteCharacters.length);
+          for (let i = 0; i < byteCharacters.length; i++) {
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
+          }
+          const byteArray = new Uint8Array(byteNumbers);
+          const blob = new Blob([byteArray], { type: "image/jpeg" });
+
+          const reader = new FileReader();
+          reader.onload = () => {
+            setPreviewUrl(reader.result);
+            //console.log("reader.result : ", reader.result);
+          };
+          reader.readAsDataURL(blob);
+        })
+        .catch((e) => {
+          console.log(e);
+          setPreviewUrl(profileimage);
+        });
+    }
+  };
+
+  const checkPasswordInfo = () => {
+    if (category === "user") {
+      axios
+        .post("/user/userSearch", { email: userEmail })
+        .then((res) => {
+          console.log("성공");
+          console.log(res);
+          if (passwordCheck === res.data.password) {
+            setPasswordCheckMessage("비밀번호 확인 완료!");
+          } else {
+            setPasswordCheckMessage("비밀번호가 틀립니다. 다시 입력하세요.");
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+    if (category === "planner") {
+      axios
+        .post("/planner/plannerSearch", { email: userEmail })
+        .then((res) => {
+          console.log("성공");
+          console.log(res);
+          if (passwordCheck === res.data.password) {
+            setPasswordCheckMessage("비밀번호 확인 완료!");
+          } else {
+            setPasswordCheckMessage("비밀번호가 틀립니다. 다시 입력하세요.");
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+  };
+
+  const deleteMember = () => {
+    if (category === "user") {
+      axios
+        .post("/user/userDelete", { email: userEmail })
+        .then((res) => {
+          console.log("성공");
+          console.log(res);
+          window.sessionStorage.clear();
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+    if (category === "planner") {
+      axios
+        .post("/planner/plannerDelete", { email: userEmail })
+        .then((res) => {
+          console.log("성공");
+          console.log(res);
+          window.sessionStorage.clear();
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+  };
+
+  useEffect(() => {
+    checkPasswordInfo();
+  }, [passwordCheck, password]);
 
   const onChange = (e) => {
     if (e.target.id === "passwordcheck") {
@@ -76,31 +256,70 @@ function Mypage() {
     }
   };
 
-  useEffect(() => {
-    if (passwordCheck === password) {
-      setPasswordCheckMessage("비밀번호 확인 완료!");
-    } else {
-      setPasswordCheckMessage("비밀번호가 틀립니다. 다시 입력하세요.");
-    }
-  }, [passwordCheck, password]);
-
   const gotoUpdatePage = () => {
     if (passwordcheckmessage === "비밀번호 확인 완료!") {
-      navigate(`/mypage/${category}/userupdate`);
+      navigate(`/mypage/${category}/userupdate`, {
+        state: true,
+      });
     }
   };
 
+  const logout = () => {
+    window.sessionStorage.clear();
+  };
+
   return (
-    <div className="mainlayout">
+    <div className="mainlayout" style={{ minHeight: "100vh", height: "100%" }}>
       <NavigationBar title={title} />
-      <div className="content mypagecontainer text-center">
+      <div
+        className="content mypagecontainer text-center"
+        style={{
+          minHeight: "100vh",
+          height: "900px",
+          width: "100%",
+          zIndex: 1,
+        }}
+      >
         <form className="col">
-          <img src="" alt="" />
-          <div className="row justify-content-md-center mb-2">
-            <label htmlFor="name" className="form-label col col-md-2 mt-2">
+          {previewUrl === null ? (
+            <div style={{ width: "200px", height: "200px" }}></div>
+          ) : (
+            <img
+              src={previewUrl}
+              style={
+                category === "user"
+                  ? {
+                      width: "200px",
+                      height: "200px",
+                      marginBottom: "30px",
+                      marginTop: "-165px",
+                    }
+                  : {
+                      width: "200px",
+                      height: "200px",
+                      marginBottom: "20px",
+                      marginTop: "-115px",
+                    }
+              }
+              alt=""
+            />
+          )}
+
+          <div
+            className=" justify-content-md-center mb-2"
+            style={{ display: "flex", flexDirection: "row", width: "100%" }}
+          >
+            <label
+              htmlFor="name"
+              className="form-label  mt-2"
+              style={{ marginRight: "10px", width: "200px" }}
+            >
               이름
             </label>
-            <div className="col col-md-7 mb-4">
+            <div
+              className=" mb-4"
+              style={{ width: "250px", marginRight: "20px" }}
+            >
               <input
                 type="text"
                 className="form-control "
@@ -111,11 +330,21 @@ function Mypage() {
               />
             </div>
           </div>
-          <div className="row justify-content-md-center mb-2">
-            <label htmlFor="password" className="form-label col col-md-2 mt-2">
+          <div
+            className=" justify-content-md-center mb-2"
+            style={{ display: "flex", flexDirection: "row", width: "100%" }}
+          >
+            <label
+              htmlFor="password"
+              className="form-label  mt-2"
+              style={{ marginRight: "10px", width: "200px" }}
+            >
               비밀번호
             </label>
-            <div className="has-validation col col-md-7 mb-4">
+            <div
+              className="has-validation  mb-4"
+              style={{ width: "250px", marginRight: "20px" }}
+            >
               <input
                 type="text"
                 className="form-control "
@@ -126,11 +355,21 @@ function Mypage() {
               />
             </div>
           </div>
-          <div className="row justify-content-md-center mb-2">
-            <label htmlFor="email" className="form-label col col-md-2 mt-2">
+          <div
+            className=" justify-content-md-center mb-2"
+            style={{ display: "flex", flexDirection: "row", width: "100%" }}
+          >
+            <label
+              htmlFor="email"
+              className="form-label  mt-2"
+              style={{ marginRight: "10px", width: "200px" }}
+            >
               이메일
             </label>
-            <div className="has-validation col col-md-7 mb-4">
+            <div
+              className="has-validation  mb-4"
+              style={{ width: "250px", marginRight: "20px" }}
+            >
               <input
                 type="text"
                 className="form-control "
@@ -141,11 +380,21 @@ function Mypage() {
               />
             </div>
           </div>
-          <div className="row justify-content-md-center mb-2">
-            <label htmlFor="phone" className="form-label col col-md-2 mt-2">
+          <div
+            className=" justify-content-md-center mb-2"
+            style={{ display: "flex", flexDirection: "row", width: "100%" }}
+          >
+            <label
+              htmlFor="phone"
+              className="form-label  mt-2"
+              style={{ marginRight: "10px", width: "200px" }}
+            >
               휴대폰
             </label>
-            <div className="has-validation col col-md-7 mb-4">
+            <div
+              className="has-validation  mb-4"
+              style={{ width: "250px", marginRight: "20px" }}
+            >
               <input
                 type="text"
                 className="form-control "
@@ -156,11 +405,21 @@ function Mypage() {
               />
             </div>
           </div>
-          <div className="row justify-content-md-center mb-2">
-            <label htmlFor="gender" className="form-label col col-md-2 mt-2">
+          <div
+            className=" justify-content-md-center mb-2"
+            style={{ display: "flex", flexDirection: "row", width: "100%" }}
+          >
+            <label
+              htmlFor="gender"
+              className="form-label  mt-2"
+              style={{ marginRight: "10px", width: "200px" }}
+            >
               성별
             </label>
-            <div class="input-group">
+            <div
+              class="input-group"
+              style={{ width: "250px", marginRight: "20px" }}
+            >
               <div class="input-group-text">
                 <input
                   class="form-check-input mt-0"
@@ -168,7 +427,7 @@ function Mypage() {
                   value=""
                   name="gender"
                   htmlFor="male"
-                  checked
+                  checked={gender === "male" ? true : false}
                   disabled
                   aria-label="Radio button for following text input"
                 />
@@ -188,6 +447,7 @@ function Mypage() {
                   value=""
                   name="gender"
                   htmlFor="female"
+                  checked={gender === "female" ? true : false}
                   disabled
                   aria-label="Radio button for following text input"
                 />
@@ -203,11 +463,21 @@ function Mypage() {
             </div>
           </div>
           {category === "planner" ? (
-            <div class="row justify-content-md-center mb-2 mt-4">
-              <label for="phone" class="form-label col col-md-2 mt-2">
+            <div
+              class=" justify-content-md-center mb-2 mt-4"
+              style={{ display: "flex", flexDirection: "row", width: "100%" }}
+            >
+              <label
+                for="phone"
+                class="form-label mt-2"
+                style={{ marginRight: "10px", width: "200px" }}
+              >
                 경력
               </label>
-              <div class="has-validation col col-md-7">
+              <div
+                class="has-validation "
+                style={{ width: "250px", marginRight: "20px" }}
+              >
                 <input
                   type="number"
                   class="form-control "
@@ -229,6 +499,7 @@ function Mypage() {
             data-bs-toggle="modal"
             data-bs-target="#passwordcheckmodal"
             onClick={deletePassword}
+            style={{ marginTop: "20px" }}
           >
             정보 수정하기
           </button>
@@ -237,6 +508,7 @@ function Mypage() {
             <button
               className="logout btn-colour-1"
               onClick={() => {
+                logout();
                 navigate("/login");
               }}
             >
@@ -400,7 +672,8 @@ function Mypage() {
                 class="btn btn-primary"
                 data-bs-dismiss="modal"
                 onClick={() => {
-                  navigate("/");
+                  deleteMember();
+                  navigate("/", { return: true });
                 }}
               >
                 메인페이지로
