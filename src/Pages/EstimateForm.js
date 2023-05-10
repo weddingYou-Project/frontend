@@ -870,7 +870,7 @@ const StudioModal = () => {
             ></button>
           </div>
           <div className="modal-body">
-            <div className="accordion" id="accordionExample">
+            <div className="accordion" id="accordionExample1">
               <AccordionComp
                 heading={1}
                 collapse="one"
@@ -881,6 +881,7 @@ const StudioModal = () => {
                 comment1="깔끔한 배경에서 인물중심의 촬영을 진행해요!"
                 comment2="심플하고 깨끗한 이미지의 결과물!"
                 comment3="오래두고 보아도 질리지 않는 장점이 있어요!"
+                _id="accordionExample1"
               />
               <AccordionComp
                 heading={2}
@@ -892,6 +893,7 @@ const StudioModal = () => {
                 comment1="촬영 자체의 특별한 경험을 선사해요!"
                 comment2="스튜디오 고유의 배경과 분위기를 담을 수 있답니다!"
                 comment3="화려한 배경 덕에 부담이 덜해요!"
+                _id="accordionExample1"
               />
               <AccordionComp
                 heading={3}
@@ -903,6 +905,7 @@ const StudioModal = () => {
                 comment1="요즘 가장 인기있는 스타일이에요!"
                 comment2="배경과 인물 모두 예쁘게 담을 수 있답니다~"
                 comment3="자연스러운 행동위주의 연출도 가능해요!"
+                _id="accordionExample1"
               />
             </div>
           </div>
@@ -944,7 +947,7 @@ const DressModal = () => {
             ></button>
           </div>
           <div className="modal-body">
-            <div className="accordion" id="accordionExample">
+            <div className="accordion" id="accordionExample2">
               <AccordionComp
                 heading={4}
                 collapse="four"
@@ -955,6 +958,7 @@ const DressModal = () => {
                 comment1="키가 크시고 마르신 분들에게 추천해요!"
                 comment2="허리와 힙을 강조해요!"
                 comment3="하지만 움직임에 제약이 많은 단점이 있습니다."
+                _id="accordionExample2"
               />
               <AccordionComp
                 heading={5}
@@ -966,6 +970,7 @@ const DressModal = () => {
                 comment1="어떤 체형이든 잘 어울립니다!"
                 comment2="키가 커보이는 스타일이에요!"
                 comment3="하체가 통통하신 분들에게도 추천!"
+                _id="accordionExample2"
               />
               <AccordionComp
                 heading={6}
@@ -977,6 +982,7 @@ const DressModal = () => {
                 comment1="섹시함과 성숙함을 함께 나타낼 수 있어요!"
                 comment2="날씬하신 분들께 추천합니다!"
                 comment3="슬림한 느낌을 줍니다"
+                _id="accordionExample2"
               />
               <AccordionComp
                 heading={7}
@@ -988,6 +994,7 @@ const DressModal = () => {
                 comment1="허리부터 풍성하게 퍼지는 라인이 특징입니다"
                 comment2="통통한 하체를 커버하기에 좋습니다"
                 comment3="키가 작고 마른 신부님들에게도 추천해요!"
+                _id="accordionExample2"
               />
               <AccordionComp
                 heading={8}
@@ -999,6 +1006,7 @@ const DressModal = () => {
                 comment1="날씬해보이는 드레스 스타일입니다!"
                 comment2="직사각형 체형분들에게 추천해요"
                 comment3="하체가 길어보인답니다~"
+                _id="accordionExample2"
               />
               <AccordionComp
                 heading={9}
@@ -1010,6 +1018,7 @@ const DressModal = () => {
                 comment1="화려한 장식을 더한 드레스입니다!"
                 comment2="여성적인 매력을 어필하기에 좋아요!"
                 comment3="허리선이 굵은 분들에게 추천해요!"
+                _id="accordionExample2"
               />
             </div>
           </div>
@@ -1051,7 +1060,7 @@ const MakeupModal = () => {
             ></button>
           </div>
           <div className="modal-body">
-            <div className="accordion" id="accordionExample">
+            <div className="accordion" id="accordionExample3">
               <AccordionComp
                 heading={10}
                 collapse="ten"
@@ -1062,6 +1071,7 @@ const MakeupModal = () => {
                 comment1="촉촉하고 투명한 느낌을 줍니다!"
                 comment2="핑크색의 색조를 많이 사용해요!"
                 comment3="피부가 하얀분들에게 추천해요!"
+                _id="accordionExample3"
               />
               <AccordionComp
                 heading={11}
@@ -1073,6 +1083,7 @@ const MakeupModal = () => {
                 comment1="내추럴 메이크업에서 포인트를 더한 메이크업입니다!"
                 comment2="수수한 느낌보다는 화려한 느낌을 살려줍니다"
                 comment3="스타일이 조금은 과해서 스튜디오 촬영 때 많이 이용되는 스타일입니다"
+                _id="accordionExample3"
               />
               <AccordionComp
                 heading={12}
@@ -1084,6 +1095,7 @@ const MakeupModal = () => {
                 comment1="가장 기본적인 스타일입니다!"
                 comment2="평소 메이크업을 잘 하지 않는 분들에게 추천드려요"
                 comment3="자연스럽고 깨끗해 보이는 점이 장점입니다."
+                _id="accordionExample3"
               />
               <AccordionComp
                 heading={13}
@@ -1095,6 +1107,7 @@ const MakeupModal = () => {
                 comment1="눈매를 강조하는 화장입니다!"
                 comment2="이목구비가 뚜렷하게 보이는 장점이 있어요!"
                 comment3="하지만 평소에 인상이 쎄시다면 추천드리지 않습니다"
+                _id="accordionExample3"
               />
               <AccordionComp
                 heading={14}
@@ -1106,6 +1119,7 @@ const MakeupModal = () => {
                 comment1="상큼하고 귀여운 모습의 연출이 가능해요"
                 comment2="동그랗게 올린 머리가 특징입니다!"
                 comment3="얼굴이 크시거나, 이마가 넓으시다면 피하시는 게 좋습니다"
+                _id="accordionExample3"
               />
               <AccordionComp
                 heading={15}
@@ -1117,6 +1131,7 @@ const MakeupModal = () => {
                 comment1="얼굴에 화사함을 주는 스타일입니다"
                 comment2="어려보이는 효과를 줍니다"
                 comment3="갓 짜낸 과즙을 담아낸 듯한 스타일이에요"
+                _id="accordionExample3"
               />
             </div>
           </div>
@@ -1145,8 +1160,7 @@ const AccordionComp = ({
   comment1,
   comment2,
   comment3,
-  comment4,
-  comment,
+  _id,
 }) => {
   return (
     <div className="accordion-item">
@@ -1166,7 +1180,7 @@ const AccordionComp = ({
         id={collapse}
         className="accordion-collapse collapse"
         aria-labelledby={heading}
-        data-bs-parent="#accordionExample"
+        data-bs-parent={`#${_id}`}
       >
         <div className="accordion-body p-0">
           <div className="exampleimagebox">
