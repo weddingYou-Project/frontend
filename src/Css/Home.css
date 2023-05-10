@@ -27,7 +27,7 @@
   position: fixed;
   margin-left: 480px;
   left: auto;
-  bottom: 100px;
+  bottom: 105px;
   float: right;
   width: 50px;
   height: 50px;
@@ -64,11 +64,6 @@
     margin: 0 auto;
     text-align: center;
     font-size: 1.5rem;
-}
-
-.contentBox {
-    height: 80vh;
-    overflow: scroll;
 }
 
 .sortingList {

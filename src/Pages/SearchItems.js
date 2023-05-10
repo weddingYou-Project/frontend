@@ -4,7 +4,12 @@ import Footer from "../Components/Footer";
 import imgLogo from "../Assets/logo.png";
 
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, EffectCoverflow, Pagination } from "swiper";
+
 import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/effect-coverflow";
 
 function SearchItems() {
   return (
@@ -95,50 +100,80 @@ function SearchItems() {
             </svg>
           </h4>
           <br />
-          <Swiper spaceBetween={-100} slidesPerView={2}>
+          <Swiper
+            effect={"coverflow"}
+            grabCursor={true}
+            centeredSlides={true}
+            slidesPerView={2}
+            loop={true}
+            coverflowEffect={{
+              rotate: 50,
+              stretch: 0,
+              depth: 100,
+              modifier: 1,
+              slideShadows: false,
+            }}
+            modules={[EffectCoverflow, Navigation, Pagination]}
+            navigation
+            pagination={{ clickable: true }}
+            spaceBetween={-30}
+          >
             <SwiperSlide>
               <img
                 src="https://www.iwedding.co.kr/center/website/brandplus/1670307028.jpg"
-                class="d-block w-50 center"
+                class="d-block w-75 center"
                 alt="..."
               />
+              <br />
+              <div className="itemName">(이름) (좋아요수)</div>
             </SwiperSlide>
             <br />
             <SwiperSlide>
               <img
                 src="https://www.iwedding.co.kr/center/website/brandplus/1681797008.jpg"
-                class="d-block w-50 center"
+                class="d-block w-75 center"
                 alt="..."
               />
+              <br />
+              <div className="itemName">(이름) (좋아요수)</div>
             </SwiperSlide>
             <SwiperSlide>
               <img
                 src="https://www.iwedding.co.kr/center/website/brandplus/1679360660.jpg"
-                class="d-block w-50 center"
+                class="d-block w-75 center"
                 alt="..."
               />
+              <br />
+              <div className="itemName">(이름) (좋아요수)</div>
             </SwiperSlide>
             <SwiperSlide>
               <img
                 src="https://www.iwedding.co.kr/center/website/brandplus/1670307028.jpg"
-                class="d-block w-50 center"
+                class="d-block w-75 center"
                 alt="..."
               />
+              <br />
+              <div className="itemName">(이름) (좋아요수)</div>
             </SwiperSlide>
             <SwiperSlide>
               <img
                 src="https://www.iwedding.co.kr/center/website/brandplus/1681797008.jpg"
-                class="d-block w-50 center"
+                class="d-block w-75 center"
                 alt="..."
               />
+              <br />
+              <div className="itemName">(이름) (좋아요수)</div>
             </SwiperSlide>
             <SwiperSlide>
               <img
                 src="https://www.iwedding.co.kr/center/website/brandplus/1679360660.jpg"
-                class="d-block w-50 center"
+                class="d-block w-75 center"
                 alt="..."
               />
+              <br />
+              <div className="itemName">(이름) (좋아요수)</div>
             </SwiperSlide>
+            <br />
           </Swiper>
           <hr />
           <h4 id="scrollspyHeading2">
@@ -165,50 +200,80 @@ function SearchItems() {
             </svg>
           </h4>
           <br />
-          <Swiper spaceBetween={-100} slidesPerView={2}>
+          <Swiper
+            effect={"coverflow"}
+            grabCursor={true}
+            centeredSlides={true}
+            slidesPerView={2}
+            loop={true}
+            coverflowEffect={{
+              rotate: 50,
+              stretch: 0,
+              depth: 100,
+              modifier: 1,
+              slideShadows: false,
+            }}
+            modules={[EffectCoverflow, Navigation, Pagination]}
+            navigation
+            pagination={{ clickable: true }}
+            spaceBetween={-30}
+          >
             <SwiperSlide>
               <img
                 src="https://www.iwedding.co.kr/center/website/brandplus/1663828102.jpg"
-                class="d-block w-50 center"
+                class="d-block w-75 center"
                 alt="..."
               />
+              <br />
+              <div className="itemName">(이름) (좋아요수)</div>
             </SwiperSlide>
             <br />
             <SwiperSlide>
               <img
                 src="https://www.iwedding.co.kr/center/website/brandplus/1663828179.jpg"
-                class="d-block w-50 center"
+                class="d-block w-75 center"
                 alt="..."
               />
+              <br />
+              <div className="itemName">(이름) (좋아요수)</div>
             </SwiperSlide>
             <SwiperSlide>
               <img
                 src="http://ifamily.co.kr/image/icard/242516/icard_sm_242516"
-                class="d-block w-50 center"
+                class="d-block w-75 center"
                 alt="..."
               />
+              <br />
+              <div className="itemName">(이름) (좋아요수)</div>
             </SwiperSlide>
             <SwiperSlide>
               <img
                 src="https://www.iwedding.co.kr/center/website/brandplus/1663828102.jpg"
-                class="d-block w-50 center"
+                class="d-block w-75 center"
                 alt="..."
               />
+              <br />
+              <div className="itemName">(이름) (좋아요수)</div>
             </SwiperSlide>
             <SwiperSlide>
               <img
                 src="https://www.iwedding.co.kr/center/website/brandplus/1663828179.jpg"
-                class="d-block w-50 center"
+                class="d-block w-75 center"
                 alt="..."
               />
+              <br />
+              <div className="itemName">(이름) (좋아요수)</div>
             </SwiperSlide>
             <SwiperSlide>
               <img
                 src="http://ifamily.co.kr/image/icard/242516/icard_sm_242516"
-                class="d-block w-50 center"
+                class="d-block w-75 center"
                 alt="..."
               />
+              <br />
+              <div className="itemName">(이름) (좋아요수)</div>
             </SwiperSlide>
+            <br />
           </Swiper>
           <hr />
           <h4 id="scrollspyHeading3">
@@ -235,11 +300,28 @@ function SearchItems() {
             </svg>
           </h4>
           <br />
-          <Swiper spaceBetween={-100} slidesPerView={2}>
+          <Swiper
+            effect={"coverflow"}
+            grabCursor={true}
+            centeredSlides={true}
+            slidesPerView={2}
+            loop={true}
+            coverflowEffect={{
+              rotate: 50,
+              stretch: 0,
+              depth: 100,
+              modifier: 1,
+              slideShadows: false,
+            }}
+            modules={[EffectCoverflow, Navigation, Pagination]}
+            navigation
+            pagination={{ clickable: true }}
+            spaceBetween={-30}
+          >
             <SwiperSlide>
               <img
                 src="https://www.iwedding.co.kr/center/iweddingb/product/500_17950_1681285801_41548700_3232256098.jpg"
-                class="d-block w-50 center"
+                class="d-block w-75 center"
                 alt="..."
               />
               <br />
@@ -248,7 +330,7 @@ function SearchItems() {
             <SwiperSlide>
               <img
                 src="https://www.iwedding.co.kr/center/iweddingb/product/500_2146_1674021540_85005600_3232256098.jpg"
-                class="d-block w-50 center"
+                class="d-block w-75 center"
                 alt="..."
               />
               <br />
@@ -257,7 +339,7 @@ function SearchItems() {
             <SwiperSlide>
               <img
                 src="https://www.iwedding.co.kr/center/iweddingb/product/500_4796_1679476532_21876000_3232256099.jpg"
-                class="d-block w-50 center"
+                class="d-block w-75 center"
                 alt="..."
               />
               <br />
@@ -266,7 +348,7 @@ function SearchItems() {
             <SwiperSlide>
               <img
                 src="https://www.iwedding.co.kr/center/iweddingb/product/500_17950_1681285801_41548700_3232256098.jpg"
-                class="d-block w-50 center"
+                class="d-block w-75 center"
                 alt="..."
               />
               <br />
@@ -275,7 +357,7 @@ function SearchItems() {
             <SwiperSlide>
               <img
                 src="https://www.iwedding.co.kr/center/iweddingb/product/500_2146_1674021540_85005600_3232256098.jpg"
-                class="d-block w-50 center"
+                class="d-block w-75 center"
                 alt="..."
               />
               <br />
@@ -284,12 +366,14 @@ function SearchItems() {
             <SwiperSlide>
               <img
                 src="https://www.iwedding.co.kr/center/iweddingb/product/500_4796_1679476532_21876000_3232256099.jpg"
-                class="d-block w-50 center"
+                class="d-block w-75 center"
                 alt="..."
               />
               <br />
               <div className="itemName">(이름) (좋아요수)</div>
             </SwiperSlide>
+            <br />
+            <br />
           </Swiper>
 
           <hr />
@@ -317,49 +401,79 @@ function SearchItems() {
             </svg>
           </h4>
           <br />
-          <Swiper spaceBetween={-100} slidesPerView={2}>
+          <Swiper
+            effect={"coverflow"}
+            grabCursor={true}
+            centeredSlides={true}
+            slidesPerView={2}
+            loop={true}
+            coverflowEffect={{
+              rotate: 50,
+              stretch: 0,
+              depth: 100,
+              modifier: 1,
+              slideShadows: false,
+            }}
+            modules={[EffectCoverflow, Navigation, Pagination]}
+            navigation
+            pagination={{ clickable: true }}
+            spaceBetween={-30}
+          >
             <SwiperSlide>
               <img
                 src="https://www.iwedding.co.kr/center/iweddingb/product/500_17899_1680240930_80728900_3232256100.jpg"
-                class="d-block w-50 center"
+                class="d-block w-75 center"
                 alt="..."
               />
+              <br />
+              <div className="itemName">(이름) (좋아요수)</div>
             </SwiperSlide>
             <SwiperSlide>
               <img
                 src="https://www.iwedding.co.kr/center/iweddingb/product/500_17887_1680057964_58033100_3232256098.jpg"
-                class="d-block w-50 center"
+                class="d-block w-75 center"
                 alt="..."
               />
+              <br />
+              <div className="itemName">(이름) (좋아요수)</div>
             </SwiperSlide>
             <SwiperSlide>
               <img
                 src="https://www.iwedding.co.kr/center/iweddingb/product/500_10585_1666061021_36682900_3232256100.jpg"
-                class="d-block w-50 center"
+                class="d-block w-75 center"
                 alt="..."
               />
+              <br />
+              <div className="itemName">(이름) (좋아요수)</div>
             </SwiperSlide>
             <SwiperSlide>
               <img
                 src="https://www.iwedding.co.kr/center/iweddingb/product/500_17899_1680240930_80728900_3232256100.jpg"
-                class="d-block w-50 center"
+                class="d-block w-75 center"
                 alt="..."
               />
+              <br />
+              <div className="itemName">(이름) (좋아요수)</div>
             </SwiperSlide>
             <SwiperSlide>
               <img
                 src="https://www.iwedding.co.kr/center/iweddingb/product/500_17887_1680057964_58033100_3232256098.jpg"
-                class="d-block w-50 center"
+                class="d-block w-75 center"
                 alt="..."
               />
+              <br />
+              <div className="itemName">(이름) (좋아요수)</div>
             </SwiperSlide>
             <SwiperSlide>
               <img
                 src="https://www.iwedding.co.kr/center/iweddingb/product/500_10585_1666061021_36682900_3232256100.jpg"
-                class="d-block w-50 center"
+                class="d-block w-75 center"
                 alt="..."
               />
+              <br />
+              <div className="itemName">(이름) (좋아요수)</div>
             </SwiperSlide>
+            <br />
             <br />
           </Swiper>
 
@@ -388,49 +502,79 @@ function SearchItems() {
             </svg>
           </h4>
           <br />
-          <Swiper spaceBetween={-100} slidesPerView={2}>
+          <Swiper
+            effect={"coverflow"}
+            grabCursor={true}
+            centeredSlides={true}
+            slidesPerView={2}
+            loop={true}
+            coverflowEffect={{
+              rotate: 50,
+              stretch: 0,
+              depth: 100,
+              modifier: 1,
+              slideShadows: false,
+            }}
+            modules={[EffectCoverflow, Navigation, Pagination]}
+            navigation
+            pagination={{ clickable: true }}
+            spaceBetween={-30}
+          >
             <SwiperSlide>
               <img
                 src="https://www.iwedding.co.kr/center/iweddingb/product/500_17466_1669598578_99049200_3232256099.jpg"
-                class="d-block w-50 center"
+                class="d-block w-75 center"
                 alt="..."
               />
+              <br />
+              <div className="itemName">(이름) (좋아요수)</div>
             </SwiperSlide>
             <SwiperSlide>
               <img
                 src="https://www.iwedding.co.kr/center/iweddingb/product/500_17444_1669461045_65305200_3232256099.jpg"
-                class="d-block w-50 center"
+                class="d-block w-75 center"
                 alt="..."
               />
+              <br />
+              <div className="itemName">(이름) (좋아요수)</div>
             </SwiperSlide>
             <SwiperSlide>
               <img
                 src="https://www.iwedding.co.kr/center/iweddingb/product/500_17127_1668576642_85590400_3232256098.jpg"
-                class="d-block w-50 center"
+                class="d-block w-75 center"
                 alt="..."
               />
+              <br />
+              <div className="itemName">(이름) (좋아요수)</div>
             </SwiperSlide>
             <SwiperSlide>
               <img
                 src="https://www.iwedding.co.kr/center/iweddingb/product/500_17466_1669598578_99049200_3232256099.jpg"
-                class="d-block w-50 center"
+                class="d-block w-75 center"
                 alt="..."
               />
+              <br />
+              <div className="itemName">(이름) (좋아요수)</div>
             </SwiperSlide>
             <SwiperSlide>
               <img
                 src="https://www.iwedding.co.kr/center/iweddingb/product/500_17444_1669461045_65305200_3232256099.jpg"
-                class="d-block w-50 center"
+                class="d-block w-75 center"
                 alt="..."
               />
+              <br />
+              <div className="itemName">(이름) (좋아요수)</div>
             </SwiperSlide>
             <SwiperSlide>
               <img
                 src="https://www.iwedding.co.kr/center/iweddingb/product/500_17127_1668576642_85590400_3232256098.jpg"
-                class="d-block w-50 center"
+                class="d-block w-75 center"
                 alt="..."
               />
+              <br />
+              <div className="itemName">(이름) (좋아요수)</div>
             </SwiperSlide>
+            <br />
             <br />
           </Swiper>
 
@@ -459,49 +603,79 @@ function SearchItems() {
             </svg>
           </h4>
           <br />
-          <Swiper spaceBetween={-100} slidesPerView={2}>
+          <Swiper
+            effect={"coverflow"}
+            grabCursor={true}
+            centeredSlides={true}
+            slidesPerView={2}
+            loop={true}
+            coverflowEffect={{
+              rotate: 50,
+              stretch: 0,
+              depth: 100,
+              modifier: 1,
+              slideShadows: false,
+            }}
+            modules={[EffectCoverflow, Navigation, Pagination]}
+            navigation
+            pagination={{ clickable: true }}
+            spaceBetween={-30}
+          >
             <SwiperSlide>
               <img
                 src="https://www.iwedding.co.kr/center/iweddingb/product/500_17986_1682324127_28953000_3232256099.jpg"
-                class="d-block w-50 center"
+                class="d-block w-75 center"
                 alt="..."
               />
+              <br />
+              <div className="itemName">(이름) (좋아요수)</div>
             </SwiperSlide>
             <SwiperSlide>
               <img
                 src="https://www.iwedding.co.kr/center/iweddingb/product/500_17910_1680587270_66029500_3232256099.png"
-                class="d-block w-50 center"
+                class="d-block w-75 center"
                 alt="..."
               />
+              <br />
+              <div className="itemName">(이름) (좋아요수)</div>
             </SwiperSlide>
             <SwiperSlide>
               <img
                 src="https://www.iwedding.co.kr/center/iweddingb/product/500_17907_1680587156_29324700_3232256099.jpg"
-                class="d-block w-50 center"
+                class="d-block w-75 center"
                 alt="..."
               />
+              <br />
+              <div className="itemName">(이름) (좋아요수)</div>
             </SwiperSlide>
             <SwiperSlide>
               <img
                 src="https://www.iwedding.co.kr/center/iweddingb/product/500_17986_1682324127_28953000_3232256099.jpg"
-                class="d-block w-50 center"
+                class="d-block w-75 center"
                 alt="..."
               />
+              <br />
+              <div className="itemName">(이름) (좋아요수)</div>
             </SwiperSlide>
             <SwiperSlide>
               <img
                 src="https://www.iwedding.co.kr/center/iweddingb/product/500_17910_1680587270_66029500_3232256099.png"
-                class="d-block w-50 center"
+                class="d-block w-75 center"
                 alt="..."
               />
+              <br />
+              <div className="itemName">(이름) (좋아요수)</div>
             </SwiperSlide>
             <SwiperSlide>
               <img
                 src="https://www.iwedding.co.kr/center/iweddingb/product/500_17907_1680587156_29324700_3232256099.jpg"
-                class="d-block w-50 center"
+                class="d-block w-75 center"
                 alt="..."
               />
+              <br />
+              <div className="itemName">(이름) (좋아요수)</div>
             </SwiperSlide>
+            <br />
             <br />
           </Swiper>
         </div>
