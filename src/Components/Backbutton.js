@@ -30,6 +30,10 @@ function BackButton() {
             navigate("/login");
           } else if (path === "/signup/user" || path === "/signup/planner") {
             navigate("/login");
+          } else if (path.indexOf("/user/userupdate") !== -1) {
+            navigate("/mypage/user");
+          } else if (path.indexOf("/planner/userupdate") !== -1) {
+            navigate("/mypage/planner");
           } else {
             navigate(-1);
           }

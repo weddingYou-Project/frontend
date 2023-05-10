@@ -31,9 +31,6 @@ function PasswordChange() {
   }, []);
 
   const onClickpwUpdate = () => {
-    console.log("click pwUpdate");
-    console.log("PW : ", password);
-
     if (sessionStorage.getItem("user_name") !== null) {
       axios
         .post("/user/updatePassword", {
@@ -41,7 +38,6 @@ function PasswordChange() {
           password: password,
         })
         .then((res) => {
-          console.log(res);
           console.log("======================", "유저 비밀번호 변경완료");
           sessionStorage.clear();
         })
@@ -53,7 +49,6 @@ function PasswordChange() {
           password: password,
         })
         .then((res) => {
-          console.log(res);
           console.log("======================", "플래너 비밀번호 변경완료");
           sessionStorage.clear();
         })
@@ -151,7 +146,9 @@ function PasswordChange() {
           data-bs-toggle="modal"
           data-bs-target="#exampleModal"
           disabled={!passwordcheck || !passwordcheck2}
-          style={{ marginBottom: "15px" }}
+          style={{
+            marginBottom: "15px",
+          }}
           id="changepasswordbtn"
           onClick={onClickpwUpdate}
         >
@@ -162,7 +159,10 @@ function PasswordChange() {
         <button type="submit" className="btn-colour-1">
           <Link
             to="/login"
-            style={{ color: "white", textDecorationLine: "none" }}
+            style={{
+              color: "white",
+              textDecorationLine: "none",
+            }}
           >
             메인으로 돌아가기
           </Link>
@@ -182,12 +182,13 @@ function PasswordChange() {
             <div class="modal-header">
               <div className="infotext4">
                 <i className="bi bi-dash-lg"></i>&nbsp;&nbsp;
-                <span>비밀번호 변경 완료</span>&nbsp;&nbsp;
+                <span style={{ fontSize: "1.4em" }}>비밀번호 변경 완료</span>
+                &nbsp;&nbsp;
                 <i className="bi bi-dash-lg"></i>
               </div>
             </div>
             <div class="modal-body infotext4">
-              <div className="infotext4">
+              <div className="infotext4" style={{ fontSize: "1.2em" }}>
                 비밀번호가 변경되었습니다.
                 <br />
                 바뀐 비밀번호로 로그인해주세요!
@@ -198,10 +199,14 @@ function PasswordChange() {
                 type="button"
                 class="btn btn-primary"
                 data-bs-dismiss="modal"
+                style={{ fontSize: "1.3em" }}
               >
                 <Link
                   to="/login"
-                  style={{ color: "white", textDecorationLine: "none" }}
+                  style={{
+                    color: "white",
+                    textDecorationLine: "none",
+                  }}
                 >
                   메인으로 돌아가기
                 </Link>
@@ -230,7 +235,7 @@ const InputComp = ({
     <>
       <div className="col-md-4" style={{ width: 256 }}>
         <label htmlFor="validationServer01" className="form-label">
-          <span style={{ fontSize: 10 }}>{content}</span>
+          <span style={{ fontSize: "1em" }}>{content}</span>
         </label>
         <input
           type={type}
@@ -244,7 +249,7 @@ const InputComp = ({
         <div
           id="validationServer03Feedback"
           className="invalid-feedback"
-          style={{ fontSize: 10 }}
+          style={{ fontSize: "1.2em" }}
         >
           {message}
         </div>
