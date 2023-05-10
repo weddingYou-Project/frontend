@@ -13,6 +13,8 @@ function NotFound() {
 
   const images = [Loadingimg1, Loadingimg2, Loadingimg3];
   const location = useLocation();
+  const { state: passwordCheck } = useLocation();
+  console.log(passwordCheck);
   const path = location.pathname;
   const [selectImg, setSelectImg] = useState();
   const navigate = useNavigate();
@@ -122,13 +124,24 @@ function NotFound() {
               type="button"
               className="btn-colour-1 "
               onClick={() => {
+                console.log(passwordCheck);
                 if (path.indexOf("mypageabc") !== -1) {
                   navigate(`/mypage/${sessionStorage.getItem("category")}`);
-                } else if (path.indexOf("mypageupdate") !== -1) {
+                } else if (
+                  path.indexOf("mypageupdate") !== -1 &&
+                  passwordCheck === true
+                ) {
                   navigate(
                     `/mypage/${sessionStorage.getItem("category")}/userupdate`,
                     { state: true }
                   );
+                } else if (
+                  path.indexOf("mypageupdate") !== -1 &&
+                  passwordCheck !== true
+                ) {
+                  navigate(`/mypage/${sessionStorage.getItem("category")}`, {
+                    state: true,
+                  });
                 } else {
                   navigate("/login");
                 }
