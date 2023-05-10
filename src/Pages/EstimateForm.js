@@ -1315,7 +1315,7 @@ const RegionList = ({ name, weddingregionSelect, regionRef }) => {
       <select
         class="form-select form-select-lg mb-3 cursor"
         aria-label=".form-select-lg example"
-        style={{ fontSize: 17 }}
+        style={{ fontSize: 18 }}
         name={name}
         onChange={weddingregionSelect}
         ref={regionRef}
