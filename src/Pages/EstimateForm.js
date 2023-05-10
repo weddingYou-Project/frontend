@@ -660,7 +660,7 @@ const EstimateForm = () => {
               class="form-select form-select-lg mb-3 cursor"
               aria-label=".form-select-lg example"
               onChange={honeymoonSelect}
-              style={{ fontSize: 15 }}
+              style={{ fontSize: 17 }}
             >
               <option selected={acco1 === "view"} disabled>
                 해외 여행지를 선택해주세요
@@ -733,7 +733,7 @@ const EstimateForm = () => {
               class="form-select form-select-lg mb-3 cursor"
               aria-label=".form-select-lg example"
               onChange={honeymoonSelect}
-              style={{ fontSize: 15 }}
+              style={{ fontSize: 17 }}
             >
               <option selected={acco2 === "view"} disabled>
                 국내여행지를 선택해주세요
@@ -1315,7 +1315,7 @@ const RegionList = ({ name, weddingregionSelect, regionRef }) => {
       <select
         class="form-select form-select-lg mb-3 cursor"
         aria-label=".form-select-lg example"
-        style={{ fontSize: 14 }}
+        style={{ fontSize: 17 }}
         name={name}
         onChange={weddingregionSelect}
         ref={regionRef}
