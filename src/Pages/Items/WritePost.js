@@ -2,15 +2,14 @@ import React, { useState } from "react";
 import NavigationBar from "../../Components/NavigationBar";
 import Footer from "../../Components/Footer";
 
-const WritePost = ({ onClose }) => {
+const WritePost = ({}) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [image, setImage] = useState(null);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // 글쓰기 기능
-    onClose();
+    console.log(title, content, image);
   };
 
   const handleImageChange = (event) => {

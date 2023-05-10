@@ -18,27 +18,25 @@ const Weddinghall = () => {
     {
       src: `${process.env.PUBLIC_URL}/items/wh_2.jpg`,
       alt: "웨딩홀 이미지 2",
-      category: "호텔",
+      category: "일반",
     },
   ];
 
   const [selectedCategory, setSelectedCategory] = useState(categories[0]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
   };
 
-  const handleImageClick = () => {
+  const handleImageClick = (image) => {
+    setSelectedImage(image);
     setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
-  };
-
-  const handlePost = (event) => {
-    event.preventDefault();
-    // 글쓰기 기능 실행
   };
 
   const modalStyles = {
@@ -83,23 +81,25 @@ const Weddinghall = () => {
               key={image.src}
               src={image.src}
               alt={image.alt}
-              onClick={handleImageClick}
+              onClick={() => handleImageClick(image)}
             />
           ))}
       </div>
-      <Modal
-        isOpen={isModalOpen}
-        onRequestClose={handleCloseModal}
-        style={modalStyles}
-      >
-        <div className="modal-content">
-          {/* 해당 이미지 */}
-          <div className="modal-info">
-            {/* 이미지 제목 */}
-            {/* 좋아요 */}
+      {selectedImage && (
+        <Modal
+          isOpen={isModalOpen}
+          onRequestClose={handleCloseModal}
+          style={modalStyles}
+        >
+          <div className="modal-content">
+            <div className="modal-image">
+              <img src={selectedImage.src} alt={selectedImage.alt} />
+            </div>
+            <div className="modal-info"></div>
           </div>
-        </div>
-      </Modal>
+        </Modal>
+      )}
+
       <Link to="/writepost">글쓰기</Link>
       <Footer />
     </div>
