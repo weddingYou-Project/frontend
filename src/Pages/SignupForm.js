@@ -86,7 +86,6 @@ function SignupForm() {
   }, [password, password2, setPasswordcheck2, name, email, phone, career]);
   useEffect(() => {
     const signupbtn = document.querySelector("#signupbtn");
-    //console.log(signupbtn);
     if (category === "user") {
       setCareercheck(true);
     }
@@ -108,7 +107,6 @@ function SignupForm() {
     duplicatecheck,
   ]);
 
-  console.log(document.querySelector("#name"));
   const EventHandlerName = (e) => {
     const koreanNameRegExp = /^[가-힣\s]+$/;
     setName(e.target.value);
@@ -174,7 +172,6 @@ function SignupForm() {
 
   const EventHandlerGender = (e) => {
     setGender(e.target.value);
-    //console.log(gender);
   };
 
   const EventHandlerCareer = (e) => {
@@ -195,7 +192,6 @@ function SignupForm() {
   const CheckHandler = (e) => {
     let copy = { ...check, [e.target.name]: e.target.checked };
     setcheck(copy);
-    // console.log(check);
   };
   const CheckHandlerAll = () => {
     if (checkAll === false) {
@@ -232,8 +228,6 @@ function SignupForm() {
           gender: gender,
         })
         .then((res) => {
-          console.log("성공");
-          console.log(res);
           setsign("after");
         })
         .catch((e) => {
@@ -254,8 +248,6 @@ function SignupForm() {
           career: career,
         })
         .then((res) => {
-          console.log("성공");
-          console.log(res);
           setsign("after");
         })
         .catch((e) => {
@@ -270,7 +262,7 @@ function SignupForm() {
   if (sign === "before") {
     return (
       <div className="bg">
-        <div className="Signup-wrap">
+        <div className="mainlayout">
           {category === "user" ? (
             <NavigationBar title={"일반회원"} />
           ) : (
@@ -279,7 +271,7 @@ function SignupForm() {
 
           <div className="Signup-guidebar">
             <div className="guideline"></div>
-            <span>회원가입</span>
+            <span style={{ fontSize: "1.3em" }}>회원가입</span>
             <div className="guideline"></div>
           </div>
 
@@ -333,7 +325,7 @@ function SignupForm() {
               <label
                 htmlFor="gender"
                 className="form-label col col-md-2 mt-2"
-                style={{ flex: "1 0 0%" }}
+                style={{ flex: "1 0 0%", fontSize: "1.2em" }}
               >
                 성별
               </label>
@@ -358,7 +350,7 @@ function SignupForm() {
                   aria-label="male btn"
                   value="남자"
                   disabled
-                  style={{ background: "white" }}
+                  style={{ background: "white", fontSize: "1.2em" }}
                 />
                 <div class="input-group-text">
                   <input
@@ -380,7 +372,7 @@ function SignupForm() {
                   aria-label="female btn"
                   value="여자"
                   disabled
-                  style={{ background: "white" }}
+                  style={{ background: "white", fontSize: "1.2em" }}
                 />
               </div>
             </div>
@@ -401,7 +393,10 @@ function SignupForm() {
             )}
           </div>
 
-          <div className="Signup-acceptwrap">
+          <div
+            className="Signup-acceptwrap"
+            style={{ marginBottom: "20px", marginTop: "20px" }}
+          >
             <CheckboxComp
               Handler={CheckHandlerAll}
               checked={check.ageCheck && check.membershipCheck}
@@ -424,25 +419,29 @@ function SignupForm() {
 
             <div className="Signup-contentbox">
               <div className="contentbar">
-                <span style={{ fontSize: 13 }}>개인정보수집</span>
+                <span style={{ fontSize: "1.2em" }}>개인정보수집</span>
               </div>
               <div className="left">
-                <span>목적</span>
+                <span style={{ fontSize: "1em" }}>목적</span>
               </div>
               <div className="right">
-                <span>개인 식별,서비스 제공을 위한 연락처 수집</span>
+                <span style={{ fontSize: "1em" }}>
+                  개인 식별,서비스 제공을 위한 연락처 수집
+                </span>
               </div>
               <div className="left">
-                <span>항목</span>
+                <span style={{ fontSize: "1em" }}>항목</span>
               </div>
               <div className="right">
-                <span>개인정보 및 이용상품 정보 등</span>
+                <span style={{ fontSize: "1em" }}>
+                  개인정보 및 이용상품 정보 등
+                </span>
               </div>
               <div className="left">
-                <span>기간</span>
+                <span style={{ fontSize: "1em" }}>기간</span>
               </div>
               <div className="right">
-                <span>회원 탈퇴 시 즉시 파기</span>
+                <span style={{ fontSize: "1em" }}>회원 탈퇴 시 즉시 파기</span>
               </div>
             </div>
             <div style={{ clear: "both" }}></div>
@@ -496,7 +495,7 @@ const InputComp = ({
     <>
       <div className="col-md-4" style={{ width: 256 }}>
         <label htmlFor="validationServer01" className="form-label">
-          <span style={{ fontSize: 15 }}>{content}</span>
+          <span style={{ fontSize: "1.2em" }}>{content}</span>
         </label>
         <input
           type={type}
@@ -511,7 +510,7 @@ const InputComp = ({
         <div
           id="validationServer03Feedback"
           class="invalid-feedback"
-          style={{ fontSize: 10 }}
+          style={{ fontSize: "1em" }}
         >
           {message}
         </div>
@@ -534,7 +533,11 @@ const CheckboxComp = ({ Handler, checked, message, name }) => {
             id="flexCheckChecked"
             style={{ cursor: "pointer" }}
           />
-          <label className="form-check-label" htmlFor="flexCheckChecked">
+          <label
+            className="form-check-label"
+            htmlFor="flexCheckChecked"
+            style={{ fontSize: "1.3em" }}
+          >
             {message}
           </label>
         </div>

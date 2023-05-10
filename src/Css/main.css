@@ -14,7 +14,15 @@
     border: 2px solid rgb(173, 166, 166);
     background-color: white;
     min-height:100vh;
-    font-family: 'Nunito', sans-serif;
+   
+    font-family: 'omyu_pretty';
+}
+@font-face {
+  font-family: 'omyu_pretty';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-01@1.0/omyu_pretty.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  
 }
 
 .content{
@@ -24,12 +32,13 @@
     padding-bottom: 100px;
     scroll-behavior: smooth;
     scroll-behavior: smooth;
+   
 }
 
 body {
     background-color: rgb(240, 240, 240);
+  
 }
-
 .btn-colour-1 {
     color: #f9f5f5;
     background-color: #407ef1;
@@ -39,13 +48,15 @@ body {
     height:3em;
     width:250px;
     border-radius: 10px;
-    
+    height: 50px;
+    font-size:1.2em;
   }
   
   .btn-colour-1:hover {
     color: #ffffff;
     background-color: #105ff1;
     transition:0.5s;
+    font-size:1.2em;
   }
 
   .btn-colour-2 {
@@ -58,8 +69,11 @@ body {
     width:250px;
     border-radius: 10px;
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    height: 50px;
+    font-size:1.2em;
   }
   .btn-colour-2:disabled {
     pointer-events: none;
     background: grey;
+    font-size:1.2em;
   }
