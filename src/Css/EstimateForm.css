@@ -165,3 +165,14 @@ li {
 .budget-btn:hover {
     background: #dddddd;
 }
+
+
+.image-clear-btn {
+    font-size: 12px;
+    padding: 1px;
+    border-radius: 5px;
+    text-align: center;
+    width: 40px;
+    background: #110606;
+    color:white;
+}

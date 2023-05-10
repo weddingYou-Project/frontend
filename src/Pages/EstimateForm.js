@@ -173,12 +173,21 @@ const EstimateForm = () => {
 
   //이미지 파일 첨부
   const imageSelect = (e) => {
-    if (e.target.files.length > 5) {
+    if (images.length >= 5 || e.target.files.length + images.length > 5) {
       alert("파일 첨부는 5개까지 가능합니다.");
       e.target.value = null;
     } else {
-      setimages(e.target.files);
+      let copy = [...images];
+      for (let i = 0; i < e.target.files.length; i++) {
+        copy.push(e.target.files[i]);
+      }
+      setimages(copy);
     }
+  };
+
+  //이미지 파일 초기화
+  const imageClear = () => {
+    setimages([]);
   };
 
   //요청사항
@@ -788,7 +797,7 @@ const EstimateForm = () => {
         </div>
 
         <div className="contentbox">
-          <h5>사진첨부</h5>
+          <h5>이미지첨부</h5>
           <div className="choosebox">
             <input
               type="file"
@@ -801,7 +810,19 @@ const EstimateForm = () => {
             <label htmlFor="uploadimage" className="cursor imageupload-btn">
               이미지첨부하기
             </label>
-            {images.length > 0 && <span>{images.length}개의 이미지</span>}
+            {images.length > 0 && (
+              <span>
+                {images.length}개의 이미지{" "}
+                <div
+                  className="image-clear-btn cursor"
+                  onClick={() => {
+                    imageClear();
+                  }}
+                >
+                  취소
+                </div>
+              </span>
+            )}
           </div>
         </div>
         <div className="contentbox" style={{ borderBottom: "none" }}>
