@@ -236,7 +236,7 @@ const EstimateForm = () => {
       formData.append("dress", submitdress);
       formData.append("requirement", requirement);
       formData.append("studio", studio);
-      formData.append("writer", window.sessionStorage.getItem("id"));
+      formData.append("writer", window.sessionStorage.getItem("email"));
       if (images.length > 0) {
         for (let i = 0; i < images.length; i++) {
           formData.append("uploadfiles", images[i]);
