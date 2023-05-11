@@ -4,10 +4,13 @@ import "../Css/LikeList.css";
 import Footer from "../Components/Footer";
 import NavigationBar from "../Components/NavigationBar";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function LikeList() {
   const [selectedItem, setSelectedItem] = useState("카테고리"); // 초기 버튼명 설정
   const [selectedSort, setSelectedSort] = useState("정렬"); // 초기 버튼명 설정
+
+  const navigate = useNavigate();
 
   const handleItemClick = (item) => {
     setSelectedItem(item); // 선택한 아이템으로 버튼명 변경
@@ -289,7 +292,14 @@ function LikeList() {
       </div>
       <div style={{ height: 94.19 }}></div>
       <div className="button-container">
-        <button className="probutton">견적작성</button>
+        <button
+          className="probutton"
+          onClick={() => {
+            navigate("/estimateform");
+          }}
+        >
+          견적작성
+        </button>
       </div>
       <Footer />
     </div>

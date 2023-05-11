@@ -581,7 +581,14 @@ function Home() {
       </div>
       <div style={{ height: 94.19 }}></div>
       <div className="button-container">
-        <button className="probutton">견적작성</button>
+        <button
+          className="probutton"
+          onClick={() => {
+            navigate("/estimateform");
+          }}
+        >
+          견적작성
+        </button>
       </div>
       <Footer />
     </div>
