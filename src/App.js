@@ -9,11 +9,17 @@ import PasswordChange from "./Pages/PasswordChange";
 import Mypage from "./Pages/Mypage";
 import UserUpdate from "./Pages/UserUpdate";
 import NotFound from "./Pages/NotFound";
+import LikeList from "./Pages/LikeList";
+import SearchItems from "./Pages/SearchItems";
+import EstimateForm from "./Pages/EstimateForm";
 
 function App() {
   return (
     <Routes>
+      <Route path="/estimateform" element={<EstimateForm />} />
       <Route path="/" element={<Home />}></Route>
+      <Route path="/likeList" element={<LikeList />}></Route>
+      <Route path="/searchItems" element={<SearchItems />}></Route>
       <Route path="/login" element={<Login />}></Route>
       <Route path="/signup" element={<Signup />}></Route>
       <Route path="/signup/:category" element={<SignupForm />}></Route>
