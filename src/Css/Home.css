@@ -20,6 +20,7 @@
 
 .likeicon:hover {
     fill: rgb(255, 0, 0);
+    cursor: pointer;
 }
 
 .probutton {

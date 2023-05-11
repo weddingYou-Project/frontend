@@ -3,9 +3,22 @@ import "../Css/Home.css";
 import Footer from "../Components/Footer";
 import imgLogo from "../Assets/logo.png";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 function Home() {
   const navigate = useNavigate();
+
+  const [searchItem, setSearchItem] = useState("");
+
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      // 엔터키로 이동
+      navigate(`/searchItems`);
+    }
+  };
+  const handleChange = (event) => {
+    setSearchItem(event.target.value);
+  };
 
   return (
     <div className="mainlayout">
@@ -16,6 +29,9 @@ function Home() {
           name="search"
           className="searchbar"
           placeholder="검색어를 입력하세요"
+          value={searchItem}
+          onChange={handleChange}
+          onKeyPress={handleKeyPress}
         />
         <div
           className="likeListBtn"
