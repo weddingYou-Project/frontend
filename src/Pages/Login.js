@@ -7,6 +7,7 @@ import Footer from "../Components/Footer";
 import NavigationBar from "../Components/NavigationBar";
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [inputId, setInputId] = useState("");
@@ -19,6 +20,8 @@ function Login() {
       onClickLogin();
     }
   };
+
+  const navigate = useNavigate();
 
   const handleInputId = (e) => {
     setInputId(e.target.value);
@@ -50,6 +53,7 @@ function Login() {
             sessionStorage.setItem("email", res.data.email);
             sessionStorage.setItem("category", "user");
             // sessionStorage.setItem("user_name", res.data.name); // sessionStorage에 name을 user_name이라는 key 값으로 저장
+            navigate("/");
           }
         })
         .catch();
@@ -70,6 +74,7 @@ function Login() {
             sessionStorage.setItem("email", res.data.email);
             sessionStorage.setItem("category", "planner");
             // sessionStorage.setItem("planner_name", res.data.name); // sessionStorage에 name을 user_name이라는 key 값으로 저장
+            navigate("/");
           }
         })
         .catch();

@@ -99,7 +99,7 @@ function LikeList() {
             </li>
           </ul>
         </div>
-        <div class="dropdown  right">
+        <div class="dropdown  right-sort">
           <button
             class="btn btn-secondary dropdown-toggle"
             type="button"
