@@ -15,12 +15,28 @@
 }
 
 .likeicon {
-    margin: 10px 10px 10px 20px;
+    position: absolute;
+  margin: 10px 10px 10px 20px;
 }
 
 .likeicon:hover {
-    fill: rgb(255, 0, 0);
-    cursor: pointer;
+  fill: rgb(255, 0, 0);
+  cursor: pointer;
+}
+
+.likeiconfill {
+  fill : rgb(255, 0, 0);
+  margin: 10px 10px 10px 20px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.likeiconfill:hover {
+  opacity: 1;
+  cursor: pointer;
 }
 
 .probutton {
@@ -72,6 +88,9 @@
 }
 
 .likeListBtn {
+    width: 40px;
+    height: 30px;
+    position: relative;
     display: inline-block;
 }
 
