@@ -23,3 +23,12 @@
 .margT {
     margin-top: 25px;
 }
+
+
+
+.likeListBtn1 {
+    width: 25px;
+    height: 25px;
+    position: relative;
+    display: inline-block;
+}
