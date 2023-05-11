@@ -24,7 +24,7 @@ function PasswordSearch() {
   const onClicksend = () => {
     if (Role === "회원") {
       axios
-        .post("user/forgotPassword", {
+        .post("/user/forgotPassword", {
           email: inputId,
         })
         .then((res) => {
@@ -40,7 +40,7 @@ function PasswordSearch() {
         .catch();
     } else if (Role === "플래너") {
       axios
-        .post("planner/forgotPassword", {
+        .post("/planner/forgotPassword", {
           email: inputId,
         })
         .then((res) => {
