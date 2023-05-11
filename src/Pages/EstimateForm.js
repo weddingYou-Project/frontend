@@ -866,6 +866,7 @@ const EstimateForm = () => {
               value={requirement}
               onChange={requirementChange}
               placeholder="추가 요청사항을 입력해주세요"
+              style={{ fontSize: 20 }}
             ></textarea>
           </div>
         </div>
