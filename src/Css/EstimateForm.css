@@ -150,7 +150,7 @@ input[type="radio"]:checked + label {
 .Accordion-explanation li {
     list-style: none;
     margin-top: 3px;
-    font-size: var(--main-font-size);
+    font-size: var(--main-font-size)-0.5px;
 }
 
 .accordion-button span {
@@ -241,3 +241,6 @@ h5 {
 }
 
 
+.modal-title>span{
+    font-size: 35px;
+}

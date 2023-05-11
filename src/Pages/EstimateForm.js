@@ -914,7 +914,7 @@ const StudioModal = () => {
         <div className="modal-content">
           <div className="modal-header">
             <h1 className="modal-title fs-5" id="exampleModalLabel">
-              스튜디오
+              <span>스튜디오</span>
             </h1>
             <button
               type="button"
@@ -991,7 +991,7 @@ const DressModal = () => {
         <div className="modal-content">
           <div className="modal-header">
             <h1 className="modal-title fs-5" id="exampleModalLabel">
-              드레스
+              <span>드레스</span>
             </h1>
             <button
               type="button"
@@ -1104,7 +1104,7 @@ const MakeupModal = () => {
         <div className="modal-content">
           <div className="modal-header">
             <h1 className="modal-title fs-5" id="exampleModalLabel">
-              메이크업
+              <span>메이크업</span>
             </h1>
             <button
               type="button"
