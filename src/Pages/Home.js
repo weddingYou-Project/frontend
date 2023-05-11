@@ -3,12 +3,20 @@ import "../Css/Home.css";
 import Footer from "../Components/Footer";
 import imgLogo from "../Assets/logo.png";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import axios from "axios";
 
 function Home() {
   const navigate = useNavigate();
 
   const [searchItem, setSearchItem] = useState("");
+
+  const [category1, setCategory1] = useState("웨딩홀");
+  const [img, setImg] = useState([]);
+  const [imgEach, setImgEach] = useState(null);
+  const [previewImg, setPreviewImg] = useState([]);
+  const [previewImgEach, setPreviewImgEach] = useState(null);
+  const [defaultImg, setDefaultImg] = useState(null);
 
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
@@ -19,6 +27,25 @@ function Home() {
   const handleChange = (event) => {
     setSearchItem(event.target.value);
   };
+  const targetImg = useRef();
+
+  useEffect(() => {
+    axios
+      .get(`/item/itemList/${category1}`, null, { responseType: "blob" })
+      .then((res) => {
+        const dataList = res.data;
+        console.log(dataList);
+        console.log(res);
+        dataList.forEach((data) => {
+          console.log(data);
+          const dataUrl = "data:image/jpeg;base64," + data;
+          setPreviewImg((previewImg) => [dataUrl, ...previewImg]);
+        });
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
 
   return (
     <div className="mainlayout">
@@ -139,31 +166,22 @@ function Home() {
             <div class="carousel-inner">
               <div class="carousel-item active">
                 <img
-                  src="https://www.iwedding.co.kr/center/website/brandplus/1670307028.jpg"
+                  id="targetImg"
+                  src={previewImg[0]} //previewImg배열 하나하나요소가 src에 들어가야 함.
                   class="d-block w-50 center"
                   alt="..."
+                  ref={targetImg}
                 />
                 <br />
                 <div className="itemName">(이름) (좋아요수)</div>
               </div>
-              <div class="carousel-item">
-                <img
-                  src="https://www.iwedding.co.kr/center/website/brandplus/1681797008.jpg"
-                  class="d-block w-50 center"
-                  alt="..."
-                />
-                <br />
-                <div className="itemName">(이름) (좋아요수)</div>
-              </div>
-              <div class="carousel-item">
-                <img
-                  src="https://www.iwedding.co.kr/center/website/brandplus/1679360660.jpg"
-                  class="d-block w-50 center"
-                  alt="..."
-                />
-                <br />
-                <div className="itemName">(이름) (좋아요수)</div>
-              </div>
+
+              {previewImg.map((eachimg, index) => {
+                return <CarouselItem previewImg={eachimg} index={index} />;
+              })}
+              {/* {img.forEach((img) => {
+                readImgFiles(img);
+              })} */}
             </div>
             <button
               class="carousel-control-prev"
@@ -609,3 +627,13 @@ function Home() {
 }
 
 export default Home;
+
+const CarouselItem = ({ previewImg, index }) => {
+  return (
+    <div class="carousel-item">
+      <img src={previewImg} class="d-block w-50 center" alt="..." />
+      <br />
+      <div className="itemName">(이름) (좋아요수)</div>
+    </div>
+  );
+};

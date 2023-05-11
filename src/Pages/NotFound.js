@@ -143,7 +143,7 @@ function NotFound() {
                     state: true,
                   });
                 } else {
-                  navigate("/login");
+                  navigate("/");
                 }
               }}
             >
