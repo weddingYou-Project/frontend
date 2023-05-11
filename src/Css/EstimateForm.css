@@ -147,10 +147,16 @@ input[type="radio"]:checked + label {
 }
 
 
-li {
+.Accordion-explanation li {
     list-style: none;
     margin-top: 3px;
+    font-size: var(--main-font-size);
 }
+
+.accordion-button span {
+    font-size: var(--main-font-size);
+}
+
 
 
 .imageupload-btn {

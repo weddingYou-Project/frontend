@@ -1226,7 +1226,7 @@ const AccordionComp = ({
           aria-expanded="false"
           aria-controls={heading}
         >
-          {topic}
+          <span>{topic}</span>
         </button>
       </h2>
       <div
