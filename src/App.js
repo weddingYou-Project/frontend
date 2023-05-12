@@ -10,10 +10,12 @@ import Mypage from "./Pages/Mypage";
 import UserUpdate from "./Pages/UserUpdate";
 import NotFound from "./Pages/NotFound";
 import EstimateForm from "./Pages/EstimateForm";
+import EstimateList from "./Pages/EstimateList";
 
 function App() {
   return (
     <Routes>
+      <Route path="/estimatelist" element={<EstimateList />} />
       <Route path="/estimateform" element={<EstimateForm />} />
       <Route path="/" element={<Home />}></Route>
       <Route path="/login" element={<Login />}></Route>
