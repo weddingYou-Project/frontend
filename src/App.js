@@ -9,10 +9,12 @@ import PasswordChange from "./Pages/PasswordChange";
 import Mypage from "./Pages/Mypage";
 import UserUpdate from "./Pages/UserUpdate";
 import NotFound from "./Pages/NotFound";
+import EstimateForm from "./Pages/EstimateForm";
 
 function App() {
   return (
     <Routes>
+      <Route path="/estimateform" element={<EstimateForm />} />
       <Route path="/" element={<Home />}></Route>
       <Route path="/login" element={<Login />}></Route>
       <Route path="/signup" element={<Signup />}></Route>
