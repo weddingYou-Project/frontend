@@ -20,6 +20,33 @@ function Home() {
     setSearchItem(event.target.value);
   };
 
+  const Title = ({ id, title }) => {
+    return (
+      <h4 id={id}>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          fill="red"
+          class="bi bi-suit-heart-fill"
+          viewBox="0 0 16 16"
+        >
+          <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z" />
+        </svg>
+        &nbsp;{title}&nbsp;
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          fill="red"
+          class="bi bi-suit-heart-fill"
+          viewBox="0 0 16 16"
+        >
+          <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z" />
+        </svg>
+      </h4>
+    );
+  };
   return (
     <div className="mainlayout">
       <div className="header">
@@ -107,29 +134,7 @@ function Home() {
           class="scrollspy-example bg-light p-3 rounded-2"
           tabindex="0"
         >
-          <h4 id="scrollspyHeading1">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              fill="red"
-              class="bi bi-suit-heart-fill"
-              viewBox="0 0 16 16"
-            >
-              <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z" />
-            </svg>
-            &nbsp;Wedding Hole&nbsp;
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              fill="red"
-              class="bi bi-suit-heart-fill"
-              viewBox="0 0 16 16"
-            >
-              <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z" />
-            </svg>
-          </h4>
+          <Title id={"scrollspyHeading1"} title={"Wedding Hole"} />
           <br />
           <div
             id="weddingHoleFade"
@@ -191,29 +196,7 @@ function Home() {
             </button>
           </div>
           <hr />
-          <h4 id="scrollspyHeading2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              fill="red"
-              class="bi bi-suit-heart-fill"
-              viewBox="0 0 16 16"
-            >
-              <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z" />
-            </svg>
-            &nbsp;Studio&nbsp;
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              fill="red"
-              class="bi bi-suit-heart-fill"
-              viewBox="0 0 16 16"
-            >
-              <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z" />
-            </svg>
-          </h4>
+          <Title id={"scrollspyHeading2"} title={"Studio"} />
           <br />
           <div
             id="studioFade"
@@ -271,29 +254,7 @@ function Home() {
           <br />
           <div className="itemName">(이름) (좋아요수)</div>
           <hr />
-          <h4 id="scrollspyHeading3">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              fill="red"
-              class="bi bi-suit-heart-fill"
-              viewBox="0 0 16 16"
-            >
-              <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z" />
-            </svg>
-            &nbsp;Clothes&nbsp;
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              fill="red"
-              class="bi bi-suit-heart-fill"
-              viewBox="0 0 16 16"
-            >
-              <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z" />
-            </svg>
-          </h4>
+          <Title id={"scrollspyHeading3"} title={"Clothes"} />
           <br />
           <div
             id="clothesFade"
@@ -351,29 +312,7 @@ function Home() {
           <br />
           <div className="itemName">(이름) (좋아요수)</div>
           <hr />
-          <h4 id="scrollspyHeading4">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              fill="red"
-              class="bi bi-suit-heart-fill"
-              viewBox="0 0 16 16"
-            >
-              <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z" />
-            </svg>
-            &nbsp;Make Up&nbsp;
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              fill="red"
-              class="bi bi-suit-heart-fill"
-              viewBox="0 0 16 16"
-            >
-              <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z" />
-            </svg>
-          </h4>
+          <Title id={"scrollspyHeading4"} title={"Make Up"} />
           <br />
           <div
             id="makeUpFade"
@@ -431,29 +370,7 @@ function Home() {
           <br />
           <div className="itemName">(이름) (좋아요수)</div>
           <hr />
-          <h4 id="scrollspyHeading5">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              fill="red"
-              class="bi bi-suit-heart-fill"
-              viewBox="0 0 16 16"
-            >
-              <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z" />
-            </svg>
-            &nbsp;Honey Moon&nbsp;
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              fill="red"
-              class="bi bi-suit-heart-fill"
-              viewBox="0 0 16 16"
-            >
-              <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z" />
-            </svg>
-          </h4>
+          <Title id={"scrollspyHeading5"} title={"Honey Moon"} />
           <br />
           <div
             id="honeyMoonFade"
@@ -511,29 +428,7 @@ function Home() {
           <br />
           <div className="itemName">(이름) (좋아요수)</div>
           <hr />
-          <h4 id="scrollspyHeading6">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              fill="red"
-              class="bi bi-suit-heart-fill"
-              viewBox="0 0 16 16"
-            >
-              <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z" />
-            </svg>
-            &nbsp;Bouquet&nbsp;
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              fill="red"
-              class="bi bi-suit-heart-fill"
-              viewBox="0 0 16 16"
-            >
-              <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z" />
-            </svg>
-          </h4>
+          <Title id={"scrollspyHeading6"} title={"Bouquet"} />
           <br />
           <div
             id="bouquetFade"

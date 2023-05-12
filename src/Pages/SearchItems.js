@@ -18,7 +18,14 @@ function SearchItems() {
   return (
     <div className="mainlayout">
       <div className="header">
-        <img className="mainlogo" src={imgLogo} alt="로고" />
+        <img
+          className="mainlogo"
+          src={imgLogo}
+          alt="로고"
+          onClick={() => {
+            navigate("/");
+          }}
+        />
         <input
           type="text"
           name="search"
