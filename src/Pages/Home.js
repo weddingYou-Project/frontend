@@ -220,23 +220,23 @@ function Home() {
                 style={{
                   display: "flex",
                   flexDirection: "column",
-
+                  alignItems: "center",
                   width: "500px",
-                  height: "250px",
+                  height: "300px",
                 }}
               >
                 <img
                   id="targetImg"
                   style={{
-                    width: "100%",
-                    height: "100%",
+                    width: "400px",
+                    height: "260px",
+                    marginLeft: "25px",
                   }}
                   src={previewImg[0]} //previewImg배열 하나하나요소가 src에 들어가야 함.
-                  class="d-block w-50 center"
                   alt="..."
                 />
                 <br />
-                <div className="itemName">
+                <div className="itemName" style={{ marginTop: "-10px" }}>
                   {itemName[0]}&nbsp;&nbsp; ❤️{itemLike[0]}
                 </div>
               </div>
@@ -248,22 +248,22 @@ function Home() {
                     style={{
                       display: "flex",
                       flexDirection: "column",
-
+                      alignItems: "center",
                       width: "500px",
-                      height: "250px",
+                      height: "300px",
                     }}
                   >
                     <img
                       style={{
-                        width: "100%",
-                        height: "100%",
+                        width: "400px",
+                        height: "250px",
+                        marginLeft: "25px",
                       }}
                       src={previewImg[i]}
-                      class="d-block w-50 center"
                       alt="..."
                     />
                     <br />
-                    <div className="itemName">
+                    <div className="itemName" style={{ marginTop: "-10px" }}>
                       {itemName[i]} &nbsp;&nbsp;❤️{itemLike[i]}
                     </div>
                   </div>
@@ -275,6 +275,7 @@ function Home() {
               type="button"
               data-bs-target="#weddingHoleFade"
               data-bs-slide="prev"
+              style={{ marginLeft: "-10px" }}
             >
               <span
                 class="carousel-control-prev-icon fadeBtnColor"
@@ -287,6 +288,7 @@ function Home() {
               type="button"
               data-bs-target="#weddingHoleFade"
               data-bs-slide="next"
+              style={{ marginRight: "-10px" }}
             >
               <span
                 class="carousel-control-next-icon fadeBtnColor"
