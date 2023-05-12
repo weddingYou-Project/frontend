@@ -218,18 +218,18 @@ function Home() {
               <div class="carousel-item active">
                 <img
                   id="targetImg"
-                  src={previewImg[keyIndex[keyIndex.length - 4]]} //previewImg배열 하나하나요소가 src에 들어가야 함.
+                  src={previewImg[0]} //previewImg배열 하나하나요소가 src에 들어가야 함.
                   class="d-block w-50 center"
                   alt="..."
                 />
                 <br />
                 <div className="itemName">
-                  {itemName[0]} ❤️{itemLike[0]}
+                  {itemName[0]}&nbsp;&nbsp; ❤️{itemLike[0]}
                 </div>
               </div>
 
-              {keyIndex.map((i) => {
-                return (
+              {keyIndex.map((i) =>
+                i === 0 ? null : (
                   <div class="carousel-item">
                     <img
                       src={previewImg[i]}
@@ -241,8 +241,8 @@ function Home() {
                       {itemName[i]} &nbsp;&nbsp;❤️{itemLike[i]}
                     </div>
                   </div>
-                );
-              })}
+                )
+              )}
             </div>
             <button
               class="carousel-control-prev"
