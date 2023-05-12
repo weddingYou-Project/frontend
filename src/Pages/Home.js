@@ -439,12 +439,29 @@ function Home() {
 
   const modalImg = useRef();
   const modalImgContent = useRef();
+  const modalImgTitle = useRef();
 
   const showimgDetail = (e) => {
     modalImg.current.src = e.target.dataset.bsSrc;
     const index = e.target.dataset.bsKeyindex;
     if (e.target.dataset.bsCategory === category[0]) {
       modalImgContent.current.innerText = item[index].imgContent;
+      modalImgTitle.current.innerText = `- ${item[index].itemName} -`;
+    } else if (e.target.dataset.bsCategory === category[1]) {
+      modalImgContent.current.innerText = studioItem[index].imgContent;
+      modalImgTitle.current.innerText = `- ${studioItem[index].itemName} -`;
+    } else if (e.target.dataset.bsCategory === category[2]) {
+      modalImgContent.current.innerText = dressItem[index].imgContent;
+      modalImgTitle.current.innerText = `- ${dressItem[index].itemName} -`;
+    } else if (e.target.dataset.bsCategory === category[3]) {
+      modalImgContent.current.innerText = makeupItem[index].imgContent;
+      modalImgTitle.current.innerText = `- ${makeupItem[index].itemName} -`;
+    } else if (e.target.dataset.bsCategory === category[4]) {
+      modalImgContent.current.innerText = honeyMoonItem[index].imgContent;
+      modalImgTitle.current.innerText = `- ${honeyMoonItem[index].itemName} -`;
+    } else if (e.target.dataset.bsCategory === category[5]) {
+      modalImgContent.current.innerText = bouquetItem[index].imgContent;
+      modalImgTitle.current.innerText = `- ${bouquetItem[index].itemName} -`;
     }
   };
 
@@ -677,8 +694,9 @@ function Home() {
                     class="modal-title justify-content-center "
                     id="imgDetailModal"
                     style={{ fontSize: "1.9em" }}
+                    ref={modalImgTitle}
                   >
-                    - {category[0]} -
+                    - -
                   </h1>
                   <button
                     type="button"
@@ -710,7 +728,7 @@ function Home() {
                         height: "200px",
                         marginBottom: "20px",
                         marginTop: "-50px",
-                        cursor: "pointer",
+
                         marginLeft: "140px",
                       }}
                       alt=""
@@ -794,8 +812,15 @@ function Home() {
                     width: "400px",
                     height: "450px",
                     marginLeft: "25px",
+                    cursor: "pointer",
                   }}
-                  src={studioImg[0]} //previewImg배열 하나하나요소가 src에 들어가야 함.
+                  data-bs-toggle="modal"
+                  data-bs-target="#imgDetailModal"
+                  data-bs-src={studioImg[0]}
+                  data-bs-category={category[1]}
+                  data-bs-keyIndex={0}
+                  onClick={showimgDetail}
+                  src={studioImg[0]}
                   alt="..."
                 />
                 <br />
@@ -821,7 +846,14 @@ function Home() {
                         width: "400px",
                         height: "450px",
                         marginLeft: "25px",
+                        cursor: "pointer",
                       }}
+                      data-bs-toggle="modal"
+                      data-bs-target="#imgDetailModal"
+                      data-bs-src={studioImg[i]}
+                      data-bs-category={category[1]}
+                      data-bs-keyIndex={i}
+                      onClick={showimgDetail}
                       src={studioImg[i]}
                       alt="..."
                     />
@@ -859,6 +891,7 @@ function Home() {
             </button>
           </div>
           <br />
+
           <hr />
           <h4 id="scrollspyHeading3">
             <svg
@@ -906,7 +939,14 @@ function Home() {
                     width: "400px",
                     height: "540px",
                     marginLeft: "25px",
+                    cursor: "pointer",
                   }}
+                  data-bs-toggle="modal"
+                  data-bs-target="#imgDetailModal"
+                  data-bs-src={dressImg[0]}
+                  data-bs-category={category[2]}
+                  data-bs-keyIndex={0}
+                  onClick={showimgDetail}
                   src={dressImg[0]} //previewImg배열 하나하나요소가 src에 들어가야 함.
                   alt="..."
                 />
@@ -933,7 +973,14 @@ function Home() {
                         width: "400px",
                         height: "540px",
                         marginLeft: "25px",
+                        cursor: "pointer",
                       }}
+                      data-bs-toggle="modal"
+                      data-bs-target="#imgDetailModal"
+                      data-bs-src={dressImg[i]}
+                      data-bs-category={category[2]}
+                      data-bs-keyIndex={i}
+                      onClick={showimgDetail}
                       src={dressImg[i]}
                       alt="..."
                     />
@@ -1018,7 +1065,14 @@ function Home() {
                     width: "400px",
                     height: "500px",
                     marginLeft: "25px",
+                    cursor: "pointer",
                   }}
+                  data-bs-toggle="modal"
+                  data-bs-target="#imgDetailModal"
+                  data-bs-src={makeupImg[0]}
+                  data-bs-category={category[3]}
+                  data-bs-keyIndex={0}
+                  onClick={showimgDetail}
                   src={makeupImg[0]} //previewImg배열 하나하나요소가 src에 들어가야 함.
                   alt="..."
                 />
@@ -1045,7 +1099,14 @@ function Home() {
                         width: "400px",
                         height: "500px",
                         marginLeft: "25px",
+                        cursor: "pointer",
                       }}
+                      data-bs-toggle="modal"
+                      data-bs-target="#imgDetailModal"
+                      data-bs-src={makeupImg[i]}
+                      data-bs-category={category[3]}
+                      data-bs-keyIndex={i}
+                      onClick={showimgDetail}
                       src={makeupImg[i]}
                       alt="..."
                     />
@@ -1131,7 +1192,14 @@ function Home() {
                     width: "400px",
                     height: "400px",
                     marginLeft: "25px",
+                    cursor: "pointer",
                   }}
+                  data-bs-toggle="modal"
+                  data-bs-target="#imgDetailModal"
+                  data-bs-src={honeyMoonImg[0]}
+                  data-bs-category={category[4]}
+                  data-bs-keyIndex={0}
+                  onClick={showimgDetail}
                   src={honeyMoonImg[0]} //previewImg배열 하나하나요소가 src에 들어가야 함.
                   alt="..."
                 />
@@ -1158,7 +1226,14 @@ function Home() {
                         width: "400px",
                         height: "400px",
                         marginLeft: "25px",
+                        cursor: "pointer",
                       }}
+                      data-bs-toggle="modal"
+                      data-bs-target="#imgDetailModal"
+                      data-bs-src={honeyMoonImg[i]}
+                      data-bs-category={category[4]}
+                      data-bs-keyIndex={i}
+                      onClick={showimgDetail}
                       src={honeyMoonImg[i]}
                       alt="..."
                     />
@@ -1245,7 +1320,14 @@ function Home() {
                     width: "400px",
                     height: "400px",
                     marginLeft: "25px",
+                    cursor: "pointer",
                   }}
+                  data-bs-toggle="modal"
+                  data-bs-target="#imgDetailModal"
+                  data-bs-src={bouquetImg[0]}
+                  data-bs-category={category[5]}
+                  data-bs-keyIndex={0}
+                  onClick={showimgDetail}
                   src={bouquetImg[0]} //previewImg배열 하나하나요소가 src에 들어가야 함.
                   alt="..."
                 />
@@ -1272,7 +1354,14 @@ function Home() {
                         width: "400px",
                         height: "400px",
                         marginLeft: "25px",
+                        cursor: "pointer",
                       }}
+                      data-bs-toggle="modal"
+                      data-bs-target="#imgDetailModal"
+                      data-bs-src={bouquetImg[i]}
+                      data-bs-category={category[5]}
+                      data-bs-keyIndex={i}
+                      onClick={showimgDetail}
                       src={bouquetImg[i]}
                       alt="..."
                     />
