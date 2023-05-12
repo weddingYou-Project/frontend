@@ -8,6 +8,14 @@ import { useState, useLayoutEffect, useEffect, useRef } from "react";
 import axios from "axios";
 
 function Home() {
+  const category = [
+    "웨딩홀",
+    "스튜디오",
+    "의상",
+    "메이크업",
+    "신혼여행",
+    "부케",
+  ];
   const navigate = useNavigate();
 
   const [searchItem, setSearchItem] = useState("");
@@ -19,10 +27,6 @@ function Home() {
   const [item, setItem] = useState([]);
   const [itemName, setItemName] = useState([]);
   const [itemLike, setItemLike] = useState([]);
-  const [itemImgContent, setItemImgContent] = useState([]);
-  const [itemImg, setItemImg] = useState([]);
-  const [itemCategory1, setItemCategory1] = useState([]);
-  const [itemCategory2, setItemCategory2] = useState([]);
   const [keyIndex, setKeyIndex] = useState([]);
   let keyIndexArr = [];
   let list = [];
@@ -30,6 +34,71 @@ function Home() {
   let itemLikeArr = [];
   let itemNameArr = [];
   let previewImgArr = [];
+
+  const [studioImg, setStudioImg] = useState([]);
+  const [studioItemId, setStudiItemId] = useState([]);
+  const [studioItem, setStudioItem] = useState([]);
+  const [studioItemName, setStudioItemName] = useState([]);
+  const [studioItemLike, setStudioItemLike] = useState([]);
+  const [studioKeyIndex, setStudioKeyIndex] = useState([]);
+  let keyIndexArr1 = [];
+  let list1 = [];
+  let itemDataArr1 = [];
+  let itemLikeArr1 = [];
+  let itemNameArr1 = [];
+  let previewImgArr1 = [];
+
+  const [dressImg, setDressImg] = useState([]);
+  const [dressItemId, setDressItemId] = useState([]);
+  const [dressItem, setDressItem] = useState([]);
+  const [dressItemName, setDressItemName] = useState([]);
+  const [dressItemLike, setDressItemLike] = useState([]);
+  const [dressKeyIndex, setDressKeyIndex] = useState([]);
+  let keyIndexArr2 = [];
+  let list2 = [];
+  let itemDataArr2 = [];
+  let itemLikeArr2 = [];
+  let itemNameArr2 = [];
+  let previewImgArr2 = [];
+
+  const [makeupImg, setMakeupImg] = useState([]);
+  const [makeupItemId, setMakeupItemId] = useState([]);
+  const [makeupItem, setMakeupItem] = useState([]);
+  const [makeupItemName, setMakeupItemName] = useState([]);
+  const [makeupItemLike, setMakeupItemLike] = useState([]);
+  const [makeupKeyIndex, setMakeupKeyIndex] = useState([]);
+  let keyIndexArr3 = [];
+  let list3 = [];
+  let itemDataArr3 = [];
+  let itemLikeArr3 = [];
+  let itemNameArr3 = [];
+  let previewImgArr3 = [];
+
+  const [honeyMoonImg, setHoneyMoonImg] = useState([]);
+  const [honeyMoonItemId, setHoneyMoonItemId] = useState([]);
+  const [honeyMoonItem, setHoneyMoonItem] = useState([]);
+  const [honeyMoonItemName, setHoneyMoonItemName] = useState([]);
+  const [honeyMoonItemLike, setHoneyMoonItemLike] = useState([]);
+  const [honeyMoonKeyIndex, setHoneyMoonKeyIndex] = useState([]);
+  let keyIndexArr4 = [];
+  let list4 = [];
+  let itemDataArr4 = [];
+  let itemLikeArr4 = [];
+  let itemNameArr4 = [];
+  let previewImgArr4 = [];
+
+  const [bouquetImg, setBouquetImg] = useState([]);
+  const [bouquetItemId, setBouquetItemId] = useState([]);
+  const [bouquetItem, setBouquetItem] = useState([]);
+  const [bouquetItemName, setBouquetItemName] = useState([]);
+  const [bouquetItemLike, setBouquetItemLike] = useState([]);
+  const [bouquetKeyIndex, setBouquetKeyIndex] = useState([]);
+  let keyIndexArr5 = [];
+  let list5 = [];
+  let itemDataArr5 = [];
+  let itemLikeArr5 = [];
+  let itemNameArr5 = [];
+  let previewImgArr5 = [];
 
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
@@ -42,8 +111,9 @@ function Home() {
   };
 
   useEffect(() => {
+    //웨딩홀
     axios
-      .get(`/item/itemList/${category1}`)
+      .get(`/item/itemList/${category[0]}`)
       .then((res) => {
         const dataList = res.data;
         //    console.log(dataList);
@@ -69,16 +139,263 @@ function Home() {
                 console.log(res.data);
                 let newItem = res.data;
                 itemDataArr.push(newItem);
+                console.log(itemDataArr);
+                itemDataArr.sort(function (a, b) {
+                  return new Date(b.itemWriteDate) - new Date(a.itemWriteDate);
+                });
+                setItem([...item, newItem]);
+                setItem(itemDataArr);
+                let itemNameList = [];
+                let itemLikeList = [];
+                for (var j = 0; j < itemDataArr.length; j++) {
+                  const newItemName = itemDataArr[j].itemName;
+                  const newItemLike = itemDataArr[j].like.length;
+                  itemNameList.push(newItemName);
+                  itemLikeList.push(newItemLike);
+                  setItemName(itemNameList);
+                  setItemLike(itemLikeList);
+                }
+              })
+              .catch((e) => {
+                console.log(e);
+              });
+          }
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+
+    //스튜디오
+    axios
+      .get(`/item/itemList/${category[1]}`)
+      .then((res) => {
+        const dataList = res.data;
+        //    console.log(dataList);
+        console.log(res);
+        let index = 0;
+        for (var i = 0; i < dataList.length; i++) {
+          if (i % 2 === 0) {
+            //    console.log(dataList[i]);
+            let dataUrl = "data:image/jpeg;base64," + dataList[i];
+            previewImgArr1.push(dataUrl);
+            setPreviewImg(previewImgArr1);
+          } else {
+            let newitemId = dataList[i];
+            //  console.log(newitemId);
+            list1.push(newitemId);
+            setItemId(list1);
+            keyIndexArr1.push(index);
+            index++;
+            setKeyIndex(keyIndexArr1);
+            axios
+              .get(`/item/getItemList/${newitemId}`)
+              .then((res) => {
+                console.log(res.data);
+                let newItem = res.data;
+                itemDataArr1.push(newItem);
                 //console.log(itemDataArr);
-                setItem([newItem, ...item]);
+                setItem(itemDataArr1);
                 let newItemName = res.data.itemName;
-                itemNameArr.push(newItemName);
+                itemNameArr1.push(newItemName);
                 //console.log(itemNameArr);
-                setItemName(itemNameArr);
+                setItemName(itemNameArr1);
+                let newItemLike = res.data.like.length;
+                itemLikeArr1.push(newItemLike);
+                //console.log(itemLikeArr);
+                setItemLike(itemLikeArr1);
+              })
+              .catch((e) => {
+                console.log(e);
+              });
+          }
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+    //의상
+    axios
+      .get(`/item/itemList/${category[2]}`)
+      .then((res) => {
+        const dataList = res.data;
+        //    console.log(dataList);
+        console.log(res);
+        let index = 0;
+        for (var i = 0; i < dataList.length; i++) {
+          if (i % 2 === 0) {
+            //    console.log(dataList[i]);
+            let dataUrl = "data:image/jpeg;base64," + dataList[i];
+            previewImgArr2.push(dataUrl);
+            setPreviewImg(previewImgArr2);
+          } else {
+            let newitemId = dataList[i];
+            //  console.log(newitemId);
+            list.push(newitemId);
+            setItemId(list2);
+            keyIndexArr2.push(index);
+            index++;
+            setKeyIndex(keyIndexArr2);
+            axios
+              .get(`/item/getItemList/${newitemId}`)
+              .then((res) => {
+                console.log(res.data);
+                let newItem = res.data;
+                itemDataArr2.push(newItem);
+                //console.log(itemDataArr);
+                setItem(itemDataArr2);
+                let newItemName = res.data.itemName;
+                itemNameArr2.push(newItemName);
+                //console.log(itemNameArr);
+                setItemName(itemNameArr2);
+                let newItemLike = res.data.like.length;
+                itemLikeArr2.push(newItemLike);
+                //console.log(itemLikeArr);
+                setItemLike(itemLikeArr2);
+              })
+              .catch((e) => {
+                console.log(e);
+              });
+          }
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+    //메이크업
+    axios
+      .get(`/item/itemList/${category[3]}`)
+      .then((res) => {
+        const dataList = res.data;
+        //    console.log(dataList);
+        console.log(res);
+        let index = 0;
+        for (var i = 0; i < dataList.length; i++) {
+          if (i % 2 === 0) {
+            //    console.log(dataList[i]);
+            let dataUrl = "data:image/jpeg;base64," + dataList[i];
+            previewImgArr3.push(dataUrl);
+            setPreviewImg(previewImgArr3);
+          } else {
+            let newitemId = dataList[i];
+            //  console.log(newitemId);
+            list.push(newitemId);
+            setItemId(list3);
+            keyIndexArr3.push(index);
+            index++;
+            setKeyIndex(keyIndexArr3);
+            axios
+              .get(`/item/getItemList/${newitemId}`)
+              .then((res) => {
+                console.log(res.data);
+                let newItem = res.data;
+                itemDataArr3.push(newItem);
+                //console.log(itemDataArr);
+                setItem(itemDataArr3);
+                let newItemName = res.data.itemName;
+                itemNameArr3.push(newItemName);
+                //console.log(itemNameArr);
+                setItemName(itemNameArr3);
+                let newItemLike = res.data.like.length;
+                itemLikeArr3.push(newItemLike);
+                //console.log(itemLikeArr);
+                setItemLike(itemLikeArr3);
+              })
+              .catch((e) => {
+                console.log(e);
+              });
+          }
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+    //신혼여행
+    axios
+      .get(`/item/itemList/${category[4]}`)
+      .then((res) => {
+        const dataList = res.data;
+        //    console.log(dataList);
+        console.log(res);
+        let index = 0;
+        for (var i = 0; i < dataList.length; i++) {
+          if (i % 2 === 0) {
+            //    console.log(dataList[i]);
+            let dataUrl = "data:image/jpeg;base64," + dataList[i];
+            previewImgArr4.push(dataUrl);
+            setPreviewImg(previewImgArr4);
+          } else {
+            let newitemId = dataList[i];
+            //  console.log(newitemId);
+            list.push(newitemId);
+            setItemId(list4);
+            keyIndexArr4.push(index);
+            index++;
+            setKeyIndex(keyIndexArr4);
+            axios
+              .get(`/item/getItemList/${newitemId}`)
+              .then((res) => {
+                console.log(res.data);
+                let newItem = res.data;
+                itemDataArr4.push(newItem);
+                //console.log(itemDataArr);
+                setItem(itemDataArr4);
+                let newItemName = res.data.itemName;
+                itemNameArr4.push(newItemName);
+                //console.log(itemNameArr);
+                setItemName(itemNameArr4);
                 let newItemLike = res.data.like.length;
                 itemLikeArr.push(newItemLike);
                 //console.log(itemLikeArr);
-                setItemLike(itemLikeArr);
+                setItemLike(itemLikeArr4);
+              })
+              .catch((e) => {
+                console.log(e);
+              });
+          }
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+    //부케
+    axios
+      .get(`/item/itemList/${category[5]}`)
+      .then((res) => {
+        const dataList = res.data;
+        //    console.log(dataList);
+        console.log(res);
+        let index = 0;
+        for (var i = 0; i < dataList.length; i++) {
+          if (i % 2 === 0) {
+            //    console.log(dataList[i]);
+            let dataUrl = "data:image/jpeg;base64," + dataList[i];
+            previewImgArr5.push(dataUrl);
+            setPreviewImg(previewImgArr5);
+          } else {
+            let newitemId = dataList[i];
+            //  console.log(newitemId);
+            list.push(newitemId);
+            setItemId(list5);
+            keyIndexArr5.push(index);
+            index++;
+            setKeyIndex(keyIndexArr5);
+            axios
+              .get(`/item/getItemList/${newitemId}`)
+              .then((res) => {
+                console.log(res.data);
+                let newItem = res.data;
+                itemDataArr5.push(newItem);
+                //console.log(itemDataArr);
+                setItem(itemDataArr5);
+                let newItemName = res.data.itemName;
+                itemNameArr5.push(newItemName);
+                //console.log(itemNameArr);
+                setItemName(itemNameArr5);
+                let newItemLike = res.data.like.length;
+                itemLikeArr5.push(newItemLike);
+                //console.log(itemLikeArr);
+                setItemLike(itemLikeArr5);
               })
               .catch((e) => {
                 console.log(e);
@@ -90,12 +407,24 @@ function Home() {
         console.log(e);
       });
   }, []);
+  useEffect(() => {
+    for (var r = 0; r < itemDataArr.legnth; r++) {
+      itemNameArr.push(itemDataArr[r].itemName);
+      console.log(itemNameArr);
+      setItemName(itemNameArr);
+
+      itemLikeArr.push(itemDataArr[r].itemLike);
+      //console.log(itemLikeArr);
+      setItemLike(itemLikeArr);
+    }
+  }, []);
   console.log("itemId:" + itemId);
-  console.log("item:" + item);
+  //console.log("item:" + item[0].itemName);
   console.log("itemNmae:" + itemName);
   // console.log("itemNameArr:" + itemNameArr);
   console.log("itemLike:" + itemLike);
   console.log("keyindex:" + keyIndex);
+  console.log("itemDateArr" + itemDataArr);
   // console.log("previewImg" + previewImg);
 
   return (
