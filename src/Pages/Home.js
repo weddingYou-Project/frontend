@@ -215,9 +215,22 @@ function Home() {
             data-bs-ride="carousel"
           >
             <div class="carousel-inner">
-              <div class="carousel-item active">
+              <div
+                class="carousel-item active"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+
+                  width: "500px",
+                  height: "250px",
+                }}
+              >
                 <img
                   id="targetImg"
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                  }}
                   src={previewImg[0]} //previewImg배열 하나하나요소가 src에 들어가야 함.
                   class="d-block w-50 center"
                   alt="..."
@@ -230,8 +243,21 @@ function Home() {
 
               {keyIndex.map((i) =>
                 i === 0 ? null : (
-                  <div class="carousel-item">
+                  <div
+                    class="carousel-item"
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+
+                      width: "500px",
+                      height: "250px",
+                    }}
+                  >
                     <img
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                      }}
                       src={previewImg[i]}
                       class="d-block w-50 center"
                       alt="..."
