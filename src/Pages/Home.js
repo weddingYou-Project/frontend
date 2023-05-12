@@ -31,8 +31,6 @@ function Home() {
   let keyIndexArr = [];
   let list = [];
   let itemDataArr = [];
-  let itemLikeArr = [];
-  let itemNameArr = [];
   let previewImgArr = [];
 
   const [studioImg, setStudioImg] = useState([]);
@@ -44,8 +42,6 @@ function Home() {
   let keyIndexArr1 = [];
   let list1 = [];
   let itemDataArr1 = [];
-  let itemLikeArr1 = [];
-  let itemNameArr1 = [];
   let previewImgArr1 = [];
 
   const [dressImg, setDressImg] = useState([]);
@@ -57,8 +53,6 @@ function Home() {
   let keyIndexArr2 = [];
   let list2 = [];
   let itemDataArr2 = [];
-  let itemLikeArr2 = [];
-  let itemNameArr2 = [];
   let previewImgArr2 = [];
 
   const [makeupImg, setMakeupImg] = useState([]);
@@ -70,8 +64,6 @@ function Home() {
   let keyIndexArr3 = [];
   let list3 = [];
   let itemDataArr3 = [];
-  let itemLikeArr3 = [];
-  let itemNameArr3 = [];
   let previewImgArr3 = [];
 
   const [honeyMoonImg, setHoneyMoonImg] = useState([]);
@@ -83,8 +75,6 @@ function Home() {
   let keyIndexArr4 = [];
   let list4 = [];
   let itemDataArr4 = [];
-  let itemLikeArr4 = [];
-  let itemNameArr4 = [];
   let previewImgArr4 = [];
 
   const [bouquetImg, setBouquetImg] = useState([]);
@@ -96,8 +86,6 @@ function Home() {
   let keyIndexArr5 = [];
   let list5 = [];
   let itemDataArr5 = [];
-  let itemLikeArr5 = [];
-  let itemNameArr5 = [];
   let previewImgArr5 = [];
 
   const handleKeyPress = (event) => {
@@ -116,98 +104,104 @@ function Home() {
       .get(`/item/itemList/${category[0]}`)
       .then((res) => {
         const dataList = res.data;
-        //    console.log(dataList);
-        console.log(res);
-        let index = 0;
-        for (var i = 0; i < dataList.length; i++) {
-          if (i % 2 === 0) {
-            //    console.log(dataList[i]);
-            let dataUrl = "data:image/jpeg;base64," + dataList[i];
-            previewImgArr.push(dataUrl);
-            setPreviewImg(previewImgArr);
-          } else {
-            let newitemId = dataList[i];
-            //  console.log(newitemId);
-            list.push(newitemId);
-            setItemId(list);
-            keyIndexArr.push(index);
-            index++;
-            setKeyIndex(keyIndexArr);
-            axios
-              .get(`/item/getItemList/${newitemId}`)
-              .then((res) => {
-                console.log(res.data);
-                let newItem = res.data;
-                itemDataArr.push(newItem);
-                console.log(itemDataArr);
-                itemDataArr.sort(function (a, b) {
-                  return new Date(b.itemWriteDate) - new Date(a.itemWriteDate);
+
+        if (dataList.length !== 0) {
+          let index = 0;
+          for (var i = 0; i < dataList.length; i++) {
+            if (i % 2 === 0) {
+              let dataUrl = "data:image/jpeg;base64," + dataList[i];
+              previewImgArr.push(dataUrl);
+              setPreviewImg(previewImgArr);
+            } else {
+              let newitemId = dataList[i];
+              list.push(newitemId);
+              setItemId(list);
+              keyIndexArr.push(index);
+              index++;
+              setKeyIndex(keyIndexArr);
+              axios
+                .get(`/item/getItemList/${newitemId}`)
+                .then((res) => {
+                  console.log(res.data);
+                  let newItem = res.data;
+                  itemDataArr.push(newItem);
+                  itemDataArr.sort(function (a, b) {
+                    return (
+                      new Date(b.itemWriteDate) - new Date(a.itemWriteDate)
+                    );
+                  });
+                  setItem([...item, newItem]);
+                  setItem(itemDataArr);
+                  let itemNameList = [];
+                  let itemLikeList = [];
+                  for (var j = 0; j < itemDataArr.length; j++) {
+                    const newItemName = itemDataArr[j].itemName;
+                    const newItemLike = itemDataArr[j].like.length;
+                    itemNameList.push(newItemName);
+                    itemLikeList.push(newItemLike);
+                    setItemName(itemNameList);
+                    setItemLike(itemLikeList);
+                  }
+                })
+                .catch((e) => {
+                  console.log(e);
                 });
-                setItem([...item, newItem]);
-                setItem(itemDataArr);
-                let itemNameList = [];
-                let itemLikeList = [];
-                for (var j = 0; j < itemDataArr.length; j++) {
-                  const newItemName = itemDataArr[j].itemName;
-                  const newItemLike = itemDataArr[j].like.length;
-                  itemNameList.push(newItemName);
-                  itemLikeList.push(newItemLike);
-                  setItemName(itemNameList);
-                  setItemLike(itemLikeList);
-                }
-              })
-              .catch((e) => {
-                console.log(e);
-              });
+            }
           }
         }
       })
       .catch((e) => {
         console.log(e);
       });
-
     //스튜디오
     axios
       .get(`/item/itemList/${category[1]}`)
       .then((res) => {
         const dataList = res.data;
-        //    console.log(dataList);
-        console.log(res);
-        let index = 0;
-        for (var i = 0; i < dataList.length; i++) {
-          if (i % 2 === 0) {
-            //    console.log(dataList[i]);
-            let dataUrl = "data:image/jpeg;base64," + dataList[i];
-            previewImgArr1.push(dataUrl);
-            setPreviewImg(previewImgArr1);
-          } else {
-            let newitemId = dataList[i];
-            //  console.log(newitemId);
-            list1.push(newitemId);
-            setItemId(list1);
-            keyIndexArr1.push(index);
-            index++;
-            setKeyIndex(keyIndexArr1);
-            axios
-              .get(`/item/getItemList/${newitemId}`)
-              .then((res) => {
-                console.log(res.data);
-                let newItem = res.data;
-                itemDataArr1.push(newItem);
-                //console.log(itemDataArr);
-                setItem(itemDataArr1);
-                let newItemName = res.data.itemName;
-                itemNameArr1.push(newItemName);
-                //console.log(itemNameArr);
-                setItemName(itemNameArr1);
-                let newItemLike = res.data.like.length;
-                itemLikeArr1.push(newItemLike);
-                //console.log(itemLikeArr);
-                setItemLike(itemLikeArr1);
-              })
-              .catch((e) => {
-                console.log(e);
-              });
+
+        if (dataList.length !== 0) {
+          let index = 0;
+          for (var i = 0; i < dataList.length; i++) {
+            if (i % 2 === 0) {
+              let dataUrl = "data:image/jpeg;base64," + dataList[i];
+              previewImgArr1.push(dataUrl);
+              setStudioImg(previewImgArr1);
+            } else {
+              let newitemId = dataList[i];
+              list1.push(newitemId);
+              setStudiItemId(list1);
+              keyIndexArr1.push(index);
+              index++;
+              setStudioKeyIndex(keyIndexArr1);
+              axios
+                .get(`/item/getItemList/${newitemId}`)
+                .then((res) => {
+                  console.log(res.data);
+                  let newItem = res.data;
+                  itemDataArr1.push(newItem);
+                  itemDataArr1.sort(function (a, b) {
+                    return (
+                      new Date(b.itemWriteDate) - new Date(a.itemWriteDate)
+                    );
+                  });
+                  setStudioItem([...studioItem, newItem]);
+                  setStudioItem(itemDataArr1);
+                  console.log(itemDataArr1);
+                  let itemNameList = [];
+                  let itemLikeList = [];
+                  for (var j = 0; j < itemDataArr1.length; j++) {
+                    const newItemName = itemDataArr1[j].itemName;
+                    const newItemLike = itemDataArr1[j].like.length;
+                    itemNameList.push(newItemName);
+                    itemLikeList.push(newItemLike);
+                    setStudioItemName(itemNameList);
+                    setStudioItemLike(itemLikeList);
+                  }
+                })
+                .catch((e) => {
+                  console.log(e);
+                });
+            }
           }
         }
       })
@@ -219,43 +213,49 @@ function Home() {
       .get(`/item/itemList/${category[2]}`)
       .then((res) => {
         const dataList = res.data;
-        //    console.log(dataList);
-        console.log(res);
-        let index = 0;
-        for (var i = 0; i < dataList.length; i++) {
-          if (i % 2 === 0) {
-            //    console.log(dataList[i]);
-            let dataUrl = "data:image/jpeg;base64," + dataList[i];
-            previewImgArr2.push(dataUrl);
-            setPreviewImg(previewImgArr2);
-          } else {
-            let newitemId = dataList[i];
-            //  console.log(newitemId);
-            list.push(newitemId);
-            setItemId(list2);
-            keyIndexArr2.push(index);
-            index++;
-            setKeyIndex(keyIndexArr2);
-            axios
-              .get(`/item/getItemList/${newitemId}`)
-              .then((res) => {
-                console.log(res.data);
-                let newItem = res.data;
-                itemDataArr2.push(newItem);
-                //console.log(itemDataArr);
-                setItem(itemDataArr2);
-                let newItemName = res.data.itemName;
-                itemNameArr2.push(newItemName);
-                //console.log(itemNameArr);
-                setItemName(itemNameArr2);
-                let newItemLike = res.data.like.length;
-                itemLikeArr2.push(newItemLike);
-                //console.log(itemLikeArr);
-                setItemLike(itemLikeArr2);
-              })
-              .catch((e) => {
-                console.log(e);
-              });
+
+        if (dataList.length !== 0) {
+          let index = 0;
+          for (var i = 0; i < dataList.length; i++) {
+            if (i % 2 === 0) {
+              let dataUrl = "data:image/jpeg;base64," + dataList[i];
+              previewImgArr2.push(dataUrl);
+              setDressImg(previewImgArr2);
+            } else {
+              let newitemId = dataList[i];
+              list2.push(newitemId);
+              setDressItemId(list2);
+              keyIndexArr2.push(index);
+              index++;
+              setDressKeyIndex(keyIndexArr2);
+              axios
+                .get(`/item/getItemList/${newitemId}`)
+                .then((res) => {
+                  console.log(res.data);
+                  let newItem = res.data;
+                  itemDataArr2.push(newItem);
+                  itemDataArr2.sort(function (a, b) {
+                    return (
+                      new Date(b.itemWriteDate) - new Date(a.itemWriteDate)
+                    );
+                  });
+                  setDressItem([...dressItem, newItem]);
+                  setDressItem(itemDataArr2);
+                  let itemNameList = [];
+                  let itemLikeList = [];
+                  for (var j = 0; j < itemDataArr2.length; j++) {
+                    const newItemName = itemDataArr2[j].itemName;
+                    const newItemLike = itemDataArr2[j].like.length;
+                    itemNameList.push(newItemName);
+                    itemLikeList.push(newItemLike);
+                    setDressItemName(itemNameList);
+                    setDressItemLike(itemLikeList);
+                  }
+                })
+                .catch((e) => {
+                  console.log(e);
+                });
+            }
           }
         }
       })
@@ -267,43 +267,49 @@ function Home() {
       .get(`/item/itemList/${category[3]}`)
       .then((res) => {
         const dataList = res.data;
-        //    console.log(dataList);
-        console.log(res);
-        let index = 0;
-        for (var i = 0; i < dataList.length; i++) {
-          if (i % 2 === 0) {
-            //    console.log(dataList[i]);
-            let dataUrl = "data:image/jpeg;base64," + dataList[i];
-            previewImgArr3.push(dataUrl);
-            setPreviewImg(previewImgArr3);
-          } else {
-            let newitemId = dataList[i];
-            //  console.log(newitemId);
-            list.push(newitemId);
-            setItemId(list3);
-            keyIndexArr3.push(index);
-            index++;
-            setKeyIndex(keyIndexArr3);
-            axios
-              .get(`/item/getItemList/${newitemId}`)
-              .then((res) => {
-                console.log(res.data);
-                let newItem = res.data;
-                itemDataArr3.push(newItem);
-                //console.log(itemDataArr);
-                setItem(itemDataArr3);
-                let newItemName = res.data.itemName;
-                itemNameArr3.push(newItemName);
-                //console.log(itemNameArr);
-                setItemName(itemNameArr3);
-                let newItemLike = res.data.like.length;
-                itemLikeArr3.push(newItemLike);
-                //console.log(itemLikeArr);
-                setItemLike(itemLikeArr3);
-              })
-              .catch((e) => {
-                console.log(e);
-              });
+
+        if (dataList.length !== 0) {
+          let index = 0;
+          for (var i = 0; i < dataList.length; i++) {
+            if (i % 2 === 0) {
+              let dataUrl = "data:image/jpeg;base64," + dataList[i];
+              previewImgArr3.push(dataUrl);
+              setMakeupImg(previewImgArr3);
+            } else {
+              let newitemId = dataList[i];
+              list3.push(newitemId);
+              setMakeupItemId(list3);
+              keyIndexArr3.push(index);
+              index++;
+              setMakeupKeyIndex(keyIndexArr3);
+              axios
+                .get(`/item/getItemList/${newitemId}`)
+                .then((res) => {
+                  console.log(res.data);
+                  let newItem = res.data;
+                  itemDataArr3.push(newItem);
+                  itemDataArr3.sort(function (a, b) {
+                    return (
+                      new Date(b.itemWriteDate) - new Date(a.itemWriteDate)
+                    );
+                  });
+                  setMakeupItem([...makeupItem, newItem]);
+                  setMakeupItem(itemDataArr3);
+                  let itemNameList = [];
+                  let itemLikeList = [];
+                  for (var j = 0; j < itemDataArr3.length; j++) {
+                    const newItemName = itemDataArr3[j].itemName;
+                    const newItemLike = itemDataArr3[j].like.length;
+                    itemNameList.push(newItemName);
+                    itemLikeList.push(newItemLike);
+                    setMakeupItemName(itemNameList);
+                    setMakeupItemLike(itemLikeList);
+                  }
+                })
+                .catch((e) => {
+                  console.log(e);
+                });
+            }
           }
         }
       })
@@ -315,43 +321,49 @@ function Home() {
       .get(`/item/itemList/${category[4]}`)
       .then((res) => {
         const dataList = res.data;
-        //    console.log(dataList);
-        console.log(res);
-        let index = 0;
-        for (var i = 0; i < dataList.length; i++) {
-          if (i % 2 === 0) {
-            //    console.log(dataList[i]);
-            let dataUrl = "data:image/jpeg;base64," + dataList[i];
-            previewImgArr4.push(dataUrl);
-            setPreviewImg(previewImgArr4);
-          } else {
-            let newitemId = dataList[i];
-            //  console.log(newitemId);
-            list.push(newitemId);
-            setItemId(list4);
-            keyIndexArr4.push(index);
-            index++;
-            setKeyIndex(keyIndexArr4);
-            axios
-              .get(`/item/getItemList/${newitemId}`)
-              .then((res) => {
-                console.log(res.data);
-                let newItem = res.data;
-                itemDataArr4.push(newItem);
-                //console.log(itemDataArr);
-                setItem(itemDataArr4);
-                let newItemName = res.data.itemName;
-                itemNameArr4.push(newItemName);
-                //console.log(itemNameArr);
-                setItemName(itemNameArr4);
-                let newItemLike = res.data.like.length;
-                itemLikeArr.push(newItemLike);
-                //console.log(itemLikeArr);
-                setItemLike(itemLikeArr4);
-              })
-              .catch((e) => {
-                console.log(e);
-              });
+
+        if (dataList.length !== 0) {
+          let index = 0;
+          for (var i = 0; i < dataList.length; i++) {
+            if (i % 2 === 0) {
+              let dataUrl = "data:image/jpeg;base64," + dataList[i];
+              previewImgArr4.push(dataUrl);
+              setHoneyMoonImg(previewImgArr4);
+            } else {
+              let newitemId = dataList[i];
+              list4.push(newitemId);
+              setHoneyMoonItemId(list4);
+              keyIndexArr4.push(index);
+              index++;
+              setHoneyMoonKeyIndex(keyIndexArr4);
+              axios
+                .get(`/item/getItemList/${newitemId}`)
+                .then((res) => {
+                  console.log(res.data);
+                  let newItem = res.data;
+                  itemDataArr4.push(newItem);
+                  itemDataArr4.sort(function (a, b) {
+                    return (
+                      new Date(b.itemWriteDate) - new Date(a.itemWriteDate)
+                    );
+                  });
+                  setHoneyMoonItem([...honeyMoonItem, newItem]);
+                  setHoneyMoonItem(itemDataArr4);
+                  let itemNameList = [];
+                  let itemLikeList = [];
+                  for (var j = 0; j < itemDataArr4.length; j++) {
+                    const newItemName = itemDataArr4[j].itemName;
+                    const newItemLike = itemDataArr4[j].like.length;
+                    itemNameList.push(newItemName);
+                    itemLikeList.push(newItemLike);
+                    setHoneyMoonItemName(itemNameList);
+                    setHoneyMoonItemLike(itemLikeList);
+                  }
+                })
+                .catch((e) => {
+                  console.log(e);
+                });
+            }
           }
         }
       })
@@ -363,43 +375,49 @@ function Home() {
       .get(`/item/itemList/${category[5]}`)
       .then((res) => {
         const dataList = res.data;
-        //    console.log(dataList);
-        console.log(res);
-        let index = 0;
-        for (var i = 0; i < dataList.length; i++) {
-          if (i % 2 === 0) {
-            //    console.log(dataList[i]);
-            let dataUrl = "data:image/jpeg;base64," + dataList[i];
-            previewImgArr5.push(dataUrl);
-            setPreviewImg(previewImgArr5);
-          } else {
-            let newitemId = dataList[i];
-            //  console.log(newitemId);
-            list.push(newitemId);
-            setItemId(list5);
-            keyIndexArr5.push(index);
-            index++;
-            setKeyIndex(keyIndexArr5);
-            axios
-              .get(`/item/getItemList/${newitemId}`)
-              .then((res) => {
-                console.log(res.data);
-                let newItem = res.data;
-                itemDataArr5.push(newItem);
-                //console.log(itemDataArr);
-                setItem(itemDataArr5);
-                let newItemName = res.data.itemName;
-                itemNameArr5.push(newItemName);
-                //console.log(itemNameArr);
-                setItemName(itemNameArr5);
-                let newItemLike = res.data.like.length;
-                itemLikeArr5.push(newItemLike);
-                //console.log(itemLikeArr);
-                setItemLike(itemLikeArr5);
-              })
-              .catch((e) => {
-                console.log(e);
-              });
+
+        if (dataList.length !== 0) {
+          let index = 0;
+          for (var i = 0; i < dataList.length; i++) {
+            if (i % 2 === 0) {
+              let dataUrl = "data:image/jpeg;base64," + dataList[i];
+              previewImgArr5.push(dataUrl);
+              setBouquetImg(previewImgArr5);
+            } else {
+              let newitemId = dataList[i];
+              list5.push(newitemId);
+              setBouquetItemId(list5);
+              keyIndexArr5.push(index);
+              index++;
+              setBouquetKeyIndex(keyIndexArr5);
+              axios
+                .get(`/item/getItemList/${newitemId}`)
+                .then((res) => {
+                  console.log(res.data);
+                  let newItem = res.data;
+                  itemDataArr5.push(newItem);
+                  itemDataArr5.sort(function (a, b) {
+                    return (
+                      new Date(b.itemWriteDate) - new Date(a.itemWriteDate)
+                    );
+                  });
+                  setBouquetItem([...bouquetItem, newItem]);
+                  setBouquetItem(itemDataArr5);
+                  let itemNameList = [];
+                  let itemLikeList = [];
+                  for (var j = 0; j < itemDataArr5.length; j++) {
+                    const newItemName = itemDataArr5[j].itemName;
+                    const newItemLike = itemDataArr5[j].like.length;
+                    itemNameList.push(newItemName);
+                    itemLikeList.push(newItemLike);
+                    setBouquetItemName(itemNameList);
+                    setBouquetItemLike(itemLikeList);
+                  }
+                })
+                .catch((e) => {
+                  console.log(e);
+                });
+            }
           }
         }
       })
@@ -407,25 +425,28 @@ function Home() {
         console.log(e);
       });
   }, []);
-  useEffect(() => {
-    for (var r = 0; r < itemDataArr.legnth; r++) {
-      itemNameArr.push(itemDataArr[r].itemName);
-      console.log(itemNameArr);
-      setItemName(itemNameArr);
 
-      itemLikeArr.push(itemDataArr[r].itemLike);
-      //console.log(itemLikeArr);
-      setItemLike(itemLikeArr);
-    }
-  }, []);
   console.log("itemId:" + itemId);
   //console.log("item:" + item[0].itemName);
   console.log("itemNmae:" + itemName);
   // console.log("itemNameArr:" + itemNameArr);
   console.log("itemLike:" + itemLike);
   console.log("keyindex:" + keyIndex);
-  console.log("itemDateArr" + itemDataArr);
-  // console.log("previewImg" + previewImg);
+  console.log(studioItemLike);
+  console.log(studioItemName);
+  console.log(studioImg);
+  console.log(studioItemId);
+
+  const modalImg = useRef();
+  const modalImgContent = useRef();
+
+  const showimgDetail = (e) => {
+    modalImg.current.src = e.target.dataset.bsSrc;
+    const index = e.target.dataset.bsKeyindex;
+    if (e.target.dataset.bsCategory === category[0]) {
+      modalImgContent.current.innerText = item[index].imgContent;
+    }
+  };
 
   return (
     <div className="mainlayout">
@@ -551,17 +572,24 @@ function Home() {
                   flexDirection: "column",
                   alignItems: "center",
                   width: "500px",
-                  height: "300px",
+                  height: "400px",
                 }}
               >
                 <img
-                  id="targetImg"
+                  id={0}
                   style={{
                     width: "400px",
-                    height: "260px",
+                    height: "350px",
                     marginLeft: "25px",
+                    cursor: "pointer",
                   }}
                   src={previewImg[0]} //previewImg배열 하나하나요소가 src에 들어가야 함.
+                  data-bs-toggle="modal"
+                  data-bs-target="#imgDetailModal"
+                  data-bs-src={previewImg[0]}
+                  data-bs-category={category[0]}
+                  data-bs-keyIndex={0}
+                  onClick={showimgDetail}
                   alt="..."
                 />
                 <br />
@@ -579,15 +607,22 @@ function Home() {
                       flexDirection: "column",
                       alignItems: "center",
                       width: "500px",
-                      height: "300px",
+                      height: "400px",
                     }}
                   >
                     <img
                       style={{
                         width: "400px",
-                        height: "250px",
+                        height: "350px",
                         marginLeft: "25px",
+                        cursor: "pointer",
                       }}
+                      onClick={showimgDetail}
+                      data-bs-toggle="modal"
+                      data-bs-target="#imgDetailModal"
+                      data-bs-src={previewImg[i]}
+                      data-bs-category={category[0]}
+                      data-bs-keyIndex={i}
                       src={previewImg[i]}
                       alt="..."
                     />
@@ -627,6 +662,93 @@ function Home() {
             </button>
           </div>
           <hr />
+          {/* 이미지 상세정보 모달창 */}
+          <div
+            class="modal fade"
+            id="imgDetailModal"
+            tabindex="-1"
+            aria-labelledby="imgDetailModal"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1
+                    class="modal-title justify-content-center "
+                    id="imgDetailModal"
+                    style={{ fontSize: "1.5em" }}
+                  >
+                    - {category[0]} -
+                  </h1>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div
+                  class="modal-body"
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alginItems: "center",
+                    displayContent: "center",
+                    height: "100%",
+                    width: "100%",
+                    marginTop: "50px",
+                  }}
+                >
+                  <div
+                    class="has-validation col col-md-10"
+                    style={{ height: "100%", width: "100%" }}
+                  >
+                    <img
+                      src=""
+                      style={{
+                        width: "200px",
+                        height: "200px",
+                        marginBottom: "20px",
+                        marginTop: "-50px",
+                        cursor: "pointer",
+                        marginLeft: "140px",
+                      }}
+                      alt=""
+                      ref={modalImg}
+                    />
+                    <div
+                      style={{
+                        fontSize: "1.6em",
+                        padding: "10px",
+                        border: "1px solid black",
+                      }}
+                    >
+                      상세정보
+                    </div>
+                    <p
+                      style={{
+                        fontSize: "1.3em",
+                        width: "460px",
+
+                        padding: "10px",
+                      }}
+                      ref={modalImgContent}
+                    ></p>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    data-bs-dismiss="modal"
+                  >
+                    닫기
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          {/*이미지 상세정보 모달창  */}
           <h4 id="scrollspyHeading2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -657,27 +779,60 @@ function Home() {
             data-bs-ride="carousel"
           >
             <div class="carousel-inner">
-              <div class="carousel-item active">
+              <div
+                class="carousel-item active"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  width: "500px",
+                  height: "500px",
+                }}
+              >
                 <img
-                  src="https://www.iwedding.co.kr/center/website/brandplus/1663828102.jpg"
-                  class="d-block w-50 center"
+                  id="targetImg"
+                  style={{
+                    width: "400px",
+                    height: "450px",
+                    marginLeft: "25px",
+                  }}
+                  src={studioImg[0]} //previewImg배열 하나하나요소가 src에 들어가야 함.
                   alt="..."
                 />
+                <br />
+                <div className="itemName" style={{ marginTop: "-10px" }}>
+                  {studioItemName[0]}&nbsp;&nbsp; ❤️{studioItemLike[0]}
+                </div>
               </div>
-              <div class="carousel-item">
-                <img
-                  src="https://www.iwedding.co.kr/center/website/brandplus/1663828179.jpg"
-                  class="d-block w-50 center"
-                  alt="..."
-                />
-              </div>
-              <div class="carousel-item">
-                <img
-                  src="http://ifamily.co.kr/image/icard/242516/icard_sm_242516"
-                  class="d-block w-50 center"
-                  alt="..."
-                />
-              </div>
+
+              {studioKeyIndex.map((i) =>
+                i === 0 ? null : (
+                  <div
+                    class="carousel-item"
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      width: "500px",
+                      height: "500px",
+                    }}
+                  >
+                    <img
+                      style={{
+                        width: "400px",
+                        height: "450px",
+                        marginLeft: "25px",
+                      }}
+                      src={studioImg[i]}
+                      alt="..."
+                    />
+                    <br />
+                    <div className="itemName" style={{ marginTop: "-10px" }}>
+                      {studioItemName[i]} &nbsp;&nbsp;❤️{studioItemLike[i]}
+                    </div>
+                  </div>
+                )
+              )}
             </div>
             <button
               class="carousel-control-prev"
@@ -705,7 +860,6 @@ function Home() {
             </button>
           </div>
           <br />
-          <div className="itemName">(이름) (좋아요수)</div>
           <hr />
           <h4 id="scrollspyHeading3">
             <svg
@@ -737,27 +891,60 @@ function Home() {
             data-bs-ride="carousel"
           >
             <div class="carousel-inner">
-              <div class="carousel-item active">
+              <div
+                class="carousel-item active"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  width: "500px",
+                  height: "600px",
+                }}
+              >
                 <img
-                  src="https://www.iwedding.co.kr/center/iweddingb/product/500_17950_1681285801_41548700_3232256098.jpg"
-                  class="d-block w-50 center"
+                  id="targetImg"
+                  style={{
+                    width: "400px",
+                    height: "540px",
+                    marginLeft: "25px",
+                  }}
+                  src={dressImg[0]} //previewImg배열 하나하나요소가 src에 들어가야 함.
                   alt="..."
                 />
+                <br />
+                <div className="itemName" style={{ marginTop: "-10px" }}>
+                  {dressItemName[0]}&nbsp;&nbsp; ❤️{dressItemLike[0]}
+                </div>
               </div>
-              <div class="carousel-item">
-                <img
-                  src="https://www.iwedding.co.kr/center/iweddingb/product/500_2146_1674021540_85005600_3232256098.jpg"
-                  class="d-block w-50 center"
-                  alt="..."
-                />
-              </div>
-              <div class="carousel-item">
-                <img
-                  src="https://www.iwedding.co.kr/center/iweddingb/product/500_4796_1679476532_21876000_3232256099.jpg"
-                  class="d-block w-50 center"
-                  alt="..."
-                />
-              </div>
+
+              {dressKeyIndex.map((i) =>
+                i === 0 ? null : (
+                  <div
+                    class="carousel-item"
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      width: "500px",
+                      height: "600px",
+                    }}
+                  >
+                    <img
+                      style={{
+                        width: "400px",
+                        height: "540px",
+                        marginLeft: "25px",
+                      }}
+                      src={dressImg[i]}
+                      alt="..."
+                    />
+                    <br />
+                    <div className="itemName" style={{ marginTop: "-10px" }}>
+                      {dressItemName[i]} &nbsp;&nbsp;❤️{dressItemLike[i]}
+                    </div>
+                  </div>
+                )
+              )}
             </div>
             <button
               class="carousel-control-prev"
@@ -785,7 +972,6 @@ function Home() {
             </button>
           </div>
           <br />
-          <div className="itemName">(이름) (좋아요수)</div>
           <hr />
           <h4 id="scrollspyHeading4">
             <svg
@@ -817,27 +1003,60 @@ function Home() {
             data-bs-ride="carousel"
           >
             <div class="carousel-inner">
-              <div class="carousel-item active">
+              <div
+                class="carousel-item active"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  width: "500px",
+                  height: "550px",
+                }}
+              >
                 <img
-                  src="https://www.iwedding.co.kr/center/iweddingb/product/500_17899_1680240930_80728900_3232256100.jpg"
-                  class="d-block w-50 center"
+                  id="targetImg"
+                  style={{
+                    width: "400px",
+                    height: "500px",
+                    marginLeft: "25px",
+                  }}
+                  src={makeupImg[0]} //previewImg배열 하나하나요소가 src에 들어가야 함.
                   alt="..."
                 />
+                <br />
+                <div className="itemName" style={{ marginTop: "-10px" }}>
+                  {makeupItemName[0]}&nbsp;&nbsp; ❤️{makeupItemLike[0]}
+                </div>
               </div>
-              <div class="carousel-item">
-                <img
-                  src="https://www.iwedding.co.kr/center/iweddingb/product/500_17887_1680057964_58033100_3232256098.jpg"
-                  class="d-block w-50 center"
-                  alt="..."
-                />
-              </div>
-              <div class="carousel-item">
-                <img
-                  src="https://www.iwedding.co.kr/center/iweddingb/product/500_10585_1666061021_36682900_3232256100.jpg"
-                  class="d-block w-50 center"
-                  alt="..."
-                />
-              </div>
+
+              {makeupKeyIndex.map((i) =>
+                i === 0 ? null : (
+                  <div
+                    class="carousel-item"
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      width: "500px",
+                      height: "550px",
+                    }}
+                  >
+                    <img
+                      style={{
+                        width: "400px",
+                        height: "500px",
+                        marginLeft: "25px",
+                      }}
+                      src={makeupImg[i]}
+                      alt="..."
+                    />
+                    <br />
+                    <div className="itemName" style={{ marginTop: "-10px" }}>
+                      {makeupItemName[i]} &nbsp;&nbsp;❤️{makeupItemLike[i]}
+                    </div>
+                  </div>
+                )
+              )}
             </div>
             <button
               class="carousel-control-prev"
@@ -865,7 +1084,7 @@ function Home() {
             </button>
           </div>
           <br />
-          <div className="itemName">(이름) (좋아요수)</div>
+
           <hr />
           <h4 id="scrollspyHeading5">
             <svg
@@ -897,27 +1116,61 @@ function Home() {
             data-bs-ride="carousel"
           >
             <div class="carousel-inner">
-              <div class="carousel-item active">
+              <div
+                class="carousel-item active"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  width: "500px",
+                  height: "450px",
+                }}
+              >
                 <img
-                  src="https://www.iwedding.co.kr/center/iweddingb/product/500_17466_1669598578_99049200_3232256099.jpg"
-                  class="d-block w-50 center"
+                  id="targetImg"
+                  style={{
+                    width: "400px",
+                    height: "400px",
+                    marginLeft: "25px",
+                  }}
+                  src={honeyMoonImg[0]} //previewImg배열 하나하나요소가 src에 들어가야 함.
                   alt="..."
                 />
+                <br />
+                <div className="itemName" style={{ marginTop: "-10px" }}>
+                  {honeyMoonItemName[0]}&nbsp;&nbsp; ❤️{honeyMoonItemLike[0]}
+                </div>
               </div>
-              <div class="carousel-item">
-                <img
-                  src="https://www.iwedding.co.kr/center/iweddingb/product/500_17444_1669461045_65305200_3232256099.jpg"
-                  class="d-block w-50 center"
-                  alt="..."
-                />
-              </div>
-              <div class="carousel-item">
-                <img
-                  src="https://www.iwedding.co.kr/center/iweddingb/product/500_17127_1668576642_85590400_3232256098.jpg"
-                  class="d-block w-50 center"
-                  alt="..."
-                />
-              </div>
+
+              {honeyMoonKeyIndex.map((i) =>
+                i === 0 ? null : (
+                  <div
+                    class="carousel-item"
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      width: "500px",
+                      height: "450px",
+                    }}
+                  >
+                    <img
+                      style={{
+                        width: "400px",
+                        height: "400px",
+                        marginLeft: "25px",
+                      }}
+                      src={honeyMoonImg[i]}
+                      alt="..."
+                    />
+                    <br />
+                    <div className="itemName" style={{ marginTop: "-10px" }}>
+                      {honeyMoonItemName[i]} &nbsp;&nbsp;❤️
+                      {honeyMoonItemLike[i]}
+                    </div>
+                  </div>
+                )
+              )}
             </div>
             <button
               class="carousel-control-prev"
@@ -945,7 +1198,7 @@ function Home() {
             </button>
           </div>
           <br />
-          <div className="itemName">(이름) (좋아요수)</div>
+
           <hr />
           <h4 id="scrollspyHeading6">
             <svg
@@ -977,27 +1230,60 @@ function Home() {
             data-bs-ride="carousel"
           >
             <div class="carousel-inner">
-              <div class="carousel-item active">
+              <div
+                class="carousel-item active"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  width: "500px",
+                  height: "450px",
+                }}
+              >
                 <img
-                  src="https://www.iwedding.co.kr/center/iweddingb/product/500_17986_1682324127_28953000_3232256099.jpg"
-                  class="d-block w-50 center"
+                  id="targetImg"
+                  style={{
+                    width: "400px",
+                    height: "400px",
+                    marginLeft: "25px",
+                  }}
+                  src={bouquetImg[0]} //previewImg배열 하나하나요소가 src에 들어가야 함.
                   alt="..."
                 />
+                <br />
+                <div className="itemName" style={{ marginTop: "-10px" }}>
+                  {bouquetItemName[0]}&nbsp;&nbsp; ❤️{bouquetItemLike[0]}
+                </div>
               </div>
-              <div class="carousel-item">
-                <img
-                  src="https://www.iwedding.co.kr/center/iweddingb/product/500_17910_1680587270_66029500_3232256099.png"
-                  class="d-block w-50 center"
-                  alt="..."
-                />
-              </div>
-              <div class="carousel-item">
-                <img
-                  src="https://www.iwedding.co.kr/center/iweddingb/product/500_17907_1680587156_29324700_3232256099.jpg"
-                  class="d-block w-50 center"
-                  alt="..."
-                />
-              </div>
+
+              {bouquetKeyIndex.map((i) =>
+                i === 0 ? null : (
+                  <div
+                    class="carousel-item"
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      width: "500px",
+                      height: "450px",
+                    }}
+                  >
+                    <img
+                      style={{
+                        width: "400px",
+                        height: "400px",
+                        marginLeft: "25px",
+                      }}
+                      src={bouquetImg[i]}
+                      alt="..."
+                    />
+                    <br />
+                    <div className="itemName" style={{ marginTop: "-10px" }}>
+                      {bouquetItemName[i]} &nbsp;&nbsp;❤️{bouquetItemLike[i]}
+                    </div>
+                  </div>
+                )
+              )}
             </div>
             <button
               class="carousel-control-prev"
@@ -1025,7 +1311,6 @@ function Home() {
             </button>
           </div>
           <br />
-          <div className="itemName">(이름) (좋아요수)</div>
         </div>
       </div>
       <div style={{ height: 94.19 }}></div>
@@ -1045,57 +1330,3 @@ function Home() {
 }
 
 export default Home;
-
-const CarouselItem = ({ category1, previewImg, index }) => {
-  const [itemId, setItemId] = useState([]);
-  const [item, setItem] = useState([]);
-  const [itemName, setItemName] = useState([]);
-  const [itemLike, setItemLike] = useState([]);
-
-  useLayoutEffect(() => {
-    axios
-      .get(`/item/itemList/${category1}`)
-      .then((res) => {
-        const dataList = res.data;
-
-        var list = [];
-        var itemData = [];
-        var itemLike = [];
-        var itemName = [];
-        for (var i = 0; i < dataList.length; i++) {
-          if (i % 2 === 1) {
-            let newitemId = dataList[i];
-
-            list.push(newitemId);
-            setItemId(list);
-            axios
-              .get(`/item/getItemList/${newitemId}`)
-              .then((res) => {
-                itemData.push(res.data);
-                setItem(itemData);
-                itemName.push(res.data.itemName);
-                setItemName(itemName);
-                itemLike.push(res.data.like.length);
-                setItemLike(itemLike);
-              })
-              .catch((e) => {
-                console.log(e);
-              });
-          }
-        }
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  }, []);
-
-  return (
-    <div class="carousel-item">
-      <img src={previewImg} class="d-block w-50 center" alt="..." />
-      <br />
-      <div className="itemName">
-        {itemName[index]} {itemLike[index]}
-      </div>
-    </div>
-  );
-};
