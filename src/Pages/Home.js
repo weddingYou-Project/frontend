@@ -676,7 +676,7 @@ function Home() {
                   <h1
                     class="modal-title justify-content-center "
                     id="imgDetailModal"
-                    style={{ fontSize: "1.5em" }}
+                    style={{ fontSize: "1.9em" }}
                   >
                     - {category[0]} -
                   </h1>
@@ -718,9 +718,8 @@ function Home() {
                     />
                     <div
                       style={{
-                        fontSize: "1.6em",
+                        fontSize: "1.5em",
                         padding: "10px",
-                        border: "1px solid black",
                       }}
                     >
                       상세정보
@@ -729,7 +728,7 @@ function Home() {
                       style={{
                         fontSize: "1.3em",
                         width: "460px",
-
+                        border: "1px solid black",
                         padding: "10px",
                       }}
                       ref={modalImgContent}
