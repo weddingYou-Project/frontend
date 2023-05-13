@@ -713,10 +713,11 @@ function Home() {
                     <img
                       src=""
                       style={{
-                        width: "470px",
-                        height: "440px",
+                        width: "430px",
+                        height: "470px",
                         marginBottom: "20px",
                         marginTop: "-50px",
+                        marginLeft: "20px",
                       }}
                       alt=""
                       ref={modalImg}
