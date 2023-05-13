@@ -126,7 +126,7 @@ function Mypage() {
           reader.readAsDataURL(blob);
         })
         .catch((e) => {
-          console.log(e);
+          setPreviewUrl(profileimage);
         });
     }
   };
