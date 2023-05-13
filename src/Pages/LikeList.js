@@ -45,6 +45,11 @@ function LikeList() {
     setLikeState(newlikeState);
     setSelectedItemId(e.target.dataset.id);
     setSelectedIndex(parseInt(e.target.dataset.index));
+    if (likeState[index] === true) {
+      itemLike[index]--;
+    } else {
+      itemLike[index]++;
+    }
   };
 
   const navigate = useNavigate();
@@ -123,12 +128,15 @@ function LikeList() {
   console.log(keyIndex);
   console.log(itemId);
   console.log(likeState);
+  console.log(itemLike);
 
   const Like = ({ likeState, index }) => {
     const id = itemId[itemId.length - 1 - index];
     // console.log("itemid:" + id);
     //console.log("index" + index);
-    console.log(index);
+    console.log("itemLike:" + itemLike[index]);
+    console.log("selectedIndex:" + selectedIndex);
+    console.log("likeState: " + likeState);
 
     if (likeState[index] === true) {
       return (
