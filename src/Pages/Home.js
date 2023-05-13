@@ -96,6 +96,10 @@ function Home() {
     setSearchItem(event.target.value);
   };
 
+  const gotoDetailInfo = (e) => {
+    navigate("/imgDetail");
+  };
+
   useEffect(() => {
     //웨딩홀
     axios
@@ -729,6 +733,18 @@ function Home() {
                       }}
                     >
                       상세정보
+                      <button
+                        style={{
+                          marginLeft: "240px",
+                          width: "130px",
+                          marginBottom: "10px",
+                          fontSize: "1em",
+                          //    backgroundColor: "#fcc7e1",
+                          border: "grey 1px solid",
+                        }}
+                      >
+                        ❤️ 찜하기
+                      </button>
                     </div>
                     <p
                       style={{
@@ -742,6 +758,14 @@ function Home() {
                   </div>
                 </div>
                 <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                    onClick={gotoDetailInfo}
+                  >
+                    상세정보 페이지 이동
+                  </button>
                   <button
                     type="button"
                     class="btn btn-primary"
