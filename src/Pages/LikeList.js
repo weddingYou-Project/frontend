@@ -22,6 +22,7 @@ function LikeList() {
   const [itemName, setItemName] = useState([]);
   const [itemLike, setItemLike] = useState([]);
   const [keyIndex, setKeyIndex] = useState([]);
+  const [likeDate, setLikeDate] = useState([]);
   let keyIndexArr = [];
   let list = [];
   let itemDataArr = [];
@@ -61,11 +62,11 @@ function LikeList() {
         if (dataList.length !== 0) {
           let index = 0;
           for (var i = 0; i < dataList.length; i++) {
-            if (i % 2 === 0) {
+            if (i % 3 === 0) {
               let dataUrl = "data:image/jpeg;base64," + dataList[i];
               previewImgArr.push(dataUrl);
               setPreviewImg(previewImgArr);
-            } else {
+            } else if (i % 3 === 1) {
               let newitemId = dataList[i];
               list.push(newitemId);
               setItemId(list);
@@ -80,11 +81,12 @@ function LikeList() {
                   itemDataArr.push(newItem);
                   itemDataArr.sort(function (a, b) {
                     return (
-                      new Date(b.itemWriteDate) - new Date(a.itemWriteDate)
+                      new Date(b.likeWriteDate) - new Date(a.likeWriteDate)
                     );
                   });
                   setItem([...item, newItem]);
                   setItem(itemDataArr);
+                  console.log(itemDataArr);
                   let itemNameList = [];
                   let itemLikeList = [];
                   for (var j = 0; j < itemDataArr.length; j++) {
@@ -99,6 +101,9 @@ function LikeList() {
                 .catch((e) => {
                   console.log(e);
                 });
+            } else {
+              let date = dataList[i];
+              setLikeDate();
             }
           }
         }
@@ -110,6 +115,9 @@ function LikeList() {
 
   console.log("selectedIndex:" + selectedIndex);
   console.log("likeSelect: " + likeSelect);
+  console.log(keyIndex);
+  console.log(item);
+
   const Like = ({ likeSelect, index }) => {
     const id = itemId[index];
     // console.log("itemid:" + id);
@@ -319,7 +327,7 @@ function LikeList() {
                 <div class="card margT">
                   <img
                     style={{ height: "230px" }}
-                    src={previewImg[i]}
+                    src={previewImg[keyIndex.length - i - 1]}
                     class="card-img-top"
                     alt="..."
                   />
