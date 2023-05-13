@@ -3,8 +3,8 @@ import "../Css/Home.css";
 import "../Css/LikeList.css";
 import Footer from "../Components/Footer";
 import NavigationBar from "../Components/NavigationBar";
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect, useLayoutEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 
 function LikeList() {
@@ -53,6 +53,7 @@ function LikeList() {
   };
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleItemClick = (item) => {
     setSelectedItem(item); // 선택한 아이템으로 버튼명 변경
@@ -68,7 +69,7 @@ function LikeList() {
       .post(`/like/list`, { email: sessionStorage.getItem("email") })
       .then((res) => {
         const dataList = res.data;
-        console.log(dataList);
+
         if (dataList.length !== 0) {
           let index = 0;
           for (var i = 0; i < dataList.length; i++) {
@@ -88,7 +89,6 @@ function LikeList() {
               axios
                 .get(`/item/getItemList/${newitemId}`)
                 .then((res) => {
-                  console.log(res.data);
                   let newItem = res.data;
                   itemDataArr.push(newItem);
                   itemDataArr.sort(function (a, b) {
@@ -98,7 +98,7 @@ function LikeList() {
                   });
                   setItem([...item, newItem]);
                   setItem(itemDataArr);
-                  console.log(itemDataArr);
+
                   let itemNameList = [];
                   let itemLikeList = [];
                   for (var j = 0; j < itemDataArr.length; j++) {
@@ -123,20 +123,47 @@ function LikeList() {
       });
   }, []);
 
-  console.log("selectedIndex:" + selectedIndex);
-  console.log("likeSelect: " + likeSelect);
-  console.log(keyIndex);
-  console.log(itemId);
-  console.log(likeState);
-  console.log(itemLike);
+  useEffect(() => {
+    console.log(1111);
+    console.log("keyIndex:" + keyIndex);
+    console.log("likeState:" + likeState);
+    console.log(itemId);
+    keyIndex.forEach((index) => {
+      //   console.log(itemId[index]);
+      //  console.log(likeState[index]);
+
+      if (likeState[index] === false) {
+        console.log("deleteitem:" + itemId[itemId.length - 1 - index]);
+        axios
+          .post(`/like/delete`, {
+            itemId: itemId[itemId.length - 1 - index],
+            email: sessionStorage.getItem("email"),
+          })
+          .then((res) => {
+            console.log("delete");
+            console.log(res);
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      } else {
+        axios
+          .post(`/like/create`, {
+            itemId: itemId[itemId.length - 1 - index],
+            email: sessionStorage.getItem("email"),
+          })
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      }
+    });
+  }, [likeState]);
 
   const Like = ({ likeState, index }) => {
     const id = itemId[itemId.length - 1 - index];
-    // console.log("itemid:" + id);
-    //console.log("index" + index);
-    console.log("itemLike:" + itemLike[index]);
-    console.log("selectedIndex:" + selectedIndex);
-    console.log("likeState: " + likeState);
 
     if (likeState[index] === true) {
       return (
@@ -204,17 +231,17 @@ function LikeList() {
 
     // if (likeSelect === true && selectedIndex === index) {
     //   //likebtn 취소했을 때 selected 된 아이템
-    //   // axios
-    //   //   .post(`/like/delete`, {
-    //   //     itemId: id,
-    //   //     email: sessionStorage.getItem("email"),
-    //   //   })
-    //   //   .then((res) => {
-    //   //     console.log(res);
-    //   //   })
-    //   //   .catch((e) => {
-    //   //     console.log(e);
-    //   //   });
+    //   axios
+    //     .post(`/like/delete`, {
+    //       itemId: id,
+    //       email: sessionStorage.getItem("email"),
+    //     })
+    //     .then((res) => {
+    //       console.log(res);
+    //     })
+    //     .catch((e) => {
+    //       console.log(e);
+    //     });
     // }
   };
   return (

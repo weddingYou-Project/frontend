@@ -120,7 +120,6 @@ function Home() {
               axios
                 .get(`/item/getItemList/${newitemId}`)
                 .then((res) => {
-                  console.log(res.data);
                   let newItem = res.data;
                   itemDataArr.push(newItem);
                   itemDataArr.sort(function (a, b) {
@@ -174,7 +173,6 @@ function Home() {
               axios
                 .get(`/item/getItemList/${newitemId}`)
                 .then((res) => {
-                  console.log(res.data);
                   let newItem = res.data;
                   itemDataArr1.push(newItem);
                   itemDataArr1.sort(function (a, b) {
@@ -184,7 +182,7 @@ function Home() {
                   });
                   setStudioItem([...studioItem, newItem]);
                   setStudioItem(itemDataArr1);
-                  console.log(itemDataArr1);
+
                   let itemNameList = [];
                   let itemLikeList = [];
                   for (var j = 0; j < itemDataArr1.length; j++) {
@@ -229,7 +227,6 @@ function Home() {
               axios
                 .get(`/item/getItemList/${newitemId}`)
                 .then((res) => {
-                  console.log(res.data);
                   let newItem = res.data;
                   itemDataArr2.push(newItem);
                   itemDataArr2.sort(function (a, b) {
@@ -283,7 +280,6 @@ function Home() {
               axios
                 .get(`/item/getItemList/${newitemId}`)
                 .then((res) => {
-                  console.log(res.data);
                   let newItem = res.data;
                   itemDataArr3.push(newItem);
                   itemDataArr3.sort(function (a, b) {
@@ -337,7 +333,6 @@ function Home() {
               axios
                 .get(`/item/getItemList/${newitemId}`)
                 .then((res) => {
-                  console.log(res.data);
                   let newItem = res.data;
                   itemDataArr4.push(newItem);
                   itemDataArr4.sort(function (a, b) {
@@ -391,7 +386,6 @@ function Home() {
               axios
                 .get(`/item/getItemList/${newitemId}`)
                 .then((res) => {
-                  console.log(res.data);
                   let newItem = res.data;
                   itemDataArr5.push(newItem);
                   itemDataArr5.sort(function (a, b) {
@@ -423,17 +417,6 @@ function Home() {
         console.log(e);
       });
   }, []);
-
-  console.log("itemId:" + itemId);
-  //console.log("item:" + item[0].itemName);
-  console.log("itemNmae:" + itemName);
-  // console.log("itemNameArr:" + itemNameArr);
-  console.log("itemLike:" + itemLike);
-  console.log("keyindex:" + keyIndex);
-  console.log(studioItemLike);
-  console.log(studioItemName);
-  console.log(studioImg);
-  console.log(studioItemId);
 
   const modalImg = useRef();
   const modalImgContent = useRef();
