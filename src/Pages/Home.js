@@ -20,8 +20,6 @@ function Home() {
 
   const [searchItem, setSearchItem] = useState("");
 
-  const [category1, setCategory1] = useState("웨딩홀");
-
   const [previewImg, setPreviewImg] = useState([]);
   const [itemId, setItemId] = useState([]);
   const [item, setItem] = useState([]);
