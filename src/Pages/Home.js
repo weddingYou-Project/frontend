@@ -449,7 +449,15 @@ function Home() {
   return (
     <div className="mainlayout">
       <div className="header">
-        <img className="mainlogo" src={imgLogo} alt="로고" />
+        <img
+          className="mainlogo"
+          src={imgLogo}
+          style={{ cursor: "pointer" }}
+          onClick={() => {
+            navigate("/login");
+          }}
+          alt="로고"
+        />
         <input
           type="text"
           name="search"
@@ -577,7 +585,7 @@ function Home() {
                   id={0}
                   style={{
                     width: "400px",
-                    height: "350px",
+                    height: "340px",
                     marginLeft: "25px",
                     cursor: "pointer",
                   }}
@@ -611,7 +619,7 @@ function Home() {
                     <img
                       style={{
                         width: "400px",
-                        height: "350px",
+                        height: "340px",
                         marginLeft: "25px",
                         cursor: "pointer",
                       }}
@@ -784,14 +792,14 @@ function Home() {
                   flexDirection: "column",
                   alignItems: "center",
                   width: "500px",
-                  height: "500px",
+                  height: "450px",
                 }}
               >
                 <img
                   id="targetImg"
                   style={{
                     width: "400px",
-                    height: "450px",
+                    height: "400px",
                     marginLeft: "25px",
                     cursor: "pointer",
                   }}
@@ -819,13 +827,13 @@ function Home() {
                       flexDirection: "column",
                       alignItems: "center",
                       width: "500px",
-                      height: "500px",
+                      height: "450px",
                     }}
                   >
                     <img
                       style={{
                         width: "400px",
-                        height: "450px",
+                        height: "400px",
                         marginLeft: "25px",
                         cursor: "pointer",
                       }}
@@ -911,15 +919,15 @@ function Home() {
                   flexDirection: "column",
                   alignItems: "center",
                   width: "500px",
-                  height: "600px",
+                  height: "530px",
                 }}
               >
                 <img
                   id="targetImg"
                   style={{
                     width: "400px",
-                    height: "540px",
-                    marginLeft: "25px",
+                    height: "480px",
+                    marginLeft: "20px",
                     cursor: "pointer",
                   }}
                   data-bs-toggle="modal"
@@ -946,14 +954,14 @@ function Home() {
                       flexDirection: "column",
                       alignItems: "center",
                       width: "500px",
-                      height: "600px",
+                      height: "530px",
                     }}
                   >
                     <img
                       style={{
                         width: "400px",
-                        height: "540px",
-                        marginLeft: "25px",
+                        height: "480px",
+                        marginLeft: "20px",
                         cursor: "pointer",
                       }}
                       data-bs-toggle="modal"
@@ -1037,14 +1045,14 @@ function Home() {
                   flexDirection: "column",
                   alignItems: "center",
                   width: "500px",
-                  height: "550px",
+                  height: "530px",
                 }}
               >
                 <img
                   id="targetImg"
                   style={{
                     width: "400px",
-                    height: "500px",
+                    height: "460px",
                     marginLeft: "25px",
                     cursor: "pointer",
                   }}
@@ -1072,13 +1080,13 @@ function Home() {
                       flexDirection: "column",
                       alignItems: "center",
                       width: "500px",
-                      height: "550px",
+                      height: "530px",
                     }}
                   >
                     <img
                       style={{
                         width: "400px",
-                        height: "500px",
+                        height: "460px",
                         marginLeft: "25px",
                         cursor: "pointer",
                       }}
@@ -1164,14 +1172,14 @@ function Home() {
                   flexDirection: "column",
                   alignItems: "center",
                   width: "500px",
-                  height: "450px",
+                  height: "430px",
                 }}
               >
                 <img
                   id="targetImg"
                   style={{
                     width: "400px",
-                    height: "400px",
+                    height: "380px",
                     marginLeft: "25px",
                     cursor: "pointer",
                   }}
@@ -1199,13 +1207,13 @@ function Home() {
                       flexDirection: "column",
                       alignItems: "center",
                       width: "500px",
-                      height: "450px",
+                      height: "430px",
                     }}
                   >
                     <img
                       style={{
                         width: "400px",
-                        height: "400px",
+                        height: "380px",
                         marginLeft: "25px",
                         cursor: "pointer",
                       }}
