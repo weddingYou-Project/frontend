@@ -22,23 +22,28 @@ function LikeList() {
   const [itemName, setItemName] = useState([]);
   const [itemLike, setItemLike] = useState([]);
   const [keyIndex, setKeyIndex] = useState([]);
-  const [likeDate, setLikeDate] = useState([]);
+  const [deleteItemId, setDeleteItemId] = useState([]);
   let keyIndexArr = [];
   let list = [];
   let itemDataArr = [];
   let previewImgArr = [];
+  let likeIndexArr = [];
   const [selectedItem, setSelectedItem] = useState("카테고리"); // 초기 버튼명 설정
   const [selectedSort, setSelectedSort] = useState("정렬"); // 초기 버튼명 설정
   const [selectedItemId, setSelectedItemId] = useState("");
   const [selectedIndex, setSelectedIndex] = useState();
+  const [prevSelectedIndex, setPrevSelectedIndex] = useState();
+  const [likeState, setLikeState] = useState([]);
 
   const [likeSelect, setLikeSelect] = useState(true);
 
   const handleHeartClick = (e) => {
-    console.log("id:" + e.target.dataset.id);
-    setLikeSelect(!likeSelect);
+    let newlikeState = [...likeState];
+    let index = parseInt(e.target.dataset.index);
+    let prevState = newlikeState.slice(index, index + 1);
+    newlikeState.splice(index, 1, !prevState[0]);
+    setLikeState(newlikeState);
     setSelectedItemId(e.target.dataset.id);
-    console.log(e);
     setSelectedIndex(parseInt(e.target.dataset.index));
   };
 
@@ -73,6 +78,8 @@ function LikeList() {
               keyIndexArr.push(index);
               index++;
               setKeyIndex(keyIndexArr);
+              likeIndexArr.push(true);
+              setLikeState(likeIndexArr);
               axios
                 .get(`/item/getItemList/${newitemId}`)
                 .then((res) => {
@@ -115,30 +122,15 @@ function LikeList() {
   console.log("likeSelect: " + likeSelect);
   console.log(keyIndex);
   console.log(itemId);
+  console.log(likeState);
 
-  const Like = ({ likeSelect, index }) => {
+  const Like = ({ likeState, index }) => {
     const id = itemId[itemId.length - 1 - index];
     // console.log("itemid:" + id);
-    // console.log("index" + index);
+    //console.log("index" + index);
+    console.log(index);
 
-    if (
-      likeSelect === true ||
-      (likeSelect === false && selectedIndex !== index)
-    ) {
-      if (likeSelect === true && selectedIndex === index) {
-        //likebtn다시 눌렀을 때 selected된 아이템
-        axios
-          .post(`/like/create`, {
-            itemId: id,
-            email: sessionStorage.getItem("email"),
-          })
-          .then((res) => {
-            console.log(res);
-          })
-          .catch((e) => {
-            console.error(e);
-          });
-      }
+    if (likeState[index] === true) {
       return (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -160,21 +152,7 @@ function LikeList() {
           />
         </svg>
       );
-    }
-
-    if (likeSelect === false && selectedIndex === index) {
-      //likebtn 취소했을 때 selected 된 아이템
-      axios
-        .post(`/like/delete`, {
-          itemId: id,
-          email: sessionStorage.getItem("email"),
-        })
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+    } else {
       return (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -196,6 +174,40 @@ function LikeList() {
         </svg>
       );
     }
+    // if (
+    //   (likeSelect === true && selectedIndex === undefined) ||
+    //   (likeSelect === false && selectedIndex !== index)
+    // ) {
+    //   if (likeSelect === true && selectedIndex === index) {
+    //     //likebtn다시 눌렀을 때 selected된 아이템
+    //     // axios
+    //     //   .post(`/like/create`, {
+    //     //     itemId: id,
+    //     //     email: sessionStorage.getItem("email"),
+    //     //   })
+    //     //   .then((res) => {
+    //     //     console.log(res);
+    //     //   })
+    //     //   .catch((e) => {
+    //     //     console.log(e);
+    //     //   });
+    //   }
+    // }
+
+    // if (likeSelect === true && selectedIndex === index) {
+    //   //likebtn 취소했을 때 selected 된 아이템
+    //   // axios
+    //   //   .post(`/like/delete`, {
+    //   //     itemId: id,
+    //   //     email: sessionStorage.getItem("email"),
+    //   //   })
+    //   //   .then((res) => {
+    //   //     console.log(res);
+    //   //   })
+    //   //   .catch((e) => {
+    //   //     console.log(e);
+    //   //   });
+    // }
   };
   return (
     <div className="mainlayout">
@@ -333,7 +345,7 @@ function LikeList() {
                     <p class="card-text">
                       {itemName[i]} &nbsp;&nbsp;
                       <div className="likeListBtn1">
-                        <Like likeSelect={likeSelect} index={i} />
+                        <Like likeState={likeState} index={i} />
                       </div>
                       {itemLike[i]}
                     </p>
