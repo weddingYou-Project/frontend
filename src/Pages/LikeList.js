@@ -29,9 +29,9 @@ function LikeList() {
   const [selectedItem, setSelectedItem] = useState("카테고리"); // 초기 버튼명 설정
   const [selectedSort, setSelectedSort] = useState("정렬"); // 초기 버튼명 설정
   const [selectedItemId, setSelectedItemId] = useState("");
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [selectedIndex, setSelectedIndex] = useState();
 
-  const [likeSelect, setLikeSelect] = useState(false);
+  const [likeSelect, setLikeSelect] = useState(true);
 
   const handleHeartClick = (e) => {
     console.log("id:" + e.target.dataset.id);
@@ -108,18 +108,31 @@ function LikeList() {
       });
   }, []);
 
-  useEffect(() => {}, [selectedItem, selectedSort, likeSelect]);
-
   console.log("selectedIndex:" + selectedIndex);
-  console.log("like" + likeSelect);
+  console.log("likeSelect: " + likeSelect);
   const Like = ({ likeSelect, index }) => {
     const id = itemId[index];
-    console.log("itemid:" + id);
-    console.log("index" + index);
+    // console.log("itemid:" + id);
+    // console.log("index" + index);
+
     if (
-      likeSelect === false ||
-      (likeSelect === true && selectedIndex !== index)
+      likeSelect === true ||
+      (likeSelect === false && selectedIndex !== index)
     ) {
+      if (likeSelect === true && selectedIndex === index) {
+        //likebtn다시 눌렀을 때 selected된 아이템
+        axios
+          .post(`/like/create`, {
+            itemId: id,
+            email: sessionStorage.getItem("email"),
+          })
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((e) => {
+            console.error(e);
+          });
+      }
       return (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -141,7 +154,21 @@ function LikeList() {
           />
         </svg>
       );
-    } else if (likeSelect === true && selectedIndex === index) {
+    }
+
+    if (likeSelect === false && selectedIndex === index) {
+      //likebtn 취소했을 때 selected 된 아이템
+      axios
+        .post(`/like/delete`, {
+          itemId: id,
+          email: sessionStorage.getItem("email"),
+        })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
       return (
         <svg
           xmlns="http://www.w3.org/2000/svg"
