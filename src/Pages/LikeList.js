@@ -102,8 +102,6 @@ function LikeList() {
                   console.log(e);
                 });
             } else {
-              let date = dataList[i];
-              setLikeDate();
             }
           }
         }
@@ -116,10 +114,10 @@ function LikeList() {
   console.log("selectedIndex:" + selectedIndex);
   console.log("likeSelect: " + likeSelect);
   console.log(keyIndex);
-  console.log(item);
+  console.log(itemId);
 
   const Like = ({ likeSelect, index }) => {
-    const id = itemId[index];
+    const id = itemId[itemId.length - 1 - index];
     // console.log("itemid:" + id);
     // console.log("index" + index);
 
