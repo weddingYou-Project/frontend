@@ -100,6 +100,7 @@ function Home() {
   let likeIndexArr5 = [];
 
   const [likseSelect, setLikeSelect] = useState(false);
+  const [modalBackgroundColor, setChangeModalBackgroundColor] = useState(false);
 
   const modalImg = useRef();
   const modalImgContent = useRef();
@@ -568,49 +569,85 @@ function Home() {
     const index = e.target.dataset.bsKeyindex;
     modalItemId.current.id = e.target.dataset.bsItemid;
     modalItemId.current.dataset.index = index;
+
     if (e.target.dataset.bsCategory === category[0]) {
       modalItemId.current.dataset.category = category[0];
       modalImgContent.current.innerText = item[index].imgContent;
       modalImgTitle.current.innerText = `- ${item[index].itemName} -`;
+      if (weddingHallLikeState[index] === true) {
+        modalItemId.current.style.backgroundColor = "#fce1e4";
+      } else {
+        modalItemId.current.style.backgroundColor = "#ebebeb";
+      }
     } else if (e.target.dataset.bsCategory === category[1]) {
       modalItemId.current.dataset.category = category[1];
       modalImgContent.current.innerText = studioItem[index].imgContent;
       modalImgTitle.current.innerText = `- ${studioItem[index].itemName} -`;
+      if (studioLikeState[index] === true) {
+        modalItemId.current.style.backgroundColor = "#fce1e4";
+      } else {
+        modalItemId.current.style.backgroundColor = "#ebebeb";
+      }
     } else if (e.target.dataset.bsCategory === category[2]) {
       modalItemId.current.dataset.category = category[2];
       modalImgContent.current.innerText = dressItem[index].imgContent;
       modalImgTitle.current.innerText = `- ${dressItem[index].itemName} -`;
+      if (dressLikeState[index] === true) {
+        modalItemId.current.style.backgroundColor = "#fce1e4";
+      } else {
+        modalItemId.current.style.backgroundColor = "#ebebeb";
+      }
     } else if (e.target.dataset.bsCategory === category[3]) {
       modalItemId.current.dataset.category = category[3];
       modalImgContent.current.innerText = makeupItem[index].imgContent;
       modalImgTitle.current.innerText = `- ${makeupItem[index].itemName} -`;
+      if (makeupLikeState[index] === true) {
+        modalItemId.current.style.backgroundColor = "#fce1e4";
+      } else {
+        modalItemId.current.style.backgroundColor = "#ebebeb";
+      }
     } else if (e.target.dataset.bsCategory === category[4]) {
       modalItemId.current.dataset.category = category[4];
       modalImgContent.current.innerText = honeyMoonItem[index].imgContent;
       modalImgTitle.current.innerText = `- ${honeyMoonItem[index].itemName} -`;
+      if (honeyMoonLikeState[index] === true) {
+        modalItemId.current.style.backgroundColor = "#fce1e4";
+      } else {
+        modalItemId.current.style.backgroundColor = "#ebebeb";
+      }
     } else if (e.target.dataset.bsCategory === category[5]) {
       modalItemId.current.dataset.category = category[5];
       modalImgContent.current.innerText = bouquetItem[index].imgContent;
       modalImgTitle.current.innerText = `- ${bouquetItem[index].itemName} -`;
+      if (bouquetLikeState[index] === true) {
+        modalItemId.current.style.backgroundColor = "#fce1e4";
+      } else {
+        modalItemId.current.style.backgroundColor = "#ebebeb";
+      }
     }
   };
 
   const manageLikeLikst = (e) => {
-    console.log(e);
     let newlikeState = undefined;
     const index = modalItemId.current.dataset.index;
-    console.log(index);
+    console.log(e);
     setCheckLike(!checkLike);
     if (modalItemId.current.dataset.category === category[0]) {
       newlikeState = [...weddingHallLikeState];
       let prevState = newlikeState.slice(index, index + 1);
       let changedState = undefined;
       if (prevState[0] === true) {
+        modalItemId.current.style.backgroundColor = "#ebebeb";
         changedState = false;
+        itemLike[index]--;
       } else if (prevState[0] === false) {
+        modalItemId.current.style.backgroundColor = "#fce1e4";
         changedState = true;
+        itemLike[index]++;
       } else {
+        modalItemId.current.style.backgroundColor = "#fce1e4";
         changedState = true;
+        itemLike[index]++;
       }
       newlikeState.splice(index, 1, changedState);
       setWeddingHallLikeState(newlikeState);
@@ -619,11 +656,17 @@ function Home() {
       let prevState = newlikeState.slice(index, index + 1);
       let changedState = undefined;
       if (prevState[0] === true) {
+        modalItemId.current.style.backgroundColor = "#ebebeb";
         changedState = false;
+        studioItemLike[index]--;
       } else if (prevState[0] === false) {
+        modalItemId.current.style.backgroundColor = "#fce1e4";
         changedState = true;
+        studioItemLike[index]++;
       } else {
+        modalItemId.current.style.backgroundColor = "#fce1e4";
         changedState = true;
+        studioItemLike[index]++;
       }
       newlikeState.splice(index, 1, changedState);
       setStudioLikeState(newlikeState);
@@ -632,11 +675,17 @@ function Home() {
       let prevState = newlikeState.slice(index, index + 1);
       let changedState = undefined;
       if (prevState[0] === true) {
+        modalItemId.current.style.backgroundColor = "#ebebeb";
         changedState = false;
+        dressItemLike[index]--;
       } else if (prevState[0] === false) {
+        modalItemId.current.style.backgroundColor = "#fce1e4";
         changedState = true;
+        dressItemLike[index]++;
       } else {
+        modalItemId.current.style.backgroundColor = "#fce1e4";
         changedState = true;
+        dressItemLike[index]++;
       }
       newlikeState.splice(index, 1, changedState);
       setDressLikeState(newlikeState);
@@ -645,11 +694,17 @@ function Home() {
       let prevState = newlikeState.slice(index, index + 1);
       let changedState = undefined;
       if (prevState[0] === true) {
+        modalItemId.current.style.backgroundColor = "#ebebeb";
         changedState = false;
+        makeupItemLike[index]--;
       } else if (prevState[0] === false) {
+        modalItemId.current.style.backgroundColor = "#fce1e4";
         changedState = true;
+        makeupItemLike[index]++;
       } else {
+        modalItemId.current.style.backgroundColor = "#fce1e4";
         changedState = true;
+        makeupItemLike[index]++;
       }
       newlikeState.splice(index, 1, changedState);
       setMakeupLikeState(newlikeState);
@@ -658,11 +713,17 @@ function Home() {
       let prevState = newlikeState.slice(index, index + 1);
       let changedState = undefined;
       if (prevState[0] === true) {
+        modalItemId.current.style.backgroundColor = "#ebebeb";
         changedState = false;
+        honeyMoonItemLike[index]--;
       } else if (prevState[0] === false) {
+        modalItemId.current.style.backgroundColor = "#fce1e4";
         changedState = true;
+        honeyMoonItemLike[index]++;
       } else {
+        modalItemId.current.style.backgroundColor = "#fce1e4";
         changedState = true;
+        honeyMoonItemLike[index]++;
       }
       newlikeState.splice(index, 1, changedState);
       setHoneyMoonLikeState(newlikeState);
@@ -671,53 +732,61 @@ function Home() {
       let prevState = newlikeState.slice(index, index + 1);
       let changedState = undefined;
       if (prevState[0] === true) {
+        modalItemId.current.style.backgroundColor = "#ebebeb";
         changedState = false;
+        bouquetItemLike[index]--;
       } else if (prevState[0] === false) {
+        modalItemId.current.style.backgroundColor = "#fce1e4";
         changedState = true;
+        bouquetItemLike[index]++;
       } else {
+        modalItemId.current.style.backgroundColor = "#fce1e4";
         changedState = true;
+        bouquetItemLike[index]++;
       }
       newlikeState.splice(index, 1, changedState);
       setBouquetLikeState(newlikeState);
     }
   };
-  console.log("weddinghall : ");
-  console.log(weddingHallLikeState);
-  console.log("studio:");
-  console.log(studioLikeState);
-  console.log("dress:");
-  console.log(dressLikeState);
-  console.log("makeup:");
-  console.log(makeupLikeState);
-  console.log("honeymoon:");
-  console.log(honeyMoonLikeState);
-  console.log("bouquet:");
-  console.log(bouquetLikeState);
+  // console.log("weddinghall : ");
+  // console.log(weddingHallLikeState);
+  // console.log("studio:");
+  // console.log(studioLikeState);
+  // console.log("dress:");
+  // console.log(dressLikeState);
+  // console.log("makeup:");
+  // console.log(makeupLikeState);
+  // console.log("honeymoon:");
+  // console.log(honeyMoonLikeState);
+  // console.log("bouquet:");
+  // console.log(bouquetLikeState);
 
   useEffect(() => {
     keyIndex.forEach((index) => {
       if (weddingHallLikeState[index] === false) {
-        console.log("deleteitem:" + itemId[index]);
+        // console.log("deleteitem:" + itemId[index]);
+        setChangeModalBackgroundColor(false);
         axios
           .post(`/like/delete`, {
             itemId: itemId[index],
             email: sessionStorage.getItem("email"),
           })
           .then((res) => {
-            console.log("delete");
-            console.log(res);
+            // console.log("delete");
+            // console.log(res);
           })
           .catch((e) => {
             console.log(e);
           });
       } else if (weddingHallLikeState[index] === true) {
+        setChangeModalBackgroundColor(true);
         axios
           .post(`/like/create`, {
             itemId: itemId[index],
             email: sessionStorage.getItem("email"),
           })
           .then((res) => {
-            console.log(res);
+            // console.log(res);
           })
           .catch((e) => {
             console.log(e);
@@ -726,27 +795,29 @@ function Home() {
     });
     studioKeyIndex.forEach((index) => {
       if (studioLikeState[index] === false) {
-        console.log("deleteitem:" + studioItemId[index]);
+        setChangeModalBackgroundColor(false);
+        // console.log("deleteitem:" + studioItemId[index]);
         axios
           .post(`/like/delete`, {
             itemId: studioItemId[index],
             email: sessionStorage.getItem("email"),
           })
           .then((res) => {
-            console.log("delete");
-            console.log(res);
+            // console.log("delete");
+            // console.log(res);
           })
           .catch((e) => {
             console.log(e);
           });
       } else if (studioLikeState[index] === true) {
+        setChangeModalBackgroundColor(true);
         axios
           .post(`/like/create`, {
             itemId: studioItemId[index],
             email: sessionStorage.getItem("email"),
           })
           .then((res) => {
-            console.log(res);
+            // console.log(res);
           })
           .catch((e) => {
             console.log(e);
@@ -755,27 +826,29 @@ function Home() {
     });
     dressKeyIndex.forEach((index) => {
       if (dressLikeState[index] === false) {
-        console.log("deleteitem:" + dressItemId[index]);
+        setChangeModalBackgroundColor(false);
+        //   console.log("deleteitem:" + dressItemId[index]);
         axios
           .post(`/like/delete`, {
             itemId: dressItemId[index],
             email: sessionStorage.getItem("email"),
           })
           .then((res) => {
-            console.log("delete");
-            console.log(res);
+            //   console.log("delete");
+            //   console.log(res);
           })
           .catch((e) => {
             console.log(e);
           });
       } else if (dressLikeState[index] === true) {
+        setChangeModalBackgroundColor(true);
         axios
           .post(`/like/create`, {
             itemId: dressItemId[index],
             email: sessionStorage.getItem("email"),
           })
           .then((res) => {
-            console.log(res);
+            //   console.log(res);
           })
           .catch((e) => {
             console.log(e);
@@ -784,27 +857,29 @@ function Home() {
     });
     makeupKeyIndex.forEach((index) => {
       if (makeupLikeState[index] === false) {
-        console.log("deleteitem:" + makeupItemId[index]);
+        setChangeModalBackgroundColor(false);
+        // console.log("deleteitem:" + makeupItemId[index]);
         axios
           .post(`/like/delete`, {
             itemId: makeupItemId[index],
             email: sessionStorage.getItem("email"),
           })
           .then((res) => {
-            console.log("delete");
-            console.log(res);
+            //  console.log("delete");
+            //  console.log(res);
           })
           .catch((e) => {
             console.log(e);
           });
       } else if (makeupLikeState[index] === true) {
+        setChangeModalBackgroundColor(true);
         axios
           .post(`/like/create`, {
             itemId: makeupItemId[index],
             email: sessionStorage.getItem("email"),
           })
           .then((res) => {
-            console.log(res);
+            //    console.log(res);
           })
           .catch((e) => {
             console.log(e);
@@ -813,27 +888,29 @@ function Home() {
     });
     honeyMoonKeyIndex.forEach((index) => {
       if (honeyMoonLikeState[index] === false) {
-        console.log("deleteitem:" + honeyMoonItemId[index]);
+        setChangeModalBackgroundColor(false);
+        //  console.log("deleteitem:" + honeyMoonItemId[index]);
         axios
           .post(`/like/delete`, {
             itemId: honeyMoonItemId[index],
             email: sessionStorage.getItem("email"),
           })
           .then((res) => {
-            console.log("delete");
-            console.log(res);
+            //   console.log("delete");
+            //   console.log(res);
           })
           .catch((e) => {
             console.log(e);
           });
       } else if (honeyMoonLikeState[index] === true) {
+        setChangeModalBackgroundColor(true);
         axios
           .post(`/like/create`, {
             itemId: honeyMoonItemId[index],
             email: sessionStorage.getItem("email"),
           })
           .then((res) => {
-            console.log(res);
+            //     console.log(res);
           })
           .catch((e) => {
             console.log(e);
@@ -842,27 +919,29 @@ function Home() {
     });
     bouquetKeyIndex.forEach((index) => {
       if (bouquetLikeState[index] === false) {
-        console.log("deleteitem:" + bouquetItemId[index]);
+        setChangeModalBackgroundColor(false);
+        //  console.log("deleteitem:" + bouquetItemId[index]);
         axios
           .post(`/like/delete`, {
             itemId: bouquetItemId[index],
             email: sessionStorage.getItem("email"),
           })
           .then((res) => {
-            console.log("delete");
-            console.log(res);
+            //  console.log("delete");
+            //  console.log(res);
           })
           .catch((e) => {
             console.log(e);
           });
       } else if (bouquetLikeState[index] === true) {
+        setChangeModalBackgroundColor(true);
         axios
           .post(`/like/create`, {
             itemId: bouquetItemId[index],
             email: sessionStorage.getItem("email"),
           })
           .then((res) => {
-            console.log(res);
+            //   console.log(res);
           })
           .catch((e) => {
             console.log(e);
@@ -1156,20 +1235,37 @@ function Home() {
                       }}
                     >
                       상세정보
-                      <button
-                        style={{
-                          marginLeft: "240px",
-                          width: "130px",
-                          marginBottom: "10px",
-                          fontSize: "1em",
-                          //    backgroundColor: "#fcc7e1",
-                          border: "grey 1px solid",
-                        }}
-                        ref={modalItemId}
-                        onClick={manageLikeLikst}
-                      >
-                        ❤️ 찜하기
-                      </button>
+                      {modalBackgroundColor === true ? (
+                        <button
+                          style={{
+                            marginLeft: "240px",
+                            width: "130px",
+                            marginBottom: "10px",
+                            fontSize: "1em",
+                            backgroundColor: "##fce1e4",
+                            border: "grey 1px solid",
+                          }}
+                          ref={modalItemId}
+                          onClick={manageLikeLikst}
+                        >
+                          ❤️ 찜하기
+                        </button>
+                      ) : (
+                        <button
+                          style={{
+                            marginLeft: "240px",
+                            width: "130px",
+                            marginBottom: "10px",
+                            fontSize: "1em",
+                            backgroundColor: "#ebebeb",
+                            border: "grey 1px solid",
+                          }}
+                          ref={modalItemId}
+                          onClick={manageLikeLikst}
+                        >
+                          ❤️ 찜하기
+                        </button>
+                      )}
                     </div>
                     <p
                       style={{

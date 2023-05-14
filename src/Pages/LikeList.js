@@ -34,10 +34,12 @@ function LikeList() {
   const [selectedIndex, setSelectedIndex] = useState();
   const [prevSelectedIndex, setPrevSelectedIndex] = useState();
   const [likeState, setLikeState] = useState([]);
+  const [checkLikeOrNot, setCheckLikeOrNot] = useState(false);
 
   const [likeSelect, setLikeSelect] = useState(true);
 
   const handleHeartClick = (e) => {
+    setCheckLikeOrNot(!checkLikeOrNot);
     let newlikeState = [...likeState];
     let index = parseInt(e.target.dataset.index);
     let prevState = newlikeState.slice(index, index + 1);
@@ -131,7 +133,7 @@ function LikeList() {
       });
   }, []);
 
-  console.log(likeState);
+  // console.log(likeState);
   useEffect(() => {
     keyIndex.forEach((index) => {
       if (likeState[index] === false) {
@@ -143,7 +145,7 @@ function LikeList() {
           })
           .then((res) => {
             console.log("delete");
-            console.log(res);
+            //   console.log(res);
           })
           .catch((e) => {
             console.log(e);
@@ -155,14 +157,14 @@ function LikeList() {
             email: sessionStorage.getItem("email"),
           })
           .then((res) => {
-            console.log(res);
+            //  console.log(res);
           })
           .catch((e) => {
             console.log(e);
           });
       }
     });
-  }, [likeState]);
+  }, [checkLikeOrNot]);
 
   const Like = ({ likeState, index }) => {
     const id = itemId[itemId.length - 1 - index];
