@@ -157,6 +157,8 @@ function Home() {
                     setWeddingHallLikeState(likeIndexArr);
                   } else {
                     //로그인하지 않았을 때
+                    likeIndexArr.push(-1);
+                    setWeddingHallLikeState(likeIndexArr);
                   }
                 })
                 .catch((e) => {
@@ -230,6 +232,8 @@ function Home() {
                     setStudioLikeState(likeIndexArr1);
                   } else {
                     //로그인하지 않았을 때
+                    likeIndexArr1.push(-1);
+                    setWeddingHallLikeState(likeIndexArr1);
                   }
                 })
                 .catch((e) => {
@@ -304,6 +308,8 @@ function Home() {
                     setDressLikeState(likeIndexArr2);
                   } else {
                     //로그인하지 않았을 때
+                    likeIndexArr2.push(-1);
+                    setWeddingHallLikeState(likeIndexArr2);
                   }
                 })
                 .catch((e) => {
@@ -377,6 +383,8 @@ function Home() {
                     setMakeupLikeState(likeIndexArr3);
                   } else {
                     //로그인하지 않았을 때
+                    likeIndexArr3.push(-1);
+                    setMakeupLikeState(likeIndexArr3);
                   }
                 })
                 .catch((e) => {
@@ -450,6 +458,8 @@ function Home() {
                     setHoneyMoonLikeState(likeIndexArr4);
                   } else {
                     //로그인하지 않았을 때
+                    likeIndexArr4.push(-1);
+                    setWeddingHallLikeState(likeIndexArr4);
                   }
                 })
                 .catch((e) => {
@@ -523,6 +533,8 @@ function Home() {
                     setBouquetLikeState(likeIndexArr5);
                   } else {
                     //로그인하지 않았을 때
+                    likeIndexArr5.push(-1);
+                    setWeddingHallLikeState(likeIndexArr5);
                   }
                 })
                 .catch((e) => {
@@ -644,10 +656,12 @@ function Home() {
         modalItemId.current.style.backgroundColor = "#fce1e4";
         changedState = true;
         itemLike[index]++;
-      } else {
+      } else if (prevState[0] === undefined) {
         modalItemId.current.style.backgroundColor = "#fce1e4";
         changedState = true;
         itemLike[index]++;
+      } else {
+        alert("찜하기 버튼을 이용하려면 로그인하세요!");
       }
       newlikeState.splice(index, 1, changedState);
       setWeddingHallLikeState(newlikeState);
@@ -663,10 +677,12 @@ function Home() {
         modalItemId.current.style.backgroundColor = "#fce1e4";
         changedState = true;
         studioItemLike[index]++;
-      } else {
+      } else if (prevState[0] === undefined) {
         modalItemId.current.style.backgroundColor = "#fce1e4";
         changedState = true;
         studioItemLike[index]++;
+      } else {
+        alert("찜하기 버튼을 이용하려면 로그인하세요!");
       }
       newlikeState.splice(index, 1, changedState);
       setStudioLikeState(newlikeState);
@@ -682,10 +698,12 @@ function Home() {
         modalItemId.current.style.backgroundColor = "#fce1e4";
         changedState = true;
         dressItemLike[index]++;
-      } else {
+      } else if (prevState[0] === undefined) {
         modalItemId.current.style.backgroundColor = "#fce1e4";
         changedState = true;
         dressItemLike[index]++;
+      } else {
+        alert("찜하기 버튼을 이용하려면 로그인하세요!");
       }
       newlikeState.splice(index, 1, changedState);
       setDressLikeState(newlikeState);
@@ -701,10 +719,12 @@ function Home() {
         modalItemId.current.style.backgroundColor = "#fce1e4";
         changedState = true;
         makeupItemLike[index]++;
-      } else {
+      } else if (prevState[0] === undefined) {
         modalItemId.current.style.backgroundColor = "#fce1e4";
         changedState = true;
         makeupItemLike[index]++;
+      } else {
+        alert("찜하기 버튼을 이용하려면 로그인하세요!");
       }
       newlikeState.splice(index, 1, changedState);
       setMakeupLikeState(newlikeState);
@@ -720,10 +740,12 @@ function Home() {
         modalItemId.current.style.backgroundColor = "#fce1e4";
         changedState = true;
         honeyMoonItemLike[index]++;
-      } else {
+      } else if (prevState[0] === undefined) {
         modalItemId.current.style.backgroundColor = "#fce1e4";
         changedState = true;
         honeyMoonItemLike[index]++;
+      } else {
+        alert("찜하기 버튼을 이용하려면 로그인하세요!");
       }
       newlikeState.splice(index, 1, changedState);
       setHoneyMoonLikeState(newlikeState);
@@ -739,10 +761,12 @@ function Home() {
         modalItemId.current.style.backgroundColor = "#fce1e4";
         changedState = true;
         bouquetItemLike[index]++;
-      } else {
+      } else if (prevState[0] === undefined) {
         modalItemId.current.style.backgroundColor = "#fce1e4";
         changedState = true;
         bouquetItemLike[index]++;
+      } else {
+        alert("찜하기 버튼을 이용하려면 로그인하세요!");
       }
       newlikeState.splice(index, 1, changedState);
       setBouquetLikeState(newlikeState);
