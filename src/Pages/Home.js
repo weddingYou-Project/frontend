@@ -19,6 +19,7 @@ function Home() {
   const navigate = useNavigate();
 
   const [searchItem, setSearchItem] = useState("");
+  const [checkLike, setCheckLike] = useState(false);
 
   const [previewImg, setPreviewImg] = useState([]);
   const [itemId, setItemId] = useState([]);
@@ -26,10 +27,12 @@ function Home() {
   const [itemName, setItemName] = useState([]);
   const [itemLike, setItemLike] = useState([]);
   const [keyIndex, setKeyIndex] = useState([]);
+  const [weddingHallLikeState, setWeddingHallLikeState] = useState([]);
   let keyIndexArr = [];
   let list = [];
   let itemDataArr = [];
   let previewImgArr = [];
+  let likeIndexArr = [];
 
   const [studioImg, setStudioImg] = useState([]);
   const [studioItemId, setStudiItemId] = useState([]);
@@ -37,10 +40,12 @@ function Home() {
   const [studioItemName, setStudioItemName] = useState([]);
   const [studioItemLike, setStudioItemLike] = useState([]);
   const [studioKeyIndex, setStudioKeyIndex] = useState([]);
+  const [studioLikeState, setStudioLikeState] = useState([]);
   let keyIndexArr1 = [];
   let list1 = [];
   let itemDataArr1 = [];
   let previewImgArr1 = [];
+  let likeIndexArr1 = [];
 
   const [dressImg, setDressImg] = useState([]);
   const [dressItemId, setDressItemId] = useState([]);
@@ -48,10 +53,12 @@ function Home() {
   const [dressItemName, setDressItemName] = useState([]);
   const [dressItemLike, setDressItemLike] = useState([]);
   const [dressKeyIndex, setDressKeyIndex] = useState([]);
+  const [dressLikeState, setDressLikeState] = useState([]);
   let keyIndexArr2 = [];
   let list2 = [];
   let itemDataArr2 = [];
   let previewImgArr2 = [];
+  let likeIndexArr2 = [];
 
   const [makeupImg, setMakeupImg] = useState([]);
   const [makeupItemId, setMakeupItemId] = useState([]);
@@ -59,10 +66,12 @@ function Home() {
   const [makeupItemName, setMakeupItemName] = useState([]);
   const [makeupItemLike, setMakeupItemLike] = useState([]);
   const [makeupKeyIndex, setMakeupKeyIndex] = useState([]);
+  const [makeupLikeState, setMakeupLikeState] = useState([]);
   let keyIndexArr3 = [];
   let list3 = [];
   let itemDataArr3 = [];
   let previewImgArr3 = [];
+  let likeIndexArr3 = [];
 
   const [honeyMoonImg, setHoneyMoonImg] = useState([]);
   const [honeyMoonItemId, setHoneyMoonItemId] = useState([]);
@@ -70,10 +79,12 @@ function Home() {
   const [honeyMoonItemName, setHoneyMoonItemName] = useState([]);
   const [honeyMoonItemLike, setHoneyMoonItemLike] = useState([]);
   const [honeyMoonKeyIndex, setHoneyMoonKeyIndex] = useState([]);
+  const [honeyMoonLikeState, setHoneyMoonLikeState] = useState([]);
   let keyIndexArr4 = [];
   let list4 = [];
   let itemDataArr4 = [];
   let previewImgArr4 = [];
+  let likeIndexArr4 = [];
 
   const [bouquetImg, setBouquetImg] = useState([]);
   const [bouquetItemId, setBouquetItemId] = useState([]);
@@ -81,10 +92,19 @@ function Home() {
   const [bouquetItemName, setBouquetItemName] = useState([]);
   const [bouquetItemLike, setBouquetItemLike] = useState([]);
   const [bouquetKeyIndex, setBouquetKeyIndex] = useState([]);
+  const [bouquetLikeState, setBouquetLikeState] = useState([]);
   let keyIndexArr5 = [];
   let list5 = [];
   let itemDataArr5 = [];
   let previewImgArr5 = [];
+  let likeIndexArr5 = [];
+
+  const [likseSelect, setLikeSelect] = useState(false);
+
+  const modalImg = useRef();
+  const modalImgContent = useRef();
+  const modalImgTitle = useRef();
+  const modalItemId = useRef();
 
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
@@ -121,6 +141,27 @@ function Home() {
               keyIndexArr.push(index);
               index++;
               setKeyIndex(keyIndexArr);
+
+              axios
+                .post(`/like/findlist`, {
+                  itemId: newitemId,
+                  email: sessionStorage.getItem("email"),
+                })
+                .then((res) => {
+                  if (res.data === 1) {
+                    likeIndexArr.push(true);
+                    setWeddingHallLikeState(likeIndexArr);
+                  } else if (res.data === 0) {
+                    likeIndexArr.push(undefined);
+                    setWeddingHallLikeState(likeIndexArr);
+                  } else {
+                    //로그인하지 않았을 때
+                  }
+                })
+                .catch((e) => {
+                  console.log(e);
+                });
+
               axios
                 .get(`/item/getItemList/${newitemId}`)
                 .then((res) => {
@@ -174,6 +215,26 @@ function Home() {
               keyIndexArr1.push(index);
               index++;
               setStudioKeyIndex(keyIndexArr1);
+              axios
+                .post(`/like/findlist`, {
+                  itemId: newitemId,
+                  email: sessionStorage.getItem("email"),
+                })
+                .then((res) => {
+                  if (res.data === 1) {
+                    likeIndexArr1.push(true);
+                    setStudioLikeState(likeIndexArr1);
+                  } else if (res.data === 0) {
+                    likeIndexArr1.push(undefined);
+                    setStudioLikeState(likeIndexArr1);
+                  } else {
+                    //로그인하지 않았을 때
+                  }
+                })
+                .catch((e) => {
+                  console.log(e);
+                });
+
               axios
                 .get(`/item/getItemList/${newitemId}`)
                 .then((res) => {
@@ -229,6 +290,26 @@ function Home() {
               index++;
               setDressKeyIndex(keyIndexArr2);
               axios
+                .post(`/like/findlist`, {
+                  itemId: newitemId,
+                  email: sessionStorage.getItem("email"),
+                })
+                .then((res) => {
+                  if (res.data === 1) {
+                    likeIndexArr2.push(true);
+                    setDressLikeState(likeIndexArr2);
+                  } else if (res.data === 0) {
+                    likeIndexArr2.push(undefined);
+                    setDressLikeState(likeIndexArr2);
+                  } else {
+                    //로그인하지 않았을 때
+                  }
+                })
+                .catch((e) => {
+                  console.log(e);
+                });
+
+              axios
                 .get(`/item/getItemList/${newitemId}`)
                 .then((res) => {
                   let newItem = res.data;
@@ -281,6 +362,26 @@ function Home() {
               keyIndexArr3.push(index);
               index++;
               setMakeupKeyIndex(keyIndexArr3);
+              axios
+                .post(`/like/findlist`, {
+                  itemId: newitemId,
+                  email: sessionStorage.getItem("email"),
+                })
+                .then((res) => {
+                  if (res.data === 1) {
+                    likeIndexArr3.push(true);
+                    setMakeupLikeState(likeIndexArr3);
+                  } else if (res.data === 0) {
+                    likeIndexArr3.push(undefined);
+                    setMakeupLikeState(likeIndexArr3);
+                  } else {
+                    //로그인하지 않았을 때
+                  }
+                })
+                .catch((e) => {
+                  console.log(e);
+                });
+
               axios
                 .get(`/item/getItemList/${newitemId}`)
                 .then((res) => {
@@ -335,6 +436,26 @@ function Home() {
               index++;
               setHoneyMoonKeyIndex(keyIndexArr4);
               axios
+                .post(`/like/findlist`, {
+                  itemId: newitemId,
+                  email: sessionStorage.getItem("email"),
+                })
+                .then((res) => {
+                  if (res.data === 1) {
+                    likeIndexArr4.push(true);
+                    setHoneyMoonLikeState(likeIndexArr4);
+                  } else if (res.data === 0) {
+                    likeIndexArr4.push(undefined);
+                    setHoneyMoonLikeState(likeIndexArr4);
+                  } else {
+                    //로그인하지 않았을 때
+                  }
+                })
+                .catch((e) => {
+                  console.log(e);
+                });
+
+              axios
                 .get(`/item/getItemList/${newitemId}`)
                 .then((res) => {
                   let newItem = res.data;
@@ -388,6 +509,26 @@ function Home() {
               index++;
               setBouquetKeyIndex(keyIndexArr5);
               axios
+                .post(`/like/findlist`, {
+                  itemId: newitemId,
+                  email: sessionStorage.getItem("email"),
+                })
+                .then((res) => {
+                  if (res.data === 1) {
+                    likeIndexArr5.push(true);
+                    setBouquetLikeState(likeIndexArr5);
+                  } else if (res.data === 0) {
+                    likeIndexArr5.push(undefined);
+                    setBouquetLikeState(likeIndexArr5);
+                  } else {
+                    //로그인하지 않았을 때
+                  }
+                })
+                .catch((e) => {
+                  console.log(e);
+                });
+
+              axios
                 .get(`/item/getItemList/${newitemId}`)
                 .then((res) => {
                   let newItem = res.data;
@@ -422,33 +563,313 @@ function Home() {
       });
   }, []);
 
-  const modalImg = useRef();
-  const modalImgContent = useRef();
-  const modalImgTitle = useRef();
-
   const showimgDetail = (e) => {
     modalImg.current.src = e.target.dataset.bsSrc;
     const index = e.target.dataset.bsKeyindex;
+    modalItemId.current.id = e.target.dataset.bsItemid;
+    modalItemId.current.dataset.index = index;
     if (e.target.dataset.bsCategory === category[0]) {
+      modalItemId.current.dataset.category = category[0];
       modalImgContent.current.innerText = item[index].imgContent;
       modalImgTitle.current.innerText = `- ${item[index].itemName} -`;
     } else if (e.target.dataset.bsCategory === category[1]) {
+      modalItemId.current.dataset.category = category[1];
       modalImgContent.current.innerText = studioItem[index].imgContent;
       modalImgTitle.current.innerText = `- ${studioItem[index].itemName} -`;
     } else if (e.target.dataset.bsCategory === category[2]) {
+      modalItemId.current.dataset.category = category[2];
       modalImgContent.current.innerText = dressItem[index].imgContent;
       modalImgTitle.current.innerText = `- ${dressItem[index].itemName} -`;
     } else if (e.target.dataset.bsCategory === category[3]) {
+      modalItemId.current.dataset.category = category[3];
       modalImgContent.current.innerText = makeupItem[index].imgContent;
       modalImgTitle.current.innerText = `- ${makeupItem[index].itemName} -`;
     } else if (e.target.dataset.bsCategory === category[4]) {
+      modalItemId.current.dataset.category = category[4];
       modalImgContent.current.innerText = honeyMoonItem[index].imgContent;
       modalImgTitle.current.innerText = `- ${honeyMoonItem[index].itemName} -`;
     } else if (e.target.dataset.bsCategory === category[5]) {
+      modalItemId.current.dataset.category = category[5];
       modalImgContent.current.innerText = bouquetItem[index].imgContent;
       modalImgTitle.current.innerText = `- ${bouquetItem[index].itemName} -`;
     }
   };
+
+  const manageLikeLikst = (e) => {
+    console.log(e);
+    let newlikeState = undefined;
+    const index = modalItemId.current.dataset.index;
+    console.log(index);
+    setCheckLike(!checkLike);
+    if (modalItemId.current.dataset.category === category[0]) {
+      newlikeState = [...weddingHallLikeState];
+      let prevState = newlikeState.slice(index, index + 1);
+      let changedState = undefined;
+      if (prevState[0] === true) {
+        changedState = false;
+      } else if (prevState[0] === false) {
+        changedState = true;
+      } else {
+        changedState = true;
+      }
+      newlikeState.splice(index, 1, changedState);
+      setWeddingHallLikeState(newlikeState);
+    } else if (modalItemId.current.dataset.category === category[1]) {
+      newlikeState = [...studioLikeState];
+      let prevState = newlikeState.slice(index, index + 1);
+      let changedState = undefined;
+      if (prevState[0] === true) {
+        changedState = false;
+      } else if (prevState[0] === false) {
+        changedState = true;
+      } else {
+        changedState = true;
+      }
+      newlikeState.splice(index, 1, changedState);
+      setStudioLikeState(newlikeState);
+    } else if (modalItemId.current.dataset.category === category[2]) {
+      newlikeState = [...dressLikeState];
+      let prevState = newlikeState.slice(index, index + 1);
+      let changedState = undefined;
+      if (prevState[0] === true) {
+        changedState = false;
+      } else if (prevState[0] === false) {
+        changedState = true;
+      } else {
+        changedState = true;
+      }
+      newlikeState.splice(index, 1, changedState);
+      setDressLikeState(newlikeState);
+    } else if (modalItemId.current.dataset.category === category[3]) {
+      newlikeState = [...makeupLikeState];
+      let prevState = newlikeState.slice(index, index + 1);
+      let changedState = undefined;
+      if (prevState[0] === true) {
+        changedState = false;
+      } else if (prevState[0] === false) {
+        changedState = true;
+      } else {
+        changedState = true;
+      }
+      newlikeState.splice(index, 1, changedState);
+      setMakeupLikeState(newlikeState);
+    } else if (modalItemId.current.dataset.category === category[4]) {
+      newlikeState = [...honeyMoonLikeState];
+      let prevState = newlikeState.slice(index, index + 1);
+      let changedState = undefined;
+      if (prevState[0] === true) {
+        changedState = false;
+      } else if (prevState[0] === false) {
+        changedState = true;
+      } else {
+        changedState = true;
+      }
+      newlikeState.splice(index, 1, changedState);
+      setHoneyMoonLikeState(newlikeState);
+    } else if (modalItemId.current.dataset.category === category[5]) {
+      newlikeState = [...bouquetLikeState];
+      let prevState = newlikeState.slice(index, index + 1);
+      let changedState = undefined;
+      if (prevState[0] === true) {
+        changedState = false;
+      } else if (prevState[0] === false) {
+        changedState = true;
+      } else {
+        changedState = true;
+      }
+      newlikeState.splice(index, 1, changedState);
+      setBouquetLikeState(newlikeState);
+    }
+  };
+  console.log("weddinghall : ");
+  console.log(weddingHallLikeState);
+  console.log("studio:");
+  console.log(studioLikeState);
+  console.log("dress:");
+  console.log(dressLikeState);
+  console.log("makeup:");
+  console.log(makeupLikeState);
+  console.log("honeymoon:");
+  console.log(honeyMoonLikeState);
+  console.log("bouquet:");
+  console.log(bouquetLikeState);
+
+  useEffect(() => {
+    keyIndex.forEach((index) => {
+      if (weddingHallLikeState[index] === false) {
+        console.log("deleteitem:" + itemId[index]);
+        axios
+          .post(`/like/delete`, {
+            itemId: itemId[index],
+            email: sessionStorage.getItem("email"),
+          })
+          .then((res) => {
+            console.log("delete");
+            console.log(res);
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      } else if (weddingHallLikeState[index] === true) {
+        axios
+          .post(`/like/create`, {
+            itemId: itemId[index],
+            email: sessionStorage.getItem("email"),
+          })
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      }
+    });
+    studioKeyIndex.forEach((index) => {
+      if (studioLikeState[index] === false) {
+        console.log("deleteitem:" + studioItemId[index]);
+        axios
+          .post(`/like/delete`, {
+            itemId: studioItemId[index],
+            email: sessionStorage.getItem("email"),
+          })
+          .then((res) => {
+            console.log("delete");
+            console.log(res);
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      } else if (studioLikeState[index] === true) {
+        axios
+          .post(`/like/create`, {
+            itemId: studioItemId[index],
+            email: sessionStorage.getItem("email"),
+          })
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      }
+    });
+    dressKeyIndex.forEach((index) => {
+      if (dressLikeState[index] === false) {
+        console.log("deleteitem:" + dressItemId[index]);
+        axios
+          .post(`/like/delete`, {
+            itemId: dressItemId[index],
+            email: sessionStorage.getItem("email"),
+          })
+          .then((res) => {
+            console.log("delete");
+            console.log(res);
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      } else if (dressLikeState[index] === true) {
+        axios
+          .post(`/like/create`, {
+            itemId: dressItemId[index],
+            email: sessionStorage.getItem("email"),
+          })
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      }
+    });
+    makeupKeyIndex.forEach((index) => {
+      if (makeupLikeState[index] === false) {
+        console.log("deleteitem:" + makeupItemId[index]);
+        axios
+          .post(`/like/delete`, {
+            itemId: makeupItemId[index],
+            email: sessionStorage.getItem("email"),
+          })
+          .then((res) => {
+            console.log("delete");
+            console.log(res);
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      } else if (makeupLikeState[index] === true) {
+        axios
+          .post(`/like/create`, {
+            itemId: makeupItemId[index],
+            email: sessionStorage.getItem("email"),
+          })
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      }
+    });
+    honeyMoonKeyIndex.forEach((index) => {
+      if (honeyMoonLikeState[index] === false) {
+        console.log("deleteitem:" + honeyMoonItemId[index]);
+        axios
+          .post(`/like/delete`, {
+            itemId: honeyMoonItemId[index],
+            email: sessionStorage.getItem("email"),
+          })
+          .then((res) => {
+            console.log("delete");
+            console.log(res);
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      } else if (honeyMoonLikeState[index] === true) {
+        axios
+          .post(`/like/create`, {
+            itemId: honeyMoonItemId[index],
+            email: sessionStorage.getItem("email"),
+          })
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      }
+    });
+    bouquetKeyIndex.forEach((index) => {
+      if (bouquetLikeState[index] === false) {
+        console.log("deleteitem:" + bouquetItemId[index]);
+        axios
+          .post(`/like/delete`, {
+            itemId: bouquetItemId[index],
+            email: sessionStorage.getItem("email"),
+          })
+          .then((res) => {
+            console.log("delete");
+            console.log(res);
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      } else if (bouquetLikeState[index] === true) {
+        axios
+          .post(`/like/create`, {
+            itemId: bouquetItemId[index],
+            email: sessionStorage.getItem("email"),
+          })
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      }
+    });
+  }, [checkLike]);
 
   return (
     <div className="mainlayout">
@@ -599,6 +1020,7 @@ function Home() {
                   data-bs-src={previewImg[0]}
                   data-bs-category={category[0]}
                   data-bs-keyIndex={0}
+                  data-bs-itemId={itemId[0]}
                   onClick={showimgDetail}
                   alt="..."
                 />
@@ -633,6 +1055,7 @@ function Home() {
                       data-bs-src={previewImg[i]}
                       data-bs-category={category[0]}
                       data-bs-keyIndex={i}
+                      data-bs-itemid={itemId[i]}
                       src={previewImg[i]}
                       alt="..."
                     />
@@ -742,6 +1165,8 @@ function Home() {
                           //    backgroundColor: "#fcc7e1",
                           border: "grey 1px solid",
                         }}
+                        ref={modalItemId}
+                        onClick={manageLikeLikst}
                       >
                         ❤️ 찜하기
                       </button>
@@ -831,6 +1256,7 @@ function Home() {
                   data-bs-src={studioImg[0]}
                   data-bs-category={category[1]}
                   data-bs-keyIndex={0}
+                  data-bs-itemId={studioItemId[0]}
                   onClick={showimgDetail}
                   src={studioImg[0]}
                   alt="..."
@@ -865,6 +1291,7 @@ function Home() {
                       data-bs-src={studioImg[i]}
                       data-bs-category={category[1]}
                       data-bs-keyIndex={i}
+                      data-bs-itemid={studioItemId[i]}
                       onClick={showimgDetail}
                       src={studioImg[i]}
                       alt="..."
@@ -958,6 +1385,7 @@ function Home() {
                   data-bs-src={dressImg[0]}
                   data-bs-category={category[2]}
                   data-bs-keyIndex={0}
+                  data-bs-itemId={dressItemId[0]}
                   onClick={showimgDetail}
                   src={dressImg[0]} //previewImg배열 하나하나요소가 src에 들어가야 함.
                   alt="..."
@@ -992,6 +1420,7 @@ function Home() {
                       data-bs-src={dressImg[i]}
                       data-bs-category={category[2]}
                       data-bs-keyIndex={i}
+                      data-bs-itemid={dressItemId[i]}
                       onClick={showimgDetail}
                       src={dressImg[i]}
                       alt="..."
@@ -1084,6 +1513,7 @@ function Home() {
                   data-bs-src={makeupImg[0]}
                   data-bs-category={category[3]}
                   data-bs-keyIndex={0}
+                  data-bs-itemId={makeupItemId[0]}
                   onClick={showimgDetail}
                   src={makeupImg[0]} //previewImg배열 하나하나요소가 src에 들어가야 함.
                   alt="..."
@@ -1118,6 +1548,7 @@ function Home() {
                       data-bs-src={makeupImg[i]}
                       data-bs-category={category[3]}
                       data-bs-keyIndex={i}
+                      data-bs-itemid={makeupItemId[i]}
                       onClick={showimgDetail}
                       src={makeupImg[i]}
                       alt="..."
@@ -1211,6 +1642,7 @@ function Home() {
                   data-bs-src={honeyMoonImg[0]}
                   data-bs-category={category[4]}
                   data-bs-keyIndex={0}
+                  data-bs-itemId={honeyMoonItemId[0]}
                   onClick={showimgDetail}
                   src={honeyMoonImg[0]} //previewImg배열 하나하나요소가 src에 들어가야 함.
                   alt="..."
@@ -1245,6 +1677,7 @@ function Home() {
                       data-bs-src={honeyMoonImg[i]}
                       data-bs-category={category[4]}
                       data-bs-keyIndex={i}
+                      data-bs-itemid={honeyMoonItemId[i]}
                       onClick={showimgDetail}
                       src={honeyMoonImg[i]}
                       alt="..."
@@ -1339,6 +1772,7 @@ function Home() {
                   data-bs-src={bouquetImg[0]}
                   data-bs-category={category[5]}
                   data-bs-keyIndex={0}
+                  data-bs-itemId={bouquetItemId[0]}
                   onClick={showimgDetail}
                   src={bouquetImg[0]} //previewImg배열 하나하나요소가 src에 들어가야 함.
                   alt="..."
@@ -1373,6 +1807,7 @@ function Home() {
                       data-bs-src={bouquetImg[i]}
                       data-bs-category={category[5]}
                       data-bs-keyIndex={i}
+                      data-bs-itemid={bouquetItemId[i]}
                       onClick={showimgDetail}
                       src={bouquetImg[i]}
                       alt="..."

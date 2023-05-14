@@ -41,11 +41,19 @@ function LikeList() {
     let newlikeState = [...likeState];
     let index = parseInt(e.target.dataset.index);
     let prevState = newlikeState.slice(index, index + 1);
-    newlikeState.splice(index, 1, !prevState[0]);
+    let changedState = undefined;
+    if (prevState[0] === true) {
+      changedState = false;
+    } else if (prevState[0] === false) {
+      changedState = true;
+    } else {
+      changedState = false;
+    }
+    newlikeState.splice(index, 1, changedState);
     setLikeState(newlikeState);
     setSelectedItemId(e.target.dataset.id);
     setSelectedIndex(parseInt(e.target.dataset.index));
-    if (likeState[index] === true) {
+    if (likeState[index] === true || likeState[index] === undefined) {
       itemLike[index]--;
     } else {
       itemLike[index]++;
@@ -123,15 +131,9 @@ function LikeList() {
       });
   }, []);
 
+  console.log(likeState);
   useEffect(() => {
-    console.log(1111);
-    console.log("keyIndex:" + keyIndex);
-    console.log("likeState:" + likeState);
-    console.log(itemId);
     keyIndex.forEach((index) => {
-      //   console.log(itemId[index]);
-      //  console.log(likeState[index]);
-
       if (likeState[index] === false) {
         console.log("deleteitem:" + itemId[itemId.length - 1 - index]);
         axios
@@ -146,7 +148,7 @@ function LikeList() {
           .catch((e) => {
             console.log(e);
           });
-      } else {
+      } else if (likeState[index] === true) {
         axios
           .post(`/like/create`, {
             itemId: itemId[itemId.length - 1 - index],
@@ -165,7 +167,7 @@ function LikeList() {
   const Like = ({ likeState, index }) => {
     const id = itemId[itemId.length - 1 - index];
 
-    if (likeState[index] === true) {
+    if (likeState[index] === true || likeState[index] === undefined) {
       return (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -187,7 +189,7 @@ function LikeList() {
           />
         </svg>
       );
-    } else {
+    } else if (likeState[index] === false) {
       return (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -209,40 +211,6 @@ function LikeList() {
         </svg>
       );
     }
-    // if (
-    //   (likeSelect === true && selectedIndex === undefined) ||
-    //   (likeSelect === false && selectedIndex !== index)
-    // ) {
-    //   if (likeSelect === true && selectedIndex === index) {
-    //     //likebtn다시 눌렀을 때 selected된 아이템
-    //     // axios
-    //     //   .post(`/like/create`, {
-    //     //     itemId: id,
-    //     //     email: sessionStorage.getItem("email"),
-    //     //   })
-    //     //   .then((res) => {
-    //     //     console.log(res);
-    //     //   })
-    //     //   .catch((e) => {
-    //     //     console.log(e);
-    //     //   });
-    //   }
-    // }
-
-    // if (likeSelect === true && selectedIndex === index) {
-    //   //likebtn 취소했을 때 selected 된 아이템
-    //   axios
-    //     .post(`/like/delete`, {
-    //       itemId: id,
-    //       email: sessionStorage.getItem("email"),
-    //     })
-    //     .then((res) => {
-    //       console.log(res);
-    //     })
-    //     .catch((e) => {
-    //       console.log(e);
-    //     });
-    // }
   };
   return (
     <div className="mainlayout">
