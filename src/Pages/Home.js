@@ -101,6 +101,7 @@ function Home() {
 
   const [likseSelect, setLikeSelect] = useState(false);
   const [modalBackgroundColor, setChangeModalBackgroundColor] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState("");
 
   const modalImg = useRef();
   const modalImgContent = useRef();
@@ -581,7 +582,7 @@ function Home() {
     const index = e.target.dataset.bsKeyindex;
     modalItemId.current.id = e.target.dataset.bsItemid;
     modalItemId.current.dataset.index = index;
-
+    setSelectedCategory(e.target.dataset.bsCategory);
     if (e.target.dataset.bsCategory === category[0]) {
       modalItemId.current.dataset.category = category[0];
       modalImgContent.current.innerText = item[index].imgContent;
@@ -786,192 +787,199 @@ function Home() {
   // console.log(bouquetLikeState);
 
   useEffect(() => {
-    keyIndex.forEach((index) => {
-      if (weddingHallLikeState[index] === false) {
-        // console.log("deleteitem:" + itemId[index]);
-        setChangeModalBackgroundColor(false);
-        axios
-          .post(`/like/delete`, {
-            itemId: itemId[index],
-            email: sessionStorage.getItem("email"),
-          })
-          .then((res) => {
-            // console.log("delete");
-            // console.log(res);
-          })
-          .catch((e) => {
-            console.log(e);
-          });
-      } else if (weddingHallLikeState[index] === true) {
-        setChangeModalBackgroundColor(true);
-        axios
-          .post(`/like/create`, {
-            itemId: itemId[index],
-            email: sessionStorage.getItem("email"),
-          })
-          .then((res) => {
-            // console.log(res);
-          })
-          .catch((e) => {
-            console.log(e);
-          });
-      }
-    });
-    studioKeyIndex.forEach((index) => {
-      if (studioLikeState[index] === false) {
-        setChangeModalBackgroundColor(false);
-        // console.log("deleteitem:" + studioItemId[index]);
-        axios
-          .post(`/like/delete`, {
-            itemId: studioItemId[index],
-            email: sessionStorage.getItem("email"),
-          })
-          .then((res) => {
-            // console.log("delete");
-            // console.log(res);
-          })
-          .catch((e) => {
-            console.log(e);
-          });
-      } else if (studioLikeState[index] === true) {
-        setChangeModalBackgroundColor(true);
-        axios
-          .post(`/like/create`, {
-            itemId: studioItemId[index],
-            email: sessionStorage.getItem("email"),
-          })
-          .then((res) => {
-            // console.log(res);
-          })
-          .catch((e) => {
-            console.log(e);
-          });
-      }
-    });
-    dressKeyIndex.forEach((index) => {
-      if (dressLikeState[index] === false) {
-        setChangeModalBackgroundColor(false);
-        //   console.log("deleteitem:" + dressItemId[index]);
-        axios
-          .post(`/like/delete`, {
-            itemId: dressItemId[index],
-            email: sessionStorage.getItem("email"),
-          })
-          .then((res) => {
-            //   console.log("delete");
-            //   console.log(res);
-          })
-          .catch((e) => {
-            console.log(e);
-          });
-      } else if (dressLikeState[index] === true) {
-        setChangeModalBackgroundColor(true);
-        axios
-          .post(`/like/create`, {
-            itemId: dressItemId[index],
-            email: sessionStorage.getItem("email"),
-          })
-          .then((res) => {
-            //   console.log(res);
-          })
-          .catch((e) => {
-            console.log(e);
-          });
-      }
-    });
-    makeupKeyIndex.forEach((index) => {
-      if (makeupLikeState[index] === false) {
-        setChangeModalBackgroundColor(false);
-        // console.log("deleteitem:" + makeupItemId[index]);
-        axios
-          .post(`/like/delete`, {
-            itemId: makeupItemId[index],
-            email: sessionStorage.getItem("email"),
-          })
-          .then((res) => {
-            //  console.log("delete");
-            //  console.log(res);
-          })
-          .catch((e) => {
-            console.log(e);
-          });
-      } else if (makeupLikeState[index] === true) {
-        setChangeModalBackgroundColor(true);
-        axios
-          .post(`/like/create`, {
-            itemId: makeupItemId[index],
-            email: sessionStorage.getItem("email"),
-          })
-          .then((res) => {
-            //    console.log(res);
-          })
-          .catch((e) => {
-            console.log(e);
-          });
-      }
-    });
-    honeyMoonKeyIndex.forEach((index) => {
-      if (honeyMoonLikeState[index] === false) {
-        setChangeModalBackgroundColor(false);
-        //  console.log("deleteitem:" + honeyMoonItemId[index]);
-        axios
-          .post(`/like/delete`, {
-            itemId: honeyMoonItemId[index],
-            email: sessionStorage.getItem("email"),
-          })
-          .then((res) => {
-            //   console.log("delete");
-            //   console.log(res);
-          })
-          .catch((e) => {
-            console.log(e);
-          });
-      } else if (honeyMoonLikeState[index] === true) {
-        setChangeModalBackgroundColor(true);
-        axios
-          .post(`/like/create`, {
-            itemId: honeyMoonItemId[index],
-            email: sessionStorage.getItem("email"),
-          })
-          .then((res) => {
-            //     console.log(res);
-          })
-          .catch((e) => {
-            console.log(e);
-          });
-      }
-    });
-    bouquetKeyIndex.forEach((index) => {
-      if (bouquetLikeState[index] === false) {
-        setChangeModalBackgroundColor(false);
-        //  console.log("deleteitem:" + bouquetItemId[index]);
-        axios
-          .post(`/like/delete`, {
-            itemId: bouquetItemId[index],
-            email: sessionStorage.getItem("email"),
-          })
-          .then((res) => {
-            //  console.log("delete");
-            //  console.log(res);
-          })
-          .catch((e) => {
-            console.log(e);
-          });
-      } else if (bouquetLikeState[index] === true) {
-        setChangeModalBackgroundColor(true);
-        axios
-          .post(`/like/create`, {
-            itemId: bouquetItemId[index],
-            email: sessionStorage.getItem("email"),
-          })
-          .then((res) => {
-            //   console.log(res);
-          })
-          .catch((e) => {
-            console.log(e);
-          });
-      }
-    });
+    if (selectedCategory === category[0]) {
+      keyIndex.forEach((index) => {
+        if (weddingHallLikeState[index] === false) {
+          // console.log("deleteitem:" + itemId[index]);
+          setChangeModalBackgroundColor(false);
+          axios
+            .post(`/like/delete`, {
+              itemId: itemId[index],
+              email: sessionStorage.getItem("email"),
+            })
+            .then((res) => {
+              // console.log("delete");
+              // console.log(res);
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+        } else if (weddingHallLikeState[index] === true) {
+          setChangeModalBackgroundColor(true);
+          axios
+            .post(`/like/create`, {
+              itemId: itemId[index],
+              email: sessionStorage.getItem("email"),
+            })
+            .then((res) => {
+              // console.log(res);
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+        }
+      });
+    } else if (selectedCategory === category[1]) {
+      studioKeyIndex.forEach((index) => {
+        if (studioLikeState[index] === false) {
+          setChangeModalBackgroundColor(false);
+          // console.log("deleteitem:" + studioItemId[index]);
+          axios
+            .post(`/like/delete`, {
+              itemId: studioItemId[index],
+              email: sessionStorage.getItem("email"),
+            })
+            .then((res) => {
+              // console.log("delete");
+              // console.log(res);
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+        } else if (studioLikeState[index] === true) {
+          setChangeModalBackgroundColor(true);
+          axios
+            .post(`/like/create`, {
+              itemId: studioItemId[index],
+              email: sessionStorage.getItem("email"),
+            })
+            .then((res) => {
+              // console.log(res);
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+        }
+      });
+    } else if (selectedCategory === category[2]) {
+      dressKeyIndex.forEach((index) => {
+        if (dressLikeState[index] === false) {
+          setChangeModalBackgroundColor(false);
+          //   console.log("deleteitem:" + dressItemId[index]);
+          axios
+            .post(`/like/delete`, {
+              itemId: dressItemId[index],
+              email: sessionStorage.getItem("email"),
+            })
+            .then((res) => {
+              //   console.log("delete");
+              //   console.log(res);
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+        } else if (dressLikeState[index] === true) {
+          setChangeModalBackgroundColor(true);
+          axios
+            .post(`/like/create`, {
+              itemId: dressItemId[index],
+              email: sessionStorage.getItem("email"),
+            })
+            .then((res) => {
+              //   console.log(res);
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+        }
+      });
+    } else if (selectedCategory === category[3]) {
+      makeupKeyIndex.forEach((index) => {
+        if (makeupLikeState[index] === false) {
+          setChangeModalBackgroundColor(false);
+          // console.log("deleteitem:" + makeupItemId[index]);
+          axios
+            .post(`/like/delete`, {
+              itemId: makeupItemId[index],
+              email: sessionStorage.getItem("email"),
+            })
+            .then((res) => {
+              //  console.log("delete");
+              //  console.log(res);
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+        } else if (makeupLikeState[index] === true) {
+          setChangeModalBackgroundColor(true);
+          axios
+            .post(`/like/create`, {
+              itemId: makeupItemId[index],
+              email: sessionStorage.getItem("email"),
+            })
+            .then((res) => {
+              //    console.log(res);
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+        }
+      });
+    } else if (selectedCategory === category[4]) {
+      honeyMoonKeyIndex.forEach((index) => {
+        if (honeyMoonLikeState[index] === false) {
+          setChangeModalBackgroundColor(false);
+          //  console.log("deleteitem:" + honeyMoonItemId[index]);
+          axios
+            .post(`/like/delete`, {
+              itemId: honeyMoonItemId[index],
+              email: sessionStorage.getItem("email"),
+            })
+            .then((res) => {
+              //   console.log("delete");
+              //   console.log(res);
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+        } else if (honeyMoonLikeState[index] === true) {
+          setChangeModalBackgroundColor(true);
+          axios
+            .post(`/like/create`, {
+              itemId: honeyMoonItemId[index],
+              email: sessionStorage.getItem("email"),
+            })
+            .then((res) => {
+              //     console.log(res);
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+        }
+      });
+    } else if (selectedCategory === category[5]) {
+      bouquetKeyIndex.forEach((index) => {
+        if (bouquetLikeState[index] === false) {
+          setChangeModalBackgroundColor(false);
+          //  console.log("deleteitem:" + bouquetItemId[index]);
+          axios
+            .post(`/like/delete`, {
+              itemId: bouquetItemId[index],
+              email: sessionStorage.getItem("email"),
+            })
+            .then((res) => {
+              //  console.log("delete");
+              //  console.log(res);
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+        } else if (bouquetLikeState[index] === true) {
+          setChangeModalBackgroundColor(true);
+          axios
+            .post(`/like/create`, {
+              itemId: bouquetItemId[index],
+              email: sessionStorage.getItem("email"),
+            })
+            .then((res) => {
+              //   console.log(res);
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+        }
+      });
+    }
   }, [checkLike]);
 
   return (
