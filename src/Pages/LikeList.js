@@ -133,6 +133,69 @@ function LikeList() {
       });
   }, []);
 
+  useEffect(() => {
+    //전체 찜목록 불러오는 기능
+    axios
+      .post(`/like/list/category`, {
+        email: sessionStorage.getItem("email"),
+        category1: selectedItem,
+      })
+      .then((res) => {
+        const dataList = res.data;
+
+        if (dataList.length !== 0) {
+          let index = 0;
+          for (var i = 0; i < dataList.length; i++) {
+            if (i % 3 === 0) {
+              let dataUrl = "data:image/jpeg;base64," + dataList[i];
+              previewImgArr.push(dataUrl);
+              setPreviewImg(previewImgArr);
+            } else if (i % 3 === 1) {
+              let newitemId = dataList[i];
+              list.push(newitemId);
+              setItemId(list);
+              keyIndexArr.push(index);
+              index++;
+              setKeyIndex(keyIndexArr);
+              likeIndexArr.push(true);
+              setLikeState(likeIndexArr);
+              axios
+                .get(`/item/getItemList/${newitemId}`)
+                .then((res) => {
+                  let newItem = res.data;
+                  itemDataArr.push(newItem);
+                  itemDataArr.sort(function (a, b) {
+                    return (
+                      new Date(b.likeWriteDate) - new Date(a.likeWriteDate)
+                    );
+                  });
+                  setItem([...item, newItem]);
+                  setItem(itemDataArr);
+
+                  let itemNameList = [];
+                  let itemLikeList = [];
+                  for (var j = 0; j < itemDataArr.length; j++) {
+                    const newItemName = itemDataArr[j].itemName;
+                    const newItemLike = itemDataArr[j].like.length;
+                    itemNameList.push(newItemName);
+                    itemLikeList.push(newItemLike);
+                    setItemName(itemNameList);
+                    setItemLike(itemLikeList);
+                  }
+                })
+                .catch((e) => {
+                  console.log(e);
+                });
+            } else {
+            }
+          }
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, [selectedItem]);
+
   // console.log(likeState);
   useEffect(() => {
     keyIndex.forEach((index) => {
