@@ -26,10 +26,6 @@ function Login() {
   };
 
   const onClickLogin = () => {
-    console.log("click login");
-    console.log("ID : ", inputId);
-    console.log("PW : ", inputPw);
-
     if (Role === "회원") {
       axios
         .post("/user/login", {
@@ -37,18 +33,16 @@ function Login() {
           password: inputPw,
         })
         .then((res) => {
-          console.log(res);
           console.log("res.data.email :: ", res.data.email);
           if (inputId === null || inputPw === null) {
             alert("회원정보를 입력해주세요");
           } else if (res.data.email === undefined || res.data.email === null) {
             alert("입력하신 id나 password가 일치하지 않습니다.");
-            // document.location.href = "/login";
           } else {
             console.log("======================", "유저 로그인 성공");
-            console.log(res.data.email);
             sessionStorage.setItem("email", res.data.email);
-            sessionStorage.setItem("user_name", res.data.name); // sessionStorage에 name을 user_name이라는 key 값으로 저장
+            sessionStorage.setItem("category", "user");
+            // sessionStorage.setItem("user_name", res.data.name); // sessionStorage에 name을 user_name이라는 key 값으로 저장
           }
         })
         .catch();
@@ -59,17 +53,16 @@ function Login() {
           password: inputPw,
         })
         .then((res) => {
-          console.log(res);
           console.log("res.data.email :: ", res.data.email);
           if (inputId === null || inputPw === null) {
             alert("회원정보를 입력해주세요");
           } else if (res.data.email === undefined || res.data.email === null) {
             alert("입력하신 id나 password가 일치하지 않습니다.");
-            // document.location.href = "/login";
           } else {
             console.log("======================", "플래너 로그인 성공");
             sessionStorage.setItem("email", res.data.email);
-            sessionStorage.setItem("planner_name", res.data.name); // sessionStorage에 name을 user_name이라는 key 값으로 저장
+            sessionStorage.setItem("category", "planner");
+            // sessionStorage.setItem("planner_name", res.data.name); // sessionStorage에 name을 user_name이라는 key 값으로 저장
           }
         })
         .catch();
@@ -88,7 +81,15 @@ function Login() {
           <div className="col"></div>
         </div>
       </div>
-      <div className="container text-center">
+      <div
+        className="container text-center"
+        style={{
+          // minHeight: "100vh",
+          height: "450px",
+          width: "100%",
+          zIndex: 1,
+        }}
+      >
         <form>
           <div className="row">
             <div className="col"></div>
@@ -102,6 +103,7 @@ function Login() {
                   required=""
                   value={inputId}
                   onChange={handleInputId}
+                  style={{ fontSize: "1.3em" }}
                 />
                 <input
                   type="password"
@@ -110,6 +112,7 @@ function Login() {
                   required=""
                   value={inputPw}
                   onChange={handleInputPw}
+                  style={{ fontSize: "1.3em" }}
                 />
                 <div class="input-group" id="Role" style={{ width: 256 }}>
                   <div class="input-group-text">
@@ -132,7 +135,7 @@ function Login() {
                     aria-label="custom btn"
                     value="회원"
                     disabled
-                    style={{ background: "white" }}
+                    style={{ background: "white", fontSize: "1.3em" }}
                   />
                   <div class="input-group-text">
                     <input
@@ -154,11 +157,15 @@ function Login() {
                     aria-label="palnner btn"
                     value="플래너"
                     disabled
-                    style={{ background: "white" }}
+                    style={{ background: "white", fontSize: "1.3em" }}
                   />
                 </div>
               </div>
-              <Link to="/passwordSearch" className="searchmessage">
+              <Link
+                to="/passwordSearch"
+                className="searchmessage"
+                style={{ fontSize: "1.1em" }}
+              >
                 비밀번호를 잊으셨나요?
               </Link>
             </div>
@@ -169,13 +176,14 @@ function Login() {
             type="button"
             className="btn-colour-1 "
             onClick={onClickLogin}
+            style={{ fontSize: "1.2em" }}
           >
             로그인
           </button>
         </form>
         <br />
         <br />
-        <p>
+        <p style={{ fontSize: "1.2em" }}>
           처음 오셨나요? &nbsp;&nbsp;&nbsp;&nbsp;
           <Link to="/signup" className="signupmessage">
             회원가입

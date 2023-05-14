@@ -1,21 +1,24 @@
 import "../Css/main.css";
 import "../Css/mypage.css";
+import profileimage from "../Assets/defaultprofileimage.jpg";
 import NavigationBar from "../Components/NavigationBar";
 import Footer from "../Components/Footer";
 import React, { useState, useRef, useEffect } from "react";
 import Modal from "react-modal";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams, useLocation } from "react-router-dom";
+import axios from "axios";
 
 function Mypage() {
   const title = "마이페이지";
   const navigate = useNavigate();
 
-  const [name, setName] = useState("귀엽조");
-  const [password, setPassword] = useState("Ab1234**");
-  const [email, setEmail] = useState("abc@naver.com");
-  const [phone, setPhone] = useState("010-1234-5678");
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [gender, setGender] = useState("");
-  const [career, setCareer] = useState(10);
+
+  const [career, setCareer] = useState("");
 
   const [passwordMessage, setPasswordMessage] = useState("looks good!");
   const [passwordCheck, setPasswordCheck] = useState("");
@@ -27,11 +30,167 @@ function Mypage() {
   const passwordConfirm = useRef();
   const [passwordcheckmessage, setPasswordCheckMessage] = useState("");
 
+  const [previewUrl, setPreviewUrl] = useState(null);
+
   const { category } = useParams();
+
+  const userEmail = window.sessionStorage.getItem("email");
+
+  const location = useLocation();
+  const path = location.pathname;
+  useEffect(() => {
+    viewDefaultInfo();
+    if (category !== "user" && category !== "planner") {
+      navigate("/*");
+    } else if (
+      sessionStorage.getItem("category") !== "user" &&
+      sessionStorage.getItem("category") !== "planner"
+    ) {
+      navigate("/*");
+    } else if (
+      sessionStorage.getItem("category") === "user" &&
+      path.indexOf("planner") !== -1
+    ) {
+      navigate("/mypageabc");
+    } else if (
+      sessionStorage.getItem("category") === "planner" &&
+      path.indexOf("user") !== -1
+    ) {
+      navigate("/mypageabc");
+    }
+  }, []);
+  const viewDefaultInfo = () => {
+    if (category === "user") {
+      axios
+        .post("/user/userSearch", { email: userEmail })
+        .then((res) => {
+          setName(res.data.name);
+          setEmail(res.data.email);
+          setPassword(res.data.password);
+          setPhone(res.data.phoneNum);
+          setGender(res.data.gender);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+      axios
+        .post("/user/getprofileImg", { email: userEmail })
+        .then((res) => {
+          const byteCharacters = atob(res.data);
+          const byteNumbers = new Array(byteCharacters.length);
+          for (let i = 0; i < byteCharacters.length; i++) {
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
+          }
+          const byteArray = new Uint8Array(byteNumbers);
+          const blob = new Blob([byteArray], { type: "image/jpeg" });
+
+          const reader = new FileReader();
+          reader.onload = () => {
+            setPreviewUrl(reader.result);
+          };
+          reader.readAsDataURL(blob);
+        })
+        .catch((e) => {
+          setPreviewUrl(profileimage);
+        });
+    }
+    if (category === "planner") {
+      axios
+        .post("/planner/plannerSearch", { email: userEmail })
+        .then((res) => {
+          setName(res.data.name);
+          setEmail(res.data.email);
+          setPassword(res.data.password);
+          setPhone(res.data.phoneNum);
+          setGender(res.data.gender);
+          setCareer(res.data.plannerCareerYears);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+      axios
+        .post("/planner/getprofileImg", { email: userEmail })
+        .then((res) => {
+          const byteCharacters = atob(res.data);
+          const byteNumbers = new Array(byteCharacters.length);
+          for (let i = 0; i < byteCharacters.length; i++) {
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
+          }
+          const byteArray = new Uint8Array(byteNumbers);
+          const blob = new Blob([byteArray], { type: "image/jpeg" });
+
+          const reader = new FileReader();
+          reader.onload = () => {
+            setPreviewUrl(reader.result);
+          };
+          reader.readAsDataURL(blob);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+  };
+
+  const checkPasswordInfo = () => {
+    if (category === "user") {
+      axios
+        .post("/user/userSearch", { email: userEmail })
+        .then((res) => {
+          if (passwordCheck === res.data.password) {
+            setPasswordCheckMessage("비밀번호 확인 완료!");
+          } else {
+            setPasswordCheckMessage("비밀번호가 틀립니다. 다시 입력하세요.");
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+    if (category === "planner") {
+      axios
+        .post("/planner/plannerSearch", { email: userEmail })
+        .then((res) => {
+          if (passwordCheck === res.data.password) {
+            setPasswordCheckMessage("비밀번호 확인 완료!");
+          } else {
+            setPasswordCheckMessage("비밀번호가 틀립니다. 다시 입력하세요.");
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+  };
+
+  const deleteMember = () => {
+    if (category === "user") {
+      axios
+        .post("/user/userDelete", { email: userEmail })
+        .then((res) => {
+          window.sessionStorage.clear();
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+    if (category === "planner") {
+      axios
+        .post("/planner/plannerDelete", { email: userEmail })
+        .then((res) => {
+          window.sessionStorage.clear();
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+  };
+
+  useEffect(() => {
+    checkPasswordInfo();
+  }, [passwordCheck, password]);
 
   const onChange = (e) => {
     if (e.target.id === "passwordcheck") {
-      console.log(e.target.value);
       const passwordRegExp =
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+\\\|\[\]{};:\'",.<>\/?]).{8,}$/;
       if (passwordRegExp.test(e.target.value)) {
@@ -76,31 +235,72 @@ function Mypage() {
     }
   };
 
-  useEffect(() => {
-    if (passwordCheck === password) {
-      setPasswordCheckMessage("비밀번호 확인 완료!");
-    } else {
-      setPasswordCheckMessage("비밀번호가 틀립니다. 다시 입력하세요.");
-    }
-  }, [passwordCheck, password]);
-
   const gotoUpdatePage = () => {
     if (passwordcheckmessage === "비밀번호 확인 완료!") {
-      navigate(`/mypage/${category}/userupdate`);
+      navigate(`/mypage/${category}/userupdate`, {
+        state: true,
+      });
     }
   };
 
+  const logout = () => {
+    window.sessionStorage.clear();
+  };
+
   return (
-    <div className="mainlayout">
+    <div className="mainlayout" style={{ minHeight: "100vh", height: "100%" }}>
       <NavigationBar title={title} />
-      <div className="content mypagecontainer text-center">
-        <form className="col">
-          <img src="" alt="" />
-          <div className="row justify-content-md-center mb-2">
-            <label htmlFor="name" className="form-label col col-md-2 mt-2">
+      <div
+        className="content mypagecontainer text-center"
+        style={{
+          minHeight: "100vh",
+          height: "100%",
+          width: "100%",
+          zIndex: 1,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "start",
+        }}
+      >
+        {previewUrl === null ? (
+          <div style={{ width: "200px", height: "200px" }}></div>
+        ) : (
+          <img
+            src={previewUrl}
+            style={
+              category === "user"
+                ? {
+                    width: "200px",
+                    height: "200px",
+                    marginBottom: "20px",
+                    marginTop: "-85px",
+                  }
+                : {
+                    width: "200px",
+                    height: "200px",
+                    marginBottom: "20px",
+                    marginTop: "-95px",
+                  }
+            }
+            alt=""
+          />
+        )}
+        <form style={{ marginTop: "10px" }}>
+          <div
+            className=" justify-content-md-center mb-2"
+            style={{ display: "flex", flexDirection: "row", width: "100%" }}
+          >
+            <label
+              htmlFor="name"
+              className="form-label  mt-2"
+              style={{ marginRight: "10px", width: "200px", fontSize: "1.3em" }}
+            >
               이름
             </label>
-            <div className="col col-md-7 mb-4">
+            <div
+              className=" mb-4"
+              style={{ width: "250px", marginRight: "20px" }}
+            >
               <input
                 type="text"
                 className="form-control "
@@ -108,14 +308,25 @@ function Mypage() {
                 value={name}
                 autocomplete="off"
                 disabled
+                style={{ fontSize: "1.1em" }}
               />
             </div>
           </div>
-          <div className="row justify-content-md-center mb-2">
-            <label htmlFor="password" className="form-label col col-md-2 mt-2">
+          <div
+            className=" justify-content-md-center mb-2"
+            style={{ display: "flex", flexDirection: "row", width: "100%" }}
+          >
+            <label
+              htmlFor="password"
+              className="form-label  mt-2"
+              style={{ marginRight: "10px", width: "200px", fontSize: "1.3em" }}
+            >
               비밀번호
             </label>
-            <div className="has-validation col col-md-7 mb-4">
+            <div
+              className="has-validation  mb-4"
+              style={{ width: "250px", marginRight: "20px" }}
+            >
               <input
                 type="text"
                 className="form-control "
@@ -123,14 +334,25 @@ function Mypage() {
                 value={password}
                 autocomplete="off"
                 disabled
+                style={{ fontSize: "1.1em" }}
               />
             </div>
           </div>
-          <div className="row justify-content-md-center mb-2">
-            <label htmlFor="email" className="form-label col col-md-2 mt-2">
+          <div
+            className=" justify-content-md-center mb-2"
+            style={{ display: "flex", flexDirection: "row", width: "100%" }}
+          >
+            <label
+              htmlFor="email"
+              className="form-label  mt-2"
+              style={{ marginRight: "10px", width: "200px", fontSize: "1.3em" }}
+            >
               이메일
             </label>
-            <div className="has-validation col col-md-7 mb-4">
+            <div
+              className="has-validation  mb-4"
+              style={{ width: "250px", marginRight: "20px" }}
+            >
               <input
                 type="text"
                 className="form-control "
@@ -138,14 +360,25 @@ function Mypage() {
                 value={email}
                 autocomplete="off"
                 disabled
+                style={{ fontSize: "1.1em" }}
               />
             </div>
           </div>
-          <div className="row justify-content-md-center mb-2">
-            <label htmlFor="phone" className="form-label col col-md-2 mt-2">
+          <div
+            className=" justify-content-md-center mb-2"
+            style={{ display: "flex", flexDirection: "row", width: "100%" }}
+          >
+            <label
+              htmlFor="phone"
+              className="form-label  mt-2"
+              style={{ marginRight: "10px", width: "200px", fontSize: "1.3em" }}
+            >
               휴대폰
             </label>
-            <div className="has-validation col col-md-7 mb-4">
+            <div
+              className="has-validation  mb-4"
+              style={{ width: "250px", marginRight: "20px" }}
+            >
               <input
                 type="text"
                 className="form-control "
@@ -153,14 +386,25 @@ function Mypage() {
                 value={phone}
                 autocomplete="off"
                 disabled
+                style={{ fontSize: "1.1em" }}
               />
             </div>
           </div>
-          <div className="row justify-content-md-center mb-2">
-            <label htmlFor="gender" className="form-label col col-md-2 mt-2">
+          <div
+            className=" justify-content-md-center mb-2"
+            style={{ display: "flex", flexDirection: "row", width: "100%" }}
+          >
+            <label
+              htmlFor="gender"
+              className="form-label  mt-2"
+              style={{ marginRight: "10px", width: "200px", fontSize: "1.3em" }}
+            >
               성별
             </label>
-            <div class="input-group">
+            <div
+              class="input-group"
+              style={{ width: "250px", marginRight: "20px" }}
+            >
               <div class="input-group-text">
                 <input
                   class="form-check-input mt-0"
@@ -168,7 +412,7 @@ function Mypage() {
                   value=""
                   name="gender"
                   htmlFor="male"
-                  checked
+                  checked={gender === "male" ? true : false}
                   disabled
                   aria-label="Radio button for following text input"
                 />
@@ -180,6 +424,7 @@ function Mypage() {
                 aria-label="male btn"
                 value="남자"
                 disabled
+                style={{ fontSize: "1.1em" }}
               />
               <div class="input-group-text">
                 <input
@@ -188,6 +433,7 @@ function Mypage() {
                   value=""
                   name="gender"
                   htmlFor="female"
+                  checked={gender === "female" ? true : false}
                   disabled
                   aria-label="Radio button for following text input"
                 />
@@ -199,15 +445,30 @@ function Mypage() {
                 aria-label="female btn"
                 value="여자"
                 disabled
+                style={{ fontSize: "1.1em" }}
               />
             </div>
           </div>
           {category === "planner" ? (
-            <div class="row justify-content-md-center mb-2 mt-4">
-              <label for="phone" class="form-label col col-md-2 mt-2">
+            <div
+              class=" justify-content-md-center mb-2 mt-4"
+              style={{ display: "flex", flexDirection: "row", width: "100%" }}
+            >
+              <label
+                for="phone"
+                class="form-label mt-2"
+                style={{
+                  marginRight: "10px",
+                  width: "200px",
+                  fontSize: "1.3em",
+                }}
+              >
                 경력
               </label>
-              <div class="has-validation col col-md-7">
+              <div
+                class="has-validation "
+                style={{ width: "250px", marginRight: "20px" }}
+              >
                 <input
                   type="number"
                   class="form-control "
@@ -219,6 +480,7 @@ function Mypage() {
                   min="0"
                   max="30"
                   disabled
+                  style={{ fontSize: "1.1em" }}
                 />
               </div>
             </div>
@@ -229,6 +491,7 @@ function Mypage() {
             data-bs-toggle="modal"
             data-bs-target="#passwordcheckmodal"
             onClick={deletePassword}
+            style={{ marginTop: "20px" }}
           >
             정보 수정하기
           </button>
@@ -237,6 +500,7 @@ function Mypage() {
             <button
               className="logout btn-colour-1"
               onClick={() => {
+                logout();
                 navigate("/login");
               }}
             >
@@ -267,8 +531,9 @@ function Mypage() {
           <div class="modal-content">
             <div class="modal-header">
               <h1
-                class="modal-title justify-content-center fs-5"
+                class="modal-title justify-content-center "
                 id="passwordcheckmodal"
+                style={{ fontSize: "1.5em" }}
               >
                 - 비밀번호 확인 -
               </h1>
@@ -289,6 +554,7 @@ function Mypage() {
                   ref={passwordInput}
                   value={passwordCheck}
                   onChange={onChange}
+                  style={{ fontSize: "1.2em" }}
                   placeholder="현재 비밀번호를 입력해주세요."
                   onKeyPress={submitPasswordCheck}
                   required
@@ -297,6 +563,7 @@ function Mypage() {
                 />
                 <div
                   class="invisible text-start password-feedback"
+                  style={{ fontSize: "1em" }}
                   ref={passwordFeedback}
                 >
                   {passwordMessage}
@@ -340,8 +607,9 @@ function Mypage() {
           <div class="modal-content">
             <div class="modal-header">
               <h1
-                class="modal-title justify-content-center fs-5"
+                class="modal-title justify-content-center"
                 id="passwordcheckMessageModal"
+                style={{ fontSize: "1.5em" }}
               >
                 - 비밀번호 확인 -
               </h1>
@@ -353,7 +621,9 @@ function Mypage() {
                 onClick={deletePassword}
               ></button>
             </div>
-            <div class="modal-body">{passwordcheckmessage}</div>
+            <div class="modal-body" style={{ fontSize: "1.2em" }}>
+              {passwordcheckmessage}
+            </div>
             <div class="modal-footer">
               <button
                 type="button"
@@ -387,11 +657,15 @@ function Mypage() {
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
-              <h1 class="modal-title text-center fs-5" id="deleteMemberModal">
+              <h1
+                class="modal-title text-center "
+                id="deleteMemberModal"
+                style={{ fontSize: "1.4em" }}
+              >
                 - 회원 탈퇴 -
               </h1>
             </div>
-            <div class="modal-body text-center">
+            <div class="modal-body text-center" style={{ fontSize: "1.2em" }}>
               그동안 감사했습니다😢 이렇게 가신다니 아쉬워요 (T_T)
             </div>
             <div class="modal-footer justify-content-center">
@@ -400,8 +674,10 @@ function Mypage() {
                 class="btn btn-primary"
                 data-bs-dismiss="modal"
                 onClick={() => {
-                  navigate("/");
+                  deleteMember();
+                  navigate("/", { return: true });
                 }}
+                style={{ fontSize: "1.3em" }}
               >
                 메인페이지로
               </button>

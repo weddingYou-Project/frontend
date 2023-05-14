@@ -5,6 +5,8 @@
     width:560px;
     padding:10px 15px 10px 5px;
     border-bottom: 1px solid grey;
+    z-Index: 100;
+    position:"fixed";
 }
 
 .navigationbar p{

@@ -22,17 +22,12 @@ function PasswordSearch() {
   };
 
   const onClicksend = () => {
-    console.log("click send");
-    console.log("ID : ", inputId);
-
     if (Role === "회원") {
       axios
         .post("user/forgotPassword", {
           email: inputId,
         })
         .then((res) => {
-          console.log(res);
-          console.log("res.data.user_Id :: ", res.data.user_Id);
           if (res.data === 1) {
             setHidden1(false);
             console.log("======================", "유저 임시비밀번호 전송성공");
@@ -49,7 +44,6 @@ function PasswordSearch() {
           email: inputId,
         })
         .then((res) => {
-          console.log(res);
           if (res.data === 1) {
             setHidden1(false);
             console.log(
@@ -70,13 +64,14 @@ function PasswordSearch() {
     <div className="mainlayout">
       <NavigationBar title={"비밀번호 찾기"} />
       <br />
-      <div className="container text-center">
+      <div className="container text-center" style={{ height: "700px" }}>
         <div className="row">
           <div className="col-2"></div>
           <div className="col-8">
             <div className="infotext">
               <i className="bi bi-dash-lg"></i>&nbsp;&nbsp;
-              <span>임시 비밀번호 받기</span>&nbsp;&nbsp;
+              <span style={{ fontSize: "1.5em" }}>임시 비밀번호 받기</span>
+              &nbsp;&nbsp;
               <i className="bi bi-dash-lg"></i>
             </div>
           </div>
@@ -86,7 +81,7 @@ function PasswordSearch() {
           <div className="row">
             <div className="col-2"></div>
             <div className="col-8">
-              <div className="infotext2">
+              <div className="infotext2" style={{ fontSize: "1.2em" }}>
                 등록되어 있는 이메일을 입력하시고
                 <br />
                 임시 비밀번호 전송 버튼을 눌러주세요.
@@ -105,6 +100,7 @@ function PasswordSearch() {
                 placeholder="이메일"
                 value={inputId}
                 onChange={handleInputId}
+                style={{ fontSize: "1.3em" }}
               />
             </div>
             <div class="input-group" id="Role" style={{ width: 256 }}>
@@ -128,7 +124,7 @@ function PasswordSearch() {
                 aria-label="custom btn"
                 value="회원"
                 disabled
-                style={{ background: "white" }}
+                style={{ background: "white", fontSize: "1.3em" }}
               />
               <div class="input-group-text">
                 <input
@@ -150,7 +146,7 @@ function PasswordSearch() {
                 aria-label="palnner btn"
                 value="플래너"
                 disabled
-                style={{ background: "white" }}
+                style={{ background: "white", fontSize: "1.3em" }}
               />
             </div>
           </div>
@@ -166,12 +162,12 @@ function PasswordSearch() {
                 data-bs-toggle="modal"
                 data-bs-target="#exampleModal"
                 onClick={onClicksend}
+                style={{ fontSize: "1.2em" }}
               >
                 임시 비밀번호 전송
               </button>
             </div>
           </div>
-          <div className="col-2"></div>
         </div>
       </div>
       <div
@@ -187,12 +183,15 @@ function PasswordSearch() {
             <div class="modal-header">
               <div className="infotext4">
                 <i className="bi bi-dash-lg"></i>&nbsp;&nbsp;
-                <span>임시 비밀번호 전송 완료</span>&nbsp;&nbsp;
+                <span style={{ fontSize: "1.3em" }}>
+                  임시 비밀번호 전송 완료
+                </span>
+                &nbsp;&nbsp;
                 <i className="bi bi-dash-lg"></i>
               </div>
             </div>
             <div class="modal-body infotext4">
-              <div className="infotext4">
+              <div className="infotext4" style={{ fontSize: "1.2em" }}>
                 임시 비밀번호가 이메일로 전송되었습니다.
                 <br />
                 확인 후 로그인과 비밀번호 변경을 해주세요!
@@ -206,7 +205,11 @@ function PasswordSearch() {
               >
                 <Link
                   to="/passwordSearch/temporaryPasswordLogin"
-                  style={{ color: "white", textDecorationLine: "none" }}
+                  style={{
+                    color: "white",
+                    textDecorationLine: "none",
+                    fontSize: "1.2em",
+                  }}
                 >
                   임시 로그인 하기
                 </Link>

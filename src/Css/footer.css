@@ -12,6 +12,8 @@
     border-right:2px solid rgb(173, 166, 166);
     margin-left:-1.7px;
     border-radius: 0 0 10px 10px;
+    z-index: 100;
+    font-size:1.3em;
 }
 
 .footer-border-remove{
@@ -27,7 +29,8 @@
     border-left: 2px solid rgb(173, 166, 166);
     border-right:2px solid rgb(173, 166, 166);
     margin-left:-1.7px;
-
+    z-index: 100;
+    font-size:1.3em;
 }
 
 .icon{
