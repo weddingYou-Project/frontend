@@ -115,6 +115,7 @@ function UserUpdate() {
       axios
         .post("/user/getprofileImg", { email: sessionStorage.getItem("email") })
         .then((res) => {
+          console.log(res);
           const byteCharacters = atob(res.data);
           const byteNumbers = new Array(byteCharacters.length);
           for (let i = 0; i < byteCharacters.length; i++) {

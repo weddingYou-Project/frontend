@@ -3,12 +3,33 @@ import "../Css/Home.css";
 import Footer from "../Components/Footer";
 import imgLogo from "../Assets/logo.png";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useLayoutEffect, useEffect, useRef } from "react";
+
+import axios from "axios";
 
 function Home() {
   const navigate = useNavigate();
 
   const [searchItem, setSearchItem] = useState("");
+
+  const [category1, setCategory1] = useState("웨딩홀");
+
+  const [previewImg, setPreviewImg] = useState([]);
+  const [itemId, setItemId] = useState([]);
+  const [item, setItem] = useState([]);
+  const [itemName, setItemName] = useState([]);
+  const [itemLike, setItemLike] = useState([]);
+  const [itemImgContent, setItemImgContent] = useState([]);
+  const [itemImg, setItemImg] = useState([]);
+  const [itemCategory1, setItemCategory1] = useState([]);
+  const [itemCategory2, setItemCategory2] = useState([]);
+  const [keyIndex, setKeyIndex] = useState([]);
+  let keyIndexArr = [];
+  let list = [];
+  let itemDataArr = [];
+  let itemLikeArr = [];
+  let itemNameArr = [];
+  let previewImgArr = [];
 
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
@@ -47,6 +68,63 @@ function Home() {
       </h4>
     );
   };
+  useEffect(() => {
+    axios
+      .get(`/item/itemList/${category1}`)
+      .then((res) => {
+        const dataList = res.data;
+        //    console.log(dataList);
+        console.log(res);
+        let index = 0;
+        for (var i = 0; i < dataList.length; i++) {
+          if (i % 2 === 0) {
+            //    console.log(dataList[i]);
+            let dataUrl = "data:image/jpeg;base64," + dataList[i];
+            previewImgArr.push(dataUrl);
+            setPreviewImg(previewImgArr);
+          } else {
+            let newitemId = dataList[i];
+            //  console.log(newitemId);
+            list.push(newitemId);
+            setItemId(list);
+            keyIndexArr.push(index);
+            index++;
+            setKeyIndex(keyIndexArr);
+            axios
+              .get(`/item/getItemList/${newitemId}`)
+              .then((res) => {
+                console.log(res.data);
+                let newItem = res.data;
+                itemDataArr.push(newItem);
+                //console.log(itemDataArr);
+                setItem([newItem, ...item]);
+                let newItemName = res.data.itemName;
+                itemNameArr.push(newItemName);
+                //console.log(itemNameArr);
+                setItemName(itemNameArr);
+                let newItemLike = res.data.like.length;
+                itemLikeArr.push(newItemLike);
+                //console.log(itemLikeArr);
+                setItemLike(itemLikeArr);
+              })
+              .catch((e) => {
+                console.log(e);
+              });
+          }
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
+  console.log("itemId:" + itemId);
+  console.log("item:" + item);
+  console.log("itemNmae:" + itemName);
+  // console.log("itemNameArr:" + itemNameArr);
+  console.log("itemLike:" + itemLike);
+  console.log("keyindex:" + keyIndex);
+  // console.log("previewImg" + previewImg);
+
   return (
     <div className="mainlayout">
       <div className="header">
@@ -144,31 +222,32 @@ function Home() {
             <div class="carousel-inner">
               <div class="carousel-item active">
                 <img
-                  src="https://www.iwedding.co.kr/center/website/brandplus/1670307028.jpg"
+                  id="targetImg"
+                  src={previewImg[keyIndex[keyIndex.length - 4]]} //previewImg배열 하나하나요소가 src에 들어가야 함.
                   class="d-block w-50 center"
                   alt="..."
                 />
                 <br />
-                <div className="itemName">(이름) (좋아요수)</div>
+                <div className="itemName">
+                  {itemName[0]} ❤️{itemLike[0]}
+                </div>
               </div>
-              <div class="carousel-item">
-                <img
-                  src="https://www.iwedding.co.kr/center/website/brandplus/1681797008.jpg"
-                  class="d-block w-50 center"
-                  alt="..."
-                />
-                <br />
-                <div className="itemName">(이름) (좋아요수)</div>
-              </div>
-              <div class="carousel-item">
-                <img
-                  src="https://www.iwedding.co.kr/center/website/brandplus/1679360660.jpg"
-                  class="d-block w-50 center"
-                  alt="..."
-                />
-                <br />
-                <div className="itemName">(이름) (좋아요수)</div>
-              </div>
+
+              {keyIndex.map((i) => {
+                return (
+                  <div class="carousel-item">
+                    <img
+                      src={previewImg[i]}
+                      class="d-block w-50 center"
+                      alt="..."
+                    />
+                    <br />
+                    <div className="itemName">
+                      {itemName[i]} &nbsp;&nbsp;❤️{itemLike[i]}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
             <button
               class="carousel-control-prev"
@@ -504,3 +583,57 @@ function Home() {
 }
 
 export default Home;
+
+const CarouselItem = ({ category1, previewImg, index }) => {
+  const [itemId, setItemId] = useState([]);
+  const [item, setItem] = useState([]);
+  const [itemName, setItemName] = useState([]);
+  const [itemLike, setItemLike] = useState([]);
+
+  useLayoutEffect(() => {
+    axios
+      .get(`/item/itemList/${category1}`)
+      .then((res) => {
+        const dataList = res.data;
+
+        var list = [];
+        var itemData = [];
+        var itemLike = [];
+        var itemName = [];
+        for (var i = 0; i < dataList.length; i++) {
+          if (i % 2 === 1) {
+            let newitemId = dataList[i];
+
+            list.push(newitemId);
+            setItemId(list);
+            axios
+              .get(`/item/getItemList/${newitemId}`)
+              .then((res) => {
+                itemData.push(res.data);
+                setItem(itemData);
+                itemName.push(res.data.itemName);
+                setItemName(itemName);
+                itemLike.push(res.data.like.length);
+                setItemLike(itemLike);
+              })
+              .catch((e) => {
+                console.log(e);
+              });
+          }
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
+
+  return (
+    <div class="carousel-item">
+      <img src={previewImg} class="d-block w-50 center" alt="..." />
+      <br />
+      <div className="itemName">
+        {itemName[index]} {itemLike[index]}
+      </div>
+    </div>
+  );
+};
