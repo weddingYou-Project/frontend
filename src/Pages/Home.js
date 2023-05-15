@@ -234,7 +234,7 @@ function Home() {
                   } else {
                     //로그인하지 않았을 때
                     likeIndexArr1.push(-1);
-                    setWeddingHallLikeState(likeIndexArr1);
+                    setStudioLikeState(likeIndexArr1);
                   }
                 })
                 .catch((e) => {
@@ -310,7 +310,7 @@ function Home() {
                   } else {
                     //로그인하지 않았을 때
                     likeIndexArr2.push(-1);
-                    setWeddingHallLikeState(likeIndexArr2);
+                    setDressLikeState(likeIndexArr2);
                   }
                 })
                 .catch((e) => {
@@ -460,7 +460,7 @@ function Home() {
                   } else {
                     //로그인하지 않았을 때
                     likeIndexArr4.push(-1);
-                    setWeddingHallLikeState(likeIndexArr4);
+                    setHoneyMoonLikeState(likeIndexArr4);
                   }
                 })
                 .catch((e) => {
@@ -535,7 +535,7 @@ function Home() {
                   } else {
                     //로그인하지 않았을 때
                     likeIndexArr5.push(-1);
-                    setWeddingHallLikeState(likeIndexArr5);
+                    setBouquetLikeState(likeIndexArr5);
                   }
                 })
                 .catch((e) => {
