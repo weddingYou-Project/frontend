@@ -217,7 +217,6 @@ function LikeList() {
         } else {
           // 결과 없을 때
           keyIndexArr = [];
-
           setKeyIndex(keyIndexArr);
         }
       })

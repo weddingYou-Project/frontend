@@ -102,6 +102,7 @@ function Home() {
   const [likseSelect, setLikeSelect] = useState(false);
   const [modalBackgroundColor, setChangeModalBackgroundColor] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectLikeState, setSelectLikeState] = useState(undefined);
 
   const modalImg = useRef();
   const modalImgContent = useRef();
@@ -583,59 +584,79 @@ function Home() {
     modalItemId.current.id = e.target.dataset.bsItemid;
     modalItemId.current.dataset.index = index;
     setSelectedCategory(e.target.dataset.bsCategory);
+
     if (e.target.dataset.bsCategory === category[0]) {
       modalItemId.current.dataset.category = category[0];
       modalImgContent.current.innerText = item[index].imgContent;
       modalImgTitle.current.innerText = `- ${item[index].itemName} -`;
+      setSelectLikeState(weddingHallLikeState[index]);
       if (weddingHallLikeState[index] === true) {
         modalItemId.current.style.backgroundColor = "#fce1e4";
+        setChangeModalBackgroundColor(true);
       } else {
         modalItemId.current.style.backgroundColor = "#ebebeb";
+        setChangeModalBackgroundColor(false);
       }
     } else if (e.target.dataset.bsCategory === category[1]) {
       modalItemId.current.dataset.category = category[1];
       modalImgContent.current.innerText = studioItem[index].imgContent;
       modalImgTitle.current.innerText = `- ${studioItem[index].itemName} -`;
+      setSelectLikeState(studioLikeState[index]);
       if (studioLikeState[index] === true) {
         modalItemId.current.style.backgroundColor = "#fce1e4";
+        setChangeModalBackgroundColor(true);
       } else {
         modalItemId.current.style.backgroundColor = "#ebebeb";
+        setChangeModalBackgroundColor(false);
       }
     } else if (e.target.dataset.bsCategory === category[2]) {
       modalItemId.current.dataset.category = category[2];
       modalImgContent.current.innerText = dressItem[index].imgContent;
       modalImgTitle.current.innerText = `- ${dressItem[index].itemName} -`;
+      setSelectLikeState(dressLikeState[index]);
       if (dressLikeState[index] === true) {
         modalItemId.current.style.backgroundColor = "#fce1e4";
+        setChangeModalBackgroundColor(true);
       } else {
         modalItemId.current.style.backgroundColor = "#ebebeb";
+        setChangeModalBackgroundColor(false);
       }
     } else if (e.target.dataset.bsCategory === category[3]) {
       modalItemId.current.dataset.category = category[3];
       modalImgContent.current.innerText = makeupItem[index].imgContent;
       modalImgTitle.current.innerText = `- ${makeupItem[index].itemName} -`;
+      setSelectLikeState(makeupLikeState[index]);
       if (makeupLikeState[index] === true) {
         modalItemId.current.style.backgroundColor = "#fce1e4";
+        setChangeModalBackgroundColor(true);
       } else {
         modalItemId.current.style.backgroundColor = "#ebebeb";
+        setChangeModalBackgroundColor(false);
       }
     } else if (e.target.dataset.bsCategory === category[4]) {
       modalItemId.current.dataset.category = category[4];
       modalImgContent.current.innerText = honeyMoonItem[index].imgContent;
       modalImgTitle.current.innerText = `- ${honeyMoonItem[index].itemName} -`;
+      setSelectLikeState(honeyMoonLikeState[index]);
       if (honeyMoonLikeState[index] === true) {
         modalItemId.current.style.backgroundColor = "#fce1e4";
+        setChangeModalBackgroundColor(true);
       } else {
         modalItemId.current.style.backgroundColor = "#ebebeb";
+        setChangeModalBackgroundColor(false);
       }
     } else if (e.target.dataset.bsCategory === category[5]) {
       modalItemId.current.dataset.category = category[5];
       modalImgContent.current.innerText = bouquetItem[index].imgContent;
       modalImgTitle.current.innerText = `- ${bouquetItem[index].itemName} -`;
+
+      setSelectLikeState(bouquetLikeState[index]);
       if (bouquetLikeState[index] === true) {
         modalItemId.current.style.backgroundColor = "#fce1e4";
+        setChangeModalBackgroundColor(true);
       } else {
         modalItemId.current.style.backgroundColor = "#ebebeb";
+        setChangeModalBackgroundColor(false);
       }
     }
   };
@@ -643,21 +664,24 @@ function Home() {
   const manageLikeLikst = (e) => {
     let newlikeState = undefined;
     const index = modalItemId.current.dataset.index;
-    console.log(e);
+
     setCheckLike(!checkLike);
     if (modalItemId.current.dataset.category === category[0]) {
       newlikeState = [...weddingHallLikeState];
       let prevState = newlikeState.slice(index, index + 1);
       let changedState = undefined;
       if (prevState[0] === true) {
+        setSelectLikeState(false);
         modalItemId.current.style.backgroundColor = "#ebebeb";
         changedState = false;
         itemLike[index]--;
       } else if (prevState[0] === false) {
+        setSelectLikeState(true);
         modalItemId.current.style.backgroundColor = "#fce1e4";
         changedState = true;
         itemLike[index]++;
       } else if (prevState[0] === undefined) {
+        setSelectLikeState(true);
         modalItemId.current.style.backgroundColor = "#fce1e4";
         changedState = true;
         itemLike[index]++;
@@ -671,14 +695,17 @@ function Home() {
       let prevState = newlikeState.slice(index, index + 1);
       let changedState = undefined;
       if (prevState[0] === true) {
+        setSelectLikeState(false);
         modalItemId.current.style.backgroundColor = "#ebebeb";
         changedState = false;
         studioItemLike[index]--;
       } else if (prevState[0] === false) {
+        setSelectLikeState(true);
         modalItemId.current.style.backgroundColor = "#fce1e4";
         changedState = true;
         studioItemLike[index]++;
       } else if (prevState[0] === undefined) {
+        setSelectLikeState(true);
         modalItemId.current.style.backgroundColor = "#fce1e4";
         changedState = true;
         studioItemLike[index]++;
@@ -692,14 +719,17 @@ function Home() {
       let prevState = newlikeState.slice(index, index + 1);
       let changedState = undefined;
       if (prevState[0] === true) {
+        setSelectLikeState(false);
         modalItemId.current.style.backgroundColor = "#ebebeb";
         changedState = false;
         dressItemLike[index]--;
       } else if (prevState[0] === false) {
+        setSelectLikeState(true);
         modalItemId.current.style.backgroundColor = "#fce1e4";
         changedState = true;
         dressItemLike[index]++;
       } else if (prevState[0] === undefined) {
+        setSelectLikeState(true);
         modalItemId.current.style.backgroundColor = "#fce1e4";
         changedState = true;
         dressItemLike[index]++;
@@ -713,14 +743,17 @@ function Home() {
       let prevState = newlikeState.slice(index, index + 1);
       let changedState = undefined;
       if (prevState[0] === true) {
+        setSelectLikeState(false);
         modalItemId.current.style.backgroundColor = "#ebebeb";
         changedState = false;
         makeupItemLike[index]--;
       } else if (prevState[0] === false) {
+        setSelectLikeState(true);
         modalItemId.current.style.backgroundColor = "#fce1e4";
         changedState = true;
         makeupItemLike[index]++;
       } else if (prevState[0] === undefined) {
+        setSelectLikeState(true);
         modalItemId.current.style.backgroundColor = "#fce1e4";
         changedState = true;
         makeupItemLike[index]++;
@@ -734,14 +767,17 @@ function Home() {
       let prevState = newlikeState.slice(index, index + 1);
       let changedState = undefined;
       if (prevState[0] === true) {
+        setSelectLikeState(false);
         modalItemId.current.style.backgroundColor = "#ebebeb";
         changedState = false;
         honeyMoonItemLike[index]--;
       } else if (prevState[0] === false) {
+        setSelectLikeState(true);
         modalItemId.current.style.backgroundColor = "#fce1e4";
         changedState = true;
         honeyMoonItemLike[index]++;
       } else if (prevState[0] === undefined) {
+        setSelectLikeState(true);
         modalItemId.current.style.backgroundColor = "#fce1e4";
         changedState = true;
         honeyMoonItemLike[index]++;
@@ -755,14 +791,17 @@ function Home() {
       let prevState = newlikeState.slice(index, index + 1);
       let changedState = undefined;
       if (prevState[0] === true) {
+        setSelectLikeState(false);
         modalItemId.current.style.backgroundColor = "#ebebeb";
         changedState = false;
         bouquetItemLike[index]--;
       } else if (prevState[0] === false) {
+        setSelectLikeState(true);
         modalItemId.current.style.backgroundColor = "#fce1e4";
         changedState = true;
         bouquetItemLike[index]++;
       } else if (prevState[0] === undefined) {
+        setSelectLikeState(true);
         modalItemId.current.style.backgroundColor = "#fce1e4";
         changedState = true;
         bouquetItemLike[index]++;
@@ -1137,7 +1176,8 @@ function Home() {
                 />
                 <br />
                 <div className="itemName" style={{ marginTop: "-10px" }}>
-                  {itemName[0]}&nbsp;&nbsp; ❤️{itemLike[0]}
+                  {itemName[0]}&nbsp;&nbsp; ❤️
+                  {itemLike[0]}
                 </div>
               </div>
 
@@ -1267,7 +1307,7 @@ function Home() {
                       }}
                     >
                       상세정보
-                      {modalBackgroundColor === true ? (
+                      {selectLikeState === true ? (
                         <button
                           style={{
                             marginLeft: "240px",
@@ -1280,7 +1320,21 @@ function Home() {
                           ref={modalItemId}
                           onClick={manageLikeLikst}
                         >
-                          ❤️ 찜하기
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="20"
+                            height="20"
+                            fill="red"
+                            class="bi bi-heart-fill "
+                            viewBox="0 0 16 16"
+                            style={{ cursor: "pointer" }}
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"
+                            />
+                          </svg>{" "}
+                          찜하기
                         </button>
                       ) : (
                         <button
@@ -1295,7 +1349,18 @@ function Home() {
                           ref={modalItemId}
                           onClick={manageLikeLikst}
                         >
-                          ❤️ 찜하기
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="20"
+                            height="20"
+                            fill="currentColor"
+                            class="bi bi-heart"
+                            viewBox="0 0 16 16"
+                            style={{ cursor: "pointer" }}
+                          >
+                            <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+                          </svg>{" "}
+                          찜하기
                         </button>
                       )}
                     </div>
