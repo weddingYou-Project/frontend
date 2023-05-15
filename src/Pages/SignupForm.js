@@ -228,7 +228,13 @@ function SignupForm() {
           gender: gender,
         })
         .then((res) => {
-          setsign("after");
+          if (res.data === "") {
+            setEmailstyle("is-invalid");
+            setEmailcheck(false);
+            setDuplicatecheck(false);
+          } else {
+            setsign("after");
+          }
         })
         .catch((e) => {
           console.log(e);
@@ -248,7 +254,14 @@ function SignupForm() {
           career: career,
         })
         .then((res) => {
-          setsign("after");
+          console.log(res);
+          if (res.data === "") {
+            setEmailstyle("is-invalid");
+            setEmailcheck(false);
+            setDuplicatecheck(false);
+          } else {
+            setsign("after");
+          }
         })
         .catch((e) => {
           console.log(e);

@@ -12,10 +12,12 @@ import NotFound from "./Pages/NotFound";
 import LikeList from "./Pages/LikeList";
 import SearchItems from "./Pages/SearchItems";
 import EstimateForm from "./Pages/EstimateForm";
+import Sidesection from "./Components/Sidesection";
 
 function App() {
   return (
     <Routes>
+      <Route path="/sidesection" element={<Sidesection />} />
       <Route path="/estimateform" element={<EstimateForm />} />
       <Route path="/" element={<Home />}></Route>
       <Route path="/likeList" element={<LikeList />}></Route>
