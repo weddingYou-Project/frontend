@@ -178,6 +178,9 @@ function SearchItems() {
               i++;
             }
           }
+        } else {
+          let countArr = [0, 0, 0, 0, 0, 0];
+          setCountIndex(countArr);
         }
       })
       .catch((e) => {
