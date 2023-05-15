@@ -1254,7 +1254,10 @@ function Home() {
             aria-labelledby="imgDetailModal"
             aria-hidden="true"
           >
-            <div class="modal-dialog modal-dialog-centered">
+            <div
+              class="modal-dialog modal-dialog-centered"
+              style={{ width: "510px" }}
+            >
               <div class="modal-content">
                 <div class="modal-header">
                   <h1
@@ -1285,8 +1288,11 @@ function Home() {
                   }}
                 >
                   <div
-                    class="has-validation col col-md-10"
-                    style={{ height: "100%", width: "100%" }}
+                    class="has-validation"
+                    style={{
+                      height: "100%",
+                      width: "480px",
+                    }}
                   >
                     <img
                       src=""

@@ -310,7 +310,7 @@ function LikeList() {
     <div className="mainlayout">
       <NavigationBar title={"찜목록"} />
       <div className="filter">
-        <div style={{ marginLeft: "10px" }}>
+        <div style={{ marginLeft: "5px" }}>
           <div class="dropdown margin left">
             <button
               class="btn btn-secondary dropdown-toggle"
@@ -388,7 +388,7 @@ function LikeList() {
             </ul>
           </div>
         </div>
-        <div style={{ marginRight: "10px" }}>
+        <div style={{ marginRight: "8px" }}>
           <div class="dropdown  right-sort">
             <button
               class="btn btn-secondary dropdown-toggle"
