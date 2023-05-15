@@ -143,7 +143,7 @@ function LikeList() {
       })
       .then((res) => {
         const dataList = res.data;
-
+        console.log(dataList);
         if (dataList.length !== 0) {
           let index = 0;
           for (var i = 0; i < dataList.length; i++) {
@@ -214,6 +214,11 @@ function LikeList() {
             } else {
             }
           }
+        } else {
+          // 결과 없을 때
+          keyIndexArr = [];
+
+          setKeyIndex(keyIndexArr);
         }
       })
       .catch((e) => {
@@ -425,27 +430,37 @@ function LikeList() {
         <div class="container text-center">
           <div class="row row-cols-2">
             {/* 이미지카드 */}
-            {keyIndex.map((i) => (
-              <div class="col">
-                <div class="card margT">
-                  <img
-                    style={{ height: "230px" }}
-                    src={previewImg[keyIndex.length - i - 1]}
-                    class="card-img-top"
-                    alt="..."
-                  />
-                  <div class="card-body">
-                    <p class="card-text">
-                      {itemName[i]} &nbsp;&nbsp;
-                      <div className="likeListBtn1">
-                        <Like likeState={likeState} index={i} />
-                      </div>
-                      {itemLike[i]}
-                    </p>
+            {keyIndex.length === 0 ? (
+              <div
+                class="text-start"
+                style={{ marginLeft: "10px", fontSize: "1.5em" }}
+              >
+                결과가 없습니다.
+              </div>
+            ) : (
+              keyIndex.map((i) => (
+                <div class="col">
+                  <div class="card margT">
+                    <img
+                      style={{ height: "230px" }}
+                      src={previewImg[keyIndex.length - i - 1]}
+                      class="card-img-top"
+                      alt="..."
+                    />
+                    <div class="card-body">
+                      <p class="card-text">
+                        {itemName[i]} &nbsp;&nbsp;
+                        <div className="likeListBtn1">
+                          <Like likeState={likeState} index={i} />
+                        </div>
+                        {itemLike[i]}
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))
+            )}
+
             {/* 이미지카드 */}
           </div>
           <br />
