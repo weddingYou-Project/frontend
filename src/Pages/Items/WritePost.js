@@ -11,7 +11,7 @@ const categoryOptions = {
   스튜디오: ["인물중심", "배경중심", "균형적인"],
   메이크업: ["헤어", "메이크업"],
   신혼여행: ["해외", "국내"],
-  부케: ["장미", "튤립", "백합", "카네이션", "기타"],
+  부케: ["라운드", "드롭", "케스케이드", "핸드타이드"],
 };
 
 const WritePost = () => {
@@ -53,7 +53,6 @@ const WritePost = () => {
     setContent("");
     setImage(null);
     setCategory2(categoryOptions[category1][0]);
-    window.history.go(-1);
   };
 
   const handleImageChange = (event) => {
