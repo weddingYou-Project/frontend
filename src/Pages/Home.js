@@ -1037,7 +1037,7 @@ function Home() {
           type="text"
           name="search"
           className="searchbar"
-          placeholder="검색어를 입력하세요"
+          placeholder="검색어를 입력하세요!"
           value={searchItem}
           onChange={handleChange}
           onKeyPress={handleKeyPress}

@@ -19,7 +19,7 @@ function SearchItems() {
   const { keyword } = useLocation().state;
 
   const [searchedKeyword, setSearchedKeyWord] = useState(keyword);
-  console.log(keyword);
+  // console.log(keyword);
   const [previewImg, setPreviewImg] = useState([]);
   const [itemId, setItemId] = useState([]);
   const [item, setItem] = useState([]);
@@ -98,7 +98,21 @@ function SearchItems() {
   let previewImgArr5 = [];
   let likeIndexArr5 = [];
 
+  const [searchingKeyword, setSearchingKeyWord] = useState("");
+
   const [countIndex, setCountIndex] = useState([]);
+
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      // 엔터키로 이동
+      setSearchedKeyWord(searchingKeyword);
+    }
+  };
+
+  const handleChange = (e) => {
+    console.log(e.target.value);
+    setSearchingKeyWord(e.target.value);
+  };
 
   useEffect(() => {
     axios
@@ -107,8 +121,6 @@ function SearchItems() {
         const dataList = res.data;
         console.log(dataList);
         if (dataList.length !== 0) {
-          let index = 0;
-          console.log(dataList);
           let count = 0;
           let countArr = [];
           for (var i = 0; i < dataList.length; ) {
@@ -171,44 +183,52 @@ function SearchItems() {
       .catch((e) => {
         console.log(e);
       });
-  }, []);
+  }, [searchedKeyword]);
 
   useEffect(() => {
     for (var i = 0; i < countIndex.length; i++) {
       let itemCount = countIndex[i];
+      console.log("itemCount" + itemCount);
+      keyIndexArr = [];
+      keyIndexArr1 = [];
+      keyIndexArr2 = [];
+      keyIndexArr3 = [];
+      keyIndexArr4 = [];
+      keyIndexArr5 = [];
       if (i === 0) {
-        for (var a = 0; a < itemCount; a++) {
+        let keyIndexArr = [];
+        for (let a = 0; a < itemCount; a++) {
           keyIndexArr.push(a);
-          setKeyIndex(keyIndexArr);
         }
+        setKeyIndex(keyIndexArr);
       } else if (i === 1) {
-        for (var b = 0; b < itemCount; b++) {
+        for (let b = 0; b < itemCount; b++) {
           keyIndexArr1.push(b);
-          setStudioKeyIndex(keyIndexArr1);
         }
+        setStudioKeyIndex(keyIndexArr1);
       } else if (i === 2) {
-        for (var c = 0; c < itemCount; c++) {
+        for (let c = 0; c < itemCount; c++) {
           keyIndexArr2.push(c);
-          setDressKeyIndex(keyIndexArr2);
         }
+        setDressKeyIndex(keyIndexArr2);
       } else if (i === 3) {
-        for (var d = 0; d < itemCount; d++) {
+        for (let d = 0; d < itemCount; d++) {
           keyIndexArr3.push(d);
-          setMakeupKeyIndex(keyIndexArr3);
         }
+        setMakeupKeyIndex(keyIndexArr3);
       } else if (i === 4) {
-        for (var e = 0; e < itemCount; e++) {
+        for (let e = 0; e < itemCount; e++) {
           keyIndexArr4.push(e);
-          setHoneyMoonKeyIndex(keyIndexArr4);
         }
+        setHoneyMoonKeyIndex(keyIndexArr4);
       } else if (i === 5) {
-        for (var f = 0; f < itemCount; f++) {
+        for (let f = 0; f < itemCount; f++) {
           keyIndexArr5.push(f);
-          setBouquetKeyIndex(keyIndexArr5);
         }
+        setBouquetKeyIndex(keyIndexArr5);
       }
     }
-  }, [countIndex]);
+  }, [countIndex, searchedKeyword]);
 
   console.log("previewImg");
   console.log(previewImg);
@@ -234,7 +254,10 @@ function SearchItems() {
           type="text"
           name="search"
           className="searchbar"
-          placeholder="{keyword}"
+          placeholder="검색어를 입력해주세요!"
+          onKeyPress={handleKeyPress}
+          value={searchingKeyword}
+          onChange={handleChange}
         />
         <div
           className="likeListBtn"
@@ -251,6 +274,19 @@ function SearchItems() {
             viewBox="0 0 16 16"
           >
             <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+          </svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="40"
+            height="40"
+            fill="currentColor"
+            class="bi bi-heart-fill likeiconfill"
+            viewBox="0 0 16 16"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"
+            />
           </svg>
         </div>
       </div>
