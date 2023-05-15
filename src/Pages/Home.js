@@ -112,7 +112,7 @@ function Home() {
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
       // 엔터키로 이동
-      navigate(`/searchItems`);
+      navigate(`/searchItems`, { state: { keyword: searchItem } });
     }
   };
   const handleChange = (event) => {
