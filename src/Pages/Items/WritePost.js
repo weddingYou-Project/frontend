@@ -7,9 +7,9 @@ import "../../Css/WritePost.css";
 
 const categoryOptions = {
   웨딩홀: ["일반", "호텔", "채플", "스몰", "야외", "전통혼례"],
-  의상: ["드레스", "티아라", "신발", "수트", "넥타이", "베스트"],
-  스튜디오: ["실내", "야외"],
-  메이크업: ["신부", "신랑"],
+  의상: ["드레스", "남선예복", "한복"],
+  스튜디오: ["인물중심", "배경중심", "균형적인"],
+  메이크업: ["헤어", "메이크업"],
   신혼여행: ["해외", "국내"],
   부케: ["장미", "튤립", "백합", "카네이션", "기타"],
 };
@@ -48,6 +48,14 @@ const WritePost = () => {
     }
   };
 
+  const handleCancel = () => {
+    setItemName("");
+    setContent("");
+    setImage(null);
+    setCategory2(categoryOptions[category1][0]);
+    window.history.go(-1);
+  };
+
   const handleImageChange = (event) => {
     const selectedImage = event.target.files[0];
     setImage(selectedImage);
@@ -71,20 +79,28 @@ const WritePost = () => {
           ))}
         </div>
       </div>
-      <form className="post-form" onSubmit={handleSubmit}>
+      <form className="post-inputwrap" onSubmit={handleSubmit}>
         <input
+          className="title-input"
           type="text"
           placeholder="제목"
           value={itemName}
           onChange={(event) => setItemName(event.target.value)}
         />
         <textarea
+          className="content-textarea"
           placeholder="내용"
           value={content}
           onChange={(event) => setContent(event.target.value)}
         />
         <input type="file" onChange={handleImageChange} />
-        <button type="submit">게시하기</button>
+        <button className="submit-button" type="submit">
+          게시하기
+        </button>
+
+        <button className="cancel-button" type="button" onClick={handleCancel}>
+          취소
+        </button>
       </form>
       <Footer />
     </div>
