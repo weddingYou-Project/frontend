@@ -134,7 +134,7 @@ function LikeList() {
   }, []);
 
   useEffect(() => {
-    //전체 찜목록 불러오는 기능
+    //카테고리별로 분류하는 기능
     axios
       .post(`/like/list/category`, {
         email: sessionStorage.getItem("email"),
@@ -195,6 +195,86 @@ function LikeList() {
         console.log(e);
       });
   }, [selectedItem]);
+
+  useEffect(() => {
+    //카테고리별로 분류하는 기능
+    axios
+      .post(`/like/list/sort`, {
+        email: sessionStorage.getItem("email"),
+        sortBy: selectedSort,
+      })
+      .then((res) => {
+        const dataList = res.data;
+
+        if (dataList.length !== 0) {
+          let index = 0;
+          for (var i = 0; i < dataList.length; i++) {
+            if (i % 3 === 0) {
+              let dataUrl = "data:image/jpeg;base64," + dataList[i];
+              previewImgArr.push(dataUrl);
+              setPreviewImg(previewImgArr);
+            } else if (i % 3 === 1) {
+              let newitemId = dataList[i];
+              list.push(newitemId);
+              setItemId(list);
+              keyIndexArr.push(index);
+              index++;
+              setKeyIndex(keyIndexArr);
+              likeIndexArr.push(true);
+              setLikeState(likeIndexArr);
+              axios
+                .get(`/item/getItemList/${newitemId}`)
+                .then((res) => {
+                  let newItem = res.data;
+                  itemDataArr.push(newItem);
+                  console.log(itemDataArr);
+                  if (selectedSort === "가나다순") {
+                    itemDataArr.sort(function (a, b) {
+                      if (a.itemName < b.itemName) return -1;
+                      if (a.itemName > b.itemName) return 1;
+                      if (a.itemName === b.itemName) return 0;
+                    });
+                  } else if (selectedSort === "인기순") {
+                    itemDataArr.sort(function (a, b) {
+                      if (a.like.length < b.like.length) return 1;
+                      if (a.like.length > b.like.length) return -1;
+                      if (a.like.length === b.like.length) {
+                        if (a.itemName < b.itemName) return -1;
+                        if (a.itemName > b.itemName) return 1;
+                        if (a.itemName === b.itemName) return 0;
+                      }
+                    });
+                  } else {
+                    itemDataArr.sort(function (a, b) {
+                      return a.itemName - b.itemName;
+                    });
+                  }
+                  setItem([...item, newItem]);
+                  setItem(itemDataArr);
+
+                  let itemNameList = [];
+                  let itemLikeList = [];
+                  for (var j = 0; j < itemDataArr.length; j++) {
+                    const newItemName = itemDataArr[j].itemName;
+                    const newItemLike = itemDataArr[j].like.length;
+                    itemNameList.push(newItemName);
+                    itemLikeList.push(newItemLike);
+                    setItemName(itemNameList);
+                    setItemLike(itemLikeList);
+                  }
+                })
+                .catch((e) => {
+                  console.log(e);
+                });
+            } else {
+            }
+          }
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, [selectedSort]);
 
   // console.log(likeState);
   useEffect(() => {
