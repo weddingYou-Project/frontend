@@ -1,33 +1,64 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams, Link } from "react-router-dom";
 import Modal from "react-modal";
+import axios from "axios";
 import NavigationBar from "../../Components/NavigationBar";
 import Footer from "../../Components/Footer";
 import "../../Css/menuList.css";
 import "../../Css/items.css";
-import { Link } from "react-router-dom";
 
 const Weddingoutfit = () => {
-  const title = "의상";
-  const categories = ["한복", "드레스", "남성예복"];
-  const images = [
-    {
-      src: `${process.env.PUBLIC_URL}/items/wh_1.jpg`,
-      alt: "이미지 1",
-      category: "한복",
-    },
-    {
-      src: `${process.env.PUBLIC_URL}/items/wh_2.jpg`,
-      alt: "이미지 2",
-      category: "드레스",
-    },
-  ];
-
-  const [selectedCategory, setSelectedCategory] = useState(categories[0]);
+  const { category1 } = useParams();
+  const title = category1;
+  const category2 = ["드레스", "남성예복", "한복"];
+  const [images, setImages] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(category2[0]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedImage, setEditedImage] = useState(null);
 
-  const handleCategoryClick = (category) => {
-    setSelectedCategory(category);
+  useEffect(() => {
+    axios
+      .get("/item/itemList", {
+        params: {
+          category1: title,
+          category2: selectedCategory,
+        },
+      })
+      .then((response) => {
+        setImages(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching data: ", error);
+      });
+  }, [selectedCategory, title]);
+
+  const handleEditClick = () => {
+    setEditedImage(selectedImage);
+    setIsEditing(true);
+  };
+
+  const handleCancelEdit = () => {
+    setIsEditing(false);
+    setEditedImage(null);
+  };
+
+  const handleSaveEdit = () => {
+    axios
+      .post(`/item/updateItem?itemId=${selectedImage.itemId}`, editedImage)
+      .then((response) => {
+        const updatedImage = response.data;
+        const updatedImages = images.map((image) =>
+          image.itemId === updatedImage.itemId ? updatedImage : image
+        );
+        setImages(updatedImages);
+        setSelectedImage(updatedImage);
+        setIsEditing(false);
+      })
+      .catch((error) => {
+        console.error("Error updating image: ", error);
+      });
   };
 
   const handleImageClick = (image) => {
@@ -37,6 +68,18 @@ const Weddingoutfit = () => {
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
+  };
+
+  const handleImageChange = (event) => {
+    const { name, value } = event.target;
+    setEditedImage({
+      ...editedImage,
+      [name]: value,
+    });
+  };
+
+  const handleCategoryClick = (category) => {
+    setSelectedCategory(category);
   };
 
   const modalStyles = {
@@ -61,7 +104,7 @@ const Weddingoutfit = () => {
     <div className="mainlayout">
       <NavigationBar title={title} />
       <div className="category-wrapper">
-        {categories.map((category) => (
+        {category2.map((category) => (
           <div
             key={category}
             className={`category ${
@@ -75,12 +118,12 @@ const Weddingoutfit = () => {
       </div>
       <div className="image-wrapper">
         {images
-          .filter((image) => image.category === selectedCategory)
+          .filter((image) => image.category2 === selectedCategory)
           .map((image) => (
             <img
-              key={image.src}
-              src={image.src}
-              alt={image.alt}
+              key={image.itemId}
+              src={image.itemImg}
+              alt={image.content}
               onClick={() => handleImageClick(image)}
             />
           ))}
@@ -93,14 +136,46 @@ const Weddingoutfit = () => {
         >
           <div className="modal-content">
             <div className="modal-image">
-              <img src={selectedImage.src} alt={selectedImage.alt} />
+              <img src={selectedImage.itemImg} alt={selectedImage.content} />
             </div>
-            <div className="modal-info"></div>
+            {isEditing ? (
+              <div className="modal-info">
+                <input
+                  type="text"
+                  name="content"
+                  value={editedImage.content}
+                  onChange={handleImageChange}
+                />
+                <select
+                  name="category2"
+                  value={editedImage.category2}
+                  onChange={handleImageChange}
+                >
+                  {category2.map((category) => (
+                    <option key={category} value={category}>
+                      {category}
+                    </option>
+                  ))}
+                </select>
+                <div className="modal-actions">
+                  <button onClick={handleSaveEdit}>저장</button>
+                  <button onClick={handleCancelEdit}>취소</button>
+                </div>
+              </div>
+            ) : (
+              <div className="modal-info">
+                <div className="modal-title">{selectedImage.content}</div>
+                <div className="modal-category">{selectedImage.category2}</div>
+                <div className="modal-actions">
+                  <button onClick={handleEditClick}>수정</button>
+                </div>
+              </div>
+            )}
           </div>
         </Modal>
       )}
 
-      <Link to="/writepost">글쓰기</Link>
+      <Link to={`/writepost/${category1}`}>글쓰기</Link>
       <Footer />
     </div>
   );

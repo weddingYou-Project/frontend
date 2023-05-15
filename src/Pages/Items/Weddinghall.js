@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
+import { useParams, Link } from "react-router-dom";
 import Modal from "react-modal";
 import axios from "axios";
 import NavigationBar from "../../Components/NavigationBar";
 import Footer from "../../Components/Footer";
 import "../../Css/menuList.css";
 import "../../Css/items.css";
-import { Link } from "react-router-dom";
 
 const Weddinghall = () => {
-  const title = "웨딩홀";
-  const categories = ["일반", "호텔", "채플", "스몰", "야외", "전통혼례"];
+  const { category1 } = useParams();
+  const title = category1;
+  const category2 = ["일반", "호텔", "채플", "스몰", "야외", "전통혼례"];
   const [images, setImages] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState(categories[0]);
+  const [selectedCategory, setSelectedCategory] = useState(category2[0]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -103,7 +104,7 @@ const Weddinghall = () => {
     <div className="mainlayout">
       <NavigationBar title={title} />
       <div className="category-wrapper">
-        {categories.map((category) => (
+        {category2.map((category) => (
           <div
             key={category}
             className={`category ${
@@ -150,7 +151,7 @@ const Weddinghall = () => {
                   value={editedImage.category2}
                   onChange={handleImageChange}
                 >
-                  {categories.map((category) => (
+                  {category2.map((category) => (
                     <option key={category} value={category}>
                       {category}
                     </option>
@@ -174,7 +175,7 @@ const Weddinghall = () => {
         </Modal>
       )}
 
-      <Link to="/writepost">글쓰기</Link>
+      <Link to={`/writepost/${category1}`}>글쓰기</Link>
       <Footer />
     </div>
   );
