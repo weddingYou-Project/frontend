@@ -98,7 +98,7 @@ function SearchItems() {
   let previewImgArr5 = [];
   let likeIndexArr5 = [];
 
-  const [searchingKeyword, setSearchingKeyWord] = useState("");
+  const [searchingKeyword, setSearchingKeyWord] = useState(keyword);
 
   const [countIndex, setCountIndex] = useState([]);
 
@@ -254,7 +254,7 @@ function SearchItems() {
           type="text"
           name="search"
           className="searchbar"
-          placeholder="검색어를 입력해주세요!"
+          placeholder="검색어를 입력하세요!"
           onKeyPress={handleKeyPress}
           value={searchingKeyword}
           onChange={handleChange}
@@ -381,6 +381,7 @@ function SearchItems() {
                   src={previewImg[i]}
                   class="d-block w-75 center"
                   alt="..."
+                  style={{ width: "100px", height: "210px" }}
                 />
                 <br />
                 <div className="itemName">
@@ -439,6 +440,7 @@ function SearchItems() {
                   src={previewImg[i]}
                   class="d-block w-75 center"
                   alt="..."
+                  style={{ width: "100px", height: "210px" }}
                 />
                 <br />
                 <div className="itemName">
@@ -497,6 +499,7 @@ function SearchItems() {
                   src={previewImg[i]}
                   class="d-block w-75 center"
                   alt="..."
+                  style={{ width: "100px", height: "220px" }}
                 />
                 <br />
                 <div className="itemName">
@@ -556,6 +559,7 @@ function SearchItems() {
                   src={previewImg[i]}
                   class="d-block w-75 center"
                   alt="..."
+                  style={{ width: "100px", height: "210px" }}
                 />
                 <br />
                 <div className="itemName">
@@ -615,6 +619,7 @@ function SearchItems() {
                   src={previewImg[i]}
                   class="d-block w-75 center"
                   alt="..."
+                  style={{ width: "100px", height: "210px" }}
                 />
                 <br />
                 <div className="itemName">
@@ -674,6 +679,7 @@ function SearchItems() {
                   src={previewImg[i]}
                   class="d-block w-75 center"
                   alt="..."
+                  style={{ width: "100px", height: "210px" }}
                 />
                 <br />
                 <div className="itemName">
