@@ -3,7 +3,7 @@ import "../Css/Home.css";
 import Footer from "../Components/Footer";
 import imgLogo from "../Assets/logo.png";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, EffectCoverflow, Pagination } from "swiper";
@@ -26,7 +26,8 @@ function SearchItems() {
   const [itemName, setItemName] = useState([]);
   const [itemLike, setItemLike] = useState([]);
   const [keyIndex, setKeyIndex] = useState([]);
-  const [likeState, setLikeState] = useState([]);
+  const [itemContent, setItemContent] = useState([]);
+  const [weddingHallLikeState, setWeddingHallLikeState] = useState([]);
   let keyIndexArr = [];
   let list = [];
   let itemDataArr = [];
@@ -102,6 +103,15 @@ function SearchItems() {
 
   const [countIndex, setCountIndex] = useState([]);
 
+  const modalImg = useRef();
+  const modalImgContent = useRef();
+  const modalImgTitle = useRef();
+  const modalItemId = useRef();
+
+  const [selectLikeState, setSelectLikeState] = useState(undefined);
+  const [modalBackgroundColor, setChangeModalBackgroundColor] = useState(false);
+  const [checkLike, setCheckLike] = useState(false);
+
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
       // 엔터키로 이동
@@ -163,13 +173,17 @@ function SearchItems() {
 
                   let itemNameList = [];
                   let itemLikeList = [];
+                  let itemContentList = [];
                   for (var j = 0; j < itemDataArr.length; j++) {
                     const newItemName = itemDataArr[j].itemName;
                     const newItemLike = itemDataArr[j].like.length;
+                    const newItemContent = itemDataArr[j].imgContent;
                     itemNameList.push(newItemName);
                     itemLikeList.push(newItemLike);
+                    itemContentList.push(newItemContent);
                     setItemName(itemNameList);
                     setItemLike(itemLikeList);
+                    setItemContent(itemContentList);
                   }
                 })
                 .catch((e) => {
@@ -198,40 +212,291 @@ function SearchItems() {
       keyIndexArr3 = [];
       keyIndexArr4 = [];
       keyIndexArr5 = [];
+      let likeStateArr = [];
+      let likeStateArr1 = [];
+      let likeStateArr2 = [];
+      let likeStateArr3 = [];
+      let likeStateArr4 = [];
+      let likeStateArr5 = [];
       if (i === 0) {
-        let keyIndexArr = [];
         for (let a = 0; a < itemCount; a++) {
           keyIndexArr.push(a);
+          likeStateArr.push(undefined);
         }
         setKeyIndex(keyIndexArr);
+        setWeddingHallLikeState(likeStateArr);
       } else if (i === 1) {
         for (let b = 0; b < itemCount; b++) {
           keyIndexArr1.push(b);
+          likeStateArr1.push(undefined);
         }
         setStudioKeyIndex(keyIndexArr1);
+        setStudioLikeState(likeStateArr1);
       } else if (i === 2) {
         for (let c = 0; c < itemCount; c++) {
           keyIndexArr2.push(c);
+          likeStateArr2.push(undefined);
         }
         setDressKeyIndex(keyIndexArr2);
+        setDressLikeState(likeStateArr2);
       } else if (i === 3) {
         for (let d = 0; d < itemCount; d++) {
           keyIndexArr3.push(d);
+          likeStateArr3.push(undefined);
         }
         setMakeupKeyIndex(keyIndexArr3);
+        setMakeupLikeState(likeStateArr3);
       } else if (i === 4) {
         for (let e = 0; e < itemCount; e++) {
           keyIndexArr4.push(e);
+          likeStateArr4.push(undefined);
         }
         setHoneyMoonKeyIndex(keyIndexArr4);
+        setHoneyMoonLikeState(likeStateArr4);
       } else if (i === 5) {
         for (let f = 0; f < itemCount; f++) {
           keyIndexArr5.push(f);
+          likeStateArr5.push(undefined);
         }
         setBouquetKeyIndex(keyIndexArr5);
+        setBouquetLikeState(likeStateArr5);
       }
     }
   }, [countIndex, searchedKeyword]);
+
+  const showingDetail = (e) => {
+    modalImg.current.src = e.target.dataset.bsSrc;
+    const index = e.target.dataset.bsKeyindex;
+    modalItemId.current.id = e.target.dataset.bsItemid;
+    modalItemId.current.dataset.index = index;
+    console.log(e.target.dataset);
+    modalImgContent.current.innerText = e.target.dataset.bsItemcontent;
+    modalImgTitle.current.innerText = `- ${e.target.dataset.bsItemname} -`;
+
+    modalItemId.current.dataset.category = e.target.dataset.bsCategory;
+
+    if (e.target.dataset.bsCategory === "웨딩홀") {
+      modalItemId.current.dataset.category = "웨딩홀";
+      setSelectLikeState(weddingHallLikeState[index]);
+      if (weddingHallLikeState[index] === true) {
+        modalItemId.current.style.backgroundColor = "#fce1e4";
+        setChangeModalBackgroundColor(true);
+      } else {
+        modalItemId.current.style.backgroundColor = "#ebebeb";
+        setChangeModalBackgroundColor(false);
+      }
+    } else if (e.target.dataset.bsCategory === "스튜디오") {
+      modalItemId.current.dataset.category = "스튜디오";
+
+      setSelectLikeState(studioLikeState[index]);
+      if (studioLikeState[index] === true) {
+        modalItemId.current.style.backgroundColor = "#fce1e4";
+        setChangeModalBackgroundColor(true);
+      } else {
+        modalItemId.current.style.backgroundColor = "#ebebeb";
+        setChangeModalBackgroundColor(false);
+      }
+    } else if (e.target.dataset.bsCategory === "의상") {
+      modalItemId.current.dataset.category = "의상";
+
+      setSelectLikeState(dressLikeState[index]);
+      if (dressLikeState[index] === true) {
+        modalItemId.current.style.backgroundColor = "#fce1e4";
+        setChangeModalBackgroundColor(true);
+      } else {
+        modalItemId.current.style.backgroundColor = "#ebebeb";
+        setChangeModalBackgroundColor(false);
+      }
+    } else if (e.target.dataset.bsCategory === "메이크업") {
+      modalItemId.current.dataset.category = "메이크업";
+
+      setSelectLikeState(makeupLikeState[index]);
+      if (makeupLikeState[index] === true) {
+        modalItemId.current.style.backgroundColor = "#fce1e4";
+        setChangeModalBackgroundColor(true);
+      } else {
+        modalItemId.current.style.backgroundColor = "#ebebeb";
+        setChangeModalBackgroundColor(false);
+      }
+    } else if (e.target.dataset.bsCategory === "신혼여행") {
+      modalItemId.current.dataset.category = "신혼여행";
+
+      setSelectLikeState(honeyMoonLikeState[index]);
+      if (honeyMoonLikeState[index] === true) {
+        modalItemId.current.style.backgroundColor = "#fce1e4";
+        setChangeModalBackgroundColor(true);
+      } else {
+        modalItemId.current.style.backgroundColor = "#ebebeb";
+        setChangeModalBackgroundColor(false);
+      }
+    } else if (e.target.dataset.bsCategory === "부케") {
+      modalItemId.current.dataset.category = "부케";
+
+      setSelectLikeState(bouquetLikeState[index]);
+      if (bouquetLikeState[index] === true) {
+        modalItemId.current.style.backgroundColor = "#fce1e4";
+        setChangeModalBackgroundColor(true);
+      } else {
+        modalItemId.current.style.backgroundColor = "#ebebeb";
+        setChangeModalBackgroundColor(false);
+      }
+    }
+  };
+
+  const gotoDetailInfo = (e) => {
+    navigate("/imgDetail");
+  };
+
+  const manageLikeList = (e) => {
+    let newlikeState = undefined;
+    const index = modalItemId.current.dataset.index;
+    setCheckLike(!checkLike);
+    if (modalItemId.current.dataset.category === "웨딩홀") {
+      newlikeState = [...weddingHallLikeState];
+      let prevState = newlikeState.slice(index, index + 1);
+      let changedState = undefined;
+      if (prevState[0] === true) {
+        setSelectLikeState(false);
+        modalItemId.current.style.backgroundColor = "#ebebeb";
+        changedState = false;
+        itemLike[index]--;
+      } else if (prevState[0] === false) {
+        setSelectLikeState(true);
+        modalItemId.current.style.backgroundColor = "#fce1e4";
+        changedState = true;
+        itemLike[index]++;
+      } else if (prevState[0] === undefined) {
+        setSelectLikeState(true);
+        modalItemId.current.style.backgroundColor = "#fce1e4";
+        changedState = true;
+        itemLike[index]++;
+      } else {
+        alert("찜하기 버튼을 이용하려면 로그인하세요!");
+      }
+      newlikeState.splice(index, 1, changedState);
+      setWeddingHallLikeState(newlikeState);
+    } else if (modalItemId.current.dataset.category === "스튜디오") {
+      newlikeState = [...studioLikeState];
+      let prevState = newlikeState.slice(index, index + 1);
+      let changedState = undefined;
+      if (prevState[0] === true) {
+        setSelectLikeState(false);
+        modalItemId.current.style.backgroundColor = "#ebebeb";
+        changedState = false;
+        studioItemLike[index]--;
+      } else if (prevState[0] === false) {
+        setSelectLikeState(true);
+        modalItemId.current.style.backgroundColor = "#fce1e4";
+        changedState = true;
+        studioItemLike[index]++;
+      } else if (prevState[0] === undefined) {
+        setSelectLikeState(true);
+        modalItemId.current.style.backgroundColor = "#fce1e4";
+        changedState = true;
+        studioItemLike[index]++;
+      } else {
+        alert("찜하기 버튼을 이용하려면 로그인하세요!");
+      }
+      newlikeState.splice(index, 1, changedState);
+      setStudioLikeState(newlikeState);
+    } else if (modalItemId.current.dataset.category === "의상") {
+      newlikeState = [...dressLikeState];
+      let prevState = newlikeState.slice(index, index + 1);
+      let changedState = undefined;
+      if (prevState[0] === true) {
+        setSelectLikeState(false);
+        modalItemId.current.style.backgroundColor = "#ebebeb";
+        changedState = false;
+        dressItemLike[index]--;
+      } else if (prevState[0] === false) {
+        setSelectLikeState(true);
+        modalItemId.current.style.backgroundColor = "#fce1e4";
+        changedState = true;
+        dressItemLike[index]++;
+      } else if (prevState[0] === undefined) {
+        setSelectLikeState(true);
+        modalItemId.current.style.backgroundColor = "#fce1e4";
+        changedState = true;
+        dressItemLike[index]++;
+      } else {
+        alert("찜하기 버튼을 이용하려면 로그인하세요!");
+      }
+      newlikeState.splice(index, 1, changedState);
+      setDressLikeState(newlikeState);
+    } else if (modalItemId.current.dataset.category === "메이크업") {
+      newlikeState = [...makeupLikeState];
+      let prevState = newlikeState.slice(index, index + 1);
+      let changedState = undefined;
+      if (prevState[0] === true) {
+        setSelectLikeState(false);
+        modalItemId.current.style.backgroundColor = "#ebebeb";
+        changedState = false;
+        makeupItemLike[index]--;
+      } else if (prevState[0] === false) {
+        setSelectLikeState(true);
+        modalItemId.current.style.backgroundColor = "#fce1e4";
+        changedState = true;
+        makeupItemLike[index]++;
+      } else if (prevState[0] === undefined) {
+        setSelectLikeState(true);
+        modalItemId.current.style.backgroundColor = "#fce1e4";
+        changedState = true;
+        makeupItemLike[index]++;
+      } else {
+        alert("찜하기 버튼을 이용하려면 로그인하세요!");
+      }
+      newlikeState.splice(index, 1, changedState);
+      setMakeupLikeState(newlikeState);
+    } else if (modalItemId.current.dataset.category === "신혼여행") {
+      newlikeState = [...honeyMoonLikeState];
+      let prevState = newlikeState.slice(index, index + 1);
+      let changedState = undefined;
+      if (prevState[0] === true) {
+        setSelectLikeState(false);
+        modalItemId.current.style.backgroundColor = "#ebebeb";
+        changedState = false;
+        honeyMoonItemLike[index]--;
+      } else if (prevState[0] === false) {
+        setSelectLikeState(true);
+        modalItemId.current.style.backgroundColor = "#fce1e4";
+        changedState = true;
+        honeyMoonItemLike[index]++;
+      } else if (prevState[0] === undefined) {
+        setSelectLikeState(true);
+        modalItemId.current.style.backgroundColor = "#fce1e4";
+        changedState = true;
+        honeyMoonItemLike[index]++;
+      } else {
+        alert("찜하기 버튼을 이용하려면 로그인하세요!");
+      }
+      newlikeState.splice(index, 1, changedState);
+      setHoneyMoonLikeState(newlikeState);
+    } else if (modalItemId.current.dataset.category === "부케") {
+      newlikeState = [...bouquetLikeState];
+      let prevState = newlikeState.slice(index, index + 1);
+      let changedState = undefined;
+      if (prevState[0] === true) {
+        setSelectLikeState(false);
+        modalItemId.current.style.backgroundColor = "#ebebeb";
+        changedState = false;
+        bouquetItemLike[index]--;
+      } else if (prevState[0] === false) {
+        setSelectLikeState(true);
+        modalItemId.current.style.backgroundColor = "#fce1e4";
+        changedState = true;
+        bouquetItemLike[index]++;
+      } else if (prevState[0] === undefined) {
+        setSelectLikeState(true);
+        modalItemId.current.style.backgroundColor = "#fce1e4";
+        changedState = true;
+        bouquetItemLike[index]++;
+      } else {
+        alert("찜하기 버튼을 이용하려면 로그인하세요!");
+      }
+      newlikeState.splice(index, 1, changedState);
+      setBouquetLikeState(newlikeState);
+    }
+  };
 
   console.log("previewImg");
   console.log(previewImg);
@@ -241,6 +506,8 @@ function SearchItems() {
   console.log(itemName);
   console.log("itemLike:");
   console.log(itemLike);
+  console.log(itemContent);
+
   console.log("--------------------");
   console.log(keyIndex);
   console.log(studioKeyIndex);
@@ -384,7 +651,17 @@ function SearchItems() {
                   src={previewImg[i]}
                   class="d-block w-75 center"
                   alt="..."
-                  style={{ width: "100px", height: "210px" }}
+                  style={{ width: "100px", height: "210px", cursor: "pointer" }}
+                  data-bs-toggle="modal"
+                  data-bs-target="#imgDetailModal"
+                  data-bs-src={previewImg[i]}
+                  data-bs-category="웨딩홀"
+                  data-bs-keyIndex={i}
+                  data-bs-itemid={itemId[i]}
+                  data-bs-itemContent={itemContent[i]}
+                  data-bs-itemLike={itemLike[i]}
+                  data-bs-itemName={itemName[i]}
+                  onClick={showingDetail}
                 />
                 <br />
                 <div className="itemName">
@@ -443,7 +720,17 @@ function SearchItems() {
                   src={previewImg[i]}
                   class="d-block w-75 center"
                   alt="..."
-                  style={{ width: "100px", height: "210px" }}
+                  style={{ width: "100px", height: "210px", cursor: "pointer" }}
+                  data-bs-toggle="modal"
+                  data-bs-target="#imgDetailModal"
+                  data-bs-src={previewImg[i]}
+                  data-bs-category="스튜디오"
+                  data-bs-keyIndex={i}
+                  data-bs-itemid={itemId[i]}
+                  data-bs-itemContent={itemContent[i]}
+                  data-bs-itemLike={itemLike[i]}
+                  data-bs-itemName={itemName[i]}
+                  onClick={showingDetail}
                 />
                 <br />
                 <div className="itemName">
@@ -502,7 +789,17 @@ function SearchItems() {
                   src={previewImg[i]}
                   class="d-block w-75 center"
                   alt="..."
-                  style={{ width: "100px", height: "220px" }}
+                  style={{ width: "100px", height: "220px", cursor: "pointer" }}
+                  data-bs-toggle="modal"
+                  data-bs-target="#imgDetailModal"
+                  data-bs-src={previewImg[i]}
+                  data-bs-category="의상"
+                  data-bs-keyIndex={i}
+                  data-bs-itemid={itemId[i]}
+                  data-bs-itemContent={itemContent[i]}
+                  data-bs-itemLike={itemLike[i]}
+                  data-bs-itemName={itemName[i]}
+                  onClick={showingDetail}
                 />
                 <br />
                 <div className="itemName">
@@ -562,7 +859,17 @@ function SearchItems() {
                   src={previewImg[i]}
                   class="d-block w-75 center"
                   alt="..."
-                  style={{ width: "100px", height: "210px" }}
+                  style={{ width: "100px", height: "210px", cursor: "pointer" }}
+                  data-bs-toggle="modal"
+                  data-bs-target="#imgDetailModal"
+                  data-bs-src={previewImg[i]}
+                  data-bs-category="메이크업"
+                  data-bs-keyIndex={i}
+                  data-bs-itemid={itemId[i]}
+                  data-bs-itemContent={itemContent[i]}
+                  data-bs-itemLike={itemLike[i]}
+                  data-bs-itemName={itemName[i]}
+                  onClick={showingDetail}
                 />
                 <br />
                 <div className="itemName">
@@ -622,7 +929,17 @@ function SearchItems() {
                   src={previewImg[i]}
                   class="d-block w-75 center"
                   alt="..."
-                  style={{ width: "100px", height: "210px" }}
+                  style={{ width: "100px", height: "210px", cursor: "pointer" }}
+                  data-bs-toggle="modal"
+                  data-bs-target="#imgDetailModal"
+                  data-bs-src={previewImg[i]}
+                  data-bs-category="신혼여행"
+                  data-bs-keyIndex={i}
+                  data-bs-itemid={itemId[i]}
+                  data-bs-itemContent={itemContent[i]}
+                  data-bs-itemLike={itemLike[i]}
+                  data-bs-itemName={itemName[i]}
+                  onClick={showingDetail}
                 />
                 <br />
                 <div className="itemName">
@@ -682,7 +999,17 @@ function SearchItems() {
                   src={previewImg[i]}
                   class="d-block w-75 center"
                   alt="..."
-                  style={{ width: "100px", height: "210px" }}
+                  style={{ width: "100px", height: "210px", pointer: "cursor" }}
+                  data-bs-toggle="modal"
+                  data-bs-target="#imgDetailModal"
+                  data-bs-src={previewImg[i]}
+                  data-bs-category="부케"
+                  data-bs-keyIndex={i}
+                  data-bs-itemid={itemId[i]}
+                  data-bs-itemContent={itemContent[i]}
+                  data-bs-itemLike={itemLike[i]}
+                  data-bs-itemName={itemName[i]}
+                  onClick={showingDetail}
                 />
                 <br />
                 <div className="itemName">
@@ -705,6 +1032,162 @@ function SearchItems() {
           견적작성
         </button>
       </div>
+      {/* 이미지 상세정보 모달창 */}
+      <div
+        class="modal fade"
+        id="imgDetailModal"
+        tabindex="-1"
+        aria-labelledby="imgDetailModal"
+        aria-hidden="true"
+      >
+        <div
+          class="modal-dialog modal-dialog-centered"
+          style={{ width: "510px" }}
+        >
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1
+                class="modal-title justify-content-center "
+                id="imgDetailModal"
+                style={{ fontSize: "1.9em" }}
+                ref={modalImgTitle}
+              >
+                - -
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div
+              class="modal-body"
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alginItems: "center",
+                displayContent: "center",
+                height: "100%",
+                width: "100%",
+                marginTop: "50px",
+              }}
+            >
+              <div
+                class="has-validation"
+                style={{
+                  height: "100%",
+                  width: "480px",
+                }}
+              >
+                <img
+                  src=""
+                  style={{
+                    width: "430px",
+                    height: "470px",
+                    marginBottom: "20px",
+                    marginTop: "-50px",
+                    marginLeft: "20px",
+                  }}
+                  alt=""
+                  ref={modalImg}
+                />
+                <div
+                  style={{
+                    fontSize: "1.5em",
+                    padding: "10px",
+                  }}
+                >
+                  상세정보
+                  {selectLikeState === true ? (
+                    <button
+                      style={{
+                        marginLeft: "240px",
+                        width: "130px",
+                        marginBottom: "10px",
+                        fontSize: "1em",
+                        backgroundColor: "##fce1e4",
+                        border: "grey 1px solid",
+                      }}
+                      ref={modalItemId}
+                      onClick={manageLikeList}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        fill="red"
+                        class="bi bi-heart-fill "
+                        viewBox="0 0 16 16"
+                        style={{ cursor: "pointer" }}
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"
+                        />
+                      </svg>{" "}
+                      찜하기
+                    </button>
+                  ) : (
+                    <button
+                      style={{
+                        marginLeft: "240px",
+                        width: "130px",
+                        marginBottom: "10px",
+                        fontSize: "1em",
+                        backgroundColor: "#ebebeb",
+                        border: "grey 1px solid",
+                      }}
+                      ref={modalItemId}
+                      onClick={manageLikeList}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        fill="currentColor"
+                        class="bi bi-heart"
+                        viewBox="0 0 16 16"
+                        style={{ cursor: "pointer" }}
+                      >
+                        <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+                      </svg>{" "}
+                      찜하기
+                    </button>
+                  )}
+                </div>
+                <p
+                  style={{
+                    fontSize: "1.3em",
+                    width: "460px",
+                    border: "1px solid black",
+                    padding: "10px",
+                  }}
+                  ref={modalImgContent}
+                ></p>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+                onClick={gotoDetailInfo}
+              >
+                상세정보 페이지 이동
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-bs-dismiss="modal"
+              >
+                닫기
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/*이미지 상세정보 모달창  */}
       <Footer />
     </div>
   );

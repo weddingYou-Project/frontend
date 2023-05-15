@@ -661,7 +661,7 @@ function Home() {
     }
   };
 
-  const manageLikeLikst = (e) => {
+  const manageLikeList = (e) => {
     let newlikeState = undefined;
     const index = modalItemId.current.dataset.index;
 
@@ -1324,7 +1324,7 @@ function Home() {
                             border: "grey 1px solid",
                           }}
                           ref={modalItemId}
-                          onClick={manageLikeLikst}
+                          onClick={manageLikeList}
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -1353,7 +1353,7 @@ function Home() {
                             border: "grey 1px solid",
                           }}
                           ref={modalItemId}
-                          onClick={manageLikeLikst}
+                          onClick={manageLikeList}
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
