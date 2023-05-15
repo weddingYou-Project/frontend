@@ -12,17 +12,17 @@ const Item = () => {
   const { category1 } = useParams();
 
   switch (category1) {
-    case "웨딩홀":
+    case "weddinghall":
       return <Weddinghall />;
-    case "의상":
+    case "weddingoutfit":
       return <Weddingoutfit />;
-    case "스튜디오":
+    case "studio":
       return <Studio />;
-    case "메이크업":
+    case "makeup":
       return <Makeup />;
-    case "신혼여행":
+    case "honeymoon":
       return <Honeymoon />;
-    case "부케":
+    case "bouquet":
       return <Bouquet />;
     default:
       return <NotFound />;
