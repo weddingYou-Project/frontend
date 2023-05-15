@@ -13,10 +13,14 @@ import LikeList from "./Pages/LikeList";
 import SearchItems from "./Pages/SearchItems";
 import EstimateForm from "./Pages/EstimateForm";
 import Sidesection from "./Components/Sidesection";
+import Ratingpage from "./Pages/Ratingpage";
+import Checkout from "./Pages/checkout";
 
 function App() {
   return (
     <Routes>
+      <Route path="/checkout" element={<Checkout />} />
+      <Route path="/rating" element={<Ratingpage />} />
       <Route path="/sidesection" element={<Sidesection />} />
       <Route path="/estimateform" element={<EstimateForm />} />
       <Route path="/" element={<Home />}></Route>
