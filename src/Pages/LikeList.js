@@ -181,10 +181,10 @@ function LikeList() {
                         if (a.itemName === b.itemName) return 0;
                       }
                     });
-                  } else if (selectedSort === "지역순") {
-                    itemDataArr.sort(function (a, b) {
-                      return a.itemName - b.itemName;
-                    });
+                    // } else if (selectedSort === "지역순") {
+                    //   itemDataArr.sort(function (a, b) {
+                    //     return a.itemName - b.itemName;
+                    //   });
                   } else {
                     itemDataArr.sort(function (a, b) {
                       return (
@@ -310,110 +310,114 @@ function LikeList() {
     <div className="mainlayout">
       <NavigationBar title={"찜목록"} />
       <div className="filter">
-        <div class="dropdown margin left">
-          <button
-            class="btn btn-secondary dropdown-toggle"
-            type="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            {selectedItem}
-          </button>
-          <ul class="dropdown-menu">
-            <li>
-              <button
-                class="dropdown-item"
-                type="button"
-                onClick={() => handleItemClick("전체")}
-              >
-                전체
-              </button>
-            </li>
-            <li>
-              <button
-                class="dropdown-item"
-                type="button"
-                onClick={() => handleItemClick("웨딩홀")}
-              >
-                웨딩홀
-              </button>
-            </li>
-            <li>
-              <button
-                class="dropdown-item"
-                type="button"
-                onClick={() => handleItemClick("스튜디오")}
-              >
-                스튜디오
-              </button>
-            </li>
-            <li>
-              <button
-                class="dropdown-item"
-                type="button"
-                onClick={() => handleItemClick("의상")}
-              >
-                의상
-              </button>
-            </li>
-            <li>
-              <button
-                class="dropdown-item"
-                type="button"
-                onClick={() => handleItemClick("메이크업")}
-              >
-                메이크업
-              </button>
-            </li>
-            <li>
-              <button
-                class="dropdown-item"
-                type="button"
-                onClick={() => handleItemClick("신혼여행")}
-              >
-                신혼여행
-              </button>
-            </li>
-            <li>
-              <button
-                class="dropdown-item"
-                type="button"
-                onClick={() => handleItemClick("부케")}
-              >
-                부케
-              </button>
-            </li>
-          </ul>
+        <div style={{ marginLeft: "10px" }}>
+          <div class="dropdown margin left">
+            <button
+              class="btn btn-secondary dropdown-toggle"
+              type="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              {selectedItem}
+            </button>
+
+            <ul class="dropdown-menu">
+              <li>
+                <button
+                  class="dropdown-item"
+                  type="button"
+                  onClick={() => handleItemClick("전체")}
+                >
+                  전체
+                </button>
+              </li>
+              <li>
+                <button
+                  class="dropdown-item"
+                  type="button"
+                  onClick={() => handleItemClick("웨딩홀")}
+                >
+                  웨딩홀
+                </button>
+              </li>
+              <li>
+                <button
+                  class="dropdown-item"
+                  type="button"
+                  onClick={() => handleItemClick("스튜디오")}
+                >
+                  스튜디오
+                </button>
+              </li>
+              <li>
+                <button
+                  class="dropdown-item"
+                  type="button"
+                  onClick={() => handleItemClick("의상")}
+                >
+                  의상
+                </button>
+              </li>
+              <li>
+                <button
+                  class="dropdown-item"
+                  type="button"
+                  onClick={() => handleItemClick("메이크업")}
+                >
+                  메이크업
+                </button>
+              </li>
+              <li>
+                <button
+                  class="dropdown-item"
+                  type="button"
+                  onClick={() => handleItemClick("신혼여행")}
+                >
+                  신혼여행
+                </button>
+              </li>
+              <li>
+                <button
+                  class="dropdown-item"
+                  type="button"
+                  onClick={() => handleItemClick("부케")}
+                >
+                  부케
+                </button>
+              </li>
+            </ul>
+          </div>
         </div>
-        <div class="dropdown  right-sort">
-          <button
-            class="btn btn-secondary dropdown-toggle"
-            type="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            {selectedSort}
-          </button>
-          <ul class="dropdown-menu sortItem">
-            <li className="">
-              <button
-                class="dropdown-item "
-                type="button"
-                onClick={() => handleSortClick("가나다순")}
-              >
-                가나다순
-              </button>
-            </li>
-            <li>
-              <button
-                class="dropdown-item"
-                type="button"
-                onClick={() => handleSortClick("인기순")}
-              >
-                인기순
-              </button>
-            </li>
-            <li>
+        <div style={{ marginRight: "10px" }}>
+          <div class="dropdown  right-sort">
+            <button
+              class="btn btn-secondary dropdown-toggle"
+              type="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              {selectedSort}
+            </button>
+            <ul class="dropdown-menu sortItem">
+              <li className="">
+                <button
+                  class="dropdown-item "
+                  type="button"
+                  onClick={() => handleSortClick("가나다순")}
+                >
+                  가나다순
+                </button>
+              </li>
+              <li>
+                <button
+                  class="dropdown-item"
+                  type="button"
+                  onClick={() => handleSortClick("인기순")}
+                >
+                  인기순
+                </button>
+              </li>
+              {/* <li>
               <button
                 class="dropdown-item"
                 type="button"
@@ -421,8 +425,9 @@ function LikeList() {
               >
                 지역순
               </button>
-            </li>
-          </ul>
+            </li> */}
+            </ul>
+          </div>
         </div>
       </div>
       <div className="Likecontent">
