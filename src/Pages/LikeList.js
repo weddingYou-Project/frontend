@@ -143,7 +143,7 @@ function LikeList() {
       })
       .then((res) => {
         const dataList = res.data;
-        console.log(dataList);
+        // console.log(dataList);
         if (dataList.length !== 0) {
           let index = 0;
           for (var i = 0; i < dataList.length; i++) {
