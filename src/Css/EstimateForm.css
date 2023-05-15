@@ -49,14 +49,14 @@
 }
 
 
-input[type="checkbox"]:checked + label {
+.choosebox input[type="checkbox"]:checked + label {
     background: #eee;
     color:black;
     border: 1px solid rgb(201, 198, 198);
    
   }
 
-input[type="radio"]:checked + label {
+.choosebox input[type="radio"]:checked + label {
     background: #eee;
     color : black;
     border: 1px solid rgb(201, 198, 198);
