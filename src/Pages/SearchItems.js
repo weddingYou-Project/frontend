@@ -117,19 +117,6 @@ function SearchItems() {
   const [modalBackgroundColor, setChangeModalBackgroundColor] = useState(false);
   const [checkLike, setCheckLike] = useState(false);
 
-  let likeStateArr = [];
-  let likeStateArr1 = [];
-  let likeStateArr2 = [];
-  let likeStateArr3 = [];
-  let likeStateArr4 = [];
-  let likeStateArr5 = [];
-  let likeCountArr = [];
-  let likeCountArr1 = [];
-  let likeCountArr2 = [];
-  let likeCountArr3 = [];
-  let likeCountArr4 = [];
-  let likeCountArr5 = [];
-
   const [update, setUpdate] = useState(false);
 
   const handleKeyPress = (event) => {
@@ -950,48 +937,6 @@ function SearchItems() {
     }
   }, [checkLike]);
 
-  // console.log("itemids");
-  // console.log(weddingHallItemId);
-  // console.log(studioItemId);
-  // console.log(dressItemId);
-  // console.log(makeupItemId);
-  // console.log(honeyMoonItemId);
-  // console.log(bouquetItemId);
-  // console.log("previewImg");
-  // console.log(previewImg);
-  // console.log("countIndex:");
-  // console.log(countIndex);
-  // console.log("itemName:");
-  // console.log(itemName);
-  console.log("itemLike:");
-  console.log(itemLike);
-  console.log("likecount");
-  console.log(weddingHallLike);
-  console.log(studioItemLike);
-  console.log(dressItemLike);
-  console.log(makeupItemLike);
-  console.log(honeyMoonItemLike);
-  console.log(bouquetItemLike);
-
-  console.log("likestate");
-  console.log(weddingHallLikeState);
-  console.log(studioLikeState);
-  console.log(dressLikeState);
-  console.log(makeupLikeState);
-  console.log(honeyMoonLikeState);
-  console.log(bouquetLikeState);
-
-  // console.log(itemContent);
-
-  console.log("--------------------");
-  console.log(countIndex);
-  // console.log(keyIndex);
-  // console.log(studioKeyIndex);
-  // console.log(dressKeyIndex);
-  // console.log(makeupKeyIndex);
-  // console.log(honeyMoonKeyIndex);
-  // console.log(bouquetKeyIndex);
-
   return (
     <div className="mainlayout">
       <div className="header">
@@ -1046,32 +991,80 @@ function SearchItems() {
         <nav id="navbar-example2" class="navbar bg-light px-3 mb-3">
           <ul class="nav sortingList">
             <li class="nav-item">
-              <a class="nav-link" href="#scrollspyHeading1">
+              <a
+                class="nav-link"
+                onClick={() => {
+                  navigate(`#scrollspyHeading1`, {
+                    state: { keyword: searchedKeyword },
+                  });
+                }}
+                href="#scrollspyHeading1"
+              >
                 웨딩홀
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#scrollspyHeading2">
+              <a
+                class="nav-link"
+                onClick={() => {
+                  navigate(`#scrollspyHeading2`, {
+                    state: { keyword: searchedKeyword },
+                  });
+                }}
+                href="#scrollspyHeading2"
+              >
                 스튜디오
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#scrollspyHeading3">
+              <a
+                class="nav-link"
+                onClick={() => {
+                  navigate(`#scrollspyHeading3`, {
+                    state: { keyword: searchedKeyword },
+                  });
+                }}
+                href="#scrollspyHeading3"
+              >
                 의상
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#scrollspyHeading4">
+              <a
+                class="nav-link"
+                onClick={() => {
+                  navigate(`#scrollspyHeading4`, {
+                    state: { keyword: searchedKeyword },
+                  });
+                }}
+                href="#scrollspyHeading4"
+              >
                 메이크업
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#scrollspyHeading5">
+              <a
+                class="nav-link"
+                onClick={() => {
+                  navigate(`#scrollspyHeading5`, {
+                    state: { keyword: searchedKeyword },
+                  });
+                }}
+                href="#scrollspyHeading5"
+              >
                 신혼여행
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#scrollspyHeading6">
+              <a
+                class="nav-link"
+                onClick={() => {
+                  navigate(`#scrollspyHeading6`, {
+                    state: { keyword: searchedKeyword },
+                  });
+                }}
+                href="#scrollspyHeading6"
+              >
                 부케
               </a>
             </li>
