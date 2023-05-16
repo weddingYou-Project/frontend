@@ -19,14 +19,17 @@ function SearchItems() {
   const { keyword } = useLocation().state;
 
   const [searchedKeyword, setSearchedKeyWord] = useState(keyword);
+  const [itemLike, setItemLike] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
   // console.log(keyword);
   const [previewImg, setPreviewImg] = useState([]);
   const [itemId, setItemId] = useState([]);
   const [item, setItem] = useState([]);
   const [itemName, setItemName] = useState([]);
-  const [itemLike, setItemLike] = useState([]);
+  const [weddingHallLike, setWeddingHallLike] = useState([]);
   const [keyIndex, setKeyIndex] = useState([]);
   const [itemContent, setItemContent] = useState([]);
+  const [weddingHallItemId, setWeddingHallItemId] = useState([]);
   const [weddingHallLikeState, setWeddingHallLikeState] = useState([]);
   let keyIndexArr = [];
   let list = [];
@@ -158,6 +161,7 @@ function SearchItems() {
               // setKeyIndex(keyIndexArr);
               // likeIndexArr.push(true);
               // setLikeState(likeIndexArr);
+
               axios
                 .get(`/item/getItemList/${newitemId}`)
                 .then((res) => {
@@ -182,6 +186,7 @@ function SearchItems() {
                     itemLikeList.push(newItemLike);
                     itemContentList.push(newItemContent);
                     setItemName(itemNameList);
+                    console.log(itemLikeList + "---------------------------");
                     setItemLike(itemLikeList);
                     setItemContent(itemContentList);
                   }
@@ -203,6 +208,7 @@ function SearchItems() {
   }, [searchedKeyword]);
 
   useEffect(() => {
+    let count = 0;
     for (var i = 0; i < countIndex.length; i++) {
       let itemCount = countIndex[i];
       console.log("itemCount" + itemCount);
@@ -218,51 +224,205 @@ function SearchItems() {
       let likeStateArr3 = [];
       let likeStateArr4 = [];
       let likeStateArr5 = [];
+      let likeCountArr = [];
+      let likeCountArr1 = [];
+      let likeCountArr2 = [];
+      let likeCountArr3 = [];
+      let likeCountArr4 = [];
+      let likeCountArr5 = [];
+
       if (i === 0) {
         for (let a = 0; a < itemCount; a++) {
+          axios
+            .post(`/like/findlist`, {
+              itemId: itemId[a],
+              email: sessionStorage.getItem("email"),
+            })
+            .then((res) => {
+              if (res.data === 1) {
+                likeStateArr.push(true);
+                setWeddingHallLikeState(likeStateArr);
+              } else if (res.data === 0) {
+                likeStateArr.push(undefined);
+                setWeddingHallLikeState(likeStateArr);
+              } else {
+                //로그인하지 않았을 때
+                likeStateArr.push(-1);
+                setWeddingHallLikeState(likeStateArr);
+              }
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+
           keyIndexArr.push(a);
-          likeStateArr.push(undefined);
         }
+
+        likeCountArr = itemLike.slice(count, itemCount);
+
+        console.log(itemLike);
+        console.log("likeCountArr");
+        console.log(likeCountArr);
         setKeyIndex(keyIndexArr);
-        setWeddingHallLikeState(likeStateArr);
+        setWeddingHallItemId(itemId.slice(count, itemCount));
+        setWeddingHallLike(likeCountArr);
+        count = count + itemCount;
       } else if (i === 1) {
         for (let b = 0; b < itemCount; b++) {
+          axios
+            .post(`/like/findlist`, {
+              itemId: itemId[b],
+              email: sessionStorage.getItem("email"),
+            })
+            .then((res) => {
+              if (res.data === 1) {
+                likeStateArr1.push(true);
+                setStudioLikeState(likeStateArr1);
+              } else if (res.data === 0) {
+                likeStateArr1.push(undefined);
+                setStudioLikeState(likeStateArr1);
+              } else {
+                //로그인하지 않았을 때
+                likeStateArr1.push(-1);
+                setStudioLikeState(likeStateArr1);
+              }
+            })
+            .catch((e) => {
+              console.log(e);
+            });
           keyIndexArr1.push(b);
-          likeStateArr1.push(undefined);
         }
+
+        likeCountArr1 = itemLike.slice(count, itemCount);
         setStudioKeyIndex(keyIndexArr1);
-        setStudioLikeState(likeStateArr1);
+        setStudioItemLike(likeCountArr1);
+        setStudiItemId(itemId.slice(count, itemCount));
+        count = count + itemCount;
       } else if (i === 2) {
         for (let c = 0; c < itemCount; c++) {
+          axios
+            .post(`/like/findlist`, {
+              itemId: itemId[c],
+              email: sessionStorage.getItem("email"),
+            })
+            .then((res) => {
+              if (res.data === 1) {
+                likeStateArr2.push(true);
+                setStudioLikeState(likeStateArr2);
+              } else if (res.data === 0) {
+                likeStateArr2.push(undefined);
+                setStudioLikeState(likeStateArr2);
+              } else {
+                //로그인하지 않았을 때
+                likeStateArr2.push(-1);
+                setStudioLikeState(likeStateArr2);
+              }
+            })
+            .catch((e) => {
+              console.log(e);
+            });
           keyIndexArr2.push(c);
-          likeStateArr2.push(undefined);
         }
+
+        likeCountArr2 = itemLike.slice(count, itemCount);
         setDressKeyIndex(keyIndexArr2);
         setDressLikeState(likeStateArr2);
+        setDressItemLike(likeCountArr2);
+        setDressItemId(itemId.slice(count, itemCount));
+        count = count + itemCount;
       } else if (i === 3) {
         for (let d = 0; d < itemCount; d++) {
+          axios
+            .post(`/like/findlist`, {
+              itemId: itemId[d],
+              email: sessionStorage.getItem("email"),
+            })
+            .then((res) => {
+              if (res.data === 1) {
+                likeStateArr3.push(true);
+                setMakeupLikeState(likeStateArr3);
+              } else if (res.data === 0) {
+                likeStateArr3.push(undefined);
+                setMakeupLikeState(likeStateArr3);
+              } else {
+                //로그인하지 않았을 때
+                likeStateArr3.push(-1);
+                setMakeupLikeState(likeStateArr3);
+              }
+            })
+            .catch((e) => {
+              console.log(e);
+            });
           keyIndexArr3.push(d);
-          likeStateArr3.push(undefined);
         }
+        likeCountArr3 = itemLike.slice(count, itemCount);
         setMakeupKeyIndex(keyIndexArr3);
-        setMakeupLikeState(likeStateArr3);
+        setMakeupItemLike(likeCountArr3);
+        setMakeupItemId(itemId.slice(count, itemCount));
+        count = count + itemCount;
       } else if (i === 4) {
         for (let e = 0; e < itemCount; e++) {
+          axios
+            .post(`/like/findlist`, {
+              itemId: itemId[e],
+              email: sessionStorage.getItem("email"),
+            })
+            .then((res) => {
+              if (res.data === 1) {
+                likeStateArr4.push(true);
+                setHoneyMoonLikeState(likeStateArr4);
+              } else if (res.data === 0) {
+                likeStateArr4.push(undefined);
+                setHoneyMoonLikeState(likeStateArr4);
+              } else {
+                //로그인하지 않았을 때
+                likeStateArr4.push(-1);
+                setHoneyMoonLikeState(likeStateArr4);
+              }
+            })
+            .catch((e) => {
+              console.log(e);
+            });
           keyIndexArr4.push(e);
-          likeStateArr4.push(undefined);
         }
+        likeCountArr4 = itemLike.slice(count, itemCount);
         setHoneyMoonKeyIndex(keyIndexArr4);
-        setHoneyMoonLikeState(likeStateArr4);
+        setHoneyMoonItemLike(likeCountArr4);
+        setHoneyMoonItemId(itemId.slice(count, itemCount));
+        count = count + itemCount;
       } else if (i === 5) {
         for (let f = 0; f < itemCount; f++) {
+          axios
+            .post(`/like/findlist`, {
+              itemId: itemId[f],
+              email: sessionStorage.getItem("email"),
+            })
+            .then((res) => {
+              if (res.data === 1) {
+                likeStateArr5.push(true);
+                setBouquetLikeState(likeStateArr5);
+              } else if (res.data === 0) {
+                likeStateArr5.push(undefined);
+                setBouquetLikeState(likeStateArr5);
+              } else {
+                //로그인하지 않았을 때
+                likeStateArr5.push(-1);
+                setBouquetLikeState(likeStateArr5);
+              }
+            })
+            .catch((e) => {
+              console.log(e);
+            });
           keyIndexArr5.push(f);
-          likeStateArr5.push(undefined);
         }
+        likeCountArr5 = itemLike.slice(count, itemCount);
         setBouquetKeyIndex(keyIndexArr5);
-        setBouquetLikeState(likeStateArr5);
+        setBouquetItemLike(likeCountArr5);
+        setBouquetItemId(itemId.slice(count, itemCount));
+        count = count + itemCount;
       }
     }
-  }, [countIndex, searchedKeyword]);
+  }, [countIndex, searchedKeyword, itemLike]);
 
   const showingDetail = (e) => {
     modalImg.current.src = e.target.dataset.bsSrc;
@@ -272,6 +432,7 @@ function SearchItems() {
     console.log(e.target.dataset);
     modalImgContent.current.innerText = e.target.dataset.bsItemcontent;
     modalImgTitle.current.innerText = `- ${e.target.dataset.bsItemname} -`;
+    setSelectedCategory(e.target.dataset.bsCategory);
 
     modalItemId.current.dataset.category = e.target.dataset.bsCategory;
 
@@ -359,17 +520,17 @@ function SearchItems() {
         setSelectLikeState(false);
         modalItemId.current.style.backgroundColor = "#ebebeb";
         changedState = false;
-        itemLike[index]--;
+        weddingHallLike[index]--;
       } else if (prevState[0] === false) {
         setSelectLikeState(true);
         modalItemId.current.style.backgroundColor = "#fce1e4";
         changedState = true;
-        itemLike[index]++;
+        weddingHallLike[index]++;
       } else if (prevState[0] === undefined) {
         setSelectLikeState(true);
         modalItemId.current.style.backgroundColor = "#fce1e4";
         changedState = true;
-        itemLike[index]++;
+        weddingHallLike[index]++;
       } else {
         alert("찜하기 버튼을 이용하려면 로그인하세요!");
       }
@@ -498,23 +659,237 @@ function SearchItems() {
     }
   };
 
-  console.log("previewImg");
-  console.log(previewImg);
-  console.log("countIndex:");
-  console.log(countIndex);
-  console.log("itemName:");
-  console.log(itemName);
-  console.log("itemLike:");
-  console.log(itemLike);
-  console.log(itemContent);
+  useEffect(() => {
+    console.log(
+      "selectedcategory:---------------------------------------" +
+        selectedCategory
+    );
+    if (selectedCategory === "웨딩홀") {
+      keyIndex.forEach((index) => {
+        if (weddingHallLikeState[index] === false) {
+          console.log("deleteitem:" + itemId[index]);
+          setChangeModalBackgroundColor(false);
+          axios
+            .post(`/like/delete`, {
+              itemId: weddingHallItemId[index],
+              email: sessionStorage.getItem("email"),
+            })
+            .then((res) => {
+              console.log("delete");
+              console.log(res);
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+        } else if (weddingHallLikeState[index] === true) {
+          setChangeModalBackgroundColor(true);
+          axios
+            .post(`/like/create`, {
+              itemId: weddingHallItemId[index],
+              email: sessionStorage.getItem("email"),
+            })
+            .then((res) => {
+              console.log(res);
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+        }
+      });
+    } else if (selectedCategory === "스튜디오") {
+      studioKeyIndex.forEach((index) => {
+        if (studioLikeState[index] === false) {
+          setChangeModalBackgroundColor(false);
+          console.log("deleteitem:" + studioItemId[index]);
+          axios
+            .post(`/like/delete`, {
+              itemId: studioItemId[index],
+              email: sessionStorage.getItem("email"),
+            })
+            .then((res) => {
+              console.log("delete");
+              console.log(res);
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+        } else if (studioLikeState[index] === true) {
+          setChangeModalBackgroundColor(true);
+          axios
+            .post(`/like/create`, {
+              itemId: studioItemId[index],
+              email: sessionStorage.getItem("email"),
+            })
+            .then((res) => {
+              console.log(res);
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+        }
+      });
+    } else if (selectedCategory === "의상") {
+      dressKeyIndex.forEach((index) => {
+        if (dressLikeState[index] === false) {
+          setChangeModalBackgroundColor(false);
+          console.log("deleteitem:" + dressItemId[index]);
+          axios
+            .post(`/like/delete`, {
+              itemId: dressItemId[index],
+              email: sessionStorage.getItem("email"),
+            })
+            .then((res) => {
+              console.log("delete");
+              console.log(res);
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+        } else if (dressLikeState[index] === true) {
+          setChangeModalBackgroundColor(true);
+          axios
+            .post(`/like/create`, {
+              itemId: dressItemId[index],
+              email: sessionStorage.getItem("email"),
+            })
+            .then((res) => {
+              console.log(res);
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+        }
+      });
+    } else if (selectedCategory === "메이크업") {
+      makeupKeyIndex.forEach((index) => {
+        if (makeupLikeState[index] === false) {
+          setChangeModalBackgroundColor(false);
+          console.log("deleteitem:" + makeupItemId[index]);
+          axios
+            .post(`/like/delete`, {
+              itemId: makeupItemId[index],
+              email: sessionStorage.getItem("email"),
+            })
+            .then((res) => {
+              console.log("delete");
+              console.log(res);
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+        } else if (makeupLikeState[index] === true) {
+          setChangeModalBackgroundColor(true);
+          axios
+            .post(`/like/create`, {
+              itemId: makeupItemId[index],
+              email: sessionStorage.getItem("email"),
+            })
+            .then((res) => {
+              console.log(res);
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+        }
+      });
+    } else if (selectedCategory === "신혼여행") {
+      honeyMoonKeyIndex.forEach((index) => {
+        if (honeyMoonLikeState[index] === false) {
+          setChangeModalBackgroundColor(false);
+          console.log("deleteitem:" + honeyMoonItemId[index]);
+          axios
+            .post(`/like/delete`, {
+              itemId: honeyMoonItemId[index],
+              email: sessionStorage.getItem("email"),
+            })
+            .then((res) => {
+              console.log("delete");
+              console.log(res);
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+        } else if (honeyMoonLikeState[index] === true) {
+          setChangeModalBackgroundColor(true);
+          axios
+            .post(`/like/create`, {
+              itemId: honeyMoonItemId[index],
+              email: sessionStorage.getItem("email"),
+            })
+            .then((res) => {
+              console.log(res);
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+        }
+      });
+    } else if (selectedCategory === "부케") {
+      bouquetKeyIndex.forEach((index) => {
+        if (bouquetLikeState[index] === false) {
+          setChangeModalBackgroundColor(false);
+          console.log("deleteitem:" + bouquetItemId[index]);
+          axios
+            .post(`/like/delete`, {
+              itemId: bouquetItemId[index],
+              email: sessionStorage.getItem("email"),
+            })
+            .then((res) => {
+              console.log("delete");
+              console.log(res);
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+        } else if (bouquetLikeState[index] === true) {
+          setChangeModalBackgroundColor(true);
+          axios
+            .post(`/like/create`, {
+              itemId: bouquetItemId[index],
+              email: sessionStorage.getItem("email"),
+            })
+            .then((res) => {
+              console.log(res);
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+        }
+      });
+    }
+  }, [checkLike]);
 
-  console.log("--------------------");
-  console.log(keyIndex);
-  console.log(studioKeyIndex);
-  console.log(dressKeyIndex);
-  console.log(makeupKeyIndex);
-  console.log(honeyMoonKeyIndex);
-  console.log(bouquetKeyIndex);
+  console.log(weddingHallItemId);
+  console.log(studioItemId);
+  console.log(dressItemId);
+  console.log(makeupItemId);
+  console.log(honeyMoonItemId);
+  console.log(bouquetItemId);
+  // console.log("previewImg");
+  // console.log(previewImg);
+  // console.log("countIndex:");
+  // console.log(countIndex);
+  // console.log("itemName:");
+  // console.log(itemName);
+  // console.log("itemLike:");
+  // console.log(itemLike);
+  // console.log("weddinghalllike");
+  // console.log(weddingHallLike);
+  // console.log(studioItemLike);
+  // console.log(dressItemLike);
+  // console.log(makeupItemLike);
+  // console.log(honeyMoonItemLike);
+  // console.log(bouquetItemLike);
+
+  // console.log(itemContent);
+
+  // console.log("--------------------");
+  // console.log(keyIndex);
+  // console.log(studioKeyIndex);
+  // console.log(dressKeyIndex);
+  // console.log(makeupKeyIndex);
+  // console.log(honeyMoonKeyIndex);
+  // console.log(bouquetKeyIndex);
 
   return (
     <div className="mainlayout">
@@ -659,13 +1034,13 @@ function SearchItems() {
                   data-bs-keyIndex={i}
                   data-bs-itemid={itemId[i]}
                   data-bs-itemContent={itemContent[i]}
-                  data-bs-itemLike={itemLike[i]}
+                  data-bs-itemLike={weddingHallLike[i]}
                   data-bs-itemName={itemName[i]}
                   onClick={showingDetail}
                 />
                 <br />
                 <div className="itemName">
-                  {itemName[i]} &nbsp;❤️{itemLike[i]}
+                  {itemName[i]} &nbsp;❤️{weddingHallLike[i]}
                 </div>
                 <br />
               </SwiperSlide>
@@ -728,13 +1103,13 @@ function SearchItems() {
                   data-bs-keyIndex={i}
                   data-bs-itemid={itemId[i]}
                   data-bs-itemContent={itemContent[i]}
-                  data-bs-itemLike={itemLike[i]}
+                  data-bs-itemLike={studioItemLike[i]}
                   data-bs-itemName={itemName[i]}
                   onClick={showingDetail}
                 />
                 <br />
                 <div className="itemName">
-                  {itemName[i]}&nbsp;❤️ {itemLike[i]}
+                  {itemName[i]}&nbsp;❤️ {studioItemLike[i]}
                 </div>
                 <br />
               </SwiperSlide>
@@ -797,13 +1172,13 @@ function SearchItems() {
                   data-bs-keyIndex={i}
                   data-bs-itemid={itemId[i]}
                   data-bs-itemContent={itemContent[i]}
-                  data-bs-itemLike={itemLike[i]}
+                  data-bs-itemLike={dressItemLike[i]}
                   data-bs-itemName={itemName[i]}
                   onClick={showingDetail}
                 />
                 <br />
                 <div className="itemName">
-                  {itemName[i]} &nbsp;❤️{itemLike[i]}
+                  {itemName[i]} &nbsp;❤️{dressItemLike[i]}
                 </div>
                 <br />
               </SwiperSlide>
@@ -867,13 +1242,13 @@ function SearchItems() {
                   data-bs-keyIndex={i}
                   data-bs-itemid={itemId[i]}
                   data-bs-itemContent={itemContent[i]}
-                  data-bs-itemLike={itemLike[i]}
+                  data-bs-itemLike={makeupItemLike[i]}
                   data-bs-itemName={itemName[i]}
                   onClick={showingDetail}
                 />
                 <br />
                 <div className="itemName">
-                  {itemName[i]} &nbsp;❤️{itemLike[i]}
+                  {itemName[i]} &nbsp;❤️{makeupItemLike[i]}
                 </div>
                 <br />
               </SwiperSlide>
@@ -937,13 +1312,13 @@ function SearchItems() {
                   data-bs-keyIndex={i}
                   data-bs-itemid={itemId[i]}
                   data-bs-itemContent={itemContent[i]}
-                  data-bs-itemLike={itemLike[i]}
+                  data-bs-itemLike={honeyMoonItemLike[i]}
                   data-bs-itemName={itemName[i]}
                   onClick={showingDetail}
                 />
                 <br />
                 <div className="itemName">
-                  {itemName[i]} &nbsp;❤️{itemLike[i]}
+                  {itemName[i]} &nbsp;❤️{honeyMoonItemLike[i]}
                 </div>
                 <br />
               </SwiperSlide>
@@ -1007,13 +1382,13 @@ function SearchItems() {
                   data-bs-keyIndex={i}
                   data-bs-itemid={itemId[i]}
                   data-bs-itemContent={itemContent[i]}
-                  data-bs-itemLike={itemLike[i]}
+                  data-bs-itemLike={bouquetItemLike[i]}
                   data-bs-itemName={itemName[i]}
                   onClick={showingDetail}
                 />
                 <br />
                 <div className="itemName">
-                  {itemName[i]} &nbsp;❤️{itemLike[i]}
+                  {itemName[i]} &nbsp;❤️{bouquetItemLike[i]}
                 </div>
                 <br />
               </SwiperSlide>
