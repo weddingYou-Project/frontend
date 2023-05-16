@@ -25,7 +25,7 @@ function Ratingpage() {
 
   useEffect(() => {
     sendReview();
-  }, [clicked]); //컨디마 컨디업
+  }, [clicked]);
 
   const sendReview = () => {
     let score = clicked.filter(Boolean).length;
