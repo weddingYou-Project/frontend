@@ -1,13 +1,22 @@
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 function BackButton() {
   const navigate = useNavigate();
   const location = useLocation();
   const path = location.pathname;
+  const [originalLocation, setOriginalLocation] = useState();
+  const [searchedKeyword, setSearchedKeyWord] = useState();
 
-  const { originalLocation } = useLocation().state;
-  const { searchedKeyword } = useLocation().state;
+  useEffect(() => {
+    if (location.state !== null) {
+      const { originalLocation } = location.state;
+      setOriginalLocation(originalLocation);
+      const { searchedKeyword } = location.state;
+      setSearchedKeyWord(searchedKeyword);
+    }
+  }, []);
 
   return (
     <div className="backicon">

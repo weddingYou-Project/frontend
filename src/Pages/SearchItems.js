@@ -763,10 +763,6 @@ function SearchItems() {
   };
 
   useEffect(() => {
-    console.log(
-      "selectedcategory:---------------------------------------" +
-        selectedCategory
-    );
     if (selectedCategory === "웨딩홀") {
       keyIndex.forEach((index) => {
         if (weddingHallLikeState[index] === false) {
