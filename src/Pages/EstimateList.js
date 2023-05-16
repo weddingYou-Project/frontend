@@ -310,13 +310,13 @@ const DataListComp = ({ list, navigate }) => {
               {e.writer.slice(0, 3) + "***"} 님의 견적서
             </div>
             <div className="EstimateListDataRegion">
-              희망지역 :{" "}
+              희망지역 : &nbsp;
               {JSON.parse(e.region).map((e, index) => {
                 return <span>{e}&nbsp;&nbsp;</span>;
               })}
             </div>
             <div className="EstimateListDataBudget">
-              희망 예산 : {e.budget}원
+              희망 예산 : {e.budget.toLocaleString()}원
             </div>
             <div className="EstimateListDataViewCountAndDate">
               <div className="ViewCountAndDate">조회수 : {e.viewcount} </div>
