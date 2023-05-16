@@ -181,10 +181,12 @@ function LikeList() {
                         if (a.itemName === b.itemName) return 0;
                       }
                     });
-                    // } else if (selectedSort === "지역순") {
-                    //   itemDataArr.sort(function (a, b) {
-                    //     return a.itemName - b.itemName;
-                    //   });
+                  } else if (selectedSort === "최신순") {
+                    itemDataArr.sort(function (a, b) {
+                      return (
+                        new Date(b.likeWriteDate) - new Date(a.likeWriteDate)
+                      );
+                    });
                   } else {
                     itemDataArr.sort(function (a, b) {
                       return (
@@ -417,15 +419,15 @@ function LikeList() {
                   인기순
                 </button>
               </li>
-              {/* <li>
-              <button
-                class="dropdown-item"
-                type="button"
-                onClick={() => handleSortClick("지역순")}
-              >
-                지역순
-              </button>
-            </li> */}
+              <li>
+                <button
+                  class="dropdown-item"
+                  type="button"
+                  onClick={() => handleSortClick("최신순")}
+                >
+                  최신순
+                </button>
+              </li>
             </ul>
           </div>
         </div>
