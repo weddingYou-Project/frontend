@@ -7,75 +7,16 @@ import Footer from "../../Components/Footer";
 import "../../Css/menuList.css";
 import "../../Css/items.css";
 
-const Weddinghall = () => {
+const Weddinghall = ({ postSubmitted }) => {
   const { category1 } = useParams();
   const title = category1;
   const category2 = ["일반", "호텔", "채플", "스몰", "야외", "전통혼례"];
-  const [images, setImages] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(category2[0]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
-  const [isEditing, setIsEditing] = useState(false);
-  const [editedImage, setEditedImage] = useState(null);
-
-  useEffect(() => {
-    axios
-      .get("/item/itemList", {
-        params: {
-          category1: title,
-          category2: selectedCategory,
-        },
-      })
-      .then((response) => {
-        setImages(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching data: ", error);
-      });
-  }, [selectedCategory, title]);
-
-  const handleEditClick = () => {
-    setEditedImage(selectedImage);
-    setIsEditing(true);
-  };
-
-  const handleCancelEdit = () => {
-    setIsEditing(false);
-    setEditedImage(null);
-  };
-
-  const handleSaveEdit = () => {
-    axios
-      .post(`/item/updateItem?itemId=${selectedImage.itemId}`, editedImage)
-      .then((response) => {
-        const updatedImage = response.data;
-        const updatedImages = images.map((image) =>
-          image.itemId === updatedImage.itemId ? updatedImage : image
-        );
-        setImages(updatedImages);
-        setSelectedImage(updatedImage);
-        setIsEditing(false);
-      })
-      .catch((error) => {
-        console.error("Error updating image: ", error);
-      });
-  };
-
-  const handleImageClick = (image) => {
-    setSelectedImage(image);
-    setIsModalOpen(true);
-  };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
-  };
-
-  const handleImageChange = (event) => {
-    const { name, value } = event.target;
-    setEditedImage({
-      ...editedImage,
-      [name]: value,
-    });
   };
 
   const handleCategoryClick = (category) => {
@@ -117,16 +58,8 @@ const Weddinghall = () => {
         ))}
       </div>
       <div className="image-wrapper">
-        {images
-          .filter((image) => image.category2 === selectedCategory)
-          .map((image) => (
-            <img
-              key={image.itemId}
-              src={image.itemImg}
-              alt={image.content}
-              onClick={() => handleImageClick(image)}
-            />
-          ))}
+        {/* 이미지 나열 */}
+        {/* 눌렀을 때 모달창 열림 */}
       </div>
       {selectedImage && (
         <Modal
@@ -134,44 +67,9 @@ const Weddinghall = () => {
           onRequestClose={handleCloseModal}
           style={modalStyles}
         >
-          <div className="modal-content">
-            <div className="modal-image">
-              <img src={selectedImage.itemImg} alt={selectedImage.content} />
-            </div>
-            {isEditing ? (
-              <div className="modal-info">
-                <input
-                  type="text"
-                  name="content"
-                  value={editedImage.content}
-                  onChange={handleImageChange}
-                />
-                <select
-                  name="category2"
-                  value={editedImage.category2}
-                  onChange={handleImageChange}
-                >
-                  {category2.map((category) => (
-                    <option key={category} value={category}>
-                      {category}
-                    </option>
-                  ))}
-                </select>
-                <div className="modal-actions">
-                  <button onClick={handleSaveEdit}>저장</button>
-                  <button onClick={handleCancelEdit}>취소</button>
-                </div>
-              </div>
-            ) : (
-              <div className="modal-info">
-                <div className="modal-title">{selectedImage.content}</div>
-                <div className="modal-category">{selectedImage.category2}</div>
-                <div className="modal-actions">
-                  <button onClick={handleEditClick}>수정</button>
-                </div>
-              </div>
-            )}
-          </div>
+          {/* 해당 이미지 보여주고 제목, 내용 */}
+          {/* 좋아요? 찜? 버튼 */}
+          {/* 수정, 삭제버튼 */}
         </Modal>
       )}
 

@@ -20,7 +20,6 @@ const WritePost = () => {
   const [content, setContent] = useState("");
   const [image, setImage] = useState(null);
   const [category2, setCategory2] = useState(categoryOptions[category1][0]);
-  const [previewImage, setPreviewImage] = useState(null);
 
   useEffect(() => {
     setCategory2(categoryOptions[category1][0]);
@@ -44,7 +43,7 @@ const WritePost = () => {
       setImage(null);
       setCategory2(categoryOptions[category1][0]);
     } catch (error) {
-      console.error("Error creating post: ", error);
+      console.error("Error : ", error);
     }
   };
 
@@ -58,7 +57,6 @@ const WritePost = () => {
   const handleImageChange = (event) => {
     const selectedImage = event.target.files[0];
     setImage(selectedImage);
-    // setPreviewImage(URL.createObjectURL(selectedImage));
   };
   return (
     <div className="mainlayout">
