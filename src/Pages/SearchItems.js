@@ -136,7 +136,7 @@ function SearchItems() {
   };
 
   const handleChange = (e) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     setSearchingKeyWord(e.target.value);
   };
 
@@ -145,8 +145,8 @@ function SearchItems() {
       .get(`/item/search/${searchedKeyword}`)
       .then((res) => {
         const dataList = res.data;
-        console.log("------------------------------------------------");
-        console.log(dataList);
+        console.log(dataList.length);
+        //console.log(dataList);
         if (dataList.length !== 0) {
           let count = 0;
           let countArr = [];
@@ -183,13 +183,7 @@ function SearchItems() {
                 .get(`/item/getItemList/${newitemId}`)
                 .then((res) => {
                   let newItem = res.data;
-                  console.log("index+++++++++++++++++++++++++");
                   itemDataArr.push(newItem);
-                  console.log(
-                    "newitem!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-                  );
-                  console.log(itemDataArr);
-                  // itemDateArr.push(newItem.itemWriteDate);
 
                   itemDataArr.sort(function (a, b) {
                     if (a.category1 === b.category1) {
@@ -198,16 +192,8 @@ function SearchItems() {
                       );
                     }
                   });
-
-                  // itemDateArr.sort(function (a, b) {
-                  //   return (
-                  //     new Date(b.itemWriteDate) - new Date(a.itemWriteDate)
-                  //   );
-                  // });
                   setItem([...item, newItem]);
                   setItem(itemDataArr);
-
-                  //    setItemDate(itemDateArr);
                 })
                 .catch((e) => {
                   console.log(e);
@@ -227,6 +213,10 @@ function SearchItems() {
         } else {
           let countArr = [0, 0, 0, 0, 0, 0];
           setCountIndex(countArr);
+          setPreviewImg([]);
+          setItemLike([]);
+          setItemName([]);
+          setItemContent([]);
         }
       })
       .catch((e) => {
@@ -239,7 +229,6 @@ function SearchItems() {
 
     for (var i = 0; i < countIndex.length; i++) {
       let itemCount = countIndex.at(i);
-      console.log("itemCount" + itemCount);
       let keyIndexArr = [];
       let keyIndexArr1 = [];
       let keyIndexArr2 = [];
@@ -276,11 +265,6 @@ function SearchItems() {
               email: sessionStorage.getItem("email"),
             })
             .then((res) => {
-              console.log(
-                "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!resdata!!!!!!!!!!!!!!!!!!!"
-              );
-              console.log(res.data);
-              console.log(a);
               if (res.data === 1) {
                 likeStateArr[a] = true;
                 setWeddingHallLikeState(likeStateArr);
@@ -357,8 +341,6 @@ function SearchItems() {
         }
         for (let c = 0; c < itemCount; c++) {
           let listId = itemId.slice(count, count + itemCount);
-          console.log("listId2");
-          console.log(listId);
           axios
             .post(`/like/findlist`, {
               itemId: listId[c],
@@ -390,8 +372,6 @@ function SearchItems() {
         setDressItem(previewImg.slice(count, count + itemCount));
         setDressImgContent(itemContent.slice(count, count + itemCount));
         count = count + itemCount;
-        console.log("=================================================");
-        console.log(count);
       } else if (i === 3) {
         if (itemCount !== 0) {
           //likestateArr 값 전부 undefined해주기
@@ -401,9 +381,6 @@ function SearchItems() {
         }
         for (let d = 0; d < itemCount; d++) {
           let listId = itemId.slice(count, count + itemCount);
-          console.log(count);
-          console.log("listId3");
-          console.log(listId);
           axios
             .post(`/like/findlist`, {
               itemId: listId[d],
@@ -442,11 +419,7 @@ function SearchItems() {
           }
         }
         for (let e = 0; e < itemCount; e++) {
-          console.log("count4");
-          console.log(count);
           let listId = itemId.slice(count, count + itemCount);
-          console.log("listId4");
-          console.log(listId);
           axios
             .post(`/like/findlist`, {
               itemId: listId[e],
@@ -517,7 +490,6 @@ function SearchItems() {
         setBouquetLikeState(likeStateArr5);
         count = count + itemCount;
       }
-      console.log("countnext : " + count);
     }
   }, [searchedKeyword, update, itemLike]);
 
@@ -526,7 +498,6 @@ function SearchItems() {
     const index = e.target.dataset.bsKeyindex;
     modalItemId.current.id = e.target.dataset.bsItemid;
     modalItemId.current.dataset.index = index;
-    console.log(e.target.dataset);
     modalImgContent.current.innerText = e.target.dataset.bsItemcontent;
     modalImgTitle.current.innerText = `- ${e.target.dataset.bsItemname} -`;
     setSelectedCategory(e.target.dataset.bsCategory);
@@ -981,20 +952,21 @@ function SearchItems() {
     }
   }, [checkLike]);
 
-  console.log(previewImg);
-  console.log(itemId);
-  console.log(weddingHallItemId);
-  console.log(studioItemId);
-  console.log(dressItemId);
-  console.log(makeupItemId);
-  console.log(honeyMoonItemId);
-  console.log(bouquetItemId);
+  // console.log(previewImg);
+  // console.log(itemId);
+  // console.log(weddingHallItemId);
+  // console.log(studioItemId);
+  // console.log(dressItemId);
+  // console.log(makeupItemId);
+  // console.log(honeyMoonItemId);
+  // console.log(bouquetItemId);
 
-  console.log("itemLike");
-  console.log(itemLike);
-  console.log(itemName);
-  console.log(itemContent);
-  console.log(weddingHallImgContent);
+  // console.log("itemLike");
+  // console.log(itemLike);
+  // console.log(itemName);
+  // console.log(itemContent);
+  // console.log(weddingHallImgContent);
+  console.log(countIndex);
 
   return (
     <div className="mainlayout">
