@@ -1396,7 +1396,7 @@ function SearchItems() {
                   style={{ width: "100px", height: "210px", cursor: "pointer" }}
                   data-bs-toggle="modal"
                   data-bs-target="#imgDetailModal"
-                  data-bs-src={previewImg[i]}
+                  data-bs-src={makeupItem[i]}
                   data-bs-category="메이크업"
                   data-bs-keyIndex={i}
                   data-bs-itemid={makeupItemId[i]}
