@@ -361,14 +361,18 @@ function SearchItems() {
         setDressItemId(itemId.slice(count, itemCount));
 
         count = count + itemCount;
+        console.log("=================================================");
+        console.log(count);
       } else if (i === 3) {
         if (itemCount !== 0) {
           //likestateArr 값 전부 undefined해주기
           for (let k = 0; k < itemCount; k++) {
-            likeStateArr3.push(undefined);
+            likeStateArr3.push(-1);
           }
         }
         for (let d = 0; d < itemCount; d++) {
+          console.log("-----------------------------------------------");
+          console.log(itemCount);
           let listId = itemId.slice(count, itemCount);
           axios
             .post(`/like/findlist`, {
@@ -401,7 +405,7 @@ function SearchItems() {
         if (itemCount !== 0) {
           //likestateArr 값 전부 undefined해주기
           for (let k = 0; k < itemCount; k++) {
-            likeStateArr4.push(undefined);
+            likeStateArr4.push(-1);
           }
         }
         for (let e = 0; e < itemCount; e++) {
@@ -437,7 +441,7 @@ function SearchItems() {
         if (itemCount !== 0) {
           //likestateArr 값 전부 undefined해주기
           for (let k = 0; k < itemCount; k++) {
-            likeStateArr5.push(undefined);
+            likeStateArr5.push(-1);
           }
         }
         for (let f = 0; f < itemCount; f++) {
@@ -936,6 +940,14 @@ function SearchItems() {
       });
     }
   }, [checkLike]);
+
+  console.log(previewImg);
+  console.log(itemId);
+  console.log(weddingHallItemId);
+  console.log(studioItemId);
+  console.log(dressItemId);
+  console.log(honeyMoonItemId);
+  console.log(bouquetItemId);
 
   return (
     <div className="mainlayout">
