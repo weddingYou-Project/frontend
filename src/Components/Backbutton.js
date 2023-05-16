@@ -6,6 +6,9 @@ function BackButton() {
   const location = useLocation();
   const path = location.pathname;
 
+  const { originalLocation } = useLocation().state;
+  const { searchedKeyword } = useLocation().state;
+
   return (
     <div className="backicon">
       <button
@@ -34,6 +37,12 @@ function BackButton() {
             navigate("/mypage/user");
           } else if (path.indexOf("/planner/userupdate") !== -1) {
             navigate("/mypage/planner");
+          } else if (path.indexOf("/likeList") !== -1) {
+            if (originalLocation === "home") {
+              navigate("/");
+            } else if (originalLocation === "searchitems") {
+              navigate("/searchItems", { state: { keyword: searchedKeyword } });
+            }
           } else {
             navigate("/");
           }

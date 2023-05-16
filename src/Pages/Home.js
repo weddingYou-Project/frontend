@@ -1051,7 +1051,7 @@ function Home() {
         <div
           className="likeListBtn"
           onClick={() => {
-            navigate("/likeList");
+            navigate("/likeList", { state: { originalLocation: "home" } });
           }}
         >
           <svg

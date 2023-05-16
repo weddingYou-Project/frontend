@@ -1004,11 +1004,17 @@ function SearchItems() {
           onKeyPress={handleKeyPress}
           value={searchingKeyword}
           onChange={handleChange}
+          autoComplete="off"
         />
         <div
           className="likeListBtn"
           onClick={() => {
-            navigate("/likeList");
+            navigate("/likeList", {
+              state: {
+                originalLocation: "searchitems",
+                searchedKeyword: searchedKeyword,
+              },
+            });
           }}
         >
           <svg
