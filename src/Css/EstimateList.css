@@ -120,7 +120,7 @@ div {
     padding-left: 20px;
     float: left;
     display: flex;
-    align-items: end;
+    align-items: center;
     font-size: 17px;
     color: gray;
 }
