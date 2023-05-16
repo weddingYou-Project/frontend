@@ -21,6 +21,7 @@ function SearchItems() {
   const [searchedKeyword, setSearchedKeyWord] = useState(keyword);
   const [itemLike, setItemLike] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [itemDate, setItemDate] = useState("");
   // console.log(keyword);
   const [previewImg, setPreviewImg] = useState([]);
   const [itemId, setItemId] = useState([]);
@@ -34,6 +35,7 @@ function SearchItems() {
   let keyIndexArr = [];
   let list = [];
   let itemDataArr = [];
+  let itemDateArr = [];
   let previewImgArr = [];
   let likeIndexArr = [];
 
@@ -115,6 +117,21 @@ function SearchItems() {
   const [modalBackgroundColor, setChangeModalBackgroundColor] = useState(false);
   const [checkLike, setCheckLike] = useState(false);
 
+  let likeStateArr = [];
+  let likeStateArr1 = [];
+  let likeStateArr2 = [];
+  let likeStateArr3 = [];
+  let likeStateArr4 = [];
+  let likeStateArr5 = [];
+  let likeCountArr = [];
+  let likeCountArr1 = [];
+  let likeCountArr2 = [];
+  let likeCountArr3 = [];
+  let likeCountArr4 = [];
+  let likeCountArr5 = [];
+
+  const [update, setUpdate] = useState(false);
+
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
       // 엔터키로 이동
@@ -136,6 +153,7 @@ function SearchItems() {
         if (dataList.length !== 0) {
           let count = 0;
           let countArr = [];
+          setUpdate(true);
           for (var i = 0; i < dataList.length; ) {
             if (dataList[i] === "/") {
               countArr.push(count);
@@ -144,8 +162,6 @@ function SearchItems() {
               i++;
             } else {
               count++;
-              console.log("countArr:" + countArr);
-
               //이미지
               let dataUrl = "data:image/jpeg;base64," + dataList[i];
               previewImgArr.push(dataUrl);
@@ -167,14 +183,20 @@ function SearchItems() {
                 .then((res) => {
                   let newItem = res.data;
                   itemDataArr.push(newItem);
+                  itemDateArr.push(newItem.itemWriteDate);
                   itemDataArr.sort(function (a, b) {
                     return (
-                      new Date(a.itemWriteDate) - new Date(b.itemWriteDate)
+                      new Date(b.itemWriteDate) - new Date(a.itemWriteDate)
+                    );
+                  });
+                  itemDateArr.sort(function (a, b) {
+                    return (
+                      new Date(b.itemWriteDate) - new Date(a.itemWriteDate)
                     );
                   });
                   setItem([...item, newItem]);
                   setItem(itemDataArr);
-
+                  setItemDate(itemDateArr);
                   let itemNameList = [];
                   let itemLikeList = [];
                   let itemContentList = [];
@@ -186,7 +208,6 @@ function SearchItems() {
                     itemLikeList.push(newItemLike);
                     itemContentList.push(newItemContent);
                     setItemName(itemNameList);
-                    console.log(itemLikeList + "---------------------------");
                     setItemLike(itemLikeList);
                     setItemContent(itemContentList);
                   }
@@ -209,15 +230,16 @@ function SearchItems() {
 
   useEffect(() => {
     let count = 0;
+
     for (var i = 0; i < countIndex.length; i++) {
-      let itemCount = countIndex[i];
+      let itemCount = countIndex.at(i);
       console.log("itemCount" + itemCount);
-      keyIndexArr = [];
-      keyIndexArr1 = [];
-      keyIndexArr2 = [];
-      keyIndexArr3 = [];
-      keyIndexArr4 = [];
-      keyIndexArr5 = [];
+      let keyIndexArr = [];
+      let keyIndexArr1 = [];
+      let keyIndexArr2 = [];
+      let keyIndexArr3 = [];
+      let keyIndexArr4 = [];
+      let keyIndexArr5 = [];
       let likeStateArr = [];
       let likeStateArr1 = [];
       let likeStateArr2 = [];
@@ -232,24 +254,39 @@ function SearchItems() {
       let likeCountArr5 = [];
 
       if (i === 0) {
+        //웨딩홀일때
+        if (itemCount !== 0) {
+          //likestateArr 값 전부 undefined해주기
+
+          for (let k = 0; k < itemCount; k++) {
+            likeStateArr.push(-1);
+          }
+        }
+        let listId = itemId.slice(count, itemCount);
         for (let a = 0; a < itemCount; a++) {
           axios
             .post(`/like/findlist`, {
-              itemId: itemId[a],
+              itemId: listId.at(a),
               email: sessionStorage.getItem("email"),
             })
             .then((res) => {
+              console.log(
+                "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!resdata!!!!!!!!!!!!!!!!!!!"
+              );
+              console.log(res.data);
+              console.log(a);
               if (res.data === 1) {
-                likeStateArr.push(true);
+                likeStateArr[a] = true;
                 setWeddingHallLikeState(likeStateArr);
               } else if (res.data === 0) {
-                likeStateArr.push(undefined);
+                likeStateArr[a] = undefined;
                 setWeddingHallLikeState(likeStateArr);
               } else {
                 //로그인하지 않았을 때
-                likeStateArr.push(-1);
+                likeStateArr[a] = -1;
                 setWeddingHallLikeState(likeStateArr);
               }
+              setWeddingHallLikeState(likeStateArr);
             })
             .catch((e) => {
               console.log(e);
@@ -257,35 +294,35 @@ function SearchItems() {
 
           keyIndexArr.push(a);
         }
-
-        likeCountArr = itemLike.slice(count, itemCount);
-
-        console.log(itemLike);
-        console.log("likeCountArr");
-        console.log(likeCountArr);
         setKeyIndex(keyIndexArr);
         setWeddingHallItemId(itemId.slice(count, itemCount));
-        setWeddingHallLike(likeCountArr);
+        setWeddingHallLike(itemLike.slice(count, itemCount));
+        setWeddingHallLikeState(likeStateArr);
         count = count + itemCount;
       } else if (i === 1) {
+        if (itemCount !== 0) {
+          //likestateArr 값 전부 undefined해주기
+          for (let k = 0; k < itemCount; k++) {
+            likeStateArr1.push(-1);
+          }
+        }
         for (let b = 0; b < itemCount; b++) {
+          let listId = itemId.slice(count, itemCount);
           axios
             .post(`/like/findlist`, {
-              itemId: itemId[b],
+              itemId: listId[b],
               email: sessionStorage.getItem("email"),
             })
             .then((res) => {
               if (res.data === 1) {
-                likeStateArr1.push(true);
-                setStudioLikeState(likeStateArr1);
+                likeStateArr1[b] = true;
               } else if (res.data === 0) {
-                likeStateArr1.push(undefined);
-                setStudioLikeState(likeStateArr1);
+                likeStateArr1[b] = undefined;
               } else {
                 //로그인하지 않았을 때
-                likeStateArr1.push(-1);
-                setStudioLikeState(likeStateArr1);
+                likeStateArr1[b] = -1;
               }
+              setStudioLikeState(likeStateArr1);
             })
             .catch((e) => {
               console.log(e);
@@ -297,26 +334,32 @@ function SearchItems() {
         setStudioKeyIndex(keyIndexArr1);
         setStudioItemLike(likeCountArr1);
         setStudiItemId(itemId.slice(count, itemCount));
+        setStudioLikeState(likeStateArr1);
         count = count + itemCount;
       } else if (i === 2) {
+        if (itemCount !== 0) {
+          //likestateArr 값 전부 undefined해주기
+          for (let k = 0; k < itemCount; k++) {
+            likeStateArr2.push(-1);
+          }
+        }
         for (let c = 0; c < itemCount; c++) {
+          let listId = itemId.slice(count, itemCount);
           axios
             .post(`/like/findlist`, {
-              itemId: itemId[c],
+              itemId: listId[c],
               email: sessionStorage.getItem("email"),
             })
             .then((res) => {
               if (res.data === 1) {
-                likeStateArr2.push(true);
-                setStudioLikeState(likeStateArr2);
+                likeStateArr2[c] = true;
               } else if (res.data === 0) {
-                likeStateArr2.push(undefined);
-                setStudioLikeState(likeStateArr2);
+                likeStateArr2[c] = undefined;
               } else {
                 //로그인하지 않았을 때
-                likeStateArr2.push(-1);
-                setStudioLikeState(likeStateArr2);
+                likeStateArr2[c] = -1;
               }
+              setStudioLikeState(likeStateArr2);
             })
             .catch((e) => {
               console.log(e);
@@ -329,26 +372,32 @@ function SearchItems() {
         setDressLikeState(likeStateArr2);
         setDressItemLike(likeCountArr2);
         setDressItemId(itemId.slice(count, itemCount));
+
         count = count + itemCount;
       } else if (i === 3) {
+        if (itemCount !== 0) {
+          //likestateArr 값 전부 undefined해주기
+          for (let k = 0; k < itemCount; k++) {
+            likeStateArr3.push(undefined);
+          }
+        }
         for (let d = 0; d < itemCount; d++) {
+          let listId = itemId.slice(count, itemCount);
           axios
             .post(`/like/findlist`, {
-              itemId: itemId[d],
+              itemId: listId[d],
               email: sessionStorage.getItem("email"),
             })
             .then((res) => {
               if (res.data === 1) {
-                likeStateArr3.push(true);
-                setMakeupLikeState(likeStateArr3);
+                likeStateArr3[d] = true;
               } else if (res.data === 0) {
-                likeStateArr3.push(undefined);
-                setMakeupLikeState(likeStateArr3);
+                likeStateArr3[d] = undefined;
               } else {
                 //로그인하지 않았을 때
-                likeStateArr3.push(-1);
-                setMakeupLikeState(likeStateArr3);
+                likeStateArr3[d] = -1;
               }
+              setMakeupLikeState(likeStateArr3);
             })
             .catch((e) => {
               console.log(e);
@@ -359,26 +408,32 @@ function SearchItems() {
         setMakeupKeyIndex(keyIndexArr3);
         setMakeupItemLike(likeCountArr3);
         setMakeupItemId(itemId.slice(count, itemCount));
+        setMakeupLikeState(likeStateArr3);
         count = count + itemCount;
       } else if (i === 4) {
+        if (itemCount !== 0) {
+          //likestateArr 값 전부 undefined해주기
+          for (let k = 0; k < itemCount; k++) {
+            likeStateArr4.push(undefined);
+          }
+        }
         for (let e = 0; e < itemCount; e++) {
+          let listId = itemId.slice(count, itemCount);
           axios
             .post(`/like/findlist`, {
-              itemId: itemId[e],
+              itemId: listId[e],
               email: sessionStorage.getItem("email"),
             })
             .then((res) => {
               if (res.data === 1) {
-                likeStateArr4.push(true);
-                setHoneyMoonLikeState(likeStateArr4);
+                likeStateArr4[e] = true;
               } else if (res.data === 0) {
-                likeStateArr4.push(undefined);
-                setHoneyMoonLikeState(likeStateArr4);
+                likeStateArr4[e] = undefined;
               } else {
                 //로그인하지 않았을 때
-                likeStateArr4.push(-1);
-                setHoneyMoonLikeState(likeStateArr4);
+                likeStateArr4[e] = -1;
               }
+              setHoneyMoonLikeState(likeStateArr4);
             })
             .catch((e) => {
               console.log(e);
@@ -389,26 +444,32 @@ function SearchItems() {
         setHoneyMoonKeyIndex(keyIndexArr4);
         setHoneyMoonItemLike(likeCountArr4);
         setHoneyMoonItemId(itemId.slice(count, itemCount));
+        setHoneyMoonLikeState(likeStateArr4);
         count = count + itemCount;
       } else if (i === 5) {
+        if (itemCount !== 0) {
+          //likestateArr 값 전부 undefined해주기
+          for (let k = 0; k < itemCount; k++) {
+            likeStateArr5.push(undefined);
+          }
+        }
         for (let f = 0; f < itemCount; f++) {
+          let listId = itemId.slice(count, itemCount);
           axios
             .post(`/like/findlist`, {
-              itemId: itemId[f],
+              itemId: listId[f],
               email: sessionStorage.getItem("email"),
             })
             .then((res) => {
               if (res.data === 1) {
-                likeStateArr5.push(true);
-                setBouquetLikeState(likeStateArr5);
+                likeStateArr5[f] = true;
               } else if (res.data === 0) {
-                likeStateArr5.push(undefined);
-                setBouquetLikeState(likeStateArr5);
+                likeStateArr5[f] = undefined;
               } else {
                 //로그인하지 않았을 때
-                likeStateArr5.push(-1);
-                setBouquetLikeState(likeStateArr5);
+                likeStateArr5[f] = -1;
               }
+              setBouquetLikeState(likeStateArr5);
             })
             .catch((e) => {
               console.log(e);
@@ -419,10 +480,11 @@ function SearchItems() {
         setBouquetKeyIndex(keyIndexArr5);
         setBouquetItemLike(likeCountArr5);
         setBouquetItemId(itemId.slice(count, itemCount));
+        setBouquetLikeState(likeStateArr5);
         count = count + itemCount;
       }
     }
-  }, [countIndex, searchedKeyword, itemLike]);
+  }, [searchedKeyword, update, itemLike]);
 
   const showingDetail = (e) => {
     modalImg.current.src = e.target.dataset.bsSrc;
@@ -531,8 +593,9 @@ function SearchItems() {
         modalItemId.current.style.backgroundColor = "#fce1e4";
         changedState = true;
         weddingHallLike[index]++;
-      } else {
+      } else if (prevState[0] === -1) {
         alert("찜하기 버튼을 이용하려면 로그인하세요!");
+        changedState = -1;
       }
       newlikeState.splice(index, 1, changedState);
       setWeddingHallLikeState(newlikeState);
@@ -557,6 +620,7 @@ function SearchItems() {
         studioItemLike[index]++;
       } else {
         alert("찜하기 버튼을 이용하려면 로그인하세요!");
+        changedState = -1;
       }
       newlikeState.splice(index, 1, changedState);
       setStudioLikeState(newlikeState);
@@ -581,6 +645,7 @@ function SearchItems() {
         dressItemLike[index]++;
       } else {
         alert("찜하기 버튼을 이용하려면 로그인하세요!");
+        changedState = -1;
       }
       newlikeState.splice(index, 1, changedState);
       setDressLikeState(newlikeState);
@@ -605,6 +670,7 @@ function SearchItems() {
         makeupItemLike[index]++;
       } else {
         alert("찜하기 버튼을 이용하려면 로그인하세요!");
+        changedState = -1;
       }
       newlikeState.splice(index, 1, changedState);
       setMakeupLikeState(newlikeState);
@@ -629,6 +695,7 @@ function SearchItems() {
         honeyMoonItemLike[index]++;
       } else {
         alert("찜하기 버튼을 이용하려면 로그인하세요!");
+        changedState = -1;
       }
       newlikeState.splice(index, 1, changedState);
       setHoneyMoonLikeState(newlikeState);
@@ -653,6 +720,7 @@ function SearchItems() {
         bouquetItemLike[index]++;
       } else {
         alert("찜하기 버튼을 이용하려면 로그인하세요!");
+        changedState = -1;
       }
       newlikeState.splice(index, 1, changedState);
       setBouquetLikeState(newlikeState);
@@ -667,7 +735,6 @@ function SearchItems() {
     if (selectedCategory === "웨딩홀") {
       keyIndex.forEach((index) => {
         if (weddingHallLikeState[index] === false) {
-          console.log("deleteitem:" + itemId[index]);
           setChangeModalBackgroundColor(false);
           axios
             .post(`/like/delete`, {
@@ -675,7 +742,8 @@ function SearchItems() {
               email: sessionStorage.getItem("email"),
             })
             .then((res) => {
-              console.log("delete");
+              console.log("deleteitem:");
+              console.log(itemId[index]);
               console.log(res);
             })
             .catch((e) => {
@@ -689,6 +757,8 @@ function SearchItems() {
               email: sessionStorage.getItem("email"),
             })
             .then((res) => {
+              console.log("createItem:");
+              console.log(itemId[index]);
               console.log(res);
             })
             .catch((e) => {
@@ -700,14 +770,15 @@ function SearchItems() {
       studioKeyIndex.forEach((index) => {
         if (studioLikeState[index] === false) {
           setChangeModalBackgroundColor(false);
-          console.log("deleteitem:" + studioItemId[index]);
+
           axios
             .post(`/like/delete`, {
               itemId: studioItemId[index],
               email: sessionStorage.getItem("email"),
             })
             .then((res) => {
-              console.log("delete");
+              console.log("deleteitem:");
+              console.log(studioItemId[index]);
               console.log(res);
             })
             .catch((e) => {
@@ -715,12 +786,15 @@ function SearchItems() {
             });
         } else if (studioLikeState[index] === true) {
           setChangeModalBackgroundColor(true);
+
           axios
             .post(`/like/create`, {
               itemId: studioItemId[index],
               email: sessionStorage.getItem("email"),
             })
             .then((res) => {
+              console.log("createItem:");
+              console.log(studioItemId[index]);
               console.log(res);
             })
             .catch((e) => {
@@ -732,14 +806,15 @@ function SearchItems() {
       dressKeyIndex.forEach((index) => {
         if (dressLikeState[index] === false) {
           setChangeModalBackgroundColor(false);
-          console.log("deleteitem:" + dressItemId[index]);
+
           axios
             .post(`/like/delete`, {
               itemId: dressItemId[index],
               email: sessionStorage.getItem("email"),
             })
             .then((res) => {
-              console.log("delete");
+              console.log("deleteitem:");
+              console.log(dressItemId[index]);
               console.log(res);
             })
             .catch((e) => {
@@ -747,12 +822,15 @@ function SearchItems() {
             });
         } else if (dressLikeState[index] === true) {
           setChangeModalBackgroundColor(true);
+
           axios
             .post(`/like/create`, {
               itemId: dressItemId[index],
               email: sessionStorage.getItem("email"),
             })
             .then((res) => {
+              console.log("createItem:");
+              console.log(dressItemId[index]);
               console.log(res);
             })
             .catch((e) => {
@@ -764,13 +842,15 @@ function SearchItems() {
       makeupKeyIndex.forEach((index) => {
         if (makeupLikeState[index] === false) {
           setChangeModalBackgroundColor(false);
-          console.log("deleteitem:" + makeupItemId[index]);
+
           axios
             .post(`/like/delete`, {
               itemId: makeupItemId[index],
               email: sessionStorage.getItem("email"),
             })
             .then((res) => {
+              console.log("deleteitem:");
+              console.log(makeupItemId[index]);
               console.log("delete");
               console.log(res);
             })
@@ -779,12 +859,15 @@ function SearchItems() {
             });
         } else if (makeupLikeState[index] === true) {
           setChangeModalBackgroundColor(true);
+
           axios
             .post(`/like/create`, {
               itemId: makeupItemId[index],
               email: sessionStorage.getItem("email"),
             })
             .then((res) => {
+              console.log("createItem:");
+              console.log(makeupItemId[index]);
               console.log(res);
             })
             .catch((e) => {
@@ -796,14 +879,15 @@ function SearchItems() {
       honeyMoonKeyIndex.forEach((index) => {
         if (honeyMoonLikeState[index] === false) {
           setChangeModalBackgroundColor(false);
-          console.log("deleteitem:" + honeyMoonItemId[index]);
+
           axios
             .post(`/like/delete`, {
               itemId: honeyMoonItemId[index],
               email: sessionStorage.getItem("email"),
             })
             .then((res) => {
-              console.log("delete");
+              console.log("deleteitem:");
+              console.log(honeyMoonItemId[index]);
               console.log(res);
             })
             .catch((e) => {
@@ -811,12 +895,15 @@ function SearchItems() {
             });
         } else if (honeyMoonLikeState[index] === true) {
           setChangeModalBackgroundColor(true);
+
           axios
             .post(`/like/create`, {
               itemId: honeyMoonItemId[index],
               email: sessionStorage.getItem("email"),
             })
             .then((res) => {
+              console.log("createItem:");
+              console.log(honeyMoonItemId[index]);
               console.log(res);
             })
             .catch((e) => {
@@ -828,14 +915,15 @@ function SearchItems() {
       bouquetKeyIndex.forEach((index) => {
         if (bouquetLikeState[index] === false) {
           setChangeModalBackgroundColor(false);
-          console.log("deleteitem:" + bouquetItemId[index]);
+
           axios
             .post(`/like/delete`, {
               itemId: bouquetItemId[index],
               email: sessionStorage.getItem("email"),
             })
             .then((res) => {
-              console.log("delete");
+              console.log("deleteitem:");
+              console.log(bouquetItemId[index]);
               console.log(res);
             })
             .catch((e) => {
@@ -843,12 +931,15 @@ function SearchItems() {
             });
         } else if (bouquetLikeState[index] === true) {
           setChangeModalBackgroundColor(true);
+
           axios
             .post(`/like/create`, {
               itemId: bouquetItemId[index],
               email: sessionStorage.getItem("email"),
             })
             .then((res) => {
+              console.log("createItem:");
+              console.log(bouquetItemId[index]);
               console.log(res);
             })
             .catch((e) => {
@@ -859,31 +950,41 @@ function SearchItems() {
     }
   }, [checkLike]);
 
-  console.log(weddingHallItemId);
-  console.log(studioItemId);
-  console.log(dressItemId);
-  console.log(makeupItemId);
-  console.log(honeyMoonItemId);
-  console.log(bouquetItemId);
+  // console.log("itemids");
+  // console.log(weddingHallItemId);
+  // console.log(studioItemId);
+  // console.log(dressItemId);
+  // console.log(makeupItemId);
+  // console.log(honeyMoonItemId);
+  // console.log(bouquetItemId);
   // console.log("previewImg");
   // console.log(previewImg);
   // console.log("countIndex:");
   // console.log(countIndex);
   // console.log("itemName:");
   // console.log(itemName);
-  // console.log("itemLike:");
-  // console.log(itemLike);
-  // console.log("weddinghalllike");
-  // console.log(weddingHallLike);
-  // console.log(studioItemLike);
-  // console.log(dressItemLike);
-  // console.log(makeupItemLike);
-  // console.log(honeyMoonItemLike);
-  // console.log(bouquetItemLike);
+  console.log("itemLike:");
+  console.log(itemLike);
+  console.log("likecount");
+  console.log(weddingHallLike);
+  console.log(studioItemLike);
+  console.log(dressItemLike);
+  console.log(makeupItemLike);
+  console.log(honeyMoonItemLike);
+  console.log(bouquetItemLike);
+
+  console.log("likestate");
+  console.log(weddingHallLikeState);
+  console.log(studioLikeState);
+  console.log(dressLikeState);
+  console.log(makeupLikeState);
+  console.log(honeyMoonLikeState);
+  console.log(bouquetLikeState);
 
   // console.log(itemContent);
 
-  // console.log("--------------------");
+  console.log("--------------------");
+  console.log(countIndex);
   // console.log(keyIndex);
   // console.log(studioKeyIndex);
   // console.log(dressKeyIndex);

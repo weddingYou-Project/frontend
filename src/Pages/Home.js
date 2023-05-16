@@ -687,6 +687,7 @@ function Home() {
         itemLike[index]++;
       } else {
         alert("찜하기 버튼을 이용하려면 로그인하세요!");
+        changedState = -1;
       }
       newlikeState.splice(index, 1, changedState);
       setWeddingHallLikeState(newlikeState);
@@ -711,6 +712,7 @@ function Home() {
         studioItemLike[index]++;
       } else {
         alert("찜하기 버튼을 이용하려면 로그인하세요!");
+        changedState = -1;
       }
       newlikeState.splice(index, 1, changedState);
       setStudioLikeState(newlikeState);
@@ -735,6 +737,7 @@ function Home() {
         dressItemLike[index]++;
       } else {
         alert("찜하기 버튼을 이용하려면 로그인하세요!");
+        changedState = -1;
       }
       newlikeState.splice(index, 1, changedState);
       setDressLikeState(newlikeState);
@@ -759,6 +762,7 @@ function Home() {
         makeupItemLike[index]++;
       } else {
         alert("찜하기 버튼을 이용하려면 로그인하세요!");
+        changedState = -1;
       }
       newlikeState.splice(index, 1, changedState);
       setMakeupLikeState(newlikeState);
@@ -783,6 +787,7 @@ function Home() {
         honeyMoonItemLike[index]++;
       } else {
         alert("찜하기 버튼을 이용하려면 로그인하세요!");
+        changedState = -1;
       }
       newlikeState.splice(index, 1, changedState);
       setHoneyMoonLikeState(newlikeState);
@@ -807,6 +812,7 @@ function Home() {
         bouquetItemLike[index]++;
       } else {
         alert("찜하기 버튼을 이용하려면 로그인하세요!");
+        changedState = -1;
       }
       newlikeState.splice(index, 1, changedState);
       setBouquetLikeState(newlikeState);
