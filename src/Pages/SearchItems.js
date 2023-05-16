@@ -27,11 +27,15 @@ function SearchItems() {
   const [itemId, setItemId] = useState([]);
   const [item, setItem] = useState([]);
   const [itemName, setItemName] = useState([]);
+
   const [weddingHallLike, setWeddingHallLike] = useState([]);
   const [keyIndex, setKeyIndex] = useState([]);
   const [itemContent, setItemContent] = useState([]);
+  const [weddingHallItem, setWeddingHallItem] = useState([]);
   const [weddingHallItemId, setWeddingHallItemId] = useState([]);
   const [weddingHallLikeState, setWeddingHallLikeState] = useState([]);
+  const [weddingHallName, setWeddingHallName] = useState([]);
+  const [weddingHallImgContent, setWeddingHallImgContent] = useState([]);
   let keyIndexArr = [];
   let list = [];
   let itemDataArr = [];
@@ -46,6 +50,7 @@ function SearchItems() {
   const [studioItemLike, setStudioItemLike] = useState([]);
   const [studioKeyIndex, setStudioKeyIndex] = useState([]);
   const [studioLikeState, setStudioLikeState] = useState([]);
+  const [studioImgContent, setStudioImgContent] = useState([]);
   let keyIndexArr1 = [];
   let list1 = [];
   let itemDataArr1 = [];
@@ -59,6 +64,7 @@ function SearchItems() {
   const [dressItemLike, setDressItemLike] = useState([]);
   const [dressKeyIndex, setDressKeyIndex] = useState([]);
   const [dressLikeState, setDressLikeState] = useState([]);
+  const [dressImgContent, setDressImgContent] = useState([]);
   let keyIndexArr2 = [];
   let list2 = [];
   let itemDataArr2 = [];
@@ -72,6 +78,7 @@ function SearchItems() {
   const [makeupItemLike, setMakeupItemLike] = useState([]);
   const [makeupKeyIndex, setMakeupKeyIndex] = useState([]);
   const [makeupLikeState, setMakeupLikeState] = useState([]);
+  const [makeupImgContent, setMakeupImgContent] = useState([]);
   let keyIndexArr3 = [];
   let list3 = [];
   let itemDataArr3 = [];
@@ -85,6 +92,7 @@ function SearchItems() {
   const [honeyMoonItemLike, setHoneyMoonItemLike] = useState([]);
   const [honeyMoonKeyIndex, setHoneyMoonKeyIndex] = useState([]);
   const [honeyMoonLikeState, setHoneyMoonLikeState] = useState([]);
+  const [honeyMoonImgContent, setHoneyMoonImgContent] = useState([]);
   let keyIndexArr4 = [];
   let list4 = [];
   let itemDataArr4 = [];
@@ -98,6 +106,7 @@ function SearchItems() {
   const [bouquetItemLike, setBouquetItemLike] = useState([]);
   const [bouquetKeyIndex, setBouquetKeyIndex] = useState([]);
   const [bouquetLikeState, setBouquetLikeState] = useState([]);
+  const [bouquetImgContent, setBouquetImgContent] = useState([]);
   let keyIndexArr5 = [];
   let list5 = [];
   let itemDataArr5 = [];
@@ -133,13 +142,17 @@ function SearchItems() {
 
   useEffect(() => {
     axios
-      .get(`item/search/${searchedKeyword}`)
+      .get(`/item/search/${searchedKeyword}`)
       .then((res) => {
         const dataList = res.data;
+        console.log("------------------------------------------------");
         console.log(dataList);
         if (dataList.length !== 0) {
           let count = 0;
           let countArr = [];
+          let itemNameList = [];
+          let itemContentList = [];
+          let itemLikeList = [];
           setUpdate(true);
           for (var i = 0; i < dataList.length; ) {
             if (dataList[i] === "/") {
@@ -148,6 +161,7 @@ function SearchItems() {
               count = 0;
               i++;
             } else {
+              let index = i;
               count++;
               //이미지
               let dataUrl = "data:image/jpeg;base64," + dataList[i];
@@ -169,39 +183,44 @@ function SearchItems() {
                 .get(`/item/getItemList/${newitemId}`)
                 .then((res) => {
                   let newItem = res.data;
+                  console.log("index+++++++++++++++++++++++++");
                   itemDataArr.push(newItem);
-                  itemDateArr.push(newItem.itemWriteDate);
+                  console.log(
+                    "newitem!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+                  );
+                  console.log(itemDataArr);
+                  // itemDateArr.push(newItem.itemWriteDate);
+
                   itemDataArr.sort(function (a, b) {
-                    return (
-                      new Date(b.itemWriteDate) - new Date(a.itemWriteDate)
-                    );
+                    if (a.category1 === b.category1) {
+                      return (
+                        new Date(b.itemWriteDate) - new Date(a.itemWriteDate)
+                      );
+                    }
                   });
-                  itemDateArr.sort(function (a, b) {
-                    return (
-                      new Date(b.itemWriteDate) - new Date(a.itemWriteDate)
-                    );
-                  });
+
+                  // itemDateArr.sort(function (a, b) {
+                  //   return (
+                  //     new Date(b.itemWriteDate) - new Date(a.itemWriteDate)
+                  //   );
+                  // });
                   setItem([...item, newItem]);
                   setItem(itemDataArr);
-                  setItemDate(itemDateArr);
-                  let itemNameList = [];
-                  let itemLikeList = [];
-                  let itemContentList = [];
-                  for (var j = 0; j < itemDataArr.length; j++) {
-                    const newItemName = itemDataArr[j].itemName;
-                    const newItemLike = itemDataArr[j].like.length;
-                    const newItemContent = itemDataArr[j].imgContent;
-                    itemNameList.push(newItemName);
-                    itemLikeList.push(newItemLike);
-                    itemContentList.push(newItemContent);
-                    setItemName(itemNameList);
-                    setItemLike(itemLikeList);
-                    setItemContent(itemContentList);
-                  }
+
+                  //    setItemDate(itemDateArr);
                 })
                 .catch((e) => {
                   console.log(e);
                 });
+              i++;
+              itemNameList.push(dataList[i]);
+              setItemName(itemNameList);
+              i++;
+              itemContentList.push(dataList[i]);
+              setItemContent(itemContentList);
+              i++;
+              itemLikeList.push(parseInt(dataList[i]));
+              setItemLike(itemLikeList);
               i++;
             }
           }
@@ -249,7 +268,7 @@ function SearchItems() {
             likeStateArr.push(-1);
           }
         }
-        let listId = itemId.slice(count, itemCount);
+        let listId = itemId.slice(count, count + itemCount);
         for (let a = 0; a < itemCount; a++) {
           axios
             .post(`/like/findlist`, {
@@ -282,9 +301,12 @@ function SearchItems() {
           keyIndexArr.push(a);
         }
         setKeyIndex(keyIndexArr);
-        setWeddingHallItemId(itemId.slice(count, itemCount));
-        setWeddingHallLike(itemLike.slice(count, itemCount));
+        setWeddingHallItemId(itemId.slice(count, count + itemCount));
+        setWeddingHallLike(itemLike.slice(count, count + itemCount));
+        setWeddingHallName(itemName.slice(count, count + itemCount));
+        setWeddingHallItem(previewImg.slice(count, count + itemCount));
         setWeddingHallLikeState(likeStateArr);
+        setWeddingHallImgContent(itemContent.slice(count, count + itemCount));
         count = count + itemCount;
       } else if (i === 1) {
         if (itemCount !== 0) {
@@ -294,7 +316,7 @@ function SearchItems() {
           }
         }
         for (let b = 0; b < itemCount; b++) {
-          let listId = itemId.slice(count, itemCount);
+          let listId = itemId.slice(count, count + itemCount);
           axios
             .post(`/like/findlist`, {
               itemId: listId[b],
@@ -317,10 +339,13 @@ function SearchItems() {
           keyIndexArr1.push(b);
         }
 
-        likeCountArr1 = itemLike.slice(count, itemCount);
+        likeCountArr1 = itemLike.slice(count, count + itemCount);
         setStudioKeyIndex(keyIndexArr1);
         setStudioItemLike(likeCountArr1);
-        setStudiItemId(itemId.slice(count, itemCount));
+        setStudiItemId(itemId.slice(count, count + itemCount));
+        setStudioItemName(itemName.slice(count, count + itemCount));
+        setStudioItem(previewImg.slice(count, count + itemCount));
+        setStudioImgContent(itemContent.slice(count, count + itemCount));
         setStudioLikeState(likeStateArr1);
         count = count + itemCount;
       } else if (i === 2) {
@@ -331,7 +356,9 @@ function SearchItems() {
           }
         }
         for (let c = 0; c < itemCount; c++) {
-          let listId = itemId.slice(count, itemCount);
+          let listId = itemId.slice(count, count + itemCount);
+          console.log("listId2");
+          console.log(listId);
           axios
             .post(`/like/findlist`, {
               itemId: listId[c],
@@ -354,12 +381,14 @@ function SearchItems() {
           keyIndexArr2.push(c);
         }
 
-        likeCountArr2 = itemLike.slice(count, itemCount);
+        likeCountArr2 = itemLike.slice(count, count + itemCount);
         setDressKeyIndex(keyIndexArr2);
         setDressLikeState(likeStateArr2);
         setDressItemLike(likeCountArr2);
-        setDressItemId(itemId.slice(count, itemCount));
-
+        setDressItemId(itemId.slice(count, count + itemCount));
+        setDressItemName(itemName.slice(count, count + itemCount));
+        setDressItem(previewImg.slice(count, count + itemCount));
+        setDressImgContent(itemContent.slice(count, count + itemCount));
         count = count + itemCount;
         console.log("=================================================");
         console.log(count);
@@ -371,9 +400,10 @@ function SearchItems() {
           }
         }
         for (let d = 0; d < itemCount; d++) {
-          console.log("-----------------------------------------------");
-          console.log(itemCount);
-          let listId = itemId.slice(count, itemCount);
+          let listId = itemId.slice(count, count + itemCount);
+          console.log(count);
+          console.log("listId3");
+          console.log(listId);
           axios
             .post(`/like/findlist`, {
               itemId: listId[d],
@@ -395,10 +425,13 @@ function SearchItems() {
             });
           keyIndexArr3.push(d);
         }
-        likeCountArr3 = itemLike.slice(count, itemCount);
+        likeCountArr3 = itemLike.slice(count, count + itemCount);
         setMakeupKeyIndex(keyIndexArr3);
         setMakeupItemLike(likeCountArr3);
-        setMakeupItemId(itemId.slice(count, itemCount));
+        setMakeupItemId(itemId.slice(count, count + itemCount));
+        setMakeupItemName(itemName.slice(count, count + itemCount));
+        setMakeupItem(previewImg.slice(count, count + itemCount));
+        setMakeupImgContent(itemContent.slice(count, count + itemCount));
         setMakeupLikeState(likeStateArr3);
         count = count + itemCount;
       } else if (i === 4) {
@@ -409,7 +442,11 @@ function SearchItems() {
           }
         }
         for (let e = 0; e < itemCount; e++) {
-          let listId = itemId.slice(count, itemCount);
+          console.log("count4");
+          console.log(count);
+          let listId = itemId.slice(count, count + itemCount);
+          console.log("listId4");
+          console.log(listId);
           axios
             .post(`/like/findlist`, {
               itemId: listId[e],
@@ -431,10 +468,13 @@ function SearchItems() {
             });
           keyIndexArr4.push(e);
         }
-        likeCountArr4 = itemLike.slice(count, itemCount);
+        likeCountArr4 = itemLike.slice(count, count + itemCount);
         setHoneyMoonKeyIndex(keyIndexArr4);
         setHoneyMoonItemLike(likeCountArr4);
-        setHoneyMoonItemId(itemId.slice(count, itemCount));
+        setHoneyMoonItemId(itemId.slice(count, count + itemCount));
+        setHoneyMoonItemName(itemName.slice(count, count + itemCount));
+        setHoneyMoonItem(previewImg.slice(count, count + itemCount));
+        setHoneyMoonImgContent(itemContent.slice(count, count + itemCount));
         setHoneyMoonLikeState(likeStateArr4);
         count = count + itemCount;
       } else if (i === 5) {
@@ -445,7 +485,7 @@ function SearchItems() {
           }
         }
         for (let f = 0; f < itemCount; f++) {
-          let listId = itemId.slice(count, itemCount);
+          let listId = itemId.slice(count, count + itemCount);
           axios
             .post(`/like/findlist`, {
               itemId: listId[f],
@@ -467,13 +507,17 @@ function SearchItems() {
             });
           keyIndexArr5.push(f);
         }
-        likeCountArr5 = itemLike.slice(count, itemCount);
+        likeCountArr5 = itemLike.slice(count, count + itemCount);
         setBouquetKeyIndex(keyIndexArr5);
         setBouquetItemLike(likeCountArr5);
-        setBouquetItemId(itemId.slice(count, itemCount));
+        setBouquetItemId(itemId.slice(count, count + itemCount));
+        setBouquetItemName(itemName.slice(count, count + itemCount));
+        setBouquetItem(previewImg.slice(count, count + itemCount));
+        setBouquetImgContent(itemContent.slice(count, count + itemCount));
         setBouquetLikeState(likeStateArr5);
         count = count + itemCount;
       }
+      console.log("countnext : " + count);
     }
   }, [searchedKeyword, update, itemLike]);
 
@@ -946,8 +990,15 @@ function SearchItems() {
   console.log(weddingHallItemId);
   console.log(studioItemId);
   console.log(dressItemId);
+  console.log(makeupItemId);
   console.log(honeyMoonItemId);
   console.log(bouquetItemId);
+
+  console.log("itemLike");
+  console.log(itemLike);
+  console.log(itemName);
+  console.log(itemContent);
+  console.log(weddingHallImgContent);
 
   return (
     <div className="mainlayout">
@@ -1135,24 +1186,24 @@ function SearchItems() {
             {keyIndex.map((i) => (
               <SwiperSlide>
                 <img
-                  src={previewImg[i]}
+                  src={weddingHallItem[i]}
                   class="d-block w-75 center"
                   alt="..."
                   style={{ width: "100px", height: "210px", cursor: "pointer" }}
                   data-bs-toggle="modal"
                   data-bs-target="#imgDetailModal"
-                  data-bs-src={previewImg[i]}
+                  data-bs-src={weddingHallItem[i]}
                   data-bs-category="웨딩홀"
                   data-bs-keyIndex={i}
-                  data-bs-itemid={itemId[i]}
-                  data-bs-itemContent={itemContent[i]}
+                  data-bs-itemid={weddingHallItemId[i]}
+                  data-bs-itemContent={weddingHallImgContent[i]}
                   data-bs-itemLike={weddingHallLike[i]}
-                  data-bs-itemName={itemName[i]}
+                  data-bs-itemName={weddingHallName[i]}
                   onClick={showingDetail}
                 />
                 <br />
                 <div className="itemName">
-                  {itemName[i]} &nbsp;❤️{weddingHallLike[i]}
+                  {weddingHallName[i]} &nbsp;❤️{weddingHallLike[i]}
                 </div>
                 <br />
               </SwiperSlide>
@@ -1204,24 +1255,24 @@ function SearchItems() {
             {studioKeyIndex.map((i) => (
               <SwiperSlide>
                 <img
-                  src={previewImg[i]}
+                  src={studioItem[i]}
                   class="d-block w-75 center"
                   alt="..."
                   style={{ width: "100px", height: "210px", cursor: "pointer" }}
                   data-bs-toggle="modal"
                   data-bs-target="#imgDetailModal"
-                  data-bs-src={previewImg[i]}
+                  data-bs-src={studioItem[i]}
                   data-bs-category="스튜디오"
                   data-bs-keyIndex={i}
-                  data-bs-itemid={itemId[i]}
-                  data-bs-itemContent={itemContent[i]}
+                  data-bs-itemid={studioItemId[i]}
+                  data-bs-itemContent={studioImgContent[i]}
                   data-bs-itemLike={studioItemLike[i]}
-                  data-bs-itemName={itemName[i]}
+                  data-bs-itemName={studioItemName[i]}
                   onClick={showingDetail}
                 />
                 <br />
                 <div className="itemName">
-                  {itemName[i]}&nbsp;❤️ {studioItemLike[i]}
+                  {studioItemName[i]}&nbsp;❤️ {studioItemLike[i]}
                 </div>
                 <br />
               </SwiperSlide>
@@ -1273,24 +1324,24 @@ function SearchItems() {
             {dressKeyIndex.map((i) => (
               <SwiperSlide>
                 <img
-                  src={previewImg[i]}
+                  src={dressItem[i]}
                   class="d-block w-75 center"
                   alt="..."
                   style={{ width: "100px", height: "220px", cursor: "pointer" }}
                   data-bs-toggle="modal"
                   data-bs-target="#imgDetailModal"
-                  data-bs-src={previewImg[i]}
+                  data-bs-src={dressItem[i]}
                   data-bs-category="의상"
                   data-bs-keyIndex={i}
-                  data-bs-itemid={itemId[i]}
-                  data-bs-itemContent={itemContent[i]}
+                  data-bs-itemid={dressItemId[i]}
+                  data-bs-itemContent={dressImgContent[i]}
                   data-bs-itemLike={dressItemLike[i]}
-                  data-bs-itemName={itemName[i]}
+                  data-bs-itemName={dressItemName[i]}
                   onClick={showingDetail}
                 />
                 <br />
                 <div className="itemName">
-                  {itemName[i]} &nbsp;❤️{dressItemLike[i]}
+                  {dressItemName[i]} &nbsp;❤️{dressItemLike[i]}
                 </div>
                 <br />
               </SwiperSlide>
@@ -1343,7 +1394,7 @@ function SearchItems() {
             {makeupKeyIndex.map((i) => (
               <SwiperSlide>
                 <img
-                  src={previewImg[i]}
+                  src={makeupItem[i]}
                   class="d-block w-75 center"
                   alt="..."
                   style={{ width: "100px", height: "210px", cursor: "pointer" }}
@@ -1352,15 +1403,15 @@ function SearchItems() {
                   data-bs-src={previewImg[i]}
                   data-bs-category="메이크업"
                   data-bs-keyIndex={i}
-                  data-bs-itemid={itemId[i]}
-                  data-bs-itemContent={itemContent[i]}
+                  data-bs-itemid={makeupItemId[i]}
+                  data-bs-itemContent={makeupImgContent[i]}
                   data-bs-itemLike={makeupItemLike[i]}
-                  data-bs-itemName={itemName[i]}
+                  data-bs-itemName={makeupItemName[i]}
                   onClick={showingDetail}
                 />
                 <br />
                 <div className="itemName">
-                  {itemName[i]} &nbsp;❤️{makeupItemLike[i]}
+                  {makeupItemName[i]} &nbsp;❤️{makeupItemLike[i]}
                 </div>
                 <br />
               </SwiperSlide>
@@ -1413,24 +1464,24 @@ function SearchItems() {
             {honeyMoonKeyIndex.map((i) => (
               <SwiperSlide>
                 <img
-                  src={previewImg[i]}
+                  src={honeyMoonItem[i]}
                   class="d-block w-75 center"
                   alt="..."
                   style={{ width: "100px", height: "210px", cursor: "pointer" }}
                   data-bs-toggle="modal"
                   data-bs-target="#imgDetailModal"
-                  data-bs-src={previewImg[i]}
+                  data-bs-src={honeyMoonItem[i]}
                   data-bs-category="신혼여행"
                   data-bs-keyIndex={i}
-                  data-bs-itemid={itemId[i]}
-                  data-bs-itemContent={itemContent[i]}
+                  data-bs-itemid={honeyMoonItemId[i]}
+                  data-bs-itemContent={honeyMoonImgContent[i]}
                   data-bs-itemLike={honeyMoonItemLike[i]}
-                  data-bs-itemName={itemName[i]}
+                  data-bs-itemName={honeyMoonItemName[i]}
                   onClick={showingDetail}
                 />
                 <br />
                 <div className="itemName">
-                  {itemName[i]} &nbsp;❤️{honeyMoonItemLike[i]}
+                  {honeyMoonItemName[i]} &nbsp;❤️{honeyMoonItemLike[i]}
                 </div>
                 <br />
               </SwiperSlide>
@@ -1483,24 +1534,24 @@ function SearchItems() {
             {bouquetKeyIndex.map((i) => (
               <SwiperSlide>
                 <img
-                  src={previewImg[i]}
+                  src={bouquetItem[i]}
                   class="d-block w-75 center"
                   alt="..."
                   style={{ width: "100px", height: "210px", pointer: "cursor" }}
                   data-bs-toggle="modal"
                   data-bs-target="#imgDetailModal"
-                  data-bs-src={previewImg[i]}
+                  data-bs-src={bouquetItem[i]}
                   data-bs-category="부케"
                   data-bs-keyIndex={i}
-                  data-bs-itemid={itemId[i]}
-                  data-bs-itemContent={itemContent[i]}
+                  data-bs-itemid={bouquetItemId[i]}
+                  data-bs-itemContent={bouquetImgContent[i]}
                   data-bs-itemLike={bouquetItemLike[i]}
-                  data-bs-itemName={itemName[i]}
+                  data-bs-itemName={bouquetItemName[i]}
                   onClick={showingDetail}
                 />
                 <br />
                 <div className="itemName">
-                  {itemName[i]} &nbsp;❤️{bouquetItemLike[i]}
+                  {bouquetItemName[i]} &nbsp;❤️{bouquetItemLike[i]}
                 </div>
                 <br />
               </SwiperSlide>
