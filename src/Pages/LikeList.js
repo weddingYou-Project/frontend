@@ -77,6 +77,9 @@ function LikeList() {
   };
 
   useEffect(() => {
+    if (sessionStorage.getItem("email") === null) {
+      navigate("/login");
+    }
     setFinish(false);
     setTimeout(() => {
       setFinish(true);
