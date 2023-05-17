@@ -110,6 +110,13 @@ function Home() {
   const modalImgTitle = useRef();
   const modalItemId = useRef();
 
+  const weddingAutoplayBtn = useRef();
+  const studioAutoplayBtn = useRef();
+  const dressAutoplayBtn = useRef();
+  const makeupAutoplayBtn = useRef();
+  const honeymoonAutoplayBtn = useRef();
+  const bouquetAutoplayBtn = useRef();
+
   const [finish, setFinish] = useState(false);
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
@@ -125,6 +132,16 @@ function Home() {
     navigate("/imgDetail");
   };
 
+  useEffect(() => {
+    //console.log(weddingAutoplayBtn.current.click());
+    const buttons = document.querySelectorAll(".carousel-control-next");
+    console.log(buttons);
+    setTimeout(() => {
+      for (let i = 0; i < buttons.length; i++) {
+        buttons[i].click();
+      }
+    }, 5000);
+  }, [finish]);
   useEffect(() => {
     //웨딩홀
     axios
@@ -1030,18 +1047,18 @@ function Home() {
     }
   }, [checkLike]);
 
-  console.log("weddingHallLikeState");
-  console.log(weddingHallLikeState);
-  console.log("studioLikeState");
-  console.log(studioLikeState);
-  console.log("dressLikeState");
-  console.log(dressLikeState);
-  console.log("makeupLikeState");
-  console.log(makeupLikeState);
-  console.log("honeyMoonLikeState");
-  console.log(honeyMoonLikeState);
-  console.log("bouquetLikeState");
-  console.log(bouquetLikeState);
+  // console.log("weddingHallLikeState");
+  // console.log(weddingHallLikeState);
+  // console.log("studioLikeState");
+  // console.log(studioLikeState);
+  // console.log("dressLikeState");
+  // console.log(dressLikeState);
+  // console.log("makeupLikeState");
+  // console.log(makeupLikeState);
+  // console.log("honeyMoonLikeState");
+  // console.log(honeyMoonLikeState);
+  // console.log("bouquetLikeState");
+  // console.log(bouquetLikeState);
 
   return (
     <div className="mainlayout">
@@ -1170,7 +1187,7 @@ function Home() {
                 id="weddingHallFade"
                 className="carousel slide carousel-fade"
                 data-bs-ride="carousel"
-                data-bs-interval="1000"
+                data-bs-interval="5000"
               >
                 <div class="carousel-inner">
                   <div
@@ -1182,7 +1199,7 @@ function Home() {
                       width: "500px",
                       height: "400px",
                     }}
-                    data-bs-interval="1000"
+                    data-bs-interval="5000"
                   >
                     <img
                       id={0}
@@ -1264,6 +1281,7 @@ function Home() {
                   <span class="visually-hidden">Previous</span>
                 </button>
                 <button
+                  ref={weddingAutoplayBtn}
                   class="carousel-control-next"
                   type="button"
                   data-bs-target="#weddingHallFade"
@@ -1462,6 +1480,7 @@ function Home() {
                 id="studioFade"
                 className="carousel slide carousel-fade"
                 data-bs-ride="carousel"
+                data-bs-interval="5000"
               >
                 <div class="carousel-inner">
                   <div
@@ -1473,6 +1492,7 @@ function Home() {
                       width: "500px",
                       height: "450px",
                     }}
+                    data-bs-interval="5000"
                   >
                     <img
                       id="targetImg"
@@ -1509,6 +1529,7 @@ function Home() {
                           width: "500px",
                           height: "450px",
                         }}
+                        data-bs-interval="5000"
                       >
                         <img
                           style={{
@@ -1551,6 +1572,7 @@ function Home() {
                   <span class="visually-hidden">Previous</span>
                 </button>
                 <button
+                  ref={studioAutoplayBtn}
                   class="carousel-control-next"
                   type="button"
                   data-bs-target="#studioFade"
@@ -1594,6 +1616,7 @@ function Home() {
                 id="clothesFade"
                 className="carousel slide carousel-fade"
                 data-bs-ride="carousel"
+                data-bs-interval="5000"
               >
                 <div class="carousel-inner">
                   <div
@@ -1605,6 +1628,7 @@ function Home() {
                       width: "500px",
                       height: "530px",
                     }}
+                    data-bs-interval="5000"
                   >
                     <img
                       id="targetImg"
@@ -1641,6 +1665,7 @@ function Home() {
                           width: "500px",
                           height: "530px",
                         }}
+                        data-bs-interval="5000"
                       >
                         <img
                           style={{
@@ -1683,6 +1708,7 @@ function Home() {
                   <span class="visually-hidden">Previous</span>
                 </button>
                 <button
+                  ref={dressAutoplayBtn}
                   class="carousel-control-next"
                   type="button"
                   data-bs-target="#clothesFade"
@@ -1725,6 +1751,7 @@ function Home() {
                 id="makeUpFade"
                 className="carousel slide carousel-fade"
                 data-bs-ride="carousel"
+                data-bs-interval="5000"
               >
                 <div class="carousel-inner">
                   <div
@@ -1736,6 +1763,7 @@ function Home() {
                       width: "500px",
                       height: "530px",
                     }}
+                    data-bs-interval="5000"
                   >
                     <img
                       id="targetImg"
@@ -1772,6 +1800,7 @@ function Home() {
                           width: "500px",
                           height: "530px",
                         }}
+                        data-bs-interval="5000"
                       >
                         <img
                           style={{
@@ -1814,6 +1843,7 @@ function Home() {
                   <span class="visually-hidden">Previous</span>
                 </button>
                 <button
+                  ref={makeupAutoplayBtn}
                   class="carousel-control-next"
                   type="button"
                   data-bs-target="#makeUpFade"
@@ -1868,6 +1898,7 @@ function Home() {
                       width: "500px",
                       height: "430px",
                     }}
+                    data-bs-interval="5000"
                   >
                     <img
                       id="targetImg"
@@ -1905,6 +1936,7 @@ function Home() {
                           width: "500px",
                           height: "430px",
                         }}
+                        data-bs-interval="5000"
                       >
                         <img
                           style={{
@@ -1948,6 +1980,7 @@ function Home() {
                   <span class="visually-hidden">Previous</span>
                 </button>
                 <button
+                  ref={honeymoonAutoplayBtn}
                   class="carousel-control-next"
                   type="button"
                   data-bs-target="#honeyMoonFade"
@@ -2002,6 +2035,7 @@ function Home() {
                       width: "500px",
                       height: "450px",
                     }}
+                    data-bs-interval="5000"
                   >
                     <img
                       id="targetImg"
@@ -2038,6 +2072,7 @@ function Home() {
                           width: "500px",
                           height: "450px",
                         }}
+                        data-bs-interval="5000"
                       >
                         <img
                           style={{
@@ -2081,6 +2116,7 @@ function Home() {
                   <span class="visually-hidden">Previous</span>
                 </button>
                 <button
+                  ref={bouquetAutoplayBtn}
                   class="carousel-control-next"
                   type="button"
                   data-bs-target="#bouquetFade"
