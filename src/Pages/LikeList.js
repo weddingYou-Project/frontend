@@ -5,6 +5,7 @@ import Footer from "../Components/Footer";
 import NavigationBar from "../Components/NavigationBar";
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import Animation from "../Components/Animation";
 import axios from "axios";
 
 function LikeList() {
@@ -37,6 +38,8 @@ function LikeList() {
   const [checkLikeOrNot, setCheckLikeOrNot] = useState(false);
 
   const [likeSelect, setLikeSelect] = useState(true);
+  const [finish, setFinish] = useState(false);
+  const [realFinish, setRealFinish] = useState(false);
 
   const handleHeartClick = (e) => {
     setCheckLikeOrNot(!checkLikeOrNot);
@@ -72,6 +75,20 @@ function LikeList() {
   const handleSortClick = (sort) => {
     setSelectedSort(sort); // 선택한 정렬로 버튼명 변경
   };
+
+  useEffect(() => {
+    setFinish(false);
+    setTimeout(() => {
+      setFinish(true);
+    }, 70000);
+  }, []);
+
+  useEffect(() => {
+    setFinish(false);
+    setTimeout(() => {
+      setFinish(true);
+    }, 3000);
+  }, [selectedItem, selectedSort]);
 
   // useEffect(() => {
   //   //전체 찜목록 불러오는 기능
@@ -143,15 +160,15 @@ function LikeList() {
       })
       .then((res) => {
         const dataList = res.data;
-        // console.log(dataList);
+        console.log(dataList);
         if (dataList.length !== 0) {
           let index = 0;
           for (var i = 0; i < dataList.length; i++) {
-            if (i % 3 === 0) {
+            if (i % 2 === 0) {
               let dataUrl = "data:image/jpeg;base64," + dataList[i];
               previewImgArr.push(dataUrl);
               setPreviewImg(previewImgArr);
-            } else if (i % 3 === 1) {
+            } else if (i % 2 === 1) {
               let newitemId = dataList[i];
               list.push(newitemId);
               setItemId(list);
@@ -160,9 +177,12 @@ function LikeList() {
               setKeyIndex(keyIndexArr);
               likeIndexArr.push(true);
               setLikeState(likeIndexArr);
+
               axios
                 .get(`/item/getItemList/${newitemId}`)
                 .then((res) => {
+                  console.log(res);
+
                   let newItem = res.data;
                   itemDataArr.push(newItem);
                   if (selectedSort === "가나다순") {
@@ -220,7 +240,9 @@ function LikeList() {
           // 결과 없을 때
           keyIndexArr = [];
           setKeyIndex(keyIndexArr);
+          setFinish(true);
         }
+        setRealFinish(true);
       })
       .catch((e) => {
         console.log(e);
@@ -311,178 +333,186 @@ function LikeList() {
   return (
     <div className="mainlayout">
       <NavigationBar title={"찜목록"} />
-      <div className="filter">
-        <div style={{ marginLeft: "5px" }}>
-          <div class="dropdown margin left">
-            <button
-              class="btn btn-secondary dropdown-toggle"
-              type="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              {selectedItem}
-            </button>
+      {finish === false ? (
+        <Animation />
+      ) : (
+        <div>
+          <div className="filter">
+            <div style={{ marginLeft: "5px" }}>
+              <div class="dropdown margin left">
+                <button
+                  class="btn btn-secondary dropdown-toggle"
+                  type="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  {selectedItem}
+                </button>
 
-            <ul class="dropdown-menu">
-              <li>
-                <button
-                  class="dropdown-item"
-                  type="button"
-                  onClick={() => handleItemClick("전체")}
-                >
-                  전체
-                </button>
-              </li>
-              <li>
-                <button
-                  class="dropdown-item"
-                  type="button"
-                  onClick={() => handleItemClick("웨딩홀")}
-                >
-                  웨딩홀
-                </button>
-              </li>
-              <li>
-                <button
-                  class="dropdown-item"
-                  type="button"
-                  onClick={() => handleItemClick("스튜디오")}
-                >
-                  스튜디오
-                </button>
-              </li>
-              <li>
-                <button
-                  class="dropdown-item"
-                  type="button"
-                  onClick={() => handleItemClick("의상")}
-                >
-                  의상
-                </button>
-              </li>
-              <li>
-                <button
-                  class="dropdown-item"
-                  type="button"
-                  onClick={() => handleItemClick("메이크업")}
-                >
-                  메이크업
-                </button>
-              </li>
-              <li>
-                <button
-                  class="dropdown-item"
-                  type="button"
-                  onClick={() => handleItemClick("신혼여행")}
-                >
-                  신혼여행
-                </button>
-              </li>
-              <li>
-                <button
-                  class="dropdown-item"
-                  type="button"
-                  onClick={() => handleItemClick("부케")}
-                >
-                  부케
-                </button>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div style={{ marginRight: "8px" }}>
-          <div class="dropdown  right-sort">
-            <button
-              class="btn btn-secondary dropdown-toggle"
-              type="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              {selectedSort}
-            </button>
-            <ul class="dropdown-menu sortItem">
-              <li className="">
-                <button
-                  class="dropdown-item "
-                  type="button"
-                  onClick={() => handleSortClick("가나다순")}
-                >
-                  가나다순
-                </button>
-              </li>
-              <li>
-                <button
-                  class="dropdown-item"
-                  type="button"
-                  onClick={() => handleSortClick("인기순")}
-                >
-                  인기순
-                </button>
-              </li>
-              <li>
-                <button
-                  class="dropdown-item"
-                  type="button"
-                  onClick={() => handleSortClick("최신순")}
-                >
-                  최신순
-                </button>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div className="Likecontent">
-        <div class="container text-center">
-          <div class="row row-cols-2">
-            {/* 이미지카드 */}
-            {keyIndex.length === 0 ? (
-              <div
-                class="text-start"
-                style={{ marginLeft: "10px", fontSize: "1.5em" }}
-              >
-                결과가 없습니다.
+                <ul class="dropdown-menu">
+                  <li>
+                    <button
+                      class="dropdown-item"
+                      type="button"
+                      onClick={() => handleItemClick("전체")}
+                    >
+                      전체
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      class="dropdown-item"
+                      type="button"
+                      onClick={() => handleItemClick("웨딩홀")}
+                    >
+                      웨딩홀
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      class="dropdown-item"
+                      type="button"
+                      onClick={() => handleItemClick("스튜디오")}
+                    >
+                      스튜디오
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      class="dropdown-item"
+                      type="button"
+                      onClick={() => handleItemClick("의상")}
+                    >
+                      의상
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      class="dropdown-item"
+                      type="button"
+                      onClick={() => handleItemClick("메이크업")}
+                    >
+                      메이크업
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      class="dropdown-item"
+                      type="button"
+                      onClick={() => handleItemClick("신혼여행")}
+                    >
+                      신혼여행
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      class="dropdown-item"
+                      type="button"
+                      onClick={() => handleItemClick("부케")}
+                    >
+                      부케
+                    </button>
+                  </li>
+                </ul>
               </div>
-            ) : (
-              keyIndex.map((i) => (
-                <div class="col">
-                  <div class="card margT">
-                    <img
-                      style={{ height: "230px" }}
-                      src={previewImg[keyIndex.length - i - 1]}
-                      class="card-img-top"
-                      alt="..."
-                    />
-                    <div class="card-body">
-                      <p class="card-text">
-                        {itemName[i]} &nbsp;&nbsp;
-                        <div className="likeListBtn1">
-                          <Like likeState={likeState} index={i} />
-                        </div>
-                        {itemLike[i]}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              ))
-            )}
-
-            {/* 이미지카드 */}
+            </div>
+            <div style={{ marginRight: "8px" }}>
+              <div class="dropdown  right-sort">
+                <button
+                  class="btn btn-secondary dropdown-toggle"
+                  type="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  {selectedSort}
+                </button>
+                <ul class="dropdown-menu sortItem">
+                  <li className="">
+                    <button
+                      class="dropdown-item "
+                      type="button"
+                      onClick={() => handleSortClick("가나다순")}
+                    >
+                      가나다순
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      class="dropdown-item"
+                      type="button"
+                      onClick={() => handleSortClick("인기순")}
+                    >
+                      인기순
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      class="dropdown-item"
+                      type="button"
+                      onClick={() => handleSortClick("최신순")}
+                    >
+                      최신순
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
-          <br />
+          <div>
+            <div className="Likecontent">
+              <div class="container text-center">
+                <div class="row row-cols-2">
+                  {/* 이미지카드 */}
+                  {keyIndex.length === 0 ? (
+                    <div
+                      class="text-start"
+                      style={{ marginLeft: "10px", fontSize: "1.5em" }}
+                    >
+                      결과가 없습니다.
+                    </div>
+                  ) : (
+                    keyIndex.map((i) => (
+                      <div class="col">
+                        <div class="card margT">
+                          <img
+                            style={{ height: "230px" }}
+                            src={previewImg[i]}
+                            class="card-img-top"
+                            alt="..."
+                          />
+                          <div class="card-body">
+                            <p class="card-text">
+                              {itemName[i]} &nbsp;&nbsp;
+                              <div className="likeListBtn1">
+                                <Like likeState={likeState} index={i} />
+                              </div>
+                              {itemLike[i]}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                  )}
+
+                  {/* 이미지카드 */}
+                </div>
+                <br />
+              </div>
+            </div>
+            <div style={{ height: 94.19 }}></div>
+            <div className="button-container">
+              <button
+                className="probutton"
+                onClick={() => {
+                  navigate("/estimateform");
+                }}
+              >
+                견적작성
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
-      <div style={{ height: 94.19 }}></div>
-      <div className="button-container">
-        <button
-          className="probutton"
-          onClick={() => {
-            navigate("/estimateform");
-          }}
-        >
-          견적작성
-        </button>
-      </div>
+      )}
       <Footer />
     </div>
   );
