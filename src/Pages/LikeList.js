@@ -36,6 +36,7 @@ function LikeList() {
   const [prevSelectedIndex, setPrevSelectedIndex] = useState();
   const [likeState, setLikeState] = useState([]);
   const [checkLikeOrNot, setCheckLikeOrNot] = useState(false);
+  const [update, setUpdate] = useState(false);
 
   const [likeSelect, setLikeSelect] = useState(true);
   const [finish, setFinish] = useState(false);
@@ -246,7 +247,7 @@ function LikeList() {
       .catch((e) => {
         console.log(e);
       });
-  }, [selectedItem, selectedSort]);
+  }, [selectedItem, selectedSort, update]);
 
   // console.log(likeState);
   useEffect(() => {
@@ -335,7 +336,7 @@ function LikeList() {
       {finish === false ? (
         <Animation />
       ) : (
-        <div>
+        <div style={{ minHeight: "100vh" }}>
           <div className="filter">
             <div style={{ marginLeft: "5px" }}>
               <div class="dropdown margin left">
@@ -498,16 +499,31 @@ function LikeList() {
                 <br />
               </div>
             </div>
-            <div style={{ height: 94.19 }}></div>
-            <div className="button-container">
-              <button
-                className="probutton"
-                onClick={() => {
-                  navigate("/estimateform");
+          </div>
+          <div style={{ width: "100%", height: 150 }}>
+            <div style={{ position: "fixed", bottom: "120px", right: "300px" }}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "right",
+                  marginRight: "20px",
                 }}
               >
-                견적작성
-              </button>
+                <button
+                  className="btn btn-primary"
+                  style={{
+                    display: "inline-block",
+                    right: 0,
+                    width: "80px",
+                    height: "40px",
+                  }}
+                  onClick={() => {
+                    setUpdate(true);
+                  }}
+                >
+                  update
+                </button>
+              </div>
             </div>
           </div>
         </div>

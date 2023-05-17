@@ -135,7 +135,6 @@ function Home() {
   useEffect(() => {
     //console.log(weddingAutoplayBtn.current.click());
     const buttons = document.querySelectorAll(".carousel-control-next");
-    console.log(buttons);
     setTimeout(() => {
       for (let i = 0; i < buttons.length; i++) {
         buttons[i].click();
@@ -850,6 +849,19 @@ function Home() {
   // console.log(honeyMoonLikeState);
   // console.log("bouquet:");
   // console.log(bouquetLikeState);
+
+  console.log("weddinghall : ");
+  console.log(itemLike);
+  console.log("studio:");
+  console.log(studioItemLike);
+  console.log("dress:");
+  console.log(dressItemLike);
+  console.log("makeup:");
+  console.log(makeupItemLike);
+  console.log("honeymoon:");
+  console.log(honeyMoonItemLike);
+  console.log("bouquet:");
+  console.log(bouquetItemLike);
 
   useEffect(() => {
     if (selectedCategory === category[0]) {
