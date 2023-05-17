@@ -27,10 +27,12 @@ function SearchItems() {
   const [itemId, setItemId] = useState([]);
   const [item, setItem] = useState([]);
   const [itemName, setItemName] = useState([]);
+  const [itemContent, setItemContent] = useState([]);
+  const [itemLikeState, setItemLikeState] = useState([]);
 
   const [weddingHallLike, setWeddingHallLike] = useState([]);
   const [keyIndex, setKeyIndex] = useState([]);
-  const [itemContent, setItemContent] = useState([]);
+
   const [weddingHallItem, setWeddingHallItem] = useState([]);
   const [weddingHallItemId, setWeddingHallItemId] = useState([]);
   const [weddingHallLikeState, setWeddingHallLikeState] = useState([]);
@@ -142,10 +144,12 @@ function SearchItems() {
 
   useEffect(() => {
     axios
-      .get(`/item/search/${searchedKeyword}`)
+      .post(`/item/search/${searchedKeyword}`, {
+        email: sessionStorage.getItem("email"),
+      })
       .then((res) => {
         const dataList = res.data;
-        console.log(dataList.length);
+        console.log(dataList);
         //console.log(dataList);
         if (dataList.length !== 0) {
           let count = 0;
@@ -153,6 +157,7 @@ function SearchItems() {
           let itemNameList = [];
           let itemContentList = [];
           let itemLikeList = [];
+          let itemLikeStateList = [];
           setUpdate(true);
           for (var i = 0; i < dataList.length; ) {
             if (dataList[i] === "/") {
@@ -179,25 +184,25 @@ function SearchItems() {
               // likeIndexArr.push(true);
               // setLikeState(likeIndexArr);
 
-              axios
-                .get(`/item/getItemList/${newitemId}`)
-                .then((res) => {
-                  let newItem = res.data;
-                  itemDataArr.push(newItem);
+              // axios
+              //   .get(`/item/getItemList/${newitemId}`)
+              //   .then((res) => {
+              //     let newItem = res.data;
+              //     itemDataArr.push(newItem);
 
-                  itemDataArr.sort(function (a, b) {
-                    if (a.category1 === b.category1) {
-                      return (
-                        new Date(b.itemWriteDate) - new Date(a.itemWriteDate)
-                      );
-                    }
-                  });
-                  setItem([...item, newItem]);
-                  setItem(itemDataArr);
-                })
-                .catch((e) => {
-                  console.log(e);
-                });
+              //     itemDataArr.sort(function (a, b) {
+              //       if (a.category1 === b.category1) {
+              //         return (
+              //           new Date(b.itemWriteDate) - new Date(a.itemWriteDate)
+              //         );
+              //       }
+              //     });
+              //     setItem([...item, newItem]);
+              //     setItem(itemDataArr);
+              //   })
+              //   .catch((e) => {
+              //     console.log(e);
+              //   });
               i++;
               itemNameList.push(dataList[i]);
               setItemName(itemNameList);
@@ -208,6 +213,9 @@ function SearchItems() {
               itemLikeList.push(parseInt(dataList[i]));
               setItemLike(itemLikeList);
               i++;
+              itemLikeStateList.push(parseInt(dataList[i]));
+              setItemLikeState(itemLikeStateList);
+              i++;
             }
           }
         } else {
@@ -217,6 +225,7 @@ function SearchItems() {
           setItemLike([]);
           setItemName([]);
           setItemContent([]);
+          setItemLikeState([]);
         }
       })
       .catch((e) => {
@@ -259,28 +268,28 @@ function SearchItems() {
         }
         let listId = itemId.slice(count, count + itemCount);
         for (let a = 0; a < itemCount; a++) {
-          axios
-            .post(`/like/findlist`, {
-              itemId: listId.at(a),
-              email: sessionStorage.getItem("email"),
-            })
-            .then((res) => {
-              if (res.data === 1) {
-                likeStateArr[a] = true;
-                setWeddingHallLikeState(likeStateArr);
-              } else if (res.data === 0) {
-                likeStateArr[a] = undefined;
-                setWeddingHallLikeState(likeStateArr);
-              } else {
-                //로그인하지 않았을 때
-                likeStateArr[a] = -1;
-                setWeddingHallLikeState(likeStateArr);
-              }
-              setWeddingHallLikeState(likeStateArr);
-            })
-            .catch((e) => {
-              console.log(e);
-            });
+          // axios
+          //   .post(`/like/findlist`, {
+          //     itemId: listId.at(a),
+          //     email: sessionStorage.getItem("email"),
+          //   })
+          //   .then((res) => {
+          //     if (res.data === 1) {
+          //       likeStateArr[a] = true;
+          //       setWeddingHallLikeState(likeStateArr);
+          //     } else if (res.data === 0) {
+          //       likeStateArr[a] = undefined;
+          //       setWeddingHallLikeState(likeStateArr);
+          //     } else {
+          //       //로그인하지 않았을 때
+          //       likeStateArr[a] = -1;
+          //       setWeddingHallLikeState(likeStateArr);
+          //     }
+          //     setWeddingHallLikeState(likeStateArr);
+          //   })
+          //   .catch((e) => {
+          //     console.log(e);
+          //   });
 
           keyIndexArr.push(a);
         }
@@ -289,7 +298,7 @@ function SearchItems() {
         setWeddingHallLike(itemLike.slice(count, count + itemCount));
         setWeddingHallName(itemName.slice(count, count + itemCount));
         setWeddingHallItem(previewImg.slice(count, count + itemCount));
-        setWeddingHallLikeState(likeStateArr);
+        setWeddingHallLikeState(itemLikeState.slice(count, count + itemCount));
         setWeddingHallImgContent(itemContent.slice(count, count + itemCount));
         count = count + itemCount;
       } else if (i === 1) {
@@ -300,37 +309,37 @@ function SearchItems() {
           }
         }
         for (let b = 0; b < itemCount; b++) {
-          let listId = itemId.slice(count, count + itemCount);
-          axios
-            .post(`/like/findlist`, {
-              itemId: listId[b],
-              email: sessionStorage.getItem("email"),
-            })
-            .then((res) => {
-              if (res.data === 1) {
-                likeStateArr1[b] = true;
-              } else if (res.data === 0) {
-                likeStateArr1[b] = undefined;
-              } else {
-                //로그인하지 않았을 때
-                likeStateArr1[b] = -1;
-              }
-              setStudioLikeState(likeStateArr1);
-            })
-            .catch((e) => {
-              console.log(e);
-            });
+          // let listId = itemId.slice(count, count + itemCount);
+          // axios
+          //   .post(`/like/findlist`, {
+          //     itemId: listId[b],
+          //     email: sessionStorage.getItem("email"),
+          //   })
+          //   .then((res) => {
+          //     if (res.data === 1) {
+          //       likeStateArr1[b] = true;
+          //     } else if (res.data === 0) {
+          //       likeStateArr1[b] = undefined;
+          //     } else {
+          //       //로그인하지 않았을 때
+          //       likeStateArr1[b] = -1;
+          //     }
+          //     setStudioLikeState(likeStateArr1);
+          //   })
+          //   .catch((e) => {
+          //     console.log(e);
+          //   });
           keyIndexArr1.push(b);
         }
 
-        likeCountArr1 = itemLike.slice(count, count + itemCount);
+        // likeCountArr1 = itemLike.slice(count, count + itemCount);
         setStudioKeyIndex(keyIndexArr1);
-        setStudioItemLike(likeCountArr1);
+        setStudioItemLike(itemLike.slice(count, count + itemCount));
         setStudiItemId(itemId.slice(count, count + itemCount));
         setStudioItemName(itemName.slice(count, count + itemCount));
         setStudioItem(previewImg.slice(count, count + itemCount));
         setStudioImgContent(itemContent.slice(count, count + itemCount));
-        setStudioLikeState(likeStateArr1);
+        setStudioLikeState(itemLikeState.slice(count, count + itemCount));
         count = count + itemCount;
       } else if (i === 2) {
         if (itemCount !== 0) {
@@ -341,32 +350,32 @@ function SearchItems() {
         }
         for (let c = 0; c < itemCount; c++) {
           let listId = itemId.slice(count, count + itemCount);
-          axios
-            .post(`/like/findlist`, {
-              itemId: listId[c],
-              email: sessionStorage.getItem("email"),
-            })
-            .then((res) => {
-              if (res.data === 1) {
-                likeStateArr2[c] = true;
-              } else if (res.data === 0) {
-                likeStateArr2[c] = undefined;
-              } else {
-                //로그인하지 않았을 때
-                likeStateArr2[c] = -1;
-              }
-              setStudioLikeState(likeStateArr2);
-            })
-            .catch((e) => {
-              console.log(e);
-            });
+          // axios
+          //   .post(`/like/findlist`, {
+          //     itemId: listId[c],
+          //     email: sessionStorage.getItem("email"),
+          //   })
+          //   .then((res) => {
+          //     if (res.data === 1) {
+          //       likeStateArr2[c] = true;
+          //     } else if (res.data === 0) {
+          //       likeStateArr2[c] = undefined;
+          //     } else {
+          //       //로그인하지 않았을 때
+          //       likeStateArr2[c] = -1;
+          //     }
+          //     setStudioLikeState(likeStateArr2);
+          //   })
+          //   .catch((e) => {
+          //     console.log(e);
+          //   });
           keyIndexArr2.push(c);
         }
 
-        likeCountArr2 = itemLike.slice(count, count + itemCount);
+        // likeCountArr2 = itemLike.slice(count, count + itemCount);
         setDressKeyIndex(keyIndexArr2);
-        setDressLikeState(likeStateArr2);
-        setDressItemLike(likeCountArr2);
+        setDressLikeState(itemLikeState.slice(count, count + itemCount));
+        setDressItemLike(itemLike.slice(count, count + itemCount));
         setDressItemId(itemId.slice(count, count + itemCount));
         setDressItemName(itemName.slice(count, count + itemCount));
         setDressItem(previewImg.slice(count, count + itemCount));
@@ -380,36 +389,36 @@ function SearchItems() {
           }
         }
         for (let d = 0; d < itemCount; d++) {
-          let listId = itemId.slice(count, count + itemCount);
-          axios
-            .post(`/like/findlist`, {
-              itemId: listId[d],
-              email: sessionStorage.getItem("email"),
-            })
-            .then((res) => {
-              if (res.data === 1) {
-                likeStateArr3[d] = true;
-              } else if (res.data === 0) {
-                likeStateArr3[d] = undefined;
-              } else {
-                //로그인하지 않았을 때
-                likeStateArr3[d] = -1;
-              }
-              setMakeupLikeState(likeStateArr3);
-            })
-            .catch((e) => {
-              console.log(e);
-            });
+          // let listId = itemId.slice(count, count + itemCount);
+          // axios
+          //   .post(`/like/findlist`, {
+          //     itemId: listId[d],
+          //     email: sessionStorage.getItem("email"),
+          //   })
+          //   .then((res) => {
+          //     if (res.data === 1) {
+          //       likeStateArr3[d] = true;
+          //     } else if (res.data === 0) {
+          //       likeStateArr3[d] = undefined;
+          //     } else {
+          //       //로그인하지 않았을 때
+          //       likeStateArr3[d] = -1;
+          //     }
+          //     setMakeupLikeState(likeStateArr3);
+          //   })
+          //   .catch((e) => {
+          //     console.log(e);
+          //   });
           keyIndexArr3.push(d);
         }
-        likeCountArr3 = itemLike.slice(count, count + itemCount);
+        //  likeCountArr3 = itemLike.slice(count, count + itemCount);
         setMakeupKeyIndex(keyIndexArr3);
-        setMakeupItemLike(likeCountArr3);
+        setMakeupItemLike(itemLike.slice(count, count + itemCount));
         setMakeupItemId(itemId.slice(count, count + itemCount));
         setMakeupItemName(itemName.slice(count, count + itemCount));
         setMakeupItem(previewImg.slice(count, count + itemCount));
         setMakeupImgContent(itemContent.slice(count, count + itemCount));
-        setMakeupLikeState(likeStateArr3);
+        setMakeupLikeState(itemLikeState.slice(count, count + itemCount));
         count = count + itemCount;
       } else if (i === 4) {
         if (itemCount !== 0) {
@@ -419,36 +428,36 @@ function SearchItems() {
           }
         }
         for (let e = 0; e < itemCount; e++) {
-          let listId = itemId.slice(count, count + itemCount);
-          axios
-            .post(`/like/findlist`, {
-              itemId: listId[e],
-              email: sessionStorage.getItem("email"),
-            })
-            .then((res) => {
-              if (res.data === 1) {
-                likeStateArr4[e] = true;
-              } else if (res.data === 0) {
-                likeStateArr4[e] = undefined;
-              } else {
-                //로그인하지 않았을 때
-                likeStateArr4[e] = -1;
-              }
-              setHoneyMoonLikeState(likeStateArr4);
-            })
-            .catch((e) => {
-              console.log(e);
-            });
+          // let listId = itemId.slice(count, count + itemCount);
+          // axios
+          //   .post(`/like/findlist`, {
+          //     itemId: listId[e],
+          //     email: sessionStorage.getItem("email"),
+          //   })
+          //   .then((res) => {
+          //     if (res.data === 1) {
+          //       likeStateArr4[e] = true;
+          //     } else if (res.data === 0) {
+          //       likeStateArr4[e] = undefined;
+          //     } else {
+          //       //로그인하지 않았을 때
+          //       likeStateArr4[e] = -1;
+          //     }
+          //     setHoneyMoonLikeState(likeStateArr4);
+          //   })
+          //   .catch((e) => {
+          //     console.log(e);
+          //   });
           keyIndexArr4.push(e);
         }
-        likeCountArr4 = itemLike.slice(count, count + itemCount);
+        //  likeCountArr4 = itemLike.slice(count, count + itemCount);
         setHoneyMoonKeyIndex(keyIndexArr4);
-        setHoneyMoonItemLike(likeCountArr4);
+        setHoneyMoonItemLike(itemLike.slice(count, count + itemCount));
         setHoneyMoonItemId(itemId.slice(count, count + itemCount));
         setHoneyMoonItemName(itemName.slice(count, count + itemCount));
         setHoneyMoonItem(previewImg.slice(count, count + itemCount));
         setHoneyMoonImgContent(itemContent.slice(count, count + itemCount));
-        setHoneyMoonLikeState(likeStateArr4);
+        setHoneyMoonLikeState(itemLikeState.slice(count, count + itemCount));
         count = count + itemCount;
       } else if (i === 5) {
         if (itemCount !== 0) {
@@ -458,36 +467,36 @@ function SearchItems() {
           }
         }
         for (let f = 0; f < itemCount; f++) {
-          let listId = itemId.slice(count, count + itemCount);
-          axios
-            .post(`/like/findlist`, {
-              itemId: listId[f],
-              email: sessionStorage.getItem("email"),
-            })
-            .then((res) => {
-              if (res.data === 1) {
-                likeStateArr5[f] = true;
-              } else if (res.data === 0) {
-                likeStateArr5[f] = undefined;
-              } else {
-                //로그인하지 않았을 때
-                likeStateArr5[f] = -1;
-              }
-              setBouquetLikeState(likeStateArr5);
-            })
-            .catch((e) => {
-              console.log(e);
-            });
+          // let listId = itemId.slice(count, count + itemCount);
+          // axios
+          //   .post(`/like/findlist`, {
+          //     itemId: listId[f],
+          //     email: sessionStorage.getItem("email"),
+          //   })
+          //   .then((res) => {
+          //     if (res.data === 1) {
+          //       likeStateArr5[f] = true;
+          //     } else if (res.data === 0) {
+          //       likeStateArr5[f] = undefined;
+          //     } else {
+          //       //로그인하지 않았을 때
+          //       likeStateArr5[f] = -1;
+          //     }
+          //     setBouquetLikeState(likeStateArr5);
+          //   })
+          //   .catch((e) => {
+          //     console.log(e);
+          //   });
           keyIndexArr5.push(f);
         }
-        likeCountArr5 = itemLike.slice(count, count + itemCount);
+        //  likeCountArr5 = itemLike.slice(count, count + itemCount);
         setBouquetKeyIndex(keyIndexArr5);
-        setBouquetItemLike(likeCountArr5);
+        setBouquetItemLike(itemLike.slice(count, count + itemCount));
         setBouquetItemId(itemId.slice(count, count + itemCount));
         setBouquetItemName(itemName.slice(count, count + itemCount));
         setBouquetItem(previewImg.slice(count, count + itemCount));
         setBouquetImgContent(itemContent.slice(count, count + itemCount));
-        setBouquetLikeState(likeStateArr5);
+        setBouquetLikeState(itemLikeState.slice(count, count + itemCount));
         count = count + itemCount;
       }
     }
@@ -507,7 +516,7 @@ function SearchItems() {
     if (e.target.dataset.bsCategory === "웨딩홀") {
       modalItemId.current.dataset.category = "웨딩홀";
       setSelectLikeState(weddingHallLikeState[index]);
-      if (weddingHallLikeState[index] === true) {
+      if (weddingHallLikeState[index] === 1) {
         modalItemId.current.style.backgroundColor = "#fce1e4";
         setChangeModalBackgroundColor(true);
       } else {
@@ -518,7 +527,7 @@ function SearchItems() {
       modalItemId.current.dataset.category = "스튜디오";
 
       setSelectLikeState(studioLikeState[index]);
-      if (studioLikeState[index] === true) {
+      if (studioLikeState[index] === 1) {
         modalItemId.current.style.backgroundColor = "#fce1e4";
         setChangeModalBackgroundColor(true);
       } else {
@@ -529,7 +538,7 @@ function SearchItems() {
       modalItemId.current.dataset.category = "의상";
 
       setSelectLikeState(dressLikeState[index]);
-      if (dressLikeState[index] === true) {
+      if (dressLikeState[index] === 1) {
         modalItemId.current.style.backgroundColor = "#fce1e4";
         setChangeModalBackgroundColor(true);
       } else {
@@ -540,7 +549,7 @@ function SearchItems() {
       modalItemId.current.dataset.category = "메이크업";
 
       setSelectLikeState(makeupLikeState[index]);
-      if (makeupLikeState[index] === true) {
+      if (makeupLikeState[index] === 1) {
         modalItemId.current.style.backgroundColor = "#fce1e4";
         setChangeModalBackgroundColor(true);
       } else {
@@ -551,7 +560,7 @@ function SearchItems() {
       modalItemId.current.dataset.category = "신혼여행";
 
       setSelectLikeState(honeyMoonLikeState[index]);
-      if (honeyMoonLikeState[index] === true) {
+      if (honeyMoonLikeState[index] === 1) {
         modalItemId.current.style.backgroundColor = "#fce1e4";
         setChangeModalBackgroundColor(true);
       } else {
@@ -562,7 +571,7 @@ function SearchItems() {
       modalItemId.current.dataset.category = "부케";
 
       setSelectLikeState(bouquetLikeState[index]);
-      if (bouquetLikeState[index] === true) {
+      if (bouquetLikeState[index] === 1) {
         modalItemId.current.style.backgroundColor = "#fce1e4";
         setChangeModalBackgroundColor(true);
       } else {
@@ -583,21 +592,16 @@ function SearchItems() {
     if (modalItemId.current.dataset.category === "웨딩홀") {
       newlikeState = [...weddingHallLikeState];
       let prevState = newlikeState.slice(index, index + 1);
-      let changedState = undefined;
-      if (prevState[0] === true) {
-        setSelectLikeState(false);
+      let changedState = -1;
+      if (prevState[0] === 1) {
+        setSelectLikeState(0);
         modalItemId.current.style.backgroundColor = "#ebebeb";
-        changedState = false;
+        changedState = 0;
         weddingHallLike[index]--;
-      } else if (prevState[0] === false) {
-        setSelectLikeState(true);
+      } else if (prevState[0] === 0) {
+        setSelectLikeState(1);
         modalItemId.current.style.backgroundColor = "#fce1e4";
-        changedState = true;
-        weddingHallLike[index]++;
-      } else if (prevState[0] === undefined) {
-        setSelectLikeState(true);
-        modalItemId.current.style.backgroundColor = "#fce1e4";
-        changedState = true;
+        changedState = 1;
         weddingHallLike[index]++;
       } else if (prevState[0] === -1) {
         alert("찜하기 버튼을 이용하려면 로그인하세요!");
@@ -608,21 +612,16 @@ function SearchItems() {
     } else if (modalItemId.current.dataset.category === "스튜디오") {
       newlikeState = [...studioLikeState];
       let prevState = newlikeState.slice(index, index + 1);
-      let changedState = undefined;
-      if (prevState[0] === true) {
-        setSelectLikeState(false);
+      let changedState = -1;
+      if (prevState[0] === 1) {
+        setSelectLikeState(0);
         modalItemId.current.style.backgroundColor = "#ebebeb";
-        changedState = false;
+        changedState = 0;
         studioItemLike[index]--;
-      } else if (prevState[0] === false) {
-        setSelectLikeState(true);
+      } else if (prevState[0] === 0) {
+        setSelectLikeState(1);
         modalItemId.current.style.backgroundColor = "#fce1e4";
-        changedState = true;
-        studioItemLike[index]++;
-      } else if (prevState[0] === undefined) {
-        setSelectLikeState(true);
-        modalItemId.current.style.backgroundColor = "#fce1e4";
-        changedState = true;
+        changedState = 1;
         studioItemLike[index]++;
       } else {
         alert("찜하기 버튼을 이용하려면 로그인하세요!");
@@ -634,20 +633,15 @@ function SearchItems() {
       newlikeState = [...dressLikeState];
       let prevState = newlikeState.slice(index, index + 1);
       let changedState = undefined;
-      if (prevState[0] === true) {
-        setSelectLikeState(false);
+      if (prevState[0] === 1) {
+        setSelectLikeState(0);
         modalItemId.current.style.backgroundColor = "#ebebeb";
-        changedState = false;
+        changedState = 0;
         dressItemLike[index]--;
-      } else if (prevState[0] === false) {
-        setSelectLikeState(true);
+      } else if (prevState[0] === 0) {
+        setSelectLikeState(1);
         modalItemId.current.style.backgroundColor = "#fce1e4";
-        changedState = true;
-        dressItemLike[index]++;
-      } else if (prevState[0] === undefined) {
-        setSelectLikeState(true);
-        modalItemId.current.style.backgroundColor = "#fce1e4";
-        changedState = true;
+        changedState = 1;
         dressItemLike[index]++;
       } else {
         alert("찜하기 버튼을 이용하려면 로그인하세요!");
@@ -659,20 +653,15 @@ function SearchItems() {
       newlikeState = [...makeupLikeState];
       let prevState = newlikeState.slice(index, index + 1);
       let changedState = undefined;
-      if (prevState[0] === true) {
-        setSelectLikeState(false);
+      if (prevState[0] === 1) {
+        setSelectLikeState(0);
         modalItemId.current.style.backgroundColor = "#ebebeb";
-        changedState = false;
+        changedState = 0;
         makeupItemLike[index]--;
-      } else if (prevState[0] === false) {
-        setSelectLikeState(true);
+      } else if (prevState[0] === 0) {
+        setSelectLikeState(1);
         modalItemId.current.style.backgroundColor = "#fce1e4";
-        changedState = true;
-        makeupItemLike[index]++;
-      } else if (prevState[0] === undefined) {
-        setSelectLikeState(true);
-        modalItemId.current.style.backgroundColor = "#fce1e4";
-        changedState = true;
+        changedState = 1;
         makeupItemLike[index]++;
       } else {
         alert("찜하기 버튼을 이용하려면 로그인하세요!");
@@ -684,20 +673,15 @@ function SearchItems() {
       newlikeState = [...honeyMoonLikeState];
       let prevState = newlikeState.slice(index, index + 1);
       let changedState = undefined;
-      if (prevState[0] === true) {
-        setSelectLikeState(false);
+      if (prevState[0] === 1) {
+        setSelectLikeState(0);
         modalItemId.current.style.backgroundColor = "#ebebeb";
-        changedState = false;
+        changedState = 0;
         honeyMoonItemLike[index]--;
-      } else if (prevState[0] === false) {
-        setSelectLikeState(true);
+      } else if (prevState[0] === 0) {
+        setSelectLikeState(1);
         modalItemId.current.style.backgroundColor = "#fce1e4";
-        changedState = true;
-        honeyMoonItemLike[index]++;
-      } else if (prevState[0] === undefined) {
-        setSelectLikeState(true);
-        modalItemId.current.style.backgroundColor = "#fce1e4";
-        changedState = true;
+        changedState = 1;
         honeyMoonItemLike[index]++;
       } else {
         alert("찜하기 버튼을 이용하려면 로그인하세요!");
@@ -709,20 +693,15 @@ function SearchItems() {
       newlikeState = [...bouquetLikeState];
       let prevState = newlikeState.slice(index, index + 1);
       let changedState = undefined;
-      if (prevState[0] === true) {
-        setSelectLikeState(false);
+      if (prevState[0] === 1) {
+        setSelectLikeState(0);
         modalItemId.current.style.backgroundColor = "#ebebeb";
-        changedState = false;
+        changedState = 0;
         bouquetItemLike[index]--;
-      } else if (prevState[0] === false) {
-        setSelectLikeState(true);
+      } else if (prevState[0] === 0) {
+        setSelectLikeState(1);
         modalItemId.current.style.backgroundColor = "#fce1e4";
-        changedState = true;
-        bouquetItemLike[index]++;
-      } else if (prevState[0] === undefined) {
-        setSelectLikeState(true);
-        modalItemId.current.style.backgroundColor = "#fce1e4";
-        changedState = true;
+        changedState = 1;
         bouquetItemLike[index]++;
       } else {
         alert("찜하기 버튼을 이용하려면 로그인하세요!");
@@ -736,7 +715,7 @@ function SearchItems() {
   useEffect(() => {
     if (selectedCategory === "웨딩홀") {
       keyIndex.forEach((index) => {
-        if (weddingHallLikeState[index] === false) {
+        if (weddingHallLikeState[index] === 0) {
           setChangeModalBackgroundColor(false);
           axios
             .post(`/like/delete`, {
@@ -751,7 +730,7 @@ function SearchItems() {
             .catch((e) => {
               console.log(e);
             });
-        } else if (weddingHallLikeState[index] === true) {
+        } else if (weddingHallLikeState[index] === 1) {
           setChangeModalBackgroundColor(true);
           axios
             .post(`/like/create`, {
@@ -770,7 +749,7 @@ function SearchItems() {
       });
     } else if (selectedCategory === "스튜디오") {
       studioKeyIndex.forEach((index) => {
-        if (studioLikeState[index] === false) {
+        if (studioLikeState[index] === 0) {
           setChangeModalBackgroundColor(false);
 
           axios
@@ -786,7 +765,7 @@ function SearchItems() {
             .catch((e) => {
               console.log(e);
             });
-        } else if (studioLikeState[index] === true) {
+        } else if (studioLikeState[index] === 1) {
           setChangeModalBackgroundColor(true);
 
           axios
@@ -806,7 +785,7 @@ function SearchItems() {
       });
     } else if (selectedCategory === "의상") {
       dressKeyIndex.forEach((index) => {
-        if (dressLikeState[index] === false) {
+        if (dressLikeState[index] === 0) {
           setChangeModalBackgroundColor(false);
 
           axios
@@ -822,7 +801,7 @@ function SearchItems() {
             .catch((e) => {
               console.log(e);
             });
-        } else if (dressLikeState[index] === true) {
+        } else if (dressLikeState[index] === 1) {
           setChangeModalBackgroundColor(true);
 
           axios
@@ -842,7 +821,7 @@ function SearchItems() {
       });
     } else if (selectedCategory === "메이크업") {
       makeupKeyIndex.forEach((index) => {
-        if (makeupLikeState[index] === false) {
+        if (makeupLikeState[index] === 0) {
           setChangeModalBackgroundColor(false);
 
           axios
@@ -859,7 +838,7 @@ function SearchItems() {
             .catch((e) => {
               console.log(e);
             });
-        } else if (makeupLikeState[index] === true) {
+        } else if (makeupLikeState[index] === 1) {
           setChangeModalBackgroundColor(true);
 
           axios
@@ -879,7 +858,7 @@ function SearchItems() {
       });
     } else if (selectedCategory === "신혼여행") {
       honeyMoonKeyIndex.forEach((index) => {
-        if (honeyMoonLikeState[index] === false) {
+        if (honeyMoonLikeState[index] === 0) {
           setChangeModalBackgroundColor(false);
 
           axios
@@ -895,7 +874,7 @@ function SearchItems() {
             .catch((e) => {
               console.log(e);
             });
-        } else if (honeyMoonLikeState[index] === true) {
+        } else if (honeyMoonLikeState[index] === 1) {
           setChangeModalBackgroundColor(true);
 
           axios
@@ -915,7 +894,7 @@ function SearchItems() {
       });
     } else if (selectedCategory === "부케") {
       bouquetKeyIndex.forEach((index) => {
-        if (bouquetLikeState[index] === false) {
+        if (bouquetLikeState[index] === 0) {
           setChangeModalBackgroundColor(false);
 
           axios
@@ -931,7 +910,7 @@ function SearchItems() {
             .catch((e) => {
               console.log(e);
             });
-        } else if (bouquetLikeState[index] === true) {
+        } else if (bouquetLikeState[index] === 1) {
           setChangeModalBackgroundColor(true);
 
           axios
@@ -965,8 +944,20 @@ function SearchItems() {
   // console.log(itemLike);
   // console.log(itemName);
   // console.log(itemContent);
+  console.log("weddinghalllikestate");
+  console.log(weddingHallLikeState);
+  console.log("stuidolikestate");
+  console.log(studioLikeState);
+  console.log("dresslikestate");
+  console.log(dressLikeState);
+  console.log("makeuplikestate");
+  console.log(makeupLikeState);
+  console.log("honeymoonlikestate");
+  console.log(honeyMoonLikeState);
+  console.log("bouquetlikestate");
+  console.log(bouquetLikeState);
   // console.log(weddingHallImgContent);
-  console.log(countIndex);
+  // console.log(countIndex);
 
   return (
     <div className="mainlayout">
@@ -1605,7 +1596,7 @@ function SearchItems() {
                   }}
                 >
                   상세정보
-                  {selectLikeState === true ? (
+                  {selectLikeState === 1 ? (
                     <button
                       style={{
                         marginLeft: "240px",
