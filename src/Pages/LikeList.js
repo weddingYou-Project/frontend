@@ -253,10 +253,10 @@ function LikeList() {
   useEffect(() => {
     keyIndex.forEach((index) => {
       if (likeState[index] === false) {
-        console.log("deleteitem:" + itemId[itemId.length - 1 - index]);
+        console.log("deleteitem:" + itemId[index]);
         axios
           .post(`/like/delete`, {
-            itemId: itemId[itemId.length - 1 - index],
+            itemId: itemId[index],
             email: sessionStorage.getItem("email"),
           })
           .then((res) => {
@@ -269,7 +269,7 @@ function LikeList() {
       } else if (likeState[index] === true) {
         axios
           .post(`/like/create`, {
-            itemId: itemId[itemId.length - 1 - index],
+            itemId: itemId[index],
             email: sessionStorage.getItem("email"),
           })
           .then((res) => {
