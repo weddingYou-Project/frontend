@@ -80,14 +80,13 @@ function LikeList() {
     setFinish(false);
     setTimeout(() => {
       setFinish(true);
-    }, 70000);
+    }, 5000);
   }, []);
 
   useEffect(() => {
-    setFinish(false);
     setTimeout(() => {
       setFinish(true);
-    }, 3000);
+    }, 7000);
   }, [selectedItem, selectedSort]);
 
   // useEffect(() => {
@@ -233,7 +232,7 @@ function LikeList() {
                 .catch((e) => {
                   console.log(e);
                 });
-            } else {
+              //setFinish(true);
             }
           }
         } else {

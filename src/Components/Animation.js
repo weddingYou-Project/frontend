@@ -41,7 +41,7 @@ const Animation = (props) => {
     });
   }, []);
   return (
-    <div style={{ marginTop: "90px" }}>
+    <div style={{ marginTop: "120px" }}>
       <div
         id="container"
         ref={container}
