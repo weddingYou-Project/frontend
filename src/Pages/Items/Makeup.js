@@ -174,8 +174,14 @@ const Makeup = () => {
           </div>
         </Modal>
       )}
-
-      <Link to={`/writepost/${category1}`}>글쓰기</Link>
+      <button
+        className="submit-button"
+        onClick={() => {
+          window.location.href = `/writepost/${category1}`;
+        }}
+      >
+        글쓰기
+      </button>{" "}
       <Footer />
     </div>
   );

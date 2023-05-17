@@ -23,6 +23,11 @@ const Weddinghall = ({ postSubmitted }) => {
     setSelectedCategory(category);
   };
 
+  const handleImageClick = (image) => {
+    setSelectedImage(image);
+    setIsModalOpen(true);
+  };
+
   const modalStyles = {
     overlay: {
       backgroundColor: "rgba(0, 0, 0, 0.7)",
@@ -72,8 +77,14 @@ const Weddinghall = ({ postSubmitted }) => {
           {/* 수정, 삭제버튼 */}
         </Modal>
       )}
-
-      <Link to={`/writepost/${category1}`}>글쓰기</Link>
+      <button
+        className="submit-button"
+        onClick={() => {
+          window.location.href = `/writepost/${category1}`;
+        }}
+      >
+        글쓰기
+      </button>
       <Footer />
     </div>
   );

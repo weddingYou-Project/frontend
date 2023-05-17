@@ -115,3 +115,21 @@
   padding: 0.5rem;
   width: 100%;
 }
+
+.submit-button {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #000;
+  background-color: #f9f5f5;
+  border: none;
+  padding: 0.5rem 1rem;
+  margin: 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.submit-button:hover {
+  background-color: #105ff1;
+  color: #f9f5f5;
+}
