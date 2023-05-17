@@ -80,17 +80,14 @@ function LikeList() {
     if (sessionStorage.getItem("email") === null) {
       navigate("/login");
     }
-    setFinish(false);
-    setTimeout(() => {
-      setFinish(true);
-    }, 5000);
   }, []);
 
-  useEffect(() => {
-    setTimeout(() => {
-      setFinish(true);
-    }, 7000);
-  }, [selectedItem, selectedSort]);
+  // useEffect(() => {
+  //   setFinish(false);
+  //   setTimeout(() => {
+  //     setFinish(true);
+  //   }, 8000);
+  // }, [selectedItem, selectedSort]);
 
   // useEffect(() => {
   //   //전체 찜목록 불러오는 기능
@@ -235,16 +232,16 @@ function LikeList() {
                 .catch((e) => {
                   console.log(e);
                 });
-              //setFinish(true);
+              //
             }
           }
+          setFinish(true);
         } else {
           // 결과 없을 때
           keyIndexArr = [];
           setKeyIndex(keyIndexArr);
           setFinish(true);
         }
-        setRealFinish(true);
       })
       .catch((e) => {
         console.log(e);

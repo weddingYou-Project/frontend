@@ -1080,6 +1080,7 @@ function Home() {
           value={searchItem}
           onChange={handleChange}
           onKeyPress={handleKeyPress}
+          autoComplete="off"
         />
         <div
           className="likeListBtn"
