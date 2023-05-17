@@ -280,7 +280,7 @@ function LikeList() {
           });
       }
     });
-  }, [checkLikeOrNot]);
+  }, [checkLikeOrNot, update]);
 
   const Like = ({ likeState, index }) => {
     const id = itemId[itemId.length - 1 - index];
@@ -518,7 +518,7 @@ function LikeList() {
                     height: "40px",
                   }}
                   onClick={() => {
-                    setUpdate(true);
+                    setUpdate(!update);
                   }}
                 >
                   update
