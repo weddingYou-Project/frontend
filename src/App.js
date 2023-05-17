@@ -11,6 +11,7 @@ import UserUpdate from "./Pages/UserUpdate";
 import NotFound from "./Pages/NotFound";
 import EstimateForm from "./Pages/EstimateForm";
 import EstimateList from "./Pages/EstimateList";
+import EstimateDetail from "./Pages/EstimateDetail";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
       <Route path="/signup" element={<Signup />}></Route>
       <Route path="/signup/:category" element={<SignupForm />}></Route>
       <Route path="/passwordSearch" element={<PasswordSearch />} />
+      <Route path="/estimatedetail/:id" element={<EstimateDetail />} />
       <Route
         path="/passwordSearch/temporaryPasswordLogin"
         element={<TemporaryPasswordLogin />}

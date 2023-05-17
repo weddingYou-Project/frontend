@@ -95,6 +95,7 @@ div {
 
 .EstimateListData:hover {
     box-shadow: 5px 5px 5px #eee;
+    border: 1px solid rgb(64, 126, 241);;
 }
 
 .EstimateListComplete {
@@ -122,7 +123,7 @@ div {
     display: flex;
     align-items: center;
     font-size: 17px;
-    color: gray;
+    color: rgb(64, 126, 241);
 }
 
 .EstimateListDataRegion {
@@ -266,7 +267,9 @@ div {
     align-items: center;
     cursor: pointer;
     color: transparent;
-    font-size: 5px;
+    font-size: 20px;
+    white-space: nowrap;
+    overflow: hidden;
 
 }
 
