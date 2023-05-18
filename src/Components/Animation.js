@@ -11,7 +11,7 @@ const Animation = (props) => {
     setTimeout(() => {
       setPTop(150);
       setPOpacity(1);
-    }, 500);
+    }, 800);
   }, []);
   const container = useRef();
   const container1 = useRef();
@@ -110,6 +110,19 @@ const Animation = (props) => {
             marginTop: "-20px",
           }}
         ></div>
+        <p
+          style={{
+            fontSize: "1.5em",
+            zIndex: 1,
+            marginTop: "20px",
+            top: pTop,
+            opacity: pOpacity,
+            transition: "all 1s",
+            fontFamily: "Nanum Myeongjo",
+          }}
+        >
+          PLEASE WAIT...
+        </p>
       </div>
     </div>
   );
