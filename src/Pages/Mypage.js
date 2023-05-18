@@ -96,6 +96,8 @@ function Mypage() {
         })
         .catch((e) => {
           setPreviewUrl(profileimage);
+          console.log(e);
+          setFinish(true);
         });
     }
     if (category === "planner") {
@@ -132,6 +134,7 @@ function Mypage() {
         })
         .catch((e) => {
           setPreviewUrl(profileimage);
+          setFinish(true);
         });
     }
   };

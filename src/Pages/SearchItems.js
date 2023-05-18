@@ -962,148 +962,257 @@ function SearchItems() {
   console.log(bouquetLikeState);
   // console.log(weddingHallImgContent);
   // console.log(countIndex);
+  console.log(window.scrollY);
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+  }, [searchedKeyword]);
+
+  window.addEventListener("scroll", () => {
+    console.log(window.scrollY);
+  });
   return (
     <div className="mainlayout">
-      <div className="header">
-        <img
-          className="mainlogo"
-          src={imgLogo}
-          alt="로고"
-          onClick={() => {
-            navigate("/login");
-          }}
-        />
-        <input
-          type="text"
-          name="search"
-          className="searchbar"
-          placeholder="검색어를 입력하세요!"
-          onKeyPress={handleKeyPress}
-          value={searchingKeyword}
-          onChange={handleChange}
-          autoComplete="off"
-        />
+      {window.scrollY !== 0 ? (
         <div
-          className="likeListBtn"
-          onClick={() => {
-            navigate("/likeList", {
-              state: {
-                originalLocation: "searchitems",
-                searchedKeyword: searchedKeyword,
-              },
-            });
+          className="header "
+          style={{
+            position: "fixed",
+            top: 0,
+            width: "556px",
+            zIndex: 99,
+            background: "white",
+            borderRadius: "10px 10px 0 0",
+            height: "100px",
           }}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="40"
-            height="40"
-            fill="currentColor"
-            class="bi bi-heart likeicon"
-            viewBox="0 0 16 16"
+          <img
+            className="mainlogo"
+            src={imgLogo}
+            alt="로고"
+            onClick={() => {
+              navigate("/login");
+            }}
+          />
+          <input
+            type="text"
+            name="search"
+            className="searchbar"
+            placeholder="검색어를 입력하세요!"
+            onKeyPress={handleKeyPress}
+            value={searchingKeyword}
+            onChange={handleChange}
+            autoComplete="off"
+          />
+          <div
+            className="likeListBtn"
+            onClick={() => {
+              navigate("/likeList", {
+                state: {
+                  originalLocation: "searchitems",
+                  searchedKeyword: searchedKeyword,
+                },
+              });
+            }}
           >
-            <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
-          </svg>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="40"
-            height="40"
-            fill="currentColor"
-            class="bi bi-heart-fill likeiconfill"
-            viewBox="0 0 16 16"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"
-            />
-          </svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="40"
+              height="40"
+              fill="currentColor"
+              class="bi bi-heart likeicon"
+              viewBox="0 0 16 16"
+            >
+              <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+            </svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="40"
+              height="40"
+              fill="currentColor"
+              class="bi bi-heart-fill likeiconfill"
+              viewBox="0 0 16 16"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"
+              />
+            </svg>
+          </div>
         </div>
-      </div>
+      ) : (
+        <div
+          className="header"
+          style={{
+            position: "fixed",
+            top: 0,
+            borderRadius: "20px 20px 0 0",
+            zIndex: 99,
+            background: "white",
+            width: "556px",
+            height: "100px",
+          }}
+        >
+          <img
+            className="mainlogo"
+            src={imgLogo}
+            alt="로고"
+            onClick={() => {
+              navigate("/login");
+            }}
+          />
+          <input
+            type="text"
+            name="search"
+            className="searchbar"
+            placeholder="검색어를 입력하세요!"
+            onKeyPress={handleKeyPress}
+            value={searchingKeyword}
+            onChange={handleChange}
+            autoComplete="off"
+          />
+          <div
+            className="likeListBtn"
+            onClick={() => {
+              navigate("/likeList", {
+                state: {
+                  originalLocation: "searchitems",
+                  searchedKeyword: searchedKeyword,
+                },
+              });
+            }}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="40"
+              height="40"
+              fill="currentColor"
+              class="bi bi-heart likeicon"
+              viewBox="0 0 16 16"
+            >
+              <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+            </svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="40"
+              height="40"
+              fill="currentColor"
+              class="bi bi-heart-fill likeiconfill"
+              viewBox="0 0 16 16"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"
+              />
+            </svg>
+          </div>
+        </div>
+      )}
+
       {finish === false ? (
         <Animation />
       ) : (
         <div>
           <div className="NavBar">
-            <nav id="navbar-example2" class="navbar bg-light px-3 mb-3">
+            <nav
+              id="navbar-example2"
+              class="navbar bg-light px-3 mb-3"
+              style={{
+                position: "fixed",
+                top: 80,
+                zIndex: 99,
+                background: "white",
+                width: "557px",
+              }}
+            >
               <ul class="nav sortingList">
                 <li class="nav-item">
-                  <a
+                  <div
                     class="nav-link"
                     onClick={() => {
-                      navigate(`#scrollspyHeading1`, {
-                        state: { keyword: searchedKeyword },
-                      });
+                      window.scrollTo({ top: 10 });
                     }}
-                    href="#scrollspyHeading1"
+                    style={{ cursor: "pointer" }}
+                    // href="#scrollspyHeading1"
                   >
                     웨딩홀
-                  </a>
+                  </div>
                 </li>
                 <li class="nav-item">
-                  <a
+                  <div
                     class="nav-link"
                     onClick={() => {
-                      navigate(`#scrollspyHeading2`, {
-                        state: { keyword: searchedKeyword },
+                      window.scrollTo({
+                        top: 400,
+                        left: 0,
+                        behavior: "smooth",
                       });
                     }}
-                    href="#scrollspyHeading2"
+                    style={{ cursor: "pointer" }}
+                    //   href="#scrollspyHeading2"
                   >
                     스튜디오
-                  </a>
+                  </div>
                 </li>
                 <li class="nav-item">
-                  <a
+                  <div
                     class="nav-link"
                     onClick={() => {
-                      navigate(`#scrollspyHeading3`, {
-                        state: { keyword: searchedKeyword },
+                      window.scrollTo({
+                        top: 830,
+                        left: 0,
+                        behavior: "smooth",
                       });
                     }}
-                    href="#scrollspyHeading3"
+                    style={{ cursor: "pointer" }}
                   >
                     의상
-                  </a>
+                  </div>
                 </li>
                 <li class="nav-item">
-                  <a
+                  <div
                     class="nav-link"
                     onClick={() => {
-                      navigate(`#scrollspyHeading4`, {
-                        state: { keyword: searchedKeyword },
+                      window.scrollTo({
+                        top: 1230,
+                        left: 0,
+                        behavior: "smooth",
                       });
                     }}
-                    href="#scrollspyHeading4"
+                    style={{ cursor: "pointer" }}
                   >
                     메이크업
-                  </a>
+                  </div>
                 </li>
                 <li class="nav-item">
-                  <a
+                  <div
                     class="nav-link"
                     onClick={() => {
-                      navigate(`#scrollspyHeading5`, {
-                        state: { keyword: searchedKeyword },
+                      window.scrollTo({
+                        top: 2370,
+                        left: 0,
+                        behavior: "smooth",
                       });
                     }}
-                    href="#scrollspyHeading5"
+                    style={{ cursor: "pointer" }}
                   >
                     신혼여행
-                  </a>
+                  </div>
                 </li>
                 <li class="nav-item">
-                  <a
+                  <div
                     class="nav-link"
                     onClick={() => {
-                      navigate(`#scrollspyHeading6`, {
-                        state: { keyword: searchedKeyword },
+                      window.scrollTo({
+                        top: 3300,
+                        left: 0,
+                        behavior: "smooth",
                       });
                     }}
-                    href="#scrollspyHeading6"
+                    style={{ cursor: "pointer" }}
                   >
                     부케
-                  </a>
+                  </div>
                 </li>
               </ul>
             </nav>
@@ -1114,6 +1223,7 @@ function SearchItems() {
               data-bs-smooth-scroll="true"
               class="scrollspy-example bg-light p-3 rounded-2"
               tabindex="0"
+              style={{ marginTop: "150px" }}
             >
               <h4 id="scrollspyHeading1">
                 <svg
