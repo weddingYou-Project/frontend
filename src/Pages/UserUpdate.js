@@ -694,6 +694,7 @@ function UserUpdate() {
           flexDirection: "column",
           justifyContent: "start",
           paddingTop: "130px",
+          marginTop: "100px",
         }}
       >
         {defaultViewUrl === null ? (

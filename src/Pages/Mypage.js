@@ -268,6 +268,7 @@ function Mypage() {
             display: "flex",
             flexDirection: "column",
             justifyContent: "start",
+            marginTop: "100px",
           }}
         >
           {previewUrl === null ? (
