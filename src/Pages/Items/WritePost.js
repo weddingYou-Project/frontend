@@ -7,9 +7,18 @@ import "../../Css/WritePost.css";
 
 const categoryOptions = {
   weddinghall: ["일반", "호텔", "채플", "스몰", "야외", "전통혼례"],
-  weddingoutfit: ["드레스", "남성예복", "한복"],
+  weddingoutfit: [
+    "머메이드",
+    "A라인",
+    "H라인",
+    "벨라인",
+    "엠파이어",
+    "프린세스",
+    "남성예복",
+    "한복",
+  ],
   studio: ["인물중심", "배경중심", "균형적인"],
-  makeup: ["헤어", "메이크업"],
+  makeup: ["내추럴", "스모키", "큐티", "러블리"],
   honeymoon: ["해외", "국내"],
   bouquet: ["라운드", "드롭", "케스케이드", "핸드타이드"],
 };

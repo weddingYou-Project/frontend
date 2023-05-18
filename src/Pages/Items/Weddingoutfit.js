@@ -6,13 +6,20 @@ import NavigationBar from "../../Components/NavigationBar";
 import Footer from "../../Components/Footer";
 import "../../Css/menuList.css";
 import "../../Css/items.css";
-import wh_1 from "./wh_1.jpg";
-import wh_2 from "./wh_2.jpg";
 
 const Weddingoutfit = () => {
   const { category1 } = useParams();
   const title = "의상";
-  const category2 = ["드레스", "남성예복", "한복"];
+  const category2 = [
+    "머메이드",
+    "A라인",
+    "H라인",
+    "벨라인",
+    "엠파이어",
+    "프린세스",
+    "남성예복",
+    "한복",
+  ];
   const [isAdmin, setIsAdmin] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState(category2[0]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -23,10 +30,20 @@ const Weddingoutfit = () => {
   const [newContent, setNewContent] = useState("");
   const [itemId, setItemId] = useState(null);
   const [file, setFile] = useState(null);
-  const [images, setImages] = useState([
-    { id: 1, url: wh_1, title: "1", content: "1" },
-    { id: 2, url: wh_2, title: "2", content: "2" },
-  ]);
+  const [images, setImages] = useState([]);
+
+  useEffect(() => {
+    const fetchImages = async () => {
+      try {
+        const response = await axios.get("/item/itemList");
+        setImages(response.data);
+      } catch (error) {
+        console.error("이미지를 가져오는 중 오류 발생:", error);
+      }
+    };
+
+    fetchImages();
+  }, []);
 
   const handleCloseModal = () => {
     setIsModalOpen(false);

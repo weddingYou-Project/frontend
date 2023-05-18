@@ -11,54 +11,38 @@ const Bouquet = () => {
   const { category1 } = useParams();
   const title = "부케";
   const category2 = ["라운드", "드롭", "케스케이드", "핸드타이드"];
-  const [images, setImages] = useState([]);
+  const [isAdmin, setIsAdmin] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState(category2[0]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
-  const [isEditing, setIsEditing] = useState(false);
-  const [editedImage, setEditedImage] = useState(null);
+  const [selectLikeState, setSelectLikeState] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+  const [newTitle, setNewTitle] = useState("");
+  const [newContent, setNewContent] = useState("");
+  const [itemId, setItemId] = useState(null);
+  const [file, setFile] = useState(null);
+  const [images, setImages] = useState([]);
 
   useEffect(() => {
-    axios
-      .get("/item/itemList", {
-        params: {
-          category1: title,
-          category2: selectedCategory,
-        },
-      })
-      .then((response) => {
+    const fetchImages = async () => {
+      try {
+        const response = await axios.get("/item/itemList");
         setImages(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching data: ", error);
-      });
-  }, [selectedCategory, title]);
+      } catch (error) {
+        console.error("이미지를 가져오는 중 오류 발생:", error);
+      }
+    };
 
-  const handleEditClick = () => {
-    setEditedImage(selectedImage);
-    setIsEditing(true);
+    fetchImages();
+  }, []);
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setEditMode(false);
   };
 
-  const handleCancelEdit = () => {
-    setIsEditing(false);
-    setEditedImage(null);
-  };
-
-  const handleSaveEdit = () => {
-    axios
-      .post(`/item/updateItem?itemId=${selectedImage.itemId}`, editedImage)
-      .then((response) => {
-        const updatedImage = response.data;
-        const updatedImages = images.map((image) =>
-          image.itemId === updatedImage.itemId ? updatedImage : image
-        );
-        setImages(updatedImages);
-        setSelectedImage(updatedImage);
-        setIsEditing(false);
-      })
-      .catch((error) => {
-        console.error("Error updating image: ", error);
-      });
+  const handleCategoryClick = (category) => {
+    setSelectedCategory(category);
   };
 
   const handleImageClick = (image) => {
@@ -66,20 +50,74 @@ const Bouquet = () => {
     setIsModalOpen(true);
   };
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
+  const manageLikeList = () => {
+    setSelectLikeState(!selectLikeState);
+    const likeData = {
+      likeId: selectedImage.id,
+    };
+
+    axios
+      .post("/", likeData)
+      .then((response) => {
+        console.log("좋아요 성공:", response.data);
+      })
+      .catch((error) => {
+        console.error("좋아요 에러:", error);
+      });
   };
 
-  const handleImageChange = (event) => {
-    const { name, value } = event.target;
-    setEditedImage({
-      ...editedImage,
-      [name]: value,
-    });
+  const handleEditClick = () => {
+    setEditMode(true);
+    setItemId(selectedImage.id);
+    setNewTitle(selectedImage.title);
+    setNewContent(selectedImage.content);
   };
 
-  const handleCategoryClick = (category) => {
-    setSelectedCategory(category);
+  const editItem = () => {
+    let data = new FormData();
+    data.append("file", file);
+    data.append("itemId", itemId);
+    data.append("title", newTitle);
+    data.append("content", newContent);
+
+    axios
+      .put("/updateItem", data)
+      .then((res) => {
+        console.log(res.data);
+        const updatedImages = images.map((image) => {
+          if (image.id === res.data.id) {
+            return res.data;
+          } else {
+            return image;
+          }
+        });
+        setImages(updatedImages);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+
+    setEditMode(false);
+  };
+
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+
+  const handleDeleteClick = () => {
+    axios
+      .post("/", { itemId: selectedImage.id })
+      .then((res) => {
+        console.log(res.data);
+        const updatedImages = images.filter(
+          (image) => image.id !== selectedImage.id
+        );
+        setImages(updatedImages);
+        setIsModalOpen(false);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
 
   const modalStyles = {
@@ -90,13 +128,9 @@ const Bouquet = () => {
     content: {
       top: "50%",
       left: "50%",
-      right: "auto",
-      bottom: "auto",
-      marginRight: "-50%",
       transform: "translate(-50%, -50%)",
-      width: "80%",
-      height: "80%",
-      padding: "2rem",
+      width: "750px",
+      height: "600px",
     },
   };
 
@@ -117,16 +151,14 @@ const Bouquet = () => {
         ))}
       </div>
       <div className="image-wrapper">
-        {images
-          .filter((image) => image.category2 === selectedCategory)
-          .map((image) => (
-            <img
-              key={image.itemId}
-              src={image.itemImg}
-              alt={image.content}
-              onClick={() => handleImageClick(image)}
-            />
-          ))}
+        {images.map((image) => (
+          <img
+            key={image.id}
+            src={image.url}
+            alt={image.title}
+            onClick={() => handleImageClick(image)}
+          />
+        ))}
       </div>
       {selectedImage && (
         <Modal
@@ -134,54 +166,119 @@ const Bouquet = () => {
           onRequestClose={handleCloseModal}
           style={modalStyles}
         >
-          <div className="modal-content">
-            <div className="modal-image">
-              <img src={selectedImage.itemImg} alt={selectedImage.content} />
-            </div>
-            {isEditing ? (
-              <div className="modal-info">
+          {editMode ? (
+            <>
+              <img src={selectedImage.url} alt={selectedImage.title} />
+              <div className="post-inputwrap">
                 <input
+                  className="title-input"
                   type="text"
-                  name="content"
-                  value={editedImage.content}
-                  onChange={handleImageChange}
+                  value={newTitle}
+                  onChange={(e) => setNewTitle(e.target.value)}
                 />
-                <select
-                  name="category2"
-                  value={editedImage.category2}
-                  onChange={handleImageChange}
+                <textarea
+                  className="content-textarea"
+                  value={newContent}
+                  onChange={(e) => setNewContent(e.target.value)}
+                />
+                <input type="file" onChange={handleFileChange} />
+              </div>
+              <div className="button-wrap">
+                <button className="edit-button" onClick={() => editItem()}>
+                  저장
+                </button>
+                <button
+                  className="delete-button"
+                  type="button"
+                  onClick={() => setEditMode(false)}
                 >
-                  {category2.map((category) => (
-                    <option key={category} value={category}>
-                      {category}
-                    </option>
-                  ))}
-                </select>
-                <div className="modal-actions">
-                  <button onClick={handleSaveEdit}>저장</button>
-                  <button onClick={handleCancelEdit}>취소</button>
-                </div>
+                  취소
+                </button>
               </div>
-            ) : (
-              <div className="modal-info">
-                <div className="modal-title">{selectedImage.content}</div>
-                <div className="modal-category">{selectedImage.category2}</div>
-                <div className="modal-actions">
-                  <button onClick={handleEditClick}>수정</button>
+            </>
+          ) : (
+            <>
+              <img src={selectedImage.url} alt={selectedImage.title} />
+              <h2>{selectedImage.title}</h2>
+              <p>{selectedImage.content}</p>
+              {selectLikeState === true ? (
+                <button
+                  style={{
+                    width: "110px",
+                    marginBottom: "10px",
+                    fontSize: "1em",
+                    background: "none",
+                    border: "none",
+                    padding: "5px 20px",
+                  }}
+                  onClick={manageLikeList}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    fill="red"
+                    class="bi bi-heart-fill"
+                    viewBox="0 0 16 16"
+                    style={{ cursor: "pointer" }}
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"
+                    />
+                  </svg>
+                  찜하기
+                </button>
+              ) : (
+                <button
+                  style={{
+                    width: "110px",
+                    marginBottom: "10px",
+                    fontSize: "1em",
+                    background: "none",
+                    border: "none",
+                    padding: "5px 20px",
+                  }}
+                  onClick={manageLikeList}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    fill="currentColor"
+                    class="bi bi-heart"
+                    viewBox="0 0 16 16"
+                    style={{ cursor: "pointer" }}
+                  >
+                    <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+                  </svg>
+                  찜하기
+                </button>
+              )}
+              {isAdmin && (
+                <div className="button-wrapper">
+                  <button className="edit-button" onClick={handleEditClick}>
+                    수정
+                  </button>
+                  <button className="delete-button" onClick={handleDeleteClick}>
+                    삭제
+                  </button>
                 </div>
-              </div>
-            )}
-          </div>
+              )}
+            </>
+          )}
         </Modal>
       )}
-      <button
-        className="submit-button"
-        onClick={() => {
-          window.location.href = `/writepost/${category1}`;
-        }}
-      >
-        글쓰기
-      </button>{" "}
+      {isAdmin && (
+        <button
+          className="submit-button"
+          onClick={() => {
+            window.location.href = `/writepost/${category1}`;
+          }}
+        >
+          글쓰기
+        </button>
+      )}
       <Footer />
     </div>
   );
