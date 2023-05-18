@@ -11,7 +11,7 @@ import wh_2 from "./wh_2.jpg";
 
 const Weddinghall = ({ postSubmitted }) => {
   const { category1 } = useParams();
-  const title = category1;
+  const title = "웨딩홀";
   const category2 = ["일반", "호텔", "채플", "스몰", "야외", "전통혼례"];
   const [selectedCategory, setSelectedCategory] = useState(category2[0]);
   const [isModalOpen, setIsModalOpen] = useState(false);

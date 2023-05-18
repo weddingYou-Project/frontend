@@ -9,7 +9,7 @@ import "../../Css/items.css";
 
 const Makeup = () => {
   const { category1 } = useParams();
-  const title = category1;
+  const title = "메이크업";
   const category2 = ["헤어", "메이크업"];
   const [images, setImages] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(category2[0]);

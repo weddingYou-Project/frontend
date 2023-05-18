@@ -9,7 +9,7 @@ import "../../Css/items.css";
 
 const Bouquet = () => {
   const { category1 } = useParams();
-  const title = category1;
+  const title = "부케";
   const category2 = ["라운드", "드롭", "케스케이드", "핸드타이드"];
   const [images, setImages] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(category2[0]);

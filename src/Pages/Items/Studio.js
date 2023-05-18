@@ -9,7 +9,7 @@ import "../../Css/items.css";
 
 const Studio = () => {
   const { category1 } = useParams();
-  const title = category1;
+  const title = "스튜디오";
   const category2 = ["인물중심", "배경중심", "균형적인"];
   const [images, setImages] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(category2[0]);

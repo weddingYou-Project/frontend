@@ -9,7 +9,7 @@ import "../../Css/items.css";
 
 const Honeymoon = () => {
   const { category1 } = useParams();
-  const title = category1;
+  const title = "신혼여행";
   const category2 = ["국내", "해외"];
   const [images, setImages] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(category2[0]);
