@@ -76,7 +76,7 @@ const WritePost = () => {
           ))}
         </div>
       </div>
-      <div className="input-wrap">
+      <div className="post-inputwrap">
         <input
           className="title-input"
           type="text"
