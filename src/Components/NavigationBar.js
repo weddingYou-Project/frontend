@@ -9,10 +9,11 @@ function NavigationBar({ title, goUpdate }) {
   const path = url.pathname;
 
   const [navigationBorder, setNavigationBorder] = useState(false);
+  console.log(window.scrollY);
   window.addEventListener("scroll", () => {
     console.log(document.body.clientHeight);
     console.log("top:" + window.scrollY);
-    if (window.scrollY === 0) {
+    if (0 <= window.scrollY && window.scrollY < 1) {
       setNavigationBorder(true);
     } else {
       setNavigationBorder(false);
@@ -33,10 +34,11 @@ function NavigationBar({ title, goUpdate }) {
             borderRadius: "10px 10px 0  0",
             boxSizing: "border-box",
             top: 0,
+            paddingTop: "10px",
           }}
         >
           <BackButton />
-          <p style={{ fontSize: "1.8em" }}>{title} </p>
+          <p style={{ fontSize: "1.8em", marginTop: "10px" }}>{title} </p>
           {path.indexOf("likeList") === 1 ? (
             <button
               className="btn btn-primary"
@@ -68,6 +70,8 @@ function NavigationBar({ title, goUpdate }) {
             width: "556px",
             boxSizing: "border-box",
             top: 0,
+            paddingTop: "10px",
+            borderRadius: "10px 10px 0 0",
           }}
         >
           <BackButton />

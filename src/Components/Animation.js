@@ -131,6 +131,91 @@ const Animation = (props) => {
             </p>
           </div>
         </div>
+      ) : path.indexOf("mypage") === 1 ? (
+        <div style={{ marginTop: "200px", height: "700px" }}>
+          <div
+            id="container"
+            ref={container}
+            style={{
+              width: "100%",
+              height: "100%",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <p
+              style={{
+                fontSize: "1.5em",
+                zIndex: 1,
+                marginTop: "20px",
+                top: pTop,
+                opacity: pOpacity,
+                transition: "all 1s",
+                fontFamily: "Nanum Myeongjo",
+              }}
+            >
+              WEDDING YOU
+            </p>
+            <div
+              id="container3"
+              ref={container3}
+              style={{
+                width: "100%",
+                height: "200px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                marginTop: "-180px",
+                marginBottom: "-20px",
+              }}
+            ></div>
+            <div
+              id="container2"
+              ref={container2}
+              style={{
+                width: "100%",
+                height: "200px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+
+                marginTop: "-40px",
+              }}
+            ></div>
+            <div
+              id="container1"
+              ref={container1}
+              style={{
+                width: "100%",
+                height: "400px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                paddingLeft: "60px",
+                paddingRight: "20px",
+                marginTop: "-20px",
+              }}
+            ></div>
+            <p
+              style={{
+                fontSize: "1.5em",
+                zIndex: 1,
+                marginTop: "20px",
+                top: pTop,
+                opacity: pOpacity,
+                transition: "all 1s",
+                fontFamily: "Nanum Myeongjo",
+              }}
+            >
+              PLEASE WAIT...
+            </p>
+          </div>
+        </div>
       ) : (
         <div style={{ marginTop: "100px", height: "700px" }}>
           <div

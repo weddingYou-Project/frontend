@@ -1074,7 +1074,16 @@ function Home() {
 
   return (
     <div className="mainlayout">
-      <div className="header">
+      <div
+        className="header"
+        style={{
+          position: "fixed",
+          top: 0,
+
+          zIndex: 99,
+          background: "white",
+        }}
+      >
         <img
           className="mainlogo"
           src={imgLogo}
@@ -1130,7 +1139,16 @@ function Home() {
       ) : (
         <div>
           <div className="NavBar">
-            <nav id="navbar-example2" class="navbar bg-light px-3 mb-3">
+            <nav
+              id="navbar-example2"
+              class="navbar bg-light px-3 mb-3"
+              style={{
+                position: "fixed",
+                top: 80,
+                zIndex: 99,
+                background: "white",
+              }}
+            >
               <ul class="nav sortingList">
                 <li class="nav-item">
                   <a class="nav-link" href="#scrollspyHeading1">
@@ -1171,6 +1189,7 @@ function Home() {
               data-bs-smooth-scroll="true"
               class="scrollspy-example bg-light p-3 rounded-2"
               tabindex="0"
+              style={{ marginTop: "150px" }}
             >
               <h4 id="scrollspyHeading1">
                 <svg
