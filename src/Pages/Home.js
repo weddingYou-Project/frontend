@@ -1147,7 +1147,7 @@ function Home() {
           className="header "
           style={{
             position: "fixed",
-            top: 1,
+            top: 0,
             borderRadius: "10px 10px 0 0",
             zIndex: 99,
             background: "white",
