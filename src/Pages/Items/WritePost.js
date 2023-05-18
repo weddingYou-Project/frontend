@@ -95,7 +95,7 @@ const WritePost = () => {
           게시하기
         </button>
 
-        <button className="cancel-button" type="button" onClick={handleCancel}>
+        <button className="cancel-button" onClick={handleCancel}>
           취소
         </button>
       </form>
