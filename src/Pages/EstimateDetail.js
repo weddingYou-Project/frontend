@@ -62,6 +62,22 @@ const EstimateDetail = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const estimateDelete = async () => {
+    if (window.confirm("견적서 게시글을 삭제하시겠습니까?")) {
+      try {
+        let response = await axios.get(
+          "http://localhost:8080/estimate/delete",
+          { params: { id: estimateData.id } }
+        );
+        let { data } = response;
+        console.log("삭제 성공");
+        navigate("../estimatelist");
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  };
+
   if (loading === false) {
     return <div></div>;
   } else {
@@ -314,9 +330,27 @@ const EstimateDetail = () => {
             {window.sessionStorage.getItem("email") === estimateData.writer &&
               window.sessionStorage.getItem("category") === "user" &&
               estimateData.matchstatus === false && (
-                <button onClick={() => {}} className="btn-colour-1">
-                  수정하기
-                </button>
+                <>
+                  <button
+                    onClick={() => {
+                      navigate(`../estimatemodify/${estimateData.id}`);
+                    }}
+                    className="btn-colour-1"
+                    style={{ marginRight: "10px" }}
+                  >
+                    수정하기
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      estimateDelete();
+                    }}
+                    className="btn-colour-1"
+                    style={{ marginLeft: "10px" }}
+                  >
+                    삭제하기
+                  </button>
+                </>
               )}
             {window.sessionStorage.getItem("category") === "planner" &&
               estimateData.matchstatus === false && (

@@ -12,6 +12,7 @@ import NotFound from "./Pages/NotFound";
 import EstimateForm from "./Pages/EstimateForm";
 import EstimateList from "./Pages/EstimateList";
 import EstimateDetail from "./Pages/EstimateDetail";
+import EstimateModify from "./Pages/EstimateModify";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
       <Route path="/mypage/:category" element={<Mypage />} />
       <Route path="/mypage/:category/userupdate" element={<UserUpdate />} />
       <Route path="*" element={<NotFound />} />
+      <Route path="/estimatemodify/:id" element={<EstimateModify />} />
     </Routes>
   );
 }

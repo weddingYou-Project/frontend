@@ -1,18 +1,60 @@
 //
 import "../Css/main.css";
 import "../Css/EstimateForm.css";
+import "../Css/EstimateModify.css";
 import personCentered from "../Assets/logo.png";
 //
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useRef } from "react";
 //컴포넌트
 import Footer from "../Components/Footer";
 import BackButton from "../Components/Backbutton";
 import NavigationBar from "../Components/NavigationBar";
 
-const EstimateForm = () => {
+const EstimateModify = () => {
+  let { id } = useParams();
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        let response = await axios.get(
+          `http://localhost:8080/estimate/getdetail/${id}`
+        );
+        let { data } = response;
+        console.log(data);
+        setbudget(data.budget);
+        sethoneymoon(data.honeymoon);
+        setrequirement(data.requirement);
+        setstudio(data.studio);
+        let weddingdatejson = JSON.parse(data.weddingdate);
+        let wdcopy = { ...weddingdate };
+        wdcopy.datefirst = weddingdatejson[0];
+        wdcopy.datesecond = weddingdatejson[1];
+        wdcopy.datethird = weddingdatejson[2];
+        setweddingdate(wdcopy);
+        let weddingregionjson = JSON.parse(data.region);
+        let wrcopy = { ...weddingregion };
+        wrcopy.regionfirst = weddingregionjson[0];
+        wrcopy.regionsecond = weddingregionjson[1];
+        wrcopy.regionthird = weddingregionjson[2];
+        setweddingregion(wrcopy);
+        setdress(JSON.parse(data.dress));
+        setmakeup(JSON.parse(data.makeup));
+        if (data.honeymoon.includes("해외")) {
+          setacco1("view");
+          console.log("하이");
+        } else {
+          setacco2("view");
+          console.log("바이");
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    fetchData();
+  }, []);
+
   const navigate = useNavigate();
   useEffect(() => {
     if (window.sessionStorage.getItem("email") === null) {
@@ -300,7 +342,8 @@ const EstimateForm = () => {
         <div className="contentbox">
           <h5
             onClick={() => {
-              console.log(images);
+              console.log(dress);
+              console.log(makeup);
             }}
           >
             희망 결혼 예정일
@@ -310,6 +353,7 @@ const EstimateForm = () => {
             <input
               type="date"
               ref={dateRef}
+              value={weddingdate.datefirst}
               className="form-control"
               onChange={weddingdateSelect}
               name="datefirst"
@@ -319,6 +363,7 @@ const EstimateForm = () => {
             <span>2순위</span>
             <input
               type="date"
+              value={weddingdate.datesecond}
               className="form-control"
               onChange={weddingdateSelect}
               name="datesecond"
@@ -328,6 +373,7 @@ const EstimateForm = () => {
             <span>3순위</span>
             <input
               type="date"
+              value={weddingdate.datethird}
               className="form-control"
               onChange={weddingdateSelect}
               name="datethird"
@@ -350,6 +396,7 @@ const EstimateForm = () => {
               name="regionfirst"
               weddingregionSelect={weddingregionSelect}
               regionRef={regionRef}
+              value={weddingregion.regionfirst}
             />
           </div>
           <div className="choosebox">
@@ -357,6 +404,7 @@ const EstimateForm = () => {
             <RegionList
               name="regionsecond"
               weddingregionSelect={weddingregionSelect}
+              value={weddingregion.regionsecond}
             />
           </div>
           <div className="choosebox">
@@ -364,6 +412,7 @@ const EstimateForm = () => {
             <RegionList
               name="regionthird"
               weddingregionSelect={weddingregionSelect}
+              value={weddingregion.regionthird}
             />
           </div>
         </div>
@@ -471,6 +520,7 @@ const EstimateForm = () => {
               type="checkbox"
               name="dress"
               value="머메이드"
+              checked={dress.includes("머메이드")}
               onChange={dresscheck}
               className="displaynone"
             />
@@ -484,6 +534,7 @@ const EstimateForm = () => {
               type="checkbox"
               name="dress"
               value="A라인"
+              checked={dress.includes("A라인")}
               onChange={dresscheck}
               className="displaynone"
             />
@@ -497,6 +548,7 @@ const EstimateForm = () => {
               type="checkbox"
               name="dress"
               value="H라인"
+              checked={dress.includes("H라인")}
               onChange={dresscheck}
               className="displaynone"
             />
@@ -510,6 +562,7 @@ const EstimateForm = () => {
               type="checkbox"
               name="dress"
               value="벨라인"
+              checked={dress.includes("벨라인")}
               onChange={dresscheck}
               className="displaynone"
             />
@@ -523,6 +576,7 @@ const EstimateForm = () => {
               type="checkbox"
               name="dress"
               value="엠파이어"
+              checked={dress.includes("엠파이어")}
               onChange={dresscheck}
               className="displaynone"
             />
@@ -536,6 +590,7 @@ const EstimateForm = () => {
               type="checkbox"
               name="dress"
               value="프린세스"
+              checked={dress.includes("프린세스")}
               onChange={dresscheck}
               className="displaynone"
             />
@@ -563,6 +618,7 @@ const EstimateForm = () => {
               type="checkbox"
               name="makeup"
               value="로맨틱한"
+              checked={makeup.includes("로맨틱한")}
               onChange={makeupcheck}
               className="displaynone"
             />
@@ -576,6 +632,7 @@ const EstimateForm = () => {
               type="checkbox"
               name="makeup"
               value="우아한"
+              checked={makeup.includes("우아한")}
               onChange={makeupcheck}
               className="displaynone"
             />
@@ -589,6 +646,7 @@ const EstimateForm = () => {
               type="checkbox"
               name="makeup"
               value="내추럴"
+              checked={makeup.includes("내추럴")}
               onChange={makeupcheck}
               className="displaynone"
             />
@@ -602,6 +660,7 @@ const EstimateForm = () => {
               type="checkbox"
               name="makeup"
               value="스모키"
+              checked={makeup.includes("스모키")}
               onChange={makeupcheck}
               className="displaynone"
             />
@@ -615,6 +674,7 @@ const EstimateForm = () => {
               type="checkbox"
               name="makeup"
               value="큐티"
+              checked={makeup.includes("큐티")}
               onChange={makeupcheck}
               className="displaynone"
             />
@@ -628,6 +688,7 @@ const EstimateForm = () => {
               type="checkbox"
               name="makeup"
               value="러블리"
+              checked={makeup.includes("러블리")}
               onChange={makeupcheck}
               className="displaynone"
             />
@@ -683,6 +744,7 @@ const EstimateForm = () => {
               aria-label=".form-select-lg example"
               onChange={honeymoonSelect}
               style={{ fontSize: 17 }}
+              value={honeymoon}
             >
               <option selected={acco1 === "view"} disabled>
                 해외 여행지를 선택해주세요
@@ -725,25 +787,27 @@ const EstimateForm = () => {
                 <option value="해외-아부다비">아부다비</option>
               </optgroup>
               <optgroup label="오세아니아">
-                <option value="해외-시드니">시드니</option>
-                <option value="해외-골드코스트">골드코스트</option>
-                <option value="해외-케언즈">케언즈</option>
-                <option value="해외-뉴질랜드">뉴질랜드</option>
+                <option value="해외-발리시드니">시드니</option>
+                <option value="해외-발리골드코스트">골드코스트</option>
+                <option value="해외-발리케언즈">케언즈</option>
+                <option value="해외-발리뉴질랜드">뉴질랜드</option>
               </optgroup>
               <optgroup label="북유럽">
-                <option value="해외-스웨덴">스웨덴</option>
-                <option value="해외-노르웨이">노르웨이</option>
-                <option value="해외-핀란드">핀란드</option>
-                <option value="해외-덴마크">덴마크</option>
+                <option value="해외-발리스웨덴">스웨덴</option>
+                <option value="해외-발리노르웨이">노르웨이</option>
+                <option value="해외-발리핀란드">핀란드</option>
+                <option value="해외-발리덴마크">덴마크</option>
               </optgroup>
               <optgroup label="남미">
-                <option value="해외-칠레">칠레</option>
-                <option value="해외-아르헨티나">아르헨티나</option>
-                <option value="해외-페루">페루</option>
+                <option value="해외-발리칠레">칠레</option>
+                <option value="해외-발리아르헨티나">아르헨티나</option>
+                <option value="해외-발리페루">페루</option>
               </optgroup>
               <optgroup label="아프리카">
-                <option value="해외-모로코">모로코</option>
-                <option value="해외-남아프리카공화국">남아프리카공화국</option>
+                <option value="해외-발리모로코">모로코</option>
+                <option value="해외-발리남아프리카공화국">
+                  남아프리카공화국
+                </option>
               </optgroup>
               <optgroup label="기타">
                 <option value="해외-기타">기타</option>
@@ -756,6 +820,7 @@ const EstimateForm = () => {
               aria-label=".form-select-lg example"
               onChange={honeymoonSelect}
               style={{ fontSize: 17 }}
+              value={honeymoon}
             >
               <option selected={acco2 === "view"} disabled>
                 국내여행지를 선택해주세요
@@ -819,7 +884,7 @@ const EstimateForm = () => {
         </div>
 
         <div className="contentbox">
-          <h5>이미지첨부</h5>
+          <h5>첨부한 이미지</h5>
           <div className="choosebox" style={{ width: "70%" }}>
             <input
               type="file"
@@ -909,7 +974,7 @@ const EstimateForm = () => {
   );
 };
 
-export default EstimateForm;
+export default EstimateModify;
 
 const StudioModal = () => {
   return (
@@ -1352,7 +1417,7 @@ const Carousel = ({ image1, image2, image3, collapse, heading }) => {
   );
 };
 
-const RegionList = ({ name, weddingregionSelect, regionRef }) => {
+const RegionList = ({ name, weddingregionSelect, regionRef, value }) => {
   return (
     <>
       <select
@@ -1360,6 +1425,7 @@ const RegionList = ({ name, weddingregionSelect, regionRef }) => {
         aria-label=".form-select-lg example"
         style={{ fontSize: 18 }}
         name={name}
+        value={value}
         onChange={weddingregionSelect}
         ref={regionRef}
       >
