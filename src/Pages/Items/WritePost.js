@@ -25,26 +25,26 @@ const WritePost = () => {
     setCategory2(categoryOptions[category1][0]);
   }, [category1]);
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    try {
-      const formData = new FormData();
-      formData.append("file", image);
-      formData.append("category1", category1);
-      formData.append("category2", category2);
-      formData.append("itemName", itemName);
-      formData.append("content", content);
-      await axios.post("/item/insertItem", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
+  const postItem = () => {
+    const formData = new FormData();
+    formData.append("itemName", itemName);
+    formData.append("content", content);
+    formData.append("category1", category1);
+    formData.append("category2", category2);
+    formData.append("image", image);
+
+    axios
+      .post("/item/insertItem", formData)
+      .then((response) => {
+        console.log("성공:", response.data);
+        setItemName("");
+        setContent("");
+        setImage(null);
+        setCategory2(categoryOptions[category1][0]);
+      })
+      .catch((error) => {
+        console.error("실패:", error);
       });
-      console.log("게시물이 성공적으로 작성되었습니다!");
-      setItemName("");
-      setContent("");
-      setImage(null);
-      setCategory2(categoryOptions[category1][0]);
-    } catch (error) {
-      console.error("Error : ", error);
-    }
   };
 
   const handleCancel = () => {
@@ -76,29 +76,34 @@ const WritePost = () => {
           ))}
         </div>
       </div>
-      <form className="post-inputwrap" onSubmit={handleSubmit}>
-        <input
-          className="title-input"
-          type="text"
-          placeholder="제목"
-          value={itemName}
-          onChange={(event) => setItemName(event.target.value)}
-        />
-        <textarea
-          className="content-textarea"
-          placeholder="내용"
-          value={content}
-          onChange={(event) => setContent(event.target.value)}
-        />
-        <input type="file" onChange={handleImageChange} />
-        <button className="submit-button" type="submit">
+      <input
+        className="title-input"
+        type="text"
+        placeholder="제목"
+        value={itemName}
+        onChange={(event) => setItemName(event.target.value)}
+      />
+      <textarea
+        className="content-textarea"
+        placeholder="내용"
+        value={content}
+        onChange={(event) => setContent(event.target.value)}
+      />
+      <input type="file" onChange={handleImageChange} />
+      <div className="button-wrap">
+        <button
+          className="submit-button"
+          onClick={() => {
+            postItem();
+          }}
+        >
           게시하기
         </button>
 
         <button className="cancel-button" onClick={handleCancel}>
           취소
         </button>
-      </form>
+      </div>
       <Footer />
     </div>
   );

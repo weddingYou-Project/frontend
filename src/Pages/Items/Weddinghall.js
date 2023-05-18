@@ -43,7 +43,18 @@ const Weddinghall = ({ postSubmitted }) => {
 
   const manageLikeList = () => {
     setSelectLikeState(!selectLikeState);
-    console.log("좋아요");
+    const likeData = {
+      likeId: selectedImage.id,
+    };
+
+    axios
+      .post("/", likeData)
+      .then((response) => {
+        console.log("좋아요 성공:", response.data);
+      })
+      .catch((error) => {
+        console.error("좋아요 에러:", error);
+      });
   };
 
   const handleEditClick = () => {
@@ -53,7 +64,7 @@ const Weddinghall = ({ postSubmitted }) => {
     setNewContent(selectedImage.content);
   };
 
-  const handleSaveClick = () => {
+  const editItem = () => {
     let data = new FormData();
     data.append("file", file);
     data.append("itemId", itemId);
@@ -84,14 +95,9 @@ const Weddinghall = ({ postSubmitted }) => {
     setFile(e.target.files[0]);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    handleSaveClick();
-  };
-
   const handleDeleteClick = () => {
     axios
-      .post("/deleteItem", { itemId: selectedImage.id })
+      .post("/", { itemId: selectedImage.id })
       .then((res) => {
         console.log(res.data);
         const updatedImages = images.filter(
@@ -152,7 +158,7 @@ const Weddinghall = ({ postSubmitted }) => {
           style={modalStyles}
         >
           {editMode ? (
-            <form onSubmit={handleSubmit}>
+            <>
               <img src={selectedImage.url} alt={selectedImage.title} />
               <div className="post-inputwrap">
                 <input
@@ -169,7 +175,7 @@ const Weddinghall = ({ postSubmitted }) => {
                 <input type="file" onChange={handleFileChange} />
               </div>
               <div className="button-wrap">
-                <button className="edit-button" type="submit">
+                <button className="edit-button" onClick={() => editItem()}>
                   저장
                 </button>
                 <button
@@ -180,7 +186,7 @@ const Weddinghall = ({ postSubmitted }) => {
                   취소
                 </button>
               </div>
-            </form>
+            </>
           ) : (
             <>
               <img src={selectedImage.url} alt={selectedImage.title} />
