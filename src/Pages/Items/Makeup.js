@@ -10,7 +10,15 @@ import "../../Css/items.css";
 const Makeup = () => {
   const { category1 } = useParams();
   const title = "메이크업";
-  const category2 = ["내추럴", "스모키", "큐티", "러블리"];
+  const category2 = [
+    "헤어",
+    "로맨틱한",
+    "우아한",
+    "내추럴",
+    "스모키",
+    "큐티",
+    "러블리",
+  ];
   const [isAdmin, setIsAdmin] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState(category2[0]);
   const [isModalOpen, setIsModalOpen] = useState(false);
