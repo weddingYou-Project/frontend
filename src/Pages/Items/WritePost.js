@@ -6,12 +6,12 @@ import Footer from "../../Components/Footer";
 import "../../Css/WritePost.css";
 
 const categoryOptions = {
-  웨딩홀: ["일반", "호텔", "채플", "스몰", "야외", "전통혼례"],
-  의상: ["드레스", "남성예복", "한복"],
-  스튜디오: ["인물중심", "배경중심", "균형적인"],
-  메이크업: ["헤어", "메이크업"],
-  신혼여행: ["해외", "국내"],
-  부케: ["라운드", "드롭", "케스케이드", "핸드타이드"],
+  weddinghall: ["일반", "호텔", "채플", "스몰", "야외", "전통혼례"],
+  weddingoutfit: ["드레스", "남성예복", "한복"],
+  studio: ["인물중심", "배경중심", "균형적인"],
+  makeup: ["헤어", "메이크업"],
+  honeymoon: ["해외", "국내"],
+  bouquet: ["라운드", "드롭", "케스케이드", "핸드타이드"],
 };
 
 const WritePost = () => {
@@ -76,20 +76,22 @@ const WritePost = () => {
           ))}
         </div>
       </div>
-      <input
-        className="title-input"
-        type="text"
-        placeholder="제목"
-        value={itemName}
-        onChange={(event) => setItemName(event.target.value)}
-      />
-      <textarea
-        className="content-textarea"
-        placeholder="내용"
-        value={content}
-        onChange={(event) => setContent(event.target.value)}
-      />
-      <input type="file" onChange={handleImageChange} />
+      <div className="input-wrap">
+        <input
+          className="title-input"
+          type="text"
+          placeholder="제목"
+          value={itemName}
+          onChange={(event) => setItemName(event.target.value)}
+        />
+        <textarea
+          className="content-textarea"
+          placeholder="내용"
+          value={content}
+          onChange={(event) => setContent(event.target.value)}
+        />
+        <input type="file" onChange={handleImageChange} />
+      </div>
       <div className="button-wrap">
         <button
           className="submit-button"

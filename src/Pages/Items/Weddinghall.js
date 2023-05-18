@@ -13,6 +13,7 @@ const Weddinghall = ({ postSubmitted }) => {
   const { category1 } = useParams();
   const title = "웨딩홀";
   const category2 = ["일반", "호텔", "채플", "스몰", "야외", "전통혼례"];
+  const [isAdmin, setIsAdmin] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState(category2[0]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
@@ -246,26 +247,30 @@ const Weddinghall = ({ postSubmitted }) => {
                   찜하기
                 </button>
               )}
-              <div className="button-wrapper">
-                <button className="edit-button" onClick={handleEditClick}>
-                  수정
-                </button>
-                <button className="delete-button" onClick={handleDeleteClick}>
-                  삭제
-                </button>
-              </div>
+              {isAdmin && (
+                <div className="button-wrapper">
+                  <button className="edit-button" onClick={handleEditClick}>
+                    수정
+                  </button>
+                  <button className="delete-button" onClick={handleDeleteClick}>
+                    삭제
+                  </button>
+                </div>
+              )}
             </>
           )}
         </Modal>
       )}
-      <button
-        className="submit-button"
-        onClick={() => {
-          window.location.href = `/writepost/${category1}`;
-        }}
-      >
-        글쓰기
-      </button>
+      {isAdmin && (
+        <button
+          className="submit-button"
+          onClick={() => {
+            window.location.href = `/writepost/${category1}`;
+          }}
+        >
+          글쓰기
+        </button>
+      )}
       <Footer />
     </div>
   );

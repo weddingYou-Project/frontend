@@ -9,7 +9,7 @@ import "../../Css/items.css";
 
 const Weddingoutfit = () => {
   const { category1 } = useParams();
-  const title = category1;
+  const title = "의상";
   const category2 = ["드레스", "남성예복", "한복"];
   const [images, setImages] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(category2[0]);
