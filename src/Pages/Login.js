@@ -25,14 +25,17 @@ function Login() {
 
   const handleInputId = (e) => {
     setInputId(e.target.value);
+    console.log(e.target.value);
   };
 
   const handleInputPw = (e) => {
     setInputPw(e.target.value);
+    console.log(e.target.value);
   };
 
   const handleRole = (e) => {
     setRole(e.target.value);
+    console.log(e.target.value);
   };
 
   const onClickLogin = () => {
@@ -56,7 +59,9 @@ function Login() {
             navigate("/");
           }
         })
-        .catch();
+        .catch((e) => {
+          console.log(e);
+        });
     } else if (Role === "플래너") {
       axios
         .post("/planner/login", {
@@ -77,7 +82,9 @@ function Login() {
             navigate("/");
           }
         })
-        .catch();
+        .catch((e) => {
+          console.log(e);
+        });
     }
   };
 
