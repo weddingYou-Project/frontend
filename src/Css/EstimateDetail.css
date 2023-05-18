@@ -51,7 +51,7 @@
     cursor: pointer;
 }
 
-.label-design-detail {
+/* .label-design-detail {
     padding : 10px 20px;
     border-radius: 5px;
     background: white;
@@ -60,10 +60,10 @@
     width: 90%; 
     float: left;
     transition: all 0.2s;
-}
+} */
 
 
-.choosebox-detail input[type="checkbox"]:checked + label {
+/* .choosebox-detail input[type="checkbox"]:checked + label {
     background: #eee;
     color:black;
     border: 1px solid rgb(201, 198, 198);
@@ -75,7 +75,7 @@
     color : black;
     border: 1px solid rgb(201, 198, 198);
 }
-
+ */
 
 
 .borderBottom-detail {
@@ -83,40 +83,40 @@
 }
 
 
-.exampleimagebox-detail {
+/* .exampleimagebox-detail {
     width: 100%;
     height: 450px;
-    /* background: coral; */
+    background: coral;
     padding: 10px;
 }
 
 .exampleimage-detail {
     width: 100%;
     height: 100%;
-    /* background: cadetblue; */
+    background: cadetblue;
     position: relative;
 }
 
 .exampleimage-detail img {
     width: 100%;
     height: 100%;
-}
+} */
 
 .height100-detail {
     height: 100%;
 }
 
-.displaynone-detail {
+/* .displaynone-detail {
     display: none;
-}
+} */
 
 
-.budget-input-detail {
+/* .budget-input-detail {
     direction: ltr;
     text-align: right;
-}
+} */
 
-.Accordion-explanation-detail {
+/* .Accordion-explanation-detail {
     padding-bottom: 0px;
     padding-top : 20px;
     padding-left: 15px;
@@ -140,12 +140,12 @@
 .viewing-detail {
     height: 120px;
     opacity: 1;
-}
+} */
 
 
 
 
-.budget-btn-detail {
+/* .budget-btn-detail {
     width: 30%;
     height: 30px;
     background: #eee;
@@ -158,10 +158,10 @@
     align-items: center;
     font-size: 14px;
 
-}
+} */
 
 
-.Accordion-explanation-detail li {
+/* .Accordion-explanation-detail li {
     list-style: none;
     margin-top: 3px;
     font-size: var(--main-font-size)-0.5px;
@@ -169,11 +169,11 @@
 
 .accordion-button-detail span {
     font-size: 24px;
-}
+} */
 
 
 
-.imageupload-btn-detail {
+/* .imageupload-btn-detail {
     padding: 5px 20px;
     background: #eee;
     color:black;
@@ -188,10 +188,10 @@
 
 .budget-btn-detail:hover {
     background: #dddddd;
-}
+} */
 
 
-.image-clear-btn-detail {
+/* .image-clear-btn-detail {
     font-size: 12px;
     padding: 1px;
     border-radius: 5px;
@@ -199,52 +199,13 @@
     width: 40px;
     background: #110606;
     color:white;
-}
+} */
 
-.badge-detail {
+/* .badge-detail {
     font-size: 12px;
     font-weight: 100;
-}
+} */
 
-
-
-.imagefilenamebox-detail {
-    padding: 3px;
-    width: 33%;
-    float: left;
-}
-.imagefilenamecontent-detail {
-    background: gray;
-    border-radius: 10px;
-    text-align: center;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden; 
-    padding: 4px 10px;
-    color : white;
-    font-size: 15px;
-    position: relative;
-}
-
-.imagefilename-overlay-detail {
-    width: 100%;
-    height: 100%;
-    bottom: 0;
-    right: 0;
-    border-radius:0px;
-    position: absolute;
-    background: rgba(0,0,0,0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: all 0.3s;
-    opacity: 0;
-    padding: 4px 10px;
-}
-
-.imagefilename-overlay-detail:hover {
-    opacity: 1;
-}
 
 
 .modal-title-detail>span{
@@ -253,10 +214,10 @@
 
 
 .result-detail {
-    padding : 10px 0px;
+    padding : 10px 20px;
     border-radius: 5px;
     /* box-shadow: 1px 1px 1px #eee; */
-    /* border: 0.5px solid #eee; */
+    border: 1px solid #eee;
     background: white;
     color: black;
     width: 100%; 
@@ -278,7 +239,7 @@
 }
 
 
-.매칭이완료된게시글박스 {
+.match-complete-box {
    width: 100vw;
    background: rgba(0,0,0,0.5);
    height: 100%;
@@ -291,14 +252,14 @@
    z-index: 10000;
 }
 
-.매칭이완료된게시글박스내용 {
+.match-complete-box-content {
     /* background: blue; */
     padding: 20px;
     color:white;
 }
 
 
-.버튼박스 {
+.match-complete-btn-box {
     width: 50%;
     float: left;
     display: flex;
@@ -307,7 +268,7 @@
     padding: 20px;
 }
 
-.그래도보기 {
+.match-complete-btn {
     width: 100%;
     height: 100%;
     color: #f9f5f5;
@@ -326,7 +287,7 @@
     align-items: center;
 }
 
-.다담는박스 {
+.image-actualsize {
     max-width: 1000px;
     height: 100%;
     width: 100%;
@@ -336,13 +297,23 @@
     align-items: center;
 }
 
-.다담는박스 img {
+.image-actualsize img {
     height: 100%;
     width: 100%;
 }
 
+
+.update-button-box {
+    display: flex;
+    justify-content: center;
+    margin-top: 100px;
+
+}
+
+
+
  @media screen and (max-width:556px) {
-    .그래도보기 {
+    .match-complete-btn {
         font-size: 17px;
     }
     

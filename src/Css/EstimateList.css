@@ -176,6 +176,7 @@ div {
     position: relative; 
     padding: 10px;
     /* background: cornflowerblue; */
+    font-size: 24px;
 }
 
 .filter-box:hover {
@@ -191,47 +192,9 @@ div {
     /* border-bottom: 1px solid #eee; */
 }
 
-
-
 /**/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*임시로 만들ㄹ어본 작성버튼*/
-.작성버튼 {
+.estimate-write-btn {
     width: 50px;
     height: 50px;
     border-radius: 20px;
@@ -246,14 +209,14 @@ div {
     color:white;
     z-index: 1;
 }
-.작성버튼 i {
+.estimate-write-btn i {
     position: absolute;
     left: 12px ;
     bottom: 4px;
 }
 
 
-.작성버튼자식 {
+.estimate-write-btn-overlay {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -273,7 +236,7 @@ div {
 
 }
 
-.작성버튼:hover .작성버튼자식 {
+.estimate-write-btn:hover .estimate-write-btn-overlay {
     opacity: 1;
     width: 130px;
     color: white;
@@ -282,7 +245,7 @@ div {
 }
 
 
-.맨위로가는버튼 {
+.scrolltop {
     width: 50px;
     height: 50px;
     border-radius: 20px;
@@ -300,6 +263,9 @@ div {
 }
 
 
+.modal-title {
+    font-size: 35px;
+}
 
 /*임시 작성버튼 끝*/
 

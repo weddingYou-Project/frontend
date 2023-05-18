@@ -97,76 +97,58 @@ const EstimateList = () => {
   const SortSelector = () => {
     if (sort === "최신순") {
       return getdata;
-    }
-    if (sort === "높은가격순") {
+    } else if (sort === "높은가격순") {
       let sortresult = getdata.sort((a, b) => b.budget - a.budget);
       return sortresult;
-    }
-    if (sort === "낮은가격순") {
+    } else if (sort === "낮은가격순") {
       let sortresult = getdata.sort((a, b) => a.budget - b.budget);
       return sortresult;
-    }
-    if (sort === "높은조회수순") {
+    } else if (sort === "높은조회수순") {
       let sortresult = getdata.sort((a, b) => b.viewcount - a.viewcount);
       return sortresult;
-    }
-    if (sort === "드레스(머메이드)") {
+    } else if (sort === "드레스(머메이드)") {
       let sortresult = getdata.filter((e) => e.dress.includes("머메이드"));
       return sortresult;
-    }
-    if (sort === "드레스(벨라인)") {
+    } else if (sort === "드레스(벨라인)") {
       let sortresult = getdata.filter((e) => e.dress.includes("벨라인"));
       return sortresult;
-    }
-    if (sort === "드레스(H라인)") {
+    } else if (sort === "드레스(H라인)") {
       let sortresult = getdata.filter((e) => e.dress.includes("H라인"));
       return sortresult;
-    }
-    if (sort === "드레스(프린세스)") {
+    } else if (sort === "드레스(프린세스)") {
       let sortresult = getdata.filter((e) => e.dress.includes("프린세스"));
       return sortresult;
-    }
-    if (sort === "드레스(엠파이어)") {
+    } else if (sort === "드레스(엠파이어)") {
       let sortresult = getdata.filter((e) => e.dress.includes("엠파이어"));
       return sortresult;
-    }
-    if (sort === "드레스(A라인)") {
+    } else if (sort === "드레스(A라인)") {
       let sortresult = getdata.filter((e) => e.dress.includes("A라인"));
       return sortresult;
-    }
-    if (sort === "메이크업(로맨틱)") {
+    } else if (sort === "메이크업(로맨틱)") {
       let sortresult = getdata.filter((e) => e.makeup.includes("로맨틱"));
       return sortresult;
-    }
-    if (sort === "메이크업(포인트)") {
+    } else if (sort === "메이크업(포인트)") {
       let sortresult = getdata.filter((e) => e.makeup.includes("포인트"));
       return sortresult;
-    }
-    if (sort === "메이크업(내추럴)") {
+    } else if (sort === "메이크업(내추럴)") {
       let sortresult = getdata.filter((e) => e.makeup.includes("내추럴"));
       return sortresult;
-    }
-    if (sort === "메이크업(스모키)") {
+    } else if (sort === "메이크업(스모키)") {
       let sortresult = getdata.filter((e) => e.makeup.includes("스모키"));
       return sortresult;
-    }
-    if (sort === "메이크업(큐티)") {
+    } else if (sort === "메이크업(큐티)") {
       let sortresult = getdata.filter((e) => e.makeup.includes("큐티"));
       return sortresult;
-    }
-    if (sort === "메이크업(러블리)") {
+    } else if (sort === "메이크업(러블리)") {
       let sortresult = getdata.filter((e) => e.makeup.includes("러블리"));
       return sortresult;
-    }
-    if (sort === "스튜디오(인물중심)") {
+    } else if (sort === "스튜디오(인물중심)") {
       let sortresult = getdata.filter((e) => e.studio.includes("인물중심"));
       return sortresult;
-    }
-    if (sort === "스튜디오(배경중심)") {
+    } else if (sort === "스튜디오(배경중심)") {
       let sortresult = getdata.filter((e) => e.studio.includes("배경중심"));
       return sortresult;
-    }
-    if (sort === "스튜디오(균형적인)") {
+    } else if (sort === "스튜디오(균형적인)") {
       let sortresult = getdata.filter((e) => e.studio.includes("균형적인"));
       return sortresult;
     }
@@ -195,17 +177,17 @@ const EstimateList = () => {
     <div className="mainlayout">
       <NavigationBar title={"견적서 목록"} />
       <div
-        className="맨위로가는버튼"
+        className="scrolltop"
         onClick={() => {
           onScrollTop();
         }}
       >
         <i class="bi bi-chevron-up"></i>
       </div>
-      <div className="작성버튼">
+      <div className="estimate-write-btn">
         <i class="bi bi-pencil-square"></i>
         <div
-          className="작성버튼자식"
+          className="estimate-write-btn-overlay"
           onClick={() => {
             navigate("/estimateform");
           }}
@@ -386,7 +368,7 @@ const SortModal = ({
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">
+            <h1 class="modal-title" id="exampleModalLabel">
               게시글 필터링
             </h1>
             <button
