@@ -35,7 +35,8 @@ const WritePost = () => {
   const { category1 } = useParams();
   const [itemName, setItemName] = useState("");
   const [content, setContent] = useState("");
-  const [image, setImage] = useState(selectImg);
+  const [image, setImage] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(selectImg);
   const [category2, setCategory2] = useState(categoryOptions[category1][0]);
   const [selectedCategory1, setSelectedCategory1] = useState(
     selectedCategory[category1]
@@ -57,6 +58,8 @@ const WritePost = () => {
         setContent("");
         setImage(null);
         setCategory2(categoryOptions[category1][0]);
+        setPreviewUrl(selectImg);
+        setImage(null);
       })
       .catch((error) => {
         console.error("실패:", error);
@@ -68,6 +71,8 @@ const WritePost = () => {
     setContent("");
     setImage(null);
     setCategory2(categoryOptions[category1][0]);
+    setPreviewUrl(selectImg);
+    setImage(null);
   };
 
   const handleImageChange = (event) => {
@@ -76,11 +81,11 @@ const WritePost = () => {
     try {
       const fileReader = new FileReader();
       fileReader.onload = () => {
-        setImage(fileReader.result);
+        setPreviewUrl(fileReader.result);
       };
       fileReader.readAsDataURL(selectedImage);
     } catch (e) {
-      setImage(selectImg);
+      setPreviewUrl(selectImg);
     }
   };
   return (
@@ -120,7 +125,7 @@ const WritePost = () => {
         />
         <input type="file" onChange={handleImageChange} />
         <img
-          src={image}
+          src={previewUrl}
           alt=""
           style={{
             width: "200px",

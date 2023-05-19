@@ -140,9 +140,18 @@ const Studio = () => {
   };
 
   return (
-    <div className="mainlayout">
+    <div className="mainlayout" style={{ minHeight: "100vh" }}>
       <NavigationBar title={title} category1={category1} isAdmin={isAdmin} />
-      <div className="category-wrapper" style={{ marginTop: "100px" }}>
+      <div
+        className="category-wrapper"
+        style={{
+          position: "fixed",
+          top: "58px",
+          background: "white",
+          height: "70px",
+          width: "557px",
+        }}
+      >
         {category2.map((category) => (
           <div
             key={category}
@@ -150,13 +159,20 @@ const Studio = () => {
               selectedCategory === category ? "active" : ""
             }`}
             onClick={() => handleCategoryClick(category)}
-            style={{ fontSize: "1.3em" }}
+            style={{ fontSize: "1.3em", marginTop: "20px" }}
           >
             {category}
           </div>
         ))}
       </div>
-      <div className="image-wrapper">
+      <div
+        className="image-wrapper"
+        style={{
+          marginTop: "150px",
+          minHeight: "100%",
+          marginBottom: "100px",
+        }}
+      >
         {keyIndex.map((i) => (
           <img
             //   key={image.id}

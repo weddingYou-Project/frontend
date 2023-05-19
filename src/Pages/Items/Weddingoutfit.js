@@ -154,7 +154,14 @@ const Weddingoutfit = () => {
       <NavigationBar title={title} category1={category1} isAdmin={isAdmin} />
       <div
         className=""
-        style={{ marginTop: "100px", width: "100%", marginLeft: "20px" }}
+        style={{
+          position: "fixed",
+          top: "72px",
+          background: "white",
+          height: "115px",
+          width: "537px",
+          paddingLeft: "20px",
+        }}
       >
         {category2.map((category) => (
           <div
@@ -163,14 +170,26 @@ const Weddingoutfit = () => {
               selectedCategory === category ? "active" : ""
             }`}
             onClick={() => handleCategoryClick(category)}
-            style={{ fontSize: "1.3em", float: "left", marginBottom: "10px" }}
+            style={{
+              fontSize: "1.3em",
+              float: "left",
+              marginBottom: "5px",
+              marginTop: "15px",
+            }}
           >
             {category}
           </div>
         ))}
       </div>
 
-      <div className="image-wrapper" style={{ clear: "both" }}>
+      <div
+        className="image-wrapper"
+        style={{
+          marginTop: "185px",
+          minHeight: "100%",
+          marginBottom: "100px",
+        }}
+      >
         {keyIndex.map((i) => (
           <img
             //   key={image.id}
