@@ -150,10 +150,13 @@ const Weddinghall = ({ postSubmitted }) => {
             src={image.url}
             alt={image.title}
             onClick={() => handleImageClick(image)}
+            data-bs-toggle="modal"
+            data-bs-target="#imgDetailModal"
+            style={{ cursor: "pointer" }}
           />
         ))}
       </div>
-      {selectedImage && (
+      {/* {selectedImage && (
         <Modal
           isOpen={isModalOpen}
           onRequestClose={handleCloseModal}
@@ -261,7 +264,7 @@ const Weddinghall = ({ postSubmitted }) => {
             </>
           )}
         </Modal>
-      )}
+      )} */}
       {isAdmin && (
         <button
           className="submit-button"
@@ -274,6 +277,116 @@ const Weddinghall = ({ postSubmitted }) => {
         </button>
       )}
       <Footer />
+      {/* 이미지 상세정보 모달창 */}
+      <div
+        class="modal fade"
+        id="imgDetailModal"
+        tabindex="-1"
+        aria-labelledby="imgDetailModal"
+        aria-hidden="true"
+      >
+        <div
+          class="modal-dialog modal-dialog-centered"
+          style={{ width: "510px" }}
+        >
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1
+                class="modal-title justify-content-center "
+                id="imgDetailModal"
+                style={{ fontSize: "1.9em" }}
+                //  ref={modalImgTitle}
+              >
+                - -
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div
+              class="modal-body"
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alginItems: "center",
+                displayContent: "center",
+                height: "100%",
+                width: "100%",
+                marginTop: "50px",
+              }}
+            >
+              <div
+                class="has-validation"
+                style={{
+                  height: "100%",
+                  width: "480px",
+                }}
+              >
+                <img
+                  src=""
+                  style={{
+                    width: "430px",
+                    height: "470px",
+                    marginBottom: "20px",
+                    marginTop: "-50px",
+                    marginLeft: "20px",
+                  }}
+                  alt=""
+                  //   ref={modalImg}
+                />
+                <div
+                  style={{
+                    fontSize: "1.5em",
+                    padding: "10px",
+                  }}
+                >
+                  상세정보
+                </div>
+                <p
+                  style={{
+                    fontSize: "1.3em",
+                    width: "460px",
+                    border: "1px solid black",
+                    padding: "10px",
+                  }}
+                  //   ref={modalImgContent}
+                ></p>
+              </div>
+            </div>
+            <div class="modal-footer">
+              {isAdmin && (
+                <div className="button-wrapper">
+                  <button className="edit-button" onClick={handleEditClick}>
+                    수정
+                  </button>
+                  <button className="delete-button" onClick={handleDeleteClick}>
+                    삭제
+                  </button>
+                </div>
+              )}
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+                //   onClick={gotoDetailInfo}
+              >
+                상세정보 페이지 이동
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-bs-dismiss="modal"
+              >
+                닫기
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/*이미지 상세정보 모달창  */}
     </div>
   );
 };
