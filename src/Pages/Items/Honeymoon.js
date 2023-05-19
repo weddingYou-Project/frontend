@@ -213,7 +213,7 @@ const Honeymoon = () => {
             onClick={showimgDetail}
             data-bs-toggle="modal"
             data-bs-target="#imgDetailModal"
-            style={{ cursor: "pointer" }}
+            style={{ cursor: "pointer", width: "250px", height: "250px" }}
             data-bs-src={previewImg[i]}
             data-bs-category="신혼여행"
             data-bs-itemName={itemName[i]}

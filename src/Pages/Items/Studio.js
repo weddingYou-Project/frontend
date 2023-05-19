@@ -199,7 +199,7 @@ const Studio = () => {
             onClick={showimgDetail}
             data-bs-toggle="modal"
             data-bs-target="#imgDetailModal"
-            style={{ cursor: "pointer" }}
+            style={{ cursor: "pointer", width: "250px", height: "250px" }}
             data-bs-src={previewImg[i]}
             data-bs-category="스튜디오"
             data-bs-itemName={itemName[i]}
