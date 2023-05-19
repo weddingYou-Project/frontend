@@ -22,8 +22,12 @@ const MenuList = () => {
       <div className="menu-list" style={{ marginTop: "100px" }}>
         {Category1.map((category1, index) => (
           <div key={index} className="menu-list-item-container">
-            <h2>
-              <Link className="menu-list-item" to={`/menu/${category1.value}`}>
+            <h2 style={{ marginTop: "20px" }}>
+              <Link
+                className="menu-list-item"
+                to={`/menu/${category1.value}`}
+                style={{ fontSize: "0.9em" }}
+              >
                 {category1.label}
               </Link>
             </h2>
