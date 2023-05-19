@@ -13,7 +13,7 @@ const Makeup = () => {
   const category2 = [
     "헤어",
     "로맨틱한",
-    "우아한",
+    "포인트",
     "내추럴",
     "스모키",
     "큐티",
@@ -145,7 +145,7 @@ const Makeup = () => {
   return (
     <div className="mainlayout">
       <NavigationBar title={title} />
-      <div className="category-wrapper">
+      <div className="category-wrapper" style={{ marginTop: "100px" }}>
         {category2.map((category) => (
           <div
             key={category}

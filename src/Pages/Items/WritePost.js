@@ -70,7 +70,7 @@ const WritePost = () => {
   return (
     <div className="mainlayout">
       <NavigationBar title="글 작성" />
-      <div className="category-container">
+      <div className="category-container" style={{ marginTop: "100px" }}>
         <div className="category-buttons">
           {categoryOptions[category1].map((option, index) => (
             <button

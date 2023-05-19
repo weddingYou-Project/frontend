@@ -146,7 +146,7 @@ const Weddingoutfit = () => {
   return (
     <div className="mainlayout">
       <NavigationBar title={title} />
-      <div className="category-wrapper">
+      <div className="category-wrapper" style={{ marginTop: "100px" }}>
         {category2.map((category) => (
           <div
             key={category}

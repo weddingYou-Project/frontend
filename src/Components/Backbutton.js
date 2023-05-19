@@ -52,6 +52,27 @@ function BackButton() {
             } else if (originalLocation === "searchitems") {
               navigate("/searchItems", { state: { keyword: searchedKeyword } });
             }
+          } else if (
+            path.indexOf("/menu/weddinghall") !== -1 ||
+            path.indexOf("/menu/studio") !== -1 ||
+            path.indexOf("/menu/weddingoutfit") !== -1 ||
+            path.indexOf("/menu/makeup") !== -1 ||
+            path.indexOf("/menu/honeymoon") !== -1 ||
+            path.indexOf("/menu/bouquet") !== -1
+          ) {
+            navigate("/menu");
+          } else if (path.indexOf("/writepost/weddinghall") !== -1) {
+            navigate("/menu/weddinghall");
+          } else if (path.indexOf("/writepost/studio") !== -1) {
+            navigate("/menu/studio");
+          } else if (path.indexOf("/writepost/weddingoutfit") !== -1) {
+            navigate("/menu/weddingoutfit");
+          } else if (path.indexOf("/writepost/makeup") !== -1) {
+            navigate("/menu/makeup");
+          } else if (path.indexOf("/writepost/honeymoon") !== -1) {
+            navigate("/menu/honeymoon");
+          } else if (path.indexOf("/writepost/bouquet") !== -1) {
+            navigate("/menu/bouquet");
           } else {
             navigate("/");
           }
