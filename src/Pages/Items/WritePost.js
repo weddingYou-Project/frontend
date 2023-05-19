@@ -22,6 +22,14 @@ const categoryOptions = {
   honeymoon: ["해외", "국내"],
   bouquet: ["라운드", "드롭", "케스케이드", "핸드타이드"],
 };
+const selectedCategory = {
+  weddinghall: "웨딩홀",
+  weddingoutfit: "의상",
+  studio: "스튜디오",
+  makeup: "메이크업",
+  honeymooon: "신혼여행",
+  bouquet: "부케",
+};
 
 const WritePost = () => {
   const { category1 } = useParams();
@@ -29,18 +37,17 @@ const WritePost = () => {
   const [content, setContent] = useState("");
   const [image, setImage] = useState(null);
   const [category2, setCategory2] = useState(categoryOptions[category1][0]);
-
-  useEffect(() => {
-    setCategory2(categoryOptions[category1][0]);
-  }, [category1]);
+  const [selectedCategory1, setSelectedCategory1] = useState(
+    selectedCategory[category1]
+  );
 
   const postItem = () => {
     const formData = new FormData();
     formData.append("itemName", itemName);
     formData.append("content", content);
-    formData.append("category1", category1);
+    formData.append("category1", selectedCategory1);
     formData.append("category2", category2);
-    formData.append("image", image);
+    formData.append("file", image);
 
     axios
       .post("/item/insertItem", formData)
@@ -66,6 +73,11 @@ const WritePost = () => {
   const handleImageChange = (event) => {
     const selectedImage = event.target.files[0];
     setImage(selectedImage);
+    const fileReader = new FileReader();
+    fileReader.onload = () => {
+      setImage(fileReader.result);
+    };
+    fileReader.readAsDataURL(selectedImage);
   };
   return (
     <div className="mainlayout">
@@ -78,7 +90,9 @@ const WritePost = () => {
               className={`category-button ${
                 category2 === option ? "active" : ""
               }`}
-              onClick={() => setCategory2(option)}
+              onClick={() => {
+                setCategory2(option);
+              }}
             >
               {option}
             </button>
@@ -100,8 +114,21 @@ const WritePost = () => {
           onChange={(event) => setContent(event.target.value)}
         />
         <input type="file" onChange={handleImageChange} />
+        <img
+          src={image}
+          alt=""
+          style={{
+            width: "200px",
+            height: "200px",
+            marginTop: "20px",
+            marginBottom: "-20px",
+          }}
+        />
       </div>
-      <div className="button-wrap">
+      <div
+        className="button-wrap"
+        style={{ justifyContent: "center", marginRight: "20px" }}
+      >
         <button
           className="submit-button"
           onClick={() => {
