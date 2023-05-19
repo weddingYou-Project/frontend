@@ -13,6 +13,8 @@ import WritePost from "./Pages/Items/WritePost";
 import NotFound from "./Pages/NotFound";
 import EstimateForm from "./Pages/EstimateForm";
 import Item from "./Components/Item";
+import Notice from "./Pages/Notice";
+import CustomerService from "./Pages/CustomerService";
 
 function App() {
   return (
@@ -36,6 +38,8 @@ function App() {
       <Route path="/menu" element={<MenuList />} />
       <Route path="/menu/:category1" element={<Item />} />
       <Route path="/writepost/:category1" element={<WritePost />} />
+      <Route path="/notice" element={<Notice />} />
+      <Route path="/customerservice" element={<CustomerService />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

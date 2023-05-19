@@ -13,6 +13,11 @@ const Category1 = [
   { label: "부케", value: "bouquet" },
 ];
 
+const Service = [
+  { label: "공지사항", value: "notice" },
+  { label: "고객센터", value: "customerservice" },
+];
+
 const MenuList = () => {
   const title = "메뉴";
 
@@ -25,6 +30,17 @@ const MenuList = () => {
             <h2>
               <Link className="menu-list-item" to={`/menu/${category1.value}`}>
                 {category1.label}
+              </Link>
+            </h2>
+          </div>
+        ))}
+      </div>
+      <div className="service-menu-list">
+        {Service.map((service, index) => (
+          <div key={index} className="menu-list-item-container">
+            <h2>
+              <Link className="menu-list-item" to={`/${service.value}`}>
+                {service.label}
               </Link>
             </h2>
           </div>
