@@ -27,6 +27,7 @@ const Bouquet = () => {
   const [itemContent, setItemContent] = useState([]);
   const [keyIndex, setKeyIndex] = useState([]);
   const [modalImgoriginalTitle, setModalImgoriginalTitle] = useState("");
+  const [selectedItemId, setSelectedItemId] = useState();
 
   let keyIndexArr = [];
   let list = [];
@@ -103,6 +104,7 @@ const Bouquet = () => {
     modalImgContent.current.innerText = e.target.dataset.bsItemcontent;
     modalImgTitle.current.innerText = `- ${e.target.dataset.bsItemname} -`;
     setModalImgoriginalTitle(e.target.dataset.bsItemname);
+    setSelectedItemId(e.target.dataset.bsItemid);
   };
 
   const handleCategoryClick = (category) => {
@@ -152,16 +154,12 @@ const Bouquet = () => {
 
   const handleDeleteClick = () => {
     axios
-      .post("/", { itemId: selectedImage.id })
+      .post(`/item/deleteItem/${selectedItemId}`)
       .then((res) => {
-        console.log(res.data);
-        const updatedImages = images.filter(
-          (image) => image.id !== selectedImage.id
-        );
-        setImages(updatedImages);
+        console.log(res);
       })
-      .catch((err) => {
-        console.error(err);
+      .catch((e) => {
+        console.log(e);
       });
   };
 
@@ -304,8 +302,8 @@ const Bouquet = () => {
                   </button>
                   <button
                     className="delete-button"
-                    onClick={handleDeleteClick}
-                    data-bs-dismiss="modal"
+                    data-bs-toggle="modal"
+                    data-bs-target="#deleteItemModal"
                   >
                     삭제
                   </button>
@@ -334,6 +332,44 @@ const Bouquet = () => {
         </div>
       </div>
       {/*이미지 상세정보 모달창  */}
+      {/* 아이템 삭제 메시지 창 */}
+      <div
+        class="modal fade"
+        id="deleteItemModal"
+        tabindex="-1"
+        aria-labelledby="deleteItemModal"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1
+                class="modal-title text-center "
+                id="deleteItemModal"
+                style={{ fontSize: "1.4em" }}
+              >
+                - 아이템 삭제 -
+              </h1>
+            </div>
+            <div class="modal-body text-center" style={{ fontSize: "1.4em" }}>
+              정말 삭제하시겠습니까?
+            </div>
+            <div class="modal-footer justify-content-center">
+              <button
+                className="edit-button"
+                onClick={handleDeleteClick}
+                data-bs-dismiss="modal"
+              >
+                예
+              </button>
+              <button className="delete-button" data-bs-dismiss="modal">
+                아니오
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* 아이템 삭제 메시지 창 */}
     </div>
   );
 };
