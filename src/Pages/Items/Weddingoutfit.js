@@ -20,6 +20,7 @@ const Weddingoutfit = () => {
     "남성예복",
     "한복",
   ];
+  const category2_1 = ["남성예복", "한복"];
   const [isAdmin, setIsAdmin] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState(category2[0]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -146,7 +147,7 @@ const Weddingoutfit = () => {
   return (
     <div className="mainlayout">
       <NavigationBar title={title} />
-      <div className="category-wrapper" style={{ marginTop: "100px" }}>
+      <div className="" style={{ marginTop: "100px", width: "100%" }}>
         {category2.map((category) => (
           <div
             key={category}
@@ -154,12 +155,14 @@ const Weddingoutfit = () => {
               selectedCategory === category ? "active" : ""
             }`}
             onClick={() => handleCategoryClick(category)}
+            style={{ fontSize: "1.3em", float: "left", marginBottom: "10px" }}
           >
             {category}
           </div>
         ))}
       </div>
-      <div className="image-wrapper">
+
+      <div className="image-wrapper" style={{ clear: "both" }}>
         {images.map((image) => (
           <img
             key={image.id}
@@ -284,6 +287,7 @@ const Weddingoutfit = () => {
           onClick={() => {
             window.location.href = `/writepost/${category1}`;
           }}
+          style={{ fontSize: "1.3em" }}
         >
           글쓰기
         </button>

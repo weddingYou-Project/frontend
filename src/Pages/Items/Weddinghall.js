@@ -137,6 +137,7 @@ const Weddinghall = ({ postSubmitted }) => {
               selectedCategory === category ? "active" : ""
             }`}
             onClick={() => handleCategoryClick(category)}
+            style={{ fontSize: "1.3em" }}
           >
             {category}
           </div>
@@ -267,6 +268,7 @@ const Weddinghall = ({ postSubmitted }) => {
           onClick={() => {
             window.location.href = `/writepost/${category1}`;
           }}
+          style={{ fontSize: "1.3em" }}
         >
           글쓰기
         </button>
