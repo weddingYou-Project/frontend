@@ -31,6 +31,8 @@ const EditPost = () => {
   const [itemName, setItemName] = useState(originalTitle);
   const [content, setContent] = useState(originalContent);
   const [image, setImage] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
 
   const postItem = () => {
     const formData = new FormData();
@@ -65,6 +67,58 @@ const EditPost = () => {
     const selectedImage = event.target.files[0];
     setImage(selectedImage);
   };
+
+  useEffect(() => {
+    axios
+      .post(`/item/getitemImg/${itemId}`)
+      .then((res) => {
+        const byteCharacters = atob(res.data);
+        const byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+          byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        const blob = new Blob([byteArray], { type: "image/jpeg" });
+        setImage(blob);
+        const reader = new FileReader();
+        reader.onload = () => {
+          setPreviewUrl(reader.result);
+          setImage(reader.result);
+        };
+        reader.readAsDataURL(blob);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
+
+  const onChangeItemPicture = (e) => {
+    const selectedFile = e.target.files[0];
+    setSelectedFile(selectedFile);
+    const fileReader = new FileReader();
+    fileReader.onload = () => {
+      setPreviewUrl(fileReader.result);
+    };
+    fileReader.readAsDataURL(selectedFile);
+  };
+
+  const updateItemPicture = (e) => {
+    const formData = new FormData();
+
+    formData.append("file", selectedFile);
+    formData.append("itemName", itemName);
+    formData.append("content", content);
+    axios
+      .post(`/item/updateItem/${itemId}`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      })
+      .then((res) => {
+        setImage(previewUrl);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
   return (
     <div className="mainlayout">
       <NavigationBar title="글 수정" />
@@ -84,6 +138,19 @@ const EditPost = () => {
         </div> */}
       </div>
       <div className="post-inputwrap">
+        <img
+          src={image}
+          style={{
+            width: "200px",
+            height: "200px",
+            cursor: "pointer",
+            marginBottom: "30px",
+            marginLeft: "110px",
+          }}
+          data-bs-toggle="modal"
+          data-bs-target="#profileUpdateModal"
+          alt=""
+        />
         <input
           className="title-input"
           type="text"
@@ -101,9 +168,8 @@ const EditPost = () => {
             setContent(event.target.value);
           }}
         />
-        <input type="file" onChange={handleImageChange} />
       </div>
-      <div className="button-wrap">
+      <div className="button-wrap" style={{ marginLeft: "170px" }}>
         <button
           className="submit-button"
           onClick={() => {
@@ -119,6 +185,95 @@ const EditPost = () => {
         </button>
       </div>
       <Footer />
+      {/* 아이템 변경 업로드 파일 올리는 모달창 */}
+      <div
+        class="modal fade"
+        id="profileUpdateModal"
+        tabindex="-1"
+        aria-labelledby="profileUpdateModal"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1
+                class="modal-title justify-content-center "
+                id="profileUpdateModal"
+                style={{ fontSize: "1.5em" }}
+              >
+                - 아이템 사진 변경 -
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div
+              class="modal-body"
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alginItems: "center",
+                displayContent: "center",
+                height: "100%",
+                width: "100%",
+                marginTop: "50px",
+              }}
+            >
+              <div
+                class="has-validation col col-md-10"
+                style={{ height: "100%", width: "100%" }}
+              >
+                <img
+                  src={previewUrl}
+                  style={{
+                    width: "200px",
+                    height: "200px",
+                    marginBottom: "20px",
+                    marginTop: "-50px",
+                    cursor: "pointer",
+                    marginLeft: "140px",
+                  }}
+                  alt=""
+                  data-bs-toggle="modal"
+                  data-bs-target="#profileUpdateModal"
+                />
+                <input
+                  type="file"
+                  class="form-control"
+                  id="profileInput"
+                  onChange={onChangeItemPicture}
+                  placeholder="업로드할 이미지"
+                  required
+                  autocomplete="off"
+                  enctype="multipart/form-data"
+                  style={{ fontSize: "1.3em" }}
+                />
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                닫기
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-bs-dismiss="modal"
+                onClick={updateItemPicture}
+              >
+                변경하기
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/*아이템 변경 업로드 파일 올리는 모달창 */}
     </div>
   );
 };
