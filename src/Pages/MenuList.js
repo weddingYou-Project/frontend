@@ -34,7 +34,9 @@ const MenuList = () => {
   let [pOpacity, setPOpacity] = useState(0);
 
   useEffect(() => {
-    setNum(Math.floor(Math.random() * 3));
+    window.addEventListener("load", () => {
+      setNum(Math.floor(Math.random() * 3));
+    });
     setTimeout(() => {
       //   setImgTop(170);
 
