@@ -8,7 +8,7 @@ import NavigationBar from "../Components/NavigationBar";
 
 function Checkoutdeposit() {
   var IMP = window.IMP;
-  IMP.init("imp67011510");
+  IMP.init("imp57211510");
 
   const navigate = useNavigate();
 
@@ -17,7 +17,7 @@ function Checkoutdeposit() {
       {
         pg: "kcp",
         pay_method: "card",
-        merchant_uid: "57008833-33055" + IMP,
+        merchant_uid: "57008833-33025" + IMP,
         name: "플래너 매칭 계약금",
         amount: 5,
         buyer_email: "Weddingyou@gmail.com",
@@ -53,13 +53,7 @@ function Checkoutdeposit() {
           상품명
         </label>
         <div className="col-sm-8">
-          <input
-            type="text"
-            readonly
-            className="form-control-plaintext"
-            id="itemName"
-            value="맞춤형 웨딩플래너 서비스(계약)"
-          />
+          <p className="detailcheckout">맞춤형 웨딩플래너 서비스(계약)</p>
         </div>
       </div>
       {/* <hr /> */}
@@ -68,13 +62,7 @@ function Checkoutdeposit() {
           상품 상세정보
         </label>
         <div className="col-sm-8">
-          <input
-            type="text"
-            readonly
-            className="form-control-plaintext"
-            id="itemName"
-            value="플래너 매칭 계약금"
-          />
+          <p className="detailcheckout">플래너 매칭 계약금</p>
         </div>
       </div>
       {/* <hr /> */}
@@ -83,13 +71,7 @@ function Checkoutdeposit() {
           상품 금액
         </label>
         <div className="col-sm-8">
-          <input
-            type="text"
-            readonly
-            className="form-control-plaintext"
-            id="itemName"
-            value="100,000원"
-          />
+          <p className="detailcheckout">100,000원</p>
         </div>
       </div>
       <button onClick={requestPay} className="checkoutBtn">
