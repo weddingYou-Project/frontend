@@ -54,7 +54,14 @@ const Weddingoutfit = () => {
   const [selectedItemId, setSelectedItemId] = useState();
   const navigate = useNavigate();
 
+  const [update, setUpdate] = useState(false);
+
   useEffect(() => {
+    if (sessionStorage.getItem("email") === "admin@email.com") {
+      setIsAdmin(true);
+    } else {
+      setIsAdmin(false);
+    }
     axios
       .get(`/item/itemList/${title}/${selectedCategory}`)
       .then((res) => {
@@ -108,7 +115,7 @@ const Weddingoutfit = () => {
       .catch((e) => {
         console.log(e);
       });
-  }, [selectedCategory]);
+  }, [selectedCategory, update]);
 
   const showingDetail = (e) => {
     modalImg.current.src = e.target.dataset.bsSrc;
@@ -118,6 +125,7 @@ const Weddingoutfit = () => {
     modalImgTitle.current.innerText = `- ${e.target.dataset.bsItemname} -`;
     setModalImgoriginalTitle(e.target.dataset.bsItemname);
     setSelectedItemId(e.target.dataset.bsItemid);
+    console.log("e.target.dataset.bsItemid:" + e.target.dataset.bsItemid);
   };
 
   const handleCategoryClick = (category) => {
@@ -143,12 +151,20 @@ const Weddingoutfit = () => {
       .post(`/item/deleteItem/${selectedItemId}`)
       .then((res) => {
         console.log(res);
+        setUpdate(!update);
       })
       .catch((e) => {
         console.log(e);
       });
   };
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+  }, [selectedCategory, update]);
+
+  const gotoDetailInfo = (e) => {
+    navigate("/imgDetail");
+  };
   return (
     <div className="mainlayout">
       <NavigationBar title={title} category1={category1} isAdmin={isAdmin} />
@@ -169,7 +185,10 @@ const Weddingoutfit = () => {
             className={`category ${
               selectedCategory === category ? "active" : ""
             }`}
-            onClick={() => handleCategoryClick(category)}
+            onClick={() => {
+              handleCategoryClick(category);
+              setUpdate(!update);
+            }}
             style={{
               fontSize: "1.3em",
               float: "left",
@@ -312,7 +331,7 @@ const Weddingoutfit = () => {
                   type="button"
                   class="btn btn-secondary"
                   data-bs-dismiss="modal"
-                  //   onClick={gotoDetailInfo}
+                  onClick={gotoDetailInfo}
                 >
                   상세정보 페이지 이동
                 </button>

@@ -13,7 +13,7 @@ const Weddinghall = ({ postSubmitted }) => {
   const title = "웨딩홀";
   const engTitle = "weddinghall";
   const category2 = ["일반", "호텔", "채플", "스몰", "야외", "전통혼례"];
-  const [isAdmin, setIsAdmin] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(category2[0]);
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectLikeState, setSelectLikeState] = useState(false);
@@ -50,11 +50,19 @@ const Weddinghall = ({ postSubmitted }) => {
   const navigate = useNavigate();
   const [selectedItemId, setSelectedItemId] = useState();
 
+  const [update, setUpdate] = useState(false);
+
   useEffect(() => {
+    if (sessionStorage.getItem("email") === "admin@email.com") {
+      setIsAdmin(true);
+    } else {
+      setIsAdmin(false);
+    }
     axios
       .get(`/item/itemList/${title}/${selectedCategory}`)
       .then((res) => {
         const dataList = res.data;
+        console.log(res.data);
 
         if (dataList.length !== 0) {
           let index = 0;
@@ -104,7 +112,11 @@ const Weddinghall = ({ postSubmitted }) => {
       .catch((e) => {
         console.log(e);
       });
-  }, [selectedCategory]);
+  }, [selectedCategory, update]);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+  }, [selectedCategory, update]);
 
   console.log(itemName);
   console.log(itemContent);
@@ -117,8 +129,9 @@ const Weddinghall = ({ postSubmitted }) => {
     modalImgTitle.current.innerText = `- ${e.target.dataset.bsItemname} -`;
     setModalImgoriginalTitle(e.target.dataset.bsItemname);
     setSelectedItemId(e.target.dataset.bsItemid);
+    console.log("e.target.dataset.bsItemid:" + e.target.dataset.bsItemid);
   };
-
+  console.log(itemId);
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
   };
@@ -136,16 +149,21 @@ const Weddinghall = ({ postSubmitted }) => {
       },
     });
   };
-
+  console.log(selectedItemId);
   const handleDeleteClick = () => {
     axios
       .post(`/item/deleteItem/${selectedItemId}`)
       .then((res) => {
         console.log(res);
+        setUpdate(!update);
       })
       .catch((e) => {
         console.log(e);
       });
+  };
+
+  const gotoDetailInfo = (e) => {
+    navigate("/imgDetail");
   };
 
   return (
@@ -167,7 +185,10 @@ const Weddinghall = ({ postSubmitted }) => {
             className={`category ${
               selectedCategory === category ? "active" : ""
             }`}
-            onClick={() => handleCategoryClick(category)}
+            onClick={() => {
+              handleCategoryClick(category);
+              setUpdate(!update);
+            }}
             style={{ fontSize: "1.3em", marginTop: "20px" }}
           >
             {category}
@@ -308,7 +329,7 @@ const Weddinghall = ({ postSubmitted }) => {
                   type="button"
                   class="btn btn-secondary"
                   data-bs-dismiss="modal"
-                  //   onClick={gotoDetailInfo}
+                  onClick={gotoDetailInfo}
                 >
                   상세정보 페이지 이동
                 </button>

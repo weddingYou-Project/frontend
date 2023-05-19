@@ -5,24 +5,6 @@ import NavigationBar from "../../Components/NavigationBar";
 import Footer from "../../Components/Footer";
 import "../../Css/WritePost.css";
 
-const categoryOptions = {
-  weddinghall: ["일반", "호텔", "채플", "스몰", "야외", "전통혼례"],
-  weddingoutfit: [
-    "머메이드",
-    "A라인",
-    "H라인",
-    "벨라인",
-    "엠파이어",
-    "프린세스",
-    "남성예복",
-    "한복",
-  ],
-  studio: ["인물중심", "배경중심", "균형적인"],
-  makeup: ["헤어", "로맨틱한", "포인트", "내추럴", "스모키", "큐티", "러블리"],
-  honeymoon: ["해외", "국내"],
-  bouquet: ["라운드", "드롭", "케스케이드", "핸드타이드"],
-};
-
 const EditPost = () => {
   const { itemId } = useParams();
   const location = useLocation();
@@ -35,28 +17,6 @@ const EditPost = () => {
   const [image, setImage] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [selectedFile, setSelectedFile] = useState(image);
-
-  const postItem = () => {
-    const formData = new FormData();
-    formData.append("itemName", itemName);
-    formData.append("content", content);
-    // formData.append("category1", category1);
-    //  formData.append("category2", category2);
-    formData.append("image", image);
-
-    axios
-      .post("/item/insertItem", formData)
-      .then((response) => {
-        console.log("성공:", response.data);
-        setItemName("");
-        setContent("");
-        setImage(null);
-        //  setCategory2(categoryOptions[category1][0]);
-      })
-      .catch((error) => {
-        console.error("실패:", error);
-      });
-  };
 
   const handleCancel = () => {
     navigate(`/menu/${engTitle}`);
@@ -111,6 +71,8 @@ const EditPost = () => {
       })
       .then((res) => {
         console.log(res);
+        alert("수정이 완료 되었습니다!");
+        navigate(`/menu/${engTitle}`);
       })
       .catch((e) => {
         console.log(e);
@@ -160,7 +122,7 @@ const EditPost = () => {
           }}
           style={{ fontSize: "1.3em" }}
         >
-          게시하기
+          수정하기
         </button>
 
         <button className="cancel-button" onClick={handleCancel}>
