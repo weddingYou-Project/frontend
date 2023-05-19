@@ -147,7 +147,10 @@ const Weddingoutfit = () => {
   return (
     <div className="mainlayout">
       <NavigationBar title={title} />
-      <div className="" style={{ marginTop: "100px", width: "100%" }}>
+      <div
+        className=""
+        style={{ marginTop: "100px", width: "100%", marginLeft: "20px" }}
+      >
         {category2.map((category) => (
           <div
             key={category}

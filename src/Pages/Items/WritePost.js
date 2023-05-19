@@ -107,6 +107,7 @@ const WritePost = () => {
           onClick={() => {
             postItem();
           }}
+          style={{ fontSize: "1.3em" }}
         >
           게시하기
         </button>
