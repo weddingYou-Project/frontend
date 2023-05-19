@@ -26,6 +26,7 @@ const Bouquet = () => {
   const [itemName, setItemName] = useState([]);
   const [itemContent, setItemContent] = useState([]);
   const [keyIndex, setKeyIndex] = useState([]);
+  const [modalImgoriginalTitle, setModalImgoriginalTitle] = useState("");
 
   let keyIndexArr = [];
   let list = [];
@@ -101,6 +102,7 @@ const Bouquet = () => {
     modalImg.current.dataset.itemId = e.target.dataset.bsItemid;
     modalImgContent.current.innerText = e.target.dataset.bsItemcontent;
     modalImgTitle.current.innerText = `- ${e.target.dataset.bsItemname} -`;
+    setModalImgoriginalTitle(e.target.dataset.bsItemname);
   };
 
   const handleCategoryClick = (category) => {
@@ -110,7 +112,7 @@ const Bouquet = () => {
   const handleEditClick = () => {
     setEditMode(true);
     const itemId = modalImg.current.dataset.itemId;
-    const title = modalImgTitle.current.innerText;
+    const title = modalImgoriginalTitle;
     const content = modalImgContent.current.innerText;
     navigate(`/editpost/${itemId}`, {
       state: { originalTitle: title, originalContent: content },

@@ -32,7 +32,7 @@ const EditPost = () => {
   const [content, setContent] = useState(originalContent);
   const [image, setImage] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(image);
 
   const postItem = () => {
     const formData = new FormData();
@@ -103,6 +103,9 @@ const EditPost = () => {
   };
 
   const updateItemPicture = (e) => {
+    setImage(previewUrl);
+  };
+  const updateItem = (e) => {
     const formData = new FormData();
 
     formData.append("file", selectedFile);
@@ -113,7 +116,7 @@ const EditPost = () => {
         headers: { "Content-Type": "multipart/form-data" },
       })
       .then((res) => {
-        setImage(previewUrl);
+        console.log(res);
       })
       .catch((e) => {
         console.log(e);
@@ -173,7 +176,7 @@ const EditPost = () => {
         <button
           className="submit-button"
           onClick={() => {
-            postItem();
+            updateItem();
           }}
           style={{ fontSize: "1.3em" }}
         >
