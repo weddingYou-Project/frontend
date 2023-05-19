@@ -4,7 +4,7 @@ import axios from "axios";
 import NavigationBar from "../../Components/NavigationBar";
 import Footer from "../../Components/Footer";
 import "../../Css/WritePost.css";
-
+import selectImg from "../../Assets/selectImg.webp";
 const categoryOptions = {
   weddinghall: ["일반", "호텔", "채플", "스몰", "야외", "전통혼례"],
   weddingoutfit: [
@@ -35,7 +35,7 @@ const WritePost = () => {
   const { category1 } = useParams();
   const [itemName, setItemName] = useState("");
   const [content, setContent] = useState("");
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState(selectImg);
   const [category2, setCategory2] = useState(categoryOptions[category1][0]);
   const [selectedCategory1, setSelectedCategory1] = useState(
     selectedCategory[category1]
@@ -73,11 +73,15 @@ const WritePost = () => {
   const handleImageChange = (event) => {
     const selectedImage = event.target.files[0];
     setImage(selectedImage);
-    const fileReader = new FileReader();
-    fileReader.onload = () => {
-      setImage(fileReader.result);
-    };
-    fileReader.readAsDataURL(selectedImage);
+    try {
+      const fileReader = new FileReader();
+      fileReader.onload = () => {
+        setImage(fileReader.result);
+      };
+      fileReader.readAsDataURL(selectedImage);
+    } catch (e) {
+      setImage(selectImg);
+    }
   };
   return (
     <div className="mainlayout">
@@ -93,6 +97,7 @@ const WritePost = () => {
               onClick={() => {
                 setCategory2(option);
               }}
+              style={{ marginBottom: "5px" }}
             >
               {option}
             </button>
@@ -127,7 +132,11 @@ const WritePost = () => {
       </div>
       <div
         className="button-wrap"
-        style={{ justifyContent: "center", marginRight: "20px" }}
+        style={{
+          justifyContent: "center",
+          marginRight: "20px",
+          marginTop: "-20px",
+        }}
       >
         <button
           className="submit-button"
