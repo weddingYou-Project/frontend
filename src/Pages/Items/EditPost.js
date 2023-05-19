@@ -62,11 +62,6 @@ const EditPost = () => {
     navigate(`/menu/${engTitle}`);
   };
 
-  const handleImageChange = (event) => {
-    const selectedImage = event.target.files[0];
-    setImage(selectedImage);
-  };
-
   useEffect(() => {
     axios
       .post(`/item/getitemImg/${itemId}`)
@@ -123,7 +118,7 @@ const EditPost = () => {
   };
   return (
     <div className="mainlayout">
-      <NavigationBar title="글 수정" />
+      <NavigationBar title="글 수정" engTitle={engTitle} />
       <div className="category-container" style={{ marginTop: "100px" }}></div>
       <div className="post-inputwrap">
         <img

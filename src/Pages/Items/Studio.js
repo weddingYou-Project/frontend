@@ -126,37 +126,6 @@ const Studio = () => {
     });
   };
 
-  const editItem = () => {
-    let data = new FormData();
-    data.append("file", file);
-    data.append("itemId", itemId);
-    data.append("title", newTitle);
-    data.append("content", newContent);
-
-    axios
-      .put("/updateItem", data)
-      .then((res) => {
-        console.log(res.data);
-        const updatedImages = images.map((image) => {
-          if (image.id === res.data.id) {
-            return res.data;
-          } else {
-            return image;
-          }
-        });
-        setImages(updatedImages);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-
-    setEditMode(false);
-  };
-
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
-  };
-
   const handleDeleteClick = () => {
     axios
       .post(`/item/deleteItem/${selectedItemId}`)
@@ -170,7 +139,7 @@ const Studio = () => {
 
   return (
     <div className="mainlayout">
-      <NavigationBar title={title} />
+      <NavigationBar title={title} category1={category1} isAdmin={isAdmin} />
       <div className="category-wrapper" style={{ marginTop: "100px" }}>
         {category2.map((category) => (
           <div
@@ -204,17 +173,6 @@ const Studio = () => {
         ))}
       </div>
 
-      {isAdmin && (
-        <button
-          className="submit-button"
-          onClick={() => {
-            window.location.href = `/writepost/${category1}`;
-          }}
-          style={{ fontSize: "1.3em" }}
-        >
-          글쓰기
-        </button>
-      )}
       <Footer />
       {/* 이미지 상세정보 모달창 */}
       <div

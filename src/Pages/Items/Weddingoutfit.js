@@ -20,7 +20,7 @@ const Weddingoutfit = () => {
     "남성예복",
     "한복",
   ];
-  const category2_1 = ["남성예복", "한복"];
+
   const [isAdmin, setIsAdmin] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState(category2[0]);
   const [selectedImage, setSelectedImage] = useState(null);
@@ -135,36 +135,6 @@ const Weddingoutfit = () => {
       },
     });
   };
-  const editItem = () => {
-    let data = new FormData();
-    data.append("file", file);
-    data.append("itemId", itemId);
-    data.append("title", newTitle);
-    data.append("content", newContent);
-
-    axios
-      .put("/updateItem", data)
-      .then((res) => {
-        console.log(res.data);
-        const updatedImages = images.map((image) => {
-          if (image.id === res.data.id) {
-            return res.data;
-          } else {
-            return image;
-          }
-        });
-        setImages(updatedImages);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-
-    setEditMode(false);
-  };
-
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
-  };
 
   const handleDeleteClick = () => {
     axios
@@ -179,7 +149,7 @@ const Weddingoutfit = () => {
 
   return (
     <div className="mainlayout">
-      <NavigationBar title={title} />
+      <NavigationBar title={title} category1={category1} isAdmin={isAdmin} />
       <div
         className=""
         style={{ marginTop: "100px", width: "100%", marginLeft: "20px" }}
@@ -217,17 +187,6 @@ const Weddingoutfit = () => {
         ))}
       </div>
 
-      {isAdmin && (
-        <button
-          className="submit-button"
-          onClick={() => {
-            window.location.href = `/writepost/${category1}`;
-          }}
-          style={{ fontSize: "1.3em" }}
-        >
-          글쓰기
-        </button>
-      )}
       <Footer />
       {/* 이미지 상세정보 모달창 */}
       <div

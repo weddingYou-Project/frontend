@@ -3,8 +3,9 @@ import "../Css/NavigationBar.css";
 import MyEstimate from "./MyEstimate";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import "../Css/items.css";
 
-function NavigationBar({ title, goUpdate }) {
+function NavigationBar({ title, goUpdate, category1, isAdmin, engTitle }) {
   const url = useLocation();
   const path = url.pathname;
 
@@ -37,7 +38,8 @@ function NavigationBar({ title, goUpdate }) {
             paddingTop: "10px",
           }}
         >
-          <BackButton />
+          {console.log(engTitle)}
+          <BackButton engTitle={engTitle} />
           <p style={{ fontSize: "1.8em", marginTop: "10px" }}>{title} </p>
           {path.indexOf("likeList") === 1 ? (
             <button
@@ -74,7 +76,7 @@ function NavigationBar({ title, goUpdate }) {
             borderRadius: "10px 10px 0 0",
           }}
         >
-          <BackButton />
+          <BackButton engTitle={engTitle} />
           <p style={{ fontSize: "1.8em" }}>{title} </p>
           {path.indexOf("likeList") === 1 ? (
             <button
@@ -97,6 +99,30 @@ function NavigationBar({ title, goUpdate }) {
           ) : (
             <div className="empty"></div>
           )}
+          {(path.indexOf("menu/weddinghall") === 1 ||
+            path.indexOf("menu/studio") === 1 ||
+            path.indexOf("menu/weddingoutfit") === 1 ||
+            path.indexOf("menu/makeup") === 1 ||
+            path.indexOf("menu/honeymoon") === 1 ||
+            path.indexOf("menu/bouquet") === 1) &&
+          isAdmin === true ? (
+            <button
+              className="submit-button"
+              onClick={() => {
+                window.location.href = `/writepost/${category1}`;
+              }}
+              style={{
+                fontSize: "1.3em",
+                marginLeft: "-100px",
+                marginBottom: "-3px",
+                marginTop: "2px",
+                height: "45px",
+                marginRight: "-3px",
+              }}
+            >
+              글쓰기
+            </button>
+          ) : null}
         </div>
       )}
     </div>

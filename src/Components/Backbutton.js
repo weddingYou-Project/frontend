@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-function BackButton() {
+function BackButton({ engTitle }) {
   const navigate = useNavigate();
   const location = useLocation();
   const path = location.pathname;
@@ -73,6 +73,8 @@ function BackButton() {
             navigate("/menu/honeymoon");
           } else if (path.indexOf("/writepost/bouquet") !== -1) {
             navigate("/menu/bouquet");
+          } else if (path.indexOf("/editpost") !== -1) {
+            navigate(`/menu/${engTitle}`);
           } else {
             navigate("/");
           }
