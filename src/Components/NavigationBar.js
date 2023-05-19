@@ -62,6 +62,30 @@ function NavigationBar({ title, goUpdate, category1, isAdmin, engTitle }) {
           ) : (
             <div className="empty"></div>
           )}
+          {(path.indexOf("menu/weddinghall") === 1 ||
+            path.indexOf("menu/studio") === 1 ||
+            path.indexOf("menu/weddingoutfit") === 1 ||
+            path.indexOf("menu/makeup") === 1 ||
+            path.indexOf("menu/honeymoon") === 1 ||
+            path.indexOf("menu/bouquet") === 1) &&
+          isAdmin === true ? (
+            <button
+              className="submit-button"
+              onClick={() => {
+                window.location.href = `/writepost/${category1}`;
+              }}
+              style={{
+                fontSize: "1.3em",
+                marginLeft: "-100px",
+                marginBottom: "-3px",
+                marginTop: "2px",
+                height: "45px",
+                marginRight: "-3px",
+              }}
+            >
+              글쓰기
+            </button>
+          ) : null}
         </div>
       ) : (
         <div

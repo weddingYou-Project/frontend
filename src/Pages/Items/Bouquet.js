@@ -91,6 +91,8 @@ const Bouquet = () => {
             setItemContent(itemContentArr);
             i++;
           }
+        } else {
+          setKeyIndex([]);
         }
       })
       .catch((e) => {

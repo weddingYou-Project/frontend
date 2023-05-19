@@ -97,6 +97,8 @@ const Weddinghall = ({ postSubmitted }) => {
             setItemContent(itemContentArr);
             i++;
           }
+        } else {
+          setKeyIndex([]);
         }
       })
       .catch((e) => {

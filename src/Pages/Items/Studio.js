@@ -91,6 +91,8 @@ const Studio = () => {
             setItemContent(itemContentArr);
             i++;
           }
+        } else {
+          setKeyIndex([]);
         }
       })
       .catch((e) => {

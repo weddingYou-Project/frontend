@@ -91,6 +91,8 @@ const Honeymoon = () => {
             setItemContent(itemContentArr);
             i++;
           }
+        } else {
+          setKeyIndex([]);
         }
       })
       .catch((e) => {
