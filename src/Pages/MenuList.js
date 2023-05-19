@@ -19,7 +19,7 @@ const MenuList = () => {
   return (
     <div className="mainlayout">
       <NavigationBar title={title} />
-      <div className="menu-list">
+      <div className="menu-list" style={{ marginTop: "100px" }}>
         {Category1.map((category1, index) => (
           <div key={index} className="menu-list-item-container">
             <h2>
