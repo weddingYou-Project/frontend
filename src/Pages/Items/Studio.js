@@ -104,22 +104,6 @@ const Studio = () => {
     setSelectedCategory(category);
   };
 
-  const manageLikeList = () => {
-    setSelectLikeState(!selectLikeState);
-    const likeData = {
-      likeId: selectedImage.id,
-    };
-
-    axios
-      .post("/", likeData)
-      .then((response) => {
-        console.log("좋아요 성공:", response.data);
-      })
-      .catch((error) => {
-        console.error("좋아요 에러:", error);
-      });
-  };
-
   const handleEditClick = () => {
     setEditMode(true);
     setItemId(selectedImage.id);
@@ -301,7 +285,7 @@ const Studio = () => {
             </div>
             <div class="modal-footer">
               {isAdmin && (
-                <div className="button-wrapper">
+                <div className="button-wrapper" style={{ width: "320px" }}>
                   <button className="edit-button" onClick={handleEditClick}>
                     수정
                   </button>
@@ -310,14 +294,16 @@ const Studio = () => {
                   </button>
                 </div>
               )}
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-                //   onClick={gotoDetailInfo}
-              >
-                상세정보 페이지 이동
-              </button>
+              {isAdmin === true ? null : (
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                  //   onClick={gotoDetailInfo}
+                >
+                  상세정보 페이지 이동
+                </button>
+              )}
               <button
                 type="button"
                 class="btn btn-primary"

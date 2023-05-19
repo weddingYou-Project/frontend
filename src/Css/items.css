@@ -112,7 +112,7 @@
   background-color: #f9f5f5;
   border: none;
   padding: 0.5rem 1rem;
-  margin: 1rem;
+  margin-right:1.2rem;
   border-radius: 10px;
   cursor: pointer;
   transition: background-color 0.2s ease-in-out;
