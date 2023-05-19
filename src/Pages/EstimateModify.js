@@ -23,7 +23,7 @@ const EstimateModify = () => {
         );
         let { data } = response;
         console.log(data);
-        setbudget(data.budget);
+        setbudget(data.budget.toLocaleString());
         sethoneymoon(data.honeymoon);
         setrequirement(data.requirement);
         setstudio(data.studio);
@@ -41,13 +41,28 @@ const EstimateModify = () => {
         setweddingregion(wrcopy);
         setdress(JSON.parse(data.dress));
         setmakeup(JSON.parse(data.makeup));
+        setserverimagepath(JSON.parse(data.img));
+        setwriter(data.writer);
+
         if (data.honeymoon.includes("해외")) {
           setacco1("view");
-          console.log("하이");
         } else {
           setacco2("view");
-          console.log("바이");
         }
+
+        const imagearray = JSON.parse(data.img);
+        const imagePromises = imagearray.map((image) => {
+          return axios.get("http://localhost:8080/estimate/imageview", {
+            params: { image },
+            responseType: "blob",
+          });
+        });
+        const responses = await Promise.all(imagePromises);
+        const imageUrls = responses.map((res) => {
+          const resdata = URL.createObjectURL(res.data);
+          return resdata;
+        });
+        setserverimage(imageUrls);
       } catch (e) {
         console.log(e);
       }
@@ -79,13 +94,17 @@ const EstimateModify = () => {
     regionthird: "",
   });
 
+  let [writer, setwriter] = useState();
   let [budget, setbudget] = useState("");
   let [studio, setstudio] = useState("");
   let [honeymoon, sethoneymoon] = useState("");
   let [requirement, setrequirement] = useState("");
   let [dress, setdress] = useState([]);
   let [makeup, setmakeup] = useState([]);
-  let [images, setimages] = useState([]);
+  let [images, setimages] = useState([]); //컨트롤러로 보낼 새로운 이미지
+  let [previewimage, setpreviewimage] = useState([]); //이건 첨부한 이미지 미리볼 수 있게 하는 거
+  let [serverimage, setserverimage] = useState([]); //이건 가져온 이미지를 미리 볼 수 있도록 하는 거
+  let [serverimagepath, setserverimagepath] = useState([]); //이건 가져온 이미지의 경로
 
   //아코디언 스타일 state
   let [acco1, setacco1] = useState("");
@@ -215,7 +234,10 @@ const EstimateModify = () => {
 
   //이미지 파일 첨부
   const imageSelect = (e) => {
-    if (images.length >= 5 || e.target.files.length + images.length > 5) {
+    if (
+      images.length >= 5 ||
+      e.target.files.length + images.length + serverimage.length > 5
+    ) {
       alert("파일 첨부는 5개까지 가능합니다.");
       e.target.value = null;
     } else {
@@ -224,24 +246,39 @@ const EstimateModify = () => {
         copy.push(e.target.files[i]);
       }
       setimages(copy);
+
+      const imagePreviews = [...previewimage];
+      for (let i = 0; i < e.target.files.length; i++) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          imagePreviews.push(reader.result);
+          setpreviewimage(imagePreviews);
+        };
+        reader.readAsDataURL(e.target.files[i]);
+      }
     }
   };
 
-  //이미지 파일 초기화
-  const imageClear = () => {
-    setimages([]);
-  };
   //이미지 파일 개별 삭제
-  const deleteimage = (image) => {
-    let copy = [...images];
-    for (let i = 0; i < copy.length; i++) {
-      console.log(i);
-      if (copy[i].name === image) {
-        copy.splice(i, 1);
-        setimages(copy);
-        break;
-      }
-    }
+  const deleteimage = (index) => {
+    let copy = [...previewimage];
+    copy.splice(index, 1);
+    setpreviewimage(copy);
+    let copy2 = [...images];
+    copy2.splice(index, 1);
+    setimages(copy2);
+  };
+
+  //serverimage previewimage 샂게
+  const serverimagedelete = (이미지) => {
+    //여기가 보여지는 부분 삭제
+    let 여부 = serverimage.indexOf(이미지);
+    let copy = [...serverimage];
+    copy.splice(여부, 1);
+    setserverimage(copy);
+    let copy2 = [...serverimagepath];
+    copy2.splice(여부, 1);
+    setserverimagepath(copy2);
   };
 
   //요청사항
@@ -264,7 +301,7 @@ const EstimateModify = () => {
   let submitmakeup = JSON.stringify(makeup);
   //JSON 변환
 
-  const onSubmit = () => {
+  const onModify = () => {
     if (weddingdate.datefirst === "") {
       alert("1순위 날짜 입력은 필수입니다.");
       dateRef.current.focus();
@@ -288,7 +325,8 @@ const EstimateModify = () => {
     if (
       weddingregion.regionfirst === weddingregion.regionsecond ||
       weddingregion.regionfirst === weddingregion.regionthird ||
-      weddingregion.regionsecond === weddingregion.regionthird
+      (weddingregion.regionsecond === weddingregion.regionthird &&
+        (weddingregion.regionsecond !== "" || weddingdate.regionthird))
     ) {
       alert("서로 다른 지역을 선택해주세요");
       regionRef.current.focus();
@@ -300,7 +338,7 @@ const EstimateModify = () => {
       return false;
     }
 
-    if (window.confirm("작성하시겠습니까?")) {
+    if (window.confirm("수정하시겠습니까?")) {
       let integerBudget;
       let formData = new FormData();
       if (budget === "") {
@@ -316,6 +354,8 @@ const EstimateModify = () => {
       formData.append("dress", submitdress);
       formData.append("requirement", requirement);
       formData.append("studio", studio);
+      formData.append("id", id);
+      formData.append("previmage", serverimagepath);
       formData.append("writer", window.sessionStorage.getItem("email"));
       if (images.length > 0) {
         for (let i = 0; i < images.length; i++) {
@@ -323,10 +363,10 @@ const EstimateModify = () => {
         }
       }
       axios
-        .post("http://localhost:8080/estimate/write", formData)
+        .post("http://localhost:8080/estimate/modify", formData)
         .then((res) => {
           console.log("성공");
-          navigate("/");
+          navigate(`../estimatedetail/${id}`);
         })
         .catch((e) => {
           alert("홈페이지에 오류가 발생하였습니다. 다시 시도해주세요");
@@ -337,13 +377,15 @@ const EstimateModify = () => {
 
   return (
     <div className="mainlayout" style={{ height: "100%" }}>
-      <NavigationBar title="내가 원하는 웨딩은?" />
+      <NavigationBar title="견적서 수정" />
       <div className="contentcontainer">
         <div className="contentbox">
           <h5
             onClick={() => {
-              console.log(dress);
-              console.log(makeup);
+              console.log("1", serverimage);
+              console.log("2", serverimagepath);
+              console.log(previewimage);
+              console.log(images);
             }}
           >
             희망 결혼 예정일
@@ -894,43 +936,76 @@ const EstimateModify = () => {
               id="uploadimage"
               className="displaynone"
             />
-            <label htmlFor="uploadimage" className="cursor imageupload-btn">
-              이미지첨부하기
-            </label>
-            <div style={{ marginTop: 5 }}>
-              {images.map((image, index) => {
-                return (
-                  <div className="imagefilenamebox">
-                    <div className="imagefilenamecontent">
-                      <span>{image.name}</span>
+            {serverimage.map((e, index) => {
+              return (
+                <div key={index}>
+                  <>
+                    <div className="imagebox-estimatemodify">
                       <div
-                        className="imagefilename-overlay cursor"
-                        onClick={() => {
-                          deleteimage(image.name);
+                        class="btn"
+                        style={{
+                          width: "50%",
+                          position: "relative",
+                          padding: "0px",
                         }}
                       >
-                        <i class="bi bi-x-lg"></i>
+                        <img
+                          src={e}
+                          width="40%"
+                          height="40%"
+                          className="image-custom-estimatemodify"
+                        />
+                        <div
+                          className="image-overlay-estimatemodify"
+                          onClick={() => {
+                            serverimagedelete(e);
+                          }}
+                        >
+                          <i class="bi bi-x-lg"></i>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
-            </div>
-
-            {/* {images.length > 0 && (
-              <span>
-                {images.length}개의 이미지{" "}
-                <div
-                  className="image-clear-btn cursor"
-                  onClick={() => {
-                    imageClear();
-                  }}
-                >
-                  취소
+                  </>
                 </div>
-              </span>
-            )} */}
+              );
+            })}
+            {previewimage.map((e, index) => {
+              return (
+                <div key={index}>
+                  <>
+                    <div className="imagebox-estimatemodify">
+                      <div
+                        class="btn"
+                        style={{
+                          width: "50%",
+                          position: "relative",
+                          padding: "0px",
+                        }}
+                      >
+                        <img
+                          src={e}
+                          width="40%"
+                          height="40%"
+                          className="image-custom-estimatemodify"
+                        />
+                        <div
+                          className="image-overlay-estimatemodify"
+                          onClick={() => {
+                            deleteimage(index);
+                          }}
+                        >
+                          <i class="bi bi-x-lg"></i>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                </div>
+              );
+            })}
           </div>
+          <label htmlFor="uploadimage" className="cursor imageupload-btn">
+            이미지 첨부하기
+          </label>
         </div>
         <div className="contentbox" style={{ borderBottom: "none" }}>
           <h5>추가 요청사항</h5>
@@ -948,12 +1023,12 @@ const EstimateModify = () => {
         <div className="Signup-button">
           <button
             onClick={() => {
-              onSubmit();
+              onModify();
             }}
             className="btn-colour-1"
             style={{ marginRight: "15px" }}
           >
-            작성하기
+            수정하기
           </button>
           <button
             onClick={() => {
