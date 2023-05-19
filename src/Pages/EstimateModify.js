@@ -44,6 +44,10 @@ const EstimateModify = () => {
         setserverimagepath(JSON.parse(data.img));
         setwriter(data.writer);
 
+        if (window.sessionStorage.getItem("email") !== data.writer) {
+          navigate("../estimatelist");
+        }
+
         if (data.honeymoon.includes("해외")) {
           setacco1("view");
         } else {

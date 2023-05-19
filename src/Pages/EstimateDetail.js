@@ -834,7 +834,7 @@ const ImagesView = ({ images, index }) => {
       aria-labelledby="exampleModalLabel"
       aria-hidden="true"
     >
-      <div class="modal-dialog" style={{ maxWidth: "1000px" }}>
+      <div class="modal-dialog" style={{ maxWidth: "800px" }}>
         <div className="image-actualsize">
           <img src={images} />
         </div>

@@ -247,7 +247,7 @@ const EstimateForm = () => {
       weddingregion.regionfirst === weddingregion.regionsecond ||
       weddingregion.regionfirst === weddingregion.regionthird ||
       (weddingregion.regionsecond === weddingregion.regionthird &&
-        (weddingregion.regionsecond !== "" || weddingdate.regionthird !== ""))
+        (weddingregion.regionsecond !== "" || weddingregion.regionthird !== ""))
     ) {
       alert("서로 다른 지역을 선택해주세요");
       regionRef.current.focus();
