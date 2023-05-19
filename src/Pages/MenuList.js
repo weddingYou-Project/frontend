@@ -32,16 +32,19 @@ const MenuList = () => {
   let [imgOpacity, setImgOpacity] = useState(0);
   let [pTop, setPTop] = useState(60);
   let [pOpacity, setPOpacity] = useState(0);
+
   useEffect(() => {
+    setNum(Math.floor(Math.random() * 3));
     setTimeout(() => {
-      setImgTop(170);
+      //   setImgTop(170);
+
       setImgOpacity(1);
     }, 500);
     setTimeout(() => {
-      setPTop(150);
+      //  setPTop(150);
       setPOpacity(1);
-    }, 500);
-    setNum(Math.floor(Math.random() * 3));
+    }, 900);
+
     setSelectImg(images[num]);
   }, []);
   return (
