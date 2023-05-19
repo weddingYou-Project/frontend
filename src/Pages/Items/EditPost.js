@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import NavigationBar from "../../Components/NavigationBar";
 import Footer from "../../Components/Footer";
@@ -28,6 +28,8 @@ const EditPost = () => {
   const location = useLocation();
   const originalContent = location.state.originalContent;
   const originalTitle = location.state.originalTitle;
+  const engTitle = location.state.engTitle;
+  const navigate = useNavigate();
   const [itemName, setItemName] = useState(originalTitle);
   const [content, setContent] = useState(originalContent);
   const [image, setImage] = useState(null);
@@ -57,10 +59,7 @@ const EditPost = () => {
   };
 
   const handleCancel = () => {
-    setItemName("");
-    setContent("");
-    setImage(null);
-    //  setCategory2(categoryOptions[category1][0]);
+    navigate(`/menu/${engTitle}`);
   };
 
   const handleImageChange = (event) => {

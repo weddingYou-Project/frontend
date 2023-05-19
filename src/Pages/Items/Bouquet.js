@@ -9,6 +9,7 @@ import "../../Css/items.css";
 const Bouquet = () => {
   const { category1 } = useParams();
   const title = "부케";
+  const engTitle = "bouquet";
   const category2 = ["라운드", "드롭", "케스케이드", "핸드타이드"];
   const [isAdmin, setIsAdmin] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState(category2[0]);
@@ -117,7 +118,11 @@ const Bouquet = () => {
     const title = modalImgoriginalTitle;
     const content = modalImgContent.current.innerText;
     navigate(`/editpost/${itemId}`, {
-      state: { originalTitle: title, originalContent: content },
+      state: {
+        originalTitle: title,
+        originalContent: content,
+        engTitle: engTitle,
+      },
     });
   };
 

@@ -9,6 +9,7 @@ import "../../Css/items.css";
 const Weddingoutfit = () => {
   const { category1 } = useParams();
   const title = "의상";
+  const engTitle = "weddingoutfit";
   const category2 = [
     "머메이드",
     "A라인",
@@ -127,7 +128,11 @@ const Weddingoutfit = () => {
     const title = modalImgoriginalTitle;
     const content = modalImgContent.current.innerText;
     navigate(`/editpost/${itemId}`, {
-      state: { originalTitle: title, originalContent: content },
+      state: {
+        originalTitle: title,
+        originalContent: content,
+        engTitle: engTitle,
+      },
     });
   };
   const editItem = () => {

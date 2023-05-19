@@ -9,6 +9,7 @@ import "../../Css/items.css";
 const Makeup = () => {
   const { category1 } = useParams();
   const title = "메이크업";
+  const engTitle = "makeup";
   const category2 = [
     "헤어",
     "로맨틱한",
@@ -125,7 +126,11 @@ const Makeup = () => {
     const title = modalImgoriginalTitle;
     const content = modalImgContent.current.innerText;
     navigate(`/editpost/${itemId}`, {
-      state: { originalTitle: title, originalContent: content },
+      state: {
+        originalTitle: title,
+        originalContent: content,
+        engTitle: engTitle,
+      },
     });
   };
   const editItem = () => {

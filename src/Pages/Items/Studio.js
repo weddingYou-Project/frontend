@@ -9,6 +9,7 @@ import "../../Css/items.css";
 const Studio = () => {
   const { category1 } = useParams();
   const title = "스튜디오";
+  const engTitle = "studio";
   const category2 = ["인물중심", "배경중심", "균형적인"];
   const [isAdmin, setIsAdmin] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState(category2[0]);
@@ -117,7 +118,11 @@ const Studio = () => {
     const title = modalImgoriginalTitle;
     const content = modalImgContent.current.innerText;
     navigate(`/editpost/${itemId}`, {
-      state: { originalTitle: title, originalContent: content },
+      state: {
+        originalTitle: title,
+        originalContent: content,
+        engTitle: engTitle,
+      },
     });
   };
 

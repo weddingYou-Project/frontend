@@ -11,7 +11,7 @@ import wh_2 from "./wh_2.jpg";
 const Weddinghall = ({ postSubmitted }) => {
   const { category1 } = useParams();
   const title = "웨딩홀";
-
+  const engTitle = "weddinghall";
   const category2 = ["일반", "호텔", "채플", "스몰", "야외", "전통혼례"];
   const [isAdmin, setIsAdmin] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState(category2[0]);
@@ -127,7 +127,11 @@ const Weddinghall = ({ postSubmitted }) => {
     const title = modalImgoriginalTitle;
     const content = modalImgContent.current.innerText;
     navigate(`/editpost/${itemId}`, {
-      state: { originalTitle: title, originalContent: content },
+      state: {
+        originalTitle: title,
+        originalContent: content,
+        engTitle: engTitle,
+      },
     });
   };
 

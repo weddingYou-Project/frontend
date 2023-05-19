@@ -9,6 +9,7 @@ import "../../Css/items.css";
 const Honeymoon = () => {
   const { category1 } = useParams();
   const title = "신혼여행";
+  const engTitle = "honeymoon";
   const category2 = ["국내", "해외"];
   const [isAdmin, setIsAdmin] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState(category2[0]);
@@ -117,7 +118,11 @@ const Honeymoon = () => {
     const title = modalImgoriginalTitle;
     const content = modalImgContent.current.innerText;
     navigate(`/editpost/${itemId}`, {
-      state: { originalTitle: title, originalContent: content },
+      state: {
+        originalTitle: title,
+        originalContent: content,
+        engTitle: engTitle,
+      },
     });
   };
 
