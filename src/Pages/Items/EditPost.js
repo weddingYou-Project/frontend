@@ -125,21 +125,7 @@ const EditPost = () => {
   return (
     <div className="mainlayout">
       <NavigationBar title="글 수정" />
-      <div className="category-container" style={{ marginTop: "100px" }}>
-        {/* <div className="category-buttons">
-          {categoryOptions[category1].map((option, index) => (
-            <button
-              key={index}
-              className={`category-button ${
-                category2 === option ? "active" : ""
-              }`}
-              onClick={() => setCategory2(option)}
-            >
-              {option}
-            </button>
-          ))}
-        </div> */}
-      </div>
+      <div className="category-container" style={{ marginTop: "100px" }}></div>
       <div className="post-inputwrap">
         <img
           src={image}
@@ -151,7 +137,7 @@ const EditPost = () => {
             marginLeft: "110px",
           }}
           data-bs-toggle="modal"
-          data-bs-target="#profileUpdateModal"
+          data-bs-target="#itemChangeModal"
           alt=""
         />
         <input
@@ -191,9 +177,9 @@ const EditPost = () => {
       {/* 아이템 변경 업로드 파일 올리는 모달창 */}
       <div
         class="modal fade"
-        id="profileUpdateModal"
+        id="itemChangeModal"
         tabindex="-1"
-        aria-labelledby="profileUpdateModal"
+        aria-labelledby="itemChangeModal"
         aria-hidden="true"
       >
         <div class="modal-dialog modal-dialog-centered">
@@ -201,7 +187,7 @@ const EditPost = () => {
             <div class="modal-header">
               <h1
                 class="modal-title justify-content-center "
-                id="profileUpdateModal"
+                id="itemChangeModal"
                 style={{ fontSize: "1.5em" }}
               >
                 - 아이템 사진 변경 -
@@ -241,7 +227,7 @@ const EditPost = () => {
                   }}
                   alt=""
                   data-bs-toggle="modal"
-                  data-bs-target="#profileUpdateModal"
+                  data-bs-target="#itemChangeModal"
                 />
                 <input
                   type="file"

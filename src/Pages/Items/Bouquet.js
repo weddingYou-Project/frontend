@@ -96,7 +96,7 @@ const Bouquet = () => {
       });
   }, [selectedCategory]);
 
-  const showimgDetail = (e) => {
+  const showingDetail = (e) => {
     modalImg.current.src = e.target.dataset.bsSrc;
     modalImg.current.dataset.category = e.target.dataset.bsCategory;
     modalImg.current.dataset.itemId = e.target.dataset.bsItemid;
@@ -188,7 +188,7 @@ const Bouquet = () => {
             //   key={image.id}
             src={previewImg[i]}
             alt=""
-            onClick={showimgDetail}
+            onClick={showingDetail}
             data-bs-toggle="modal"
             data-bs-target="#imgDetailModal"
             style={{ cursor: "pointer", width: "250px", height: "250px" }}

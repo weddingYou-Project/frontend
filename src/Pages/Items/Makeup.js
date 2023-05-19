@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import NavigationBar from "../../Components/NavigationBar";
 import Footer from "../../Components/Footer";
@@ -46,6 +46,9 @@ const Makeup = () => {
   const modalImgContent = useRef();
   const modalImgTitle = useRef();
   const modalItemId = useRef();
+
+  const [modalImgoriginalTitle, setModalImgoriginalTitle] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -101,25 +104,14 @@ const Makeup = () => {
       });
   }, [selectedCategory]);
 
-  const showimgDetail = (e) => {
+  const showingDetail = (e) => {
     modalImg.current.src = e.target.dataset.bsSrc;
     modalImg.current.dataset.category = e.target.dataset.bsCategory;
+    modalImg.current.dataset.itemId = e.target.dataset.bsItemid;
     modalImgContent.current.innerText = e.target.dataset.bsItemcontent;
     modalImgTitle.current.innerText = `- ${e.target.dataset.bsItemname} -`;
+    setModalImgoriginalTitle(e.target.dataset.bsItemname);
   };
-
-  useEffect(() => {
-    const fetchImages = async () => {
-      try {
-        const response = await axios.get("/item/itemList");
-        setImages(response.data);
-      } catch (error) {
-        console.error("이미지를 가져오는 중 오류 발생:", error);
-      }
-    };
-
-    fetchImages();
-  }, []);
 
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
@@ -127,11 +119,13 @@ const Makeup = () => {
 
   const handleEditClick = () => {
     setEditMode(true);
-    setItemId(selectedImage.id);
-    setNewTitle(selectedImage.title);
-    setNewContent(selectedImage.content);
+    const itemId = modalImg.current.dataset.itemId;
+    const title = modalImgoriginalTitle;
+    const content = modalImgContent.current.innerText;
+    navigate(`/editpost/${itemId}`, {
+      state: { originalTitle: title, originalContent: content },
+    });
   };
-
   const editItem = () => {
     let data = new FormData();
     data.append("file", file);
@@ -201,7 +195,7 @@ const Makeup = () => {
             //   key={image.id}
             src={previewImg[i]}
             alt=""
-            onClick={showimgDetail}
+            onClick={showingDetail}
             data-bs-toggle="modal"
             data-bs-target="#imgDetailModal"
             style={{ cursor: "pointer", width: "250px", height: "250px" }}
@@ -209,6 +203,7 @@ const Makeup = () => {
             data-bs-category="메이크업"
             data-bs-itemName={itemName[i]}
             data-bs-itemContent={itemContent[i]}
+            data-bs-itemId={itemId[i]}
           />
         ))}
       </div>
@@ -307,10 +302,18 @@ const Makeup = () => {
             <div class="modal-footer">
               {isAdmin && (
                 <div className="button-wrapper" style={{ width: "320px" }}>
-                  <button className="edit-button" onClick={handleEditClick}>
+                  <button
+                    className="edit-button"
+                    onClick={handleEditClick}
+                    data-bs-dismiss="modal"
+                  >
                     수정
                   </button>
-                  <button className="delete-button" onClick={handleDeleteClick}>
+                  <button
+                    className="delete-button"
+                    onClick={handleDeleteClick}
+                    data-bs-dismiss="modal"
+                  >
                     삭제
                   </button>
                 </div>

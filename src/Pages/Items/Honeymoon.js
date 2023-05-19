@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import NavigationBar from "../../Components/NavigationBar";
 import Footer from "../../Components/Footer";
@@ -38,6 +38,9 @@ const Honeymoon = () => {
   const modalImgContent = useRef();
   const modalImgTitle = useRef();
   const modalItemId = useRef();
+  const [modalImgoriginalTitle, setModalImgoriginalTitle] = useState("");
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -93,11 +96,13 @@ const Honeymoon = () => {
       });
   }, [selectedCategory]);
 
-  const showimgDetail = (e) => {
+  const showingDetail = (e) => {
     modalImg.current.src = e.target.dataset.bsSrc;
     modalImg.current.dataset.category = e.target.dataset.bsCategory;
+    modalImg.current.dataset.itemId = e.target.dataset.bsItemid;
     modalImgContent.current.innerText = e.target.dataset.bsItemcontent;
     modalImgTitle.current.innerText = `- ${e.target.dataset.bsItemname} -`;
+    setModalImgoriginalTitle(e.target.dataset.bsItemname);
   };
 
   const handleCategoryClick = (category) => {
@@ -106,9 +111,12 @@ const Honeymoon = () => {
 
   const handleEditClick = () => {
     setEditMode(true);
-    setItemId(selectedImage.id);
-    setNewTitle(selectedImage.title);
-    setNewContent(selectedImage.content);
+    const itemId = modalImg.current.dataset.itemId;
+    const title = modalImgoriginalTitle;
+    const content = modalImgContent.current.innerText;
+    navigate(`/editpost/${itemId}`, {
+      state: { originalTitle: title, originalContent: content },
+    });
   };
 
   const editItem = () => {
@@ -157,20 +165,6 @@ const Honeymoon = () => {
       });
   };
 
-  const modalStyles = {
-    overlay: {
-      backgroundColor: "rgba(0, 0, 0, 0.7)",
-      zIndex: 999,
-    },
-    content: {
-      top: "50%",
-      left: "50%",
-      transform: "translate(-50%, -50%)",
-      width: "750px",
-      height: "600px",
-    },
-  };
-
   return (
     <div className="mainlayout">
       <NavigationBar title={title} />
@@ -194,13 +188,14 @@ const Honeymoon = () => {
             //   key={image.id}
             src={previewImg[i]}
             alt=""
-            onClick={showimgDetail}
+            onClick={showingDetail}
             data-bs-toggle="modal"
             data-bs-target="#imgDetailModal"
             style={{ cursor: "pointer", width: "250px", height: "250px" }}
             data-bs-src={previewImg[i]}
             data-bs-category="신혼여행"
             data-bs-itemName={itemName[i]}
+            data-bs-itemId={itemId[i]}
             data-bs-itemContent={itemContent[i]}
           />
         ))}
@@ -300,10 +295,18 @@ const Honeymoon = () => {
             <div class="modal-footer">
               {isAdmin && (
                 <div className="button-wrapper" style={{ width: "320px" }}>
-                  <button className="edit-button" onClick={handleEditClick}>
+                  <button
+                    className="edit-button"
+                    onClick={handleEditClick}
+                    data-bs-dismiss="modal"
+                  >
                     수정
                   </button>
-                  <button className="delete-button" onClick={handleDeleteClick}>
+                  <button
+                    className="delete-button"
+                    onClick={handleDeleteClick}
+                    data-bs-dismiss="modal"
+                  >
                     삭제
                   </button>
                 </div>
