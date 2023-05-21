@@ -271,7 +271,9 @@ const EstimateDetail = () => {
                 <div className="result-noneChoose">*선택사항 없음*</div>
               )}
               {estimateData.honeymoon !== "" && (
-                <div className="result-detail">{estimateData.honeymoon}</div>
+                <div className="result-detail">
+                  {estimateData.honeymoon.slice(3)}
+                </div>
               )}
             </div>
           </div>

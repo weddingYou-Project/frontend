@@ -50,7 +50,7 @@ const EstimateModify = () => {
 
         if (data.honeymoon.includes("해외")) {
           setacco1("view");
-        } else {
+        } else if (data.honeymoon.includes("국내")) {
           setacco2("view");
         }
 
@@ -792,7 +792,7 @@ const EstimateModify = () => {
               style={{ fontSize: 17 }}
               value={honeymoon}
             >
-              <option selected={acco1 === "view"} disabled>
+              <option value="" disabled>
                 해외 여행지를 선택해주세요
               </option>
               <optgroup label="아시아">
@@ -833,27 +833,25 @@ const EstimateModify = () => {
                 <option value="해외-아부다비">아부다비</option>
               </optgroup>
               <optgroup label="오세아니아">
-                <option value="해외-발리시드니">시드니</option>
-                <option value="해외-발리골드코스트">골드코스트</option>
-                <option value="해외-발리케언즈">케언즈</option>
-                <option value="해외-발리뉴질랜드">뉴질랜드</option>
+                <option value="해외-시드니">시드니</option>
+                <option value="해외-골드코스트">골드코스트</option>
+                <option value="해외-케언즈">케언즈</option>
+                <option value="해외-뉴질랜드">뉴질랜드</option>
               </optgroup>
               <optgroup label="북유럽">
-                <option value="해외-발리스웨덴">스웨덴</option>
-                <option value="해외-발리노르웨이">노르웨이</option>
-                <option value="해외-발리핀란드">핀란드</option>
-                <option value="해외-발리덴마크">덴마크</option>
+                <option value="해외-스웨덴">스웨덴</option>
+                <option value="해외-노르웨이">노르웨이</option>
+                <option value="해외-핀란드">핀란드</option>
+                <option value="해외-덴마크">덴마크</option>
               </optgroup>
               <optgroup label="남미">
-                <option value="해외-발리칠레">칠레</option>
-                <option value="해외-발리아르헨티나">아르헨티나</option>
-                <option value="해외-발리페루">페루</option>
+                <option value="해외-칠레">칠레</option>
+                <option value="해외-아르헨티나">아르헨티나</option>
+                <option value="해외-페루">페루</option>
               </optgroup>
               <optgroup label="아프리카">
-                <option value="해외-발리모로코">모로코</option>
-                <option value="해외-발리남아프리카공화국">
-                  남아프리카공화국
-                </option>
+                <option value="해외-모로코">모로코</option>
+                <option value="해외-남아공">남아공</option>
               </optgroup>
               <optgroup label="기타">
                 <option value="해외-기타">기타</option>
@@ -868,7 +866,7 @@ const EstimateModify = () => {
               style={{ fontSize: 17 }}
               value={honeymoon}
             >
-              <option selected={acco2 === "view"} disabled>
+              <option value="" disabled>
                 국내여행지를 선택해주세요
               </option>
               <optgroup label="섬">

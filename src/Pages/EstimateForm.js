@@ -744,7 +744,7 @@ const EstimateForm = () => {
               </optgroup>
               <optgroup label="아프리카">
                 <option value="해외-모로코">모로코</option>
-                <option value="해외-남아프리카공화국">남아프리카공화국</option>
+                <option value="해외-남아공">남아공</option>
               </optgroup>
               <optgroup label="기타">
                 <option value="해외-기타">기타</option>
