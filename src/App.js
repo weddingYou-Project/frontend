@@ -20,7 +20,6 @@ import Item from "./Components/Item";
 function App() {
   return (
     <Routes>
-      <Route path="/estimateform" element={<EstimateForm />} />
       <Route path="/" element={<Home />}></Route>
       <Route path="/likeList" element={<LikeList />}></Route>
       <Route path="/searchItems" element={<SearchItems />}></Route>
@@ -28,6 +27,7 @@ function App() {
       <Route path="/signup" element={<Signup />}></Route>
       <Route path="/signup/:category" element={<SignupForm />}></Route>
       <Route path="/passwordSearch" element={<PasswordSearch />} />
+
       <Route
         path="/passwordSearch/temporaryPasswordLogin"
         element={<TemporaryPasswordLogin />}
@@ -43,8 +43,17 @@ function App() {
       <Route path="/writepost/:category1" element={<WritePost />} />
       <Route path="/editpost/:itemId" element={<EditPost />} />
       <Route path="*" element={<NotFound />} />
+      <Route path="/estimateform" element={<EstimateForm />} />
+      {/* <Route path="/estimatedetail/:id" element={<EstimateDetail />} />
+      <Route path="/estimatemodify/:id" element={<EstimateModify />} />
+      <Route path="/estimatelist" element={<EstimateList />} /> */}
     </Routes>
   );
 }
 
 export default App;
+
+//견적서 리스트, 견적서상세보기, 견적서수정 컴포넌트 임포트문
+// import EstimateList from "./Pages/EstimateList";
+// import EstimateDetail from "./Pages/EstimateDetail";
+// import EstimateModify from "./Pages/EstimateModify";
