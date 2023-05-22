@@ -10,9 +10,9 @@ import Mypage from "./Pages/Mypage";
 import UserUpdate from "./Pages/UserUpdate";
 import NotFound from "./Pages/NotFound";
 import EstimateForm from "./Pages/EstimateForm";
-import EstimateList from "./Pages/EstimateList";
-import EstimateDetail from "./Pages/EstimateDetail";
-import EstimateModify from "./Pages/EstimateModify";
+// import EstimateList from "./Pages/EstimateList";
+// import EstimateDetail from "./Pages/EstimateDetail";
+// import EstimateModify from "./Pages/EstimateModify";
 import Item from "./Components/Item";
 
 function App() {
@@ -23,7 +23,7 @@ function App() {
       <Route path="/signup" element={<Signup />}></Route>
       <Route path="/signup/:category" element={<SignupForm />}></Route>
       <Route path="/passwordSearch" element={<PasswordSearch />} />
-      <Route path="/estimatedetail/:id" element={<EstimateDetail />} />
+
       <Route
         path="/passwordSearch/temporaryPasswordLogin"
         element={<TemporaryPasswordLogin />}
@@ -35,9 +35,10 @@ function App() {
       <Route path="/mypage/:category" element={<Mypage />} />
       <Route path="/mypage/:category/userupdate" element={<UserUpdate />} />
       <Route path="*" element={<NotFound />} />
-      <Route path="/estimatemodify/:id" element={<EstimateModify />} />
-      <Route path="/estimatelist" element={<EstimateList />} />
       <Route path="/estimateform" element={<EstimateForm />} />
+      {/* <Route path="/estimatedetail/:id" element={<EstimateDetail />} />
+      <Route path="/estimatemodify/:id" element={<EstimateModify />} />
+      <Route path="/estimatelist" element={<EstimateList />} /> */}
     </Routes>
   );
 }
