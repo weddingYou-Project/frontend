@@ -10,9 +10,6 @@ import Mypage from "./Pages/Mypage";
 import UserUpdate from "./Pages/UserUpdate";
 import NotFound from "./Pages/NotFound";
 import EstimateForm from "./Pages/EstimateForm";
-// import EstimateList from "./Pages/EstimateList";
-// import EstimateDetail from "./Pages/EstimateDetail";
-// import EstimateModify from "./Pages/EstimateModify";
 import Item from "./Components/Item";
 
 function App() {
@@ -44,3 +41,8 @@ function App() {
 }
 
 export default App;
+
+//견적서 리스트, 견적서상세보기, 견적서수정 컴포넌트 임포트문
+// import EstimateList from "./Pages/EstimateList";
+// import EstimateDetail from "./Pages/EstimateDetail";
+// import EstimateModify from "./Pages/EstimateModify";
