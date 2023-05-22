@@ -15,6 +15,7 @@
   border-radius: 10px;
   cursor: pointer;
   transition: background-color 0.2s ease-in-out;
+  font-size: 1.3em;
 }
 
 .category-button:hover,
@@ -27,6 +28,7 @@
   width: 75%;
   height: 100%;
   margin: 2rem auto;
+  font-size: 1.3em;
 }
 
 .title-input {
@@ -36,6 +38,7 @@
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 4px;
+
 }
 
 .content-textarea {
@@ -45,10 +48,10 @@
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 4px;
+
 }
 
 .submit-button {
-  font-size: 1rem;
   font-weight: 500;
   color: #000;
   background-color: #f9f5f5;
@@ -58,10 +61,12 @@
   border-radius: 10px;
   cursor: pointer;
   transition: background-color 0.2s ease-in-out;
+
 }
 .submit-button:hover {
   background-color: #105ff1;
   color: #f9f5f5;
+  font-size: 1.3em;
 }
 .cancel-button {
   font-size: 1rem;
@@ -74,8 +79,10 @@
   border-radius: 10px;
   cursor: pointer;
   transition: background-color 0.2s ease-in-out;
+  font-size: 1.3em;
 }
 .cancel-button:hover {
   background-color: #e39393;
   color: #f9f5f5;
+  font-size: 1.3em;
 }

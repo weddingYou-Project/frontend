@@ -4,7 +4,7 @@ import axios from "axios";
 import NavigationBar from "../../Components/NavigationBar";
 import Footer from "../../Components/Footer";
 import "../../Css/WritePost.css";
-
+import selectImg from "../../Assets/selectImg.webp";
 const categoryOptions = {
   weddinghall: ["일반", "호텔", "채플", "스몰", "야외", "전통혼례"],
   weddingoutfit: [
@@ -18,9 +18,17 @@ const categoryOptions = {
     "한복",
   ],
   studio: ["인물중심", "배경중심", "균형적인"],
-  makeup: ["헤어", "로맨틱한", "포인트", "내추럴", "스모키", "큐티", "러블리"],
+  makeup: ["헤어", "로맨틱한", "포인트", "네추럴", "스모키", "큐티", "러블리"],
   honeymoon: ["해외", "국내"],
   bouquet: ["라운드", "드롭", "케스케이드", "핸드타이드"],
+};
+const selectedCategory = {
+  weddinghall: "웨딩홀",
+  weddingoutfit: "의상",
+  studio: "스튜디오",
+  makeup: "메이크업",
+  honeymooon: "신혼여행",
+  bouquet: "부케",
 };
 
 const WritePost = () => {
@@ -28,32 +36,41 @@ const WritePost = () => {
   const [itemName, setItemName] = useState("");
   const [content, setContent] = useState("");
   const [image, setImage] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(selectImg);
   const [category2, setCategory2] = useState(categoryOptions[category1][0]);
-
-  useEffect(() => {
-    setCategory2(categoryOptions[category1][0]);
-  }, [category1]);
+  const [selectedCategory1, setSelectedCategory1] = useState(
+    selectedCategory[category1]
+  );
 
   const postItem = () => {
-    const formData = new FormData();
-    formData.append("itemName", itemName);
-    formData.append("content", content);
-    formData.append("category1", category1);
-    formData.append("category2", category2);
-    formData.append("image", image);
+    if (content !== "" && itemName !== "") {
+      const formData = new FormData();
+      formData.append("itemName", itemName);
+      formData.append("content", content);
+      formData.append("category1", selectedCategory1);
+      formData.append("category2", category2);
+      formData.append("file", image);
 
-    axios
-      .post("/item/insertItem", formData)
-      .then((response) => {
-        console.log("성공:", response.data);
-        setItemName("");
-        setContent("");
-        setImage(null);
-        setCategory2(categoryOptions[category1][0]);
-      })
-      .catch((error) => {
-        console.error("실패:", error);
-      });
+      axios
+        .post("/item/insertItem", formData)
+        .then((response) => {
+          console.log("성공:", response.data);
+          setItemName("");
+          setContent("");
+          setImage(null);
+          setCategory2(categoryOptions[category1][0]);
+          setPreviewUrl(selectImg);
+          setImage(null);
+        })
+        .catch((e) => {
+          console.log("실패:", e);
+          if (e.response.data.message === "파일이 중복됩니다!") {
+            alert("첨부파일이 중복됩니다!");
+          }
+        });
+    } else {
+      alert("제목과 내용을 입력하세요!");
+    }
   };
 
   const handleCancel = () => {
@@ -61,16 +78,27 @@ const WritePost = () => {
     setContent("");
     setImage(null);
     setCategory2(categoryOptions[category1][0]);
+    setPreviewUrl(selectImg);
+    setImage(null);
   };
 
   const handleImageChange = (event) => {
     const selectedImage = event.target.files[0];
     setImage(selectedImage);
+    try {
+      const fileReader = new FileReader();
+      fileReader.onload = () => {
+        setPreviewUrl(fileReader.result);
+      };
+      fileReader.readAsDataURL(selectedImage);
+    } catch (e) {
+      setPreviewUrl(selectImg);
+    }
   };
   return (
     <div className="mainlayout">
       <NavigationBar title="글 작성" />
-      <div className="category-container">
+      <div className="category-container" style={{ marginTop: "100px" }}>
         <div className="category-buttons">
           {categoryOptions[category1].map((option, index) => (
             <button
@@ -78,7 +106,10 @@ const WritePost = () => {
               className={`category-button ${
                 category2 === option ? "active" : ""
               }`}
-              onClick={() => setCategory2(option)}
+              onClick={() => {
+                setCategory2(option);
+              }}
+              style={{ marginBottom: "5px" }}
             >
               {option}
             </button>
@@ -100,13 +131,31 @@ const WritePost = () => {
           onChange={(event) => setContent(event.target.value)}
         />
         <input type="file" onChange={handleImageChange} />
+        <img
+          src={previewUrl}
+          alt=""
+          style={{
+            width: "200px",
+            height: "200px",
+            marginTop: "20px",
+            marginBottom: "-20px",
+          }}
+        />
       </div>
-      <div className="button-wrap">
+      <div
+        className="button-wrap"
+        style={{
+          justifyContent: "center",
+          marginRight: "20px",
+          marginTop: "-10px",
+        }}
+      >
         <button
           className="submit-button"
           onClick={() => {
             postItem();
           }}
+          style={{ fontSize: "1.3em" }}
         >
           게시하기
         </button>

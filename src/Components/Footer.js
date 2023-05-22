@@ -178,7 +178,7 @@ function Footer() {
             const category = sessionStorage.getItem("category");
             navigate(`/mypage/${category}`);
           } else {
-            navigate(`/*`);
+            navigate(`/login`);
           }
         }}
       >

@@ -13,6 +13,13 @@ function TemporaryPasswordLogin() {
   const [inputPw, setInputPw] = useState("");
   const [Role, setRole] = useState("회원");
 
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      // 엔터키로 이동
+      onClickLogin();
+    }
+  };
+
   const handleInputId = (e) => {
     setInputId(e.target.value);
   };
@@ -110,6 +117,7 @@ function TemporaryPasswordLogin() {
                 value={inputPw}
                 onChange={handleInputPw}
                 style={{ fontSize: "1.2em" }}
+                onKeyPress={handleKeyPress}
               />
               <div class="input-group" id="Role" style={{ width: 256 }}>
                 <div class="input-group-text">

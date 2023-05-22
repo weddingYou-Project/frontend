@@ -24,7 +24,7 @@ function PasswordSearch() {
   const onClicksend = () => {
     if (Role === "회원") {
       axios
-        .post("user/forgotPassword", {
+        .post("/user/forgotPassword", {
           email: inputId,
         })
         .then((res) => {
@@ -40,7 +40,7 @@ function PasswordSearch() {
         .catch();
     } else if (Role === "플래너") {
       axios
-        .post("planner/forgotPassword", {
+        .post("/planner/forgotPassword", {
           email: inputId,
         })
         .then((res) => {
@@ -64,7 +64,10 @@ function PasswordSearch() {
     <div className="mainlayout">
       <NavigationBar title={"비밀번호 찾기"} />
       <br />
-      <div className="container text-center" style={{ height: "700px" }}>
+      <div
+        className="container text-center"
+        style={{ marginTop: "100px", height: "700px" }}
+      >
         <div className="row">
           <div className="col-2"></div>
           <div className="col-8">

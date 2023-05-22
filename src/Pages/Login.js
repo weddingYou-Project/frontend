@@ -7,22 +7,35 @@ import Footer from "../Components/Footer";
 import NavigationBar from "../Components/NavigationBar";
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [inputId, setInputId] = useState("");
   const [inputPw, setInputPw] = useState("");
   const [Role, setRole] = useState("회원");
 
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      // 엔터키로 이동
+      onClickLogin();
+    }
+  };
+
+  const navigate = useNavigate();
+
   const handleInputId = (e) => {
     setInputId(e.target.value);
+    console.log(e.target.value);
   };
 
   const handleInputPw = (e) => {
     setInputPw(e.target.value);
+    console.log(e.target.value);
   };
 
   const handleRole = (e) => {
     setRole(e.target.value);
+    console.log(e.target.value);
   };
 
   const onClickLogin = () => {
@@ -43,9 +56,12 @@ function Login() {
             sessionStorage.setItem("email", res.data.email);
             sessionStorage.setItem("category", "user");
             // sessionStorage.setItem("user_name", res.data.name); // sessionStorage에 name을 user_name이라는 key 값으로 저장
+            navigate("/");
           }
         })
-        .catch();
+        .catch((e) => {
+          console.log(e);
+        });
     } else if (Role === "플래너") {
       axios
         .post("/planner/login", {
@@ -63,16 +79,19 @@ function Login() {
             sessionStorage.setItem("email", res.data.email);
             sessionStorage.setItem("category", "planner");
             // sessionStorage.setItem("planner_name", res.data.name); // sessionStorage에 name을 user_name이라는 key 값으로 저장
+            navigate("/");
           }
         })
-        .catch();
+        .catch((e) => {
+          console.log(e);
+        });
     }
   };
 
   return (
     <div className="mainlayout">
       <NavigationBar title={"로그인"} />
-      <div className="container text-center">
+      <div className="container text-center" style={{ marginTop: "50px" }}>
         <div className="row">
           <div className="col"></div>
           <div className="col-6">
@@ -88,6 +107,7 @@ function Login() {
           height: "450px",
           width: "100%",
           zIndex: 1,
+          marginTop: "10px",
         }}
       >
         <form>
@@ -113,6 +133,7 @@ function Login() {
                   value={inputPw}
                   onChange={handleInputPw}
                   style={{ fontSize: "1.3em" }}
+                  onKeyPress={handleKeyPress}
                 />
                 <div class="input-group" id="Role" style={{ width: 256 }}>
                   <div class="input-group-text">

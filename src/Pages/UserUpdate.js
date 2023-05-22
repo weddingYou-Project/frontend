@@ -115,6 +115,7 @@ function UserUpdate() {
       axios
         .post("/user/getprofileImg", { email: sessionStorage.getItem("email") })
         .then((res) => {
+          console.log(res);
           const byteCharacters = atob(res.data);
           const byteNumbers = new Array(byteCharacters.length);
           for (let i = 0; i < byteCharacters.length; i++) {
@@ -191,6 +192,7 @@ function UserUpdate() {
             email: e.target.value,
           })
           .then((res) => {
+            console.log(e.target.value);
             if (res.data === "") {
               setEmailDuplicate(false);
               setEmailMessage("올바른 이메일 형식입니다.");
@@ -692,6 +694,7 @@ function UserUpdate() {
           flexDirection: "column",
           justifyContent: "start",
           paddingTop: "130px",
+          marginTop: "120px",
         }}
       >
         {defaultViewUrl === null ? (
