@@ -17,8 +17,6 @@ import EstimateModify from "./Pages/EstimateModify";
 function App() {
   return (
     <Routes>
-      <Route path="/estimatelist" element={<EstimateList />} />
-      <Route path="/estimateform" element={<EstimateForm />} />
       <Route path="/" element={<Home />}></Route>
       <Route path="/login" element={<Login />}></Route>
       <Route path="/signup" element={<Signup />}></Route>
@@ -37,6 +35,8 @@ function App() {
       <Route path="/mypage/:category/userupdate" element={<UserUpdate />} />
       <Route path="*" element={<NotFound />} />
       <Route path="/estimatemodify/:id" element={<EstimateModify />} />
+      <Route path="/estimatelist" element={<EstimateList />} />
+      <Route path="/estimateform" element={<EstimateForm />} />
     </Routes>
   );
 }
