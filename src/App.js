@@ -19,6 +19,7 @@ import Item from "./Components/Item";
 import EstimateList from "./Pages/EstimateList";
 import EstimateDetail from "./Pages/EstimateDetail";
 import EstimateModify from "./Pages/EstimateModify";
+import AdminPage from "./Pages/AdminPage";
 
 function App() {
   return (
@@ -50,6 +51,8 @@ function App() {
       <Route path="/estimatedetail/:id" element={<EstimateDetail />} />
       <Route path="/estimatemodify/:id" element={<EstimateModify />} />
       <Route path="/estimatelist" element={<EstimateList />} />
+      {/*관리자페이지 Route */}
+      <Route path="/adminpage" element={<AdminPage />} />
     </Routes>
   );
 }
