@@ -325,7 +325,9 @@ const EstimateDetail = () => {
               {estimateData.requirement === "" && (
                 <span>고객요청사항이 없습니다.</span>
               )}
-              {estimateData.requirement}
+              <div style={{ whiteSpace: "pre-wrap" }}>
+                {estimateData.requirement}
+              </div>
             </div>
           </div>
           <div className="update-button-box">
@@ -356,7 +358,11 @@ const EstimateDetail = () => {
               )}
             {window.sessionStorage.getItem("category") === "planner" &&
               estimateData.matchstatus === false && (
-                <button onClick={() => {}} className="btn-colour-1">
+                <button
+                  onClick={() => {}}
+                  className="btn-colour-1"
+                  style={{ marginRight: "10px" }}
+                >
                   매칭신청하기
                 </button>
               )}
@@ -368,6 +374,7 @@ const EstimateDetail = () => {
                     navigate(-1);
                   }}
                   className="btn-colour-1"
+                  style={{ marginRight: "10px" }}
                 >
                   뒤로가기
                 </button>

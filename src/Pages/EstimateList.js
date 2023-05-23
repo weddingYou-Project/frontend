@@ -189,7 +189,13 @@ const EstimateList = () => {
         <div
           className="estimate-write-btn-overlay"
           onClick={() => {
-            navigate("/estimateform");
+            if (window.sessionStorage.getItem("category") === "user")
+              navigate("/estimateform");
+            else if (window.sessionStorage.getItem("category") === "planner") {
+              alert("일반회원으로 로그인해주세요");
+            } else {
+              navigate("../login");
+            }
           }}
         >
           <span>견적작성하기</span>
