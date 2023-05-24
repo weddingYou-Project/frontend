@@ -303,7 +303,7 @@ function Mypage() {
               style={{ display: "flex", flexDirection: "row", width: "100%" }}
             >
               <label
-                htmlFor="name"
+                htmlFor="email"
                 className="form-label  mt-2"
                 style={{
                   marginRight: "10px",
@@ -311,7 +311,7 @@ function Mypage() {
                   fontSize: "1.3em",
                 }}
               >
-                이름
+                이메일
               </label>
               <div
                 className=" mb-4"
@@ -320,8 +320,8 @@ function Mypage() {
                 <input
                   type="text"
                   className="form-control "
-                  id="name"
-                  value={name}
+                  id="email"
+                  value={email}
                   autocomplete="off"
                   disabled
                   style={{ fontSize: "1.1em" }}
@@ -363,7 +363,7 @@ function Mypage() {
               style={{ display: "flex", flexDirection: "row", width: "100%" }}
             >
               <label
-                htmlFor="email"
+                htmlFor="name"
                 className="form-label  mt-2"
                 style={{
                   marginRight: "10px",
@@ -371,7 +371,7 @@ function Mypage() {
                   fontSize: "1.3em",
                 }}
               >
-                이메일
+                이름
               </label>
               <div
                 className="has-validation  mb-4"
@@ -380,8 +380,8 @@ function Mypage() {
                 <input
                   type="text"
                   className="form-control "
-                  id="email"
-                  value={email}
+                  id="name"
+                  value={name}
                   autocomplete="off"
                   disabled
                   style={{ fontSize: "1.1em" }}
