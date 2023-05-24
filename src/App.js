@@ -22,7 +22,7 @@ import EstimateModify from "./Pages/EstimateModify";
 import PlannerProfile from "./Pages/PlannerProfile";
 import PlannerProfileDetail from "./Pages/PlannerProfileDetail";
 import Sidesection from "./Components/Sidesection";
-// import Ratingpage from "./Pages/Ratingpage";
+import Ratingpage from "./Pages/Ratingpage";
 import Checkoutdeposit from "./Pages/checkoutdeposit";
 import Matching from "./Components/Matching";
 import CheckoutAll from "./Pages/checkoutAll";
@@ -64,7 +64,7 @@ function App() {
       <Route path="/checkoutcomp" element={<CheckoutComp />} />
       <Route path="/checkoutall" element={<CheckoutAll />} />
       <Route path="/checkoutdeposit" element={<Checkoutdeposit />} />
-      {/* <Route path="/rating" element={<Ratingpage />} /> */}
+      <Route path="/rating" element={<Ratingpage />} />
       <Route path="/sidesection" element={<Sidesection />} />
     </Routes>
   );

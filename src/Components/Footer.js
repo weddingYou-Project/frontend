@@ -154,7 +154,7 @@ function Footer() {
       <div
         className="icon"
         onClick={() => {
-          navigate("/");
+          navigate("/estimatelist");
         }}
       >
         <svg
