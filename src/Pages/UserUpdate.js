@@ -510,7 +510,7 @@ function UserUpdate() {
 
       if (
         passwordFeedback.current.classList.contains("invalid-feedback") ||
-        emailFeedback.current.classList.contains("invalid-feedback") ||
+        nameFeedback.current.classList.contains("invalid-feedback") ||
         phoneFeedback.current.classList.contains("invalid-feedback")
       ) {
         setAllCheck(false);

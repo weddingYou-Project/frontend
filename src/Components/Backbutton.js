@@ -75,6 +75,8 @@ function BackButton({ engTitle }) {
             navigate(`/menu/${engTitle}`);
           } else if (path.indexOf("/estimatedetail") !== -1) {
             navigate("/estimatelist");
+          } else if (path.indexOf("/plannerprofiledetail") !== -1) {
+            navigate("/plannerprofile");
           } else {
             navigate("/");
           }
