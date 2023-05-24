@@ -20,6 +20,7 @@ function UserUpdate() {
   }
   const title = `${userOrPlanner}정보 수정`;
   const [name, setName] = useState("");
+  const [defaultName, setDefaultName] = useState("");
   const [password, setPassword] = useState("");
   const [defaultPassword, setDefaultPassword] = useState("");
   const [email, setEmail] = useState(sessionStorage.getItem(""));
@@ -49,9 +50,9 @@ function UserUpdate() {
   const careerFeedback = useRef();
   const profileUpdateModal = useRef();
 
-  const [nameMessage, setNameMessage] = useState("looks good!");
-  const [passwordMessage, setPasswordMessage] = useState("looks good!");
   const [emailMessage, setEmailMessage] = useState("looks good!");
+  const [passwordMessage, setPasswordMessage] = useState("looks good!");
+  const [nameMessage, setNameMessage] = useState("looks good!");
   const [phoneMessage, setPhoneMessage] = useState("looks good!");
   const [careerMessage, setCareerMessage] = useState("looks good!");
   const [genderMessage, setGenderMessage] = useState("looks good!");
@@ -100,8 +101,8 @@ function UserUpdate() {
         .post("/user/userSearch", { email: sessionStorage.getItem("email") })
         .then((res) => {
           setName(res.data.name);
+          setDefaultName(res.data.name);
           setEmail(res.data.email);
-          setDefaultEmail(res.data.email);
           setPassword(res.data.password);
           setDefaultPassword(res.data.password);
           setPhone(res.data.phoneNum);
@@ -143,8 +144,8 @@ function UserUpdate() {
         })
         .then((res) => {
           setName(res.data.name);
+          setDefaultName(res.data.name);
           setEmail(res.data.email);
-          setDefaultEmail(res.data.email);
           setPassword(res.data.password);
           setDefaultPassword(res.data.password);
           setPhone(res.data.phoneNum);
@@ -184,72 +185,72 @@ function UserUpdate() {
     }
   };
 
-  const emailDuplicateCheck = (e) => {
-    if (category === "user") {
-      if (e.target.value !== defaultEmail) {
-        axios
-          .post("/user/userSearch", {
-            email: e.target.value,
-          })
-          .then((res) => {
-            console.log(e.target.value);
-            if (res.data === "") {
-              setEmailDuplicate(false);
-              setEmailMessage("올바른 이메일 형식입니다.");
-              emailInput.current.classList.remove("is-invalid");
-              emailInput.current.classList.add("is-valid");
-              emailFeedback.current.classList.remove("invisible");
-              emailFeedback.current.classList.remove("invalid-feedback");
-              emailFeedback.current.classList.add("valid-feedback");
-              setAllCheck(true);
-              setAnyChange(true);
-            } else {
-              setEmailDuplicate(true);
-              setEmailMessage("이메일이 중복됩니다.");
-              emailFeedback.current.classList.remove("invisible");
-              emailFeedback.current.classList.remove("valid-feedback");
-              emailFeedback.current.classList.add("invalid-feedback");
-              emailInput.current.classList.remove("is-valid");
-              emailInput.current.classList.add("is-invalid");
-              setAllCheck(false);
-            }
-          })
-          .catch((e) => {
-            console.log(e);
-          });
-      }
-    }
-    if (category === "planner") {
-      if (e.target.value !== defaultEmail) {
-        axios
-          .post("/planner/plannerSearch", {
-            email: e.target.value,
-          })
-          .then((res) => {
-            setEmailDuplicate(true);
-            setEmailMessage("이메일이 중복됩니다.");
-            emailFeedback.current.classList.remove("invisible");
-            emailFeedback.current.classList.remove("valid-feedback");
-            emailFeedback.current.classList.add("invalid-feedback");
-            emailInput.current.classList.remove("is-valid");
-            emailInput.current.classList.add("is-invalid");
-            setAllCheck(false);
-          })
-          .catch((e) => {
-            console.log(e);
-            setEmailDuplicate(false);
-            setEmailMessage("올바른 이메일 형식입니다.");
-            emailInput.current.classList.remove("is-invalid");
-            emailInput.current.classList.add("is-valid");
-            emailFeedback.current.classList.remove("invisible");
-            emailFeedback.current.classList.remove("invalid-feedback");
-            emailFeedback.current.classList.add("valid-feedback");
-            setAllCheck(true);
-            setAnyChange(true);
-          });
-      }
-    }
-  };
+  // const emailDuplicateCheck = (e) => {
+  //   if (category === "user") {
+  //     if (e.target.value !== defaultEmail) {
+  //       axios
+  //         .post("/user/userSearch", {
+  //           email: e.target.value,
+  //         })
+  //         .then((res) => {
+  //           console.log(e.target.value);
+  //           if (res.data === "") {
+  //             setEmailDuplicate(false);
+  //             setEmailMessage("올바른 이메일 형식입니다.");
+  //             emailInput.current.classList.remove("is-invalid");
+  //             emailInput.current.classList.add("is-valid");
+  //             emailFeedback.current.classList.remove("invisible");
+  //             emailFeedback.current.classList.remove("invalid-feedback");
+  //             emailFeedback.current.classList.add("valid-feedback");
+  //             setAllCheck(true);
+  //             setAnyChange(true);
+  //           } else {
+  //             setEmailDuplicate(true);
+  //             setEmailMessage("이메일이 중복됩니다.");
+  //             emailFeedback.current.classList.remove("invisible");
+  //             emailFeedback.current.classList.remove("valid-feedback");
+  //             emailFeedback.current.classList.add("invalid-feedback");
+  //             emailInput.current.classList.remove("is-valid");
+  //             emailInput.current.classList.add("is-invalid");
+  //             setAllCheck(false);
+  //           }
+  //         })
+  //         .catch((e) => {
+  //           console.log(e);
+  //         });
+  //     }
+  //   }
+  //   if (category === "planner") {
+  //     if (e.target.value !== defaultEmail) {
+  //       axios
+  //         .post("/planner/plannerSearch", {
+  //           email: e.target.value,
+  //         })
+  //         .then((res) => {
+  //           setEmailDuplicate(true);
+  //           setEmailMessage("이메일이 중복됩니다.");
+  //           emailFeedback.current.classList.remove("invisible");
+  //           emailFeedback.current.classList.remove("valid-feedback");
+  //           emailFeedback.current.classList.add("invalid-feedback");
+  //           emailInput.current.classList.remove("is-valid");
+  //           emailInput.current.classList.add("is-invalid");
+  //           setAllCheck(false);
+  //         })
+  //         .catch((e) => {
+  //           console.log(e);
+  //           setEmailDuplicate(false);
+  //           setEmailMessage("올바른 이메일 형식입니다.");
+  //           emailInput.current.classList.remove("is-invalid");
+  //           emailInput.current.classList.add("is-valid");
+  //           emailFeedback.current.classList.remove("invisible");
+  //           emailFeedback.current.classList.remove("invalid-feedback");
+  //           emailFeedback.current.classList.add("valid-feedback");
+  //           setAllCheck(true);
+  //           setAnyChange(true);
+  //         });
+  //     }
+  //   }
+  // };
 
   useEffect(() => {
     checkInputs();
@@ -257,7 +258,7 @@ function UserUpdate() {
 
   const setDefaultValue = () => {
     setPassword(defaultPassword);
-    setEmail(defaultEmail);
+    setName(defaultName);
     setPhone(defaultPhone);
     setGender(defaultGender);
     setCareer(defaultCareer);
@@ -268,12 +269,12 @@ function UserUpdate() {
     passwordInput.current.classList.remove("is-invalid");
     setPasswordMessage("returning to default");
 
-    emailFeedback.current.classList.add("invisible");
-    emailFeedback.current.classList.remove("valid-feedback");
-    emailFeedback.current.classList.remove("invalid-feedback");
-    emailInput.current.classList.remove("is-valid");
-    emailInput.current.classList.remove("is-invalid");
-    setEmailMessage("returning to default");
+    nameFeedback.current.classList.add("invisible");
+    nameFeedback.current.classList.remove("valid-feedback");
+    nameFeedback.current.classList.remove("invalid-feedback");
+    nameInput.current.classList.remove("is-valid");
+    nameInput.current.classList.remove("is-invalid");
+    setNameMessage("returning to default");
 
     phoneFeedback.current.classList.add("invisible");
     phoneFeedback.current.classList.remove("valid-feedback");
@@ -302,11 +303,11 @@ function UserUpdate() {
     passwordInput.current.classList.remove("is-invalid");
     setPasswordMessage("returning to default");
 
-    emailFeedback.current.classList.add("invisible");
-    emailFeedback.current.classList.remove("valid-feedback");
-    emailFeedback.current.classList.remove("invalid-feedback");
-    emailInput.current.classList.remove("is-valid");
-    emailInput.current.classList.remove("is-invalid");
+    nameFeedback.current.classList.add("invisible");
+    nameFeedback.current.classList.remove("valid-feedback");
+    nameFeedback.current.classList.remove("invalid-feedback");
+    nameInput.current.classList.remove("is-valid");
+    nameInput.current.classList.remove("is-invalid");
 
     phoneFeedback.current.classList.add("invisible");
     phoneFeedback.current.classList.remove("valid-feedback");
@@ -330,6 +331,7 @@ function UserUpdate() {
     //초기화 설정
     setAllCheck(true);
     setAnyChange(false);
+
     if (e.target.id === "password") {
       setPassword(e.target.value);
       const passwordRegExp =
@@ -366,31 +368,39 @@ function UserUpdate() {
         passwordInput.current.classList.add("is-invalid");
         setAllCheck(false);
       }
-    } else if (e.target.id === "email") {
-      setEmail(e.target.value);
-      const emailRegExp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-      if (emailRegExp.test(e.target.value)) {
-        if (e.target.value === defaultEmail) {
-          emailFeedback.current.classList.add("invisible");
-          emailFeedback.current.classList.remove("valid-feedback");
-          emailFeedback.current.classList.remove("invalid-feedback");
-          emailInput.current.classList.remove("is-valid");
-          emailInput.current.classList.remove("is-invalid");
+    } else if (e.target.id === "name") {
+      console.log(e.target.value);
+      setName(e.target.value);
+      const koreanNameRegExp = /^[가-힣\s]+$/;
+
+      if (koreanNameRegExp.test(e.target.value)) {
+        if (e.target.value === defaultName) {
+          setNameMessage("same name");
+          nameFeedback.current.classList.add("invisible");
+          nameFeedback.current.classList.remove("valid-feedback");
+          nameFeedback.current.classList.remove("invalid-feedback");
+          nameInput.current.classList.remove("is-valid");
+          nameInput.current.classList.remove("is-invalid");
         } else {
-          emailDuplicateCheck(e);
+          setNameMessage("올바른 이름 형식입니다");
+          nameInput.current.classList.remove("is-invalid");
+          nameInput.current.classList.add("is-valid");
+          nameFeedback.current.classList.remove("invisible");
+          nameFeedback.current.classList.remove("invalid-feedback");
+          nameFeedback.current.classList.add("valid-feedback");
+          setAnyChange(true);
         }
       } else {
         if (e.target.value === "") {
-          setEmailMessage("이메일을 작성해주세요.");
+          setNameMessage("이름을 작성해주세요.");
         } else {
-          setEmailMessage("올바른 이메일 형식으로 작성해주세요.");
+          setNameMessage("한굴 5자 이하");
         }
-
-        emailFeedback.current.classList.remove("invisible");
-        emailFeedback.current.classList.remove("valid-feedback");
-        emailFeedback.current.classList.add("invalid-feedback");
-        emailInput.current.classList.remove("is-valid");
-        emailInput.current.classList.add("is-invalid");
+        nameFeedback.current.classList.remove("invisible");
+        nameFeedback.current.classList.remove("valid-feedback");
+        nameFeedback.current.classList.add("invalid-feedback");
+        nameInput.current.classList.remove("is-valid");
+        nameInput.current.classList.add("is-invalid");
         setAllCheck(false);
       }
     } else if (e.target.id === "phone") {
@@ -491,7 +501,7 @@ function UserUpdate() {
     if (category === "user") {
       if (
         passwordInput.current.value === defaultPassword &&
-        emailInput.current.value === defaultEmail &&
+        nameInput.current.value === defaultName &&
         phoneInput.current.value === defaultPhone &&
         gender === defaultGender
       ) {
@@ -508,7 +518,7 @@ function UserUpdate() {
 
       if (
         passwordFeedback.current.classList.contains("valid-feedback") ||
-        emailFeedback.current.classList.contains("valid-feedback") ||
+        nameFeedback.current.classList.contains("valid-feedback") ||
         phoneFeedback.current.classList.contains("valid-feedback") ||
         gender !== defaultGender
       ) {
@@ -517,7 +527,7 @@ function UserUpdate() {
     } else if (category === "planner") {
       if (
         passwordInput.current.value === defaultPassword &&
-        emailInput.current.value === defaultEmail &&
+        nameInput.current.value === defaultName &&
         phoneInput.current.value === defaultPhone &&
         gender === defaultGender &&
         careerInput.current.value === defaultCareer
@@ -526,7 +536,7 @@ function UserUpdate() {
       }
       if (
         passwordFeedback.current.classList.contains("invalid-feedback") ||
-        emailFeedback.current.classList.contains("invalid-feedback") ||
+        nameFeedback.current.classList.contains("invalid-feedback") ||
         phoneFeedback.current.classList.contains("invalid-feedback") ||
         careerFeedback.current.classList.contains("invalid-feedback")
       ) {
@@ -534,7 +544,7 @@ function UserUpdate() {
       }
       if (
         passwordFeedback.current.classList.contains("valid-feedback") ||
-        emailFeedback.current.classList.contains("valid-feedback") ||
+        nameFeedback.current.classList.contains("valid-feedback") ||
         phoneFeedback.current.classList.contains("valid-feedback") ||
         careerFeedback.current.classList.contains("valid-feedback") ||
         gender !== defaultGender
@@ -553,22 +563,24 @@ function UserUpdate() {
         .then((res) => {
           axios
             .post("/user/userUpdate", {
-              preemail: sessionStorage.getItem("email"),
+              email: sessionStorage.getItem("email"),
               password: password,
-              email: email,
+              name: name,
               phoneNum: phone,
               gender: gender,
             })
             .then((res) => {
               setEmail(res.data.email);
               setDefaultEmail(res.data.email);
+              setName(res.data.name);
+              setDefaultName(res.data.name);
               setPassword(res.data.password);
               setDefaultPassword(res.data.password);
               setPhone(res.data.phoneNum);
               setDefaultPhone(res.data.phoneNum);
               setGender(res.data.gender);
               setDefaultGender(res.data.gender);
-              window.sessionStorage.setItem("email", email);
+
               alert("수정 완료!");
             })
             .catch((e) => {
@@ -588,9 +600,9 @@ function UserUpdate() {
         .then((res) => {
           axios
             .post("/planner/userUpdate", {
-              preemail: sessionStorage.getItem("email"),
+              email: sessionStorage.getItem("email"),
               password: password,
-              email: email,
+              name: name,
               phoneNum: phone,
               gender: gender,
               career: career,
@@ -598,6 +610,8 @@ function UserUpdate() {
             .then((res) => {
               setEmail(res.data.email);
               setDefaultEmail(res.data.email);
+              setName(res.data.name);
+              setDefaultName(res.data.name);
               setPassword(res.data.password);
               setDefaultPassword(res.data.password);
               setPhone(res.data.phoneNum);
@@ -606,7 +620,7 @@ function UserUpdate() {
               setDefaultGender(res.data.gender);
               setCareer(res.data.plannerCareerYears);
               setDefaultCareer(res.data.plannerCareerYears);
-              window.sessionStorage.setItem("email", email);
+
               alert("수정 완료!");
             })
             .catch((e) => {
@@ -741,15 +755,15 @@ function UserUpdate() {
               class="form-label mt-2 text-center"
               style={{ marginRight: "10px", width: "200px", fontSize: "1.3em" }}
             >
-              이름
+              이메일
             </label>
             <div style={{ width: "250px", marginRight: "20px" }}>
               <input
                 type="text"
                 class="form-control "
-                id="name"
-                ref={nameInput}
-                value={name}
+                id="email"
+                ref={emailInput}
+                value={email}
                 autoComplete="off"
                 disabled
                 style={{ fontSize: "1.1em" }}
@@ -759,7 +773,7 @@ function UserUpdate() {
                 ref={nameFeedback}
                 style={{ fontSize: "1.1em" }}
               >
-                {nameMessage}
+                {emailMessage}
               </div>
             </div>
           </div>
@@ -804,11 +818,11 @@ function UserUpdate() {
             style={{ display: "flex", flexDirection: "row" }}
           >
             <label
-              for="email"
+              for="name"
               class="form-label mt-2"
               style={{ marginRight: "10px", width: "200px", fontSize: "1.3em" }}
             >
-              이메일
+              이름
             </label>
             <div
               class="has-validation "
@@ -817,21 +831,21 @@ function UserUpdate() {
               <input
                 type="text"
                 class="form-control "
-                id="email"
-                ref={emailInput}
-                value={email}
-                placeholder={email}
+                id="name"
+                ref={nameInput}
+                value={name}
+                placeholder={name}
                 onChange={onChange}
                 autoComplete="off"
                 maxLength="100"
                 style={{ fontSize: "1.1em" }}
               />
               <div
-                class="invisible text-start email-feedback"
-                ref={emailFeedback}
+                class="invisible text-start name-feedback"
+                ref={nameFeedback}
                 style={{ fontSize: "1.1em" }}
               >
-                {emailMessage}
+                {nameMessage}
               </div>
             </div>
           </div>

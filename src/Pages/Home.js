@@ -1079,7 +1079,7 @@ function Home() {
   // console.log(bouquetLikeState);
 
   return (
-    <div className="mainlayout">
+    <div className="mainlayout" style={{ position: "relative" }}>
       {window.scrollY !== 0 ? (
         <div
           className="header "
@@ -2292,18 +2292,36 @@ function Home() {
               </div>
               <br />
             </div>
-          </div>
-          <div style={{ height: 94.19 }}></div>
-          <div className="button-container">
-            <button
-              className="probutton"
-              onClick={() => {
-                navigate("/estimateform");
+            <div
+              style={{
+                width: "560px",
+                position: "fixed",
+                bottom: "100px",
+                height: "50px",
+                display: "flex",
+                justifyContent: "end",
+                paddingRight: "30px",
               }}
             >
-              견적작성
-            </button>
+              <div style={{}}>
+                <div className="estimate-write-btn">
+                  <i
+                    class="bi bi-pencil-square"
+                    style={{ marginRight: "10px" }}
+                  ></i>
+                  <div
+                    className="estimate-write-btn-overlay"
+                    onClick={() => {
+                      navigate("/estimateform");
+                    }}
+                  >
+                    <span>견적작성하기</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
+          <div style={{ height: 94.19 }}></div>
         </div>
       )}
       <Footer />

@@ -61,8 +61,6 @@ function BackButton({ engTitle }) {
             path.indexOf("/menu/bouquet") !== -1
           ) {
             navigate("/menu");
-          } else if (path.indexOf("/writepost/weddinghall") !== -1) {
-            navigate("/menu/weddinghall");
           } else if (path.indexOf("/writepost/studio") !== -1) {
             navigate("/menu/studio");
           } else if (path.indexOf("/writepost/weddingoutfit") !== -1) {
@@ -75,6 +73,8 @@ function BackButton({ engTitle }) {
             navigate("/menu/bouquet");
           } else if (path.indexOf("/editpost") !== -1) {
             navigate(`/menu/${engTitle}`);
+          } else if (path.indexOf("/estimatedetail") !== -1) {
+            navigate("/estimatelist");
           } else {
             navigate("/");
           }

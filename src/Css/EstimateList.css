@@ -198,19 +198,18 @@ div {
     width: 50px;
     height: 50px;
     border-radius: 20px;
-    position: fixed;
     background-color: rgba(64, 126, 241, 0.8);
-    bottom: 160px;
-    right: 700px;
+    bottom: 130px;
+    right:100;
     display: flex;
-    justify-content: right;
+    justify-content: end;
     align-items: center;
     font-size: 26px;
     color:white;
     z-index: 1;
 }
 .estimate-write-btn i {
-    position: absolute;
+ 
     left: 12px ;
     bottom: 4px;
 }

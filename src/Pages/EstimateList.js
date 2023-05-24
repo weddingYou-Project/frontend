@@ -184,17 +184,20 @@ const EstimateList = () => {
       >
         <i class="bi bi-chevron-up"></i>
       </div>
-      <div className="estimate-write-btn">
-        <i class="bi bi-pencil-square"></i>
-        <div
-          className="estimate-write-btn-overlay"
-          onClick={() => {
-            navigate("/estimateform");
-          }}
-        >
-          <span>견적작성하기</span>
+      {sessionStorage.getItem("category") === "user" ? (
+        <div className="estimate-write-btn">
+          <i class="bi bi-pencil-square"></i>
+          <div
+            className="estimate-write-btn-overlay"
+            onClick={() => {
+              navigate("/estimateform");
+            }}
+          >
+            <span>견적작성하기</span>
+          </div>
         </div>
-      </div>
+      ) : null}
+
       <div className="EstimateListContainer">
         <div className="EstimateListSearchbarBox">
           <input
