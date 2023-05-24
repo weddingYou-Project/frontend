@@ -61,6 +61,7 @@ const WritePost = () => {
           setCategory2(categoryOptions[category1][0]);
           setPreviewUrl(selectImg);
           setImage(null);
+          alert("아이템 업로드 완료!");
         })
         .catch((e) => {
           console.log("실패:", e);
