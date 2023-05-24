@@ -120,6 +120,7 @@ function PlannerProfile() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

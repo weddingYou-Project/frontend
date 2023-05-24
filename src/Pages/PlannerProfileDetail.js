@@ -28,7 +28,11 @@ function PlannerProfileDetail() {
 
       <div
         class="container text-center"
-        style={{ marginTop: "100px", minHeight: "100vh" }}
+        style={{
+          marginTop: "100px",
+          minHeight: "100vh",
+          marginBottom: "100px",
+        }}
       >
         <div
           style={{
@@ -148,6 +152,7 @@ function PlannerProfileDetail() {
           견적요청
         </button>
       </div>
+      <Footer />
     </div>
   );
 }
