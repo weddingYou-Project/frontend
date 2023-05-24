@@ -21,6 +21,12 @@ import EstimateDetail from "./Pages/EstimateDetail";
 import EstimateModify from "./Pages/EstimateModify";
 import PlannerProfile from "./Pages/PlannerProfile";
 import PlannerProfileDetail from "./Pages/PlannerProfileDetail";
+import Sidesection from "./Components/Sidesection";
+// import Ratingpage from "./Pages/Ratingpage";
+import Checkoutdeposit from "./Pages/checkoutdeposit";
+import Matching from "./Components/Matching";
+import CheckoutAll from "./Pages/checkoutAll";
+import CheckoutComp from "./Pages/checkoutComp";
 
 function App() {
   return (
@@ -54,6 +60,12 @@ function App() {
       <Route path="/estimatelist" element={<EstimateList />} />
       <Route path="/plannerprofile" element={<PlannerProfile />} />
       <Route path="/plannerprofiledetail" element={<PlannerProfileDetail />} />
+      <Route path="/matching" element={<Matching />} />
+      <Route path="/checkoutcomp" element={<CheckoutComp />} />
+      <Route path="/checkoutall" element={<CheckoutAll />} />
+      <Route path="/checkoutdeposit" element={<Checkoutdeposit />} />
+      {/* <Route path="/rating" element={<Ratingpage />} /> */}
+      <Route path="/sidesection" element={<Sidesection />} />
     </Routes>
   );
 }

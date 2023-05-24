@@ -61,6 +61,7 @@ const Weddinghall = ({ postSubmitted }) => {
     axios
       .get(`/item/itemList/${title}/${selectedCategory}`)
       .then((res) => {
+        console.log(res);
         const dataList = res.data;
         console.log(res.data);
 
