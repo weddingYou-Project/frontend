@@ -20,6 +20,7 @@ import EstimateList from "./Pages/EstimateList";
 import EstimateDetail from "./Pages/EstimateDetail";
 import EstimateModify from "./Pages/EstimateModify";
 import PlannerProfile from "./Pages/PlannerProfile";
+import PlannerProfileDetail from "./Pages/PlannerProfileDetail";
 
 function App() {
   return (
@@ -52,6 +53,7 @@ function App() {
       <Route path="/estimatemodify/:id" element={<EstimateModify />} />
       <Route path="/estimatelist" element={<EstimateList />} />
       <Route path="/plannerprofile" element={<PlannerProfile />} />
+      <Route path="/plannerprofiledetail" element={<PlannerProfileDetail />} />
     </Routes>
   );
 }

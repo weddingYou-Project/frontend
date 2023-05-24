@@ -17,11 +17,15 @@ function PlannerProfile() {
   const [matchingCount, setMatchingCount] = useState(0);
 
   const [selectedSort, setSelectedSort] = useState("정렬"); // 초기 버튼명 설정
+  const navigate = useNavigate();
 
   const handleSortClick = (sort) => {
     setSelectedSort(sort); // 선택한 정렬로 버튼명 변경
   };
 
+  const goProfileDetail = () => {
+    navigate(`/plannerprofiledetail`);
+  };
   return (
     <div className="mainlayout">
       <NavigationBar title={"플래너 프로필"} />
@@ -95,6 +99,7 @@ function PlannerProfile() {
                 marginLeft: "30px",
                 cursor: "pointer",
               }}
+              onClick={goProfileDetail}
             />
             <div style={{ fontSize: "1.8em", marginLeft: "30px" }}>
               planner1
