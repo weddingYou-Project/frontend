@@ -45,13 +45,13 @@ div {
 }
 
 .adminpage-Administration-list thead td {
-    width: 5%;
     font-size: 20px;
     text-align: center;
     font-weight: bold;
 }
 .adminpage-Administration-list tbody td {
     text-align: center;
+    border: 1px solid black;
 }
 
 .adminpage-pagingAndResearchBox{
@@ -62,9 +62,52 @@ div {
     bottom: 0;
 }
 .adminpage-pagingAndResearchBox div {
-    height: 50%;
     font-size: 20px;
     display: flex;
-    align-items: center;
+    /* align-items: center; */
     justify-content: center;
+}
+
+.adminpage-pagingAndResearchBox div:nth-child(1){
+    height: 30%;
+}
+.adminpage-pagingAndResearchBox div:nth-child(2){
+    height: 70%;
+}
+
+
+
+.adminpage-pagingAndResearchBox .form-control {
+    width: 50%;
+    height: 40px;
+}
+
+
+.adminpage-Administration-list-head-box {
+    width: 100%;
+    /* background: blue; */
+}
+.adminpage-Administration-list-body-box {
+    width: 100%;
+}
+
+.adminpage-Administration-list-head {
+    text-align: center;
+    /* border: 1px solid black; */
+    display: inline-block;
+    font-weight: bold;
+    font-size: 20px;
+}
+.adminpage-Administration-list-body {
+    text-align: center;
+    /* border: 1px solid black; */
+    display: inline-block;
+    font-size: 17px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.adminpage-Administration-list-body-box:hover {
+    font-weight: bold;
 }
