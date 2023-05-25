@@ -78,7 +78,8 @@ function BackButton({ engTitle }) {
           } else if (path.indexOf("/plannerprofiledetail") !== -1) {
             navigate("/plannerprofile");
           } else if (path.indexOf("/matching") !== -1) {
-            navigate("/mypage/user");
+            const category = sessionStorage.getItem("category");
+            navigate(`/mypage/${category}`);
           } else {
             navigate("/");
           }
