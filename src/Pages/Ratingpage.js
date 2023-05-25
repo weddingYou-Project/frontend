@@ -5,6 +5,8 @@ import "../Css/main.css";
 import "../Css/Ratingpage.css";
 import imgLogo from "../Assets/logo.png";
 import selectImg from "../Assets/selectImg.webp";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const ARRAY = [0, 1, 2, 3, 4];
 
@@ -16,6 +18,9 @@ function Ratingpage() {
   const [reviewText, setReviewText] = useState("");
   const [image, setImage] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(selectImg);
+  const [plannerEmail, setPlannerEmail] = useState("");
+  const [plannerName, setPlannerName] = useState("000플래너");
+  const [plannerImg, setPlannerImg] = useState(null);
 
   const handleStarClick = (index) => {
     let clickStates = [...clicked];
@@ -28,17 +33,40 @@ function Ratingpage() {
     setRating(Rating);
   };
 
+  // useEffect(() => {
+  //   sendReview();
+  // }, [clicked]);
+
   useEffect(() => {
-    sendReview();
-  }, [clicked]);
+    //planner 정보 불러와서 000플래너 자리에 집어넣기
+  }, []);
 
   const reviewtext = useRef();
 
-  const sendReview = () => {
-    setScore(clicked.filter(Boolean).length);
-  };
+  const navigate = useNavigate();
 
-  const insertReview = () => {};
+  // const sendReview = () => {
+  //   setScore(clicked.filter(Boolean).length);
+  // };
+
+  const insertReview = () => {
+    const formData = new FormData();
+    formData.append("reviewText", reviewText);
+    formData.append("reviewStars", rating);
+    formData.append("reviewImg", image);
+    formData.append("userEmail", sessionStorage.getItem("email"));
+    formData.append("plannerEmail", "planner2@naver.com");
+    axios
+      .post("/reviews", formData)
+      .then((res) => {
+        console.log("성공:", res);
+        navigate(`/`);
+        alert("리뷰 작성 완료!");
+      })
+      .catch((e) => {
+        console.log("실패:", e);
+      });
+  };
 
   const handleImageChange = (event) => {
     const selectedImage = event.target.files[0];
@@ -59,7 +87,7 @@ function Ratingpage() {
       <p className="headtxt">서비스가 어떠셨나요?</p>
       <div className="plannerpro">
         <img src={imgLogo} className="plannerproimg" />
-        <p className="plannerName">000 플래너</p>
+        <p className="plannerName">{plannerName}</p>
       </div>
       <form>
         <div className="stars">
