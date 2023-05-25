@@ -50,7 +50,11 @@ function CheckoutAll() {
         <p className="plannerName">000 플래너</p>
       </div>
       <div className="mb-3 row checkouttext">
-        <label for="staticEmail" className="col-sm-4 col-form-label">
+        <label
+          for="staticEmail"
+          style={{ fontSize: "0.9em" }}
+          className="col-sm-4 col-form-label"
+        >
           상품명
         </label>
         <div className="col-sm-8">
@@ -60,16 +64,21 @@ function CheckoutAll() {
             className="form-control-plaintext"
             id="itemName"
             value="맞춤형 웨딩플래너 서비스"
+            style={{ fontSize: "0.9em" }}
           />
         </div>
       </div>
       {/* <hr /> */}
       <div className="mb-3 row checkouttext">
-        <label for="staticEmail" className="col-sm-4 col-form-label">
+        <label
+          for="staticEmail"
+          style={{ fontSize: "0.9em" }}
+          className="col-sm-4 col-form-label"
+        >
           상품 상세정보
         </label>
         <div className="col-sm-8">
-          <p className="detailcheckout">
+          <p className="detailcheckout" style={{ fontSize: "0.9em" }}>
             플래너 매칭비용 - 계약금
             <br /> (300,000원) - (100,000원)
           </p>
@@ -77,7 +86,11 @@ function CheckoutAll() {
       </div>
       {/* <hr /> */}
       <div className="mb-3 row checkouttext">
-        <label for="staticEmail" className="col-sm-4 col-form-label">
+        <label
+          for="staticEmail"
+          style={{ fontSize: "0.9em" }}
+          className="col-sm-4 col-form-label"
+        >
           상품 금액
         </label>
         <div className="col-sm-8">
@@ -87,6 +100,7 @@ function CheckoutAll() {
             className="form-control-plaintext"
             id="itemName"
             value="200,000원"
+            style={{ fontSize: "0.9em" }}
           />
         </div>
       </div>
