@@ -1,12 +1,16 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../Components/Footer";
 import NavigationBar from "../Components/NavigationBar";
+
 import "../Css/AdminPage.css";
 
 const AdminPage = () => {
-  //의문점 이메일은 안보여줘도 되는지
+  useEffect(() => {
+    getList();
+  }, []);
+
   const navigate = useNavigate();
   let [user, setUser] = useState({
     username: "송경세",
@@ -22,17 +26,7 @@ const AdminPage = () => {
     gender: "여자",
     joinDate: "2023-05-04",
   });
-
-  const 실험 = () => {
-    setUser({
-      username: "송경상",
-      category: "planner",
-      phone: "010-3423-3424",
-      gender: "여자",
-      joinDate: "2023-02-01",
-    });
-  };
-
+  //유저 데이터 더미
   let array = [
     { ...user },
     { ...planner },
@@ -47,9 +41,9 @@ const AdminPage = () => {
     { ...planner },
   ];
 
+  //카테고리 클릭시 스타일 부여하는 state 및 함수
   let [rolldown, setRolldown] = useState("rolldown");
   let [rolldown2, setRolldown2] = useState("");
-
   function rolldownControl(e) {
     let num = e.target.dataset.id;
     if (num == 0) {
@@ -65,21 +59,31 @@ const AdminPage = () => {
     }
   }
 
+  //모달창의 모드를 구분함 초기값 "user"
   let [modalMode, setModalMode] = useState("user");
+
+  //게시글의 상태가 검색을 하는 상태인지 구분하는 state 이걸통해 페이징 처리를 올바르게 할 수 있음.
   let [postSearchMode, setPostSearchMode] = useState("none");
 
-  //페이징 실험을 위한 부분임.
+  //링크생성 state 및 유저,게시글 데이터 담는 state
   let [pageLink, setPageLink] = useState([]);
   let [postList, setPostList] = useState([]);
-  //스위치를 만들어서 페이징 처리 다르게 하게끔 해야 함.
+  let [userPageLink, setUserPageLink] = useState([1, 2]);
+  let [userList, setUserList] = useState([]);
+
+  //검색어 담는 state And 그 검색어를 따로 저장할 state
+  let postSearchRef = useRef();
+  let userSearchRef = useRef();
+
+  let [userSearch, setUserSearch] = useState("");
+  let [userSearchPageing, setUserSearchPaeing] = useState("");
+
   let [postSearch, setPostSearch] = useState("");
+  let [postSearchPageing, setPostSearchPageing] = useState("");
 
-  let page_num = 1; //페이지 번호 처음에 페이지 들어가면 첫번째 페이지를 보여줘야 하니 1
-  const page_size = 11; //한 페이지에 나타낼 글의 수 가져올 데이터의 개수를 제한할 수 있음.
-  let page_count = 1; //페이지 갯수
-  let article_count; //
-
+  //데이터 가져오는 함수(검색어 X)
   const getList = () => {
+    setPostSearchMode("none");
     axios
       .get("http://localhost:8080/estimate/getcount", {})
       .then((res) => {
@@ -114,13 +118,15 @@ const AdminPage = () => {
       .catch((e) => {
         console.error(e);
       });
+    let query = document.querySelectorAll(".pgAll");
+    query.forEach((e) => {
+      e.classList.remove("pageing-select");
+    });
+    document.querySelectorAll(".pgAll")[0].classList.add("pageing-select");
+    setPostSearch("");
   };
-  //페이징처리하기 위함 공식 int start = (page_num - 1 ) * limit;
 
-  useEffect(() => {
-    getList();
-  }, []);
-
+  //게시글 조회시 데이터 담는 부분
   let [postArticle, setPostArticle] = useState({
     id: "",
     title: "",
@@ -128,9 +134,17 @@ const AdminPage = () => {
     writer: "",
     viewcount: null,
     date: "",
+    matchstatus: null,
   });
-
-  const postDetail = (id, title, budget, writer, viewcount, date) => {
+  const postDetail = (
+    id,
+    title,
+    budget,
+    writer,
+    viewcount,
+    date,
+    matchstatus
+  ) => {
     setPostArticle({
       id: id,
       title: title,
@@ -138,10 +152,12 @@ const AdminPage = () => {
       writer: writer,
       viewcount: viewcount,
       date: date,
+      matchstatus: matchstatus,
     });
     setModalMode("post");
   };
 
+  //페이징
   const onPageing = (e) => {
     const fetchData = () => {
       axios
@@ -165,7 +181,7 @@ const AdminPage = () => {
         .post("http://localhost:8080/estimate/getsearchlistpageing", {
           page_num: parseInt(e.target.id),
           limit: page_size,
-          search: postSearch,
+          search: postSearchPageing,
         })
         .then((res) => {
           console.log("res ==>", res);
@@ -189,9 +205,24 @@ const AdminPage = () => {
       fetchData2();
     }
   };
+  let page_num = 1; //페이지 번호 처음에 페이지 들어가면 첫번째 페이지를 보여줘야 하니 1
+  const page_size = 11; //한 페이지에 나타낼 글의 수 가져올 데이터의 개수를 제한할 수 있음.
+  let page_count = 1; //페이지 갯수
+  let article_count; //
 
-  const onSearching = (e) => {
+  //검색어 관련 함수
+  const onPostSearchChange = (e) => {
+    //게시글 검색어
     setPostSearch(e.target.value);
+  };
+  const onUserSearchChange = (e) => {
+    //유저 검색어
+    setUserSearch(e.target.value);
+  };
+
+  const onSearching = () => {
+    //게시글 검색 함수
+    setPostSearchPageing(postSearch);
     setPostSearchMode("search");
     axios
       .post("http://localhost:8080/estimate/getsearchlistcount", {
@@ -231,11 +262,23 @@ const AdminPage = () => {
         console.error(e);
       });
 
+    let query = document.querySelectorAll(".pgAll");
+    query.forEach((e) => {
+      e.classList.remove("pageing-select");
+    });
     document.querySelectorAll(".pgAll")[0].classList.add("pageing-select");
   };
 
-  const onPostSearchChange = (e) => {
-    setPostSearch(e.target.value);
+  const onPostDelete = (id) => {
+    axios
+      .get("http://localhost:8080/estimate/delete", { params: { id: id } })
+      .then((res) => {
+        console.log(res);
+        getList();
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
   return (
@@ -283,20 +326,43 @@ const AdminPage = () => {
                 가입일자
               </div>
             </div>
-            <미리보기 array={array} setModalMode={setModalMode} />
+            <UserListData array={array} setModalMode={setModalMode} />
             <div className="adminpage-pagingAndResearchBox">
-              <div>1 2 3 4 5 6 7</div>
-              <div>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="유저검색"
-                />
+              <div className="adminpage-pagingNumber">
+                {userPageLink.length === 0 && (
+                  <a className="pg1 cursor pgAll pageing-select nonepage"></a>
+                )}
+                {userPageLink.map((e, index) => {
+                  return <UserPageLink num={e} index={index} kind="user" />;
+                })}
+              </div>
+              <div className="adminpage-researchBar">
+                <div className="박스1111">
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="usersearch"
+                    value={userSearch}
+                    ref={userSearchRef}
+                    placeholder="유저검색"
+                    onChange={onUserSearchChange}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.code === "Enter") {
+                      }
+                    }}
+                  />
+                  <button className="btn btnColor" onClick={() => {}}>
+                    검색
+                  </button>
+                </div>
+                <div className="전체보기버튼 cursor" onClick={getList}>
+                  <i class="bi bi-arrow-counterclockwise"></i>
+                </div>
               </div>
             </div>
           </div>
         </div>
-        {/* <div className="adminpage-Administration">견적게시물관리</div> */}
+        {/* 여기까지 유저관리 */}
         {/*===================================================================== */}
         <div className={`adminpage-Administration ${rolldown2}`}>
           <div
@@ -336,37 +402,55 @@ const AdminPage = () => {
             {postList.length === 0 && (
               <div className="nonedata">검색결과가 없습니다.</div>
             )}
-            <미리보기2
+            <PostListData
               array2={postList}
               setModalMode={setModalMode}
               postDetail={postDetail}
             />
             <div className="adminpage-pagingAndResearchBox">
-              <div>
+              <div className="adminpage-pagingNumber">
                 {pageLink.length === 0 && (
                   <a className="pg1 cursor pgAll pageing-select nonepage"></a>
                 )}
                 {pageLink.map((e, index) => {
                   return (
-                    <PageLink num={e} onPageing={onPageing} index={index} />
+                    <PostPageLink
+                      num={e}
+                      onPageing={onPageing}
+                      index={index}
+                      kind="post"
+                    />
                   );
                 })}
               </div>
-              <div>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="게시물검색"
-                  onChange={onPostSearchChange}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.code === "Enter") {
-                      onSearching(e);
-                    }
-                  }}
-                />
-                <button className="btn btn-primary" style={{ height: "40px" }}>
-                  검색
-                </button>
+              <div className="adminpage-researchBar">
+                <div className="박스1111">
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="postsearch"
+                    value={postSearch}
+                    ref={postSearchRef}
+                    placeholder="게시물검색"
+                    onChange={onPostSearchChange}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.code === "Enter") {
+                        onSearching();
+                      }
+                    }}
+                  />
+                  <button
+                    className="btn btnColor"
+                    onClick={() => {
+                      onSearching();
+                    }}
+                  >
+                    검색
+                  </button>
+                </div>
+                <div className="전체보기버튼 cursor" onClick={getList}>
+                  <i class="bi bi-arrow-counterclockwise"></i>
+                </div>
               </div>
             </div>
           </div>
@@ -393,6 +477,7 @@ const AdminPage = () => {
         modalMode={modalMode}
         postArticle={postArticle}
         setModalMode={setModalMode}
+        onPostDelete={onPostDelete}
       />
       {/* <PostDetailModal /> */}
       <Footer />
@@ -401,8 +486,8 @@ const AdminPage = () => {
 };
 
 export default AdminPage;
-
-const 미리보기 = ({ array, setModalMode }) => {
+//유저 리스트
+const UserListData = ({ array, setModalMode }) => {
   return (
     <>
       {array.map((e, index) => {
@@ -410,7 +495,7 @@ const 미리보기 = ({ array, setModalMode }) => {
           <div
             className="adminpage-Administration-list-body-box cursor"
             data-bs-toggle="modal"
-            data-bs-target="#userModal"
+            data-bs-target="#Modal"
             onClick={() => {
               setModalMode("user");
             }}
@@ -451,8 +536,8 @@ const 미리보기 = ({ array, setModalMode }) => {
     </>
   );
 };
-
-const 미리보기2 = ({ array2, postDetail }) => {
+//게시글 리스트
+const PostListData = ({ array2, postDetail }) => {
   return (
     <>
       {array2.map((e, index) => {
@@ -460,7 +545,7 @@ const 미리보기2 = ({ array2, postDetail }) => {
           <div
             className="adminpage-Administration-list-body-box cursor"
             data-bs-toggle="modal"
-            data-bs-target="#userModal"
+            data-bs-target="#Modal"
             onClick={() => {
               postDetail(
                 e.id,
@@ -468,7 +553,8 @@ const 미리보기2 = ({ array2, postDetail }) => {
                 e.budget,
                 e.writer,
                 e.viewcount,
-                e.date
+                e.date,
+                e.matchstatus
               );
             }}
           >
@@ -488,8 +574,12 @@ const 미리보기2 = ({ array2, postDetail }) => {
               className="adminpage-Administration-list-body"
               style={{ width: "18%" }}
             >
-              {e.matchstatus == true && "매칭완료"}
-              {e.matchstatus == false && "매칭미완료"}
+              {e.matchstatus == true && (
+                <span className="matchTrue">매칭완료</span>
+              )}
+              {e.matchstatus == false && (
+                <span className="matchFalse">매칭미완료</span>
+              )}
             </div>
             <div
               className="adminpage-Administration-list-body"
@@ -503,13 +593,19 @@ const 미리보기2 = ({ array2, postDetail }) => {
     </>
   );
 };
-
-const DetailModal = ({ user, modalMode, postArticle, setModalMode }) => {
+//상세보기 모달창
+const DetailModal = ({
+  user,
+  modalMode,
+  postArticle,
+  setModalMode,
+  onPostDelete,
+}) => {
   let navigate = useNavigate();
   return (
     <div
       class="modal fade"
-      id="userModal"
+      id="Modal"
       tabindex="-1"
       aria-labelledby="exampleModalLabel"
       aria-hidden="true"
@@ -521,7 +617,10 @@ const DetailModal = ({ user, modalMode, postArticle, setModalMode }) => {
               class="modal-title adminpage-modalheader"
               id="exampleModalLabel"
             >
-              {modalMode == "user" ? "회원상세정보" : "게시글상세정보"}
+              {modalMode == "user" && "회원 상세정보"}
+              {modalMode == "post" && "게시글 상세정보"}
+              {modalMode == "userModifyForm" && "회원정보 수정"}
+              {modalMode == "postDelete" && "게시글 삭제"}
             </h1>
             <button
               type="button"
@@ -533,7 +632,7 @@ const DetailModal = ({ user, modalMode, postArticle, setModalMode }) => {
           <div class="modal-body adminpage-modalbody">
             {/*내용입력 */}
             {modalMode == "user" && (
-              <>
+              <div className="Modal-detail">
                 <p>{user.username}</p>
                 <p>{user.category}</p>
                 <p>이메일 : dfkej@maver.com</p>
@@ -541,18 +640,22 @@ const DetailModal = ({ user, modalMode, postArticle, setModalMode }) => {
                 <p>{user.gender}</p>
                 <p>{user.phone}</p>
                 <p>가입일 : 2023-05-04</p>
-              </>
+              </div>
             )}
             {modalMode == "post" && (
-              <>
+              <div className="Modal-detail">
                 <p>제목 : {postArticle.title}</p>
                 <p>글쓴이 : {postArticle.writer} </p>
                 <p>작성일시 : {postArticle.date}</p>
                 <p>조회수 : {postArticle.viewcount}</p>
-              </>
+                <p>
+                  매칭여부 :{" "}
+                  {postArticle.matchstatus == false ? "매칭미완료" : "매칭완료"}
+                </p>
+              </div>
             )}
             {modalMode == "userModifyForm" && (
-              <>
+              <div className="Modal-detail">
                 <p>
                   이름 :{" "}
                   <input
@@ -580,7 +683,12 @@ const DetailModal = ({ user, modalMode, postArticle, setModalMode }) => {
                   />
                 </p>
                 <p>가입일 : 2020-02-30</p>
-              </>
+              </div>
+            )}
+            {modalMode == "postDelete" && (
+              <div className="Modal-detail">
+                <p>{postArticle.writer}님의 게시글을 삭제하시겠습니까?</p>
+              </div>
             )}
           </div>
           <div class="modal-footer">
@@ -589,7 +697,7 @@ const DetailModal = ({ user, modalMode, postArticle, setModalMode }) => {
                 {" "}
                 <button
                   type="button"
-                  class="btn btn-primary"
+                  class="btn btnColor"
                   onClick={() => {
                     setModalMode("userModifyForm");
                   }}
@@ -611,11 +719,7 @@ const DetailModal = ({ user, modalMode, postArticle, setModalMode }) => {
             {modalMode == "userModifyForm" && (
               <>
                 <>
-                  <button
-                    type="button"
-                    class="btn btn-primary"
-                    onClick={() => {}}
-                  >
+                  <button type="button" class="btn btnColor" onClick={() => {}}>
                     수정
                   </button>
                   <button
@@ -632,14 +736,21 @@ const DetailModal = ({ user, modalMode, postArticle, setModalMode }) => {
               <>
                 <button
                   data-bs-dismiss="modal"
-                  className="btn btn-primary"
+                  className="btn btnColor"
                   onClick={() => {
                     navigate(`../estimatedetail/${postArticle.id}`);
                   }}
                 >
                   게시글 상세보기
                 </button>
-                <button type="button" class="btn btn-danger">
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  onClick={() =>
+                    // onPostDeletePage(postArticle.writer, postArticle.id)
+                    setModalMode("postDelete")
+                  }
+                >
                   게시글 삭제
                 </button>
                 <button
@@ -651,17 +762,33 @@ const DetailModal = ({ user, modalMode, postArticle, setModalMode }) => {
                 </button>
               </>
             )}
+            {modalMode == "postDelete" && (
+              <>
+                <button
+                  className="btn btn-danger"
+                  data-bs-dismiss="modal"
+                  onClick={() => {
+                    onPostDelete(postArticle.id);
+                  }}
+                >
+                  삭제
+                </button>
+                <button className="btn btn-secondary" data-bs-dismiss="modal">
+                  취소
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>
     </div>
   );
 };
-
-const PageLink = ({ num, onPageing, index }) => {
+//견적글 페이지 번호(역량부족으로 인한 재활용 실패..;)
+const PostPageLink = ({ num, onPageing, index, kind }) => {
   return (
     <div class="page">
-      <a
+      <p
         id={num}
         onClick={onPageing}
         className={
@@ -671,7 +798,24 @@ const PageLink = ({ num, onPageing, index }) => {
         }
       >
         {num}
-      </a>
+      </p>
+      &nbsp;
+    </div>
+  );
+};
+const UserPageLink = ({ num, onPageing, index, kind }) => {
+  return (
+    <div class="page">
+      <p
+        id={num}
+        className={
+          index == 0
+            ? `ug1 cursor ugAll pageing-select`
+            : `ug${num} cursor ugAll`
+        }
+      >
+        {num}
+      </p>
       &nbsp;
     </div>
   );

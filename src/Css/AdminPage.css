@@ -68,12 +68,22 @@ div {
     justify-content: center;
 }
 
-.adminpage-pagingAndResearchBox div:nth-child(1){
+/* .adminpage-pagingAndResearchBox div:nth-child(1){
     height: 30%;
 }
 .adminpage-pagingAndResearchBox div:nth-child(2){
     height: 70%;
+    background: red;
+} */
+
+.adminpage-pagingNumber {
+    height: 30%;
 }
+.adminpage-researchBar {
+    height: 70%;
+    /* background: red; */
+}
+
 
 
 
@@ -118,13 +128,15 @@ div {
     display: inline-block;
 }
 
-.pageing-select {
-    color : black;
-}
-
 .page a {
+    color: black;
     font-size: 20px;
     text-decoration: none;
+}
+
+.pageing-select {
+    color : blue;
+    text-decoration: underline;
 }
 
 .nonepage {
@@ -133,10 +145,90 @@ div {
 
 .nonedata {
     width: 100%;
-    height: 300px;
+    height: 400px;
     /* background: blue; */
     display: flex;
     font-size: 30px;
     justify-content: center;
     align-items: center;
+}
+
+
+
+
+.박스1111 {
+    width: 50%;
+    height: 40px;
+    /* background: blue; */
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.박스1111 > .form-control {
+    height: 40px;
+    width: 75%;
+    border-radius: 0px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.박스1111 > .btn {
+    border-radius: 0px;
+    width: 25%;
+    font-size: 15px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+
+}
+
+.전체보기버튼 {
+    height: 40px;
+    width: 40px;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color : gray
+}
+
+
+.전체보기버튼:hover  i{
+    color: black;
+    animation-name: 빙글빙글;
+    animation-duration: 1s;
+}
+
+@keyframes 빙글빙글 {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(-360deg);
+    }
+}
+
+
+.Modal-detail {
+    font-size: 20px;
+}
+
+
+.btnColor {
+    background: #407ef1;
+    color : white
+}
+
+.btnColor:hover {
+    color: #ffffff;
+    background-color: #105ff1;
+    transition:0.5s;
+  }
+
+.matchTrue {
+    color : green;
+    text-decoration: underline;
+}
+.matchFalse {
+    color:  gray;
 }
