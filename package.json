@@ -13,12 +13,14 @@
     "lottie-web": "^5.11.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-icon": "^1.0.0",
     "react-icons": "^4.8.0",
     "react-modal": "^3.16.1",
     "react-router-dom": "^6.10.0",
     "react-scripts": "5.0.1",
-    "styled-components": "^6.0.0-rc.2",
+    "styled-components": "^6.0.0-rc.1",
     "swiper": "^9.3.0",
+    "update": "^0.7.4",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
