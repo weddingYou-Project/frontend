@@ -216,7 +216,7 @@ function Matching() {
                     aria-label="Close"
                   ></button>
                 </div>
-                <div className="modal-body" style={{ fontSize: 30 }}>
+                <div className="modal-body" style={{ fontSize: "1.5em" }}>
                   매칭시 다른플래너들의 요청은 모두 거절되고 계약금 결제
                   페이지로 이동합니다.
                 </div>
@@ -393,7 +393,11 @@ function Matching() {
             <div className="modal-dialog modal-dialog-centered">
               <div className="modal-content">
                 <div className="modal-header">
-                  <h1 className="modal-title fs-2" id="CancelMatching">
+                  <h1
+                    className="modal-title fs-2"
+                    id="CancelMatching"
+                    style={{ fontSize: "1.6em" }}
+                  >
                     매칭을 취소하시겠습니까?
                   </h1>
                   <button
@@ -432,7 +436,11 @@ function Matching() {
             <div className="modal-dialog modal-dialog-centered">
               <div className="modal-content">
                 <div className="modal-header">
-                  <h1 className="modal-title fs-2" id="CancelMatching">
+                  <h1
+                    className="modal-title fs-2"
+                    id="CancelMatching"
+                    style={{ fontSize: "1.6em" }}
+                  >
                     해당 플래너와 매칭하시겠습니까?
                   </h1>
                   <button
@@ -442,7 +450,7 @@ function Matching() {
                     aria-label="Close"
                   ></button>
                 </div>
-                <div className="modal-body" style={{ fontSize: 30 }}>
+                <div className="modal-body" style={{ fontSize: "1.5em" }}>
                   매칭시 다른플래너들의 요청은 모두 거절되고 계약금 결제
                   페이지로 이동합니다.
                 </div>
