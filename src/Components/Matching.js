@@ -10,22 +10,55 @@ function Matching() {
   const navigate = useNavigate();
 
   const [plannerMatching, setPlannerMatching] = useState([]);
+  const [estimateCount, setEstimateCount] = useState([]);
+  const [plannerName, setPlannerName] = useState("");
+  const [plannerData, setPlannerData] = useState([]);
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
     if (sessionStorage.getItem("category") === "user") {
       //user일 경우
+      let plannerMatchingArr = [];
+      let estimateCountArr = [];
+      let plannerNameArr = [];
+      let dataArr = [];
+      let count = 0;
       axios
         .get(`/estimate/getuserdetail`, {
           params: { userEmail: sessionStorage.getItem("email") },
         })
         .then((res) => {
           console.log(res);
-          let plannerMatchingArr = [];
+
           for (let i = 0; i < res.data.length; i++) {
-            console.log(JSON.parse(res.data[i].plannermatching));
-            // plannerMatchingArr.push(res.data[i].plannerMatching)
+            const arr = JSON.parse(res.data[i].plannermatching);
+            plannerMatchingArr.push(arr);
+            estimateCountArr.push(i);
+            for (let j = 0; j < plannerMatchingArr.length; j++) {
+              axios
+                .post(`/planner/plannerSearch`, {
+                  email: arr[j],
+                })
+                .then((res) => {
+                  console.log("--------------------");
+                  console.log(res);
+                  plannerNameArr.push(res.data.name);
+
+                  console.log(res.data.name);
+                })
+                .catch((e) => {
+                  console.log(e);
+                });
+            }
           }
-          // setPlannerMatching(res.data.plannermatching);
+          setPlannerName(plannerNameArr);
+          dataArr.push(res.data);
+          console.log(dataArr);
+          setPlannerData(dataArr);
+          setPlannerMatching(plannerMatchingArr);
+          setEstimateCount(estimateCountArr);
+          count = res.data.length;
+          //setCount(res.data.length);
         })
         .catch((e) => {
           console.log(e);
@@ -33,12 +66,51 @@ function Matching() {
             alert("매칭 목록 없음!");
           }
         });
+      let plannerNameArr2 = [];
+      console.log("plannerMatchingArr");
+      console.log(count);
+      // for (let i = 0; i < 2; i++) {
+      //   let arr = plannerMatchingArr[i];
+      //   console.log("indexxxxxxxxx");
+      //   console.log(i);
+      //   console.log("arr");
+      //   console.log(arr);
+      //   for (let j = 0; j < arr.length; j++) {
+      //     console.log("email:" + arr[j]);
+      //     const fetchData = async () => {
+      //       try {
+      //         const response = await axios.post(`/planner/plannerSearch`, {
+      //           email: arr[j],
+      //         });
+      //         const { data } = response;
+
+      //         plannerNameArr2.push(data.name);
+
+      //         if (j === arr.length - 1) {
+      //           plannerNameArr.sort(function (a, b) {
+      //             if (a.itemName < b.itemName) return -1;
+      //             if (a.itemName > b.itemName) return 1;
+      //             if (a.itemName === b.itemName) return 0;
+      //           });
+      //           plannerNameArr.push(plannerNameArr2);
+      //           console.log("plannerNameArr2:");
+      //           console.log(plannerNameArr2);
+      //         }
+      //       } catch (error) {
+      //         console.log(error);
+      //       }
+      //     };
+      //     fetchData();
+      //   }
+      // }
     } else {
       //planner일 경우
     }
   }, []);
 
   console.log(plannerMatching);
+  console.log("originalplannerName: " + plannerName);
+  console.log(plannerName);
   return (
     <div className="mainlayout">
       <hr />
@@ -85,108 +157,64 @@ function Matching() {
             매칭 요청 온 플래너 목록
           </p>
           <div className="matchingList">
-            <table>
-              <tr>
-                <td
-                  className="myPlannerName"
-                  style={{
-                    width: 160,
-                    fontSize: "1.6em",
-                    paddingLeft: "25px",
-                    paddingTop: "10px",
-                  }}
-                >
-                  000 플래너
-                </td>
-                <td>
-                  <button className="plannerMatchingBtn">프로필보기</button>
-                </td>
-                <td>
-                  <button
-                    className="plannerMatchingBtn"
-                    data-bs-toggle="modal"
-                    data-bs-target="#MatchOrCanel"
-                  >
-                    매칭/거절
-                  </button>
-                </td>
-              </tr>
-              <tr>
-                <td
-                  className="myPlannerName"
-                  style={{
-                    width: 160,
-                    fontSize: "1.6em",
-                    paddingLeft: "25px",
-                    paddingTop: "10px",
-                  }}
-                >
-                  000 플래너
-                </td>
-                <td>
-                  <button className="plannerMatchingBtn">프로필보기</button>
-                </td>
-                <td>
-                  <button
-                    className="plannerMatchingBtn"
-                    data-bs-toggle="modal"
-                    data-bs-target="#MatchOrCanel"
-                  >
-                    매칭/거절
-                  </button>
-                </td>
-              </tr>
-              <tr>
-                <td
-                  className="myPlannerName"
-                  style={{
-                    width: 160,
-                    fontSize: "1.6em",
-                    paddingLeft: "25px",
-                    paddingTop: "10px",
-                  }}
-                >
-                  000 플래너
-                </td>
-                <td>
-                  <button className="plannerMatchingBtn">프로필보기</button>
-                </td>
-                <td>
-                  <button
-                    className="plannerMatchingBtn"
-                    data-bs-toggle="modal"
-                    data-bs-target="#MatchOrCanel"
-                  >
-                    매칭/거절
-                  </button>
-                </td>
-              </tr>
-              <tr>
-                <td
-                  className="myPlannerName"
-                  style={{
-                    width: 160,
-                    fontSize: "1.6em",
-                    paddingLeft: "25px",
-                    paddingTop: "10px",
-                  }}
-                >
-                  000 플래너
-                </td>
-                <td>
-                  <button className="plannerMatchingBtn">프로필보기</button>
-                </td>
-                <td>
-                  <button
-                    className="plannerMatchingBtn"
-                    data-bs-toggle="modal"
-                    data-bs-target="#MatchOrCanel"
-                  >
-                    매칭/거절
-                  </button>
-                </td>
-              </tr>
-            </table>
+            {estimateCount.map((index, keyindex) => {
+              let i = parseInt(index);
+              console.log("index:" + keyindex);
+              return (
+                <table>
+                  <tr>
+                    <td
+                      colSpan="3"
+                      style={{
+                        fontSize: "1.5em",
+                        width: "100%",
+                        paddingLeft: "20px",
+                        paddingTop: "20px",
+                      }}
+                    >
+                      견적서{index + 1}
+                    </td>
+                  </tr>
+                  {console.log("PLANNERNAME")}
+                  {console.log(plannerName)}
+                  {plannerMatching[index].map((arr) => {
+                    console.log(arr);
+                    let plannerName = "";
+
+                    return (
+                      <tr>
+                        <td
+                          className="myPlannerName"
+                          style={{
+                            width: 160,
+                            fontSize: "1.6em",
+                            paddingLeft: "25px",
+                            paddingTop: "10px",
+                          }}
+                        >
+                          {plannerName}
+                        </td>
+                        <td>
+                          <button className="plannerMatchingBtn">
+                            프로필보기
+                          </button>
+                        </td>
+                        <td>
+                          <button
+                            className="plannerMatchingBtn"
+                            data-bs-toggle="modal"
+                            data-bs-target="#MatchOrCanel"
+                          >
+                            매칭/거절
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </table>
+              );
+            })}
+
             <Footer />
           </div>
           <div
