@@ -111,3 +111,32 @@ div {
 .adminpage-Administration-list-body-box:hover {
     font-weight: bold;
 }
+
+
+.form-control-width {
+    width: 200px;
+    display: inline-block;
+}
+
+.pageing-select {
+    color : black;
+}
+
+.page a {
+    font-size: 20px;
+    text-decoration: none;
+}
+
+.nonepage {
+    text-decoration: none;
+}
+
+.nonedata {
+    width: 100%;
+    height: 300px;
+    /* background: blue; */
+    display: flex;
+    font-size: 30px;
+    justify-content: center;
+    align-items: center;
+}

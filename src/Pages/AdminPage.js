@@ -47,26 +47,6 @@ const AdminPage = () => {
     { ...planner },
   ];
 
-  let estimate = {
-    title: "thdrudtp15@naver.com님의 견적서",
-    matchstatus: true,
-    date: "2023-03-05",
-  };
-
-  let array2 = [
-    { ...estimate },
-    { ...estimate },
-    { ...estimate },
-    { ...estimate },
-    { ...estimate },
-    { ...estimate },
-    { ...estimate },
-    { ...estimate },
-    { ...estimate },
-    { ...estimate },
-    { ...estimate },
-  ];
-
   let [rolldown, setRolldown] = useState("rolldown");
   let [rolldown2, setRolldown2] = useState("");
 
@@ -86,10 +66,13 @@ const AdminPage = () => {
   }
 
   let [modalMode, setModalMode] = useState("user");
+  let [postSearchMode, setPostSearchMode] = useState("none");
 
   //페이징 실험을 위한 부분임.
   let [pageLink, setPageLink] = useState([]);
   let [postList, setPostList] = useState([]);
+  //스위치를 만들어서 페이징 처리 다르게 하게끔 해야 함.
+  let [postSearch, setPostSearch] = useState("");
 
   let page_num = 1; //페이지 번호 처음에 페이지 들어가면 첫번째 페이지를 보여줘야 하니 1
   const page_size = 11; //한 페이지에 나타낼 글의 수 가져올 데이터의 개수를 제한할 수 있음.
@@ -160,10 +143,83 @@ const AdminPage = () => {
   };
 
   const onPageing = (e) => {
+    const fetchData = () => {
+      axios
+        .post("http://localhost:8080/estimate/pageinglist", {
+          page_num: parseInt(e.target.id),
+          limit: page_size,
+        })
+        .then((res) => {
+          console.log("res ==>", res);
+          const { data } = res;
+          console.log("data==>", data);
+          setPostList(data);
+        })
+        .catch((e) => {
+          console.error(e);
+        });
+    };
+
+    const fetchData2 = () => {
+      axios
+        .post("http://localhost:8080/estimate/getsearchlistpageing", {
+          page_num: parseInt(e.target.id),
+          limit: page_size,
+          search: postSearch,
+        })
+        .then((res) => {
+          console.log("res ==>", res);
+          const { data } = res;
+          console.log("data==>", data);
+          setPostList(data);
+        })
+        .catch((e) => {
+          console.error(e);
+        });
+    };
+
+    const elements = document.querySelectorAll(".pgAll");
+    elements.forEach((element) => {
+      element.classList.remove("pageing-select");
+    });
+    document.querySelector(`.pg${e.target.id}`).classList.add("pageing-select");
+    if (postSearchMode === "none") {
+      fetchData();
+    } else if (postSearchMode === "search") {
+      fetchData2();
+    }
+  };
+
+  const onSearching = (e) => {
+    setPostSearch(e.target.value);
+    setPostSearchMode("search");
     axios
-      .post("http://localhost:8080/estimate/pageinglist", {
-        page_num: parseInt(e.target.id),
+      .post("http://localhost:8080/estimate/getsearchlistcount", {
+        search: postSearch,
+      })
+      .then((res) => {
+        console.log("data=>", res.data);
+        const { data } = res;
+        article_count = data; //총 글의 갯수 저장.
+        page_count = Math.ceil(article_count / page_size); //무조건 올림처리 함. 9.1도 10으로, 필요한 페이지 개수를 계산함.
+        var page_link = []; //map 함수를 사용하기 위한 배열화.
+        for (let i = 1; i <= page_count; i++) {
+          page_link.push(i);
+        }
+        console.log("getArticleCount(page_link) =>", page_link);
+        setPageLink(page_link);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+
+    console.log("start=>", page_num);
+    console.log("page_num=>", page_num);
+    axios
+      .post("http://localhost:8080/estimate/getsearchlistpageing", {
+        page_num: page_num,
         limit: page_size,
+        search: postSearch,
       })
       .then((res) => {
         console.log("res ==>", res);
@@ -174,6 +230,12 @@ const AdminPage = () => {
       .catch((e) => {
         console.error(e);
       });
+
+    document.querySelectorAll(".pgAll")[0].classList.add("pageing-select");
+  };
+
+  const onPostSearchChange = (e) => {
+    setPostSearch(e.target.value);
   };
 
   return (
@@ -248,23 +310,32 @@ const AdminPage = () => {
             <div className="adminpage-Administration-list-head-box">
               <div
                 className="adminpage-Administration-list-head"
-                style={{ width: "60%" }}
+                style={{ width: "14%" }}
+              >
+                글번호
+              </div>
+              <div
+                className="adminpage-Administration-list-head"
+                style={{ width: "50%" }}
               >
                 제목
               </div>
               <div
                 className="adminpage-Administration-list-head"
-                style={{ width: "20%" }}
+                style={{ width: "18%" }}
               >
                 매칭상태
               </div>
               <div
                 className="adminpage-Administration-list-head"
-                style={{ width: "20%" }}
+                style={{ width: "18%" }}
               >
                 작성일시
               </div>
             </div>
+            {postList.length === 0 && (
+              <div className="nonedata">검색결과가 없습니다.</div>
+            )}
             <미리보기2
               array2={postList}
               setModalMode={setModalMode}
@@ -272,8 +343,13 @@ const AdminPage = () => {
             />
             <div className="adminpage-pagingAndResearchBox">
               <div>
+                {pageLink.length === 0 && (
+                  <a className="pg1 cursor pgAll pageing-select nonepage"></a>
+                )}
                 {pageLink.map((e, index) => {
-                  return <PageLink num={e} onPageing={onPageing} />;
+                  return (
+                    <PageLink num={e} onPageing={onPageing} index={index} />
+                  );
                 })}
               </div>
               <div>
@@ -281,14 +357,27 @@ const AdminPage = () => {
                   type="text"
                   className="form-control"
                   placeholder="게시물검색"
+                  onChange={onPostSearchChange}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.code === "Enter") {
+                      onSearching(e);
+                    }
+                  }}
                 />
+                <button className="btn btn-primary" style={{ height: "40px" }}>
+                  검색
+                </button>
               </div>
             </div>
           </div>
         </div>
         <div className="Signup-button">
           <button
-            onClick={() => {}}
+            onClick={() => {
+              window.sessionStorage.removeItem("email");
+              window.sessionStorage.removeItem("category");
+              navigate("/");
+            }}
             className="btn-colour-1"
             style={{ marginRight: "15px" }}
           >
@@ -303,6 +392,7 @@ const AdminPage = () => {
         user={user}
         modalMode={modalMode}
         postArticle={postArticle}
+        setModalMode={setModalMode}
       />
       {/* <PostDetailModal /> */}
       <Footer />
@@ -384,20 +474,26 @@ const 미리보기2 = ({ array2, postDetail }) => {
           >
             <div
               className="adminpage-Administration-list-body"
-              style={{ width: "60%", padding: "0px 10px" }}
+              style={{ width: "14%", padding: "0px 10px" }}
+            >
+              {e.id}
+            </div>
+            <div
+              className="adminpage-Administration-list-body"
+              style={{ width: "50%", padding: "0px 10px" }}
             >
               {e.title}
             </div>
             <div
               className="adminpage-Administration-list-body"
-              style={{ width: "20%" }}
+              style={{ width: "18%" }}
             >
               {e.matchstatus == true && "매칭완료"}
               {e.matchstatus == false && "매칭미완료"}
             </div>
             <div
               className="adminpage-Administration-list-body"
-              style={{ width: "20%" }}
+              style={{ width: "18%" }}
             >
               {e.date}
             </div>
@@ -408,7 +504,8 @@ const 미리보기2 = ({ array2, postDetail }) => {
   );
 };
 
-const DetailModal = ({ user, modalMode, postArticle }) => {
+const DetailModal = ({ user, modalMode, postArticle, setModalMode }) => {
+  let navigate = useNavigate();
   return (
     <div
       class="modal fade"
@@ -435,7 +532,7 @@ const DetailModal = ({ user, modalMode, postArticle }) => {
           </div>
           <div class="modal-body adminpage-modalbody">
             {/*내용입력 */}
-            {modalMode == "user" ? (
+            {modalMode == "user" && (
               <>
                 <p>{user.username}</p>
                 <p>{user.category}</p>
@@ -445,7 +542,8 @@ const DetailModal = ({ user, modalMode, postArticle }) => {
                 <p>{user.phone}</p>
                 <p>가입일 : 2023-05-04</p>
               </>
-            ) : (
+            )}
+            {modalMode == "post" && (
               <>
                 <p>제목 : {postArticle.title}</p>
                 <p>글쓴이 : {postArticle.writer} </p>
@@ -453,21 +551,106 @@ const DetailModal = ({ user, modalMode, postArticle }) => {
                 <p>조회수 : {postArticle.viewcount}</p>
               </>
             )}
+            {modalMode == "userModifyForm" && (
+              <>
+                <p>
+                  이름 :{" "}
+                  <input
+                    type="text"
+                    value={user.username}
+                    className="form-control form-control-width"
+                  />
+                </p>
+                <p>이메일 : thdrudtp15@naver.com </p>
+                <p>
+                  비밀번호 :{" "}
+                  <input
+                    type="text"
+                    value="Asdf!zxcv15@"
+                    className="form-control form-control-width"
+                  />
+                </p>
+                <p>성별 : {user.gender}</p>
+                <p>
+                  휴대폰 :{" "}
+                  <input
+                    type="text"
+                    value={user.phone}
+                    className="form-control form-control-width"
+                  />
+                </p>
+                <p>가입일 : 2020-02-30</p>
+              </>
+            )}
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-primary">
-              수정
-            </button>
-            <button type="button" class="btn btn-danger">
-              계정삭제
-            </button>
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              닫기
-            </button>
+            {modalMode == "user" && (
+              <>
+                {" "}
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  onClick={() => {
+                    setModalMode("userModifyForm");
+                  }}
+                >
+                  수정하기
+                </button>
+                <button type="button" class="btn btn-danger">
+                  계정삭제
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  닫기
+                </button>
+              </>
+            )}
+            {modalMode == "userModifyForm" && (
+              <>
+                <>
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    onClick={() => {}}
+                  >
+                    수정
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    닫기
+                  </button>
+                </>
+              </>
+            )}
+            {modalMode == "post" && (
+              <>
+                <button
+                  data-bs-dismiss="modal"
+                  className="btn btn-primary"
+                  onClick={() => {
+                    navigate(`../estimatedetail/${postArticle.id}`);
+                  }}
+                >
+                  게시글 상세보기
+                </button>
+                <button type="button" class="btn btn-danger">
+                  게시글 삭제
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  닫기
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -475,10 +658,18 @@ const DetailModal = ({ user, modalMode, postArticle }) => {
   );
 };
 
-const PageLink = ({ num, onPageing }) => {
+const PageLink = ({ num, onPageing, index }) => {
   return (
     <div class="page">
-      <a href="#" id={num} onClick={onPageing}>
+      <a
+        id={num}
+        onClick={onPageing}
+        className={
+          index == 0
+            ? `pg1 cursor pgAll pageing-select`
+            : `pg${num} cursor pgAll`
+        }
+      >
         {num}
       </a>
       &nbsp;
