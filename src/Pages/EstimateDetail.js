@@ -20,6 +20,7 @@ const EstimateDetail = () => {
   let [estimateData, SetEstimateData] = useState();
   let [images, setImages] = useState([]);
   let [scrollControl, setScrollControl] = useState();
+  let [plannerMatching, setPlannerMatching] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,10 +29,14 @@ const EstimateDetail = () => {
           `http://localhost:8080/estimate/getdetail/${id}`
         );
         const { data } = response;
-        console.log("상세데이터", data.img);
+        console.log(data);
         SetEstimateData(data);
         setLoading(true);
-
+        if (data.plannermatching === null) {
+          setPlannerMatching(null);
+        } else {
+          setPlannerMatching(JSON.parse(data.plannermatching));
+        }
         // 이미지 데이터 가져오기
         const imagearray = JSON.parse(data.img);
         const imagePromises = imagearray.map((image) => {
@@ -74,6 +79,43 @@ const EstimateDetail = () => {
         navigate("../estimatelist");
       } catch (e) {
         console.log(e);
+      }
+    }
+  };
+
+  const goMatching = (e) => {
+    console.log("plannerMatching:" + plannerMatching);
+    if (plannerMatching === null) {
+      let plannerEmail = [sessionStorage.getItem("email")];
+      console.log(plannerEmail);
+      let formData = new FormData();
+      formData.append("id", id);
+      formData.append("plannermatching", JSON.stringify(plannerEmail));
+      axios
+        .post(`/estimate/insert/matchingplanner`, formData)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    } else {
+      const addplannerEmail = sessionStorage.getItem("email");
+      if (!plannerMatching.includes(addplannerEmail)) {
+        let formData = new FormData();
+        formData.append("id", id);
+        formData.append(
+          "plannermatching",
+          JSON.stringify([...plannerMatching, addplannerEmail])
+        );
+        axios
+          .post(`/estimate/insert/matchingplanner`, formData)
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((e) => {
+            console.log(e);
+          });
       }
     }
   };
@@ -356,7 +398,7 @@ const EstimateDetail = () => {
               )}
             {window.sessionStorage.getItem("category") === "planner" &&
               estimateData.matchstatus === false && (
-                <button onClick={() => {}} className="btn-colour-1">
+                <button onClick={goMatching} className="btn-colour-1">
                   매칭신청하기
                 </button>
               )}
