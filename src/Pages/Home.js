@@ -1220,7 +1220,7 @@ function Home() {
                 background: "white",
               }}
             >
-              <ul class="nav sortingList">
+              <ul class="nav sortingList" style={{ width: "525px" }}>
                 <li class="nav-item">
                   <div
                     class="nav-link"
