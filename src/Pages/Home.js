@@ -2296,23 +2296,31 @@ function Home() {
               style={{
                 width: "560px",
                 position: "fixed",
-                bottom: "100px",
+                bottom: "120px",
                 height: "50px",
                 display: "flex",
                 justifyContent: "end",
-                paddingRight: "30px",
+                paddingRight: "23px",
+                paddingLeft: "50px",
+                paddingBottom: "10px",
+                zIndex: "999",
               }}
             >
               <div style={{}}>
                 <div className="estimate-write-btn">
                   <i
                     class="bi bi-pencil-square"
-                    style={{ marginRight: "10px" }}
+                    style={{ marginLeft: "50px", zIndex: "999" }}
                   ></i>
                   <div
                     className="estimate-write-btn-overlay"
                     onClick={() => {
                       navigate("/estimateform");
+                    }}
+                    style={{
+                      marginRight: "-20px",
+                      marginLeft: "12px",
+                      zIndex: "999",
                     }}
                   >
                     <span>견적작성하기</span>
