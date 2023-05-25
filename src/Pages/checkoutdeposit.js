@@ -5,6 +5,7 @@ import "../Css/checkout.css";
 import imgLogo from "../Assets/logo.png";
 import { useNavigate } from "react-router-dom";
 import NavigationBar from "../Components/NavigationBar";
+import Footer from "../Components/Footer";
 
 function Checkoutdeposit() {
   var IMP = window.IMP;
@@ -44,7 +45,7 @@ function Checkoutdeposit() {
   return (
     <div className="mainlayout">
       <NavigationBar title={"결제하기 (계약금)"} />
-      <div className="plannerpro" style={{ marginTop: 50 }}>
+      <div className="plannerpro" style={{ marginTop: 110 }}>
         <img src={imgLogo} className="plannerproimg" />
         <p className="plannerName">000 플래너</p>
       </div>
@@ -95,6 +96,7 @@ function Checkoutdeposit() {
       <button onClick={requestPay} className="checkoutBtn">
         결제하기
       </button>
+      <Footer />
     </div>
   );
 }

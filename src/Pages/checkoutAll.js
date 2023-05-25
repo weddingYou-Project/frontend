@@ -5,6 +5,7 @@ import "../Css/checkout.css";
 import imgLogo from "../Assets/logo.png";
 import { useNavigate } from "react-router-dom";
 import NavigationBar from "../Components/NavigationBar";
+import Footer from "../Components/Footer";
 
 function CheckoutAll() {
   var IMP = window.IMP;
@@ -42,9 +43,9 @@ function CheckoutAll() {
   }
 
   return (
-    <div className="mainlayout">
+    <div className="mainlayout" style={{ minHeight: "100vh" }}>
       <NavigationBar title={"결제하기"} />
-      <div className="plannerpro" style={{ marginTop: 50 }}>
+      <div className="plannerpro" style={{ marginTop: 110 }}>
         <img src={imgLogo} className="plannerproimg" />
         <p className="plannerName">000 플래너</p>
       </div>
@@ -89,9 +90,14 @@ function CheckoutAll() {
           />
         </div>
       </div>
-      <button onClick={requestPay} className="checkoutBtn">
+      <button
+        onClick={requestPay}
+        className="checkoutBtn"
+        style={{ marginTop: "10px" }}
+      >
         결제하기
       </button>
+      <Footer />
     </div>
   );
 }
