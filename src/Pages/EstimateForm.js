@@ -285,7 +285,7 @@ const EstimateForm = () => {
         .post("http://localhost:8080/estimate/write", formData)
         .then((res) => {
           console.log("성공");
-          navigate("/");
+          navigate("/estimatelist");
         })
         .catch((e) => {
           alert("홈페이지에 오류가 발생하였습니다. 다시 시도해주세요");
