@@ -42,7 +42,9 @@ const CheckoutComp = () => {
     <div className="mainlayout">
       <div className="checkoutbox">
         <div>
-          <p className="titlemsg">결제 완료</p>
+          <p className="titlemsg" style={{ fontSize: "1.8em" }}>
+            결제 완료
+          </p>
           <Checkout checkout={checkoutsession} />
         </div>
       </div>

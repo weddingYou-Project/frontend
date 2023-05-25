@@ -50,7 +50,11 @@ function Checkoutdeposit() {
         <p className="plannerName">000 플래너</p>
       </div>
       <div className="mb-3 row checkouttext">
-        <label for="staticEmail" className="col-sm-4 col-form-label">
+        <label
+          for="staticEmail"
+          style={{ fontSize: "0.9em" }}
+          className="col-sm-4 col-form-label"
+        >
           상품명
         </label>
         <div className="col-sm-8">
@@ -60,12 +64,17 @@ function Checkoutdeposit() {
             className="form-control-plaintext"
             id="itemName"
             value="맞춤형 웨딩플래너 서비스(계약)"
+            style={{ fontSize: "0.9em" }}
           />
         </div>
       </div>
       {/* <hr /> */}
       <div className="mb-3 row checkouttext">
-        <label for="staticEmail" className="col-sm-4 col-form-label">
+        <label
+          for="staticEmail"
+          style={{ fontSize: "0.9em" }}
+          className="col-sm-4 col-form-label"
+        >
           상품 상세정보
         </label>
         <div className="col-sm-8">
@@ -75,12 +84,17 @@ function Checkoutdeposit() {
             className="form-control-plaintext"
             id="itemName"
             value="플래너 매칭 계약금"
+            style={{ fontSize: "0.9em" }}
           />
         </div>
       </div>
       {/* <hr /> */}
       <div className="mb-3 row checkouttext">
-        <label for="staticEmail" className="col-sm-4 col-form-label">
+        <label
+          for="staticEmail"
+          style={{ fontSize: "0.9em" }}
+          className="col-sm-4 col-form-label"
+        >
           상품 금액
         </label>
         <div className="col-sm-8">
@@ -90,10 +104,15 @@ function Checkoutdeposit() {
             className="form-control-plaintext"
             id="itemName"
             value="100,000원"
+            style={{ fontSize: "0.9em" }}
           />
         </div>
       </div>
-      <button onClick={requestPay} className="checkoutBtn">
+      <button
+        onClick={requestPay}
+        style={{ marginTop: "15px" }}
+        className="checkoutBtn"
+      >
         결제하기
       </button>
       <Footer />

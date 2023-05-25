@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { FaStar } from "react-icons/fa";
 import styled from "styled-components";
 import "../Css/main.css";
 import "../Css/Ratingpage.css";
 import imgLogo from "../Assets/logo.png";
+import selectImg from "../Assets/selectImg.webp";
 
 const ARRAY = [0, 1, 2, 3, 4];
 
@@ -11,6 +12,10 @@ function Ratingpage() {
   const [clicked, setClicked] = useState([false, false, false, false, false]);
 
   const [rating, setRating] = useState(0);
+  const [score, setScore] = useState(0);
+  const [reviewText, setReviewText] = useState("");
+  const [image, setImage] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(selectImg);
 
   const handleStarClick = (index) => {
     let clickStates = [...clicked];
@@ -27,8 +32,26 @@ function Ratingpage() {
     sendReview();
   }, [clicked]);
 
+  const reviewtext = useRef();
+
   const sendReview = () => {
-    let score = clicked.filter(Boolean).length;
+    setScore(clicked.filter(Boolean).length);
+  };
+
+  const insertReview = () => {};
+
+  const handleImageChange = (event) => {
+    const selectedImage = event.target.files[0];
+    setImage(selectedImage);
+    try {
+      const fileReader = new FileReader();
+      fileReader.onload = () => {
+        setPreviewUrl(fileReader.result);
+      };
+      fileReader.readAsDataURL(selectedImage);
+    } catch (e) {
+      setPreviewUrl(selectImg);
+    }
   };
 
   return (
@@ -57,26 +80,51 @@ function Ratingpage() {
         <div className="reviewsection">
           <p className="reviewcont">이용후기</p>
           <textarea
+            ref={reviewtext}
             className="form-control"
             rows="7"
             placeholder="이용후기를 입력해주세요"
             style={{ fontSize: 20 }}
+            onChange={(e) => {
+              setReviewText(e.target.value);
+            }}
           ></textarea>
         </div>
         <div className="photouploadsection">
-          <p className="uploadphoto">사진 첨부</p>
+          <p className="uploadphoto" style={{ fontSize: "1.5em" }}>
+            사진 첨부
+          </p>
           <input
             type="file"
             multiple
             id="uploadimage"
             className="displaynone"
+            onChange={handleImageChange}
           />
-          <label htmlFor="uploadimage" className="cursor imageBtn">
+          <label
+            htmlFor="uploadimage"
+            style={{ fontSize: "1.5em" }}
+            className="cursor imageBtn"
+          >
             사진선택
           </label>
+          <div>
+            <img
+              src={previewUrl}
+              alt=""
+              style={{
+                width: "200px",
+                height: "200px",
+                marginTop: "20px",
+                marginBottom: "-10px",
+              }}
+            />
+          </div>
         </div>
-        <div className="insertBtn">
-          <button className="reviewInsertBtn">작성하기</button>
+        <div className="insertBtn" style={{ marginBottom: "50px" }}>
+          <button className="reviewInsertBtn" onClick={insertReview}>
+            작성하기
+          </button>
         </div>
       </form>
     </div>
