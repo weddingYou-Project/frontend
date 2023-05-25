@@ -9,7 +9,7 @@ function MyEstimate() {
     <div
       className="myestimate"
       onClick={() => {
-        navigate("/");
+        navigate("/matching");
       }}
     >
       <svg

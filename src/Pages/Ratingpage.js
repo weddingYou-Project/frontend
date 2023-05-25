@@ -49,7 +49,8 @@ function Ratingpage() {
   //   setScore(clicked.filter(Boolean).length);
   // };
 
-  const insertReview = () => {
+  const insertReview = (e) => {
+    e.preventDefault();
     const formData = new FormData();
     formData.append("reviewText", reviewText);
     formData.append("reviewStars", rating);
@@ -60,8 +61,8 @@ function Ratingpage() {
       .post("/reviews", formData)
       .then((res) => {
         console.log("성공:", res);
-        navigate(`/`);
         alert("리뷰 작성 완료!");
+        navigate(`/`);
       })
       .catch((e) => {
         console.log("실패:", e);
