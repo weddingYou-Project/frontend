@@ -3,10 +3,42 @@ import "../Css/Matching.css";
 import { useNavigate } from "react-router-dom";
 import NavigationBar from "./NavigationBar";
 import Footer from "./Footer";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 function Matching() {
   const navigate = useNavigate();
 
+  const [plannerMatching, setPlannerMatching] = useState([]);
+
+  useEffect(() => {
+    if (sessionStorage.getItem("category") === "user") {
+      //user일 경우
+      axios
+        .get(`/estimate/getuserdetail`, {
+          params: { userEmail: sessionStorage.getItem("email") },
+        })
+        .then((res) => {
+          console.log(res);
+          let plannerMatchingArr = [];
+          for (let i = 0; i < res.data.length; i++) {
+            console.log(JSON.parse(res.data[i].plannermatching));
+            // plannerMatchingArr.push(res.data[i].plannerMatching)
+          }
+          // setPlannerMatching(res.data.plannermatching);
+        })
+        .catch((e) => {
+          console.log(e);
+          if (e.response.data.message === "정보가 존재하지 않습니다!") {
+            alert("매칭 목록 없음!");
+          }
+        });
+    } else {
+      //planner일 경우
+    }
+  }, []);
+
+  console.log(plannerMatching);
   return (
     <div className="mainlayout">
       <hr />
