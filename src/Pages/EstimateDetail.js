@@ -112,10 +112,13 @@ const EstimateDetail = () => {
           .post(`/estimate/insert/matchingplanner`, formData)
           .then((res) => {
             console.log(res);
+            alert("매칭 신청되었습니다!");
           })
           .catch((e) => {
             console.log(e);
           });
+      } else {
+        alert("이미 매칭 신청한 회원입니다!");
       }
     }
   };
