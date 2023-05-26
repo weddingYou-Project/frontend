@@ -92,9 +92,8 @@ function Matching() {
     const deletePlanner = plannerMatching[bsIndex][bsIndex2];
     setBsIndex(bsIndex);
     setBsIndex2(bsIndex2);
-    setDeleteTargetEstimateId(estimateId);
+    setDeleteTargetEstimateId(deleteTargetEstimateId);
     setDeletePlanner(deletePlanner);
-    console.log(deleteBtn);
   };
 
   const deleteMatchingPlanner2 = () => {
@@ -405,6 +404,7 @@ function Matching() {
                     className="plannerMatchingBtn"
                     data-bs-toggle="modal"
                     data-bs-target="#MatchOrCanel"
+                    onClick={deleteMatchingPlanner}
                   >
                     매칭/거절
                   </button>
@@ -456,6 +456,7 @@ function Matching() {
                     className="plannerMatchingBtn"
                     data-bs-toggle="modal"
                     data-bs-target="#MatchOrCanel"
+                    onClick={deleteMatchingPlanner}
                   >
                     매칭/거절
                   </button>
@@ -481,6 +482,7 @@ function Matching() {
                     className="plannerMatchingBtn"
                     data-bs-toggle="modal"
                     data-bs-target="#MatchOrCanel"
+                    onClick={deleteMatchingPlanner}
                   >
                     매칭/거절
                   </button>
