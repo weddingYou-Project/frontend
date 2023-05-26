@@ -147,10 +147,12 @@ div {
     width: 100%;
     height: 400px;
     /* background: blue; */
-    display: flex;
     font-size: 30px;
-    justify-content: center;
-    align-items: center;
+    /* justify-content: center;
+    align-items: center; 
+    display: flex; */
+    padding-left: 140px;
+    padding-top: 150px;
 }
 
 
@@ -195,7 +197,7 @@ div {
 .전체보기버튼:hover  i{
     color: black;
     animation-name: 빙글빙글;
-    animation-duration: 1s;
+    animation-duration: 0.7s;
 }
 
 @keyframes 빙글빙글 {
@@ -226,7 +228,7 @@ div {
   }
 
 .matchTrue {
-    color : green;
+    color :green;
     text-decoration: underline;
 }
 .matchFalse {
