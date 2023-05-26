@@ -2321,6 +2321,7 @@ function Home() {
                       marginRight: "-20px",
                       marginLeft: "12px",
                       zIndex: "999",
+                      height: "50px",
                     }}
                   >
                     <span>견적작성하기</span>
