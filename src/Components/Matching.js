@@ -102,7 +102,7 @@ function Matching() {
     setDeleteTargetEstimateId(deleteTargetEstimateId);
     setDeletePlanner(deletePlanner);
     setDeletePlannerName(deletePlannerName);
-    setEstimateNum(bsEstimateNum);
+    // setEstimateNum(bsEstimateNum);
   };
 
   const deleteMatchingPlanner2 = () => {
