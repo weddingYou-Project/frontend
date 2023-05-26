@@ -128,6 +128,7 @@ function Matching() {
     formData.append("targetEstimateId", deleteTargetEstimateId);
     formData.append("matchingPlanner", deletePlanner);
     formData.append("userEmail", sessionStorage.getItem("email"));
+
     axios
       .post(`/estimate/matching`, formData)
       .then((res) => {
@@ -147,8 +148,9 @@ function Matching() {
       .post(`/estimate/getMatchedPlanner`, formData)
       .then((res) => {
         console.log(res);
-        setMatchedPlanner(res.data.slice(0, res.data.length - 1));
-        setEstimateNum(res.data.slice(res.data.length - 1, res.data.length));
+        const index = res.data.indexOf("/");
+        setMatchedPlanner(res.data.slice(0, index));
+        setEstimateNum(res.data.slice(index + 1, res.data.length));
       })
       .catch((e) => {
         console.log(e);
