@@ -22,6 +22,7 @@ function Matching() {
   const [deletePlanner, setDeletePlanner] = useState("");
   const [matchedPlanner, setMatchedPlanner] = useState(null);
   const [deletePlannerName, setDeletePlannerName] = useState(null);
+  const [estimateNum, setEstimateNum] = useState(0);
 
   const deleteBtn = useRef();
 
@@ -93,6 +94,7 @@ function Matching() {
     const bsIndex2 = e.target.dataset.bsIndex2;
     const estimateId = e.target.dataset.bsEstimateid;
     const deleteTargetEstimateId = estimateId;
+    const bsEstimateNum = e.target.dataset.bsEstimatenum;
     const deletePlanner = plannerMatching[bsIndex][bsIndex2];
     const deletePlannerName = plannerName[bsIndex][bsIndex2];
     setBsIndex(bsIndex);
@@ -100,6 +102,7 @@ function Matching() {
     setDeleteTargetEstimateId(deleteTargetEstimateId);
     setDeletePlanner(deletePlanner);
     setDeletePlannerName(deletePlannerName);
+    setEstimateNum(bsEstimateNum);
   };
 
   const deleteMatchingPlanner2 = () => {
@@ -130,11 +133,11 @@ function Matching() {
       .then((res) => {
         console.log(res);
         setMatchedPlanner(res.data);
+        navigate("/checkoutdeposit");
       })
       .catch((e) => {
         console.log(e);
       });
-    navigate("/checkoutdeposit");
   };
 
   useEffect(() => {
@@ -144,7 +147,8 @@ function Matching() {
       .post(`/estimate/getMatchedPlanner`, formData)
       .then((res) => {
         console.log(res);
-        setMatchedPlanner(res.data);
+        setMatchedPlanner(res.data.slice(0, res.data.length - 1));
+        setEstimateNum(res.data.slice(res.data.length - 1, res.data.length));
       })
       .catch((e) => {
         console.log(e);
@@ -164,7 +168,7 @@ function Matching() {
         console.log(e);
       });
   };
-
+  //console.log("estimateNum:" + estimateNum);
   return (
     <div className="mainlayout">
       <hr />
@@ -180,6 +184,19 @@ function Matching() {
           {matchedPlanner !== null ? (
             <div>
               <div className="matchingList">
+                <div
+                  style={{
+                    fontSize: "1.7em",
+                    width: "100%",
+                    paddingLeft: "240px",
+                    paddingTop: "20px",
+                    borderBottom: "3px double grey",
+                    borderTop: "3px dashed grey",
+                    paddingBottom: "20px",
+                  }}
+                >
+                  -견적서{estimateNum}-
+                </div>
                 <p
                   className="myPlannerName"
                   style={{
@@ -231,6 +248,7 @@ function Matching() {
               var plannerList = plannerName[index];
               var estimateId = plannerData[index].id;
               console.log("estimateId:" + estimateId);
+
               return (
                 <table
                   style={{
@@ -303,6 +321,7 @@ function Matching() {
                               data-bs-index={index}
                               data-bs-index2={i}
                               data-bs-estimateId={estimateId}
+                              data-bs-estimateNum={index + 1}
                               onClick={deleteMatchingPlanner}
                             >
                               매칭/거절
