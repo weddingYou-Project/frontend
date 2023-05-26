@@ -46,6 +46,9 @@ function Matching() {
               plannerMatchingArr.push(arr);
               estimateCountArr.push(i);
               dataArr.push(res.data[i]);
+              if (arr === undefined || arr === null) {
+                alert("매칭된 목록이 없음!");
+              }
               for (let j = 0; j < arr.length; j++) {
                 temp.push(j);
               }
@@ -104,6 +107,9 @@ function Matching() {
       .post(`/estimate/deleteMatchingPlanner`, formData)
       .then((res) => {
         setDeletedPlanner(!deletedPlanner);
+        if (deletePlanner === matchedPlanner) {
+          CancelMatching();
+        }
         console.log(res);
       })
       .catch((e) => {
@@ -140,7 +146,7 @@ function Matching() {
       .catch((e) => {
         console.log(e);
       });
-  }, []);
+  }, [deletedPlanner]);
 
   const CancelMatching = () => {
     const formData = new FormData();
