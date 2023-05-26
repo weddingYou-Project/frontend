@@ -3,7 +3,7 @@ import "../Css/main.css";
 import "../Css/Ratingpage.css";
 import "../Css/checkout.css";
 import imgLogo from "../Assets/logo.png";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import NavigationBar from "../Components/NavigationBar";
 import Footer from "../Components/Footer";
 
@@ -13,17 +13,25 @@ function Checkoutdeposit() {
 
   const navigate = useNavigate();
 
+  const { estimateId } = useLocation().state;
+  const { userName } = useLocation().state;
+  const { userPhone } = useLocation().state;
+  const { plannerName } = useLocation().state;
+  console.log("estimateId:" + estimateId);
+  console.log("userName:" + userName);
+  console.log("userPhone:" + userPhone);
+
   function requestPay() {
     IMP.request_pay(
       {
         pg: "kcp",
         pay_method: "card",
-        merchant_uid: "57008833-33055" + IMP,
+        merchant_uid: `57008833-${estimateId}` + IMP,
         name: "플래너 매칭 계약금",
-        amount: 5,
-        buyer_email: "Weddingyou@gmail.com",
-        buyer_name: "wedding you",
-        buyer_tel: "010-1234-5678",
+        amount: 500,
+        buyer_email: sessionStorage.getItem("email"),
+        buyer_name: userName,
+        buyer_tel: userPhone,
         // buyer_addr: "서울특별시 강남구 삼성동",
         // buyer_postcode: "123-456",
       },
@@ -47,7 +55,7 @@ function Checkoutdeposit() {
       <NavigationBar title={"결제하기 (계약금)"} />
       <div className="plannerpro" style={{ marginTop: 110 }}>
         <img src={imgLogo} className="plannerproimg" />
-        <p className="plannerName">000 플래너</p>
+        <p className="plannerName">{plannerName}</p>
       </div>
       <div className="mb-3 row checkouttext">
         <label

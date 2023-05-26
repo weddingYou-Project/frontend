@@ -132,9 +132,25 @@ function Matching() {
     axios
       .post(`/estimate/matching`, formData)
       .then((res) => {
+        console.log("++++++++++++++++++++++++");
         console.log(res);
-        setMatchedPlanner(res.data);
-        navigate("/checkoutdeposit");
+        const userName = res.data.slice(0, res.data.indexOf("/"));
+        const userPhone = res.data.slice(
+          res.data.indexOf("/") + 1,
+          res.data.lastIndexOf("/")
+        );
+        const plannerName = res.data.slice(
+          res.data.lastIndexOf("/") + 1,
+          res.data.length
+        );
+        navigate("/checkoutdeposit", {
+          state: {
+            estimateId: deleteTargetEstimateId,
+            userName: userName,
+            userPhone: userPhone,
+            plannerName: plannerName,
+          },
+        });
       })
       .catch((e) => {
         console.log(e);
