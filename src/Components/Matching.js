@@ -36,6 +36,7 @@ function Matching() {
               const arr = JSON.parse(res.data[i].plannermatching);
               plannerMatchingArr.push(arr);
               estimateCountArr.push(i);
+              dataArr.push(res.data[i]);
               for (let j = 0; j < plannerMatchingArr.length; j++) {
                 temp.push(j);
               }
@@ -54,7 +55,6 @@ function Matching() {
                 console.log(e);
               });
 
-            dataArr.push(res.data);
             setPlannerData(dataArr);
             setPlannerMatching(plannerMatchingArr);
             setEstimateCount(estimateCountArr);
@@ -72,6 +72,7 @@ function Matching() {
     }
   }, []);
 
+  console.log(plannerData);
   const goToEstimate = (e) => {
     e.preventDefault();
   };
@@ -123,8 +124,8 @@ function Matching() {
           <div>
             {estimateCount.map((index, keyindex) => {
               var plannerList = plannerName[index];
-              console.log("plannerList");
-              console.log(plannerList);
+              var estimateId = plannerData[index].id;
+              console.log("estimateId:" + estimateId);
               return (
                 <table
                   style={{
@@ -155,7 +156,10 @@ function Matching() {
                     >
                       <button
                         className="plannerMatchingBtn"
-                        onClick={{ goToEstimate }}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          navigate(`/estimatedetail/${estimateId}`);
+                        }}
                       >
                         견적서보기
                       </button>
