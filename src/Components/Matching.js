@@ -21,6 +21,7 @@ function Matching() {
   const [deleteTargetEstimateId, setDeleteTargetEstimateId] = useState(0);
   const [deletePlanner, setDeletePlanner] = useState("");
   const [matchedPlanner, setMatchedPlanner] = useState(null);
+  const [deletePlannerName, setDeletePlannerName] = useState(null);
 
   const deleteBtn = useRef();
 
@@ -93,10 +94,12 @@ function Matching() {
     const estimateId = e.target.dataset.bsEstimateid;
     const deleteTargetEstimateId = estimateId;
     const deletePlanner = plannerMatching[bsIndex][bsIndex2];
+    const deletePlannerName = plannerName[bsIndex][bsIndex2];
     setBsIndex(bsIndex);
     setBsIndex2(bsIndex2);
     setDeleteTargetEstimateId(deleteTargetEstimateId);
     setDeletePlanner(deletePlanner);
+    setDeletePlannerName(deletePlannerName);
   };
 
   const deleteMatchingPlanner2 = () => {
@@ -107,7 +110,7 @@ function Matching() {
       .post(`/estimate/deleteMatchingPlanner`, formData)
       .then((res) => {
         setDeletedPlanner(!deletedPlanner);
-        if (deletePlanner === matchedPlanner) {
+        if (deletePlannerName === matchedPlanner) {
           CancelMatching();
         }
         console.log(res);
