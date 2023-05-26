@@ -20,6 +20,7 @@ function Matching() {
   const [bsIndex2, setBsIndex2] = useState(0);
   const [deleteTargetEstimateId, setDeleteTargetEstimateId] = useState(0);
   const [deletePlanner, setDeletePlanner] = useState("");
+  const [matchedPlanner, setMatchedPlanner] = useState(null);
 
   const deleteBtn = useRef();
 
@@ -80,8 +81,7 @@ function Matching() {
       //planner일 경우
     }
   }, [deletedPlanner]);
-  console.log("+_+_+_+_+_+_+_+");
-  console.log(plannerMatching);
+
   const deleteMatchingPlanner = (e) => {
     e.preventDefault();
     console.log(e.target.dataset);
@@ -110,6 +110,38 @@ function Matching() {
         console.log(e);
       });
   };
+
+  const goMatching = () => {
+    const formData = new FormData();
+    formData.append("targetEstimateId", deleteTargetEstimateId);
+    formData.append("matchingPlanner", deletePlanner);
+    formData.append("userEmail", sessionStorage.getItem("email"));
+    axios
+      .post(`/estimate/matching`, formData)
+      .then((res) => {
+        console.log(res);
+        setMatchedPlanner(res.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+    navigate("/checkoutdeposit");
+  };
+
+  useEffect(() => {
+    const formData = new FormData();
+    formData.append("userEmail", sessionStorage.getItem("email"));
+    axios
+      .post(`/estimate/getMatchedPlanner`, formData)
+      .then((res) => {
+        console.log(res);
+        setMatchedPlanner(res.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
+
   return (
     <div className="mainlayout">
       <hr />
@@ -122,35 +154,51 @@ function Matching() {
           >
             내 플래너
           </p>
-          <div className="matchingList">
-            <p
-              className="myPlannerName"
+          {matchedPlanner !== null ? (
+            <div>
+              <div className="matchingList">
+                <p
+                  className="myPlannerName"
+                  style={{
+                    fontSize: "1.6em",
+                    marginLeft: "100px",
+                    marginRight: "-70px",
+                  }}
+                >
+                  {matchedPlanner}
+                </p>
+                <button className="plannerProBtn">프로필 보기</button>
+                <br />
+                <div className="matchingBtnList">
+                  <button
+                    className="plannerMatchingBtn"
+                    onClick={() => navigate("/checkoutall")}
+                  >
+                    결제하기
+                  </button>
+                  <button
+                    className="plannerMatchingBtn"
+                    data-bs-toggle="modal"
+                    data-bs-target="#CancelMatching"
+                  >
+                    매칭취소
+                  </button>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div
               style={{
-                fontSize: "1.6em",
-                marginLeft: "100px",
-                marginRight: "-70px",
+                marginTop: "20px",
+                height: "20px",
+                fontSize: "1.5em",
+                paddingLeft: "160px",
+                marginBottom: "60px",
               }}
             >
-              000 플래너
-            </p>
-            <button className="plannerProBtn">프로필 보기</button>
-            <br />
-            <div className="matchingBtnList">
-              <button
-                className="plannerMatchingBtn"
-                onClick={() => navigate("/checkoutall")}
-              >
-                결제하기
-              </button>
-              <button
-                className="plannerMatchingBtn"
-                data-bs-toggle="modal"
-                data-bs-target="#CancelMatching"
-              >
-                매칭취소
-              </button>
+              아직 매칭된 플래너가 없습니다.
             </div>
-          </div>
+          )}
           <hr />
           <p className="headertxt" style={{ fontSize: "1.7em" }}>
             매칭 요청 온 플래너 목록
@@ -322,7 +370,7 @@ function Matching() {
                   <button
                     type="button"
                     className="btn btn-primary"
-                    onClick={() => navigate("/checkoutdeposit")}
+                    onClick={goMatching}
                     data-bs-dismiss="modal"
                   >
                     매칭하기
@@ -572,7 +620,7 @@ function Matching() {
                   <button
                     type="button"
                     className="btn btn-primary"
-                    onClick={() => navigate("/checkoutdeposit")}
+                    onClick={goMatching}
                     data-bs-dismiss="modal"
                   >
                     매칭하기
