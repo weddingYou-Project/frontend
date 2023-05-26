@@ -95,9 +95,13 @@ const EstimateDetail = () => {
         .post(`/estimate/insert/matchingplanner`, formData)
         .then((res) => {
           console.log(res);
+          alert("매칭 신청되었습니다!");
         })
         .catch((e) => {
           console.log(e);
+          if (e.response.data.message === "중복됩니다!") {
+            alert("이미 매칭 신청한 회원입니다!");
+          }
         });
     } else {
       const addplannerEmail = sessionStorage.getItem("email");
@@ -116,6 +120,10 @@ const EstimateDetail = () => {
           })
           .catch((e) => {
             console.log(e);
+            console.log(111111111);
+            if (e.response.data.message === "중복됩니다!") {
+              alert("이미 매칭 신청한 회원입니다!");
+            }
           });
       } else {
         alert("이미 매칭 신청한 회원입니다!");

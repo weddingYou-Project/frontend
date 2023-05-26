@@ -80,7 +80,7 @@ function Matching() {
     } else {
       //planner일 경우
     }
-  }, [deletedPlanner]);
+  }, [deletedPlanner, matchedPlanner]);
 
   const deleteMatchingPlanner = (e) => {
     e.preventDefault();
@@ -141,6 +141,20 @@ function Matching() {
         console.log(e);
       });
   }, []);
+
+  const CancelMatching = () => {
+    const formData = new FormData();
+    formData.append("userEmail", sessionStorage.getItem("email"));
+    axios
+      .post(`/estimate/cancelMatchedPlanner`, formData)
+      .then((res) => {
+        console.log(res);
+        setMatchedPlanner(null);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
 
   return (
     <div className="mainlayout">
@@ -325,9 +339,8 @@ function Matching() {
                   <button
                     type="button"
                     className="btn btn-primary"
-                    onClick={() => {
-                      setDeletePermission(true);
-                    }}
+                    data-bs-dismiss="modal"
+                    onClick={CancelMatching}
                   >
                     매칭 취소하기
                   </button>
