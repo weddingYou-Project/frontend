@@ -14,7 +14,7 @@ function NotFound() {
   const images = [Loadingimg1, Loadingimg2, Loadingimg3];
   const location = useLocation();
   const { state: passwordCheck } = useLocation();
-  console.log(passwordCheck);
+  // console.log(passwordCheck);
   const path = location.pathname;
   const [selectImg, setSelectImg] = useState();
   const navigate = useNavigate();

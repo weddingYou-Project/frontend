@@ -1,10 +1,22 @@
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 
-function BackButton() {
+function BackButton({ engTitle }) {
   const navigate = useNavigate();
   const location = useLocation();
   const path = location.pathname;
+  const [originalLocation, setOriginalLocation] = useState();
+  const [searchedKeyword, setSearchedKeyWord] = useState();
+
+  useEffect(() => {
+    if (location.state !== null) {
+      const { originalLocation } = location.state;
+      setOriginalLocation(originalLocation);
+      const { searchedKeyword } = location.state;
+      setSearchedKeyWord(searchedKeyword);
+    }
+  }, []);
 
   return (
     <div className="backicon">
@@ -34,6 +46,35 @@ function BackButton() {
             navigate("/mypage/user");
           } else if (path.indexOf("/planner/userupdate") !== -1) {
             navigate("/mypage/planner");
+          } else if (path.indexOf("/likeList") !== -1) {
+            if (originalLocation === "home") {
+              navigate("/");
+            } else if (originalLocation === "searchitems") {
+              navigate("/searchItems", { state: { keyword: searchedKeyword } });
+            }
+          } else if (
+            path.indexOf("/menu/weddinghall") !== -1 ||
+            path.indexOf("/menu/studio") !== -1 ||
+            path.indexOf("/menu/weddingoutfit") !== -1 ||
+            path.indexOf("/menu/makeup") !== -1 ||
+            path.indexOf("/menu/honeymoon") !== -1 ||
+            path.indexOf("/menu/bouquet") !== -1
+          ) {
+            navigate("/menu");
+          } else if (path.indexOf("/writepost/weddinghall") !== -1) {
+            navigate("/menu/weddinghall");
+          } else if (path.indexOf("/writepost/studio") !== -1) {
+            navigate("/menu/studio");
+          } else if (path.indexOf("/writepost/weddingoutfit") !== -1) {
+            navigate("/menu/weddingoutfit");
+          } else if (path.indexOf("/writepost/makeup") !== -1) {
+            navigate("/menu/makeup");
+          } else if (path.indexOf("/writepost/honeymoon") !== -1) {
+            navigate("/menu/honeymoon");
+          } else if (path.indexOf("/writepost/bouquet") !== -1) {
+            navigate("/menu/bouquet");
+          } else if (path.indexOf("/editpost") !== -1) {
+            navigate(`/menu/${engTitle}`);
           } else {
             navigate(-1);
           }

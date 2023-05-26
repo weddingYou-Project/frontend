@@ -8,6 +8,9 @@ import TemporaryPasswordLogin from "./Pages/TemporaryPasswordLogin";
 import PasswordChange from "./Pages/PasswordChange";
 import Mypage from "./Pages/Mypage";
 import UserUpdate from "./Pages/UserUpdate";
+import MenuList from "./Pages/MenuList";
+import WritePost from "./Pages/Items/WritePost";
+import EditPost from "./Pages/Items/EditPost";
 import NotFound from "./Pages/NotFound";
 import LikeList from "./Pages/LikeList";
 import SearchItems from "./Pages/SearchItems";
@@ -18,6 +21,10 @@ import Checkoutdeposit from "./Pages/checkoutdeposit";
 import Matching from "./Components/Matching";
 import CheckoutAll from "./Pages/checkoutAll";
 import CheckoutComp from "./Pages/checkoutComp";
+import Item from "./Components/Item";
+import EstimateList from "./Pages/EstimateList";
+import EstimateDetail from "./Pages/EstimateDetail";
+import EstimateModify from "./Pages/EstimateModify";
 
 function App() {
   return (
@@ -36,6 +43,7 @@ function App() {
       <Route path="/signup" element={<Signup />}></Route>
       <Route path="/signup/:category" element={<SignupForm />}></Route>
       <Route path="/passwordSearch" element={<PasswordSearch />} />
+
       <Route
         path="/passwordSearch/temporaryPasswordLogin"
         element={<TemporaryPasswordLogin />}
@@ -46,7 +54,15 @@ function App() {
       />
       <Route path="/mypage/:category" element={<Mypage />} />
       <Route path="/mypage/:category/userupdate" element={<UserUpdate />} />
+      <Route path="/menu" element={<MenuList />} />
+      <Route path="/menu/:category1" element={<Item />} />
+      <Route path="/writepost/:category1" element={<WritePost />} />
+      <Route path="/editpost/:itemId" element={<EditPost />} />
       <Route path="*" element={<NotFound />} />
+      <Route path="/estimateform" element={<EstimateForm />} />
+      <Route path="/estimatedetail/:id" element={<EstimateDetail />} />
+      <Route path="/estimatemodify/:id" element={<EstimateModify />} />
+      <Route path="/estimatelist" element={<EstimateList />} />
     </Routes>
   );
 }

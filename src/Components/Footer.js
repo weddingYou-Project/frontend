@@ -96,6 +96,7 @@ function Footer() {
         className="icon"
         onClick={() => {
           //전체 메뉴 바 보여주기
+          navigate("/menu");
         }}
       >
         <svg
@@ -177,7 +178,7 @@ function Footer() {
             const category = sessionStorage.getItem("category");
             navigate(`/mypage/${category}`);
           } else {
-            navigate(`/*`);
+            navigate(`/login`);
           }
         }}
       >

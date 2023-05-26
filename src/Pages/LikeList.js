@@ -5,6 +5,7 @@ import Footer from "../Components/Footer";
 import NavigationBar from "../Components/NavigationBar";
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import Animation from "../Components/Animation";
 import axios from "axios";
 
 function LikeList() {
@@ -35,8 +36,11 @@ function LikeList() {
   const [prevSelectedIndex, setPrevSelectedIndex] = useState();
   const [likeState, setLikeState] = useState([]);
   const [checkLikeOrNot, setCheckLikeOrNot] = useState(false);
+  const [update, setUpdate] = useState(false);
 
   const [likeSelect, setLikeSelect] = useState(true);
+  const [finish, setFinish] = useState(false);
+  const [realFinish, setRealFinish] = useState(false);
 
   const handleHeartClick = (e) => {
     setCheckLikeOrNot(!checkLikeOrNot);
@@ -74,83 +78,102 @@ function LikeList() {
   };
 
   useEffect(() => {
-    //전체 찜목록 불러오는 기능
-    axios
-      .post(`/like/list`, { email: sessionStorage.getItem("email") })
-      .then((res) => {
-        const dataList = res.data;
-
-        if (dataList.length !== 0) {
-          let index = 0;
-          for (var i = 0; i < dataList.length; i++) {
-            if (i % 3 === 0) {
-              let dataUrl = "data:image/jpeg;base64," + dataList[i];
-              previewImgArr.push(dataUrl);
-              setPreviewImg(previewImgArr);
-            } else if (i % 3 === 1) {
-              let newitemId = dataList[i];
-              list.push(newitemId);
-              setItemId(list);
-              keyIndexArr.push(index);
-              index++;
-              setKeyIndex(keyIndexArr);
-              likeIndexArr.push(true);
-              setLikeState(likeIndexArr);
-              axios
-                .get(`/item/getItemList/${newitemId}`)
-                .then((res) => {
-                  let newItem = res.data;
-                  itemDataArr.push(newItem);
-                  itemDataArr.sort(function (a, b) {
-                    return (
-                      new Date(b.likeWriteDate) - new Date(a.likeWriteDate)
-                    );
-                  });
-                  setItem([...item, newItem]);
-                  setItem(itemDataArr);
-
-                  let itemNameList = [];
-                  let itemLikeList = [];
-                  for (var j = 0; j < itemDataArr.length; j++) {
-                    const newItemName = itemDataArr[j].itemName;
-                    const newItemLike = itemDataArr[j].like.length;
-                    itemNameList.push(newItemName);
-                    itemLikeList.push(newItemLike);
-                    setItemName(itemNameList);
-                    setItemLike(itemLikeList);
-                  }
-                })
-                .catch((e) => {
-                  console.log(e);
-                });
-            } else {
-            }
-          }
-        }
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    if (sessionStorage.getItem("email") === null) {
+      navigate("/login");
+    }
   }, []);
 
+  const goUpdate = (e) => {
+    setUpdate(!update);
+  };
+
+  // useEffect(() => {
+  //   setFinish(false);
+  //   setTimeout(() => {
+  //     setFinish(true);
+  //   }, 8000);
+  // }, [selectedItem, selectedSort]);
+
+  // useEffect(() => {
+  //   //전체 찜목록 불러오는 기능
+  //   axios
+  //     .post(`/like/list`, { email: sessionStorage.getItem("email") })
+  //     .then((res) => {
+  //       const dataList = res.data;
+
+  //       if (dataList.length !== 0) {
+  //         let index = 0;
+  //         for (var i = 0; i < dataList.length; i++) {
+  //           if (i % 3 === 0) {
+  //             let dataUrl = "data:image/jpeg;base64," + dataList[i];
+  //             previewImgArr.push(dataUrl);
+  //             setPreviewImg(previewImgArr);
+  //           } else if (i % 3 === 1) {
+  //             let newitemId = dataList[i];
+  //             list.push(newitemId);
+  //             setItemId(list);
+  //             keyIndexArr.push(index);
+  //             index++;
+  //             setKeyIndex(keyIndexArr);
+  //             likeIndexArr.push(true);
+  //             setLikeState(likeIndexArr);
+  //             axios
+  //               .get(`/item/getItemList/${newitemId}`)
+  //               .then((res) => {
+  //                 let newItem = res.data;
+  //                 itemDataArr.push(newItem);
+  //                 itemDataArr.sort(function (a, b) {
+  //                   return (
+  //                     new Date(b.likeWriteDate) - new Date(a.likeWriteDate)
+  //                   );
+  //                 });
+  //                 setItem([...item, newItem]);
+  //                 setItem(itemDataArr);
+
+  //                 let itemNameList = [];
+  //                 let itemLikeList = [];
+  //                 for (var j = 0; j < itemDataArr.length; j++) {
+  //                   const newItemName = itemDataArr[j].itemName;
+  //                   const newItemLike = itemDataArr[j].like.length;
+  //                   itemNameList.push(newItemName);
+  //                   itemLikeList.push(newItemLike);
+  //                   setItemName(itemNameList);
+  //                   setItemLike(itemLikeList);
+  //                 }
+  //               })
+  //               .catch((e) => {
+  //                 console.log(e);
+  //               });
+  //           } else {
+  //           }
+  //         }
+  //       }
+  //     })
+  //     .catch((e) => {
+  //       console.log(e);
+  //     });
+  // }, []);
+
   useEffect(() => {
-    //전체 찜목록 불러오는 기능
+    //카테고리, 정렬 모두 적용
+
     axios
-      .post(`/like/list/category`, {
+      .post(`/like/list/category/sort`, {
         email: sessionStorage.getItem("email"),
         category1: selectedItem,
+        sortBy: selectedSort,
       })
       .then((res) => {
         const dataList = res.data;
-
+        console.log(dataList);
         if (dataList.length !== 0) {
           let index = 0;
           for (var i = 0; i < dataList.length; i++) {
-            if (i % 3 === 0) {
+            if (i % 2 === 0) {
               let dataUrl = "data:image/jpeg;base64," + dataList[i];
               previewImgArr.push(dataUrl);
               setPreviewImg(previewImgArr);
-            } else if (i % 3 === 1) {
+            } else if (i % 2 === 1) {
               let newitemId = dataList[i];
               list.push(newitemId);
               setItemId(list);
@@ -159,16 +182,45 @@ function LikeList() {
               setKeyIndex(keyIndexArr);
               likeIndexArr.push(true);
               setLikeState(likeIndexArr);
+
               axios
                 .get(`/item/getItemList/${newitemId}`)
                 .then((res) => {
+                  console.log(res);
+
                   let newItem = res.data;
                   itemDataArr.push(newItem);
-                  itemDataArr.sort(function (a, b) {
-                    return (
-                      new Date(b.likeWriteDate) - new Date(a.likeWriteDate)
-                    );
-                  });
+                  if (selectedSort === "가나다순") {
+                    itemDataArr.sort(function (a, b) {
+                      if (a.itemName < b.itemName) return -1;
+                      if (a.itemName > b.itemName) return 1;
+                      if (a.itemName === b.itemName) return 0;
+                    });
+                  } else if (selectedSort === "인기순") {
+                    itemDataArr.sort(function (a, b) {
+                      if (a.like.length < b.like.length) return 1;
+                      if (a.like.length > b.like.length) return -1;
+                      if (a.like.length === b.like.length) {
+                        if (a.itemName < b.itemName) return -1;
+                        if (a.itemName > b.itemName) return 1;
+                        if (a.itemName === b.itemName) return 0;
+                      }
+                    });
+                  } else if (selectedSort === "최신순") {
+                    itemDataArr.sort(function (a, b) {
+                      return (
+                        new Date(b.likeWriteDate) - new Date(a.likeWriteDate)
+                      );
+                    });
+                  } else {
+                    itemDataArr.sort(function (a, b) {
+                      return (
+                        new Date(b.likeWriteDate) - new Date(a.likeWriteDate)
+                        //a.itemName - b.itemName
+                      );
+                    });
+                  }
+
                   setItem([...item, newItem]);
                   setItem(itemDataArr);
 
@@ -186,24 +238,34 @@ function LikeList() {
                 .catch((e) => {
                   console.log(e);
                 });
-            } else {
+              //
             }
           }
+          setFinish(true);
+        } else {
+          // 결과 없을 때
+          keyIndexArr = [];
+          setKeyIndex(keyIndexArr);
+          setFinish(true);
         }
       })
       .catch((e) => {
         console.log(e);
       });
-  }, [selectedItem]);
+  }, [selectedItem, selectedSort, update]);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+  }, [selectedItem, selectedSort, update]);
 
   // console.log(likeState);
   useEffect(() => {
     keyIndex.forEach((index) => {
       if (likeState[index] === false) {
-        console.log("deleteitem:" + itemId[itemId.length - 1 - index]);
+        console.log("deleteitem:" + itemId[index]);
         axios
           .post(`/like/delete`, {
-            itemId: itemId[itemId.length - 1 - index],
+            itemId: itemId[index],
             email: sessionStorage.getItem("email"),
           })
           .then((res) => {
@@ -216,7 +278,7 @@ function LikeList() {
       } else if (likeState[index] === true) {
         axios
           .post(`/like/create`, {
-            itemId: itemId[itemId.length - 1 - index],
+            itemId: itemId[index],
             email: sessionStorage.getItem("email"),
           })
           .then((res) => {
@@ -227,7 +289,7 @@ function LikeList() {
           });
       }
     });
-  }, [checkLikeOrNot]);
+  }, [checkLikeOrNot, update]);
 
   const Like = ({ likeState, index }) => {
     const id = itemId[itemId.length - 1 - index];
@@ -279,164 +341,221 @@ function LikeList() {
   };
   return (
     <div className="mainlayout">
-      <NavigationBar title={"찜목록"} />
-      <div className="filter">
-        <div class="dropdown margin left">
-          <button
-            class="btn btn-secondary dropdown-toggle"
-            type="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            {selectedItem}
-          </button>
-          <ul class="dropdown-menu">
-            <li>
-              <button
-                class="dropdown-item"
-                type="button"
-                onClick={() => handleItemClick("전체")}
+      <NavigationBar title={"찜목록"} goUpdate={goUpdate} />
+      {finish === false ? (
+        <Animation />
+      ) : (
+        <div style={{ marginTop: "130px" }}>
+          <div>
+            <div className="Likecontent">
+              <div
+                style={{
+                  position: "fixed",
+                  top: 0,
+                  zIndex: 99,
+                  width: "556px",
+                  display: "block",
+                  background: "white",
+                }}
               >
-                전체
-              </button>
-            </li>
-            <li>
-              <button
-                class="dropdown-item"
-                type="button"
-                onClick={() => handleItemClick("웨딩홀")}
-              >
-                웨딩홀
-              </button>
-            </li>
-            <li>
-              <button
-                class="dropdown-item"
-                type="button"
-                onClick={() => handleItemClick("스튜디오")}
-              >
-                스튜디오
-              </button>
-            </li>
-            <li>
-              <button
-                class="dropdown-item"
-                type="button"
-                onClick={() => handleItemClick("의상")}
-              >
-                의상
-              </button>
-            </li>
-            <li>
-              <button
-                class="dropdown-item"
-                type="button"
-                onClick={() => handleItemClick("메이크업")}
-              >
-                메이크업
-              </button>
-            </li>
-            <li>
-              <button
-                class="dropdown-item"
-                type="button"
-                onClick={() => handleItemClick("신혼여행")}
-              >
-                신혼여행
-              </button>
-            </li>
-            <li>
-              <button
-                class="dropdown-item"
-                type="button"
-                onClick={() => handleItemClick("부케")}
-              >
-                부케
-              </button>
-            </li>
-          </ul>
-        </div>
-        <div class="dropdown  right-sort">
-          <button
-            class="btn btn-secondary dropdown-toggle"
-            type="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            {selectedSort}
-          </button>
-          <ul class="dropdown-menu sortItem">
-            <li className="">
-              <button
-                class="dropdown-item "
-                type="button"
-                onClick={() => handleSortClick("가나다순")}
-              >
-                가나다순
-              </button>
-            </li>
-            <li>
-              <button
-                class="dropdown-item"
-                type="button"
-                onClick={() => handleSortClick("인기순")}
-              >
-                인기순
-              </button>
-            </li>
-            <li>
-              <button
-                class="dropdown-item"
-                type="button"
-                onClick={() => handleSortClick("지역순")}
-              >
-                지역순
-              </button>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div className="Likecontent">
-        <div class="container text-center">
-          <div class="row row-cols-2">
-            {/* 이미지카드 */}
-            {keyIndex.map((i) => (
-              <div class="col">
-                <div class="card margT">
-                  <img
-                    style={{ height: "230px" }}
-                    src={previewImg[keyIndex.length - i - 1]}
-                    class="card-img-top"
-                    alt="..."
-                  />
-                  <div class="card-body">
-                    <p class="card-text">
-                      {itemName[i]} &nbsp;&nbsp;
-                      <div className="likeListBtn1">
-                        <Like likeState={likeState} index={i} />
-                      </div>
-                      {itemLike[i]}
-                    </p>
+                <div
+                  className="filter"
+                  style={{
+                    position: "fixed",
+                    top: 64,
+                    zIndex: 99,
+                    width: "556px",
+                    display: "block",
+                    background: "white",
+                    paddingTop: "5px",
+                    height: "80px",
+                  }}
+                >
+                  <div style={{ marginLeft: "5px" }}>
+                    <div class="dropdown margin left">
+                      <button
+                        class="btn btn-secondary dropdown-toggle"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        {selectedItem}
+                      </button>
+
+                      <ul class="dropdown-menu">
+                        <li>
+                          <button
+                            class="dropdown-item"
+                            type="button"
+                            onClick={() => handleItemClick("전체")}
+                          >
+                            전체
+                          </button>
+                        </li>
+                        <li>
+                          <button
+                            class="dropdown-item"
+                            type="button"
+                            onClick={() => handleItemClick("웨딩홀")}
+                          >
+                            웨딩홀
+                          </button>
+                        </li>
+                        <li>
+                          <button
+                            class="dropdown-item"
+                            type="button"
+                            onClick={() => handleItemClick("스튜디오")}
+                          >
+                            스튜디오
+                          </button>
+                        </li>
+                        <li>
+                          <button
+                            class="dropdown-item"
+                            type="button"
+                            onClick={() => handleItemClick("의상")}
+                          >
+                            의상
+                          </button>
+                        </li>
+                        <li>
+                          <button
+                            class="dropdown-item"
+                            type="button"
+                            onClick={() => handleItemClick("메이크업")}
+                          >
+                            메이크업
+                          </button>
+                        </li>
+                        <li>
+                          <button
+                            class="dropdown-item"
+                            type="button"
+                            onClick={() => handleItemClick("신혼여행")}
+                          >
+                            신혼여행
+                          </button>
+                        </li>
+                        <li>
+                          <button
+                            class="dropdown-item"
+                            type="button"
+                            onClick={() => handleItemClick("부케")}
+                          >
+                            부케
+                          </button>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div
+                    style={{
+                      marginRight: "8px",
+                    }}
+                  >
+                    <div class="dropdown  right-sort">
+                      <button
+                        class="btn btn-secondary dropdown-toggle"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        {selectedSort}
+                      </button>
+                      <ul class="dropdown-menu sortItem">
+                        <li className="">
+                          <button
+                            class="dropdown-item "
+                            type="button"
+                            onClick={() => handleSortClick("가나다순")}
+                          >
+                            가나다순
+                          </button>
+                        </li>
+                        <li>
+                          <button
+                            class="dropdown-item"
+                            type="button"
+                            onClick={() => handleSortClick("인기순")}
+                          >
+                            인기순
+                          </button>
+                        </li>
+                        <li>
+                          <button
+                            class="dropdown-item"
+                            type="button"
+                            onClick={() => handleSortClick("최신순")}
+                          >
+                            최신순
+                          </button>
+                        </li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
               </div>
-            ))}
-            {/* 이미지카드 */}
+              <div class="container text-center">
+                <div class="row row-cols-2">
+                  {/* 이미지카드 */}
+                  {keyIndex.length === 0 ? (
+                    <div
+                      class="text-start"
+                      style={{
+                        marginLeft: "10px",
+                        fontSize: "1.5em",
+                        marginTop: "40px",
+                      }}
+                    >
+                      결과가 없습니다.
+                    </div>
+                  ) : (
+                    keyIndex.map((i) => (
+                      <div class="col">
+                        <div class="card margT">
+                          <img
+                            style={{ height: "230px" }}
+                            src={previewImg[i]}
+                            class="card-img-top"
+                            alt="..."
+                          />
+                          <div class="card-body">
+                            <p class="card-text">
+                              {itemName[i]} &nbsp;&nbsp;
+                              <div className="likeListBtn1">
+                                <Like likeState={likeState} index={i} />
+                              </div>
+                              {itemLike[i]}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                  )}
+
+                  {/* 이미지카드 */}
+                </div>
+                <br />
+              </div>
+            </div>
           </div>
-          <br />
+          <div style={{ positon: "fixed", bottom: 0, right: 100 }}>
+            <div style={{ width: "100%", height: 150, position: "relative" }}>
+              <div style={{ position: "absolute", bottom: "110px", right: 0 }}>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "right",
+                    marginRight: "20px",
+                  }}
+                ></div>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-      <div style={{ height: 94.19 }}></div>
-      <div className="button-container">
-        <button
-          className="probutton"
-          onClick={() => {
-            navigate("/estimateform");
-          }}
-        >
-          견적작성
-        </button>
-      </div>
+      )}
       <Footer />
     </div>
   );

@@ -25,14 +25,17 @@ function Login() {
 
   const handleInputId = (e) => {
     setInputId(e.target.value);
+    console.log(e.target.value);
   };
 
   const handleInputPw = (e) => {
     setInputPw(e.target.value);
+    console.log(e.target.value);
   };
 
   const handleRole = (e) => {
     setRole(e.target.value);
+    console.log(e.target.value);
   };
 
   const onClickLogin = () => {
@@ -56,7 +59,9 @@ function Login() {
             navigate("/");
           }
         })
-        .catch();
+        .catch((e) => {
+          console.log(e);
+        });
     } else if (Role === "플래너") {
       axios
         .post("/planner/login", {
@@ -77,14 +82,16 @@ function Login() {
             navigate("/");
           }
         })
-        .catch();
+        .catch((e) => {
+          console.log(e);
+        });
     }
   };
 
   return (
     <div className="mainlayout">
       <NavigationBar title={"로그인"} />
-      <div className="container text-center">
+      <div className="container text-center" style={{ marginTop: "50px" }}>
         <div className="row">
           <div className="col"></div>
           <div className="col-6">
@@ -100,6 +107,7 @@ function Login() {
           height: "450px",
           width: "100%",
           zIndex: 1,
+          marginTop: "10px",
         }}
       >
         <form>
