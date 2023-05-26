@@ -25,10 +25,18 @@ import Item from "./Components/Item";
 import EstimateList from "./Pages/EstimateList";
 import EstimateDetail from "./Pages/EstimateDetail";
 import EstimateModify from "./Pages/EstimateModify";
+import CustomerCenter from "./Pages/CustomerCenter";
+import QnA from "./Pages/QnA";
+import Notice from "./Pages/Notice";
+import Review from "./Pages/Review";
 
 function App() {
   return (
     <Routes>
+      <Route path="/review" element={<Review />} />
+      <Route path="/qnapage" element={<QnA />} />
+      <Route path="/noticepage" element={<Notice />} />
+      <Route path="/customerCenter" element={<CustomerCenter />} />
       <Route path="/matching" element={<Matching />} />
       <Route path="/checkoutcomp" element={<CheckoutComp />} />
       <Route path="/checkoutall" element={<CheckoutAll />} />

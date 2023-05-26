@@ -4,7 +4,7 @@ import Loadingimg2 from "../Assets/loading img2.jpg";
 import Loadingimg3 from "../Assets/loading img3.jpg";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
-import BackButton from "../Components/Backbutton";
+import BackButton from "../Components/BackButton";
 import "../Css/Signup.css";
 import "../Css/NotFound.css";
 

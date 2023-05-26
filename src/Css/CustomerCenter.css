@@ -1,0 +1,53 @@
+.noticeSection {
+    margin-top: 74px;
+    width: 556px;
+    padding-bottom: 50px;
+    background-color: #F4F4F4;
+}
+
+.QnAsection {
+    width: 556px;
+    padding-bottom: 50px;
+    background-color: #eae9e9;
+}
+
+.customCenterTxt {
+    margin: 15px;
+    font-size: 30px;
+    color: black;
+    text-decoration: none;
+}
+
+.LinkTxt {
+    margin-left: 15px;
+    font-size: 40px;
+    color: black;
+    text-align: center;
+}
+
+.noticeTxt {
+    margin-left: 15px;
+    font-size: 26px;
+    color: black;
+    text-decoration: none;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.noticeTxtCenter {
+    font-size: 26px;
+    text-align: center;
+    margin-bottom: 0px;
+}
+
+.searchSection {
+    margin: 0 auto;
+    margin-top: 90px;
+    margin-bottom: 20px;
+}
+
+.noticeSection2 {
+    width: 556px;
+    padding-bottom: 50px;
+    background-color: #F4F4F4;
+}

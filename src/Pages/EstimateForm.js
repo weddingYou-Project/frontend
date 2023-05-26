@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { useRef } from "react";
 //컴포넌트
 import Footer from "../Components/Footer";
-import BackButton from "../Components/Backbutton";
+import BackButton from "../Components/BackButton";
 import NavigationBar from "../Components/NavigationBar";
 
 const EstimateForm = () => {
