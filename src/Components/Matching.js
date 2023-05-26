@@ -13,62 +13,108 @@ function Matching() {
   const [estimateCount, setEstimateCount] = useState([]);
   const [plannerName, setPlannerName] = useState("");
   const [plannerData, setPlannerData] = useState([]);
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState([]);
 
   useEffect(() => {
     if (sessionStorage.getItem("category") === "user") {
       //user일 경우
-      let plannerMatchingArr = [];
-      let estimateCountArr = [];
-      let plannerNameArr = [];
-      let dataArr = [];
-      let count = 0;
-      axios
-        .get(`/estimate/getuserdetail`, {
-          params: { userEmail: sessionStorage.getItem("email") },
-        })
-        .then((res) => {
+      var plannerMatchingArr = [];
+      var estimateCountArr = [];
+      var plannerNameArr = [];
+      var dataArr = [];
+      var countArr = [];
+      var countIndex = 0;
+      const fetchData1 = async () => {
+        try {
+          const res = await axios.get(`/estimate/getuserdetail`, {
+            params: { userEmail: sessionStorage.getItem("email") },
+          });
+
           console.log(res);
 
           for (let i = 0; i < res.data.length; i++) {
+            let temp = [];
             const arr = JSON.parse(res.data[i].plannermatching);
             plannerMatchingArr.push(arr);
             estimateCountArr.push(i);
             for (let j = 0; j < plannerMatchingArr.length; j++) {
-              axios
-                .post(`/planner/plannerSearch`, {
-                  email: arr[j],
-                })
-                .then((res) => {
-                  console.log("--------------------");
-                  console.log(res);
-                  plannerNameArr.push(res.data.name);
-
-                  console.log(res.data.name);
-                })
-                .catch((e) => {
-                  console.log(e);
-                });
+              temp.push(j);
             }
+            countArr.push(temp);
           }
-          setPlannerName(plannerNameArr);
+
+          axios
+            .get(`/estimate/getPlannerName`, {
+              params: { userEmail: sessionStorage.getItem("email") },
+            })
+            .then((res) => {
+              console.log(res.data);
+              setPlannerName(res.data);
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+
           dataArr.push(res.data);
-          console.log(dataArr);
           setPlannerData(dataArr);
           setPlannerMatching(plannerMatchingArr);
           setEstimateCount(estimateCountArr);
-          count = res.data.length;
+          setCount(countArr);
           //setCount(res.data.length);
-        })
-        .catch((e) => {
+        } catch (e) {
           console.log(e);
           if (e.response.data.message === "정보가 존재하지 않습니다!") {
             alert("매칭 목록 없음!");
           }
-        });
-      let plannerNameArr2 = [];
-      console.log("plannerMatchingArr");
-      console.log(count);
+        }
+      };
+      fetchData1();
+      //  }axios
+      //     .get(`/estimate/getuserdetail`, {
+      //       params: { userEmail: sessionStorage.getItem("email") },
+      //     })
+      //     .then((res) => {
+      //       console.log(res);
+
+      //       for (let i = 0; i < res.data.length; i++) {
+      //         const arr = JSON.parse(res.data[i].plannermatching);
+      //         plannerMatchingArr.push(arr);
+      //         estimateCountArr.push(i);
+      //         for (let j = 0; j < plannerMatchingArr.length; j++) {
+      //           axios
+      //             .post(`/planner/plannerSearch`, {
+      //               email: arr[j],
+      //             })
+      //             .then((res) => {
+      //               console.log("--------------------");
+      //               console.log(res);
+      //               plannerNameArr.push(res.data.name);
+
+      //               console.log(res.data.name);
+      //             })
+      //             .catch((e) => {
+      //               console.log(e);
+      //             });
+      //         }
+      //       }
+      //       setPlannerName(plannerNameArr);
+      //       dataArr.push(res.data);
+      //       console.log(dataArr);
+      //       setPlannerData(dataArr);
+      //       setPlannerMatching(plannerMatchingArr);
+      //       setEstimateCount(estimateCountArr);
+      //       count = res.data.length;
+      //       //setCount(res.data.length);
+      //     })
+      //     .catch((e) => {
+      //       console.log(e);
+      //       if (e.response.data.message === "정보가 존재하지 않습니다!") {
+      //         alert("매칭 목록 없음!");
+      //       }
+      //     });
+      // let plannerNameArr2 = [];
+      // console.log("plannerMatchingArr");
+      // console.log(count);
       // for (let i = 0; i < 2; i++) {
       //   let arr = plannerMatchingArr[i];
       //   console.log("indexxxxxxxxx");
@@ -108,8 +154,7 @@ function Matching() {
     }
   }, []);
 
-  console.log(plannerMatching);
-  console.log("originalplannerName: " + plannerName);
+  console.log("----------------------++++++++++++++++++++");
   console.log(plannerName);
   return (
     <div className="mainlayout">
@@ -158,8 +203,9 @@ function Matching() {
           </p>
           <div className="matchingList">
             {estimateCount.map((index, keyindex) => {
-              let i = parseInt(index);
-              console.log("index:" + keyindex);
+              var plannerList = plannerName[index];
+              console.log("plannerList");
+              console.log(plannerList);
               return (
                 <table>
                   <tr>
@@ -175,41 +221,47 @@ function Matching() {
                       견적서{index + 1}
                     </td>
                   </tr>
-                  {console.log("PLANNERNAME")}
-                  {console.log(plannerName)}
-                  {plannerMatching[index].map((arr) => {
-                    console.log(arr);
-                    let plannerName = "";
-
-                    return (
-                      <tr>
-                        <td
-                          className="myPlannerName"
-                          style={{
-                            width: 160,
-                            fontSize: "1.6em",
-                            paddingLeft: "25px",
-                            paddingTop: "10px",
-                          }}
-                        >
-                          {plannerName}
-                        </td>
-                        <td>
-                          <button className="plannerMatchingBtn">
-                            프로필보기
-                          </button>
-                        </td>
-                        <td>
-                          <button
-                            className="plannerMatchingBtn"
-                            data-bs-toggle="modal"
-                            data-bs-target="#MatchOrCanel"
+                  {console.log(count[index])}
+                  {count[index].map((i) => {
+                    // console.log(plannerData[0][i]);
+                    console.log(i);
+                    console.log("**************************");
+                    try {
+                      let plannername = plannerList[i];
+                      return (
+                        <tr>
+                          <td
+                            className="myPlannerName"
+                            style={{
+                              width: 160,
+                              fontSize: "1.6em",
+                              paddingLeft: "25px",
+                              paddingTop: "10px",
+                            }}
                           >
-                            매칭/거절
-                          </button>
-                        </td>
-                      </tr>
-                    );
+                            {plannername}
+                          </td>
+                          <td>
+                            <button className="plannerMatchingBtn">
+                              프로필보기
+                            </button>
+                          </td>
+                          <td>
+                            <button
+                              className="plannerMatchingBtn"
+                              data-bs-toggle="modal"
+                              data-bs-target="#MatchOrCanel"
+                            >
+                              매칭/거절
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    } catch (e) {
+                      console.log(e);
+                    }
+
+                    // console.log(plannerList[i]);
                   })}
                 </table>
               );
