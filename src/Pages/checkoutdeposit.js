@@ -6,6 +6,8 @@ import defaultprofileimage from "../Assets/defaultprofileimage.jpg";
 import { useNavigate, useLocation } from "react-router-dom";
 import NavigationBar from "../Components/NavigationBar";
 import Footer from "../Components/Footer";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 function Checkoutdeposit() {
   var IMP = window.IMP;
@@ -16,20 +18,36 @@ function Checkoutdeposit() {
   const { estimateId } = useLocation().state;
   const { userName } = useLocation().state;
   const { userPhone } = useLocation().state;
+  const { planneremail } = useLocation().state;
   const { plannerName } = useLocation().state;
   const { plannerImg } = useLocation().state;
   console.log("estimateId:" + estimateId);
   console.log("userName:" + userName);
   console.log("userPhone:" + userPhone);
+  console.log("planneremail:" + planneremail);
+  console.log("plannerName:" + plannerName);
   console.log("plannerImg" + plannerImg);
+
+  const [price, setPrice] = useState(10000);
+  const [quantity, setQuantity] = useState(1);
+  const [paymentAmount, setPaymentAmount] = useState(price * quantity);
+  const [paymentMethod, setPaymetMethod] = useState("card");
+  const [paymentStatus, setPaymentStatus] = useState(false);
+  const [depositAmount, setDepositAmount] = useState(paymentAmount * 0.05);
+
+  const [depositStatus, setDepositStatus] = useState(true);
+  const [paymentType, setPaymentType] = useState("deposit");
+  const [userEmail, setUserEmail] = useState(sessionStorage.getItem("email"));
+  const [plannerEmail, setPlannerEmail] = useState(planneremail);
+
   function requestPay() {
     IMP.request_pay(
       {
         pg: "kcp",
-        pay_method: "card",
+        pay_method: { paymentMethod },
         merchant_uid: `57008833-${estimateId}` + IMP,
         name: "플래너 매칭 계약금",
-        amount: 500,
+        amount: { depositAmount },
         buyer_email: sessionStorage.getItem("email"),
         buyer_name: userName,
         buyer_tel: userPhone,
@@ -41,8 +59,27 @@ function Checkoutdeposit() {
         if (rsp.success) {
           console.log(rsp);
           alert("결제가 완료됐습니다!");
-          navigate("/checkoutcomp");
           sessionStorage.setItem("checkout", "deposit");
+          axios
+            .post("/deposit/callback", {
+              price: price,
+              quantity: quantity,
+              paymentMethod: paymentMethod,
+              paymentAmount: paymentAmount,
+              paymentStatus: paymentStatus,
+              depositAmount: depositAmount,
+              depositStatus: depositStatus,
+              paymentType: paymentType,
+              userEmail: userEmail,
+              plannerEmail: plannerEmail,
+            })
+            .then((res) => {
+              console.log(res);
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+          navigate("/checkoutcomp");
         } else {
           console.log(rsp);
           alert(rsp.error_msg);

@@ -137,10 +137,14 @@ function Matching() {
         const userName = res.data.slice(0, res.data.indexOf("/"));
         const userPhone = res.data.slice(
           res.data.indexOf("/") + 1,
-          res.data.lastIndexOf("]")
+          res.data.indexOf("]")
+        );
+        const plannerEmail = res.data.slice(
+          res.data.indexOf("]") + 1,
+          res.data.indexOf("[")
         );
         const plannerName = res.data.slice(
-          res.data.lastIndexOf("]") + 1,
+          res.data.indexOf("[") + 1,
           res.data.indexOf(",")
         );
         const plannerImg = res.data.slice(
@@ -154,6 +158,7 @@ function Matching() {
             estimateId: deleteTargetEstimateId,
             userName: userName,
             userPhone: userPhone,
+            planneremail: plannerEmail,
             plannerName: plannerName,
             plannerImg: plannerImgUrl,
           },
