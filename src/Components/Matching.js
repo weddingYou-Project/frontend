@@ -137,18 +137,25 @@ function Matching() {
         const userName = res.data.slice(0, res.data.indexOf("/"));
         const userPhone = res.data.slice(
           res.data.indexOf("/") + 1,
-          res.data.lastIndexOf("/")
+          res.data.lastIndexOf("]")
         );
         const plannerName = res.data.slice(
-          res.data.lastIndexOf("/") + 1,
+          res.data.lastIndexOf("]") + 1,
+          res.data.indexOf(",")
+        );
+        const plannerImg = res.data.slice(
+          res.data.indexOf(",") + 1,
           res.data.length
         );
+        let plannerImgUrl = "data:image/jpeg;base64," + plannerImg;
+        console.log(plannerImgUrl);
         navigate("/checkoutdeposit", {
           state: {
             estimateId: deleteTargetEstimateId,
             userName: userName,
             userPhone: userPhone,
             plannerName: plannerName,
+            plannerImg: plannerImgUrl,
           },
         });
       })

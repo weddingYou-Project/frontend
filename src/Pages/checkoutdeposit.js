@@ -2,7 +2,7 @@ import React from "react";
 import "../Css/main.css";
 import "../Css/Ratingpage.css";
 import "../Css/checkout.css";
-import imgLogo from "../Assets/logo.png";
+import defaultprofileimage from "../Assets/defaultprofileimage.jpg";
 import { useNavigate, useLocation } from "react-router-dom";
 import NavigationBar from "../Components/NavigationBar";
 import Footer from "../Components/Footer";
@@ -17,10 +17,11 @@ function Checkoutdeposit() {
   const { userName } = useLocation().state;
   const { userPhone } = useLocation().state;
   const { plannerName } = useLocation().state;
+  const { plannerImg } = useLocation().state;
   console.log("estimateId:" + estimateId);
   console.log("userName:" + userName);
   console.log("userPhone:" + userPhone);
-
+  console.log("plannerImg" + plannerImg);
   function requestPay() {
     IMP.request_pay(
       {
@@ -54,7 +55,22 @@ function Checkoutdeposit() {
     <div className="mainlayout">
       <NavigationBar title={"결제하기 (계약금)"} />
       <div className="plannerpro" style={{ marginTop: 110 }}>
-        <img src={imgLogo} className="plannerproimg" />
+        {plannerImg === "data:image/jpeg;base64," ? (
+          <img
+            src={defaultprofileimage}
+            style={{ width: "250px", height: "230px" }}
+            className="plannerproimg"
+            alt={defaultprofileimage}
+          />
+        ) : (
+          <img
+            src={plannerImg}
+            style={{ width: "250px", height: "230px" }}
+            className="plannerproimg"
+            alt={defaultprofileimage}
+          />
+        )}
+
         <p className="plannerName">{plannerName}</p>
       </div>
       <div className="mb-3 row checkouttext">
