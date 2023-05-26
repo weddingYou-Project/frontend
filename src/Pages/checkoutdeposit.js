@@ -32,13 +32,14 @@ function Checkoutdeposit() {
   const [quantity, setQuantity] = useState(1);
   const [paymentAmount, setPaymentAmount] = useState(price * quantity);
   const [paymentMethod, setPaymetMethod] = useState("card");
-  const [paymentStatus, setPaymentStatus] = useState(false);
+  const [paymentStatus, setPaymentStatus] = useState("paid");
   const [depositAmount, setDepositAmount] = useState(paymentAmount * 0.05);
-
+  console.log("depositAmount:" + depositAmount);
   const [depositStatus, setDepositStatus] = useState(true);
   const [paymentType, setPaymentType] = useState("deposit");
   const [userEmail, setUserEmail] = useState(sessionStorage.getItem("email"));
   const [plannerEmail, setPlannerEmail] = useState(planneremail);
+  let depositAmount1 = depositAmount;
 
   function requestPay() {
     IMP.request_pay(
@@ -47,7 +48,7 @@ function Checkoutdeposit() {
         pay_method: { paymentMethod },
         merchant_uid: `57008833-${estimateId}` + IMP,
         name: "플래너 매칭 계약금",
-        amount: { depositAmount },
+        amount: depositAmount1,
         buyer_email: sessionStorage.getItem("email"),
         buyer_name: userName,
         buyer_tel: userPhone,
@@ -66,9 +67,9 @@ function Checkoutdeposit() {
               quantity: quantity,
               paymentMethod: paymentMethod,
               paymentAmount: paymentAmount,
-              paymentStatus: paymentStatus,
+              tempPaymentStatus: paymentStatus,
               depositAmount: depositAmount,
-              depositStatus: depositStatus,
+              tempDepositStatus: depositStatus,
               paymentType: paymentType,
               userEmail: userEmail,
               plannerEmail: plannerEmail,
