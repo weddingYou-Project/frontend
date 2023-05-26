@@ -6,6 +6,7 @@ function QnA() {
   return (
     <div className="mainlayout">
       <NavigationBar title={"Q&A"} />
+      <div style={{ height: 70 }}></div>
       <div className="input-group input-group-lg searchSection">
         <span class="input-group-text" id="search">
           <i class="bi bi-search"></i>
@@ -91,6 +92,7 @@ function QnA() {
           </tbody>
         </tabel>
       </div>
+      <button className="writeBtn">글쓰기</button>
       <div style={{ height: 90 }}></div>
       <Footer />
     </div>

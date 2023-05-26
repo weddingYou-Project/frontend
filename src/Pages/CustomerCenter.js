@@ -8,6 +8,7 @@ function CustomerCenter() {
   return (
     <div className="mainlayout">
       <NavigationBar title={"고객센터"} />
+      <div style={{ height: 74 }}></div>
       <div className="noticeSection">
         <table>
           <thead>

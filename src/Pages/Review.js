@@ -155,6 +155,7 @@ function Review() {
           </tbody>
         </tabel>
       </div>
+      <button className="writeBtn">글쓰기</button>
       <div style={{ height: 90 }}></div>
       <Footer />
     </div>

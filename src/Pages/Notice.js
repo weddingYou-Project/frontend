@@ -7,6 +7,7 @@ function Notice() {
   return (
     <div className="mainlayout">
       <NavigationBar title={"공지사항"} />
+      <div style={{ height: 74 }}></div>
       <div className="noticeSection">
         <tabel>
           <thead>
@@ -81,6 +82,7 @@ function Notice() {
           </tbody>
         </tabel>
       </div>
+      <button className="writeBtn">글쓰기</button>
       <div style={{ height: 90 }}></div>
       <Footer />
     </div>
