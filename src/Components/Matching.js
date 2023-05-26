@@ -3,7 +3,7 @@ import "../Css/Matching.css";
 import { useNavigate } from "react-router-dom";
 import NavigationBar from "./NavigationBar";
 import Footer from "./Footer";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 
 function Matching() {
@@ -14,6 +14,14 @@ function Matching() {
   const [plannerName, setPlannerName] = useState("");
   const [plannerData, setPlannerData] = useState([]);
   const [count, setCount] = useState([]);
+  const [deletedPlanner, setDeletedPlanner] = useState(false);
+  const [deletePermission, setDeletePermission] = useState(false);
+  const [bsIndex, setBsIndex] = useState(0);
+  const [bsIndex2, setBsIndex2] = useState(0);
+  const [deleteTargetEstimateId, setDeleteTargetEstimateId] = useState(0);
+  const [deletePlanner, setDeletePlanner] = useState("");
+
+  const deleteBtn = useRef();
 
   useEffect(() => {
     if (sessionStorage.getItem("category") === "user") {
@@ -37,7 +45,7 @@ function Matching() {
               plannerMatchingArr.push(arr);
               estimateCountArr.push(i);
               dataArr.push(res.data[i]);
-              for (let j = 0; j < plannerMatchingArr.length; j++) {
+              for (let j = 0; j < arr.length; j++) {
                 temp.push(j);
               }
               countArr.push(temp);
@@ -48,6 +56,7 @@ function Matching() {
                 params: { userEmail: sessionStorage.getItem("email") },
               })
               .then((res) => {
+                console.log("plannerNameeeeeeeeeeeeeeeee");
                 console.log(res.data);
                 setPlannerName(res.data);
               })
@@ -70,18 +79,44 @@ function Matching() {
     } else {
       //planner일 경우
     }
-  }, []);
-
-  console.log(plannerData);
-  const goToEstimate = (e) => {
+  }, [deletedPlanner]);
+  console.log("+_+_+_+_+_+_+_+");
+  console.log(plannerMatching);
+  const deleteMatchingPlanner = (e) => {
     e.preventDefault();
+    console.log(e.target.dataset);
+    const bsIndex = e.target.dataset.bsIndex;
+    const bsIndex2 = e.target.dataset.bsIndex2;
+    const estimateId = e.target.dataset.bsEstimateid;
+    const deleteTargetEstimateId = estimateId;
+    const deletePlanner = plannerMatching[bsIndex][bsIndex2];
+    setBsIndex(bsIndex);
+    setBsIndex2(bsIndex2);
+    setDeleteTargetEstimateId(estimateId);
+    setDeletePlanner(deletePlanner);
+    console.log(deleteBtn);
+  };
+
+  const deleteMatchingPlanner2 = () => {
+    const formData = new FormData();
+    formData.append("deleteTargetEstimateId", deleteTargetEstimateId);
+    formData.append("deletePlanner", deletePlanner);
+    axios
+      .post(`/estimate/deleteMatchingPlanner`, formData)
+      .then((res) => {
+        setDeletedPlanner(!deletedPlanner);
+        console.log(res);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
   return (
     <div className="mainlayout">
       <hr />
       <NavigationBar title={"나의 매칭 목록"} />
       {sessionStorage.getItem("category") === "user" ? (
-        <div>
+        <div style={{ minHeight: "100vh", height: "100%" }}>
           <p
             className="headertxt"
             style={{ marginTop: "80px", fontSize: "1.7em" }}
@@ -195,6 +230,10 @@ function Matching() {
                               className="plannerMatchingBtn"
                               data-bs-toggle="modal"
                               data-bs-target="#MatchOrCanel"
+                              data-bs-index={index}
+                              data-bs-index2={i}
+                              data-bs-estimateId={estimateId}
+                              onClick={deleteMatchingPlanner}
                             >
                               매칭/거절
                             </button>
@@ -236,7 +275,13 @@ function Matching() {
                   않습니다
                 </div>
                 <div className="modal-footer">
-                  <button type="button" className="btn btn-primary">
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={() => {
+                      setDeletePermission(true);
+                    }}
+                  >
                     매칭 취소하기
                   </button>
                   <button
@@ -287,6 +332,8 @@ function Matching() {
                     type="button"
                     className="btn btn-secondary"
                     data-bs-dismiss="modal"
+                    ref={deleteBtn}
+                    onClick={deleteMatchingPlanner2}
                   >
                     거절하기
                   </button>
@@ -294,6 +341,7 @@ function Matching() {
               </div>
             </div>
           </div>
+          <div style={{ height: "150px" }}></div>
         </div>
       ) : (
         <div>
@@ -323,6 +371,9 @@ function Matching() {
                 data-bs-toggle="modal"
                 data-bs-target="#CancelMatching"
                 style={{ marginLeft: "120px" }}
+                onClick={() => {
+                  setDeletePermission(true);
+                }}
               >
                 매칭취소
               </button>
@@ -379,6 +430,7 @@ function Matching() {
                     className="plannerMatchingBtn"
                     data-bs-toggle="modal"
                     data-bs-target="#MatchOrCanel"
+                    onClick={deleteMatchingPlanner}
                   >
                     매칭/거절
                   </button>
@@ -466,7 +518,13 @@ function Matching() {
                   않습니다
                 </div>
                 <div className="modal-footer">
-                  <button type="button" className="btn btn-primary">
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={() => {
+                      setDeletePermission(true);
+                    }}
+                  >
                     매칭 취소하기
                   </button>
                   <button
@@ -521,6 +579,7 @@ function Matching() {
                     type="button"
                     className="btn btn-secondary"
                     data-bs-dismiss="modal"
+                    onClick={deleteMatchingPlanner2}
                   >
                     거절하기
                   </button>
