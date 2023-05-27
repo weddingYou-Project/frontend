@@ -240,6 +240,67 @@ function Matching() {
       });
   };
 
+  const goPay = (e) => {
+    const estimateNum = e.target.dataset.bsEstimatenum - 1;
+    setSelectEstimateNum(estimateNum);
+    console.log("estimateNum:" + estimateNum);
+    const formData = new FormData();
+    formData.append("userEmail", sessionStorage.getItem("email"));
+    formData.append("estimateNum", estimateNum);
+
+    axios
+      .post(`/deposit/check`, formData)
+      .then((res) => {
+        console.log(res);
+        if (res.data === "1") {
+          //paid
+          navigate(`/checkoutall`, { state: { estiamteNum: estimateNum } });
+        } else if (res.data === "-1") {
+          //오류
+          alert("오류 발생!");
+        } else {
+          //cancelled, other
+          const estimateId = res.data.slice(0, res.data.indexOf("*"));
+          const userName = res.data.slice(
+            res.data.indexOf("*") + 1,
+            res.data.indexOf("/")
+          );
+          const userPhone = res.data.slice(
+            res.data.indexOf("/") + 1,
+            res.data.indexOf("]")
+          );
+          const plannerEmail = res.data.slice(
+            res.data.indexOf("]") + 1,
+            res.data.indexOf("[")
+          );
+          const plannerName = res.data.slice(
+            res.data.indexOf("[") + 1,
+            res.data.indexOf(",")
+          );
+          const plannerImg = res.data.slice(
+            res.data.indexOf(",") + 1,
+            res.data.length
+          );
+          let plannerImgUrl = "data:image/jpeg;base64," + plannerImg;
+
+          navigate("/checkoutdeposit", {
+            state: {
+              estimateId: estimateId,
+              userName: userName,
+              userPhone: userPhone,
+              planneremail: plannerEmail,
+              plannerName: plannerName,
+              plannerImg: plannerImgUrl,
+            },
+          });
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+    //navigate(`/checkoutall`);
+  };
+
   return (
     <div className="mainlayout">
       <hr />
@@ -286,7 +347,8 @@ function Matching() {
                     <div className="matchingBtnList">
                       <button
                         className="plannerMatchingBtn"
-                        onClick={() => navigate("/checkoutall")}
+                        data-bs-estimateNum={estimateNum[keyIndex]}
+                        onClick={goPay}
                       >
                         결제하기
                       </button>
