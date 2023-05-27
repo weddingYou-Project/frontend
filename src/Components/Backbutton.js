@@ -80,6 +80,11 @@ function BackButton({ engTitle }) {
           } else if (path.indexOf("/matching") !== -1) {
             const category = sessionStorage.getItem("category");
             navigate(`/mypage/${category}`);
+          } else if (
+            path.indexOf("/checkoutdeposit") !== -1 ||
+            path.indexOf("/checkoutall") !== -1
+          ) {
+            navigate(`/matching`);
           } else {
             navigate("/");
           }

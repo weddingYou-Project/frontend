@@ -207,12 +207,26 @@ const EstimateList = () => {
                     navigate("/estimateform");
                   }}
                   style={{
-                    marginRight: "-20px",
-                    marginLeft: "12px",
+                    marginRight: "-30px",
+                    marginLeft: "10px",
                     zIndex: "999",
+                    height: "50px",
+                    display: "flex",
                   }}
                 >
-                  <span>견적작성하기</span>
+                  <span
+                    style={{
+                      display: "block",
+                      height: "50px",
+                      paddingTop: "10px",
+                      paddingRight: "10px",
+                      marginLeft: "-1px",
+                      paddingLeft: "10px",
+                      color: "black",
+                    }}
+                  >
+                    견적작성하기
+                  </span>
                 </div>
               </div>
             </div>

@@ -20,6 +20,7 @@ function Checkoutdeposit() {
   const { userPhone } = useLocation().state;
   const { planneremail } = useLocation().state;
   const { plannerName } = useLocation().state;
+  const { price } = useLocation().state;
   const { plannerImg } = useLocation().state;
   console.log("estimateId:" + estimateId);
   console.log("userName:" + userName);
@@ -28,7 +29,7 @@ function Checkoutdeposit() {
   console.log("plannerName:" + plannerName);
   console.log("plannerImg" + plannerImg);
 
-  const [price, setPrice] = useState(10000);
+  //const [price, setPrice] = useState(10000);
   const [quantity, setQuantity] = useState(1);
   const [paymentAmount, setPaymentAmount] = useState(price * quantity);
   const [paymentMethod, setPaymetMethod] = useState("card");
@@ -46,7 +47,7 @@ function Checkoutdeposit() {
       {
         pg: "kcp",
         pay_method: { paymentMethod },
-        merchant_uid: `57006940-${estimateId}` + IMP,
+        merchant_uid: `57116840-${estimateId}` + IMP,
         name: "플래너 매칭 계약금",
         amount: depositAmount1,
         buyer_email: sessionStorage.getItem("email"),
@@ -84,6 +85,7 @@ function Checkoutdeposit() {
                   plannerImg: plannerImg,
                   plannerName: plannerName,
                   planneremail: planneremail,
+                  price: price,
                 },
               });
             })
@@ -198,7 +200,7 @@ function Checkoutdeposit() {
             readonly
             className="form-control-plaintext"
             id="itemName"
-            value="플래너 매칭 계약금"
+            value="플래너 매칭 계약금(전체금액 * 5%)"
             style={{ fontSize: "0.9em" }}
           />
         </div>
@@ -218,7 +220,7 @@ function Checkoutdeposit() {
             readonly
             className="form-control-plaintext"
             id="itemName"
-            value={depositAmount}
+            value={`${depositAmount}원`}
             style={{ fontSize: "0.9em" }}
           />
         </div>

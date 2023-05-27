@@ -13,6 +13,7 @@ const CheckoutComp = () => {
   const { plannerName } = useLocation().state;
   console.log(plannerName);
   const { planneremail } = useLocation().state;
+  const { price } = useLocation().state;
 
   const Checkout = ({ checkout }) => {
     if (checkout === "deposit") {
@@ -47,6 +48,7 @@ const CheckoutComp = () => {
                   plannerImg: plannerImg,
                   plannerName: plannerName,
                   planneremail: planneremail,
+                  price: price,
                 },
               })
             }

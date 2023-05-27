@@ -15,6 +15,7 @@ function Ratingpage() {
   const { plannerName } = useLocation().state;
   const { plannerImg } = useLocation().state;
   const { planneremail } = useLocation().state;
+  const { price } = useLocation().state;
   const [clicked, setClicked] = useState([false, false, false, false, false]);
 
   const [rating, setRating] = useState(0);
@@ -58,6 +59,7 @@ function Ratingpage() {
     formData.append("reviewImg", image);
     formData.append("userEmail", sessionStorage.getItem("email"));
     formData.append("plannerEmail", planneremail);
+    formData.append("estimateId", estimateId);
     axios
       .post("/reviews", formData)
       .then((res) => {

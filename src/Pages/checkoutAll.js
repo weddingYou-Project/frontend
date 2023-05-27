@@ -19,11 +19,12 @@ function CheckoutAll() {
   const { plannerName } = useLocation().state;
   console.log(plannerName);
   const { plannerImg } = useLocation().state;
+  const { price } = useLocation().state;
   console.log(plannerImg);
 
   const navigate = useNavigate();
 
-  const [price, setPrice] = useState(10000);
+  //const [price, setPrice] = useState(10000);
   const [quantity, setQuantity] = useState(1);
   const [paymentAmount, setPaymentAmount] = useState(price * quantity);
   const [paymentMethod, setPaymetMethod] = useState("card");
@@ -41,7 +42,7 @@ function CheckoutAll() {
       {
         pg: "kcp",
         pay_method: { paymentMethod },
-        merchant_uid: `57007902-${estimateId}` + IMP,
+        merchant_uid: `57907901-${estimateId}` + IMP,
         name: "플래너 매칭서비스",
         amount: paymentAmount1,
         buyer_email: sessionStorage.getItem("email"),
@@ -78,6 +79,7 @@ function CheckoutAll() {
                     plannerImg: plannerImg,
                     plannerName: plannerName,
                     planneremail: planneremail,
+                    price: price,
                   },
                 });
               } else if (value == 2) {
@@ -95,7 +97,7 @@ function CheckoutAll() {
               estimateId: estimateId,
               paymentMethod: paymentMethod,
               tempPaymentStatus: "cancelled",
-              paymentType: "depoist",
+              paymentType: "all",
             })
             .then((res) => {
               console.log(res);
@@ -155,7 +157,7 @@ function CheckoutAll() {
         }
       })
       .catch((e) => {
-        // console.log(e);
+        console.log(e);
       });
   }, []);
 
@@ -210,7 +212,7 @@ function CheckoutAll() {
         </label>
         <div className="col-sm-8">
           <p className="detailcheckout" style={{ fontSize: "0.9em" }}>
-            플래너 매칭비용 - 계약금
+            전체금액 - 계약금
             <br /> ({paymentAmount}원) - ({depositAmount}원)
           </p>
         </div>
@@ -230,7 +232,7 @@ function CheckoutAll() {
             readonly
             className="form-control-plaintext"
             id="itemName"
-            value="200,000원"
+            value={`${paymentAmount1}원`}
             style={{ fontSize: "0.9em" }}
           />
         </div>

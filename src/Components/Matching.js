@@ -146,8 +146,12 @@ function Matching() {
           res.data.indexOf("[") + 1,
           res.data.indexOf(",")
         );
-        const plannerImg = res.data.slice(
+        const budget = res.data.slice(
           res.data.indexOf(",") + 1,
+          res.data.indexOf("*")
+        );
+        const plannerImg = res.data.slice(
+          res.data.indexOf("*") + 1,
           res.data.length
         );
         let plannerImgUrl = "data:image/jpeg;base64," + plannerImg;
@@ -159,6 +163,7 @@ function Matching() {
             userPhone: userPhone,
             planneremail: plannerEmail,
             plannerName: plannerName,
+            price: budget,
             plannerImg: plannerImgUrl,
           },
         });
@@ -253,7 +258,7 @@ function Matching() {
       .then((res) => {
         console.log(res.data);
         const data = res.data;
-        if (data != -1) {
+        if (data != -1 && data != 1) {
           const lastIndex = data.lastIndexOf("[");
           const status = res.data.slice(lastIndex + 1, res.data.length);
           console.log(status);
@@ -281,10 +286,15 @@ function Matching() {
               res.data.indexOf(",")
             );
             console.log(plannerName);
-            const plannerImg = res.data.slice(
+            const price = res.data.slice(
               res.data.indexOf(",") + 1,
+              res.data.lastIndexOf("*")
+            );
+            const plannerImg = res.data.slice(
+              res.data.lastIndexOf("*") + 1,
               res.data.lastIndexOf("[")
             );
+
             console.log(plannerImg);
             let plannerImgUrl = "data:image/jpeg;base64," + plannerImg;
 
@@ -296,6 +306,7 @@ function Matching() {
                 planneremail: plannerEmail,
                 plannerName: plannerName,
                 plannerImg: plannerImgUrl,
+                price: price,
               },
             });
           } else if (res.data === -1) {
@@ -320,10 +331,15 @@ function Matching() {
               res.data.indexOf("[") + 1,
               res.data.indexOf(",")
             );
-            const plannerImg = res.data.slice(
+            const price = res.data.slice(
               res.data.indexOf(",") + 1,
+              res.data.lastIndexOf("*")
+            );
+            const plannerImg = res.data.slice(
+              res.data.lastIndexOf("*") + 1,
               res.data.lastIndexOf("[")
             );
+
             let plannerImgUrl = "data:image/jpeg;base64," + plannerImg;
 
             navigate("/checkoutdeposit", {
@@ -334,11 +350,14 @@ function Matching() {
                 planneremail: plannerEmail,
                 plannerName: plannerName,
                 plannerImg: plannerImgUrl,
+                price: price,
               },
             });
           }
-        } else {
+        } else if (data == -1) {
           alert("결제데이터가 없습니다!");
+        } else if (data == 1) {
+          alert("결제가 모두 완료된 상태입니다!");
         }
       })
       .catch((e) => {
