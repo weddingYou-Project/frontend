@@ -210,7 +210,7 @@ function Checkoutdeposit() {
           style={{ fontSize: "0.9em" }}
           className="col-sm-4 col-form-label"
         >
-          상품 금액
+          계약금 금액
         </label>
         <div className="col-sm-8">
           <input
@@ -218,7 +218,7 @@ function Checkoutdeposit() {
             readonly
             className="form-control-plaintext"
             id="itemName"
-            value="100,000원"
+            value={depositAmount}
             style={{ fontSize: "0.9em" }}
           />
         </div>
