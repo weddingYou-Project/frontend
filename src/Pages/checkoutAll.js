@@ -91,7 +91,7 @@ function CheckoutAll() {
             });
         } else {
           alert(rsp.error_msg);
-          setPaymentStatus("cancelled");
+
           axios
             .post("/payment/callback", {
               estimateId: estimateId,
