@@ -32,10 +32,10 @@ function Checkoutdeposit() {
   const [quantity, setQuantity] = useState(1);
   const [paymentAmount, setPaymentAmount] = useState(price * quantity);
   const [paymentMethod, setPaymetMethod] = useState("card");
-  const [paymentStatus, setPaymentStatus] = useState("paid");
+  const [paymentStatus, setPaymentStatus] = useState("other");
   const [depositAmount, setDepositAmount] = useState(paymentAmount * 0.05);
   console.log("depositAmount:" + depositAmount);
-  const [depositStatus, setDepositStatus] = useState(true);
+  const [depositStatus, setDepositStatus] = useState("paid");
   const [paymentType, setPaymentType] = useState("deposit");
   const [userEmail, setUserEmail] = useState(sessionStorage.getItem("email"));
   const [plannerEmail, setPlannerEmail] = useState(planneremail);
@@ -46,7 +46,7 @@ function Checkoutdeposit() {
       {
         pg: "kcp",
         pay_method: { paymentMethod },
-        merchant_uid: `57008833-${estimateId}` + IMP,
+        merchant_uid: `57008831-${estimateId}` + IMP,
         name: "플래너 매칭 계약금",
         amount: depositAmount1,
         buyer_email: sessionStorage.getItem("email"),
@@ -61,6 +61,7 @@ function Checkoutdeposit() {
           console.log(rsp);
           alert("결제가 완료됐습니다!");
           sessionStorage.setItem("checkout", "deposit");
+
           axios
             .post("/deposit/callback", {
               price: price,
@@ -73,6 +74,7 @@ function Checkoutdeposit() {
               paymentType: paymentType,
               userEmail: userEmail,
               plannerEmail: plannerEmail,
+              estimateId: estimateId,
             })
             .then((res) => {
               console.log(res);
@@ -84,10 +86,54 @@ function Checkoutdeposit() {
         } else {
           console.log(rsp);
           alert(rsp.error_msg);
+          setDepositStatus("cancelled");
+          axios
+            .post("/deposit/callback", {
+              price: price,
+              quantity: quantity,
+              paymentMethod: paymentMethod,
+              paymentAmount: paymentAmount,
+              tempPaymentStatus: paymentStatus,
+              depositAmount: depositAmount,
+              tempDepositStatus: "cancelled",
+              paymentType: paymentType,
+              userEmail: userEmail,
+              plannerEmail: plannerEmail,
+              estimateId: estimateId,
+            })
+            .then((res) => {
+              console.log(res);
+            })
+            .catch((e) => {
+              console.log(e);
+            });
         }
       }
     );
   }
+
+  useEffect(() => {
+    axios
+      .post("/deposit/callback", {
+        price: price,
+        quantity: quantity,
+        paymentMethod: paymentMethod,
+        paymentAmount: paymentAmount,
+        tempPaymentStatus: paymentStatus,
+        depositAmount: depositAmount,
+        tempDepositStatus: "cancelled",
+        paymentType: paymentType,
+        userEmail: userEmail,
+        plannerEmail: plannerEmail,
+        estimateId: estimateId,
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
 
   return (
     <div className="mainlayout">

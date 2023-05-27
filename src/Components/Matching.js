@@ -20,9 +20,12 @@ function Matching() {
   const [bsIndex2, setBsIndex2] = useState(0);
   const [deleteTargetEstimateId, setDeleteTargetEstimateId] = useState(0);
   const [deletePlanner, setDeletePlanner] = useState("");
-  const [matchedPlanner, setMatchedPlanner] = useState(null);
+  const [matchedPlanner, setMatchedPlanner] = useState([]);
   const [deletePlannerName, setDeletePlannerName] = useState(null);
-  const [estimateNum, setEstimateNum] = useState(0);
+  const [estimateNum, setEstimateNum] = useState([]);
+  const [matchedKeyIndex, setMatchedKeyIndex] = useState([]);
+  const [selectEstimateNum, setSelectEstimateNum] = useState(0);
+  const [selectDeletePlanner, setSelectDeletePlanner] = useState("");
 
   const deleteBtn = useRef();
 
@@ -40,7 +43,6 @@ function Matching() {
             params: { userEmail: sessionStorage.getItem("email") },
           });
 
-          console.log(res);
           if (res.data.length !== 0) {
             for (let i = 0; i < res.data.length; i++) {
               let temp = [];
@@ -62,8 +64,6 @@ function Matching() {
                 params: { userEmail: sessionStorage.getItem("email") },
               })
               .then((res) => {
-                console.log("plannerNameeeeeeeeeeeeeeeee");
-                console.log(res.data);
                 setPlannerName(res.data);
               })
               .catch((e) => {
@@ -89,12 +89,12 @@ function Matching() {
 
   const deleteMatchingPlanner = (e) => {
     e.preventDefault();
-    console.log(e.target.dataset);
+
     const bsIndex = e.target.dataset.bsIndex;
     const bsIndex2 = e.target.dataset.bsIndex2;
     const estimateId = e.target.dataset.bsEstimateid;
     const deleteTargetEstimateId = estimateId;
-    const bsEstimateNum = e.target.dataset.bsEstimatenum;
+    const bsEstimateNum = e.target.dataset.bsEstimatenum - 1;
     const deletePlanner = plannerMatching[bsIndex][bsIndex2];
     const deletePlannerName = plannerName[bsIndex][bsIndex2];
     setBsIndex(bsIndex);
@@ -102,7 +102,8 @@ function Matching() {
     setDeleteTargetEstimateId(deleteTargetEstimateId);
     setDeletePlanner(deletePlanner);
     setDeletePlannerName(deletePlannerName);
-    // setEstimateNum(bsEstimateNum);
+    setSelectEstimateNum(bsEstimateNum);
+    setSelectDeletePlanner(matchedPlanner[bsEstimateNum]);
   };
 
   const deleteMatchingPlanner2 = () => {
@@ -113,10 +114,10 @@ function Matching() {
       .post(`/estimate/deleteMatchingPlanner`, formData)
       .then((res) => {
         setDeletedPlanner(!deletedPlanner);
-        if (deletePlannerName === matchedPlanner) {
-          CancelMatching();
+
+        if (res.data === 2) {
+          setDeletedPlanner(!deletedPlanner);
         }
-        console.log(res);
       })
       .catch((e) => {
         console.log(e);
@@ -132,8 +133,6 @@ function Matching() {
     axios
       .post(`/estimate/matching`, formData)
       .then((res) => {
-        console.log("++++++++++++++++++++++++");
-        console.log(res);
         const userName = res.data.slice(0, res.data.indexOf("/"));
         const userPhone = res.data.slice(
           res.data.indexOf("/") + 1,
@@ -152,7 +151,7 @@ function Matching() {
           res.data.length
         );
         let plannerImgUrl = "data:image/jpeg;base64," + plannerImg;
-        console.log(plannerImgUrl);
+
         navigate("/checkoutdeposit", {
           state: {
             estimateId: deleteTargetEstimateId,
@@ -175,10 +174,32 @@ function Matching() {
     axios
       .post(`/estimate/getMatchedPlanner`, formData)
       .then((res) => {
-        console.log(res);
-        const index = res.data.indexOf("/");
-        setMatchedPlanner(res.data.slice(0, index));
-        setEstimateNum(res.data.slice(index + 1, res.data.length));
+        if (res.data !== "") {
+          var splitData = res.data.slice(0, res.data.length - 1);
+          var matchedPlanners = splitData.split("|");
+          var matchedPlannerNameArr = [];
+          var matchedPlannerEstimateNumArr = [];
+          var keyIndexArr = [];
+          let keyIndex = 0;
+
+          for (var i = 0; i < matchedPlanners.length; i++) {
+            const matchedPlanner = matchedPlanners[i];
+            const index = matchedPlanner.indexOf("/");
+            matchedPlannerNameArr.push(matchedPlanner.slice(0, index));
+            matchedPlannerEstimateNumArr.push(
+              matchedPlanner.slice(index + 1, res.data.length)
+            );
+
+            keyIndexArr.push(keyIndex);
+            keyIndex++;
+          }
+          setMatchedPlanner(matchedPlannerNameArr);
+          setEstimateNum(matchedPlannerEstimateNumArr);
+          setMatchedKeyIndex(keyIndexArr);
+        } else {
+          setMatchedKeyIndex([]);
+          setMatchedPlanner([]);
+        }
       })
       .catch((e) => {
         console.log(e);
@@ -188,17 +209,37 @@ function Matching() {
   const CancelMatching = () => {
     const formData = new FormData();
     formData.append("userEmail", sessionStorage.getItem("email"));
+    formData.append("deleteTargetEstimateId", deleteTargetEstimateId);
     axios
       .post(`/estimate/cancelMatchedPlanner`, formData)
       .then((res) => {
-        console.log(res);
-        setMatchedPlanner(null);
+        setDeletedPlanner(!deletedPlanner);
+        //setMatchedPlanner(null);
       })
       .catch((e) => {
         console.log(e);
       });
   };
-  //console.log("estimateNum:" + estimateNum);
+
+  const CancelMatching2 = (e) => {
+    const estimateNum = e.target.dataset.bsEstimatenum - 1;
+    setSelectEstimateNum(estimateNum);
+  };
+
+  const CancelMatching3 = (e) => {
+    const formData = new FormData();
+    formData.append("userEmail", sessionStorage.getItem("email"));
+    formData.append("estimateNum", selectEstimateNum);
+    axios
+      .post(`/estimate/cancelMatchedPlanner2`, formData)
+      .then((res) => {
+        setDeletedPlanner(!deletedPlanner);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
   return (
     <div className="mainlayout">
       <hr />
@@ -211,51 +252,58 @@ function Matching() {
           >
             내 플래너
           </p>
-          {matchedPlanner !== null ? (
-            <div>
-              <div className="matchingList">
-                <div
-                  style={{
-                    fontSize: "1.7em",
-                    width: "100%",
-                    paddingLeft: "240px",
-                    paddingTop: "20px",
-                    borderBottom: "3px double grey",
-                    borderTop: "3px dashed grey",
-                    paddingBottom: "20px",
-                  }}
-                >
-                  -견적서{estimateNum}-
+
+          {matchedPlanner.length !== 0 ? (
+            matchedKeyIndex.map((keyIndex) => {
+              return (
+                <div>
+                  <div className="matchingList">
+                    <div
+                      style={{
+                        fontSize: "1.7em",
+                        width: "100%",
+                        paddingLeft: "240px",
+                        paddingTop: "20px",
+                        borderBottom: "3px double grey",
+                        borderTop: "3px dashed grey",
+                        paddingBottom: "20px",
+                      }}
+                    >
+                      -견적서{estimateNum[keyIndex]}-
+                    </div>
+                    <p
+                      className="myPlannerName"
+                      style={{
+                        fontSize: "1.6em",
+                        marginLeft: "100px",
+                        marginRight: "-70px",
+                      }}
+                    >
+                      {matchedPlanner[keyIndex]}
+                    </p>
+                    <button className="plannerProBtn">프로필 보기</button>
+                    <br />
+                    <div className="matchingBtnList">
+                      <button
+                        className="plannerMatchingBtn"
+                        onClick={() => navigate("/checkoutall")}
+                      >
+                        결제하기
+                      </button>
+                      <button
+                        className="plannerMatchingBtn"
+                        data-bs-toggle="modal"
+                        data-bs-target="#CancelMatching"
+                        data-bs-estimateNum={estimateNum[keyIndex]}
+                        onClick={CancelMatching2}
+                      >
+                        매칭취소
+                      </button>
+                    </div>
+                  </div>
                 </div>
-                <p
-                  className="myPlannerName"
-                  style={{
-                    fontSize: "1.6em",
-                    marginLeft: "100px",
-                    marginRight: "-70px",
-                  }}
-                >
-                  {matchedPlanner}
-                </p>
-                <button className="plannerProBtn">프로필 보기</button>
-                <br />
-                <div className="matchingBtnList">
-                  <button
-                    className="plannerMatchingBtn"
-                    onClick={() => navigate("/checkoutall")}
-                  >
-                    결제하기
-                  </button>
-                  <button
-                    className="plannerMatchingBtn"
-                    data-bs-toggle="modal"
-                    data-bs-target="#CancelMatching"
-                  >
-                    매칭취소
-                  </button>
-                </div>
-              </div>
-            </div>
+              );
+            })
           ) : (
             <div
               style={{
@@ -277,7 +325,6 @@ function Matching() {
             {estimateCount.map((index, keyindex) => {
               var plannerList = plannerName[index];
               var estimateId = plannerData[index].id;
-              console.log("estimateId:" + estimateId);
 
               return (
                 <table
@@ -320,9 +367,6 @@ function Matching() {
                   </tr>
 
                   {count[index].map((i) => {
-                    // console.log(plannerData[0][i]);
-                    console.log(i);
-                    console.log("**************************");
                     try {
                       let plannername = plannerList[i];
                       return (
@@ -398,7 +442,7 @@ function Matching() {
                     type="button"
                     className="btn btn-primary"
                     data-bs-dismiss="modal"
-                    onClick={CancelMatching}
+                    onClick={CancelMatching3}
                   >
                     매칭 취소하기
                   </button>
