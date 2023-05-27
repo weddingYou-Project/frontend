@@ -252,32 +252,39 @@ function Matching() {
       .post(`/deposit/check`, formData)
       .then((res) => {
         console.log(res.data);
-        const lastIndex = res.data.lastIndexOf("[");
+        const data = res.data;
+        const lastIndex = data.lastIndexOf("[");
         const status = res.data.slice(lastIndex + 1, res.data.length);
         console.log(status);
         if (status === "paid") {
           //paid
           const estimateId = res.data.slice(0, res.data.indexOf("*"));
+          console.log(estimateId);
           const userName = res.data.slice(
             res.data.indexOf("*") + 1,
             res.data.indexOf("/")
           );
+          console.log(userName);
           const userPhone = res.data.slice(
             res.data.indexOf("/") + 1,
             res.data.indexOf("]")
           );
+          console.log(userPhone);
           const plannerEmail = res.data.slice(
             res.data.indexOf("]") + 1,
             res.data.indexOf("[")
           );
+          console.log(plannerEmail);
           const plannerName = res.data.slice(
             res.data.indexOf("[") + 1,
             res.data.indexOf(",")
           );
+          console.log(plannerName);
           const plannerImg = res.data.slice(
             res.data.indexOf(",") + 1,
-            res.data.indexOf("[")
+            res.data.lastIndexOf("[")
           );
+          console.log(plannerImg);
           let plannerImgUrl = "data:image/jpeg;base64," + plannerImg;
 
           navigate("/checkoutall", {
@@ -314,7 +321,7 @@ function Matching() {
           );
           const plannerImg = res.data.slice(
             res.data.indexOf(",") + 1,
-            res.data.indexOf("[")
+            res.data.lastIndexOf("[")
           );
           let plannerImgUrl = "data:image/jpeg;base64," + plannerImg;
 

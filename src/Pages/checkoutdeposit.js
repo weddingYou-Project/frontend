@@ -46,7 +46,7 @@ function Checkoutdeposit() {
       {
         pg: "kcp",
         pay_method: { paymentMethod },
-        merchant_uid: `57008831-${estimateId}` + IMP,
+        merchant_uid: `57007941-${estimateId}` + IMP,
         name: "플래너 매칭 계약금",
         amount: depositAmount1,
         buyer_email: sessionStorage.getItem("email"),
@@ -59,8 +59,6 @@ function Checkoutdeposit() {
         // callback
         if (rsp.success) {
           console.log(rsp);
-          alert("결제가 완료됐습니다!");
-          sessionStorage.setItem("checkout", "deposit");
 
           axios
             .post("/deposit/callback", {
@@ -78,15 +76,23 @@ function Checkoutdeposit() {
             })
             .then((res) => {
               console.log(res);
+              alert("결제가 완료됐습니다!");
+              sessionStorage.setItem("checkout", "deposit");
+              navigate("/checkoutcomp", {
+                state: {
+                  estiamteId: estimateId,
+                  plannerImg: plannerImg,
+                  plannerName: plannerName,
+                },
+              });
             })
             .catch((e) => {
               console.log(e);
             });
-          navigate("/checkoutcomp");
         } else {
           console.log(rsp);
           alert(rsp.error_msg);
-          setDepositStatus("cancelled");
+
           axios
             .post("/deposit/callback", {
               price: price,

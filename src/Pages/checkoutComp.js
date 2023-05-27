@@ -7,8 +7,11 @@ const CheckoutComp = () => {
   const navigate = useNavigate();
 
   const { plannerImg } = useLocation().state;
+  console.log(plannerImg);
   const { estimateId } = useLocation().state;
+  console.log(estimateId);
   const { plannerName } = useLocation().state;
+  console.log(plannerName);
 
   const Checkout = ({ checkout }) => {
     if (checkout === "deposit") {

@@ -3,14 +3,17 @@ import { FaStar } from "react-icons/fa";
 import styled from "styled-components";
 import "../Css/main.css";
 import "../Css/Ratingpage.css";
-import imgLogo from "../Assets/logo.png";
 import selectImg from "../Assets/selectImg.webp";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import defaultprofileimage from "../Assets/defaultprofileimage.jpg";
 
 const ARRAY = [0, 1, 2, 3, 4];
 
 function Ratingpage() {
+  const { estimateId } = useLocation().state;
+  const { plannerName } = useLocation().state;
+  const { plannerImg } = useLocation().state;
   const [clicked, setClicked] = useState([false, false, false, false, false]);
 
   const [rating, setRating] = useState(0);
@@ -19,8 +22,6 @@ function Ratingpage() {
   const [image, setImage] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(selectImg);
   const [plannerEmail, setPlannerEmail] = useState("");
-  const [plannerName, setPlannerName] = useState("000플래너");
-  const [plannerImg, setPlannerImg] = useState(null);
 
   const handleStarClick = (index) => {
     let clickStates = [...clicked];
@@ -87,7 +88,21 @@ function Ratingpage() {
     <div className="mainlayout">
       <p className="headtxt">서비스가 어떠셨나요?</p>
       <div className="plannerpro">
-        <img src={imgLogo} className="plannerproimg" />
+        {plannerImg === "data:image/jpeg;base64," ? (
+          <img
+            src={defaultprofileimage}
+            style={{ width: "250px", height: "230px" }}
+            className="plannerproimg"
+            alt={defaultprofileimage}
+          />
+        ) : (
+          <img
+            src={plannerImg}
+            style={{ width: "250px", height: "230px" }}
+            className="plannerproimg"
+            alt={defaultprofileimage}
+          />
+        )}
         <p className="plannerName">{plannerName}</p>
       </div>
       <form>

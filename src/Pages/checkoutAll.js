@@ -12,11 +12,15 @@ function CheckoutAll() {
   var IMP = window.IMP;
   IMP.init("imp67011510");
   const { estimateId } = useLocation().state;
+  console.log(estimateId);
   const { userName } = useLocation().state;
   const { userPhone } = useLocation().state;
   const { planneremail } = useLocation().state;
   const { plannerName } = useLocation().state;
+  console.log(plannerName);
   const { plannerImg } = useLocation().state;
+  console.log(plannerImg);
+
   const navigate = useNavigate();
 
   const [price, setPrice] = useState(10000);
@@ -37,7 +41,7 @@ function CheckoutAll() {
       {
         pg: "kcp",
         pay_method: { paymentMethod },
-        merchant_uid: `57008833-${estimateId}` + IMP,
+        merchant_uid: `57007800-${estimateId}` + IMP,
         name: "플래너 매칭서비스",
         amount: paymentAmount1,
         buyer_email: sessionStorage.getItem("email"),
@@ -49,31 +53,40 @@ function CheckoutAll() {
       function (rsp) {
         // callback
         if (rsp.success) {
-          console.log(rsp);
           axios
             .post("/payment/callback", {
               estimateId: estimateId,
               paymentMethod: paymentMethod,
-              tempPaymentStatus: paymentStatus,
-              paymentType: paymentType,
+              tempPaymentStatus: "paid",
+              paymentType: "all",
             })
             .then((res) => {
               console.log(res);
-              if (res.data === -2) {
+              const value = res.data;
+              if (value == -2) {
                 alert("계약금 결제 먼저 해주세요.");
-              } else if (res.data === 0) {
+              } else if (value == -1) {
+                alert("유효하지 않은 결제 유형입니다.");
+              } else if (value == 0) {
                 //계약금 처리만 된 상태(취소 상태로 paymentStatus 자동으로 바뀜)
-              } else if (res.data === 1) {
+              } else if (value == 1) {
                 alert("전체 금액 결제가 완료되었습니다!");
                 sessionStorage.setItem("checkout", "all");
-                navigate("/checkoutcomp");
+                navigate("/checkoutcomp", {
+                  state: {
+                    estimateId: estimateId,
+                    plannerImg: plannerImg,
+                    plannerName: plannerName,
+                  },
+                });
+              } else if (value == 2) {
+                alert("이미 전체 결제가 이루어진 건입니다!");
               }
             })
             .catch((e) => {
-              console.log(e);
+              //  console.log(e);
             });
         } else {
-          console.log(rsp);
           alert(rsp.error_msg);
           setPaymentStatus("cancelled");
           axios
@@ -85,11 +98,14 @@ function CheckoutAll() {
             })
             .then((res) => {
               console.log(res);
-              if (res.data === -2) {
+              const value = res.data;
+              if (value == -2) {
                 alert("계약금 결제 먼저 해주세요.");
-              } else if (res.data === 0) {
+              } else if (value == -1) {
+                alert("유효하지 않은 결제 유형입니다.");
+              } else if (value == 0) {
                 //계약금 처리만 된 상태(취소 상태로 paymentStatus 자동으로 바뀜)
-              } else if (res.data === 1) {
+              } else if (value == 1) {
                 alert("전체 금액 결제가 완료되었습니다!");
                 sessionStorage.setItem("checkout", "all");
                 navigate("/checkoutcomp", {
@@ -99,10 +115,13 @@ function CheckoutAll() {
                     plannerName: plannerName,
                   },
                 });
+              } else if (value == 2) {
+                console.log("************************");
+                alert("이미 전체 결제가 이루어진 건입니다!");
               }
             })
             .catch((e) => {
-              console.log(e);
+              //  console.log(e);
             });
         }
       }
@@ -118,16 +137,23 @@ function CheckoutAll() {
       })
       .then((res) => {
         console.log(res);
-        if (res.data === -2) {
+        const value = res.data;
+        if (value == -2) {
           alert("계약금 결제 먼저 해주세요.");
-        } else if (res.data === 0) {
+        } else if (value == -1) {
+          alert("유효하지 않은 결제 유형입니다.");
+        } else if (value == 0) {
           //계약금 처리만 된 상태(취소 상태로 paymentStatus 자동으로 바뀜)
-        } else if (res.data === 1) {
+        } else if (value == 1) {
           alert("전체 금액 결제가 완료되었습니다!");
+        } else if (value == 2) {
+          console.log("+++++++++++++");
+          alert("이미 전체 결제가 이루어진 건입니다!");
+          navigate("/matching");
         }
       })
       .catch((e) => {
-        console.log(e);
+        // console.log(e);
       });
   }, []);
 
