@@ -253,88 +253,92 @@ function Matching() {
       .then((res) => {
         console.log(res.data);
         const data = res.data;
-        const lastIndex = data.lastIndexOf("[");
-        const status = res.data.slice(lastIndex + 1, res.data.length);
-        console.log(status);
-        if (status === "paid") {
-          //paid
-          const estimateId = res.data.slice(0, res.data.indexOf("*"));
-          console.log(estimateId);
-          const userName = res.data.slice(
-            res.data.indexOf("*") + 1,
-            res.data.indexOf("/")
-          );
-          console.log(userName);
-          const userPhone = res.data.slice(
-            res.data.indexOf("/") + 1,
-            res.data.indexOf("]")
-          );
-          console.log(userPhone);
-          const plannerEmail = res.data.slice(
-            res.data.indexOf("]") + 1,
-            res.data.indexOf("[")
-          );
-          console.log(plannerEmail);
-          const plannerName = res.data.slice(
-            res.data.indexOf("[") + 1,
-            res.data.indexOf(",")
-          );
-          console.log(plannerName);
-          const plannerImg = res.data.slice(
-            res.data.indexOf(",") + 1,
-            res.data.lastIndexOf("[")
-          );
-          console.log(plannerImg);
-          let plannerImgUrl = "data:image/jpeg;base64," + plannerImg;
+        if (data != -1) {
+          const lastIndex = data.lastIndexOf("[");
+          const status = res.data.slice(lastIndex + 1, res.data.length);
+          console.log(status);
+          if (status === "paid") {
+            //paid
+            const estimateId = res.data.slice(0, res.data.indexOf("*"));
+            console.log(estimateId);
+            const userName = res.data.slice(
+              res.data.indexOf("*") + 1,
+              res.data.indexOf("/")
+            );
+            console.log(userName);
+            const userPhone = res.data.slice(
+              res.data.indexOf("/") + 1,
+              res.data.indexOf("]")
+            );
+            console.log(userPhone);
+            const plannerEmail = res.data.slice(
+              res.data.indexOf("]") + 1,
+              res.data.indexOf("[")
+            );
+            console.log(plannerEmail);
+            const plannerName = res.data.slice(
+              res.data.indexOf("[") + 1,
+              res.data.indexOf(",")
+            );
+            console.log(plannerName);
+            const plannerImg = res.data.slice(
+              res.data.indexOf(",") + 1,
+              res.data.lastIndexOf("[")
+            );
+            console.log(plannerImg);
+            let plannerImgUrl = "data:image/jpeg;base64," + plannerImg;
 
-          navigate("/checkoutall", {
-            state: {
-              estimateId: estimateId,
-              userName: userName,
-              userPhone: userPhone,
-              planneremail: plannerEmail,
-              plannerName: plannerName,
-              plannerImg: plannerImgUrl,
-            },
-          });
-        } else if (res.data === -1) {
-          //오류
-          alert("오류 발생!");
-        } else if (status === "deposit") {
-          //cancelled, other
-          const estimateId = res.data.slice(0, res.data.indexOf("*"));
-          const userName = res.data.slice(
-            res.data.indexOf("*") + 1,
-            res.data.indexOf("/")
-          );
-          const userPhone = res.data.slice(
-            res.data.indexOf("/") + 1,
-            res.data.indexOf("]")
-          );
-          const plannerEmail = res.data.slice(
-            res.data.indexOf("]") + 1,
-            res.data.indexOf("[")
-          );
-          const plannerName = res.data.slice(
-            res.data.indexOf("[") + 1,
-            res.data.indexOf(",")
-          );
-          const plannerImg = res.data.slice(
-            res.data.indexOf(",") + 1,
-            res.data.lastIndexOf("[")
-          );
-          let plannerImgUrl = "data:image/jpeg;base64," + plannerImg;
+            navigate("/checkoutall", {
+              state: {
+                estimateId: estimateId,
+                userName: userName,
+                userPhone: userPhone,
+                planneremail: plannerEmail,
+                plannerName: plannerName,
+                plannerImg: plannerImgUrl,
+              },
+            });
+          } else if (res.data === -1) {
+            //오류
+            alert("오류 발생!");
+          } else if (status === "deposit") {
+            //cancelled, other
+            const estimateId = res.data.slice(0, res.data.indexOf("*"));
+            const userName = res.data.slice(
+              res.data.indexOf("*") + 1,
+              res.data.indexOf("/")
+            );
+            const userPhone = res.data.slice(
+              res.data.indexOf("/") + 1,
+              res.data.indexOf("]")
+            );
+            const plannerEmail = res.data.slice(
+              res.data.indexOf("]") + 1,
+              res.data.indexOf("[")
+            );
+            const plannerName = res.data.slice(
+              res.data.indexOf("[") + 1,
+              res.data.indexOf(",")
+            );
+            const plannerImg = res.data.slice(
+              res.data.indexOf(",") + 1,
+              res.data.lastIndexOf("[")
+            );
+            let plannerImgUrl = "data:image/jpeg;base64," + plannerImg;
 
-          navigate("/checkoutdeposit", {
-            state: {
-              estimateId: estimateId,
-              userName: userName,
-              userPhone: userPhone,
-              planneremail: plannerEmail,
-              plannerName: plannerName,
-              plannerImg: plannerImgUrl,
-            },
-          });
+            navigate("/checkoutdeposit", {
+              state: {
+                estimateId: estimateId,
+                userName: userName,
+                userPhone: userPhone,
+                planneremail: plannerEmail,
+                plannerName: plannerName,
+                plannerImg: plannerImgUrl,
+              },
+            });
+          }
+        } else {
+          alert("결제데이터가 없습니다!");
         }
       })
       .catch((e) => {

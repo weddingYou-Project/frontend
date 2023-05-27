@@ -46,7 +46,7 @@ function Checkoutdeposit() {
       {
         pg: "kcp",
         pay_method: { paymentMethod },
-        merchant_uid: `57007941-${estimateId}` + IMP,
+        merchant_uid: `57006940-${estimateId}` + IMP,
         name: "플래너 매칭 계약금",
         amount: depositAmount1,
         buyer_email: sessionStorage.getItem("email"),
@@ -83,6 +83,7 @@ function Checkoutdeposit() {
                   estiamteId: estimateId,
                   plannerImg: plannerImg,
                   plannerName: plannerName,
+                  planneremail: planneremail,
                 },
               });
             })

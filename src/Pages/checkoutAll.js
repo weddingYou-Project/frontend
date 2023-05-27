@@ -41,7 +41,7 @@ function CheckoutAll() {
       {
         pg: "kcp",
         pay_method: { paymentMethod },
-        merchant_uid: `57007800-${estimateId}` + IMP,
+        merchant_uid: `57007902-${estimateId}` + IMP,
         name: "플래너 매칭서비스",
         amount: paymentAmount1,
         buyer_email: sessionStorage.getItem("email"),
@@ -77,6 +77,7 @@ function CheckoutAll() {
                     estimateId: estimateId,
                     plannerImg: plannerImg,
                     plannerName: plannerName,
+                    planneremail: planneremail,
                   },
                 });
               } else if (value == 2) {
@@ -113,6 +114,7 @@ function CheckoutAll() {
                     estiamteId: estimateId,
                     plannerImg: plannerImg,
                     plannerName: plannerName,
+                    planneremail: planneremail,
                   },
                 });
               } else if (value == 2) {
@@ -133,7 +135,7 @@ function CheckoutAll() {
         estimateId: estimateId,
         paymentMethod: paymentMethod,
         tempPaymentStatus: "cancelled",
-        paymentType: "deposit",
+        paymentType: "all",
       })
       .then((res) => {
         console.log(res);

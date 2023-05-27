@@ -12,6 +12,7 @@ const CheckoutComp = () => {
   console.log(estimateId);
   const { plannerName } = useLocation().state;
   console.log(plannerName);
+  const { planneremail } = useLocation().state;
 
   const Checkout = ({ checkout }) => {
     if (checkout === "deposit") {
@@ -45,6 +46,7 @@ const CheckoutComp = () => {
                   estimateId: estimateId,
                   plannerImg: plannerImg,
                   plannerName: plannerName,
+                  planneremail: planneremail,
                 },
               })
             }

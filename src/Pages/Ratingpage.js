@@ -14,6 +14,7 @@ function Ratingpage() {
   const { estimateId } = useLocation().state;
   const { plannerName } = useLocation().state;
   const { plannerImg } = useLocation().state;
+  const { planneremail } = useLocation().state;
   const [clicked, setClicked] = useState([false, false, false, false, false]);
 
   const [rating, setRating] = useState(0);
@@ -21,7 +22,6 @@ function Ratingpage() {
   const [reviewText, setReviewText] = useState("");
   const [image, setImage] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(selectImg);
-  const [plannerEmail, setPlannerEmail] = useState("");
 
   const handleStarClick = (index) => {
     let clickStates = [...clicked];
@@ -57,7 +57,7 @@ function Ratingpage() {
     formData.append("reviewStars", rating);
     formData.append("reviewImg", image);
     formData.append("userEmail", sessionStorage.getItem("email"));
-    formData.append("plannerEmail", "planner2@naver.com");
+    formData.append("plannerEmail", planneremail);
     axios
       .post("/reviews", formData)
       .then((res) => {
