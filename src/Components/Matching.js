@@ -251,14 +251,49 @@ function Matching() {
     axios
       .post(`/deposit/check`, formData)
       .then((res) => {
-        console.log(res);
-        if (res.data === "1") {
+        console.log(res.data);
+        const lastIndex = res.data.lastIndexOf("[");
+        const status = res.data.slice(lastIndex + 1, res.data.length);
+        console.log(status);
+        if (status === "paid") {
           //paid
-          navigate(`/checkoutall`, { state: { estiamteNum: estimateNum } });
-        } else if (res.data === "-1") {
+          const estimateId = res.data.slice(0, res.data.indexOf("*"));
+          const userName = res.data.slice(
+            res.data.indexOf("*") + 1,
+            res.data.indexOf("/")
+          );
+          const userPhone = res.data.slice(
+            res.data.indexOf("/") + 1,
+            res.data.indexOf("]")
+          );
+          const plannerEmail = res.data.slice(
+            res.data.indexOf("]") + 1,
+            res.data.indexOf("[")
+          );
+          const plannerName = res.data.slice(
+            res.data.indexOf("[") + 1,
+            res.data.indexOf(",")
+          );
+          const plannerImg = res.data.slice(
+            res.data.indexOf(",") + 1,
+            res.data.indexOf("[")
+          );
+          let plannerImgUrl = "data:image/jpeg;base64," + plannerImg;
+
+          navigate("/checkoutall", {
+            state: {
+              estimateId: estimateId,
+              userName: userName,
+              userPhone: userPhone,
+              planneremail: plannerEmail,
+              plannerName: plannerName,
+              plannerImg: plannerImgUrl,
+            },
+          });
+        } else if (res.data === -1) {
           //오류
           alert("오류 발생!");
-        } else {
+        } else if (status === "deposit") {
           //cancelled, other
           const estimateId = res.data.slice(0, res.data.indexOf("*"));
           const userName = res.data.slice(
@@ -279,7 +314,7 @@ function Matching() {
           );
           const plannerImg = res.data.slice(
             res.data.indexOf(",") + 1,
-            res.data.length
+            res.data.indexOf("[")
           );
           let plannerImgUrl = "data:image/jpeg;base64," + plannerImg;
 

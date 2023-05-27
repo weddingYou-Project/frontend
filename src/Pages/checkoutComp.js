@@ -1,10 +1,14 @@
 import "../Css/main.css";
 import "../Css/checkout.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const CheckoutComp = () => {
   const checkoutsession = window.sessionStorage.getItem("checkout");
   const navigate = useNavigate();
+
+  const { plannerImg } = useLocation().state;
+  const { estimateId } = useLocation().state;
+  const { plannerName } = useLocation().state;
 
   const Checkout = ({ checkout }) => {
     if (checkout === "deposit") {
@@ -30,7 +34,18 @@ const CheckoutComp = () => {
             <br />
             🎉 Wish You A Perfect Wedding 🎉
           </p>
-          <button className="checkoutBtn1" onClick={() => navigate("/rating")}>
+          <button
+            className="checkoutBtn1"
+            onClick={() =>
+              navigate("/rating", {
+                state: {
+                  estimateId: estimateId,
+                  plannerImg: plannerImg,
+                  plannerName: plannerName,
+                },
+              })
+            }
+          >
             이용후기 작성하기
           </button>
         </div>
