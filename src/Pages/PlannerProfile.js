@@ -217,66 +217,91 @@ function PlannerProfile() {
       <div
         style={{ display: "flex", justifyContent: "end", marginTop: "50px" }}
       >
-        <div class="dropdown  right-sort" style={{ marginRight: "50px" }}>
-          <button
-            class="btn btn-secondary dropdown-toggle"
-            type="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            zIndex: 99,
+            width: "556px",
+            display: "block",
+            background: "white",
+          }}
+        >
+          <div
+            className="filter"
+            style={{
+              position: "fixed",
+              top: 64,
+              zIndex: 99,
+              width: "556px",
+              display: "block",
+              background: "white",
+              paddingTop: "5px",
+              height: "80px",
+            }}
           >
-            {selectedSort}
-          </button>
-          <ul class="dropdown-menu sortItem">
-            <li className="">
+            <div class="dropdown  right-sort" style={{ marginRight: "50px" }}>
               <button
-                class="dropdown-item "
+                class="btn btn-secondary dropdown-toggle"
                 type="button"
-                onClick={() => handleSortClick("별점 높은 순")}
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
               >
-                별점 높은 순
+                {selectedSort}
               </button>
-            </li>
-            <li>
-              <button
-                class="dropdown-item"
-                type="button"
-                onClick={() => handleSortClick("후기순")}
-              >
-                후기순
-              </button>
-            </li>
-            <li>
-              <button
-                class="dropdown-item"
-                type="button"
-                onClick={() => handleSortClick("경력순")}
-              >
-                경력순
-              </button>
-            </li>
-            <li>
-              <button
-                class="dropdown-item"
-                type="button"
-                onClick={() => handleSortClick("매칭순")}
-              >
-                매칭순
-              </button>
-            </li>
-            <li>
-              <button
-                class="dropdown-item"
-                type="button"
-                onClick={() => handleSortClick("최신순")}
-              >
-                최신순
-              </button>
-            </li>
-          </ul>
+              <ul class="dropdown-menu sortItem">
+                <li className="">
+                  <button
+                    class="dropdown-item "
+                    type="button"
+                    onClick={() => handleSortClick("별점 높은 순")}
+                  >
+                    별점 높은 순
+                  </button>
+                </li>
+                <li>
+                  <button
+                    class="dropdown-item"
+                    type="button"
+                    onClick={() => handleSortClick("후기순")}
+                  >
+                    후기순
+                  </button>
+                </li>
+                <li>
+                  <button
+                    class="dropdown-item"
+                    type="button"
+                    onClick={() => handleSortClick("경력순")}
+                  >
+                    경력순
+                  </button>
+                </li>
+                <li>
+                  <button
+                    class="dropdown-item"
+                    type="button"
+                    onClick={() => handleSortClick("매칭순")}
+                  >
+                    매칭순
+                  </button>
+                </li>
+                <li>
+                  <button
+                    class="dropdown-item"
+                    type="button"
+                    onClick={() => handleSortClick("최신순")}
+                  >
+                    최신순
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="container text-center" style={{ marginTop: "-10px" }}>
+      <div class="container text-center" style={{ marginTop: "60px" }}>
         <div
           style={{
             marginRight: "8px",
