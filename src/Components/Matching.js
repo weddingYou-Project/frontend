@@ -27,6 +27,7 @@ function Matching() {
   const [matchedKeyIndex, setMatchedKeyIndex] = useState([]);
   const [selectEstimateNum, setSelectEstimateNum] = useState(0);
   const [selectDeletePlanner, setSelectDeletePlanner] = useState("");
+  const [errorMessage, setErrorMessage] = useState(false);
 
   const deleteBtn = useRef();
 
@@ -76,7 +77,10 @@ function Matching() {
             setEstimateCount(estimateCountArr);
             setCount(countArr);
           } else {
-            alert("매칭 목록 없음!");
+            setErrorMessage(true);
+            if (errorMessage === false) {
+              alert("매칭 목록 없음!");
+            }
           }
         } catch (e) {
           console.log(e);
