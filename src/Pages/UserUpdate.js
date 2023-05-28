@@ -31,6 +31,8 @@ function UserUpdate() {
   const [defaultGender, setDefaultGender] = useState("");
   const [career, setCareer] = useState(0);
   const [defaultCareer, setDefaultCareer] = useState(0);
+  const [introduction, setIntroduction] = useState("");
+  const [defaultIntroduction, setDefaultIntroduction] = useState(0);
   const [profileImg, setProfileImg] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [defaultViewUrl, setDefaultViewUrl] = useState(null);
@@ -42,12 +44,14 @@ function UserUpdate() {
   const maleInput = useRef();
   const femaleInput = useRef();
   const careerInput = useRef();
+  const introInput = useRef();
 
   const nameFeedback = useRef();
   const passwordFeedback = useRef();
   const emailFeedback = useRef();
   const phoneFeedback = useRef();
   const careerFeedback = useRef();
+  const introFeedback = useRef();
   const profileUpdateModal = useRef();
 
   const [emailMessage, setEmailMessage] = useState("looks good!");
@@ -56,6 +60,7 @@ function UserUpdate() {
   const [phoneMessage, setPhoneMessage] = useState("looks good!");
   const [careerMessage, setCareerMessage] = useState("looks good!");
   const [genderMessage, setGenderMessage] = useState("looks good!");
+  const [introMessage, setIntroMessage] = useState("looks good!");
 
   const [allcheck, setAllCheck] = useState(true);
   const [anyChange, setAnyChange] = useState(false);
@@ -154,6 +159,8 @@ function UserUpdate() {
           setDefaultGender(res.data.gender);
           setCareer(res.data.plannerCareerYears);
           setDefaultCareer(res.data.plannerCareerYears);
+          setIntroduction(res.data.introduction);
+          setDefaultIntroduction(res.data.introduction);
         })
         .catch((e) => {
           console.log(e);
@@ -290,6 +297,12 @@ function UserUpdate() {
       careerInput.current.classList.remove("is-valid");
       careerInput.current.classList.remove("is-invalid");
       setCareerMessage("returning to default");
+      introFeedback.current.classList.add("invisible");
+      introFeedback.current.classList.remove("valid-feedback");
+      introFeedback.current.classList.remove("invalid-feedback");
+      introInput.current.classList.remove("is-valid");
+      introInput.current.classList.remove("is-invalid");
+      setIntroMessage("returning to default");
     }
     setAllCheck(true);
     setAnyChange(false);
@@ -321,6 +334,11 @@ function UserUpdate() {
       careerFeedback.current.classList.remove("invalid-feedback");
       careerInput.current.classList.remove("is-valid");
       careerInput.current.classList.remove("is-invalid");
+      introFeedback.current.classList.add("invisible");
+      introFeedback.current.classList.remove("valid-feedback");
+      introFeedback.current.classList.remove("invalid-feedback");
+      introInput.current.classList.remove("is-valid");
+      introInput.current.classList.remove("is-invalid");
     }
 
     setAllCheck(true);
@@ -494,6 +512,41 @@ function UserUpdate() {
         careerInput.current.classList.add("is-invalid");
         setAllCheck(false);
       }
+    } else if (e.target.id === "introduction") {
+      setIntroduction(e.target.value);
+      let introductionText = e.target.value;
+      let length = introductionText.length;
+
+      if (length > 0 && length < 1000) {
+        if (e.target.value === defaultIntroduction) {
+          introFeedback.current.classList.add("invisible");
+          introFeedback.current.classList.remove("valid-feedback");
+          introFeedback.current.classList.remove("invalid-feedback");
+          introInput.current.classList.remove("is-valid");
+          introInput.current.classList.remove("is-invalid");
+        } else {
+          setIntroMessage("looks good!");
+          introInput.current.classList.remove("is-invalid");
+          introInput.current.classList.add("is-valid");
+          introFeedback.current.classList.remove("invisible");
+          introFeedback.current.classList.remove("invalid-feedback");
+          introFeedback.current.classList.add("valid-feedback");
+          setAnyChange(true);
+        }
+      } else {
+        if (length === 0) {
+          setIntroMessage("소개글을 써주세요!");
+        } else {
+          setIntroMessage("소개글은 1000자 미만입니다.");
+        }
+
+        introFeedback.current.classList.remove("invisible");
+        introFeedback.current.classList.remove("valid-feedback");
+        introFeedback.current.classList.add("invalid-feedback");
+        introInput.current.classList.remove("is-valid");
+        introInput.current.classList.add("is-invalid");
+        setAllCheck(false);
+      }
     }
   };
 
@@ -530,7 +583,8 @@ function UserUpdate() {
         nameInput.current.value === defaultName &&
         phoneInput.current.value === defaultPhone &&
         gender === defaultGender &&
-        careerInput.current.value === defaultCareer
+        careerInput.current.value === defaultCareer &&
+        introInput.current.value === defaultIntroduction
       ) {
         setAnyChange(false);
       }
@@ -538,7 +592,8 @@ function UserUpdate() {
         passwordFeedback.current.classList.contains("invalid-feedback") ||
         nameFeedback.current.classList.contains("invalid-feedback") ||
         phoneFeedback.current.classList.contains("invalid-feedback") ||
-        careerFeedback.current.classList.contains("invalid-feedback")
+        careerFeedback.current.classList.contains("invalid-feedback") ||
+        introFeedback.current.classList.contains("invalid-feedback")
       ) {
         setAllCheck(false);
       }
@@ -547,6 +602,7 @@ function UserUpdate() {
         nameFeedback.current.classList.contains("valid-feedback") ||
         phoneFeedback.current.classList.contains("valid-feedback") ||
         careerFeedback.current.classList.contains("valid-feedback") ||
+        introFeedback.current.classList.contains("valid-feedback") ||
         gender !== defaultGender
       ) {
         setAnyChange(true);
@@ -606,8 +662,10 @@ function UserUpdate() {
               phoneNum: phone,
               gender: gender,
               career: career,
+              introduction: introduction,
             })
             .then((res) => {
+              console.log(res);
               setEmail(res.data.email);
               setDefaultEmail(res.data.email);
               setName(res.data.name);
@@ -620,7 +678,8 @@ function UserUpdate() {
               setDefaultGender(res.data.gender);
               setCareer(res.data.plannerCareerYears);
               setDefaultCareer(res.data.plannerCareerYears);
-
+              setIntroduction(res.data.introduction);
+              setDefaultIntroduction(res.data.introduction);
               alert("수정 완료!");
             })
             .catch((e) => {
@@ -701,7 +760,7 @@ function UserUpdate() {
         class="mypagecontainer text-center"
         style={{
           minHeight: "100vh",
-          height: "830px",
+          height: "1200px",
           width: "100%",
           zIndex: 1,
           display: "flex",
@@ -953,44 +1012,97 @@ function UserUpdate() {
             </div>
           </div>
           {userOrPlanner === "플래너" ? (
-            <div
-              class="justify-content-md-center mb-2 mt-4"
-              style={{ display: "flex", flexDirection: "row" }}
-            >
-              <label
-                for="phone"
-                class="form-label mt-2"
+            <div style={{ height: "360px" }}>
+              <div
+                class="justify-content-md-center "
                 style={{
-                  marginRight: "10px",
-                  width: "200px",
-                  fontSize: "1.3em",
+                  display: "flex",
+                  flexDirection: "row",
+                  marginTop: "40px",
                 }}
               >
-                경력
-              </label>
-              <div
-                class="has-validation "
-                style={{ width: "250px", marginRight: "20px" }}
-              >
-                <input
-                  type="number"
-                  class="form-control "
-                  id="career"
-                  ref={careerInput}
-                  value={career}
-                  onChange={onChange}
-                  placeholder={career}
-                  autoComplete="off"
-                  min="0"
-                  max="30"
-                  style={{ fontSize: "1.1em" }}
-                />
-                <div
-                  class="invisible text-start phone-feedback"
-                  ref={careerFeedback}
-                  style={{ fontSize: "1.1em" }}
+                <label
+                  for="career"
+                  class="form-label mt-2"
+                  style={{
+                    marginRight: "10px",
+                    width: "200px",
+                    fontSize: "1.3em",
+                  }}
                 >
-                  {careerMessage}
+                  경력
+                </label>
+                <div
+                  class="has-validation "
+                  style={{ width: "250px", marginRight: "20px" }}
+                >
+                  <input
+                    type="number"
+                    class="form-control "
+                    id="career"
+                    ref={careerInput}
+                    value={career}
+                    onChange={onChange}
+                    placeholder={career}
+                    autoComplete="off"
+                    min="0"
+                    max="30"
+                    style={{ fontSize: "1.1em" }}
+                  />
+                  <div
+                    class="invisible text-start phone-feedback"
+                    ref={careerFeedback}
+                    style={{ fontSize: "1.1em" }}
+                  >
+                    {careerMessage}
+                  </div>
+                </div>
+              </div>
+              <div
+                class=" justify-content-md-center"
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  width: "100%",
+                  marginTop: "10px",
+                }}
+              >
+                <label
+                  for="introduction"
+                  class="form-label mt-2"
+                  style={{
+                    marginRight: "10px",
+                    width: "200px",
+                    fontSize: "1.3em",
+                  }}
+                >
+                  소개글
+                </label>
+                <div
+                  class="has-validation "
+                  style={{ width: "250px", marginRight: "20px" }}
+                >
+                  <textarea
+                    type="textarea"
+                    class="form-control "
+                    id="introduction"
+                    ref={introInput}
+                    style={{ overflowY: "scroll" }}
+                    value={introduction}
+                    onChange={onChange}
+                    placeholder={introduction}
+                    autoComplete="off"
+                    cols="10"
+                    rows="8"
+                    style={{ fontSize: "1.1em" }}
+                  />
+                  <div
+                    class="invisible text-start phone-feedback"
+                    ref={introFeedback}
+                    style={{ fontSize: "1.1em" }}
+                  >
+                    {introMessage}
+                  </div>
                 </div>
               </div>
             </div>

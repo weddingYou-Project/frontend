@@ -366,6 +366,8 @@ function Matching() {
     //navigate(`/checkoutall`);
   };
 
+  useEffect(() => {}, []);
+
   return (
     <div className="mainlayout">
       <hr />
