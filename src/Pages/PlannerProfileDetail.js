@@ -36,6 +36,8 @@ function PlannerProfileDetail() {
   const [existEstimates, setExistEstimates] = useState(true);
   const [selected, setSelected] = useState(false);
   const [finish, setFinish] = useState(false);
+  const [userMatching, setUserMatching] = useState(null);
+
   const navigate = useNavigate();
   const goMatch = () => {
     navigate(`/estimateform`);
@@ -49,7 +51,11 @@ function PlannerProfileDetail() {
       const { data } = response;
       console.log(data);
       SetEstimateData(data);
-
+      if (data.userMatching === null) {
+        setUserMatching(null);
+      } else {
+        setUserMatching(JSON.parse(data.userMatching));
+      }
       // 이미지 데이터 가져오기
       const imagearray = JSON.parse(data.img);
       const imagePromises = imagearray.map((image) => {
@@ -172,7 +178,11 @@ function PlannerProfileDetail() {
               const { data } = response;
               console.log(data);
               SetEstimateData(data);
-
+              if (data.userMatching === null) {
+                setUserMatching(null);
+              } else {
+                setUserMatching(JSON.parse(data.userMatching));
+              }
               // 이미지 데이터 가져오기
               const imagearray = JSON.parse(data.img);
               const imagePromises = imagearray.map((image) => {
@@ -199,6 +209,55 @@ function PlannerProfileDetail() {
         }
       });
   }, []);
+
+  const goChooseEstimate = (e) => {
+    const estimateId = selectEstimateId;
+
+    if (userMatching === null) {
+      let userEmail = [plannerEmail];
+      console.log(userEmail);
+      let formData = new FormData();
+      formData.append("estimateId", estimateId);
+      formData.append("usermatching", JSON.stringify(userEmail));
+      axios
+        .post(`/plannerProfile/insert/matchingUser`, formData)
+        .then((res) => {
+          console.log(res);
+          alert("매칭 신청되었습니다!");
+        })
+        .catch((e) => {
+          console.log(e);
+          if (e.response.data.message === "중복됩니다!") {
+            alert("이미 매칭 신청한 플래너입니다!");
+          }
+        });
+    } else {
+      const addPlannerEmail = plannerEmail;
+      if (!userMatching.includes(addPlannerEmail)) {
+        let formData = new FormData();
+        formData.append("estimateId", estimateId);
+        formData.append(
+          "usermatching",
+          JSON.stringify([...userMatching, addPlannerEmail])
+        );
+        axios
+          .post(`/plannerProfile/insert/matchingUser`, formData)
+          .then((res) => {
+            console.log(res);
+            alert("매칭 신청되었습니다!");
+          })
+          .catch((e) => {
+            console.log(e);
+
+            if (e.response.data.message === "중복됩니다!") {
+              alert("이미 매칭 신청한 플래너입니다!");
+            }
+          });
+      } else {
+        alert("이미 매칭 신청한 플래너입니다!");
+      }
+    }
+  };
 
   return (
     <div className="mainlayout">
@@ -451,7 +510,7 @@ function PlannerProfileDetail() {
                     padding: "10px",
                   }}
                 >
-                  상세정보
+                  견적서 상세정보
                 </div>
                 <p
                   style={{
@@ -649,6 +708,7 @@ function PlannerProfileDetail() {
                 type="button"
                 class="btn btn-primary"
                 data-bs-dismiss="modal"
+                onClick={goChooseEstimate}
               >
                 선택
               </button>
