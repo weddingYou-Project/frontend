@@ -634,7 +634,6 @@ function Matching() {
         </div>
       ) : (
         <div>
-          {" "}
           <p
             className="headertxt"
             style={{ marginTop: "80px", fontSize: "1.7em" }}
@@ -658,7 +657,7 @@ function Matching() {
               <button
                 className="plannerMatchingBtn"
                 data-bs-toggle="modal"
-                data-bs-target="#CancelMatching"
+                data-bs-target="#CancelMatchingCustomer"
                 style={{ marginLeft: "120px" }}
                 onClick={() => {
                   setDeletePermission(true);
@@ -669,6 +668,7 @@ function Matching() {
             </div>
           </div>
           <hr />
+
           <p className="headertxt" style={{ fontSize: "1.7em" }}>
             매칭 요청 온 고객 목록
           </p>
@@ -687,91 +687,13 @@ function Matching() {
                   000 고객
                 </td>
                 <td>
-                  <button className="plannerMatchingBtn">프로필보기</button>
+                  <button className="plannerMatchingBtn">견적서보기</button>
                 </td>
                 <td>
                   <button
                     className="plannerMatchingBtn"
                     data-bs-toggle="modal"
-                    data-bs-target="#MatchOrCanel"
-                    onClick={deleteMatchingPlanner}
-                  >
-                    매칭/거절
-                  </button>
-                </td>
-              </tr>
-              <tr>
-                <td
-                  className="myPlannerName"
-                  style={{
-                    width: 160,
-                    fontSize: "1.6em",
-                    paddingLeft: "25px",
-                    paddingTop: "10px",
-                  }}
-                >
-                  000 고객
-                </td>
-                <td>
-                  <button className="plannerMatchingBtn">프로필보기</button>
-                </td>
-                <td>
-                  <button
-                    className="plannerMatchingBtn"
-                    data-bs-toggle="modal"
-                    data-bs-target="#MatchOrCanel"
-                    onClick={deleteMatchingPlanner}
-                  >
-                    매칭/거절
-                  </button>
-                </td>
-              </tr>
-              <tr>
-                <td
-                  className="myPlannerName"
-                  style={{
-                    width: 160,
-                    fontSize: "1.6em",
-                    paddingLeft: "25px",
-                    paddingTop: "10px",
-                  }}
-                >
-                  000 고객
-                </td>
-                <td>
-                  <button className="plannerMatchingBtn">프로필보기</button>
-                </td>
-                <td>
-                  <button
-                    className="plannerMatchingBtn"
-                    data-bs-toggle="modal"
-                    data-bs-target="#MatchOrCanel"
-                    onClick={deleteMatchingPlanner}
-                  >
-                    매칭/거절
-                  </button>
-                </td>
-              </tr>
-              <tr>
-                <td
-                  className="myPlannerName"
-                  style={{
-                    width: 160,
-                    fontSize: "1.6em",
-                    paddingLeft: "25px",
-                    paddingTop: "10px",
-                  }}
-                >
-                  000 고객
-                </td>
-                <td>
-                  <button className="plannerMatchingBtn">프로필보기</button>
-                </td>
-                <td>
-                  <button
-                    className="plannerMatchingBtn"
-                    data-bs-toggle="modal"
-                    data-bs-target="#MatchOrCanel"
+                    data-bs-target="#MatchOrCanelCustomer"
                     onClick={deleteMatchingPlanner}
                   >
                     매칭/거절
@@ -830,6 +752,56 @@ function Matching() {
               </div>
             </div>
           </div>
+          {/* 고객 모달창(매칭취소) */}
+          <div
+            className="modal fade"
+            id="CancelMatchingCustomer"
+            tabindex="-1"
+            aria-labelledby="CancelMatchingCustomer"
+            aria-hidden="true"
+          >
+            <div className="modal-dialog modal-dialog-centered">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h1
+                    className="modal-title fs-2"
+                    id="CancelMatchingCustomer"
+                    style={{ fontSize: "1.6em" }}
+                  >
+                    매칭을 취소하시겠습니까?
+                  </h1>
+                  <button
+                    type="button"
+                    className="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div className="modal-body" style={{ fontSize: "1.5em" }}>
+                  매칭을 취소하실경우 해당 고객과의 매칭이 거부됩니다.
+                </div>
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={() => {
+                      setDeletePermission(true);
+                    }}
+                  >
+                    매칭 취소하기
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    매칭 유지하기
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* 고객 모달창(매칭취소) */}
           <div
             className="modal fade"
             id="MatchOrCanel"
@@ -879,6 +851,56 @@ function Matching() {
               </div>
             </div>
           </div>
+          {/* 고객과의 매칭/거절 모달창 */}
+          <div
+            className="modal fade"
+            id="MatchOrCanelCustomer"
+            tabindex="-1"
+            aria-labelledby="MatchOrCanelCustomer"
+            aria-hidden="true"
+          >
+            <div className="modal-dialog modal-dialog-centered">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h1
+                    className="modal-title fs-2"
+                    id="MatchOrCanelCustomer"
+                    style={{ fontSize: "1.6em" }}
+                  >
+                    해당 고객과 매칭하시겠습니까?
+                  </h1>
+                  <button
+                    type="button"
+                    className="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div className="modal-body" style={{ fontSize: "1.5em" }}>
+                  매칭시 해당 고객에게 매칭 메시지가 전송 됩니다.
+                </div>
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={goMatching}
+                    data-bs-dismiss="modal"
+                  >
+                    매칭하기
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                    onClick={deleteMatchingPlanner2}
+                  >
+                    거절하기
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* 고객과의 매칭/거절 모달창 */}
         </div>
       )}
     </div>

@@ -148,9 +148,11 @@ function PlannerProfileDetail() {
             disabled
           ></textarea>
         </div>
-        <button class="btn-colour-1" style={{ marginTop: "50px" }}>
-          견적요청
-        </button>
+        {sessionStorage.getItem("category") === "user" ? (
+          <button class="btn-colour-1" style={{ marginTop: "50px" }}>
+            견적요청
+          </button>
+        ) : null}
       </div>
       <Footer />
     </div>
