@@ -1095,6 +1095,7 @@ function UserUpdate() {
                     cols="10"
                     rows="8"
                     style={{ fontSize: "1.1em" }}
+                    maxLength="1000"
                   />
                   <div
                     class="invisible text-start phone-feedback"

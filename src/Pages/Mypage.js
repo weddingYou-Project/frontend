@@ -556,6 +556,7 @@ function Mypage() {
                       rows="8"
                       disabled
                       style={{ fontSize: "1.1em" }}
+                      maxLength="1000"
                     />
                   </div>
                 </div>

@@ -175,10 +175,12 @@ function PlannerProfileDetail() {
               backgroundColor: "#ebecf0",
               paddingTop: "20px",
               paddingLeft: "25px",
+              paddingBottom: "20px",
+              paddingRight: "20px",
             }}
             name=""
             id=""
-            cols="43"
+            cols="41"
             rows="8"
             placeholder="아직 자기소개가 없습니다!"
             value={introduction}
@@ -223,6 +225,8 @@ function PlannerProfileDetail() {
               backgroundColor: "#ebecf0",
               paddingTop: "20px",
               paddingLeft: "20px",
+              paddingBottom: "20px",
+              paddingRight: "20px",
               overflowY: "scroll",
             }}
           >
