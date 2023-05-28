@@ -34,66 +34,12 @@ function PlannerProfileDetail() {
   const [selectIndex, setSelectIndex] = useState(0);
   const [selectEstimateId, setSelectEstimateId] = useState(0);
   const [existEstimates, setExistEstimates] = useState(true);
-
+  const [selected, setSelected] = useState(false);
+  const [finish, setFinish] = useState(false);
   const navigate = useNavigate();
   const goMatch = () => {
     navigate(`/estimateform`);
   };
-
-  useEffect(() => {
-    let estimateIdArr = [];
-    const formData = new FormData();
-    formData.append("userEmail", sessionStorage.getItem("email"));
-    axios
-      .post(`/plannerProfile/getUnmatchedEstimates`, formData)
-      .then((res) => {
-        console.log("data:++++++++++++++" + res.data);
-        console.log(res.data);
-        let indexArr = [];
-        if (res.data.length !== 0) {
-          const data = res.data;
-          for (let i = 0; i < data.length; i++) {
-            estimateIdArr.push(data[i]);
-            indexArr.push(i);
-          }
-          setEstimateId(estimateIdArr);
-          setEstimateIndex(indexArr);
-          setSelectEstimateId(estimateIdArr[0]);
-          console.log(estimateIdArr[0]);
-          const defaultEstimateId = estimateIdArr[0];
-          const fetchData1 = async () => {
-            try {
-              const response = await axios.get(
-                `http://localhost:8080/estimate/getdetail/${defaultEstimateId}`
-              );
-              const { data } = response;
-              console.log(data);
-              SetEstimateData(data);
-
-              // 이미지 데이터 가져오기
-              const imagearray = JSON.parse(data.img);
-              const imagePromises = imagearray.map((image) => {
-                return axios.get("http://localhost:8080/estimate/imageview", {
-                  params: { image },
-                  responseType: "blob",
-                });
-              });
-              const responses = await Promise.all(imagePromises);
-              const imageUrls = responses.map((res) => {
-                const resdata = URL.createObjectURL(res.data);
-                return resdata;
-              });
-              setImages(imageUrls);
-            } catch (error) {
-              console.log(error);
-            }
-          };
-          fetchData1();
-        } else {
-          setExistEstimates(false);
-        }
-      });
-  }, []);
 
   const fetchData = async (selectedEstimateId) => {
     try {
@@ -194,6 +140,63 @@ function PlannerProfileDetail() {
       })
       .catch((e) => {
         console.log(e);
+      });
+  }, []);
+
+  useEffect(() => {
+    let estimateIdArr = [];
+    const formData = new FormData();
+    formData.append("userEmail", sessionStorage.getItem("email"));
+    axios
+      .post(`/plannerProfile/getUnmatchedEstimates`, formData)
+      .then((res) => {
+        console.log("data:++++++++++++++" + res.data);
+        console.log(res.data);
+        let indexArr = [];
+        if (res.data.length !== 0) {
+          const data = res.data;
+          for (let i = 0; i < data.length; i++) {
+            estimateIdArr.push(data[i]);
+            indexArr.push(i);
+          }
+          setEstimateId(estimateIdArr);
+          setEstimateIndex(indexArr);
+          setSelectEstimateId(estimateIdArr[0]);
+          console.log(estimateIdArr[0]);
+          const defaultEstimateId = estimateIdArr[0];
+          const fetchData1 = async () => {
+            try {
+              const response = await axios.get(
+                `http://localhost:8080/estimate/getdetail/${defaultEstimateId}`
+              );
+              const { data } = response;
+              console.log(data);
+              SetEstimateData(data);
+
+              // 이미지 데이터 가져오기
+              const imagearray = JSON.parse(data.img);
+              const imagePromises = imagearray.map((image) => {
+                return axios.get("http://localhost:8080/estimate/imageview", {
+                  params: { image },
+                  responseType: "blob",
+                });
+              });
+              const responses = await Promise.all(imagePromises);
+              const imageUrls = responses.map((res) => {
+                const resdata = URL.createObjectURL(res.data);
+                return resdata;
+              });
+              setImages(imageUrls);
+              setFinish(true);
+            } catch (error) {
+              console.log(error);
+            }
+          };
+          fetchData1();
+        } else {
+          setExistEstimates(false);
+          setFinish(true);
+        }
       });
   }, []);
 
@@ -359,6 +362,9 @@ function PlannerProfileDetail() {
               class="btn-colour-1 "
               data-bs-toggle="modal"
               data-bs-target="#chooseEstimate"
+              onClick={() => {
+                setSelected(true);
+              }}
               style={{ marginTop: "50px" }}
             >
               견적요청
@@ -456,28 +462,27 @@ function PlannerProfileDetail() {
                     marginTop: "-100px",
                   }}
                 >
-                  {existEstimates ? (
+                  {console.log(estimateData)}
+                  {finish === true ? (
                     <div className="contentcontainer-detail">
                       <div className="contentbox-detail">
                         <h5 onClick={() => {}}>희망 결혼 예정일</h5>
-                        {existEstimates
-                          ? JSON.parse(estimateData?.weddingdate).map(
-                              (e, index) => {
-                                return (
-                                  <div className="choosebox-detail">
-                                    {e === "" ? (
-                                      <></>
-                                    ) : (
-                                      <>
-                                        <div>{index + 1}순위</div>
-                                        <div className="result-detail">{e}</div>
-                                      </>
-                                    )}
-                                  </div>
-                                );
-                              }
-                            )
-                          : null}
+                        {JSON.parse(estimateData?.weddingdate).map(
+                          (e, index) => {
+                            return (
+                              <div className="choosebox-detail">
+                                {e === "" ? (
+                                  <></>
+                                ) : (
+                                  <>
+                                    <div>{index + 1}순위</div>
+                                    <div className="result-detail">{e}</div>
+                                  </>
+                                )}
+                              </div>
+                            );
+                          }
+                        )}
                       </div>
                       <div className="contentbox-detail">
                         <h5>희망 결혼 지역</h5>
@@ -582,12 +587,14 @@ function PlannerProfileDetail() {
                       </div>
 
                       <div className="contentbox-detail">
-                        <h5>
-                          고객 첨부이미지{" "}
-                          {images.length !== 0 && (
-                            <span>(클릭시 확대됩니다)</span>
-                          )}
-                        </h5>
+                        {images.length === 0 ? (
+                          <h5>고객 첨부이미지 </h5>
+                        ) : (
+                          <h5 style={{ marginTop: "-20px" }}>
+                            고객 첨부이미지{" "}
+                          </h5>
+                        )}
+
                         {images.length === 0 && (
                           <span>첨부 이미지가 없습니다.</span>
                         )}
@@ -597,27 +604,18 @@ function PlannerProfileDetail() {
                             return (
                               <div key={index}>
                                 <>
-                                  <button
-                                    type="button"
-                                    class="btn"
-                                    data-bs-toggle="modal"
-                                    data-bs-target={`#number${index.toString()}`}
-                                    style={{ width: "40%" }}
-                                  >
-                                    <img
-                                      src={e}
-                                      width="40%"
-                                      height="40%"
-                                      style={{
-                                        float: "left",
-                                        width: "100%",
-                                        borderRadius: "10px",
-                                      }}
-                                    />
-                                  </button>
-                                  <ImagesView
-                                    images={e}
-                                    index={`number${index.toString()}`}
+                                  <img
+                                    src={e}
+                                    width="100%"
+                                    height="40%"
+                                    style={{
+                                      width: "100%",
+                                      borderRadius: "10px",
+                                      marginBottom: "20px",
+                                      marginTop: "-15px",
+                                      marginLeft: "-5px",
+                                    }}
+                                    alt=""
                                   />
                                 </>
                               </div>
@@ -628,7 +626,7 @@ function PlannerProfileDetail() {
 
                       <div
                         className="contentbox-detail"
-                        style={{ borderBottom: "none" }}
+                        style={{ borderBottom: "none", marginTop: "10px" }}
                       >
                         <h5>고객 요청사항</h5>
                         <div
