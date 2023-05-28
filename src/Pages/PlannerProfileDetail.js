@@ -166,7 +166,7 @@ function PlannerProfileDetail() {
               fontSize: "1.8em",
               justifyContent: "start",
               marginLeft: "20px",
-              marginTop: "20px",
+              marginTop: "13px",
             }}
           >
             자기소개
@@ -200,7 +200,7 @@ function PlannerProfileDetail() {
               justifyContent: "start",
               marginLeft: "20px",
               marginTop: "20px",
-              marginBottom: "10px",
+              marginBottom: "-10px",
               overflowY: "scroll",
             }}
           >
