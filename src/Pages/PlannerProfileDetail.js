@@ -95,10 +95,10 @@ function PlannerProfileDetail() {
       });
   }, []);
 
-  const fetchData = async () => {
+  const fetchData = async (selectedEstimateId) => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/estimate/getdetail/${selectEstimateId}`
+        `http://localhost:8080/estimate/getdetail/${selectedEstimateId}`
       );
       const { data } = response;
       console.log(data);
@@ -201,7 +201,6 @@ function PlannerProfileDetail() {
     <div className="mainlayout">
       <NavigationBar title={`${plannerName}의 프로필`} />
       <br />
-
       <div
         class="container text-center"
         style={{
@@ -426,19 +425,17 @@ function PlannerProfileDetail() {
                   class="form-select form-select-lg mb-3"
                   aria-label=".form-select-lg example"
                   style={{ width: "460px" }}
+                  onChange={(e) => {
+                    console.log(e);
+                    console.log(e.target.value);
+                    setSelectIndex(e.target.value);
+                    const index = e.target.value;
+                    setSelectEstimateId(estimateId[index]);
+                    fetchData(estimateId[index]);
+                  }}
                 >
                   {estimateIndex.map((index) => {
-                    return (
-                      <option
-                        onClick={() => {
-                          setSelectIndex(index);
-                          setSelectEstimateId(estimateId[index]);
-                        }}
-                        value={index}
-                      >
-                        견적서{index + 1}
-                      </option>
-                    );
+                    return <option value={index}>견적서{index + 1}</option>;
                   })}
                 </select>
 
@@ -453,7 +450,7 @@ function PlannerProfileDetail() {
                 <p
                   style={{
                     fontSize: "1.3em",
-                    width: "500px",
+                    width: "550px",
 
                     marginLeft: "-35px",
                     marginTop: "-100px",
