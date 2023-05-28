@@ -26,6 +26,25 @@ function PlannerProfile() {
   const goProfileDetail = () => {
     navigate(`/plannerprofiledetail`);
   };
+
+  useEffect(() => {
+    axios
+      .post(`/plannerProfile/getProfiles1`)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+    axios
+      .post(`/plannerProfile/getProfiles2`)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
   return (
     <div className="mainlayout">
       <NavigationBar title={"플래너 프로필"} />
