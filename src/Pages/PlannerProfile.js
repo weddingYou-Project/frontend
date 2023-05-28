@@ -28,8 +28,14 @@ function PlannerProfile() {
 
   const goProfileDetail = (e) => {
     const selectedPlannerEmail = e.target.dataset.bsPlanneremail;
+    const selectedPlannerImg = e.target.dataset.bsPlannerimg;
+    const selectedPlannerName = e.target.dataset.bsPlannername;
     navigate(`/plannerprofiledetail`, {
-      state: { plannerEmail: selectedPlannerEmail },
+      state: {
+        plannerEmail: selectedPlannerEmail,
+        plannerName: selectedPlannerName,
+        plannerImg: selectedPlannerImg,
+      },
     });
   };
 
@@ -169,10 +175,22 @@ function PlannerProfile() {
                       class="card-img-top"
                       alt="..."
                       data-bs-plannerEmail={plannerEmail[i]}
+                      data-bs-plannerName={plannerName[i]}
+                      data-bs-plannerImg={profileImg[i]}
                       onClick={goProfileDetail}
                     />
                     <div class="card-body">
-                      <p class="card-text">{plannerName[i]} &nbsp;&nbsp;</p>
+                      <p
+                        class="card-text ms-4"
+                        style={{
+                          fontSize: "1.5em",
+                          margin: "0 auto",
+                          display: "flex",
+                          justifyContent: "center",
+                        }}
+                      >
+                        {plannerName[i]} &nbsp;&nbsp;
+                      </p>
                     </div>
                   </div>
                 </div>

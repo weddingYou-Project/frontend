@@ -11,14 +11,92 @@ import axios from "axios";
 
 function PlannerProfileDetail() {
   const [previewImg, setPreviewImg] = useState([]);
-  const [plannerName, setPlannerName] = useState("");
+
   const [plannerYears, setPlannerYears] = useState(0);
   const [reviewCount, setReviewCount] = useState(0);
   const [matchingCount, setMatchingCount] = useState(0);
   const [introduction, setIntroduction] = useState("");
+  const [avgReviewStars, setAvgReviewStars] = useState(0);
+  const [reviewStars, setReviewStars] = useState([]);
+  const [reviewUsers, setReviewUsers] = useState([]);
+  const [portfolio, setPortfolio] = useState("아직 포트폴리오가 없습니다!");
+  const [portfolioIndex, setPortfolioIndex] = useState([]);
+
+  const { plannerEmail } = useLocation().state;
+  console.log(plannerEmail);
+  const { plannerName } = useLocation().state;
+  const { plannerImg } = useLocation().state;
 
   useEffect(() => {
     //플래너이름, 플래너 프로필 사진, 리뷰개수, 별점, 매칭수, 소개글 불러오기
+
+    const formData = new FormData();
+    formData.append("plannerEmail", plannerEmail);
+    axios
+      .post(`/plannerProfile/getProfileDetail`, formData)
+      .then((res) => {
+        const data = res.data;
+        console.log(data);
+        const reviewStarsArr = [];
+        const reviewUsersArr = [];
+        const reviewUserIndex = [];
+        const reviewStarsIndex = [];
+        const portfolioDataArr = [];
+        const portfolioIndexArr = [];
+        for (let i = 0; i < data.length; i++) {
+          setReviewCount(data[i]);
+          i++;
+          setAvgReviewStars(data[i]);
+          i++;
+          setIntroduction(data[i]);
+          i++;
+          setMatchingCount(data[i]);
+          i++;
+
+          const reviewUsersData = data[i].slice(1, data[i].length - 1);
+          const arr = reviewUsersData.split(",");
+
+          const Userlength = arr.length;
+          for (let j = 0; j < Userlength; j++) {
+            reviewUserIndex.push(j);
+            reviewUsersArr.push(arr[j]);
+          }
+          setReviewUsers(arr);
+          console.log(arr);
+          i++;
+
+          const reviewStarsData = data[i].slice(1, data[i].length - 1);
+
+          const arr2 = reviewStarsData.split(",");
+          const starsLength = arr2.length;
+          for (let k = 0; k < starsLength; k++) {
+            reviewStarsIndex.push(k);
+            reviewStarsArr.push(arr2[k]);
+          }
+          setReviewStars(arr2);
+          console.log(arr2);
+        }
+        console.log(reviewStarsArr);
+        if (reviewStarsArr[0] !== "") {
+          for (let m = 0; m < reviewStarsArr.length; m++) {
+            const portfolioData = `${reviewUsersArr[m]} - ${reviewStarsArr[m]}점\n`;
+
+            portfolioDataArr.push(portfolioData);
+            portfolioIndexArr.push(m);
+            console.log(portfolioData);
+          }
+          setPortfolio(portfolioDataArr);
+
+          setPortfolioIndex(portfolioIndexArr);
+          console.log(portfolioDataArr);
+        } else {
+          console.log("aaa");
+          setPortfolioIndex([]);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   }, []);
 
   return (
@@ -41,12 +119,12 @@ function PlannerProfileDetail() {
         ></div>
         <div style={{ marginTop: "20px", display: "flex", width: "100%" }}>
           <img
-            src={Loadingimg1}
+            src={plannerImg}
             alt=""
             style={{
-              width: "250px",
-              height: "300px",
-              marginLeft: "50px",
+              width: "280px",
+              height: "280px",
+              marginLeft: "20px",
             }}
           />
           <div
@@ -61,18 +139,18 @@ function PlannerProfileDetail() {
                 height: "60px",
               }}
             >
-              planner1
+              {plannerName}
             </div>
             <div
               style={{
-                fontSize: "1.8em",
+                fontSize: "1.6em",
                 marginLeft: "30px",
                 display: "inline-block",
                 width: "130px",
                 height: "60px",
               }}
             >
-              리뷰 개수/ 평균 별점
+              리뷰 개수 : {reviewCount} 평균 별점 : {avgReviewStars}
             </div>
           </div>
         </div>
@@ -94,11 +172,14 @@ function PlannerProfileDetail() {
               marginTop: "20px",
               borderRadius: "10px",
               fontSize: "1.4em",
+              backgroundColor: "#ebecf0",
+              paddingTop: "20px",
+              paddingLeft: "25px",
             }}
             name=""
             id=""
-            cols="45"
-            rows="6"
+            cols="43"
+            rows="8"
             placeholder="아직 자기소개가 없습니다!"
             value={introduction}
             disabled
@@ -114,6 +195,7 @@ function PlannerProfileDetail() {
               marginLeft: "20px",
               marginTop: "20px",
               marginBottom: "10px",
+              overflowY: "scroll",
             }}
           >
             포트폴리오
@@ -128,7 +210,8 @@ function PlannerProfileDetail() {
           >
             총 매칭수 : {matchingCount}
           </div>
-          <textarea
+
+          <div
             style={{
               marginTop: "20px",
               borderRadius: "10px",
@@ -137,16 +220,35 @@ function PlannerProfileDetail() {
               height: "180px",
               width: "500px",
               margin: "0 auto",
+              backgroundColor: "#ebecf0",
+              paddingTop: "20px",
+              paddingLeft: "20px",
+              overflowY: "scroll",
             }}
-            name=""
-            id=""
-            cols="45"
-            rows="6"
-            placeholder=" 김00 - 별점 4.5/5.0 
-        이00 - 별점 3.0/5.0"
-            value={introduction}
-            disabled
-          ></textarea>
+          >
+            <div style={{ fontSize: "1.1em" }}>
+              {portfolioIndex.length === 0 ? (
+                <div
+                  style={{
+                    fontSize: "0.9em",
+                    display: "flex",
+                    justifyContent: "start",
+                  }}
+                >
+                  아직 포트폴리오가 없습니다!
+                </div>
+              ) : (
+                portfolioIndex.map((index) => {
+                  return (
+                    <div style={{ display: "flex", justifyContent: "start" }}>
+                      {portfolio[index]}
+                      <br />
+                    </div>
+                  );
+                })
+              )}
+            </div>
+          </div>
         </div>
         {sessionStorage.getItem("category") === "user" ? (
           <button class="btn-colour-1" style={{ marginTop: "50px" }}>
