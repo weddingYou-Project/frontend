@@ -12,7 +12,7 @@ import axios from "axios";
 function PlannerProfileDetail() {
   const [previewImg, setPreviewImg] = useState([]);
 
-  const [plannerYears, setPlannerYears] = useState(0);
+  //const [plannerYears, setPlannerYears] = useState(0);
   const [reviewCount, setReviewCount] = useState(0);
   const [matchingCount, setMatchingCount] = useState(0);
   const [introduction, setIntroduction] = useState("");
@@ -21,6 +21,7 @@ function PlannerProfileDetail() {
   const [reviewUsers, setReviewUsers] = useState([]);
   const [portfolio, setPortfolio] = useState("아직 포트폴리오가 없습니다!");
   const [portfolioIndex, setPortfolioIndex] = useState([]);
+  const [plannerYears, setPlannerYears] = useState("");
 
   const { plannerEmail } = useLocation().state;
   console.log(plannerEmail);
@@ -75,6 +76,8 @@ function PlannerProfileDetail() {
           }
           setReviewStars(arr2);
           console.log(arr2);
+          i++;
+          setPlannerYears(data[i]);
         }
         console.log(reviewStarsArr);
         if (reviewStarsArr[0] !== "") {
@@ -150,7 +153,8 @@ function PlannerProfileDetail() {
                 height: "60px",
               }}
             >
-              리뷰 개수 : {reviewCount} 평균 별점 : {avgReviewStars}
+              리뷰 개수 : {reviewCount} 평균 별점 : {avgReviewStars} 경력 :{" "}
+              {plannerYears}
             </div>
           </div>
         </div>

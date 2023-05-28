@@ -13,11 +13,13 @@ function PlannerProfile() {
   const [profileImg, setProfileImg] = useState([]);
   const [plannerName, setPlannerName] = useState([]);
   const [plannerEmail, setPlannerEmail] = useState([]);
-  const [plannerYears, setPlannerYears] = useState(0);
-  const [reviewCount, setReviewCount] = useState(0);
-  const [matchingCount, setMatchingCount] = useState(0);
+  const [plannerYears, setPlannerYears] = useState(0); //경력순
+  const [reviewCount, setReviewCount] = useState(0); //후기순
+  const [matchingCount, setMatchingCount] = useState(0); //매칭순
+  const [reviewStars, setReviewStars] = useState(0); //별점 높은 순
   const [keyIndex, setKeyIndex] = useState([]);
   // const [selectedPlannerEmail, setSelectedPlannerEmail] = useState("");
+  const [plannerEmailSort, setPlannerEmailSort] = useState([]);
 
   const [selectedSort, setSelectedSort] = useState("정렬"); // 초기 버튼명 설정
   const navigate = useNavigate();
@@ -39,6 +41,126 @@ function PlannerProfile() {
     });
   };
 
+  useEffect(() => {
+    axios
+      .post(`/plannerProfile/getProfiles1`)
+      .then((res) => {
+        console.log(res);
+        let data = res.data;
+        console.log(selectedSort);
+        let plannerEmailArr = [];
+        if (selectedSort === "별점 높은 순") {
+          data.sort(function (a, b) {
+            if (parseFloat(a.avgReviewStars) < parseFloat(b.avgReviewStars))
+              return 1;
+            if (parseFloat(a.avgReviewStars) > parseFloat(b.avgReviewStars))
+              return -1;
+            if (parseFloat(a.avgReviewStars) === parseFloat(b.avgReviewStars)) {
+              return new Date(b.plannerJoinDate) - new Date(a.plannerJoinDate);
+            }
+          });
+          for (let i = 0; i < data.length; i++) {
+            plannerEmailArr.push(data[i].plannerEmail);
+          }
+          setPlannerEmailSort(plannerEmailArr);
+        } else if (selectedSort === "후기순") {
+          data.sort(function (a, b) {
+            if (a.reviewCount < b.reviewCount) return 1;
+            if (a.reviewCount > b.reviewCount) return -1;
+            if (a.reviewCount === b.reviewCount) {
+              return new Date(b.plannerJoinDate) - new Date(a.plannerJoinDate);
+            }
+          });
+          for (let i = 0; i < data.length; i++) {
+            plannerEmailArr.push(data[i].plannerEmail);
+          }
+          setPlannerEmailSort(plannerEmailArr);
+        } else if (selectedSort === "경력순") {
+          data.sort(function (a, b) {
+            if (parseInt(a.plannerCareerYears) < parseInt(b.plannerCareerYears))
+              return 1;
+            if (parseInt(a.plannerCareerYears) > parseInt(b.plannerCareerYears))
+              return -1;
+            if (
+              parseInt(a.plannerCareerYears) === parseInt(b.plannerCareerYears)
+            ) {
+              return new Date(b.plannerJoinDate) - new Date(a.plannerJoinDate);
+            }
+          });
+          for (let i = 0; i < data.length; i++) {
+            plannerEmailArr.push(data[i].plannerEmail);
+          }
+          setPlannerEmailSort(plannerEmailArr);
+        } else if (selectedSort === "매칭순") {
+          data.sort(function (a, b) {
+            if (a.matchingCount < b.matchingCount) return 1;
+            if (a.matchingCount > b.matchingCount) return -1;
+            if (a.matchingCount === b.matchingCount) {
+              return new Date(b.plannerJoinDate) - new Date(a.plannerJoinDate);
+            }
+          });
+          for (let i = 0; i < data.length; i++) {
+            plannerEmailArr.push(data[i].plannerEmail);
+          }
+          setPlannerEmailSort(plannerEmailArr);
+        } else if (selectedSort === "최신순") {
+          data.sort(function (a, b) {
+            return new Date(b.plannerJoinDate) - new Date(a.plannerJoinDate);
+          });
+          for (let i = 0; i < data.length; i++) {
+            plannerEmailArr.push(data[i].plannerEmail);
+          }
+          setPlannerEmailSort(plannerEmailArr);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, [selectedSort]);
+
+  useEffect(() => {
+    const formData = new FormData();
+    formData.append("plannerEmailArr", JSON.stringify(plannerEmailSort));
+    axios
+      .post(`/plannerProfile/getProfiles3`, formData)
+      .then((res) => {
+        console.log(res);
+        const data = res.data;
+        if (data.length !== 0) {
+          let profileImgArr = [];
+          let plannerNameArr = [];
+          let plannerEmailArr = [];
+          let keyIndexArr = [];
+          for (let j = 0; j < data.length; j++) {
+            if (j % 3 === 0) {
+              if (data[j] === "null") {
+                profileImgArr.push(defaultprofileimage);
+              } else {
+                let img = "data:image/jpeg;base64," + data[j];
+                profileImgArr.push(img);
+              }
+
+              const index = j / 3;
+              keyIndexArr.push(index);
+              console.log(keyIndexArr);
+            } else if (j % 3 === 1) {
+              plannerNameArr.push(data[j]);
+            } else if (j % 3 === 2) {
+              plannerEmailArr.push(data[j]);
+            }
+          }
+          setKeyIndex(keyIndexArr);
+          setProfileImg(profileImgArr);
+          setPlannerName(plannerNameArr);
+          setPlannerEmail(plannerEmailArr);
+        } else {
+          setKeyIndex([]);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, [plannerEmailSort]);
   useEffect(() => {
     axios
       .post(`/plannerProfile/getProfiles1`)
@@ -139,6 +261,15 @@ function PlannerProfile() {
                 onClick={() => handleSortClick("매칭순")}
               >
                 매칭순
+              </button>
+            </li>
+            <li>
+              <button
+                class="dropdown-item"
+                type="button"
+                onClick={() => handleSortClick("최신순")}
+              >
+                최신순
               </button>
             </li>
           </ul>
