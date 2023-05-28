@@ -5,6 +5,7 @@ import NavigationBar from "./NavigationBar";
 import Footer from "./Footer";
 import { useEffect, useState, useRef } from "react";
 import axios from "axios";
+import defaultprofileimage from "../Assets/defaultprofileimage.jpg";
 
 function Matching() {
   const navigate = useNavigate();
@@ -366,7 +367,47 @@ function Matching() {
     //navigate(`/checkoutall`);
   };
 
-  useEffect(() => {}, []);
+  const goPlannerProfile = (e) => {
+    const bsIndex = e.target.dataset.bsIndex;
+    const bsIndex2 = e.target.dataset.bsIndex2;
+    const estimateId = e.target.dataset.bsEstimateid;
+    const deleteTargetEstimateId = estimateId;
+    const bsEstimateNum = e.target.dataset.bsEstimatenum - 1;
+    const selectedPlanner = plannerMatching[bsIndex][bsIndex2];
+    const selectedPlannerName = plannerName[bsIndex][bsIndex2];
+    setBsIndex(bsIndex);
+    setBsIndex2(bsIndex2);
+    setDeleteTargetEstimateId(deleteTargetEstimateId);
+    setDeletePlanner(selectedPlanner);
+    setDeletePlannerName(selectedPlannerName);
+    setSelectEstimateNum(bsEstimateNum);
+    setSelectDeletePlanner(matchedPlanner[bsEstimateNum]);
+    axios
+      .post(`/planner/getprofileImg`, { email: selectedPlanner })
+      .then((res) => {
+        console.log(res);
+
+        let selectedPlannerImg = "data:image/jpeg;base64," + res.data;
+        navigate(`/plannerprofiledetail`, {
+          state: {
+            plannerEmail: selectedPlanner,
+            plannerName: selectedPlannerName,
+            plannerImg: selectedPlannerImg,
+          },
+        });
+      })
+      .catch((e) => {
+        console.log(e);
+
+        navigate(`/plannerprofiledetail`, {
+          state: {
+            plannerEmail: selectedPlanner,
+            plannerName: selectedPlannerName,
+            plannerImg: defaultprofileimage,
+          },
+        });
+      });
+  };
 
   return (
     <div className="mainlayout">
@@ -409,7 +450,12 @@ function Matching() {
                     >
                       {matchedPlanner[keyIndex]}
                     </p>
-                    <button className="plannerProBtn">프로필 보기</button>
+                    <button
+                      className="plannerProBtn"
+                      onClick={goPlannerProfile}
+                    >
+                      프로필 보기
+                    </button>
                     <br />
                     <div className="matchingBtnList">
                       <button
@@ -512,7 +558,14 @@ function Matching() {
                             {plannername}
                           </td>
                           <td>
-                            <button className="plannerMatchingBtn">
+                            <button
+                              className="plannerMatchingBtn"
+                              data-bs-index={index}
+                              data-bs-index2={i}
+                              data-bs-estimateId={estimateId}
+                              data-bs-estimateNum={index + 1}
+                              onClick={goPlannerProfile}
+                            >
                               프로필보기
                             </button>
                           </td>

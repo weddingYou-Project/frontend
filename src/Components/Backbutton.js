@@ -76,7 +76,7 @@ function BackButton({ engTitle }) {
           } else if (path.indexOf("/estimatedetail") !== -1) {
             navigate("/estimatelist");
           } else if (path.indexOf("/plannerprofiledetail") !== -1) {
-            navigate("/plannerprofile");
+            navigate(-1);
           } else if (path.indexOf("/matching") !== -1) {
             const category = sessionStorage.getItem("category");
             navigate(`/mypage/${category}`);
@@ -85,6 +85,8 @@ function BackButton({ engTitle }) {
             path.indexOf("/checkoutall") !== -1
           ) {
             navigate(`/matching`);
+          } else if (path.indexOf("/estimatedetail/") !== -1) {
+            navigate(-1);
           } else {
             navigate("/");
           }

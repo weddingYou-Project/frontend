@@ -6,7 +6,6 @@ import NavigationBar from "../Components/NavigationBar";
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Animation from "../Components/Animation";
-import Loadingimg1 from "../Assets/loading img1.jpg";
 import axios from "axios";
 
 function PlannerProfileDetail() {
@@ -140,6 +139,7 @@ function PlannerProfileDetail() {
                 display: "inline-block",
                 width: "130px",
                 height: "60px",
+                marginTop: "40px",
               }}
             >
               {plannerName}
