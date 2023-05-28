@@ -409,6 +409,46 @@ function Matching() {
       });
   };
 
+  const goPlannerProfile2 = (e) => {
+    const estimateNum = e.target.dataset.bsEstimatenum - 1;
+    setSelectEstimateNum(estimateNum);
+    console.log("estimateNum:" + estimateNum);
+    const formData = new FormData();
+    formData.append("userEmail", sessionStorage.getItem("email"));
+    formData.append("estimateNum", estimateNum);
+    axios.post(`/plannerProfile/getProfileDetail2`, formData).then((res) => {
+      console.log(res);
+      const data = res.data;
+
+      if (data.length !== 0) {
+        let selectedPlannerImg = null;
+        let selectedPlanner = null;
+        let selectedPlannerName = null;
+        for (let j = 0; j < data.length; j++) {
+          if (j % 3 === 0) {
+            if (data[j] === "null") {
+              selectedPlannerImg = defaultprofileimage;
+            } else {
+              let img = "data:image/jpeg;base64," + data[j];
+              selectedPlannerImg = img;
+            }
+          } else if (j % 3 === 1) {
+            selectedPlannerName = data[j];
+          } else if (j % 3 === 2) {
+            selectedPlanner = data[j];
+          }
+        }
+        navigate(`/plannerprofiledetail`, {
+          state: {
+            plannerEmail: selectedPlanner,
+            plannerName: selectedPlannerName,
+            plannerImg: selectedPlannerImg,
+          },
+        });
+      }
+    });
+  };
+
   return (
     <div className="mainlayout">
       <hr />
@@ -452,7 +492,8 @@ function Matching() {
                     </p>
                     <button
                       className="plannerProBtn"
-                      onClick={goPlannerProfile}
+                      data-bs-estimateNum={estimateNum[keyIndex]}
+                      onClick={goPlannerProfile2}
                     >
                       프로필 보기
                     </button>
@@ -566,7 +607,7 @@ function Matching() {
                               data-bs-estimateNum={index + 1}
                               onClick={goPlannerProfile}
                             >
-                              프로필보기
+                              프로필 보기
                             </button>
                           </td>
                           <td>
