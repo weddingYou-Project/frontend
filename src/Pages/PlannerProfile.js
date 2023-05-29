@@ -167,8 +167,9 @@ function PlannerProfile() {
       });
   }, [plannerEmailSort]);
   useEffect(() => {
-    if (sessionStorage.getItem("profileSort") === undefined) {
+    if (sessionStorage.getItem("profileSort") === null) {
       window.sessionStorage.setItem("profileSort", "플래너 등록순");
+      setSelectedSort("플래너 등록순");
     }
 
     axios
@@ -253,7 +254,7 @@ function PlannerProfile() {
               height: "80px",
             }}
           >
-            <div class="dropdown  right-sort" style={{ marginRight: "50px" }}>
+            <div class="dropdown  right-sort" style={{ marginRight: "70px" }}>
               <button
                 class="btn btn-secondary dropdown-toggle"
                 type="button"
