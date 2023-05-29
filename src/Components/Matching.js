@@ -52,6 +52,7 @@ function Matching() {
 
   const [matchingCouple, setMatchingCouple] = useState([]);
   const [estimateOrder2, setEstimateOrder2] = useState([]);
+  const [estimateOrder3, setEstimateOrder3] = useState([]);
 
   useEffect(() => {
     if (sessionStorage.getItem("category") === "user") {
@@ -642,6 +643,7 @@ function Matching() {
         if (data.length !== 0) {
           const matchArr = [];
           const estimateOrderArr2 = [];
+          const estimateOrderArr3 = [];
           if (sessionStorage.getItem("category") === "user") {
             for (let i = 0; i < data.length; i++) {
               if (i % 2 === 0) {
@@ -656,8 +658,12 @@ function Matching() {
           } else if (sessionStorage.getItem("category") === "planner") {
             for (let i = 0; i < data.length; i++) {
               estimateOrderArr2.push(data[i]);
+              if (data[i] != -1) {
+                estimateOrderArr3.push(data[i]);
+              }
             }
             setEstimateOrder2(estimateOrderArr2);
+            setEstimateOrder3(estimateOrderArr3);
           }
         } else {
           setMatchingCouple([]);
@@ -802,7 +808,7 @@ function Matching() {
                 var plannermatchinglist = JSON.parse(
                   plannerData[index].plannermatching
                 );
-                var order = estimateOrder2[index];
+                var order = estimateOrder3[index];
                 var matchingcp = matchingCouple[index];
                 console.log("order:" + order);
                 console.log("matchingcp:" + matchingcp);
@@ -1093,8 +1099,10 @@ function Matching() {
                       }}
                     >
                       {searchedMatchedUser[index]}
-
-                      {estimateOrder2[index] == num ? (
+                      {console.log("+_+_+_+_+_+")}
+                      {console.log(estimateOrder3[index])}
+                      {console.log(num)}
+                      {estimateOrder3[index] == num ? (
                         <img
                           src={heartIcon}
                           alt=""
@@ -1226,6 +1234,8 @@ function Matching() {
                           }}
                         >
                           {userName[index]}
+                          {console.log("order:" + estimateOrder2[index])}
+                          {console.log("index:" + index)}
                           {estimateOrder2[index] == index ? (
                             <div
                               style={{
