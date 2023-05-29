@@ -100,6 +100,7 @@ const AdminPage = () => {
     console.log(userPassword);
     console.log(userPhone);
     console.log(type);
+    console.log(userArticle.email);
 
     if (nameCheck == false) {
       alert("이름의 형식이 올바르지 않습니다.");
@@ -119,6 +120,7 @@ const AdminPage = () => {
           userName: userName,
           userPassword: userPassword,
           userPhoneNum: userPhone,
+          userEmail: userArticle.email,
           type: type,
         })
         .then((res) => {
@@ -136,6 +138,7 @@ const AdminPage = () => {
           plannerName: userName,
           plannerPassword: userPassword,
           plannerPhoneNum: userPhone,
+          plannerEmail: userArticle.email,
           type: type,
         })
         .then((res) => {
@@ -1192,7 +1195,6 @@ const DetailModal = ({
     </div>
   );
 };
-//견적글 페이지 번호(역량부족으로 인한 재활용 실패..;)
 const PostPageLink = ({ num, onPostPageing, index }) => {
   return (
     <div class="page">
