@@ -6,6 +6,7 @@ import Footer from "./Footer";
 import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import defaultprofileimage from "../Assets/defaultprofileimage.jpg";
+import starIcon from "../Assets/matchingIcon.png";
 
 function Matching() {
   const navigate = useNavigate();
@@ -49,6 +50,9 @@ function Matching() {
   const [userEstimateId, setUserEstimateId] = useState([]);
   const [userIndex, setUserIndex] = useState([]);
 
+  const [matchingCouple, setMatchingCouple] = useState([]);
+  const [estimateOrder2, setEstimateOrder2] = useState([]);
+
   useEffect(() => {
     if (sessionStorage.getItem("category") === "user") {
       //user일 경우
@@ -71,7 +75,6 @@ function Matching() {
               estimateCountArr.push(i);
               dataArr.push(res.data[i]);
               if (arr === undefined || arr === null) {
-                alert("매칭된 목록이 없음!");
               }
               for (let j = 0; j < arr.length; j++) {
                 temp.push(j);
@@ -97,7 +100,6 @@ function Matching() {
           } else {
             setErrorMessage(true);
             if (errorMessage === false) {
-              alert("매칭 목록 없음!");
             }
           }
         } catch (e) {
@@ -630,6 +632,43 @@ function Matching() {
         console.log(e);
       });
   };
+  useEffect(() => {
+    const formData = new FormData();
+    formData.append("email", sessionStorage.getItem("email"));
+    formData.append("category", sessionStorage.getItem("category"));
+    axios
+      .post(`/estimate/findMatching`, formData)
+      .then((res) => {
+        console.log(res);
+        const data = res.data;
+        if (data.length !== 0) {
+          const matchArr = [];
+          const estimateOrderArr2 = [];
+          if (sessionStorage.getItem("category") === "user") {
+            for (let i = 0; i < data.length; i++) {
+              if (i % 2 === 0) {
+                matchArr.push(JSON.parse(data[i]));
+              } else if (i % 2 === 1) {
+                estimateOrderArr2.push(data[i]);
+              }
+            }
+
+            setMatchingCouple(matchArr);
+            setEstimateOrder2(estimateOrderArr2);
+          } else if (sessionStorage.getItem("category") === "planner") {
+            for (let i = 0; i < data.length; i++) {
+              estimateOrderArr2.push(data[i]);
+            }
+            setEstimateOrder2(estimateOrderArr2);
+          }
+        } else {
+          setMatchingCouple([]);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
 
   return (
     <div className="mainlayout">
@@ -749,7 +788,15 @@ function Matching() {
               estimateCount.map((index, keyindex) => {
                 var plannerList = plannerName[index];
                 var estimateId = plannerData[index].id;
-
+                var plannermatchinglist = JSON.parse(
+                  plannerData[index].plannermatching
+                );
+                var order = estimateOrder2[index];
+                var matchingcp = matchingCouple[index];
+                console.log("order:" + order);
+                console.log("matchingcp:" + matchingcp);
+                console.log(matchingcp);
+                // var plannerEmail = plannerData[index];
                 return (
                   <table
                     style={{
@@ -806,6 +853,17 @@ function Matching() {
                                 }}
                               >
                                 {plannername}
+
+                                {matchingcp.length !== 0 && order !== 0 ? (
+                                  order == index &&
+                                  plannermatchinglist[i] == matchingcp[i] ? (
+                                    <img
+                                      src={starIcon}
+                                      alt=""
+                                      style={{ width: "55px", height: "55px" }}
+                                    />
+                                  ) : null
+                                ) : null}
                               </td>
                               <td>
                                 <button
@@ -849,7 +907,7 @@ function Matching() {
                   marginTop: "20px",
                   height: "20px",
                   fontSize: "1.5em",
-                  paddingLeft: "160px",
+                  paddingLeft: "140px",
                   marginBottom: "60px",
                 }}
               >
