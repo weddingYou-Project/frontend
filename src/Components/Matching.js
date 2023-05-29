@@ -693,6 +693,7 @@ function Matching() {
 
           {matchedPlanner.length !== 0 ? (
             matchedKeyIndex.map((keyIndex) => {
+              const num = estimateNum[keyIndex] - 1;
               return (
                 <div>
                   <div
@@ -720,13 +721,16 @@ function Matching() {
                       className="myPlannerName"
                       style={{
                         fontSize: "1.6em",
-                        marginLeft: "140px",
-                        marginRight: "-160px",
+                        marginLeft: "120px",
+                        marginRight: "-140px",
                       }}
                     >
                       {matchedPlanner[keyIndex]}
-                      {estimateOrder2[estimateNum[keyIndex]] ==
-                      estimateNum[keyIndex] ? (
+                      {console.log("++++++++++++++++++++++++++")}
+                      {console.log(estimateOrder2[num])}
+                      {console.log(num)}
+                      {console.log(estimateNum[keyIndex])}
+                      {estimateOrder2[num] == num ? (
                         <img
                           src={heartIcon}
                           alt=""
@@ -861,7 +865,7 @@ function Matching() {
                                 style={{
                                   width: 234,
                                   fontSize: "1.6em",
-                                  paddingLeft: "20px",
+                                  paddingLeft: "15px",
                                   paddingTop: "10px",
                                   marginRight: 0,
                                 }}
