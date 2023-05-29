@@ -259,7 +259,9 @@ function PlannerProfileDetail() {
       }
     }
   };
-
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+  }, []);
   return (
     <div className="mainlayout">
       <NavigationBar title={`${plannerName}의 프로필`} />

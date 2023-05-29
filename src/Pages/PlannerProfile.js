@@ -21,11 +21,16 @@ function PlannerProfile() {
   // const [selectedPlannerEmail, setSelectedPlannerEmail] = useState("");
   const [plannerEmailSort, setPlannerEmailSort] = useState([]);
 
-  const [selectedSort, setSelectedSort] = useState("정렬"); // 초기 버튼명 설정
+  const [sortClick, setSortClick] = useState(false);
+
+  const [selectedSort, setSelectedSort] = useState(
+    window.sessionStorage.getItem("profileSort")
+  ); // 초기 버튼명 설정
   const navigate = useNavigate();
 
   const handleSortClick = (sort) => {
     setSelectedSort(sort); // 선택한 정렬로 버튼명 변경
+    sessionStorage.setItem("profileSort", sort);
   };
 
   const goProfileDetail = (e) => {
@@ -47,7 +52,7 @@ function PlannerProfile() {
       .then((res) => {
         console.log(res);
         let data = res.data;
-        console.log(selectedSort);
+
         let plannerEmailArr = [];
         if (selectedSort === "별점 높은 순") {
           data.sort(function (a, b) {
@@ -162,6 +167,10 @@ function PlannerProfile() {
       });
   }, [plannerEmailSort]);
   useEffect(() => {
+    if (sessionStorage.getItem("profileSort") === undefined) {
+      window.sessionStorage.setItem("profileSort", "정렬");
+    }
+
     axios
       .post(`/plannerProfile/getProfiles1`)
       .then((res) => {
@@ -210,6 +219,10 @@ function PlannerProfile() {
         console.log(e);
       });
   }, []);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+  }, [selectedSort, sortClick]);
   return (
     <div className="mainlayout">
       <NavigationBar title={"플래너 프로필"} />
@@ -254,7 +267,10 @@ function PlannerProfile() {
                   <button
                     class="dropdown-item "
                     type="button"
-                    onClick={() => handleSortClick("별점 높은 순")}
+                    onClick={() => {
+                      setSortClick(!sortClick);
+                      handleSortClick("별점 높은 순");
+                    }}
                   >
                     별점 높은 순
                   </button>
@@ -263,7 +279,10 @@ function PlannerProfile() {
                   <button
                     class="dropdown-item"
                     type="button"
-                    onClick={() => handleSortClick("후기순")}
+                    onClick={() => {
+                      setSortClick(!sortClick);
+                      handleSortClick("후기순");
+                    }}
                   >
                     후기순
                   </button>
@@ -272,7 +291,10 @@ function PlannerProfile() {
                   <button
                     class="dropdown-item"
                     type="button"
-                    onClick={() => handleSortClick("경력순")}
+                    onClick={() => {
+                      setSortClick(!sortClick);
+                      handleSortClick("경력순");
+                    }}
                   >
                     경력순
                   </button>
@@ -281,7 +303,10 @@ function PlannerProfile() {
                   <button
                     class="dropdown-item"
                     type="button"
-                    onClick={() => handleSortClick("매칭순")}
+                    onClick={() => {
+                      setSortClick(!sortClick);
+                      handleSortClick("매칭순");
+                    }}
                   >
                     매칭순
                   </button>
@@ -290,7 +315,10 @@ function PlannerProfile() {
                   <button
                     class="dropdown-item"
                     type="button"
-                    onClick={() => handleSortClick("최신순")}
+                    onClick={() => {
+                      setSortClick(!sortClick);
+                      handleSortClick("최신순");
+                    }}
                   >
                     최신순
                   </button>
