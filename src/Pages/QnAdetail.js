@@ -51,6 +51,7 @@ function QnAdetail() {
                   placeholder={editedComment}
                   onChange={handleChange}
                   className="comentinput"
+                  style={{ fontSize: 20 }}
                 />
                 <button onClick={handleSaveClick} className="writeBtn2">
                   완료
@@ -67,7 +68,11 @@ function QnAdetail() {
             )}
           </div>
         </div>
-        <input type="text" className="comentinput"></input>
+        <input
+          type="text"
+          className="comentinput"
+          style={{ fontSize: 20 }}
+        ></input>
         <button className="writeBtn2">작성</button>
       </div>
       <div style={{ height: 90 }}></div>

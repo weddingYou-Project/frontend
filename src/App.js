@@ -32,10 +32,12 @@ import Review from "./Pages/Review";
 import Noticedetail from "./Pages/noticedetail";
 import QnAdetail from "./Pages/QnAdetail";
 import Reviewdetail from "./Pages/reviewdetail";
+import ContentWrite from "./Pages/contentwrite";
 
 function App() {
   return (
     <Routes>
+      <Route path="/contentwrite" element={<ContentWrite />} />
       <Route path="/review" element={<Review />} />
       <Route path="/review/detail" element={<Reviewdetail />} />
       <Route path="/qnapage" element={<QnA />} />

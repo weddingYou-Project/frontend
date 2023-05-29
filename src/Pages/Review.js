@@ -2,6 +2,7 @@ import "../Css/main.css";
 import Footer from "../Components/Footer";
 import NavigationBar from "../Components/NavigationBar";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 function Review() {
   const [selectedSort, setSelectedSort] = useState("정렬"); // 초기 버튼명 설정
@@ -155,7 +156,9 @@ function Review() {
           </tbody>
         </tabel>
       </div>
-      <button className="writeBtn">글쓰기</button>
+      <Link to="/rating">
+        <button className="writeBtn">글쓰기</button>
+      </Link>
       <div style={{ height: 90 }}></div>
       <Footer />
     </div>

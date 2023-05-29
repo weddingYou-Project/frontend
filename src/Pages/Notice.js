@@ -2,6 +2,7 @@ import "../Css/main.css";
 import "../Css/CustomerCenter.css";
 import Footer from "../Components/Footer";
 import NavigationBar from "../Components/NavigationBar";
+import { Link } from "react-router-dom";
 
 function Notice() {
   return (
@@ -82,7 +83,9 @@ function Notice() {
           </tbody>
         </tabel>
       </div>
-      <button className="writeBtn">글쓰기</button>
+      <Link to="/contentwrite">
+        <button className="writeBtn">글쓰기</button>
+      </Link>
       <div style={{ height: 90 }}></div>
       <Footer />
     </div>

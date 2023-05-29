@@ -205,6 +205,9 @@
 .comentinput {
     margin: 10px;
     width: 70%;
+    border-radius: 6px;
+    border-color: rgb(230, 230, 230);
+    border-style: solid;
 }
 
 .writeBtn2 {
@@ -232,3 +235,22 @@
     width: 200px;
     display: inline-block;
 }
+
+.titleinput {
+    margin: 15px 20px 5px 20px;
+    width: 90%;
+}
+
+.contentinput {
+    margin: 10px 20px 5px 20px;
+    width: 90%;
+}
+
+.fileatt {
+    margin-left: 20px;
+}
+
+.writeBtnArea {
+    width: 150px;
+    margin: 0 auto;
+  }
