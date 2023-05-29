@@ -846,7 +846,7 @@ function Matching() {
                   paddingBottom: "20px",
                 }}
               >
-                {/* -견적서{estimateNum[userIndex]}- */}견적서
+                {/* -견적서{estimateNum[userIndex]}- */}-견적서-
               </div>
               <p
                 className="myPlannerName"
@@ -868,7 +868,7 @@ function Matching() {
               <br />
               <div
                 className="matchingBtnList"
-                style={{ paddingLeft: "70px", paddingBottom: "10px" }}
+                style={{ paddingLeft: "90px", paddingBottom: "10px" }}
               >
                 <button
                   className="plannerMatchingBtn"
@@ -968,6 +968,7 @@ function Matching() {
                           className="plannerMatchingBtn"
                           data-bs-toggle="modal"
                           data-bs-target="#MatchOrCanelCustomer"
+                          data-bs-index={userEstimateId[index]}
                           onClick={deleteMatchingPlanner}
                         >
                           매칭/거절

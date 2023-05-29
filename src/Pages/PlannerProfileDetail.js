@@ -28,7 +28,7 @@ function PlannerProfileDetail() {
   const { plannerImg } = useLocation().state;
 
   let [estimateId, setEstimateId] = useState([]);
-  let [estimateData, SetEstimateData] = useState();
+  let [estimateData, SetEstimateData] = useState(null);
   let [images, setImages] = useState([]);
   const [estimateIndex, setEstimateIndex] = useState([]);
   const [selectIndex, setSelectIndex] = useState(0);
@@ -151,7 +151,7 @@ function PlannerProfileDetail() {
           .post(`/plannerProfile/getUnmatchedEstimates`, formData)
           .then((res) => {
             console.log("data:++++++++++++++" + res.data);
-            console.log(res.data);
+            console.log(res);
             let indexArr = [];
             if (res.data.length !== 0) {
               const data = res.data;
@@ -201,7 +201,6 @@ function PlannerProfileDetail() {
               fetchData1();
             } else {
               setExistEstimates(false);
-              SetEstimateData([]);
             }
           });
       })
@@ -523,8 +522,9 @@ function PlannerProfileDetail() {
                     marginTop: "-100px",
                   }}
                 >
-                  {console.log("ahhhhhhhhhhh:" + estimateData)}
-                  {estimateData !== undefined ? (
+                  {console.log(estimateData)}
+                  {console.log(estimateData === null)}
+                  {estimateData !== null ? (
                     <div className="contentcontainer-detail">
                       <div className="contentbox-detail">
                         <h5 onClick={() => {}}>희망 결혼 예정일</h5>
