@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Footer from "../Components/Footer";
 import NavigationBar from "../Components/NavigationBar";
 
@@ -168,7 +168,7 @@ const AdminPage = () => {
   }
 
   //견적서 리스트
-  const getPostList = () => {
+  const getPostListCount = () => {
     setPostSearch("");
     setPostSearchMode("none");
     axios
@@ -190,7 +190,7 @@ const AdminPage = () => {
       });
   };
 
-  const getPostListCount = () => {
+  const getPostList = () => {
     axios
       .post("http://localhost:8080/estimate/pageinglist", {
         page_num: page_num,
@@ -214,6 +214,7 @@ const AdminPage = () => {
   };
 
   const postListReset = () => {
+    setPostPage(1);
     getPostList();
     getPostListCount();
   };
@@ -256,6 +257,7 @@ const AdminPage = () => {
   };
 
   const userListReset = () => {
+    setUserPage(1);
     setUserSearch("");
     getUserListCount();
     getUserList();
@@ -324,105 +326,112 @@ const AdminPage = () => {
   let article_countPost;
   let article_countUser;
 
-  const onPostPageing = (e) => {
-    //검색상태 아닐 때
-    const fetchData = () => {
-      axios
-        .post("http://localhost:8080/estimate/pageinglist", {
-          page_num: parseInt(e.target.id),
-          limit: page_size,
-        })
-        .then((res) => {
-          console.log("res ==>", res);
-          const { data } = res;
-          console.log("data==>", data);
-          setPostList(data);
-        })
-        .catch((e) => {
-          console.error(e);
-        });
-    };
-    //검색상태일 때
-    const fetchData2 = () => {
-      axios
-        .post("http://localhost:8080/estimate/getsearchlistpageing", {
-          page_num: parseInt(e.target.id),
-          limit: page_size,
-          search: postSearchPageing,
-        })
-        .then((res) => {
-          console.log("res ==>", res);
-          const { data } = res;
-          console.log("data==>", data);
-          setPostList(data);
-        })
-        .catch((e) => {
-          console.error(e);
-        });
-    };
+  let [postPage, setPostPage] = useState(1);
+  let [userPage, setUserPage] = useState(1);
 
-    const elements = document.querySelectorAll(".pgAll");
-    elements.forEach((element) => {
-      element.classList.remove("pageing-select");
-    });
-    document.querySelector(`.pg${e.target.id}`).classList.add("pageing-select");
-    if (postSearchMode === "none") {
-      fetchData();
-    } else if (postSearchMode === "search") {
-      fetchData2();
-    }
-  };
+  useEffect(() => {
+    console.log("실행됨", postPage);
+    const onPostPageing = (e) => {
+      //검색상태 아닐 때
+      const fetchData = () => {
+        axios
+          .post("http://localhost:8080/estimate/pageinglist", {
+            // page_num: parseInt(e.target.id),
+            page_num: postPage,
+            limit: page_size,
+          })
+          .then((res) => {
+            console.log("res ==>", res);
+            const { data } = res;
+            console.log("data==>", data);
+            setPostList(data);
+          })
+          .catch((e) => {
+            console.error(e);
+          });
+      };
+      //검색상태일 때
+      const fetchData2 = () => {
+        axios
+          .post("http://localhost:8080/estimate/getsearchlistpageing", {
+            // page_num: parseInt(e.target.id),
+            page_num: postPage,
+            limit: page_size,
+            search: postSearchPageing,
+          })
+          .then((res) => {
+            console.log("res ==>", res);
+            const { data } = res;
+            console.log("data==>", data);
+            setPostList(data);
+          })
+          .catch((e) => {
+            console.error(e);
+          });
+      };
 
-  const onUserPageing = (e) => {
-    if (userSearchMode === "none") {
-      axios
-        .get("http://localhost:8080/mypageAdmin/all", {
-          params: {
-            page: e.target.id - 1,
-            size: page_size,
-          },
-        })
-        .then((res) => {
-          let { data } = res;
-          console.log(data);
-          setUserList(data.content);
-          const elements = document.querySelectorAll(".ugAll");
-          elements.forEach((element) => {
-            element.classList.remove("pageing-select");
+      const elements = document.querySelectorAll(".pgAll");
+      elements.forEach((element) => {
+        element.classList.remove("pageing-select");
+      });
+      document.querySelector(`.pg${postPage}`).classList.add("pageing-select");
+      if (postSearchMode === "none") {
+        fetchData();
+      } else if (postSearchMode === "search") {
+        fetchData2();
+      }
+    };
+    onPostPageing();
+  }, [postPage]);
+
+  useEffect(() => {
+    console.log("유저페이지", userPage);
+    const onUserPageing = (e) => {
+      const fetchData = async () => {
+        try {
+          let res = await axios.get("http://localhost:8080/mypageAdmin/all", {
+            params: {
+              page: userPage - 1,
+              size: page_size,
+            },
           });
-          document
-            .querySelector(`.ug${e.target.id}`)
-            .classList.add("pageing-select");
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    } else if (userSearchMode === "search") {
-      axios
-        .get("http://localhost:8080/mypageAdmin/search", {
-          params: {
-            page: e.target.id - 1,
-            size: page_size,
-            search: userSearchPageing,
-          },
-        })
-        .then((res) => {
           let { data } = res;
-          console.log(data);
           setUserList(data.content);
-          const elements = document.querySelectorAll(".ugAll");
-          elements.forEach((element) => {
-            element.classList.remove("pageing-select");
-          });
-          document
-            .querySelector(`.ug${e.target.id}`)
-            .classList.add("pageing-select");
-        })
-        .catch((e) => {
+        } catch (e) {
           console.log(e);
-        });
-    }
-  };
+        }
+      };
+      const fetchData2 = async () => {
+        try {
+          let res = await axios.get(
+            "http://localhost:8080/mypageAdmin/search",
+            {
+              params: {
+                page: userPage - 1,
+                size: page_size,
+                search: userSearchPageing,
+              },
+            }
+          );
+          let { data } = res;
+          setUserList(data.content);
+        } catch (e) {
+          console.log(e);
+        }
+      };
+      const elements = document.querySelectorAll(".ugAll");
+      elements.forEach((element) => {
+        element.classList.remove("pageing-select");
+      });
+      document.querySelector(`.ug${userPage}`).classList.add("pageing-select");
+      if (userSearchMode === "none") {
+        fetchData();
+      } else if (userSearchMode === "search") {
+        fetchData2();
+      }
+    };
+    onUserPageing();
+  }, [userPage]);
 
   const onPostSearchChange = (e) => {
     //게시글 검색어
@@ -433,7 +442,7 @@ const AdminPage = () => {
   };
 
   const userSearching = () => {
-    if (userSearch === "유저") {
+    if (userSearch === "일반유저") {
       setUserSearchPaeing("user");
     } else if (userSearch === "플래너") {
       setUserSearchPaeing("planner");
@@ -441,7 +450,7 @@ const AdminPage = () => {
       setUserSearchPaeing(userSearch);
     }
     const judge = (userSearch) => {
-      if (userSearch === "유저") {
+      if (userSearch === "일반유저") {
         return "user";
       } else if (userSearch === "플래너") {
         return "planner";
@@ -452,6 +461,7 @@ const AdminPage = () => {
     let searchdata = judge(userSearch);
 
     setUserSearchMode("search");
+    setUserPage(1);
     const onUserSearching = () => {
       axios
         .get("http://localhost:8080/mypageAdmin/search", {
@@ -498,6 +508,7 @@ const AdminPage = () => {
 
   const onSearching = () => {
     //게시글 검색 함수
+    setPostPage(1);
     setPostSearchPageing(postSearch);
     setPostSearchMode("search");
     axios
@@ -568,6 +579,30 @@ const AdminPage = () => {
       });
   };
 
+  const postPageNext = () => {
+    const maxNumber = Math.max(...postPageLink);
+    if (postPage < maxNumber) {
+      setPostPage((prev) => prev + 1);
+    }
+  };
+  const postPagePrev = () => {
+    if (postPage > 1) {
+      setPostPage((prev) => prev - 1);
+    }
+  };
+
+  const userPageNext = () => {
+    const maxNumber = Math.max(...userPageLink);
+    if (userPage < maxNumber) {
+      setUserPage((prev) => prev + 1);
+    }
+  };
+  const userPagePrev = () => {
+    if (userPage > 1) {
+      setUserPage((prev) => prev - 1);
+    }
+  };
+
   return (
     <div className="mainlayout">
       <NavigationBar title="마이페이지(관리자)" />
@@ -580,7 +615,12 @@ const AdminPage = () => {
           >
             유저관리
           </div>
-          <div className="adminpage-Administration-list">
+          <div
+            className="adminpage-Administration-list"
+            onClick={() => {
+              console.log(userPage);
+            }}
+          >
             <div className="adminpage-Administration-list-head-box">
               <div
                 className="adminpage-Administration-list-head"
@@ -629,16 +669,37 @@ const AdminPage = () => {
                 {userPageLink.length === 0 && (
                   <a className="ug1 cursor ugAll pageing-select nonepage"></a>
                 )}
+                {userPageLink.length !== 0 && (
+                  <div
+                    className="prevAndNextbtn cursor"
+                    onClick={() => {
+                      userPagePrev();
+                    }}
+                  >
+                    이전
+                  </div>
+                )}
                 {userPageLink.map((e, index) => {
                   return (
                     <UserPageLink
                       num={e}
                       index={index}
                       kind="user"
-                      onUserPageing={onUserPageing}
+                      setUserPage={setUserPage}
+                      // onUserPageing={onUserPageing}
                     />
                   );
                 })}
+                {userPageLink.length !== 0 && (
+                  <div
+                    className="prevAndNextbtn cursor"
+                    onClick={() => {
+                      userPageNext();
+                    }}
+                  >
+                    다음
+                  </div>
+                )}
               </div>
               <div className="adminpage-researchBar">
                 <div className="박스1111">
@@ -733,16 +794,37 @@ const AdminPage = () => {
                 {postPageLink.length === 0 && (
                   <a className="pg1 cursor pgAll pageing-select nonepage"></a>
                 )}
+                {postPageLink.length !== 0 && (
+                  <div
+                    className="prevAndNextbtn cursor"
+                    onClick={() => {
+                      postPagePrev();
+                    }}
+                  >
+                    이전
+                  </div>
+                )}
                 {postPageLink.map((e, index) => {
                   return (
                     <PostPageLink
                       num={e}
-                      onPostPageing={onPostPageing}
+                      // onPostPageing={onPostPageing}
+                      setPostPage={setPostPage}
                       index={index}
                       kind="post"
                     />
                   );
                 })}
+                {postPageLink.length !== 0 && (
+                  <div
+                    className="prevAndNextbtn cursor"
+                    onClick={() => {
+                      postPageNext();
+                    }}
+                  >
+                    다음
+                  </div>
+                )}
               </div>
               <div className="adminpage-researchBar">
                 <div className="박스1111">
@@ -1215,12 +1297,15 @@ const DetailModal = ({
     </div>
   );
 };
-const PostPageLink = ({ num, onPostPageing, index }) => {
+const PostPageLink = ({ num, index, setPostPage }) => {
   return (
     <div class="page">
       <p
         id={num}
-        onClick={onPostPageing}
+        // onClick={onPostPageing}
+        onClick={() => {
+          setPostPage(num);
+        }}
         className={
           index == 0
             ? `pg1 cursor pgAll pageing-select`
@@ -1233,12 +1318,14 @@ const PostPageLink = ({ num, onPostPageing, index }) => {
     </div>
   );
 };
-const UserPageLink = ({ num, onUserPageing, index }) => {
+const UserPageLink = ({ num, index, setUserPage }) => {
   return (
     <div class="page">
       <p
         id={num}
-        onClick={onUserPageing}
+        onClick={() => {
+          setUserPage(num);
+        }}
         className={
           index == 0
             ? `ug1 cursor ugAll pageing-select`

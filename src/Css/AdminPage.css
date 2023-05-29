@@ -248,3 +248,7 @@ div {
     align-items: center;
 }
 
+.prevAndNextbtn {
+    display: inline-block;
+    padding: 0px 15px;
+}
