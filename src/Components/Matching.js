@@ -672,7 +672,7 @@ function Matching() {
       .catch((e) => {
         console.log(e);
       });
-  }, []);
+  }, [matchedUser]);
 
   return (
     <div className="mainlayout">
