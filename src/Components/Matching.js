@@ -1094,7 +1094,7 @@ function Matching() {
                     >
                       {searchedMatchedUser[index]}
 
-                      {estimateOrder2[num] == num ? (
+                      {estimateOrder2[index] == num ? (
                         <img
                           src={heartIcon}
                           alt=""
