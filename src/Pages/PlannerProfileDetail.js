@@ -21,6 +21,7 @@ function PlannerProfileDetail() {
   const [portfolio, setPortfolio] = useState("아직 포트폴리오가 없습니다!");
   const [portfolioIndex, setPortfolioIndex] = useState([]);
   const [plannerYears, setPlannerYears] = useState("");
+  const [plannerPhone, setPlannerPhone] = useState("");
 
   const { plannerEmail } = useLocation().state;
   console.log(plannerEmail);
@@ -91,6 +92,7 @@ function PlannerProfileDetail() {
         const reviewStarsIndex = [];
         const portfolioDataArr = [];
         const portfolioIndexArr = [];
+
         for (let i = 0; i < data.length; i++) {
           setReviewCount(data[i]);
           i++;
@@ -100,7 +102,8 @@ function PlannerProfileDetail() {
           i++;
           setMatchingCount(data[i]);
           i++;
-
+          setPlannerPhone(data[i]);
+          i++;
           const reviewUsersData = data[i].slice(1, data[i].length - 1);
           const arr = reviewUsersData.split(",");
 
@@ -295,11 +298,11 @@ function PlannerProfileDetail() {
             <div
               style={{
                 fontSize: "1.8em",
-                marginLeft: "30px",
+                marginLeft: "45px",
                 display: "inline-block",
                 width: "130px",
                 height: "60px",
-                marginTop: "40px",
+                marginTop: "20px",
               }}
             >
               {plannerName}
@@ -307,14 +310,16 @@ function PlannerProfileDetail() {
             <div
               style={{
                 fontSize: "1.6em",
-                marginLeft: "30px",
+                marginLeft: "-15px",
                 display: "inline-block",
-                width: "130px",
+                width: "250px",
                 height: "60px",
               }}
             >
-              리뷰 개수 : {reviewCount} 평균 별점 : {avgReviewStars} 경력 :{" "}
-              {plannerYears}
+              리뷰 개수 : {reviewCount} <br />
+              평균 별점 : {avgReviewStars} <br />
+              경력 : {plannerYears} <br />
+              휴대폰번호 <br /> {plannerPhone}
             </div>
           </div>
         </div>
