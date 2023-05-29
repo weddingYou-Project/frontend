@@ -235,7 +235,16 @@ div {
     color:  gray;
 }
 
-.실험체 {
-    display: inline;
-    background: blue;
+
+
+
+.button-Box {
+    width: 256px;
+    height: 80px;
+    margin: 0 auto;
+    /* background: gainsboro; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
+

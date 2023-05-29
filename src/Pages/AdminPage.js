@@ -169,6 +169,7 @@ const AdminPage = () => {
 
   //데이터 가져오는 부분
   const getPostList = () => {
+    setPostSearch("");
     setPostSearchMode("none");
     axios
       .get("http://localhost:8080/estimate/getcount", {})
@@ -202,12 +203,12 @@ const AdminPage = () => {
       .catch((e) => {
         console.error(e);
       });
+
     let query = document.querySelectorAll(".pgAll");
     query.forEach((e) => {
       e.classList.remove("pageing-select");
     });
     document.querySelectorAll(".pgAll")[0].classList.add("pageing-select");
-    setPostSearch("");
   };
 
   const getUserList = async () => {
@@ -620,7 +621,7 @@ const AdminPage = () => {
             <div className="adminpage-pagingAndResearchBox">
               <div className="adminpage-pagingNumber">
                 {userPageLink.length === 0 && (
-                  <a className="ug1 cursor pgAll pageing-select nonepage"></a>
+                  <a className="ug1 cursor ugAll pageing-select nonepage"></a>
                 )}
                 {userPageLink.map((e, index) => {
                   return (
@@ -769,7 +770,17 @@ const AdminPage = () => {
             </div>
           </div>
         </div>
-        <div className="Signup-button">
+        <div className="button-Box">
+          <button
+            onClick={() => {
+              navigate("../customercenter");
+            }}
+            className="btn-colour-1"
+          >
+            고객센터
+          </button>
+        </div>
+        <div className="button-Box" style={{ height: "60px" }}>
           <button
             onClick={() => {
               window.sessionStorage.removeItem("email");
@@ -785,6 +796,7 @@ const AdminPage = () => {
             계정삭제
           </button>
         </div>
+        <div style={{ height: 94.19 }}></div>
       </div>
       <DetailModal
         user={userArticle}
@@ -1002,10 +1014,10 @@ const DetailModal = ({
               <div className="Modal-detail">
                 <p>이름 : {userArticle.name}</p>
                 <p>
-                  구분 :
+                  구분 : &nbsp;
                   {userArticle.type === "user" ? "일반회원" : "플래너회원"}
                 </p>
-                <p>이메일 : {userArticle.email}</p>
+                <p>이메일 :{userArticle.email}</p>
                 <p>비밀번호 : {userArticle.password}</p>
                 <p>성별 : {userArticle.gender === "male" ? "남" : "여"}</p>
                 <p>휴대폰 : {userArticle.phone}</p>
@@ -1028,17 +1040,20 @@ const DetailModal = ({
               <div className="Modal-detail">
                 <p>
                   이름 : &nbsp;
-                  <div className="실험체">
-                    <input
-                      type="text"
-                      onChange={onNameChange}
-                      value={userName}
-                      maxLength={5}
-                      className="form-control form-control-width userNameModify"
-                    />
-                  </div>
+                  <input
+                    type="text"
+                    onChange={onNameChange}
+                    value={userName}
+                    maxLength={5}
+                    className="form-control form-control-width userNameModify"
+                  />
+                </p>
+                <p>
+                  고객 구분 :&nbsp;
+                  {userArticle.type === "user" ? "일반회원" : "플래너회원"}
                 </p>
                 <p>이메일 : {userArticle.email} </p>
+                <p>성별 : {userArticle.gender === "male" ? "남" : "여"}</p>
                 <p>
                   비밀번호 : &nbsp;
                   <input
@@ -1048,7 +1063,6 @@ const DetailModal = ({
                     className="form-control form-control-width userPasswordModify"
                   />
                 </p>
-                <p>성별 : {userArticle.gender === "male" ? "남" : "여"}</p>
                 <p>
                   휴대폰 : &nbsp;
                   <input
