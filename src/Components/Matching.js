@@ -32,6 +32,7 @@ function Matching() {
   const [selectedUserEmail, setSelectedUserEmail] = useState("");
   const [selectedEstimateId, setSelectedEstimateId] = useState(0);
   const [cancelledUser, setCancelledUser] = useState(false);
+  const [matchedUser, setMatchedUser] = useState(false);
 
   const deleteBtn = useRef();
 
@@ -527,6 +528,25 @@ function Matching() {
         if (res.data === 1) {
           alert("해당 고객과의 매칭이 취소되었습니다!");
           setCancelledUser(!cancelledUser);
+        } else {
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  const goMatchingUser = (e) => {
+    const formData = new FormData();
+    formData.append("plannerEmail", sessionStorage.getItem("email"));
+    formData.append("estimateId", selectedEstimateId);
+    axios
+      .post(`/plannerProfile/matchingUser`, formData)
+      .then((res) => {
+        console.log(res);
+        if (res.data === 1) {
+          alert("해당 고객과 매칭되었습니다!");
+          setMatchedUser(!matchedUser);
         } else {
         }
       })
@@ -1190,7 +1210,7 @@ function Matching() {
                   <button
                     type="button"
                     className="btn btn-primary"
-                    onClick={goMatching}
+                    onClick={goMatchingUser}
                     data-bs-dismiss="modal"
                   >
                     매칭하기
