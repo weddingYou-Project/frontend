@@ -1063,7 +1063,7 @@ function Matching() {
           </p>
           {searchedUserKeyIndex.length !== 0 ? (
             searchedUserKeyIndex.map((index) => {
-              const num = estimateOrder[index];
+              const num = estimateOrder[index] - 1;
 
               console.log("------------------" + num);
               return (
