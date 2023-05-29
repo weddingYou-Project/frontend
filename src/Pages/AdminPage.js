@@ -1176,6 +1176,9 @@ const DetailModal = ({
                     className="form-control form-control-width userPhoneModify"
                   />
                 </p>
+                {userArticle.type === "planner" && (
+                  <p> 경력 : {userArticle.careerYear}년</p>
+                )}
                 <p>가입일 : {userArticle.date}</p>
               </div>
             )}
