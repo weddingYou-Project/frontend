@@ -7,7 +7,7 @@ import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import defaultprofileimage from "../Assets/defaultprofileimage.jpg";
 import starIcon from "../Assets/matchingIcon.png";
-
+import heartIcon from "../Assets/heartIcon.png";
 function Matching() {
   const navigate = useNavigate();
 
@@ -720,11 +720,23 @@ function Matching() {
                       className="myPlannerName"
                       style={{
                         fontSize: "1.6em",
-                        marginLeft: "150px",
-                        marginRight: "-170px",
+                        marginLeft: "140px",
+                        marginRight: "-160px",
                       }}
                     >
                       {matchedPlanner[keyIndex]}
+                      {estimateOrder2[estimateNum[keyIndex]] ==
+                      estimateNum[keyIndex] ? (
+                        <img
+                          src={heartIcon}
+                          alt=""
+                          style={{
+                            width: "55px",
+                            height: "55px",
+                            marginLeft: "14px",
+                          }}
+                        />
+                      ) : null}
                     </p>
                     <button
                       className="plannerProBtn"
@@ -827,6 +839,7 @@ function Matching() {
                           }}
                         >
                           <button
+                            style={{ marginRight: "35px" }}
                             className="plannerMatchingBtn"
                             onClick={(e) => {
                               e.preventDefault();
@@ -846,10 +859,11 @@ function Matching() {
                               <td
                                 className="myPlannerName"
                                 style={{
-                                  width: 160,
+                                  width: 234,
                                   fontSize: "1.6em",
-                                  paddingLeft: "25px",
+                                  paddingLeft: "20px",
                                   paddingTop: "10px",
+                                  marginRight: 0,
                                 }}
                               >
                                 {plannername}
@@ -857,16 +871,33 @@ function Matching() {
                                 {matchingcp.length !== 0 && order !== 0 ? (
                                   order == index &&
                                   plannermatchinglist[i] == matchingcp[i] ? (
-                                    <img
-                                      src={starIcon}
-                                      alt=""
-                                      style={{ width: "55px", height: "55px" }}
-                                    />
+                                    <div
+                                      style={{
+                                        fontSize: "0.8em",
+                                        color: "red",
+                                        display: "inline-block",
+                                        width: "150px",
+                                      }}
+                                    >
+                                      <img
+                                        src={starIcon}
+                                        alt=""
+                                        style={{
+                                          width: "55px",
+                                          height: "55px",
+                                        }}
+                                      />
+                                      짝이에요!
+                                    </div>
                                   ) : null
                                 ) : null}
                               </td>
                               <td>
                                 <button
+                                  style={{
+                                    width: "130px",
+                                    marginRight: "-8px",
+                                  }}
                                   className="plannerMatchingBtn"
                                   data-bs-index={index}
                                   data-bs-index2={i}
@@ -879,6 +910,7 @@ function Matching() {
                               </td>
                               <td>
                                 <button
+                                  style={{ width: "130px" }}
                                   className="plannerMatchingBtn"
                                   data-bs-toggle="modal"
                                   data-bs-target="#MatchOrCanel"
@@ -1027,6 +1059,9 @@ function Matching() {
           </p>
           {searchedUserKeyIndex.length !== 0 ? (
             searchedUserKeyIndex.map((index) => {
+              const num = estimateOrder[index];
+
+              console.log("------------------" + num);
               return (
                 <div>
                   <div
@@ -1059,6 +1094,18 @@ function Matching() {
                       }}
                     >
                       {searchedMatchedUser[index]}
+
+                      {estimateOrder2[num] == num ? (
+                        <img
+                          src={heartIcon}
+                          alt=""
+                          style={{
+                            width: "55px",
+                            height: "55px",
+                            marginLeft: "14px",
+                          }}
+                        />
+                      ) : null}
                     </p>
                     <button
                       className="plannerProBtn"
@@ -1172,19 +1219,30 @@ function Matching() {
                         <td
                           className="myPlannerName"
                           style={{
-                            width: 160,
+                            width: 250,
                             fontSize: "1.6em",
                             paddingLeft: "25px",
                             paddingTop: "10px",
+                            marginRight: 0,
                           }}
                         >
                           {userName[index]}
                           {estimateOrder2[index] == index ? (
-                            <img
-                              src={starIcon}
-                              alt=""
-                              style={{ width: "55px", height: "55px" }}
-                            />
+                            <div
+                              style={{
+                                fontSize: "0.8em",
+                                color: "red",
+                                display: "inline-block",
+                                width: "150px",
+                              }}
+                            >
+                              <img
+                                src={starIcon}
+                                alt=""
+                                style={{ width: "55px", height: "55px" }}
+                              />
+                              짝이에요!
+                            </div>
                           ) : null}
                         </td>
 
