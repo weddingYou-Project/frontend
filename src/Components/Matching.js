@@ -896,26 +896,23 @@ function Matching() {
           >
             매칭 요청 온 고객 목록
           </p>
-          <div
-            className="matchingList"
-            style={{
-              marginBottom: "30px",
-              borderBottom: "1px solid grey",
-            }}
-          >
-            <table
-              style={{
-                marginBottom: "30px",
-                borderBottom: "1px solid grey",
-                width: "100%",
-              }}
-            >
-              {userIndex.map((index) => {
-                return (
+
+          {userIndex.map((index) => {
+            return (
+              <div
+                className="matchingList"
+                style={{
+                  marginBottom: "30px",
+                  borderBottom: "1px solid grey",
+                }}
+              >
+                <table
+                  style={{
+                    width: "100%",
+                  }}
+                >
                   <div
                     style={{
-                      marginBottom: "30px",
-                      borderBottom: "1px solid grey",
                       borderTop: "1px solid grey",
                     }}
                   >
@@ -976,11 +973,13 @@ function Matching() {
                       </td>
                     </tr>
                   </div>
-                );
-              })}
-            </table>
-            <Footer />
-          </div>
+                </table>
+              </div>
+            );
+          })}
+          <div style={{ height: "150px" }}></div>
+          <Footer />
+
           <div
             className="modal fade"
             id="CancelMatching"
