@@ -74,7 +74,7 @@ function BackButton({ engTitle }) {
           } else if (path.indexOf("/editpost") !== -1) {
             navigate(`/menu/${engTitle}`);
           } else if (path.indexOf("/estimatedetail") !== -1) {
-            navigate("/estimatelist");
+            navigate(-1);
           } else if (path.indexOf("/plannerprofiledetail") !== -1) {
             navigate(-1);
           } else if (path.indexOf("/matching") !== -1) {

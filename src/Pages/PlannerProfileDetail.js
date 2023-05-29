@@ -78,7 +78,7 @@ function PlannerProfileDetail() {
   useEffect(() => {
     //플래너이름, 플래너 프로필 사진, 리뷰개수, 별점, 매칭수, 소개글 불러오기
 
-    const formData = new FormData();
+    let formData = new FormData();
     formData.append("plannerEmail", plannerEmail);
     axios
       .post(`/plannerProfile/getProfileDetail`, formData)
@@ -126,7 +126,7 @@ function PlannerProfileDetail() {
           i++;
           setPlannerYears(data[i]);
         }
-        console.log(reviewStarsArr);
+
         if (reviewStarsArr[0] !== "") {
           for (let m = 0; m < reviewStarsArr.length; m++) {
             const portfolioData = `${reviewUsersArr[m]} - ${reviewStarsArr[m]}점\n`;
@@ -143,72 +143,74 @@ function PlannerProfileDetail() {
           console.log("aaa");
           setPortfolioIndex([]);
         }
+
+        let estimateIdArr = [];
+        formData = new FormData();
+        formData.append("userEmail", sessionStorage.getItem("email"));
+        axios
+          .post(`/plannerProfile/getUnmatchedEstimates`, formData)
+          .then((res) => {
+            console.log("data:++++++++++++++" + res.data);
+            console.log(res.data);
+            let indexArr = [];
+            if (res.data.length !== 0) {
+              const data = res.data;
+              for (let i = 0; i < data.length; i++) {
+                estimateIdArr.push(data[i]);
+                indexArr.push(i);
+              }
+              setEstimateId(estimateIdArr);
+              setEstimateIndex(indexArr);
+              setSelectEstimateId(estimateIdArr[0]);
+              console.log(estimateIdArr[0]);
+              const defaultEstimateId = estimateIdArr[0];
+              const fetchData1 = async () => {
+                try {
+                  const response = await axios.get(
+                    `http://localhost:8080/estimate/getdetail/${defaultEstimateId}`
+                  );
+                  const { data } = response;
+                  console.log(data);
+                  SetEstimateData(data);
+                  if (data.userMatching === null) {
+                    setUserMatching(null);
+                  } else {
+                    setUserMatching(JSON.parse(data.userMatching));
+                  }
+                  // 이미지 데이터 가져오기
+                  const imagearray = JSON.parse(data.img);
+                  const imagePromises = imagearray.map((image) => {
+                    return axios.get(
+                      "http://localhost:8080/estimate/imageview",
+                      {
+                        params: { image },
+                        responseType: "blob",
+                      }
+                    );
+                  });
+                  const responses = await Promise.all(imagePromises);
+                  const imageUrls = responses.map((res) => {
+                    const resdata = URL.createObjectURL(res.data);
+                    return resdata;
+                  });
+                  setImages(imageUrls);
+                } catch (error) {
+                  console.log(error);
+                }
+              };
+              fetchData1();
+            } else {
+              setExistEstimates(false);
+              SetEstimateData([]);
+            }
+          });
       })
       .catch((e) => {
         console.log(e);
       });
   }, []);
 
-  useEffect(() => {
-    let estimateIdArr = [];
-    const formData = new FormData();
-    formData.append("userEmail", sessionStorage.getItem("email"));
-    axios
-      .post(`/plannerProfile/getUnmatchedEstimates`, formData)
-      .then((res) => {
-        console.log("data:++++++++++++++" + res.data);
-        console.log(res.data);
-        let indexArr = [];
-        if (res.data.length !== 0) {
-          const data = res.data;
-          for (let i = 0; i < data.length; i++) {
-            estimateIdArr.push(data[i]);
-            indexArr.push(i);
-          }
-          setEstimateId(estimateIdArr);
-          setEstimateIndex(indexArr);
-          setSelectEstimateId(estimateIdArr[0]);
-          console.log(estimateIdArr[0]);
-          const defaultEstimateId = estimateIdArr[0];
-          const fetchData1 = async () => {
-            try {
-              const response = await axios.get(
-                `http://localhost:8080/estimate/getdetail/${defaultEstimateId}`
-              );
-              const { data } = response;
-              console.log(data);
-              SetEstimateData(data);
-              if (data.userMatching === null) {
-                setUserMatching(null);
-              } else {
-                setUserMatching(JSON.parse(data.userMatching));
-              }
-              // 이미지 데이터 가져오기
-              const imagearray = JSON.parse(data.img);
-              const imagePromises = imagearray.map((image) => {
-                return axios.get("http://localhost:8080/estimate/imageview", {
-                  params: { image },
-                  responseType: "blob",
-                });
-              });
-              const responses = await Promise.all(imagePromises);
-              const imageUrls = responses.map((res) => {
-                const resdata = URL.createObjectURL(res.data);
-                return resdata;
-              });
-              setImages(imageUrls);
-              setFinish(true);
-            } catch (error) {
-              console.log(error);
-            }
-          };
-          fetchData1();
-        } else {
-          setExistEstimates(false);
-          setFinish(true);
-        }
-      });
-  }, []);
+  useEffect(() => {}, []);
 
   const goChooseEstimate = (e) => {
     const estimateId = selectEstimateId;
@@ -521,8 +523,8 @@ function PlannerProfileDetail() {
                     marginTop: "-100px",
                   }}
                 >
-                  {console.log(estimateData)}
-                  {finish === true ? (
+                  {console.log("ahhhhhhhhhhh:" + estimateData)}
+                  {estimateData !== undefined ? (
                     <div className="contentcontainer-detail">
                       <div className="contentbox-detail">
                         <h5 onClick={() => {}}>희망 결혼 예정일</h5>
