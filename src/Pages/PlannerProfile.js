@@ -116,6 +116,14 @@ function PlannerProfile() {
             plannerEmailArr.push(data[i].plannerEmail);
           }
           setPlannerEmailSort(plannerEmailArr);
+        } else if (selectedSort === "플래너 등록순") {
+          data.sort(function (a, b) {
+            return new Date(a.plannerJoinDate) - new Date(b.plannerJoinDate);
+          });
+          for (let i = 0; i < data.length; i++) {
+            plannerEmailArr.push(data[i].plannerEmail);
+          }
+          setPlannerEmailSort(plannerEmailArr);
         }
       })
       .catch((e) => {
@@ -322,6 +330,18 @@ function PlannerProfile() {
                     }}
                   >
                     최신순
+                  </button>
+                </li>
+                <li className="">
+                  <button
+                    class="dropdown-item "
+                    type="button"
+                    onClick={() => {
+                      setSortClick(!sortClick);
+                      handleSortClick("플래너 등록순");
+                    }}
+                  >
+                    플래너 등록순
                   </button>
                 </li>
               </ul>
