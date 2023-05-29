@@ -1179,6 +1179,13 @@ function Matching() {
                           }}
                         >
                           {userName[index]}
+                          {estimateOrder2[index] == index ? (
+                            <img
+                              src={starIcon}
+                              alt=""
+                              style={{ width: "55px", height: "55px" }}
+                            />
+                          ) : null}
                         </td>
 
                         <td colSpan="2">
