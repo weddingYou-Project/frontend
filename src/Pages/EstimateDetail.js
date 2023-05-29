@@ -409,7 +409,11 @@ const EstimateDetail = () => {
               )}
             {window.sessionStorage.getItem("category") === "planner" &&
               estimateData.matchstatus === false && (
-                <button onClick={goMatching} className="btn-colour-1">
+                <button
+                  style={{ marginRight: "15px", marginBottom: "20px" }}
+                  onClick={goMatching}
+                  className="btn-colour-1"
+                >
                   매칭신청하기
                 </button>
               )}

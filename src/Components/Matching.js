@@ -39,6 +39,8 @@ function Matching() {
   const [searchedUserKeyIndex, setSearchedUserKeyIndex] = useState([]);
 
   const [selectedEstimateId2, setSelectedEstimateId2] = useState(0);
+  const [selectedEstimateNum, setSelectedEstimateNum] = useState(0);
+  const [estimateOrder, setEstimateOrder] = useState([]);
 
   const deleteBtn = useRef();
 
@@ -519,8 +521,10 @@ function Matching() {
     console.log(e.target.dataset);
     const userEmail = e.target.dataset.bsUseremail;
     const estimateId = e.target.dataset.bsIndex;
+    const estimateNum = e.target.dataset.bsEstimatenum;
     setSelectedUserEmail(userEmail);
     setSelectedEstimateId(estimateId);
+    setSelectedEstimateNum(estimateNum);
   };
 
   const cancelMatchedUser2 = (e) => {
@@ -574,19 +578,23 @@ function Matching() {
           const searchedUserArr = [];
           const searchedEstimateIdArr = [];
           const searchedUserKeyIndexArr = [];
+          const estimateOrderArr = [];
           if (data.length !== 0) {
             for (let i = 0; i < data.length; i++) {
-              if (i % 2 === 0) {
+              if (i % 3 === 0) {
                 searchedEstimateIdArr.push(data[i]);
-                const num = i / 2;
+                const num = i / 3;
                 searchedUserKeyIndexArr.push(num);
-              } else {
+              } else if (i % 3 === 1) {
                 searchedUserArr.push(data[i]);
+              } else if (i % 3 === 2) {
+                estimateOrderArr.push(data[i]);
               }
             }
             setSearchedMatchedUser(searchedUserArr);
             setSearchedEstimateId(searchedEstimateIdArr);
             setSearchedUserKeyIndex(searchedUserKeyIndexArr);
+            setEstimateOrder(estimateOrderArr);
           } else {
             setSearchedUserKeyIndex([]);
           }
@@ -967,7 +975,7 @@ function Matching() {
                         paddingBottom: "20px",
                       }}
                     >
-                      -견적서{index + 1}-
+                      -견적서{estimateOrder[index]}-
                     </div>
                     <p
                       className="myPlannerName"
@@ -1107,6 +1115,7 @@ function Matching() {
                           data-bs-target="#MatchOrCanelCustomer"
                           data-bs-index={userEstimateId[index]}
                           data-bs-useremail={userEmail[index]}
+                          data-bs-estimateNum={index + 1}
                           onClick={cancelMatchedUser}
                         >
                           매칭/거절
