@@ -876,7 +876,7 @@ function Matching() {
                                         fontSize: "0.8em",
                                         color: "red",
                                         display: "inline-block",
-                                        width: "150px",
+                                        width: "120px",
                                       }}
                                     >
                                       <img
