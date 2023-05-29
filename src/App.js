@@ -29,13 +29,19 @@ import CustomerCenter from "./Pages/CustomerCenter";
 import QnA from "./Pages/QnA";
 import Notice from "./Pages/Notice";
 import Review from "./Pages/Review";
+import Noticedetail from "./Pages/noticedetail";
+import QnAdetail from "./Pages/QnAdetail";
+import Reviewdetail from "./Pages/reviewdetail";
 
 function App() {
   return (
     <Routes>
       <Route path="/review" element={<Review />} />
+      <Route path="/review/detail" element={<Reviewdetail />} />
       <Route path="/qnapage" element={<QnA />} />
+      <Route path="/qna/detail" element={<QnAdetail />} />
       <Route path="/noticepage" element={<Notice />} />
+      <Route path="/notice/detail" element={<Noticedetail />} />
       <Route path="/customerCenter" element={<CustomerCenter />} />
       <Route path="/matching" element={<Matching />} />
       <Route path="/checkoutcomp" element={<CheckoutComp />} />

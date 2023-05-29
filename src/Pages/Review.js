@@ -101,7 +101,7 @@ function Review() {
                 <a className="noticeTxt">이용후기 TitleSample</a>
               </td>
               <td>
-                <p className="noticeTxtCenter">4/5</p>
+                <p className="noticeTxtCenter">3/5</p>
               </td>
               <td>
                 <p className="noticeTxtCenter">3</p>
@@ -115,7 +115,7 @@ function Review() {
                 <a className="noticeTxt">이용후기 TitleSample</a>
               </td>
               <td>
-                <p className="noticeTxtCenter">4/5</p>
+                <p className="noticeTxtCenter">2/5</p>
               </td>
               <td>
                 <p className="noticeTxtCenter">5</p>
@@ -129,7 +129,7 @@ function Review() {
                 <a className="noticeTxt">이용후기 TitleSample</a>
               </td>
               <td>
-                <p className="noticeTxtCenter">4/5</p>
+                <p className="noticeTxtCenter">3/5</p>
               </td>
               <td>
                 <p className="noticeTxtCenter">2</p>

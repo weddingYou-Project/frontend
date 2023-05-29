@@ -87,7 +87,7 @@ function CustomerCenter() {
             <tr>
               <td style={{ width: 140 }}>
                 <Link to="/qnapage" className="LinkTxt">
-                  QnA
+                  Q&A
                 </Link>
               </td>
               <td></td>
@@ -100,7 +100,7 @@ function CustomerCenter() {
                 <p className="customCenterTxt">006</p>
               </td>
               <td style={{ width: 350 }}>
-                <a className="customCenterTxt">QnA SampleTitle</a>
+                <a className="customCenterTxt">Q&A SampleTitle</a>
               </td>
               <td>
                 <p className="customCenterTxt">43</p>
@@ -111,7 +111,7 @@ function CustomerCenter() {
                 <p className="customCenterTxt">005</p>
               </td>
               <td>
-                <a className="customCenterTxt">QnA SampleTitle</a>
+                <a className="customCenterTxt">Q&A SampleTitle</a>
               </td>
               <td>
                 <p className="customCenterTxt">48</p>
@@ -122,7 +122,7 @@ function CustomerCenter() {
                 <p className="customCenterTxt">004</p>
               </td>
               <td>
-                <a className="customCenterTxt">QnA SampleTitle</a>
+                <a className="customCenterTxt">Q&A SampleTitle</a>
               </td>
               <td>
                 <p className="customCenterTxt">62</p>
@@ -133,7 +133,7 @@ function CustomerCenter() {
                 <p className="customCenterTxt">003</p>
               </td>
               <td>
-                <a className="customCenterTxt">QnA SampleTitle</a>
+                <a className="customCenterTxt">Q&A SampleTitle</a>
               </td>
               <td>
                 <p className="customCenterTxt">73</p>
@@ -144,7 +144,7 @@ function CustomerCenter() {
                 <p className="customCenterTxt">002</p>
               </td>
               <td>
-                <a className="customCenterTxt">QnA SampleTitle</a>
+                <a className="customCenterTxt">Q&A SampleTitle</a>
               </td>
               <td>
                 <p className="customCenterTxt">48</p>
