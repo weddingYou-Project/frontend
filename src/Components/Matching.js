@@ -808,7 +808,7 @@ function Matching() {
                 var plannermatchinglist = JSON.parse(
                   plannerData[index].plannermatching
                 );
-                var order = estimateOrder3[index];
+                var order = estimateOrder2[index];
                 var matchingcp = matchingCouple[index];
                 console.log("order:" + order);
                 console.log("matchingcp:" + matchingcp);
