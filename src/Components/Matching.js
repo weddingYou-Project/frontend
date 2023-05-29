@@ -29,6 +29,10 @@ function Matching() {
   const [selectDeletePlanner, setSelectDeletePlanner] = useState("");
   const [errorMessage, setErrorMessage] = useState(false);
 
+  const [selectedUserEmail, setSelectedUserEmail] = useState("");
+  const [selectedEstimateId, setSelectedEstimateId] = useState(0);
+  const [cancelledUser, setCancelledUser] = useState(false);
+
   const deleteBtn = useRef();
 
   const [userName, setUserName] = useState([]);
@@ -496,12 +500,39 @@ function Matching() {
           console.log(e);
         });
     }
-  }, []);
+  }, [cancelledUser]);
 
   const goToEstimate = (e) => {
     const estimateId = e.target.dataset.bsIndex;
-
     navigate(`/estimatedetail/${estimateId}`);
+  };
+
+  const cancelMatchedUser = (e) => {
+    console.log(e.target.dataset);
+    const userEmail = e.target.dataset.bsUseremail;
+    const estimateId = e.target.dataset.bsIndex;
+    setSelectedUserEmail(userEmail);
+    setSelectedEstimateId(estimateId);
+  };
+
+  const cancelMatchedUser2 = (e) => {
+    const formData = new FormData();
+
+    formData.append("plannerEmail", sessionStorage.getItem("email"));
+    formData.append("estimateId", selectedEstimateId);
+    axios
+      .post(`/plannerProfile/cancelMatchingUser`, formData)
+      .then((res) => {
+        console.log(res);
+        if (res.data === 1) {
+          alert("해당 고객과의 매칭이 취소되었습니다!");
+          setCancelledUser(!cancelledUser);
+        } else {
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
   return (
@@ -873,7 +904,7 @@ function Matching() {
                 <button
                   className="plannerMatchingBtn"
                   data-bs-toggle="modal"
-                  data-bs-target="#CancelMatching"
+                  data-bs-target="#CancelMatchingCustomer"
                   data-bs-estimateNum={estimateNum[userIndex]}
                   onClick={CancelMatching2}
                 >
@@ -966,7 +997,8 @@ function Matching() {
                           data-bs-toggle="modal"
                           data-bs-target="#MatchOrCanelCustomer"
                           data-bs-index={userEstimateId[index]}
-                          onClick={deleteMatchingPlanner}
+                          data-bs-useremail={userEmail[index]}
+                          onClick={cancelMatchedUser}
                         >
                           매칭/거절
                         </button>
@@ -1061,9 +1093,7 @@ function Matching() {
                   <button
                     type="button"
                     className="btn btn-primary"
-                    onClick={() => {
-                      setDeletePermission(true);
-                    }}
+                    onClick={() => {}}
                   >
                     매칭 취소하기
                   </button>
@@ -1169,7 +1199,9 @@ function Matching() {
                     type="button"
                     className="btn btn-secondary"
                     data-bs-dismiss="modal"
-                    onClick={deleteMatchingPlanner2}
+                    onClick={() => {
+                      cancelMatchedUser2();
+                    }}
                   >
                     거절하기
                   </button>
