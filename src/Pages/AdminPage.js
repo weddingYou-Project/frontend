@@ -303,7 +303,17 @@ const AdminPage = () => {
     date: "",
     password: "",
   });
-  const userDetail = (name, type, email, phone, gender, date, password, id) => {
+  const userDetail = (
+    name,
+    type,
+    email,
+    phone,
+    gender,
+    date,
+    password,
+    id,
+    careerYear
+  ) => {
     setUserName(name);
     setUserPassword(password);
     setUserPhone(phone);
@@ -316,6 +326,7 @@ const AdminPage = () => {
       date: date,
       password: password,
       id: id,
+      careerYear: careerYear,
     });
     setModalMode("user");
   };
@@ -442,17 +453,17 @@ const AdminPage = () => {
   };
 
   const userSearching = () => {
-    if (userSearch === "일반유저") {
+    if (userSearch.includes("일반")) {
       setUserSearchPaeing("user");
-    } else if (userSearch === "플래너") {
+    } else if (userSearch.includes("플래너")) {
       setUserSearchPaeing("planner");
     } else {
       setUserSearchPaeing(userSearch);
     }
     const judge = (userSearch) => {
-      if (userSearch === "일반유저") {
+      if (userSearch.includes("일반")) {
         return "user";
-      } else if (userSearch === "플래너") {
+      } else if (userSearch.includes("플래너")) {
         return "planner";
       } else {
         return userSearch;
@@ -941,7 +952,8 @@ const UserListData = ({ userList, userDetail }) => {
                   e.plannerGender,
                   e.plannerJoinDate.slice(0, 10),
                   e.plannerPassword,
-                  e.adminId
+                  e.adminId,
+                  e.plannerCareerYears
                 );
               }
             }}
@@ -1105,10 +1117,13 @@ const DetailModal = ({
                   구분 : &nbsp;
                   {userArticle.type === "user" ? "일반회원" : "플래너회원"}
                 </p>
-                <p>이메일 :{userArticle.email}</p>
+                <p>이메일 : {userArticle.email}</p>
                 <p>비밀번호 : {userArticle.password}</p>
                 <p>성별 : {userArticle.gender === "male" ? "남" : "여"}</p>
                 <p>휴대폰 : {userArticle.phone}</p>
+                {userArticle.type === "planner" && (
+                  <p> 경력 : {userArticle.careerYear}년</p>
+                )}
                 <p>가입일자 : {userArticle.date}</p>
               </div>
             )}
