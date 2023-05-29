@@ -8,7 +8,7 @@ import "../Css/AdminPage.css";
 
 const AdminPage = () => {
   useEffect(() => {
-    getPostList();
+    postListReset();
   }, []);
 
   useEffect(() => {
@@ -167,7 +167,7 @@ const AdminPage = () => {
     }
   }
 
-  //데이터 가져오는 부분
+  //견적서 리스트
   const getPostList = () => {
     setPostSearch("");
     setPostSearchMode("none");
@@ -188,7 +188,9 @@ const AdminPage = () => {
       .catch((e) => {
         console.log(e);
       });
+  };
 
+  const getPostListCount = () => {
     axios
       .post("http://localhost:8080/estimate/pageinglist", {
         page_num: page_num,
@@ -211,6 +213,11 @@ const AdminPage = () => {
     document.querySelectorAll(".pgAll")[0].classList.add("pageing-select");
   };
 
+  const postListReset = () => {
+    getPostList();
+    getPostListCount();
+  };
+  //유저 리스트
   const getUserList = async () => {
     try {
       let res = await axios.get("http://localhost:8080/mypageAdmin/all", {
@@ -310,7 +317,6 @@ const AdminPage = () => {
     });
     setModalMode("user");
   };
-  /////////////////////////////
 
   let page_num = 1;
   const page_size = 11;
@@ -763,7 +769,7 @@ const AdminPage = () => {
                     검색
                   </button>
                 </div>
-                <div className="전체보기버튼 cursor" onClick={getPostList}>
+                <div className="전체보기버튼 cursor" onClick={postListReset}>
                   <i class="bi bi-arrow-counterclockwise"></i>
                 </div>
               </div>
