@@ -34,6 +34,12 @@ function Matching() {
   const [cancelledUser, setCancelledUser] = useState(false);
   const [matchedUser, setMatchedUser] = useState(false);
 
+  const [searchedMatchedUser, setSearchedMatchedUser] = useState([]);
+  const [searchedEstimateId, setSearchedEstimateId] = useState([]);
+  const [searchedUserKeyIndex, setSearchedUserKeyIndex] = useState([]);
+
+  const [selectedEstimateId2, setSelectedEstimateId2] = useState(0);
+
   const deleteBtn = useRef();
 
   const [userName, setUserName] = useState([]);
@@ -477,6 +483,7 @@ function Matching() {
           const userIndexArr = [];
           if (res.data.length === 0) {
             alert("매칭 요청 회원이 아직 없습니다!");
+            setUserIndex([]);
           } else {
             const data = res.data;
             for (let i = 0; i < data.length; i++) {
@@ -547,6 +554,66 @@ function Matching() {
         if (res.data === 1) {
           alert("해당 고객과 매칭되었습니다!");
           setMatchedUser(!matchedUser);
+        } else {
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  useEffect(() => {
+    if (sessionStorage.getItem("category") === "planner") {
+      const formData = new FormData();
+      formData.append("plannerEmail", sessionStorage.getItem("email"));
+      axios
+        .post(`/plannerProfile/getMatchedUser`, formData)
+        .then((res) => {
+          console.log(res);
+          const data = res.data;
+          const searchedUserArr = [];
+          const searchedEstimateIdArr = [];
+          const searchedUserKeyIndexArr = [];
+          if (data.length !== 0) {
+            for (let i = 0; i < data.length; i++) {
+              if (i % 2 === 0) {
+                searchedEstimateIdArr.push(data[i]);
+                const num = i / 2;
+                searchedUserKeyIndexArr.push(num);
+              } else {
+                searchedUserArr.push(data[i]);
+              }
+            }
+            setSearchedMatchedUser(searchedUserArr);
+            setSearchedEstimateId(searchedEstimateIdArr);
+            setSearchedUserKeyIndex(searchedUserKeyIndexArr);
+          } else {
+            setSearchedUserKeyIndex([]);
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+  }, [matchedUser, cancelledUser]);
+
+  const cancelMatchingUser2 = (e) => {
+    console.log(e.target.dataset);
+    const estimateId = e.target.dataset.bsEstimatenum;
+    setSelectedEstimateId2(estimateId);
+  };
+
+  const cancelMatchingUser3 = () => {
+    const formData = new FormData();
+    formData.append("estimateId", selectedEstimateId2);
+    formData.append("plannerEmail", sessionStorage.getItem("email"));
+    axios
+      .post(`/plannerProfile/cancelMatchingUser`, formData)
+      .then((res) => {
+        console.log(res);
+        if (res.data === 1) {
+          alert("해당 고객과의 매칭이 취소되었습니다!");
+          setCancelledUser(!cancelledUser);
         } else {
         }
       })
@@ -877,62 +944,84 @@ function Matching() {
           >
             매칭된 고객
           </p>
-          <div>
+          {searchedUserKeyIndex.length !== 0 ? (
+            searchedUserKeyIndex.map((index) => {
+              return (
+                <div>
+                  <div
+                    className="matchingList"
+                    style={{
+                      marginBottom: "30px",
+                      borderBottom: "1px solid grey",
+                      borderTop: "1px solid grey",
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontSize: "1.7em",
+                        width: "100%",
+                        paddingLeft: "240px",
+                        paddingTop: "20px",
+                        borderBottom: "3px double grey",
+                        marginBottom: "20px",
+                        paddingBottom: "20px",
+                      }}
+                    >
+                      -견적서{index + 1}-
+                    </div>
+                    <p
+                      className="myPlannerName"
+                      style={{
+                        fontSize: "1.6em",
+                        marginLeft: "150px",
+                        marginRight: "-170px",
+                      }}
+                    >
+                      {searchedMatchedUser[index]}
+                    </p>
+                    <button
+                      className="plannerProBtn"
+                      data-bs-estimateNum={searchedEstimateId[index]}
+                      onClick={() => {
+                        navigate(
+                          `/estimatedetail/${searchedEstimateId[index]}`
+                        );
+                      }}
+                    >
+                      견적서 보기
+                    </button>
+                    <br />
+                    <div
+                      className="matchingBtnList"
+                      style={{ paddingLeft: "90px", paddingBottom: "10px" }}
+                    >
+                      <button
+                        className="plannerMatchingBtn"
+                        data-bs-toggle="modal"
+                        data-bs-target="#CancelMatchingCustomer"
+                        data-bs-estimateNum={searchedEstimateId[index]}
+                        onClick={cancelMatchingUser2}
+                      >
+                        매칭취소
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              );
+            })
+          ) : (
             <div
-              className="matchingList"
               style={{
-                marginBottom: "30px",
-                borderBottom: "1px solid grey",
-                borderTop: "1px solid grey",
+                marginTop: "20px",
+                height: "20px",
+                fontSize: "1.5em",
+                paddingLeft: "160px",
+                marginBottom: "60px",
               }}
             >
-              <div
-                style={{
-                  fontSize: "1.7em",
-                  width: "100%",
-                  paddingLeft: "240px",
-                  paddingTop: "20px",
-                  borderBottom: "3px double grey",
-                  marginBottom: "20px",
-                  paddingBottom: "20px",
-                }}
-              >
-                {/* -견적서{estimateNum[userIndex]}- */}-견적서-
-              </div>
-              <p
-                className="myPlannerName"
-                style={{
-                  fontSize: "1.6em",
-                  marginLeft: "150px",
-                  marginRight: "-170px",
-                }}
-              >
-                {/* {matchedPlanner[userIndex]} */}
-              </p>
-              <button
-                className="plannerProBtn"
-                data-bs-estimateNum={estimateNum[userIndex]}
-                onClick={goPlannerProfile2}
-              >
-                견적서 보기
-              </button>
-              <br />
-              <div
-                className="matchingBtnList"
-                style={{ paddingLeft: "90px", paddingBottom: "10px" }}
-              >
-                <button
-                  className="plannerMatchingBtn"
-                  data-bs-toggle="modal"
-                  data-bs-target="#CancelMatchingCustomer"
-                  data-bs-estimateNum={estimateNum[userIndex]}
-                  onClick={CancelMatching2}
-                >
-                  매칭취소
-                </button>
-              </div>
+              아직 매칭된 고객이 없습니다.
             </div>
-          </div>
+          )}
 
           <p
             className="headertxt"
@@ -1031,7 +1120,7 @@ function Matching() {
           })}
           <div style={{ height: "150px" }}></div>
           <Footer />
-
+          {/* 
           <div
             className="modal fade"
             id="CancelMatching"
@@ -1080,7 +1169,7 @@ function Matching() {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
           {/* 고객 모달창(매칭취소) */}
           <div
             className="modal fade"
@@ -1113,7 +1202,8 @@ function Matching() {
                   <button
                     type="button"
                     className="btn btn-primary"
-                    onClick={() => {}}
+                    data-bs-dismiss="modal"
+                    onClick={cancelMatchingUser3}
                   >
                     매칭 취소하기
                   </button>
