@@ -234,3 +234,8 @@ div {
 .matchFalse {
     color:  gray;
 }
+
+.실험체 {
+    display: inline;
+    background: blue;
+}

@@ -22,7 +22,7 @@ const AdminPage = () => {
   let [postPageLink, setPageLink] = useState([]);
   let [userList, setUserList] = useState([]);
   let [postList, setPostList] = useState([]);
-  let [userPageLink, setUserPageLink] = useState([1, 2]);
+  let [userPageLink, setUserPageLink] = useState([]);
   let postSearchRef = useRef();
   let userSearchRef = useRef();
 
@@ -551,7 +551,6 @@ const AdminPage = () => {
     axios
       .get(`http://localhost:8080/mypageAdmin/delete?adminId=${id}`)
       .then((res) => {
-        console.log("삭제 성공");
         userListReset();
       })
       .catch((e) => {
@@ -1025,27 +1024,20 @@ const DetailModal = ({
             {modalMode == "userModifyForm" && (
               <div className="Modal-detail">
                 <p>
-                  이름 :{" "}
-                  <input
-                    type="text"
-                    onChange={onNameChange}
-                    value={userName}
-                    maxLength={5}
-                    className="form-control form-control-width userNameModify"
-                  />
-                  {/*이건 생각좀 해봐야할 듯. */}
-                  <div
-                    id="validationServer03Feedback"
-                    class="invalid-feedback"
-                    style={{ fontSize: "10px" }}
-                  >
-                    "이름의 형식이 올바르지 않습니다."
+                  이름 : &nbsp;
+                  <div className="실험체">
+                    <input
+                      type="text"
+                      onChange={onNameChange}
+                      value={userName}
+                      maxLength={5}
+                      className="form-control form-control-width userNameModify"
+                    />
                   </div>
-                  {/*여기까지 */}
                 </p>
                 <p>이메일 : {userArticle.email} </p>
                 <p>
-                  비밀번호 :{" "}
+                  비밀번호 : &nbsp;
                   <input
                     type="text"
                     onChange={onPasswordChange}
@@ -1055,7 +1047,7 @@ const DetailModal = ({
                 </p>
                 <p>성별 : {userArticle.gender === "male" ? "남" : "여"}</p>
                 <p>
-                  휴대폰 :{" "}
+                  휴대폰 : &nbsp;
                   <input
                     type="text"
                     onChange={onPhoneChange}
