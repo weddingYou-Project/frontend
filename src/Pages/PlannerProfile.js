@@ -168,7 +168,7 @@ function PlannerProfile() {
   }, [plannerEmailSort]);
   useEffect(() => {
     if (sessionStorage.getItem("profileSort") === undefined) {
-      window.sessionStorage.setItem("profileSort", "정렬");
+      window.sessionStorage.setItem("profileSort", "플래너 등록순");
     }
 
     axios

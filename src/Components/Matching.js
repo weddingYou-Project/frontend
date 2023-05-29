@@ -283,9 +283,9 @@ function Matching() {
     axios
       .post(`/deposit/check`, formData)
       .then((res) => {
-        console.log(res.data);
+        console.log(res);
         const data = res.data;
-        if (data != -1 && data != 1) {
+        if (data != 1 && data != -1) {
           const lastIndex = data.lastIndexOf("[");
           const status = res.data.slice(lastIndex + 1, res.data.length);
           console.log(status);
@@ -381,8 +381,6 @@ function Matching() {
               },
             });
           }
-        } else if (data == -1) {
-          alert("결제데이터가 없습니다!");
         } else if (data == 1) {
           alert("결제가 모두 완료된 상태입니다!");
         }
@@ -726,10 +724,7 @@ function Matching() {
                       }}
                     >
                       {matchedPlanner[keyIndex]}
-                      {console.log("++++++++++++++++++++++++++")}
-                      {console.log(estimateOrder2[num])}
-                      {console.log(num)}
-                      {console.log(estimateNum[keyIndex])}
+
                       {estimateOrder2[num] == num ? (
                         <img
                           src={heartIcon}
