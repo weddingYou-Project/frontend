@@ -127,11 +127,13 @@ function Matching() {
     setDeletePlannerName(deletePlannerName);
     setSelectEstimateNum(bsEstimateNum);
     setSelectDeletePlanner(matchedPlanner[bsEstimateNum]);
+    console.log(deleteTargetEstimateId);
   };
 
   const deleteMatchingPlanner2 = () => {
     const formData = new FormData();
     formData.append("deleteTargetEstimateId", deleteTargetEstimateId);
+
     formData.append("deletePlanner", deletePlanner);
     axios
       .post(`/estimate/deleteMatchingPlanner`, formData)
@@ -484,7 +486,6 @@ function Matching() {
           const userEstimateIdArr = [];
           const userIndexArr = [];
           if (res.data.length === 0) {
-            alert("매칭 요청 회원이 아직 없습니다!");
             setUserIndex([]);
           } else {
             const data = res.data;
@@ -744,103 +745,117 @@ function Matching() {
             매칭 요청 온 플래너 목록
           </p>
           <div>
-            {estimateCount.map((index, keyindex) => {
-              var plannerList = plannerName[index];
-              var estimateId = plannerData[index].id;
+            {estimateCount.length !== 0 ? (
+              estimateCount.map((index, keyindex) => {
+                var plannerList = plannerName[index];
+                var estimateId = plannerData[index].id;
 
-              return (
-                <table
-                  style={{
-                    marginBottom: "30px",
-                    borderBottom: "1px solid grey",
-                    borderTop: "1px solid grey",
-                  }}
-                  className="matchingList"
-                >
-                  <div>
-                    <tr>
-                      <td
-                        style={{
-                          fontSize: "1.7em",
-                          width: "100%",
-                          paddingLeft: "30px",
-                          paddingTop: "10px",
-                          borderBottom: "3px double grey",
-                        }}
-                      >
-                        -견적서{index + 1}-
-                      </td>
-                      <td
-                        colSpan="2"
-                        style={{
-                          paddingLeft: "100px",
-                          borderBottom: "3px double grey",
-                        }}
-                      >
-                        <button
-                          className="plannerMatchingBtn"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            navigate(`/estimatedetail/${estimateId}`);
+                return (
+                  <table
+                    style={{
+                      marginBottom: "30px",
+                      borderBottom: "1px solid grey",
+                      borderTop: "1px solid grey",
+                    }}
+                    className="matchingList"
+                  >
+                    <div>
+                      <tr>
+                        <td
+                          style={{
+                            fontSize: "1.7em",
+                            width: "100%",
+                            paddingLeft: "30px",
+                            paddingTop: "10px",
+                            borderBottom: "3px double grey",
                           }}
                         >
-                          견적서보기
-                        </button>
-                      </td>
-                    </tr>
+                          -견적서{index + 1}-
+                        </td>
+                        <td
+                          colSpan="2"
+                          style={{
+                            paddingLeft: "100px",
+                            borderBottom: "3px double grey",
+                          }}
+                        >
+                          <button
+                            className="plannerMatchingBtn"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              navigate(`/estimatedetail/${estimateId}`);
+                            }}
+                          >
+                            견적서보기
+                          </button>
+                        </td>
+                      </tr>
 
-                    {count[index].map((i) => {
-                      try {
-                        let plannername = plannerList[i];
-                        return (
-                          <tr>
-                            <td
-                              className="myPlannerName"
-                              style={{
-                                width: 160,
-                                fontSize: "1.6em",
-                                paddingLeft: "25px",
-                                paddingTop: "10px",
-                              }}
-                            >
-                              {plannername}
-                            </td>
-                            <td>
-                              <button
-                                className="plannerMatchingBtn"
-                                data-bs-index={index}
-                                data-bs-index2={i}
-                                data-bs-estimateId={estimateId}
-                                data-bs-estimateNum={index + 1}
-                                onClick={goPlannerProfile}
+                      {count[index].map((i) => {
+                        try {
+                          let plannername = plannerList[i];
+                          return (
+                            <tr>
+                              <td
+                                className="myPlannerName"
+                                style={{
+                                  width: 160,
+                                  fontSize: "1.6em",
+                                  paddingLeft: "25px",
+                                  paddingTop: "10px",
+                                }}
                               >
-                                프로필 보기
-                              </button>
-                            </td>
-                            <td>
-                              <button
-                                className="plannerMatchingBtn"
-                                data-bs-toggle="modal"
-                                data-bs-target="#MatchOrCanel"
-                                data-bs-index={index}
-                                data-bs-index2={i}
-                                data-bs-estimateId={estimateId}
-                                data-bs-estimateNum={index + 1}
-                                onClick={deleteMatchingPlanner}
-                              >
-                                매칭/거절
-                              </button>
-                            </td>
-                          </tr>
-                        );
-                      } catch (e) {
-                        console.log(e);
-                      }
-                    })}
-                  </div>
-                </table>
-              );
-            })}
+                                {plannername}
+                              </td>
+                              <td>
+                                <button
+                                  className="plannerMatchingBtn"
+                                  data-bs-index={index}
+                                  data-bs-index2={i}
+                                  data-bs-estimateId={estimateId}
+                                  data-bs-estimateNum={index + 1}
+                                  onClick={goPlannerProfile}
+                                >
+                                  프로필 보기
+                                </button>
+                              </td>
+                              <td>
+                                <button
+                                  className="plannerMatchingBtn"
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#MatchOrCanel"
+                                  data-bs-index={index}
+                                  data-bs-index2={i}
+                                  data-bs-estimateId={estimateId}
+                                  data-bs-estimateNum={index + 1}
+                                  onClick={deleteMatchingPlanner}
+                                >
+                                  매칭/거절
+                                </button>
+                              </td>
+                            </tr>
+                          );
+                        } catch (e) {
+                          console.log(e);
+                        }
+                      })}
+                    </div>
+                  </table>
+                );
+              })
+            ) : (
+              <div
+                style={{
+                  marginTop: "20px",
+                  height: "20px",
+                  fontSize: "1.5em",
+                  paddingLeft: "160px",
+                  marginBottom: "60px",
+                }}
+              >
+                아직 매칭 요청한 플래너가 없습니다.
+              </div>
+            )}
 
             <Footer />
           </div>
@@ -1044,89 +1059,103 @@ function Matching() {
           >
             매칭 요청 온 고객 목록
           </p>
-
-          {userIndex.map((index) => {
-            return (
-              <div
-                className="matchingList"
-                style={{
-                  marginBottom: "30px",
-                  borderBottom: "1px solid grey",
-                }}
-              >
-                <table
+          {userIndex.length !== 0 ? (
+            userIndex.map((index) => {
+              return (
+                <div
+                  className="matchingList"
                   style={{
-                    width: "100%",
+                    marginBottom: "30px",
+                    borderBottom: "1px solid grey",
                   }}
                 >
-                  <div
+                  <table
                     style={{
-                      borderTop: "1px solid grey",
+                      width: "100%",
                     }}
                   >
-                    <tr>
-                      <td
-                        colSpan="1"
-                        style={{
-                          fontSize: "1.7em",
-                          width: "100%",
-                          paddingLeft: "30px",
-                          paddingTop: "24px",
-                          borderBottom: "3px double grey",
+                    <div
+                      style={{
+                        borderTop: "1px solid grey",
+                      }}
+                    >
+                      <tr>
+                        <td
+                          colSpan="1"
+                          style={{
+                            fontSize: "1.7em",
+                            width: "100%",
+                            paddingLeft: "30px",
+                            paddingTop: "24px",
+                            borderBottom: "3px double grey",
 
-                          height: "80px",
-                        }}
-                      >
-                        -견적서{index + 1}-
-                      </td>
-                      <td
-                        colspan="2"
-                        style={{
-                          borderBottom: "3px double grey",
-                          paddingRight: "110px",
-                        }}
-                      >
-                        <button
-                          className="plannerMatchingBtn"
-                          data-bs-index={userEstimateId[index]}
-                          onClick={goToEstimate}
+                            height: "80px",
+                          }}
                         >
-                          견적서 보기
-                        </button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td
-                        className="myPlannerName"
-                        style={{
-                          width: 160,
-                          fontSize: "1.6em",
-                          paddingLeft: "25px",
-                          paddingTop: "10px",
-                        }}
-                      >
-                        {userName[index]}
-                      </td>
+                          -견적서{index + 1}-
+                        </td>
+                        <td
+                          colspan="2"
+                          style={{
+                            borderBottom: "3px double grey",
+                            paddingRight: "110px",
+                          }}
+                        >
+                          <button
+                            className="plannerMatchingBtn"
+                            data-bs-index={userEstimateId[index]}
+                            onClick={goToEstimate}
+                          >
+                            견적서 보기
+                          </button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td
+                          className="myPlannerName"
+                          style={{
+                            width: 160,
+                            fontSize: "1.6em",
+                            paddingLeft: "25px",
+                            paddingTop: "10px",
+                          }}
+                        >
+                          {userName[index]}
+                        </td>
 
-                      <td colSpan="2">
-                        <button
-                          className="plannerMatchingBtn"
-                          data-bs-toggle="modal"
-                          data-bs-target="#MatchOrCanelCustomer"
-                          data-bs-index={userEstimateId[index]}
-                          data-bs-useremail={userEmail[index]}
-                          data-bs-estimateNum={index + 1}
-                          onClick={cancelMatchedUser}
-                        >
-                          매칭/거절
-                        </button>
-                      </td>
-                    </tr>
-                  </div>
-                </table>
-              </div>
-            );
-          })}
+                        <td colSpan="2">
+                          <button
+                            className="plannerMatchingBtn"
+                            data-bs-toggle="modal"
+                            data-bs-target="#MatchOrCanelCustomer"
+                            data-bs-index={userEstimateId[index]}
+                            data-bs-useremail={userEmail[index]}
+                            data-bs-estimateNum={index + 1}
+                            onClick={cancelMatchedUser}
+                          >
+                            매칭/거절
+                          </button>
+                        </td>
+                      </tr>
+                    </div>
+                  </table>
+                </div>
+              );
+            })
+          ) : (
+            <div
+              style={{
+                marginTop: "20px",
+                height: "20px",
+                fontSize: "1.5em",
+                paddingLeft: "145px",
+                marginBottom: "60px",
+              }}
+            >
+              아직 매칭 요청한 고객이 없습니다.
+            </div>
+          )}
+
           <div style={{ height: "150px" }}></div>
           <Footer />
           {/* 
