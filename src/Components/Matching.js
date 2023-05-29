@@ -1100,9 +1100,9 @@ function Matching() {
                     >
                       {searchedMatchedUser[index]}
                       {console.log("+_+_+_+_+_+")}
-                      {console.log(estimateOrder3[index])}
+                      {console.log(estimateOrder2[estimateOrder[index] - 1])}
                       {console.log(num)}
-                      {estimateOrder3[index] == num ? (
+                      {estimateOrder2[estimateOrder[index] - 1] == num ? (
                         <img
                           src={heartIcon}
                           alt=""
