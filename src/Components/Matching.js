@@ -779,29 +779,38 @@ function Matching() {
                   >
                     <div
                       style={{
-                        fontSize: "1.7em",
-                        width: "100%",
-                        paddingLeft: "40px",
-                        paddingTop: "20px",
-                        borderBottom: "3px double grey",
-                        marginBottom: "20px",
-                        paddingBottom: "20px",
                         display: "flex",
+                        borderBottom: "3px double grey",
                       }}
                     >
-                      <div>-견적서{estimateNum[keyIndex]}-</div>
+                      <div
+                        style={{
+                          fontSize: "1.7em",
+                          flexGrow: 1,
+                          paddingLeft: "40px",
+                          paddingTop: "20px",
+
+                          paddingBottom: "20px",
+                          display: "flex",
+                        }}
+                      >
+                        -견적서{estimateNum[keyIndex]}-
+                      </div>
+
                       {paymentStatus[keyIndex] === "all" ? (
                         <div
                           style={{
                             display: "inline-block",
-                            width: "170px",
-                            marginLeft: "240px",
+                            width: "150px",
+                            height: "44px",
                             borderRadius: "10px",
                             border: "1px solid green",
-                            fontSize: "0.9em",
+                            fontSize: "1.6em",
                             textAlign: "center",
                             backgroundColor: "green",
                             color: "white",
+                            marginTop: "15px",
+                            marginRight: "20px",
                           }}
                         >
                           결제완료!
@@ -810,14 +819,16 @@ function Matching() {
                         <div
                           style={{
                             display: "inline-block",
-                            width: "170px",
-                            marginLeft: "240px",
+                            width: "150px",
+                            height: "44px",
                             borderRadius: "10px",
-                            border: "3px solid red",
-                            fontSize: "0.9em",
+                            border: "1px solid red",
+                            fontSize: "1.6em",
                             textAlign: "center",
                             backgroundColor: "red",
                             color: "white",
+                            marginTop: "15px",
+                            marginRight: "20px",
                           }}
                         >
                           미결제
@@ -826,14 +837,16 @@ function Matching() {
                         <div
                           style={{
                             display: "inline-block",
-                            width: "170px",
-                            marginLeft: "240px",
+                            width: "180px",
+                            height: "44px",
                             borderRadius: "10px",
-                            border: "3px solid yellow",
-                            fontSize: "0.9em",
+                            border: "1px solid yellow",
+                            fontSize: "1.6em",
                             textAlign: "center",
-                            color: "black",
                             backgroundColor: "yellow",
+                            color: "black",
+                            marginTop: "15px",
+                            marginRight: "20px",
                           }}
                         >
                           예약금 결제 완료!
