@@ -381,7 +381,7 @@ const EstimateDetail = () => {
               {estimateData.requirement}
             </div>
           </div>
-          <div className="update-button-box">
+          <div className="update-button-box" style={{ marginBottom: "30px" }}>
             {window.sessionStorage.getItem("email") === estimateData.writer &&
               window.sessionStorage.getItem("category") === "user" &&
               estimateData.matchstatus === false && (
