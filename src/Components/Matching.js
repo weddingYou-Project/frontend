@@ -729,7 +729,6 @@ function Matching() {
     axios
       .post(`/paymentStatus2`, formData)
       .then((res) => {
-        console.log("bbbbbbbbbbbbbbbbbbbbb");
         console.log(res);
         const data = res.data;
         for (let i = 0; i < data.length; i++) {
@@ -811,6 +810,7 @@ function Matching() {
                             color: "white",
                             marginTop: "15px",
                             marginRight: "20px",
+                            paddingTop: "2px",
                           }}
                         >
                           결제완료!
@@ -829,6 +829,7 @@ function Matching() {
                             color: "white",
                             marginTop: "15px",
                             marginRight: "20px",
+                            paddingTop: "2px",
                           }}
                         >
                           미결제
@@ -847,9 +848,10 @@ function Matching() {
                             color: "black",
                             marginTop: "15px",
                             marginRight: "20px",
+                            paddingTop: "2px",
                           }}
                         >
-                          예약금 결제 완료!
+                          계약금 결제 완료!
                         </div>
                       ) : null}
                     </div>
@@ -862,7 +864,6 @@ function Matching() {
                       }}
                     >
                       {matchedPlanner[keyIndex]}
-
                       {estimateOrder2[num] == num ? (
                         <img
                           src={heartIcon}
@@ -998,7 +999,7 @@ function Matching() {
                             {paymentStatus3[index] === "all" ? (
                               <div
                                 style={{
-                                  width: "130px",
+                                  width: "140px",
                                   marginTop: "15px",
                                   paddingTop: "3px",
                                   paddingBottom: "4px",
@@ -1017,7 +1018,7 @@ function Matching() {
                             ) : paymentStatus3[index] === "other" ? (
                               <div
                                 style={{
-                                  width: "130px",
+                                  width: "140px",
                                   marginTop: "15px",
                                   paddingTop: "4px",
                                   paddingBottom: "4px",
@@ -1036,7 +1037,7 @@ function Matching() {
                             ) : paymentStatus3[index] === "deposit" ? (
                               <div
                                 style={{
-                                  width: "160px",
+                                  width: "180px",
                                   marginTop: "15px",
                                   paddingTop: "4px",
                                   paddingBottom: "4px",
@@ -1050,14 +1051,14 @@ function Matching() {
                                   marginRight: "-8px",
                                 }}
                               >
-                                예약금 결제 완료!
+                                계약금 결제 완료!
                               </div>
                             ) : null}
                           </div>
-                          <div style={{ marginRight: "10px" }}>
+                          <div>
                             <button
                               className="plannerMatchingBtn"
-                              style={{ width: "130px" }}
+                              style={{ width: "140px" }}
                               onClick={(e) => {
                                 e.preventDefault();
                                 navigate(`/estimatedetail/${estimateId}`);
@@ -1073,8 +1074,8 @@ function Matching() {
                         try {
                           let plannername = plannerList[i];
                           return (
-                            <tr>
-                              <td
+                            <div style={{ display: "flex" }}>
+                              <div
                                 className="myPlannerName"
                                 style={{
                                   width: 234,
@@ -1109,11 +1110,11 @@ function Matching() {
                                     </div>
                                   ) : null
                                 ) : null}
-                              </td>
-                              <td>
+                              </div>
+                              <div style={{ marginLeft: "-10px" }}>
                                 <button
                                   style={{
-                                    width: "130px",
+                                    width: "140px",
                                     marginRight: "-8px",
                                   }}
                                   className="plannerMatchingBtn"
@@ -1125,11 +1126,11 @@ function Matching() {
                                 >
                                   프로필 보기
                                 </button>
-                              </td>
-                              <td>
+                              </div>
+                              <div>
                                 {paymentStatus3[index] === "all" ? (
                                   <button
-                                    style={{ width: "130px" }}
+                                    style={{ width: "140px" }}
                                     className="plannerMatchingBtn"
                                     onClick={() => {
                                       alert(
@@ -1142,7 +1143,7 @@ function Matching() {
                                   </button>
                                 ) : (
                                   <button
-                                    style={{ width: "130px" }}
+                                    style={{ width: "140px" }}
                                     className="plannerMatchingBtn"
                                     data-bs-toggle="modal"
                                     data-bs-target="#MatchOrCanel"
@@ -1155,8 +1156,8 @@ function Matching() {
                                     매칭/거절
                                   </button>
                                 )}
-                              </td>
-                            </tr>
+                              </div>
+                            </div>
                           );
                         } catch (e) {
                           console.log(e);
@@ -1290,13 +1291,10 @@ function Matching() {
           >
             매칭된 고객
           </p>
-          {/* {console.log("**************estimateOrder****************")}
-          {console.log(JSON.stringify(estimateOrder2))} */}
+
           {searchedUserKeyIndex.length !== 0 ? (
             searchedUserKeyIndex.map((index) => {
               const num = estimateOrder[index] - 1;
-
-              console.log("------------------" + num);
               return (
                 <div>
                   <div
@@ -1309,30 +1307,41 @@ function Matching() {
                   >
                     <div
                       style={{
-                        fontSize: "1.7em",
-                        width: "100%",
-                        paddingLeft: "240px",
-                        paddingTop: "20px",
+                        display: "flex",
                         borderBottom: "3px double grey",
-                        marginBottom: "20px",
-                        paddingBottom: "20px",
                       }}
                     >
-                      -견적서{estimateOrder[index]}-
-                      {console.log("###########################")}
+                      <div
+                        style={{
+                          fontSize: "1.7em",
+                          flexGrow: 1,
+                          paddingLeft: "40px",
+                          paddingTop: "20px",
+
+                          paddingBottom: "20px",
+                          display: "flex",
+                        }}
+                      >
+                        -견적서{estimateOrder[index]}-
+                      </div>
+                      {console.log("ccccccccccccccccccccccccccccccccccccccccc")}
+                      {console.log(paymentStatus2)}
                       {console.log(paymentStatus2[index])}
                       {paymentStatus2[index] === "all" ? (
                         <div
                           style={{
                             display: "inline-block",
-                            width: "170px",
-                            marginLeft: "30px",
+                            width: "150px",
+                            height: "47px",
                             borderRadius: "10px",
                             border: "1px solid green",
-                            fontSize: "0.9em",
+                            fontSize: "1.6em",
                             textAlign: "center",
                             backgroundColor: "green",
                             color: "white",
+                            marginTop: "15px",
+                            marginRight: "20px",
+                            paddingTop: "3px",
                           }}
                         >
                           결제완료!
@@ -1341,14 +1350,17 @@ function Matching() {
                         <div
                           style={{
                             display: "inline-block",
-                            width: "170px",
-                            marginLeft: "28px",
+                            width: "150px",
+                            height: "47px",
                             borderRadius: "10px",
-                            border: "3px solid red",
-                            fontSize: "0.9em",
+                            border: "1px solid red",
+                            fontSize: "1.6em",
                             textAlign: "center",
                             backgroundColor: "red",
                             color: "white",
+                            marginTop: "15px",
+                            marginRight: "20px",
+                            paddingTop: "3px",
                           }}
                         >
                           미결제
@@ -1357,20 +1369,24 @@ function Matching() {
                         <div
                           style={{
                             display: "inline-block",
-                            width: "170px",
-                            marginLeft: "30px",
+                            width: "180px",
+                            height: "47px",
                             borderRadius: "10px",
-                            border: "3px solid yellow",
-                            fontSize: "0.9em",
+                            border: "1px solid yellow",
+                            fontSize: "1.6em",
                             textAlign: "center",
-                            color: "black",
                             backgroundColor: "yellow",
+                            color: "black",
+                            marginTop: "15px",
+                            marginRight: "20px",
+                            paddingTop: "3px",
                           }}
                         >
-                          예약금 결제 완료!
+                          계약금 결제 완료!
                         </div>
                       ) : null}
                     </div>
+
                     <p
                       className="myPlannerName"
                       style={{
@@ -1379,6 +1395,7 @@ function Matching() {
                         marginRight: "-170px",
                       }}
                     >
+                      {searchedMatchedUser[index]}
                       {estimateOrder2[estimateOrder[index] - 1] == num ? (
                         <img
                           src={heartIcon}
@@ -1405,7 +1422,7 @@ function Matching() {
                     <br />
                     <div
                       className="matchingBtnList"
-                      style={{ paddingLeft: "90px", paddingBottom: "10px" }}
+                      style={{ paddingLeft: "100px", paddingBottom: "10px" }}
                     >
                       {paymentStatus2[index] === "all" ? (
                         <button
@@ -1413,8 +1430,7 @@ function Matching() {
                           data-bs-estimateNum={searchedEstimateId[index]}
                           onClick={() => {
                             alert(
-                              `결제 완료로 인해 매칭 취소가 불가합니다! 
-      불가피하게 취소할 경우 플래너에게 직접 문의해주세요.`
+                              `결제 완료한 고객과는 매칭 취소가 불가합니다!`
                             );
                           }}
                         >
@@ -1483,28 +1499,95 @@ function Matching() {
                         borderTop: "1px solid grey",
                       }}
                     >
-                      <tr>
-                        <td
-                          colSpan="1"
+                      <div
+                        style={{
+                          display: "flex",
+                          borderBottom: "3px double grey",
+                        }}
+                      >
+                        <div
                           style={{
                             fontSize: "1.7em",
-                            width: "100%",
+                            width: "150px",
                             paddingLeft: "30px",
                             paddingTop: "24px",
-                            borderBottom: "3px double grey",
-
+                            flexGrow: 1,
                             height: "80px",
                           }}
                         >
                           -견적서{index + 1}-
-                        </td>
-                        <td
-                          colspan="2"
+                        </div>
+                        <div
                           style={{
-                            borderBottom: "3px double grey",
-                            paddingRight: "110px",
+                            paddingLeft: "-70px",
                           }}
                         >
+                          {paymentStatus3[index] === "all" ? (
+                            <div
+                              style={{
+                                width: "150px",
+                                marginTop: "15px",
+                                paddingTop: "4px",
+
+                                height: "47px",
+                                flexGrow: 1,
+                                borderRadius: "10px",
+                                border: "1px solid green",
+                                fontSize: "1.6em",
+                                textAlign: "center",
+                                backgroundColor: "green",
+                                color: "white",
+                                marginRight: "-5px",
+                                marginLeft: "70px",
+                              }}
+                            >
+                              결제완료!
+                            </div>
+                          ) : paymentStatus3[index] === "other" ? (
+                            <div
+                              style={{
+                                width: "150px",
+                                marginTop: "15px",
+                                paddingTop: "4px",
+
+                                height: "47px",
+                                flexGrow: 1,
+                                borderRadius: "10px",
+                                border: "1px solid red",
+                                fontSize: "1.6em",
+                                textAlign: "center",
+                                backgroundColor: "red",
+                                color: "white",
+                                marginRight: "-5px",
+                                marginLeft: "70px",
+                              }}
+                            >
+                              미결제
+                            </div>
+                          ) : paymentStatus3[index] === "deposit" ? (
+                            <div
+                              style={{
+                                width: "180px",
+                                marginTop: "15px",
+                                paddingTop: "4px",
+
+                                height: "47px",
+                                flexGrow: 1,
+                                borderRadius: "10px",
+                                border: "1px solid yellow",
+                                fontSize: "1.6em",
+                                textAlign: "center",
+                                backgroundColor: "yellow",
+                                color: "black",
+                                marginRight: "-5px",
+                                marginLeft: "40px",
+                              }}
+                            >
+                              계약금 결제 완료!
+                            </div>
+                          ) : null}
+                        </div>
+                        <div style={{ marginRight: "8px" }}>
                           <button
                             className="plannerMatchingBtn"
                             data-bs-index={userEstimateId[index]}
@@ -1512,10 +1595,10 @@ function Matching() {
                           >
                             견적서 보기
                           </button>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td
+                        </div>
+                      </div>
+                      <div>
+                        <div
                           className="myPlannerName"
                           style={{
                             width: 250,
@@ -1523,6 +1606,7 @@ function Matching() {
                             paddingLeft: "25px",
                             paddingTop: "10px",
                             marginRight: 0,
+                            flexGrow: 1,
                           }}
                         >
                           {userName[index]}
@@ -1545,9 +1629,20 @@ function Matching() {
                               짝이에요!
                             </div>
                           ) : null}
-                        </td>
-
-                        <td colSpan="2">
+                        </div>
+                        {paymentStatus3[index] === "all" ? (
+                          <button
+                            style={{ width: "150px", marginLeft: "120px" }}
+                            className="plannerMatchingBtn"
+                            onClick={() => {
+                              alert(
+                                `결제 완료한 고객과는 매칭 취소가 불가합니다!`
+                              );
+                            }}
+                          >
+                            매칭/거절
+                          </button>
+                        ) : (
                           <button
                             className="plannerMatchingBtn"
                             data-bs-toggle="modal"
@@ -1556,11 +1651,12 @@ function Matching() {
                             data-bs-useremail={userEmail[index]}
                             data-bs-estimateNum={index + 1}
                             onClick={cancelMatchedUser}
+                            style={{ width: "150px", marginLeft: "120px" }}
                           >
                             매칭/거절
                           </button>
-                        </td>
-                      </tr>
+                        )}
+                      </div>
                     </div>
                   </table>
                 </div>

@@ -77,7 +77,7 @@ function Checkoutdeposit() {
             })
             .then((res) => {
               console.log(res);
-              alert("결제가 완료됐습니다!");
+
               sessionStorage.setItem("checkout", "deposit");
               navigate("/checkoutcomp", {
                 state: {
