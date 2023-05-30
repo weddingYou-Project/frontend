@@ -98,7 +98,13 @@ function Mypage() {
         .catch((e) => {
           setPreviewUrl(profileimage);
           console.log(e);
-          setFinish(true);
+          if (e.response.data.message === "프로필 사진이 없습니다!") {
+            setFinish(true);
+          } else if (e.reponse.data.message === "로그인 하세요!") {
+            setFinish(true);
+          } else {
+            setFinish(false);
+          }
         });
     }
     if (category === "planner") {
@@ -136,7 +142,13 @@ function Mypage() {
         })
         .catch((e) => {
           setPreviewUrl(profileimage);
-          setFinish(true);
+          if (e.response.data.message === "프로필 사진이 없습니다!") {
+            setFinish(true);
+          } else if (e.reponse.data.message === "로그인 하세요!") {
+            setFinish(true);
+          } else {
+            setFinish(false);
+          }
         });
     }
   };

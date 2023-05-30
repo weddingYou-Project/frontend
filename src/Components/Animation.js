@@ -132,7 +132,7 @@ const Animation = (props) => {
           </div>
         </div>
       ) : path.indexOf("mypage") === 1 ? (
-        <div style={{ marginTop: "200px", height: "700px" }}>
+        <div style={{ marginTop: "100px", height: "900px" }}>
           <div
             id="container"
             ref={container}
