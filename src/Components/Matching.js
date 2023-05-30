@@ -53,6 +53,8 @@ function Matching() {
   const [matchingCouple, setMatchingCouple] = useState([]);
   const [estimateOrder2, setEstimateOrder2] = useState([]);
   const [estimateOrder3, setEstimateOrder3] = useState([]);
+  const [paymentStatus, setPaymentStatus] = useState([]);
+  const [paymentStatus2, setPaymentStatus2] = useState([]);
 
   useEffect(() => {
     if (sessionStorage.getItem("category") === "user") {
@@ -652,6 +654,27 @@ function Matching() {
                 estimateOrderArr2.push(data[i]);
               }
             }
+            if (sessionStorage.getItem("category") === "user") {
+              const formData2 = new FormData();
+              formData2.append("email", sessionStorage.getItem("email"));
+              formData2.append("category", sessionStorage.getItem("category"));
+              formData2.append("estimateNum", estimateOrderArr2);
+              const paymentStatusArr = [];
+              axios
+                .post(`/paymentStatus`, formData2)
+                .then((res) => {
+                  console.log(res);
+                  const data = res.data;
+                  for (let i = 0; i < data.length; i++) {
+                    paymentStatusArr.push(data[i]);
+                  }
+                  setPaymentStatus(paymentStatusArr);
+                  setPaymentStatus2([]);
+                })
+                .catch((e) => {
+                  console.log(e);
+                });
+            }
 
             setMatchingCouple(matchArr);
             setEstimateOrder2(estimateOrderArr2);
@@ -662,6 +685,28 @@ function Matching() {
                 estimateOrderArr3.push(data[i]);
               }
             }
+            if (sessionStorage.getItem("category") === "planner") {
+              const formData2 = new FormData();
+              formData2.append("email", sessionStorage.getItem("email"));
+              formData2.append("category", sessionStorage.getItem("category"));
+              formData2.append("estimateNum", estimateOrderArr2);
+              const paymentStatusArr2 = [];
+              axios
+                .post(`/paymentStatus`, formData2)
+                .then((res) => {
+                  console.log(res);
+                  const data = res.data;
+                  for (let i = 0; i < data.length; i++) {
+                    paymentStatusArr2.push(data[i]);
+                  }
+                  setPaymentStatus2(paymentStatusArr2);
+                  setPaymentStatus([]);
+                })
+                .catch((e) => {
+                  console.log(e);
+                });
+            }
+
             setEstimateOrder2(estimateOrderArr2);
             setEstimateOrder3(estimateOrderArr3);
           }
@@ -672,7 +717,7 @@ function Matching() {
       .catch((e) => {
         console.log(e);
       });
-  }, [matchedUser]);
+  }, [matchedUser, cancelledUser]);
 
   return (
     <div className="mainlayout">
@@ -698,6 +743,7 @@ function Matching() {
           {matchedPlanner.length !== 0 ? (
             matchedKeyIndex.map((keyIndex) => {
               const num = estimateNum[keyIndex] - 1;
+
               return (
                 <div>
                   <div
@@ -720,6 +766,57 @@ function Matching() {
                       }}
                     >
                       -견적서{estimateNum[keyIndex]}-
+                      {console.log("###########################")}
+                      {console.log(paymentStatus2)}
+                      {paymentStatus[keyIndex] === "all" ? (
+                        <div
+                          style={{
+                            display: "inline-block",
+                            width: "170px",
+                            marginLeft: "30px",
+                            borderRadius: "10px",
+                            border: "1px solid green",
+                            fontSize: "0.9em",
+                            textAlign: "center",
+                            backgroundColor: "green",
+                            color: "white",
+                          }}
+                        >
+                          결제완료!
+                        </div>
+                      ) : paymentStatus[keyIndex] === "other" ? (
+                        <div
+                          style={{
+                            display: "inline-block",
+                            width: "170px",
+                            marginLeft: "28px",
+                            borderRadius: "10px",
+                            border: "3px solid red",
+                            fontSize: "0.9em",
+                            textAlign: "center",
+                            backgroundColor: "red",
+                            color: "white",
+                          }}
+                        >
+                          미결제
+                        </div>
+                      ) : paymentStatus[keyIndex] === "deposit" ? (
+                        <div
+                          style={{
+                            display: "inline-block",
+                            width: "170px",
+                            marginLeft: "30px",
+                            borderRadius: "10px",
+                            border: "3px solid yellow",
+                            fontSize: "0.9em",
+                            textAlign: "center",
+                            color: "black",
+                            backgroundColor: "yellow",
+                          }}
+                        >
+                          예약금 결제 완료!
+                        </div>
+                      ) : null}
                     </div>
                     <p
                       className="myPlannerName"
@@ -1062,6 +1159,8 @@ function Matching() {
           >
             매칭된 고객
           </p>
+          {/* {console.log("**************estimateOrder****************")}
+          {console.log(JSON.stringify(estimateOrder2))} */}
           {searchedUserKeyIndex.length !== 0 ? (
             searchedUserKeyIndex.map((index) => {
               const num = estimateOrder[index] - 1;
@@ -1089,6 +1188,57 @@ function Matching() {
                       }}
                     >
                       -견적서{estimateOrder[index]}-
+                      {console.log("###########################")}
+                      {console.log(paymentStatus2[index])}
+                      {paymentStatus2[index] === "all" ? (
+                        <div
+                          style={{
+                            display: "inline-block",
+                            width: "170px",
+                            marginLeft: "30px",
+                            borderRadius: "10px",
+                            border: "1px solid green",
+                            fontSize: "0.9em",
+                            textAlign: "center",
+                            backgroundColor: "green",
+                            color: "white",
+                          }}
+                        >
+                          결제완료!
+                        </div>
+                      ) : paymentStatus2[index] === "other" ? (
+                        <div
+                          style={{
+                            display: "inline-block",
+                            width: "170px",
+                            marginLeft: "28px",
+                            borderRadius: "10px",
+                            border: "3px solid red",
+                            fontSize: "0.9em",
+                            textAlign: "center",
+                            backgroundColor: "red",
+                            color: "white",
+                          }}
+                        >
+                          미결제
+                        </div>
+                      ) : paymentStatus2[index] === "deposit" ? (
+                        <div
+                          style={{
+                            display: "inline-block",
+                            width: "170px",
+                            marginLeft: "30px",
+                            borderRadius: "10px",
+                            border: "3px solid yellow",
+                            fontSize: "0.9em",
+                            textAlign: "center",
+                            color: "black",
+                            backgroundColor: "yellow",
+                          }}
+                        >
+                          예약금 결제 완료!
+                        </div>
+                      ) : null}
                     </div>
                     <p
                       className="myPlannerName"

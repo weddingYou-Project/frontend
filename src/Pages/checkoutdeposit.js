@@ -47,7 +47,7 @@ function Checkoutdeposit() {
       {
         pg: "kcp",
         pay_method: { paymentMethod },
-        merchant_uid: `57105840-${estimateId}` + IMP,
+        merchant_uid: `57105841-${estimateId}` + IMP,
         name: "플래너 매칭 계약금",
         amount: depositAmount1,
         buyer_email: sessionStorage.getItem("email"),
@@ -67,7 +67,7 @@ function Checkoutdeposit() {
               quantity: quantity,
               paymentMethod: paymentMethod,
               paymentAmount: paymentAmount,
-              tempPaymentStatus: paymentStatus,
+              tempPaymentStatus: "other",
               depositAmount: depositAmount,
               tempDepositStatus: "paid",
               paymentType: "deposit",
@@ -102,10 +102,10 @@ function Checkoutdeposit() {
               quantity: quantity,
               paymentMethod: paymentMethod,
               paymentAmount: paymentAmount,
-              tempPaymentStatus: paymentStatus,
+              tempPaymentStatus: "other",
               depositAmount: depositAmount,
               tempDepositStatus: "cancelled",
-              paymentType: paymentType,
+              paymentType: "deposit",
               userEmail: userEmail,
               plannerEmail: plannerEmail,
               estimateId: estimateId,
@@ -128,10 +128,10 @@ function Checkoutdeposit() {
         quantity: quantity,
         paymentMethod: paymentMethod,
         paymentAmount: paymentAmount,
-        tempPaymentStatus: paymentStatus,
+        tempPaymentStatus: "other",
         depositAmount: depositAmount,
         tempDepositStatus: "cancelled",
-        paymentType: paymentType,
+        paymentType: "deposit",
         userEmail: userEmail,
         plannerEmail: plannerEmail,
         estimateId: estimateId,
@@ -145,7 +145,7 @@ function Checkoutdeposit() {
   }, []);
 
   return (
-    <div className="mainlayout">
+    <div className="mainlayout" style={{ height: "950px" }}>
       <NavigationBar title={"결제하기 (계약금)"} />
       <div className="plannerpro" style={{ marginTop: 110 }}>
         {plannerImg === "data:image/jpeg;base64," ? (

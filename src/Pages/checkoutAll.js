@@ -42,7 +42,7 @@ function CheckoutAll() {
       {
         pg: "kcp",
         pay_method: { paymentMethod },
-        merchant_uid: `56907901-${estimateId}` + IMP,
+        merchant_uid: `56907801-${estimateId}` + IMP,
         name: "플래너 매칭서비스",
         amount: paymentAmount1,
         buyer_email: sessionStorage.getItem("email"),
