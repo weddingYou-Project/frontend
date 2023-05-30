@@ -741,6 +741,103 @@ function Matching() {
       });
   }, []);
 
+  const writeReview = (e) => {
+    const bsIndex = e.target.dataset.bsIndex;
+    const bsIndex2 = e.target.dataset.bsIndex2;
+    const estimateId = e.target.dataset.bsEstimateid;
+    const estimateNum = e.target.dataset.bsEstimatenum - 1;
+    const plannerEmail = plannerMatching[bsIndex][bsIndex2];
+    const plannername = plannerName[bsIndex][bsIndex2];
+    const formData = new FormData();
+    formData.append("targetEstimateId", estimateId);
+    formData.append("matchingPlanner", plannerEmail);
+    formData.append("userEmail", sessionStorage.getItem("email"));
+
+    axios
+      .post(`/estimate/review`, formData)
+      .then((res) => {
+        const userName = res.data.slice(0, res.data.indexOf("/"));
+        const userPhone = res.data.slice(
+          res.data.indexOf("/") + 1,
+          res.data.indexOf("]")
+        );
+        const plannerEmail = res.data.slice(
+          res.data.indexOf("]") + 1,
+          res.data.indexOf("[")
+        );
+        const plannerName = res.data.slice(
+          res.data.indexOf("[") + 1,
+          res.data.indexOf(",")
+        );
+        const budget = res.data.slice(
+          res.data.indexOf(",") + 1,
+          res.data.indexOf("*")
+        );
+        const plannerImg = res.data.slice(
+          res.data.indexOf("*") + 1,
+          res.data.length
+        );
+        let plannerImgUrl = "data:image/jpeg;base64," + plannerImg;
+
+        navigate("/rating", {
+          state: {
+            estimateId: estimateId,
+
+            planneremail: plannerEmail,
+            plannerImg: plannerImgUrl,
+            plannerName: plannername,
+          },
+        });
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  const writeReview2 = (e) => {
+    const estimateNum = e.target.dataset.bsEstimatenum - 1;
+    setSelectEstimateNum(estimateNum);
+    console.log("estimateNum:" + estimateNum);
+    const formData = new FormData();
+    formData.append("userEmail", sessionStorage.getItem("email"));
+    formData.append("estimateNum", estimateNum);
+    axios.post(`/estimate/review2`, formData).then((res) => {
+      console.log(res);
+      const data = res.data;
+
+      if (data.length !== 0) {
+        let selectedPlannerImg = null;
+        let selectedPlanner = null;
+        let selectedPlannerName = null;
+        let estimateId = null;
+        for (let j = 0; j < data.length; j++) {
+          if (j % 4 === 0) {
+            if (data[j] === "null") {
+              selectedPlannerImg = defaultprofileimage;
+            } else {
+              let img = "data:image/jpeg;base64," + data[j];
+              selectedPlannerImg = img;
+            }
+          } else if (j % 4 === 1) {
+            selectedPlannerName = data[j];
+          } else if (j % 4 === 2) {
+            selectedPlanner = data[j];
+          } else if (j % 4 === 3) {
+            estimateId = data[j];
+          }
+        }
+        navigate(`/rating`, {
+          state: {
+            planneremail: selectedPlanner,
+            plannerName: selectedPlannerName,
+            plannerImg: selectedPlannerImg,
+            estimateId: estimateId,
+          },
+        });
+      }
+    });
+  };
+
   return (
     <div className="mainlayout">
       <hr />
@@ -892,18 +989,15 @@ function Matching() {
                       >
                         결제하기
                       </button>
+                      {console.log("+++++++++++++++++++++++++++")}
+                      {console.log(estimateNum[keyIndex])}
                       {paymentStatus[keyIndex] === "all" ? (
                         <button
                           className="plannerMatchingBtn"
                           data-bs-estimateNum={estimateNum[keyIndex]}
-                          onClick={() => {
-                            alert(
-                              `결제 완료로 인해 매칭 취소가 불가합니다! 
-불가피하게 취소할 경우 플래너에게 직접 문의해주세요.`
-                            );
-                          }}
+                          onClick={writeReview2}
                         >
-                          매칭취소
+                          리뷰쓰기
                         </button>
                       ) : (
                         <button
@@ -1132,14 +1226,13 @@ function Matching() {
                                   <button
                                     style={{ width: "140px" }}
                                     className="plannerMatchingBtn"
-                                    onClick={() => {
-                                      alert(
-                                        `결제 완료로 인해 매칭 취소가 불가합니다! 
-불가피하게 취소할 경우 플래너에게 직접 문의해주세요.`
-                                      );
-                                    }}
+                                    data-bs-index={index}
+                                    data-bs-index2={i}
+                                    data-bs-estimateId={estimateId}
+                                    data-bs-estimateNum={index + 1}
+                                    onClick={writeReview}
                                   >
-                                    매칭/거절
+                                    리뷰쓰기
                                   </button>
                                 ) : (
                                   <button
