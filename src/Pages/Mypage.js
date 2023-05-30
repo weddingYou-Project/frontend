@@ -267,13 +267,14 @@ function Mypage() {
           className="content mypagecontainer text-center"
           style={{
             minHeight: "100vh",
-            height: "100px",
+            height: "1000px",
             width: "100%",
             zIndex: 1,
             display: "flex",
             flexDirection: "column",
             justifyContent: "start",
             paddingTop: "200px",
+            paddingBottom: "100px",
           }}
         >
           {previewUrl === null ? (
@@ -593,6 +594,7 @@ function Mypage() {
               </button>
             </div>
           </form>
+          <div style={{ width: "568px", height: "400px" }}></div>
         </div>
       ) : (
         <div

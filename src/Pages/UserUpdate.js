@@ -1145,7 +1145,7 @@ function UserUpdate() {
           class="mypagecontainer text-center"
           style={{
             minHeight: "100vh",
-            height: "500px",
+            height: "890px",
             width: "100%",
             zIndex: 1,
             display: "flex",

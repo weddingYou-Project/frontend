@@ -115,6 +115,7 @@ function Footer() {
         className="icon"
         onClick={() => {
           navigate("/plannerprofile");
+          window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
         }}
       >
         <svg
