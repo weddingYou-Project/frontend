@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import NavigationBar from "../../Components/NavigationBar";
@@ -41,7 +41,7 @@ const WritePost = () => {
   const [selectedCategory1, setSelectedCategory1] = useState(
     selectedCategory[category1]
   );
-
+  console.log(image);
   const postItem = () => {
     if (content !== "" && itemName !== "") {
       const formData = new FormData();
@@ -60,7 +60,7 @@ const WritePost = () => {
           setImage(null);
           setCategory2(categoryOptions[category1][0]);
           setPreviewUrl(selectImg);
-          setImage(null);
+          imgFile.current.value = null;
           alert("아이템 업로드 완료!");
         })
         .catch((e) => {
@@ -73,11 +73,11 @@ const WritePost = () => {
       alert("제목과 내용을 입력하세요!");
     }
   };
-
+  const imgFile = useRef();
   const handleCancel = () => {
     setItemName("");
     setContent("");
-    setImage(null);
+    imgFile.current.value = null;
     setCategory2(categoryOptions[category1][0]);
     setPreviewUrl(selectImg);
     setImage(null);
@@ -96,6 +96,9 @@ const WritePost = () => {
       setPreviewUrl(selectImg);
     }
   };
+  useEffect(() => {
+    setImage(null);
+  }, []);
   return (
     <div className="mainlayout">
       <NavigationBar title="글 작성" />
@@ -131,7 +134,7 @@ const WritePost = () => {
           value={content}
           onChange={(event) => setContent(event.target.value)}
         />
-        <input type="file" onChange={handleImageChange} />
+        <input ref={imgFile} type="file" onChange={handleImageChange} />
         <img
           src={previewUrl}
           alt=""
