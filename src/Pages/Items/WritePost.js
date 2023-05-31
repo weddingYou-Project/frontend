@@ -44,30 +44,34 @@ const WritePost = () => {
   console.log(image);
   const postItem = () => {
     if (content !== "" && itemName !== "") {
-      const formData = new FormData();
-      formData.append("itemName", itemName);
-      formData.append("content", content);
-      formData.append("category1", selectedCategory1);
-      formData.append("category2", category2);
-      formData.append("file", image);
+      if (imgFile.current.value !== "") {
+        const formData = new FormData();
+        formData.append("itemName", itemName);
+        formData.append("content", content);
+        formData.append("category1", selectedCategory1);
+        formData.append("category2", category2);
+        formData.append("file", image);
 
-      axios
-        .post("/item/insertItem", formData)
-        .then((response) => {
-          console.log("성공:", response.data);
-          setItemName("");
-          setContent("");
-          setImage(null);
-          setPreviewUrl(selectImg);
-          imgFile.current.value = null;
-          alert("아이템 업로드 완료!");
-        })
-        .catch((e) => {
-          console.log("실패:", e);
-          if (e.response.data.message === "파일이 중복됩니다!") {
-            alert("첨부파일이 중복됩니다!");
-          }
-        });
+        axios
+          .post("/item/insertItem", formData)
+          .then((response) => {
+            console.log("성공:", response.data);
+            setItemName("");
+            setContent("");
+            setImage(null);
+            setPreviewUrl(selectImg);
+            imgFile.current.value = null;
+            alert("아이템 업로드 완료!");
+          })
+          .catch((e) => {
+            console.log("실패:", e);
+            if (e.response.data.message === "파일이 중복됩니다!") {
+              alert("첨부파일이 중복됩니다!");
+            }
+          });
+      } else {
+        alert("이미지를 선택해주세요!");
+      }
     } else {
       alert("제목과 내용을 입력하세요!");
     }
