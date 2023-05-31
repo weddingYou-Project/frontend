@@ -28,7 +28,12 @@ function CustomerCenter() {
                 <p className="customCenterTxt">006</p>
               </td>
               <td style={{ width: 350 }}>
-                <a className="customCenterTxt">공지사항 SampleTitle</a>
+                <a
+                  href="http://localhost:3000/notice/detail"
+                  className="customCenterTxt"
+                >
+                  공지사항 SampleTitle
+                </a>
               </td>
               <td>
                 <p className="customCenterTxt">124</p>
@@ -100,7 +105,12 @@ function CustomerCenter() {
                 <p className="customCenterTxt">006</p>
               </td>
               <td style={{ width: 350 }}>
-                <a className="customCenterTxt">Q&A SampleTitle</a>
+                <a
+                  href="http://localhost:3000/qna/detail"
+                  className="customCenterTxt"
+                >
+                  Q&A SampleTitle
+                </a>
               </td>
               <td>
                 <p className="customCenterTxt">43</p>

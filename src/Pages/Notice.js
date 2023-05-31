@@ -27,7 +27,12 @@ function Notice() {
           <tbody>
             <tr>
               <td style={{ height: 50 }}>
-                <a className="noticeTxt">공지사항 TitleSample</a>
+                <a
+                  href="http://localhost:3000/notice/detail"
+                  className="noticeTxt"
+                >
+                  공지사항 TitleSample
+                </a>
               </td>
               <td>
                 <p className="noticeTxtCenter">23.05.06</p>

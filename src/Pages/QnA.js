@@ -37,7 +37,12 @@ function QnA() {
           <tbody>
             <tr>
               <td style={{ height: 50 }}>
-                <a className="noticeTxt">Q&A TitleSample</a>
+                <a
+                  href="http://localhost:3000/qna/detail"
+                  className="noticeTxt"
+                >
+                  Q&A TitleSample
+                </a>
               </td>
               <td>
                 <p className="noticeTxtCenter">2</p>

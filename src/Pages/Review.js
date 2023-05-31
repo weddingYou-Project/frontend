@@ -85,7 +85,12 @@ function Review() {
           <tbody>
             <tr>
               <td style={{ height: 50 }}>
-                <a className="noticeTxt">이용후기 TitleSample</a>
+                <a
+                  href="http://localhost:3000/review/detail"
+                  className="noticeTxt"
+                >
+                  000플래너 Review
+                </a>
               </td>
               <td>
                 <p className="noticeTxtCenter">4/5</p>
@@ -99,7 +104,7 @@ function Review() {
             </tr>
             <tr>
               <td style={{ height: 50 }}>
-                <a className="noticeTxt">이용후기 TitleSample</a>
+                <a className="noticeTxt">000플래너 Review</a>
               </td>
               <td>
                 <p className="noticeTxtCenter">3/5</p>
@@ -113,7 +118,7 @@ function Review() {
             </tr>
             <tr>
               <td style={{ height: 50 }}>
-                <a className="noticeTxt">이용후기 TitleSample</a>
+                <a className="noticeTxt">000플래너 Review</a>
               </td>
               <td>
                 <p className="noticeTxtCenter">2/5</p>
@@ -127,7 +132,7 @@ function Review() {
             </tr>
             <tr>
               <td style={{ height: 50 }}>
-                <a className="noticeTxt">이용후기 TitleSample</a>
+                <a className="noticeTxt">000플래너 Review</a>
               </td>
               <td>
                 <p className="noticeTxtCenter">3/5</p>
@@ -141,7 +146,7 @@ function Review() {
             </tr>
             <tr>
               <td style={{ height: 50 }}>
-                <a className="noticeTxt">이용후기 TitleSample</a>
+                <a className="noticeTxt">000플래너 Review</a>
               </td>
               <td>
                 <p className="noticeTxtCenter">4/5</p>
