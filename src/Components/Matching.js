@@ -718,7 +718,7 @@ function Matching() {
       .catch((e) => {
         console.log(e);
       });
-  }, [matchedUser, cancelledUser]);
+  }, [matchedUser, cancelledUser, deletedPlanner]);
 
   useEffect(() => {
     const formData = new FormData();
