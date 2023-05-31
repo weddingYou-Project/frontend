@@ -739,7 +739,7 @@ function Matching() {
       .catch((e) => {
         console.log(e);
       });
-  }, []);
+  }, [matchedUser, cancelledUser, deletedPlanner]);
 
   const writeReview = (e) => {
     const bsIndex = e.target.dataset.bsIndex;
@@ -1615,6 +1615,8 @@ function Matching() {
                             paddingLeft: "-70px",
                           }}
                         >
+                          {console.log("+_+_+_+_+_+_+_+_+_+_+")}
+                          {console.log(paymentStatus3)}
                           {paymentStatus3[index] === "all" ? (
                             <div
                               style={{

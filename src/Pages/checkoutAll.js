@@ -71,7 +71,6 @@ function CheckoutAll() {
               } else if (value == 0) {
                 //계약금 처리만 된 상태(취소 상태로 paymentStatus 자동으로 바뀜)
               } else if (value == 1) {
-                alert("전체 금액 결제가 완료되었습니다!");
                 sessionStorage.setItem("checkout", "all");
                 navigate("/checkoutcomp", {
                   state: {
