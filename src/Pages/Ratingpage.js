@@ -105,24 +105,36 @@ function Ratingpage() {
                 });
                 imgFileArr.push(file);
 
-                const selectedImage = file;
-                console.log("fileReader.result");
-                try {
-                  const fileReader = new FileReader();
-                  const previewUrlArr = [...previewUrl];
-                  fileReader.onload = () => {
-                    previewUrlArr.push(fileReader.result);
-                    console.log(fileReader.result);
-                    setPreviewUrl(previewUrlArr);
-                  };
-                  console.log("--------------------------");
-                  console.log(previewUrlArr);
+                const previewUrlArr = [];
+                const getImgSrc = async (event, files) => {
+                  const getPreviewUrls = imgFileArr.map((file) => {
+                    const selectedImage = file;
+                    console.log("fileReader.result");
+                    return new Promise((resolve, reject) => {
+                      const fileReader = new FileReader();
+                      fileReader.onload = async () => {
+                        try {
+                          const response = await fileReader.result;
 
-                  fileReader.readAsDataURL(selectedImage);
-                } catch (e) {
-                  console.log(e);
-                  //setPreviewUrl(selectedImage);
-                }
+                          resolve(response);
+                        } catch (e) {
+                          reject(e);
+                        }
+                      };
+                      fileReader.onerror = (error) => {
+                        reject(error);
+                      };
+                      fileReader.readAsDataURL(selectedImage);
+                    });
+                  });
+                  const fileInfos = await Promise.all(getPreviewUrls);
+                  console.log("!11111111111111111");
+                  console.log(fileInfos);
+                  setPreviewUrl(fileInfos);
+                  return fileInfos;
+                };
+                getImgSrc();
+
                 return resdata;
               });
               console.log(imageUrls);
@@ -147,9 +159,9 @@ function Ratingpage() {
     const formData = new FormData();
     formData.append("reviewText", reviewText);
     formData.append("reviewStars", rating);
-    if (images.length > 0) {
-      for (let i = 0; i < images.length; i++) {
-        formData.append("reviewImg", images[i]);
+    if (imgArr.length > 0) {
+      for (let i = 0; i < imgArr.length; i++) {
+        formData.append("reviewImg", imgArr[i]);
       }
     }
     formData.append("userEmail", sessionStorage.getItem("email"));
@@ -207,16 +219,24 @@ function Ratingpage() {
     setImages([]);
   };
   //이미지 파일 개별 삭제
-  const deleteimage = (image) => {
-    let copy = [...images];
-    for (let i = 0; i < copy.length; i++) {
-      console.log(i);
-      if (copy[i].name === image) {
-        copy.splice(i, 1);
-        setImages(copy);
-        break;
-      }
-    }
+  const deleteImg = (index) => {
+    let previewUrlCopy = [...previewUrl];
+    let imgArrCopy = [...imgArr];
+    imgArrCopy.splice(index, 1);
+    previewUrlCopy.splice(index, 1);
+    setPreviewUrl(previewUrlCopy);
+    setImgArr(imgArrCopy);
+    // for (let i = 0; i < imgArrCopy.length; i++) {
+    //   console.log(i);
+    //   if(index===i){
+
+    //   }
+    //   if (copy[i].name === image) {
+    //     copy.splice(i, 1);
+    //     setImages(copy);
+    //     break;
+    //   }
+    // }
   };
   return (
     <div className="mainlayout">
@@ -292,22 +312,32 @@ function Ratingpage() {
           <div>
             <h5>
               고객 첨부이미지{" "}
-              {images.length !== 0 && <span>(클릭시 확대됩니다)</span>}
+              {images.length !== 0 && <span>(클릭시 삭제됩니다)</span>}
             </h5>
             {images.length === 0 && <span>첨부 이미지가 없습니다.</span>}
             <br></br>
             {console.log("previewUrl")}
             {console.log(previewUrl)}
-            {images.length !== 0 ? (
+            {previewUrl.length !== 0 ? (
               previewUrl.map((url, index) => {
                 return (
-                  <div key={index}>
+                  <div key={index} style={{ marginBottom: "20px" }}>
                     <button
                       type="button"
-                      class="btn"
-                      data-bs-toggle="modal"
-                      data-bs-target={`#number${index.toString()}`}
-                      style={{ width: "40%" }}
+                      class="btn imgOverlay"
+                      // data-bs-toggle="modal"
+                      // data-bs-target={`#number${index.toString()}`}
+                      style={{
+                        width: "200px",
+                        pointer: "cursor",
+                        padding: 0,
+                        height: "100%",
+                        borderRadius: "10px",
+                        margin: 0,
+                      }}
+                      onClick={() => {
+                        deleteImg(index);
+                      }}
                     >
                       <img
                         src={url}
@@ -316,50 +346,50 @@ function Ratingpage() {
                           display: "inline-block",
                           width: "200px",
                           height: "200px",
-                          marginTop: "20px",
-                          marginBottom: "-10px",
+
                           borderRadius: "10px",
                         }}
                       />
                     </button>
-                    <ImagesView
+                    {/* <ImagesView
                       images={url}
                       index={`number${index.toString()}`}
-                    />
+                    /> */}
                   </div>
                 );
               })
             ) : (
-              <div style={{ marginTop: 5 }}>
-                {images.map((image, index) => {
-                  return (
-                    <div className="imagefilenamebox">
-                      <div className="imagefilenamecontent">
-                        <span>{image.name}</span>
-                        <img
-                          src={image}
-                          width="40%"
-                          height="40%"
-                          style={{
-                            float: "left",
-                            width: "100%",
-                            borderRadius: "10px",
-                          }}
-                          alt=""
-                        />
-                        <div
-                          className="imagefilename-overlay cursor"
-                          onClick={() => {
-                            deleteimage(image.name);
-                          }}
-                        >
-                          <i class="bi bi-x-lg"></i>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
+              <div></div>
+              // <div style={{ marginTop: 5 }}>
+              //   {images.map((image, index) => {
+              //     return (
+              //       <div className="imagefilenamebox">
+              //         <div className="imagefilenamecontent">
+              //           <span>{image.name}</span>
+              //           <img
+              //             src={image}
+              //             width="40%"
+              //             height="40%"
+              //             style={{
+              //               float: "left",
+              //               width: "100%",
+              //               borderRadius: "10px",
+              //             }}
+              //             alt=""
+              //           />
+              //           <div
+              //             className="imagefilename-overlay cursor"
+              //             onClick={() => {
+              //               deleteimage(image.name);
+              //             }}
+              //           >
+              //             <i class="bi bi-x-lg"></i>
+              //           </div>
+              //         </div>
+              //       </div>
+              //     );
+              //   })}
+              // </div>
             )}
           </div>
         </div>
