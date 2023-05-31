@@ -147,7 +147,7 @@ function Home() {
       .get(`/item/itemList/${category[0]}`)
       .then((res) => {
         const dataList = res.data;
-
+        console.log(dataList);
         if (dataList.length !== 0) {
           let index = 0;
           for (var i = 0; i < dataList.length; i++) {
@@ -213,9 +213,10 @@ function Home() {
                 });
             }
           }
-        } else {
-          setFinish(true);
         }
+        //  else {
+        //   setFinish(true);
+        // }
       })
       .catch((e) => {
         console.log(e);
@@ -292,6 +293,9 @@ function Home() {
             }
           }
         }
+        // else {
+        //   setFinish(true);
+        // }
       })
       .catch((e) => {
         console.log(e);
@@ -367,6 +371,9 @@ function Home() {
             }
           }
         }
+        // else {
+        //   setFinish(true);
+        // }
       })
       .catch((e) => {
         console.log(e);
@@ -442,6 +449,9 @@ function Home() {
             }
           }
         }
+        //  else {
+        //   setFinish(true);
+        // }
       })
       .catch((e) => {
         console.log(e);
@@ -517,6 +527,9 @@ function Home() {
             }
           }
         }
+        // else {
+        //   setFinish(true);
+        // }
       })
       .catch((e) => {
         console.log(e);
@@ -593,6 +606,9 @@ function Home() {
             }
           }
         }
+        // else {
+        //   setFinish(true);
+        // }
       })
       .catch((e) => {
         console.log(e);
