@@ -276,7 +276,7 @@ function Mypage() {
         <Animation />
       ) : sessionStorage.getItem("category") === "user" ? (
         <div
-          className="content mypagecontainer text-center"
+          class="mypagecontainer text-center"
           style={{
             minHeight: "100vh",
             height: "1000px",
@@ -285,34 +285,35 @@ function Mypage() {
             display: "flex",
             flexDirection: "column",
             justifyContent: "start",
-            paddingTop: "200px",
-            paddingBottom: "100px",
+            paddingTop: "210px",
           }}
         >
           {previewUrl === null ? (
             <div style={{ width: "200px", height: "200px" }}></div>
           ) : (
-            <img
-              src={previewUrl}
-              style={
-                category === "user"
-                  ? {
-                      width: "200px",
-                      height: "200px",
-                      marginBottom: "20px",
-                      marginTop: "-85px",
-                    }
-                  : {
-                      width: "200px",
-                      height: "200px",
-                      marginBottom: "20px",
-                      marginTop: "-95px",
-                    }
-              }
-              alt=""
-            />
+            <div>
+              <img
+                src={previewUrl}
+                style={
+                  category === "user"
+                    ? {
+                        width: "200px",
+                        height: "200px",
+                        marginBottom: "20px",
+                        marginTop: "-85px",
+                      }
+                    : {
+                        width: "200px",
+                        height: "200px",
+                        marginBottom: "20px",
+                        marginTop: "-95px",
+                      }
+                }
+                alt=""
+              />
+            </div>
           )}
-          <form style={{ marginTop: "10px" }}>
+          <form style={{ marginTop: "20px" }}>
             <div
               className=" justify-content-md-center mb-2"
               style={{ display: "flex", flexDirection: "row", width: "100%" }}
