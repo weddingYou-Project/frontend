@@ -58,7 +58,6 @@ const WritePost = () => {
           setItemName("");
           setContent("");
           setImage(null);
-          setCategory2(categoryOptions[category1][0]);
           setPreviewUrl(selectImg);
           imgFile.current.value = null;
           alert("아이템 업로드 완료!");
