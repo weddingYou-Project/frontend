@@ -71,6 +71,7 @@ function Ratingpage() {
           setReviewText(text);
           const getImages = async () => {
             try {
+              console.log(data.reviewImg);
               const imagearray = JSON.parse(data.reviewImg);
               console.log(imagearray);
               const imgNameArr = [];
@@ -128,8 +129,6 @@ function Ratingpage() {
                     });
                   });
                   const fileInfos = await Promise.all(getPreviewUrls);
-                  console.log("!11111111111111111");
-                  console.log(fileInfos);
                   setPreviewUrl(fileInfos);
                   return fileInfos;
                 };
@@ -158,12 +157,20 @@ function Ratingpage() {
     e.preventDefault();
     const formData = new FormData();
     formData.append("reviewText", reviewText);
-    formData.append("reviewStars", rating);
+    let ratingstars = rating;
+
+    if (isNaN(rating)) {
+      ratingstars = 0;
+    }
+    console.log(ratingstars);
+    formData.append("reviewStars", ratingstars);
+    console.log("+_+_+_+_+_+_+_+_+");
     if (imgArr.length > 0) {
       for (let i = 0; i < imgArr.length; i++) {
         formData.append("reviewImg", imgArr[i]);
       }
     }
+
     formData.append("userEmail", sessionStorage.getItem("email"));
     formData.append("plannerEmail", planneremail);
     formData.append("estimateId", estimateId);
@@ -185,6 +192,7 @@ function Ratingpage() {
     const imgArr1 = [...imgArr];
     imgArr1.push(selectedImage);
     setImgArr(imgArr1);
+    console.log("+_+_+_+_+_+_++_+_+_+_+");
     console.log(imgArr1);
     // setImage(selectedImage);
     try {
