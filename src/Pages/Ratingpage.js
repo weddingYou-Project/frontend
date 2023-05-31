@@ -174,16 +174,20 @@ function Ratingpage() {
     formData.append("userEmail", sessionStorage.getItem("email"));
     formData.append("plannerEmail", planneremail);
     formData.append("estimateId", estimateId);
-    axios
-      .post("/reviews", formData)
-      .then((res) => {
-        console.log("성공:", res);
-        alert("리뷰 작성 완료!");
-        navigate(`/`);
-      })
-      .catch((e) => {
-        console.log("실패:", e);
-      });
+    if (reviewText === undefined || reviewText === "") {
+      alert("리뷰를 작성하시려면 리뷰 후기를 적어주세요!");
+    } else {
+      axios
+        .post("/reviews", formData)
+        .then((res) => {
+          console.log("성공:", res);
+          alert("리뷰 작성 완료!");
+          navigate(`/`);
+        })
+        .catch((e) => {
+          console.log("실패:", e);
+        });
+    }
   };
 
   const handleImageChange = (event) => {
