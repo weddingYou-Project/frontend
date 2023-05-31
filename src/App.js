@@ -27,6 +27,7 @@ import Checkoutdeposit from "./Pages/checkoutdeposit";
 import Matching from "./Components/Matching";
 import CheckoutAll from "./Pages/checkoutAll";
 import CheckoutComp from "./Pages/checkoutComp";
+import AdminPage from "./Pages/AdminPage";
 
 function App() {
   return (
@@ -66,6 +67,8 @@ function App() {
       <Route path="/checkoutdeposit" element={<Checkoutdeposit />} />
       <Route path="/rating" element={<Ratingpage />} />
       <Route path="/sidesection" element={<Sidesection />} />
+      {/*관리자페이지 Route */}
+      {/* <Route path="/adminpage" element={<AdminPage />} /> */}
     </Routes>
   );
 }

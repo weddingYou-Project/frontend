@@ -378,7 +378,9 @@ const EstimateDetail = () => {
               {estimateData.requirement === "" && (
                 <span>고객요청사항이 없습니다.</span>
               )}
-              {estimateData.requirement}
+              <div style={{ whiteSpace: "pre-wrap" }}>
+                {estimateData.requirement}
+              </div>
             </div>
           </div>
           <div className="update-button-box" style={{ marginBottom: "30px" }}>
@@ -425,6 +427,7 @@ const EstimateDetail = () => {
                     navigate(-1);
                   }}
                   className="btn-colour-1"
+                  style={{ marginRight: "10px" }}
                 >
                   뒤로가기
                 </button>

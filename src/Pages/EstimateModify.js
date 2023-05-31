@@ -43,6 +43,8 @@ const EstimateModify = () => {
         setmakeup(JSON.parse(data.makeup));
         setserverimagepath(JSON.parse(data.img));
         setwriter(data.writer);
+        setDate(data.date);
+        setViewcount(data.viewcount);
 
         if (window.sessionStorage.getItem("email") !== data.writer) {
           navigate("../estimatelist");
@@ -97,7 +99,8 @@ const EstimateModify = () => {
     regionsecond: "",
     regionthird: "",
   });
-
+  let [viewcount, setViewcount] = useState();
+  let [date, setDate] = useState();
   let [writer, setwriter] = useState();
   let [budget, setbudget] = useState("");
   let [studio, setstudio] = useState("");
@@ -361,6 +364,8 @@ const EstimateModify = () => {
       formData.append("id", id);
       formData.append("previmage", serverimagepath);
       formData.append("writer", window.sessionStorage.getItem("email"));
+      formData.append("date", date);
+      formData.append("viewcount", viewcount);
       if (images.length > 0) {
         for (let i = 0; i < images.length; i++) {
           formData.append("uploadfiles", images[i]);
@@ -386,10 +391,7 @@ const EstimateModify = () => {
         <div className="contentbox">
           <h5
             onClick={() => {
-              console.log("1", serverimage);
-              console.log("2", serverimagepath);
-              console.log(previewimage);
-              console.log(images);
+              console.log(date);
             }}
           >
             희망 결혼 예정일
