@@ -213,6 +213,8 @@ function Home() {
                 });
             }
           }
+        } else {
+          setFinish(true);
         }
       })
       .catch((e) => {
@@ -1344,118 +1346,122 @@ function Home() {
                 </svg>
               </h4>
               <br />
-              <div
-                id="weddingHallFade"
-                className="carousel slide carousel-fade"
-                data-bs-ride="carousel"
-                data-bs-interval="5000"
-              >
-                <div class="carousel-inner">
-                  <div
-                    class="carousel-item active"
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      width: "500px",
-                      height: "400px",
-                    }}
-                    data-bs-interval="5000"
-                  >
-                    <img
-                      id={0}
+              {keyIndex.length !== 0 ? (
+                <div
+                  id="weddingHallFade"
+                  className="carousel slide carousel-fade"
+                  data-bs-ride="carousel"
+                  data-bs-interval="5000"
+                >
+                  <div class="carousel-inner">
+                    <div
+                      class="carousel-item active"
                       style={{
-                        width: "400px",
-                        height: "340px",
-                        marginLeft: "25px",
-                        cursor: "pointer",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        width: "500px",
+                        height: "400px",
                       }}
-                      src={previewImg[0]} //previewImg배열 하나하나요소가 src에 들어가야 함.
-                      data-bs-toggle="modal"
-                      data-bs-target="#imgDetailModal"
-                      data-bs-src={previewImg[0]}
-                      data-bs-category={category[0]}
-                      data-bs-keyIndex={0}
-                      data-bs-itemId={itemId[0]}
-                      onClick={showimgDetail}
-                      alt="..."
-                    />
-                    <br />
-                    <div className="itemName" style={{ marginTop: "-10px" }}>
-                      {itemName[0]}&nbsp;&nbsp; ❤️
-                      {itemLike[0]}
-                    </div>
-                  </div>
-
-                  {keyIndex.map((i) =>
-                    i === 0 ? null : (
-                      <div
-                        class="carousel-item"
+                      data-bs-interval="5000"
+                    >
+                      <img
+                        id={0}
                         style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          alignItems: "center",
-                          width: "500px",
-                          height: "400px",
+                          width: "400px",
+                          height: "340px",
+                          marginLeft: "25px",
+                          cursor: "pointer",
                         }}
-                        data-bs-interval=""
-                      >
-                        <img
-                          style={{
-                            width: "400px",
-                            height: "340px",
-                            marginLeft: "25px",
-                            cursor: "pointer",
-                          }}
-                          onClick={showimgDetail}
-                          data-bs-toggle="modal"
-                          data-bs-target="#imgDetailModal"
-                          data-bs-src={previewImg[i]}
-                          data-bs-category={category[0]}
-                          data-bs-keyIndex={i}
-                          data-bs-itemid={itemId[i]}
-                          src={previewImg[i]}
-                          alt="..."
-                        />
-                        <br />
-                        <div
-                          className="itemName"
-                          style={{ marginTop: "-10px" }}
-                        >
-                          {itemName[i]} &nbsp;&nbsp;❤️{itemLike[i]}
-                        </div>
+                        src={previewImg[0]} //previewImg배열 하나하나요소가 src에 들어가야 함.
+                        data-bs-toggle="modal"
+                        data-bs-target="#imgDetailModal"
+                        data-bs-src={previewImg[0]}
+                        data-bs-category={category[0]}
+                        data-bs-keyIndex={0}
+                        data-bs-itemId={itemId[0]}
+                        onClick={showimgDetail}
+                        alt="..."
+                      />
+                      <br />
+                      <div className="itemName" style={{ marginTop: "-10px" }}>
+                        {itemName[0]}&nbsp;&nbsp; ❤️
+                        {itemLike[0]}
                       </div>
-                    )
-                  )}
+                    </div>
+
+                    {keyIndex.map((i) =>
+                      i === 0 ? null : (
+                        <div
+                          class="carousel-item"
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            width: "500px",
+                            height: "400px",
+                          }}
+                          data-bs-interval=""
+                        >
+                          <img
+                            style={{
+                              width: "400px",
+                              height: "340px",
+                              marginLeft: "25px",
+                              cursor: "pointer",
+                            }}
+                            onClick={showimgDetail}
+                            data-bs-toggle="modal"
+                            data-bs-target="#imgDetailModal"
+                            data-bs-src={previewImg[i]}
+                            data-bs-category={category[0]}
+                            data-bs-keyIndex={i}
+                            data-bs-itemid={itemId[i]}
+                            src={previewImg[i]}
+                            alt="..."
+                          />
+                          <br />
+                          <div
+                            className="itemName"
+                            style={{ marginTop: "-10px" }}
+                          >
+                            {itemName[i]} &nbsp;&nbsp;❤️{itemLike[i]}
+                          </div>
+                        </div>
+                      )
+                    )}
+                  </div>
+                  <button
+                    class="carousel-control-prev"
+                    type="button"
+                    data-bs-target="#weddingHallFade"
+                    data-bs-slide="prev"
+                    style={{ marginLeft: "-10px" }}
+                  >
+                    <span
+                      class="carousel-control-prev-icon fadeBtnColor"
+                      aria-hidden="true"
+                    ></span>
+                    <span class="visually-hidden">Previous</span>
+                  </button>
+                  <button
+                    ref={weddingAutoplayBtn}
+                    class="carousel-control-next"
+                    type="button"
+                    data-bs-target="#weddingHallFade"
+                    data-bs-slide="next"
+                    style={{ marginRight: "-10px" }}
+                  >
+                    <span
+                      class="carousel-control-next-icon fadeBtnColor"
+                      aria-hidden="true"
+                    ></span>
+                    <span class="visually-hidden">Next</span>
+                  </button>
                 </div>
-                <button
-                  class="carousel-control-prev"
-                  type="button"
-                  data-bs-target="#weddingHallFade"
-                  data-bs-slide="prev"
-                  style={{ marginLeft: "-10px" }}
-                >
-                  <span
-                    class="carousel-control-prev-icon fadeBtnColor"
-                    aria-hidden="true"
-                  ></span>
-                  <span class="visually-hidden">Previous</span>
-                </button>
-                <button
-                  ref={weddingAutoplayBtn}
-                  class="carousel-control-next"
-                  type="button"
-                  data-bs-target="#weddingHallFade"
-                  data-bs-slide="next"
-                  style={{ marginRight: "-10px" }}
-                >
-                  <span
-                    class="carousel-control-next-icon fadeBtnColor"
-                    aria-hidden="true"
-                  ></span>
-                  <span class="visually-hidden">Next</span>
-                </button>
-              </div>
+              ) : (
+                <div style={{ fontSize: "1.3em" }}>아직 이미지가 없습니다!</div>
+              )}
               <hr />
               {/* 이미지 상세정보 모달창 */}
               <div
@@ -1637,115 +1643,121 @@ function Home() {
                 </svg>
               </h4>
               <br />
-              <div
-                id="studioFade"
-                className="carousel slide carousel-fade"
-                data-bs-ride="carousel"
-                data-bs-interval="5000"
-              >
-                <div class="carousel-inner">
-                  <div
-                    class="carousel-item active"
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      width: "500px",
-                      height: "450px",
-                    }}
-                    data-bs-interval="5000"
-                  >
-                    <img
-                      id="targetImg"
+              {studioKeyIndex.length !== 0 ? (
+                <div
+                  id="studioFade"
+                  className="carousel slide carousel-fade"
+                  data-bs-ride="carousel"
+                  data-bs-interval="5000"
+                >
+                  <div class="carousel-inner">
+                    <div
+                      class="carousel-item active"
                       style={{
-                        width: "400px",
-                        height: "400px",
-                        marginLeft: "25px",
-                        cursor: "pointer",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        width: "500px",
+                        height: "450px",
                       }}
-                      data-bs-toggle="modal"
-                      data-bs-target="#imgDetailModal"
-                      data-bs-src={studioImg[0]}
-                      data-bs-category={category[1]}
-                      data-bs-keyIndex={0}
-                      data-bs-itemId={studioItemId[0]}
-                      onClick={showimgDetail}
-                      src={studioImg[0]}
-                      alt="..."
-                    />
-                    <br />
-                    <div className="itemName" style={{ marginTop: "-10px" }}>
-                      {studioItemName[0]}&nbsp;&nbsp; ❤️{studioItemLike[0]}
-                    </div>
-                  </div>
-
-                  {studioKeyIndex.map((i) =>
-                    i === 0 ? null : (
-                      <div
-                        class="carousel-item"
+                      data-bs-interval="5000"
+                    >
+                      <img
+                        id="targetImg"
                         style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          alignItems: "center",
-                          width: "500px",
-                          height: "450px",
+                          width: "400px",
+                          height: "400px",
+                          marginLeft: "25px",
+                          cursor: "pointer",
                         }}
-                        data-bs-interval="5000"
-                      >
-                        <img
-                          style={{
-                            width: "400px",
-                            height: "400px",
-                            marginLeft: "25px",
-                            cursor: "pointer",
-                          }}
-                          data-bs-toggle="modal"
-                          data-bs-target="#imgDetailModal"
-                          data-bs-src={studioImg[i]}
-                          data-bs-category={category[1]}
-                          data-bs-keyIndex={i}
-                          data-bs-itemid={studioItemId[i]}
-                          onClick={showimgDetail}
-                          src={studioImg[i]}
-                          alt="..."
-                        />
-                        <br />
-                        <div
-                          className="itemName"
-                          style={{ marginTop: "-10px" }}
-                        >
-                          {studioItemName[i]} &nbsp;&nbsp;❤️{studioItemLike[i]}
-                        </div>
+                        data-bs-toggle="modal"
+                        data-bs-target="#imgDetailModal"
+                        data-bs-src={studioImg[0]}
+                        data-bs-category={category[1]}
+                        data-bs-keyIndex={0}
+                        data-bs-itemId={studioItemId[0]}
+                        onClick={showimgDetail}
+                        src={studioImg[0]}
+                        alt="..."
+                      />
+                      <br />
+                      <div className="itemName" style={{ marginTop: "-10px" }}>
+                        {studioItemName[0]}&nbsp;&nbsp; ❤️{studioItemLike[0]}
                       </div>
-                    )
-                  )}
+                    </div>
+
+                    {studioKeyIndex.map((i) =>
+                      i === 0 ? null : (
+                        <div
+                          class="carousel-item"
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            width: "500px",
+                            height: "450px",
+                          }}
+                          data-bs-interval="5000"
+                        >
+                          <img
+                            style={{
+                              width: "400px",
+                              height: "400px",
+                              marginLeft: "25px",
+                              cursor: "pointer",
+                            }}
+                            data-bs-toggle="modal"
+                            data-bs-target="#imgDetailModal"
+                            data-bs-src={studioImg[i]}
+                            data-bs-category={category[1]}
+                            data-bs-keyIndex={i}
+                            data-bs-itemid={studioItemId[i]}
+                            onClick={showimgDetail}
+                            src={studioImg[i]}
+                            alt="..."
+                          />
+                          <br />
+                          <div
+                            className="itemName"
+                            style={{ marginTop: "-10px" }}
+                          >
+                            {studioItemName[i]} &nbsp;&nbsp;❤️
+                            {studioItemLike[i]}
+                          </div>
+                        </div>
+                      )
+                    )}
+                  </div>
+                  <button
+                    class="carousel-control-prev"
+                    type="button"
+                    data-bs-target="#studioFade"
+                    data-bs-slide="prev"
+                  >
+                    <span
+                      class="carousel-control-prev-icon fadeBtnColor"
+                      aria-hidden="true"
+                    ></span>
+                    <span class="visually-hidden">Previous</span>
+                  </button>
+                  <button
+                    ref={studioAutoplayBtn}
+                    class="carousel-control-next"
+                    type="button"
+                    data-bs-target="#studioFade"
+                    data-bs-slide="next"
+                  >
+                    <span
+                      class="carousel-control-next-icon fadeBtnColor"
+                      aria-hidden="true"
+                    ></span>
+                    <span class="visually-hidden">Next</span>
+                  </button>
                 </div>
-                <button
-                  class="carousel-control-prev"
-                  type="button"
-                  data-bs-target="#studioFade"
-                  data-bs-slide="prev"
-                >
-                  <span
-                    class="carousel-control-prev-icon fadeBtnColor"
-                    aria-hidden="true"
-                  ></span>
-                  <span class="visually-hidden">Previous</span>
-                </button>
-                <button
-                  ref={studioAutoplayBtn}
-                  class="carousel-control-next"
-                  type="button"
-                  data-bs-target="#studioFade"
-                  data-bs-slide="next"
-                >
-                  <span
-                    class="carousel-control-next-icon fadeBtnColor"
-                    aria-hidden="true"
-                  ></span>
-                  <span class="visually-hidden">Next</span>
-                </button>
-              </div>
+              ) : (
+                <div style={{ fontSize: "1.3em" }}>아직 이미지가 없습니다!</div>
+              )}
+
               <br />
 
               <hr />
@@ -1773,115 +1785,120 @@ function Home() {
                 </svg>
               </h4>
               <br />
-              <div
-                id="clothesFade"
-                className="carousel slide carousel-fade"
-                data-bs-ride="carousel"
-                data-bs-interval="5000"
-              >
-                <div class="carousel-inner">
-                  <div
-                    class="carousel-item active"
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      width: "500px",
-                      height: "530px",
-                    }}
-                    data-bs-interval="5000"
-                  >
-                    <img
-                      id="targetImg"
+              {dressKeyIndex.length !== 0 ? (
+                <div
+                  id="clothesFade"
+                  className="carousel slide carousel-fade"
+                  data-bs-ride="carousel"
+                  data-bs-interval="5000"
+                >
+                  <div class="carousel-inner">
+                    <div
+                      class="carousel-item active"
                       style={{
-                        width: "400px",
-                        height: "480px",
-                        marginLeft: "20px",
-                        cursor: "pointer",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        width: "500px",
+                        height: "530px",
                       }}
-                      data-bs-toggle="modal"
-                      data-bs-target="#imgDetailModal"
-                      data-bs-src={dressImg[0]}
-                      data-bs-category={category[2]}
-                      data-bs-keyIndex={0}
-                      data-bs-itemId={dressItemId[0]}
-                      onClick={showimgDetail}
-                      src={dressImg[0]} //previewImg배열 하나하나요소가 src에 들어가야 함.
-                      alt="..."
-                    />
-                    <br />
-                    <div className="itemName" style={{ marginTop: "-10px" }}>
-                      {dressItemName[0]}&nbsp;&nbsp; ❤️{dressItemLike[0]}
-                    </div>
-                  </div>
-
-                  {dressKeyIndex.map((i) =>
-                    i === 0 ? null : (
-                      <div
-                        class="carousel-item"
+                      data-bs-interval="5000"
+                    >
+                      <img
+                        id="targetImg"
                         style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          alignItems: "center",
-                          width: "500px",
-                          height: "530px",
+                          width: "400px",
+                          height: "480px",
+                          marginLeft: "20px",
+                          cursor: "pointer",
                         }}
-                        data-bs-interval="5000"
-                      >
-                        <img
-                          style={{
-                            width: "400px",
-                            height: "480px",
-                            marginLeft: "20px",
-                            cursor: "pointer",
-                          }}
-                          data-bs-toggle="modal"
-                          data-bs-target="#imgDetailModal"
-                          data-bs-src={dressImg[i]}
-                          data-bs-category={category[2]}
-                          data-bs-keyIndex={i}
-                          data-bs-itemid={dressItemId[i]}
-                          onClick={showimgDetail}
-                          src={dressImg[i]}
-                          alt="..."
-                        />
-                        <br />
-                        <div
-                          className="itemName"
-                          style={{ marginTop: "-10px" }}
-                        >
-                          {dressItemName[i]} &nbsp;&nbsp;❤️{dressItemLike[i]}
-                        </div>
+                        data-bs-toggle="modal"
+                        data-bs-target="#imgDetailModal"
+                        data-bs-src={dressImg[0]}
+                        data-bs-category={category[2]}
+                        data-bs-keyIndex={0}
+                        data-bs-itemId={dressItemId[0]}
+                        onClick={showimgDetail}
+                        src={dressImg[0]} //previewImg배열 하나하나요소가 src에 들어가야 함.
+                        alt="..."
+                      />
+                      <br />
+                      <div className="itemName" style={{ marginTop: "-10px" }}>
+                        {dressItemName[0]}&nbsp;&nbsp; ❤️{dressItemLike[0]}
                       </div>
-                    )
-                  )}
+                    </div>
+
+                    {dressKeyIndex.map((i) =>
+                      i === 0 ? null : (
+                        <div
+                          class="carousel-item"
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            width: "500px",
+                            height: "530px",
+                          }}
+                          data-bs-interval="5000"
+                        >
+                          <img
+                            style={{
+                              width: "400px",
+                              height: "480px",
+                              marginLeft: "20px",
+                              cursor: "pointer",
+                            }}
+                            data-bs-toggle="modal"
+                            data-bs-target="#imgDetailModal"
+                            data-bs-src={dressImg[i]}
+                            data-bs-category={category[2]}
+                            data-bs-keyIndex={i}
+                            data-bs-itemid={dressItemId[i]}
+                            onClick={showimgDetail}
+                            src={dressImg[i]}
+                            alt="..."
+                          />
+                          <br />
+                          <div
+                            className="itemName"
+                            style={{ marginTop: "-10px" }}
+                          >
+                            {dressItemName[i]} &nbsp;&nbsp;❤️{dressItemLike[i]}
+                          </div>
+                        </div>
+                      )
+                    )}
+                  </div>
+                  <button
+                    class="carousel-control-prev"
+                    type="button"
+                    data-bs-target="#clothesFade"
+                    data-bs-slide="prev"
+                  >
+                    <span
+                      class="carousel-control-prev-icon fadeBtnColor"
+                      aria-hidden="true"
+                    ></span>
+                    <span class="visually-hidden">Previous</span>
+                  </button>
+                  <button
+                    ref={dressAutoplayBtn}
+                    class="carousel-control-next"
+                    type="button"
+                    data-bs-target="#clothesFade"
+                    data-bs-slide="next"
+                  >
+                    <span
+                      class="carousel-control-next-icon fadeBtnColor"
+                      aria-hidden="true"
+                    ></span>
+                    <span class="visually-hidden">Next</span>
+                  </button>
                 </div>
-                <button
-                  class="carousel-control-prev"
-                  type="button"
-                  data-bs-target="#clothesFade"
-                  data-bs-slide="prev"
-                >
-                  <span
-                    class="carousel-control-prev-icon fadeBtnColor"
-                    aria-hidden="true"
-                  ></span>
-                  <span class="visually-hidden">Previous</span>
-                </button>
-                <button
-                  ref={dressAutoplayBtn}
-                  class="carousel-control-next"
-                  type="button"
-                  data-bs-target="#clothesFade"
-                  data-bs-slide="next"
-                >
-                  <span
-                    class="carousel-control-next-icon fadeBtnColor"
-                    aria-hidden="true"
-                  ></span>
-                  <span class="visually-hidden">Next</span>
-                </button>
-              </div>
+              ) : (
+                <div style={{ fontSize: "1.3em" }}>아직 이미지가 없습니다!</div>
+              )}
+
               <br />
               <hr />
               <h4 id="scrollspyHeading4">
@@ -1908,115 +1925,121 @@ function Home() {
                 </svg>
               </h4>
               <br />
-              <div
-                id="makeUpFade"
-                className="carousel slide carousel-fade"
-                data-bs-ride="carousel"
-                data-bs-interval="5000"
-              >
-                <div class="carousel-inner">
-                  <div
-                    class="carousel-item active"
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      width: "500px",
-                      height: "530px",
-                    }}
-                    data-bs-interval="5000"
-                  >
-                    <img
-                      id="targetImg"
+              {makeupKeyIndex.length !== 0 ? (
+                <div
+                  id="makeUpFade"
+                  className="carousel slide carousel-fade"
+                  data-bs-ride="carousel"
+                  data-bs-interval="5000"
+                >
+                  <div class="carousel-inner">
+                    <div
+                      class="carousel-item active"
                       style={{
-                        width: "400px",
-                        height: "460px",
-                        marginLeft: "25px",
-                        cursor: "pointer",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        width: "500px",
+                        height: "530px",
                       }}
-                      data-bs-toggle="modal"
-                      data-bs-target="#imgDetailModal"
-                      data-bs-src={makeupImg[0]}
-                      data-bs-category={category[3]}
-                      data-bs-keyIndex={0}
-                      data-bs-itemId={makeupItemId[0]}
-                      onClick={showimgDetail}
-                      src={makeupImg[0]} //previewImg배열 하나하나요소가 src에 들어가야 함.
-                      alt="..."
-                    />
-                    <br />
-                    <div className="itemName" style={{ marginTop: "-10px" }}>
-                      {makeupItemName[0]}&nbsp;&nbsp; ❤️{makeupItemLike[0]}
-                    </div>
-                  </div>
-
-                  {makeupKeyIndex.map((i) =>
-                    i === 0 ? null : (
-                      <div
-                        class="carousel-item"
+                      data-bs-interval="5000"
+                    >
+                      <img
+                        id="targetImg"
                         style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          alignItems: "center",
-                          width: "500px",
-                          height: "530px",
+                          width: "400px",
+                          height: "460px",
+                          marginLeft: "25px",
+                          cursor: "pointer",
                         }}
-                        data-bs-interval="5000"
-                      >
-                        <img
-                          style={{
-                            width: "400px",
-                            height: "460px",
-                            marginLeft: "25px",
-                            cursor: "pointer",
-                          }}
-                          data-bs-toggle="modal"
-                          data-bs-target="#imgDetailModal"
-                          data-bs-src={makeupImg[i]}
-                          data-bs-category={category[3]}
-                          data-bs-keyIndex={i}
-                          data-bs-itemid={makeupItemId[i]}
-                          onClick={showimgDetail}
-                          src={makeupImg[i]}
-                          alt="..."
-                        />
-                        <br />
-                        <div
-                          className="itemName"
-                          style={{ marginTop: "-10px" }}
-                        >
-                          {makeupItemName[i]} &nbsp;&nbsp;❤️{makeupItemLike[i]}
-                        </div>
+                        data-bs-toggle="modal"
+                        data-bs-target="#imgDetailModal"
+                        data-bs-src={makeupImg[0]}
+                        data-bs-category={category[3]}
+                        data-bs-keyIndex={0}
+                        data-bs-itemId={makeupItemId[0]}
+                        onClick={showimgDetail}
+                        src={makeupImg[0]} //previewImg배열 하나하나요소가 src에 들어가야 함.
+                        alt="..."
+                      />
+                      <br />
+                      <div className="itemName" style={{ marginTop: "-10px" }}>
+                        {makeupItemName[0]}&nbsp;&nbsp; ❤️{makeupItemLike[0]}
                       </div>
-                    )
-                  )}
+                    </div>
+
+                    {makeupKeyIndex.map((i) =>
+                      i === 0 ? null : (
+                        <div
+                          class="carousel-item"
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            width: "500px",
+                            height: "530px",
+                          }}
+                          data-bs-interval="5000"
+                        >
+                          <img
+                            style={{
+                              width: "400px",
+                              height: "460px",
+                              marginLeft: "25px",
+                              cursor: "pointer",
+                            }}
+                            data-bs-toggle="modal"
+                            data-bs-target="#imgDetailModal"
+                            data-bs-src={makeupImg[i]}
+                            data-bs-category={category[3]}
+                            data-bs-keyIndex={i}
+                            data-bs-itemid={makeupItemId[i]}
+                            onClick={showimgDetail}
+                            src={makeupImg[i]}
+                            alt="..."
+                          />
+                          <br />
+                          <div
+                            className="itemName"
+                            style={{ marginTop: "-10px" }}
+                          >
+                            {makeupItemName[i]} &nbsp;&nbsp;❤️
+                            {makeupItemLike[i]}
+                          </div>
+                        </div>
+                      )
+                    )}
+                  </div>
+                  <button
+                    class="carousel-control-prev"
+                    type="button"
+                    data-bs-target="#makeUpFade"
+                    data-bs-slide="prev"
+                  >
+                    <span
+                      class="carousel-control-prev-icon fadeBtnColor"
+                      aria-hidden="true"
+                    ></span>
+                    <span class="visually-hidden">Previous</span>
+                  </button>
+                  <button
+                    ref={makeupAutoplayBtn}
+                    class="carousel-control-next"
+                    type="button"
+                    data-bs-target="#makeUpFade"
+                    data-bs-slide="next"
+                  >
+                    <span
+                      class="carousel-control-next-icon fadeBtnColor"
+                      aria-hidden="true"
+                    ></span>
+                    <span class="visually-hidden">Next</span>
+                  </button>
                 </div>
-                <button
-                  class="carousel-control-prev"
-                  type="button"
-                  data-bs-target="#makeUpFade"
-                  data-bs-slide="prev"
-                >
-                  <span
-                    class="carousel-control-prev-icon fadeBtnColor"
-                    aria-hidden="true"
-                  ></span>
-                  <span class="visually-hidden">Previous</span>
-                </button>
-                <button
-                  ref={makeupAutoplayBtn}
-                  class="carousel-control-next"
-                  type="button"
-                  data-bs-target="#makeUpFade"
-                  data-bs-slide="next"
-                >
-                  <span
-                    class="carousel-control-next-icon fadeBtnColor"
-                    aria-hidden="true"
-                  ></span>
-                  <span class="visually-hidden">Next</span>
-                </button>
-              </div>
+              ) : (
+                <div style={{ fontSize: "1.3em" }}>아직 이미지가 없습니다!</div>
+              )}
+
               <br />
 
               <hr />
@@ -2044,116 +2067,121 @@ function Home() {
                 </svg>
               </h4>
               <br />
-              <div
-                id="honeyMoonFade"
-                className="carousel slide carousel-fade"
-                data-bs-ride="carousel"
-              >
-                <div class="carousel-inner">
-                  <div
-                    class="carousel-item active"
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      width: "500px",
-                      height: "430px",
-                    }}
-                    data-bs-interval="5000"
-                  >
-                    <img
-                      id="targetImg"
+              {honeyMoonKeyIndex.length !== 0 ? (
+                <div
+                  id="honeyMoonFade"
+                  className="carousel slide carousel-fade"
+                  data-bs-ride="carousel"
+                >
+                  <div class="carousel-inner">
+                    <div
+                      class="carousel-item active"
                       style={{
-                        width: "400px",
-                        height: "380px",
-                        marginLeft: "25px",
-                        cursor: "pointer",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        width: "500px",
+                        height: "430px",
                       }}
-                      data-bs-toggle="modal"
-                      data-bs-target="#imgDetailModal"
-                      data-bs-src={honeyMoonImg[0]}
-                      data-bs-category={category[4]}
-                      data-bs-keyIndex={0}
-                      data-bs-itemId={honeyMoonItemId[0]}
-                      onClick={showimgDetail}
-                      src={honeyMoonImg[0]} //previewImg배열 하나하나요소가 src에 들어가야 함.
-                      alt="..."
-                    />
-                    <br />
-                    <div className="itemName" style={{ marginTop: "-10px" }}>
-                      {honeyMoonItemName[0]}&nbsp;&nbsp; ❤️
-                      {honeyMoonItemLike[0]}
-                    </div>
-                  </div>
-
-                  {honeyMoonKeyIndex.map((i) =>
-                    i === 0 ? null : (
-                      <div
-                        class="carousel-item"
+                      data-bs-interval="5000"
+                    >
+                      <img
+                        id="targetImg"
                         style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          alignItems: "center",
-                          width: "500px",
-                          height: "430px",
+                          width: "400px",
+                          height: "380px",
+                          marginLeft: "25px",
+                          cursor: "pointer",
                         }}
-                        data-bs-interval="5000"
-                      >
-                        <img
-                          style={{
-                            width: "400px",
-                            height: "380px",
-                            marginLeft: "25px",
-                            cursor: "pointer",
-                          }}
-                          data-bs-toggle="modal"
-                          data-bs-target="#imgDetailModal"
-                          data-bs-src={honeyMoonImg[i]}
-                          data-bs-category={category[4]}
-                          data-bs-keyIndex={i}
-                          data-bs-itemid={honeyMoonItemId[i]}
-                          onClick={showimgDetail}
-                          src={honeyMoonImg[i]}
-                          alt="..."
-                        />
-                        <br />
-                        <div
-                          className="itemName"
-                          style={{ marginTop: "-10px" }}
-                        >
-                          {honeyMoonItemName[i]} &nbsp;&nbsp;❤️
-                          {honeyMoonItemLike[i]}
-                        </div>
+                        data-bs-toggle="modal"
+                        data-bs-target="#imgDetailModal"
+                        data-bs-src={honeyMoonImg[0]}
+                        data-bs-category={category[4]}
+                        data-bs-keyIndex={0}
+                        data-bs-itemId={honeyMoonItemId[0]}
+                        onClick={showimgDetail}
+                        src={honeyMoonImg[0]} //previewImg배열 하나하나요소가 src에 들어가야 함.
+                        alt="..."
+                      />
+                      <br />
+                      <div className="itemName" style={{ marginTop: "-10px" }}>
+                        {honeyMoonItemName[0]}&nbsp;&nbsp; ❤️
+                        {honeyMoonItemLike[0]}
                       </div>
-                    )
-                  )}
+                    </div>
+
+                    {honeyMoonKeyIndex.map((i) =>
+                      i === 0 ? null : (
+                        <div
+                          class="carousel-item"
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            width: "500px",
+                            height: "430px",
+                          }}
+                          data-bs-interval="5000"
+                        >
+                          <img
+                            style={{
+                              width: "400px",
+                              height: "380px",
+                              marginLeft: "25px",
+                              cursor: "pointer",
+                            }}
+                            data-bs-toggle="modal"
+                            data-bs-target="#imgDetailModal"
+                            data-bs-src={honeyMoonImg[i]}
+                            data-bs-category={category[4]}
+                            data-bs-keyIndex={i}
+                            data-bs-itemid={honeyMoonItemId[i]}
+                            onClick={showimgDetail}
+                            src={honeyMoonImg[i]}
+                            alt="..."
+                          />
+                          <br />
+                          <div
+                            className="itemName"
+                            style={{ marginTop: "-10px" }}
+                          >
+                            {honeyMoonItemName[i]} &nbsp;&nbsp;❤️
+                            {honeyMoonItemLike[i]}
+                          </div>
+                        </div>
+                      )
+                    )}
+                  </div>
+                  <button
+                    class="carousel-control-prev"
+                    type="button"
+                    data-bs-target="#honeyMoonFade"
+                    data-bs-slide="prev"
+                  >
+                    <span
+                      class="carousel-control-prev-icon fadeBtnColor"
+                      aria-hidden="true"
+                    ></span>
+                    <span class="visually-hidden">Previous</span>
+                  </button>
+                  <button
+                    ref={honeymoonAutoplayBtn}
+                    class="carousel-control-next"
+                    type="button"
+                    data-bs-target="#honeyMoonFade"
+                    data-bs-slide="next"
+                  >
+                    <span
+                      class="carousel-control-next-icon fadeBtnColor"
+                      aria-hidden="true"
+                    ></span>
+                    <span class="visually-hidden">Next</span>
+                  </button>
                 </div>
-                <button
-                  class="carousel-control-prev"
-                  type="button"
-                  data-bs-target="#honeyMoonFade"
-                  data-bs-slide="prev"
-                >
-                  <span
-                    class="carousel-control-prev-icon fadeBtnColor"
-                    aria-hidden="true"
-                  ></span>
-                  <span class="visually-hidden">Previous</span>
-                </button>
-                <button
-                  ref={honeymoonAutoplayBtn}
-                  class="carousel-control-next"
-                  type="button"
-                  data-bs-target="#honeyMoonFade"
-                  data-bs-slide="next"
-                >
-                  <span
-                    class="carousel-control-next-icon fadeBtnColor"
-                    aria-hidden="true"
-                  ></span>
-                  <span class="visually-hidden">Next</span>
-                </button>
-              </div>
+              ) : (
+                <div style={{ fontSize: "1.3em" }}>아직 이미지가 없습니다!</div>
+              )}
+
               <br />
 
               <hr />
@@ -2181,115 +2209,120 @@ function Home() {
                 </svg>
               </h4>
               <br />
-              <div
-                id="bouquetFade"
-                className="carousel slide carousel-fade"
-                data-bs-ride="carousel"
-              >
-                <div class="carousel-inner">
-                  <div
-                    class="carousel-item active"
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      width: "500px",
-                      height: "450px",
-                    }}
-                    data-bs-interval="5000"
-                  >
-                    <img
-                      id="targetImg"
+              {bouquetKeyIndex.length !== 0 ? (
+                <div
+                  id="bouquetFade"
+                  className="carousel slide carousel-fade"
+                  data-bs-ride="carousel"
+                >
+                  <div class="carousel-inner">
+                    <div
+                      class="carousel-item active"
                       style={{
-                        width: "400px",
-                        height: "400px",
-                        marginLeft: "25px",
-                        cursor: "pointer",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        width: "500px",
+                        height: "450px",
                       }}
-                      data-bs-toggle="modal"
-                      data-bs-target="#imgDetailModal"
-                      data-bs-src={bouquetImg[0]}
-                      data-bs-category={category[5]}
-                      data-bs-keyIndex={0}
-                      data-bs-itemId={bouquetItemId[0]}
-                      onClick={showimgDetail}
-                      src={bouquetImg[0]} //previewImg배열 하나하나요소가 src에 들어가야 함.
-                      alt="..."
-                    />
-                    <br />
-                    <div className="itemName" style={{ marginTop: "-10px" }}>
-                      {bouquetItemName[0]}&nbsp;&nbsp; ❤️{bouquetItemLike[0]}
-                    </div>
-                  </div>
-
-                  {bouquetKeyIndex.map((i) =>
-                    i === 0 ? null : (
-                      <div
-                        class="carousel-item"
+                      data-bs-interval="5000"
+                    >
+                      <img
+                        id="targetImg"
                         style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          alignItems: "center",
-                          width: "500px",
-                          height: "450px",
+                          width: "400px",
+                          height: "400px",
+                          marginLeft: "25px",
+                          cursor: "pointer",
                         }}
-                        data-bs-interval="5000"
-                      >
-                        <img
-                          style={{
-                            width: "400px",
-                            height: "400px",
-                            marginLeft: "25px",
-                            cursor: "pointer",
-                          }}
-                          data-bs-toggle="modal"
-                          data-bs-target="#imgDetailModal"
-                          data-bs-src={bouquetImg[i]}
-                          data-bs-category={category[5]}
-                          data-bs-keyIndex={i}
-                          data-bs-itemid={bouquetItemId[i]}
-                          onClick={showimgDetail}
-                          src={bouquetImg[i]}
-                          alt="..."
-                        />
-                        <br />
-                        <div
-                          className="itemName"
-                          style={{ marginTop: "-10px" }}
-                        >
-                          {bouquetItemName[i]} &nbsp;&nbsp;❤️
-                          {bouquetItemLike[i]}
-                        </div>
+                        data-bs-toggle="modal"
+                        data-bs-target="#imgDetailModal"
+                        data-bs-src={bouquetImg[0]}
+                        data-bs-category={category[5]}
+                        data-bs-keyIndex={0}
+                        data-bs-itemId={bouquetItemId[0]}
+                        onClick={showimgDetail}
+                        src={bouquetImg[0]} //previewImg배열 하나하나요소가 src에 들어가야 함.
+                        alt="..."
+                      />
+                      <br />
+                      <div className="itemName" style={{ marginTop: "-10px" }}>
+                        {bouquetItemName[0]}&nbsp;&nbsp; ❤️{bouquetItemLike[0]}
                       </div>
-                    )
-                  )}
+                    </div>
+
+                    {bouquetKeyIndex.map((i) =>
+                      i === 0 ? null : (
+                        <div
+                          class="carousel-item"
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            width: "500px",
+                            height: "450px",
+                          }}
+                          data-bs-interval="5000"
+                        >
+                          <img
+                            style={{
+                              width: "400px",
+                              height: "400px",
+                              marginLeft: "25px",
+                              cursor: "pointer",
+                            }}
+                            data-bs-toggle="modal"
+                            data-bs-target="#imgDetailModal"
+                            data-bs-src={bouquetImg[i]}
+                            data-bs-category={category[5]}
+                            data-bs-keyIndex={i}
+                            data-bs-itemid={bouquetItemId[i]}
+                            onClick={showimgDetail}
+                            src={bouquetImg[i]}
+                            alt="..."
+                          />
+                          <br />
+                          <div
+                            className="itemName"
+                            style={{ marginTop: "-10px" }}
+                          >
+                            {bouquetItemName[i]} &nbsp;&nbsp;❤️
+                            {bouquetItemLike[i]}
+                          </div>
+                        </div>
+                      )
+                    )}
+                  </div>
+                  <button
+                    class="carousel-control-prev"
+                    type="button"
+                    data-bs-target="#bouquetFade"
+                    data-bs-slide="prev"
+                  >
+                    <span
+                      class="carousel-control-prev-icon fadeBtnColor"
+                      aria-hidden="true"
+                    ></span>
+                    <span class="visually-hidden">Previous</span>
+                  </button>
+                  <button
+                    ref={bouquetAutoplayBtn}
+                    class="carousel-control-next"
+                    type="button"
+                    data-bs-target="#bouquetFade"
+                    data-bs-slide="next"
+                  >
+                    <span
+                      class="carousel-control-next-icon fadeBtnColor"
+                      aria-hidden="true"
+                    ></span>
+                    <span class="visually-hidden">Next</span>
+                  </button>
                 </div>
-                <button
-                  class="carousel-control-prev"
-                  type="button"
-                  data-bs-target="#bouquetFade"
-                  data-bs-slide="prev"
-                >
-                  <span
-                    class="carousel-control-prev-icon fadeBtnColor"
-                    aria-hidden="true"
-                  ></span>
-                  <span class="visually-hidden">Previous</span>
-                </button>
-                <button
-                  ref={bouquetAutoplayBtn}
-                  class="carousel-control-next"
-                  type="button"
-                  data-bs-target="#bouquetFade"
-                  data-bs-slide="next"
-                >
-                  <span
-                    class="carousel-control-next-icon fadeBtnColor"
-                    aria-hidden="true"
-                  ></span>
-                  <span class="visually-hidden">Next</span>
-                </button>
-              </div>
+              ) : (
+                <div style={{ fontSize: "1.3em" }}>아직 이미지가 없습니다!</div>
+              )}
+
               <br />
             </div>
             <div
