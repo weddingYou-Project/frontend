@@ -21,9 +21,12 @@ function Ratingpage() {
   const [rating, setRating] = useState(0);
   const [score, setScore] = useState(0);
   const [reviewText, setReviewText] = useState("");
-  const [image, setImage] = useState(null);
-  const [previewUrl, setPreviewUrl] = useState(selectImg);
-
+  const [images, setImages] = useState([]);
+  const [previewUrl, setPreviewUrl] = useState([]);
+  const [imgName, setImgName] = useState([]);
+  const [fileType, setFileType] = useState([]);
+  const [originImagesFile, setOriginImagesFile] = useState([]);
+  const [imgArr, setImgArr] = useState([]);
   const handleStarClick = (index) => {
     let clickStates = [...clicked];
     for (let i = 0; i < 5; i++) {
@@ -39,10 +42,6 @@ function Ratingpage() {
   //   sendReview();
   // }, [clicked]);
 
-  useEffect(() => {
-    //planner 정보 불러와서 000플래너 자리에 집어넣기
-  }, []);
-
   const reviewtext = useRef();
 
   const navigate = useNavigate();
@@ -51,12 +50,108 @@ function Ratingpage() {
   //   setScore(clicked.filter(Boolean).length);
   // };
 
+  useEffect(() => {
+    axios
+      .get(`/estimateIdReview/${estimateId}`)
+      .then((res) => {
+        console.log(res);
+        const data = res.data;
+        if (data != null) {
+          const reviewStars = data.reviewStars;
+          const text = data.reviewText;
+          console.log(reviewText);
+          let clickStates = [...clicked];
+          for (let i = 0; i < 5; i++) {
+            clickStates[i] = i < reviewStars ? true : false;
+          }
+          setClicked(clickStates);
+          const Rating = reviewStars;
+          console.log(Rating);
+          setRating(Rating);
+          setReviewText(text);
+          const getImages = async () => {
+            try {
+              const imagearray = JSON.parse(data.reviewImg);
+              console.log(imagearray);
+              const imgNameArr = [];
+              const fileTypeArr = [];
+              for (let i = 0; i < imagearray.length; i++) {
+                const img = imagearray[i];
+                const imgname = img.slice(
+                  img.indexOf("_") + 1,
+                  img.indexOf(".")
+                );
+                const fileType = img.slice(img.indexOf(".") + 1);
+                imgNameArr.push(imgname);
+                fileTypeArr.push(fileType);
+              }
+              setImgName(imgNameArr);
+              setFileType(fileTypeArr);
+              const imagePromises = imagearray.map((image) => {
+                return axios.get("/review/imageview", {
+                  params: { image },
+                  responseType: "blob",
+                });
+              });
+              const responses = await Promise.all(imagePromises);
+              const imgFileArr = [];
+              const imageUrls = responses.map((res, index) => {
+                const resdata = URL.createObjectURL(res.data);
+                console.log("aaaaaaaaa");
+                console.log(res.data);
+                const blob = res.data;
+                const file = new File([blob], imgNameArr[index], {
+                  type: `image/${fileTypeArr[index]}`,
+                });
+                imgFileArr.push(file);
+
+                const selectedImage = file;
+                console.log("fileReader.result");
+                try {
+                  const fileReader = new FileReader();
+                  const previewUrlArr = [...previewUrl];
+                  fileReader.onload = () => {
+                    previewUrlArr.push(fileReader.result);
+                    console.log(fileReader.result);
+                    setPreviewUrl(previewUrlArr);
+                  };
+                  console.log("--------------------------");
+                  console.log(previewUrlArr);
+
+                  fileReader.readAsDataURL(selectedImage);
+                } catch (e) {
+                  console.log(e);
+                  //setPreviewUrl(selectedImage);
+                }
+                return resdata;
+              });
+              console.log(imageUrls);
+              setImages(imageUrls);
+              setOriginImagesFile(imgFileArr);
+              setImgArr(imgFileArr);
+            } catch (e) {
+              console.log(e);
+            }
+          };
+          getImages();
+        } else {
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
+
   const insertReview = (e) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("reviewText", reviewText);
     formData.append("reviewStars", rating);
-    formData.append("reviewImg", image);
+    if (images.length > 0) {
+      for (let i = 0; i < images.length; i++) {
+        formData.append("reviewImg", images[i]);
+      }
+    }
     formData.append("userEmail", sessionStorage.getItem("email"));
     formData.append("plannerEmail", planneremail);
     formData.append("estimateId", estimateId);
@@ -74,18 +169,55 @@ function Ratingpage() {
 
   const handleImageChange = (event) => {
     const selectedImage = event.target.files[0];
-    setImage(selectedImage);
+    console.log(event.target.files);
+    const imgArr1 = [...imgArr];
+    imgArr1.push(selectedImage);
+    setImgArr(imgArr1);
+    console.log(imgArr1);
+    // setImage(selectedImage);
     try {
       const fileReader = new FileReader();
+      const previewUrlArr = [...previewUrl];
       fileReader.onload = () => {
-        setPreviewUrl(fileReader.result);
+        previewUrlArr.push(fileReader.result);
+        setPreviewUrl(previewUrlArr);
       };
+
       fileReader.readAsDataURL(selectedImage);
     } catch (e) {
-      setPreviewUrl(selectImg);
+      setPreviewUrl(selectedImage);
     }
   };
+  //이미지 파일 첨부
+  // const handleImageChange = (e) => {
+  //   if (images.length >= 5 || e.target.files.length + images.length > 5) {
+  //     alert("파일 첨부는 5개까지 가능합니다.");
+  //     e.target.value = null;
+  //   } else {
+  //     let copy = [...images];
+  //     for (let i = 0; i < e.target.files.length; i++) {
+  //       copy.push(e.target.files[i]);
+  //     }
+  //     setImages(copy);
+  //   }
+  // };
 
+  //이미지 파일 초기화
+  const imageClear = () => {
+    setImages([]);
+  };
+  //이미지 파일 개별 삭제
+  const deleteimage = (image) => {
+    let copy = [...images];
+    for (let i = 0; i < copy.length; i++) {
+      console.log(i);
+      if (copy[i].name === image) {
+        copy.splice(i, 1);
+        setImages(copy);
+        break;
+      }
+    }
+  };
   return (
     <div className="mainlayout">
       <p className="headtxt">서비스가 어떠셨나요?</p>
@@ -134,6 +266,7 @@ function Ratingpage() {
             onChange={(e) => {
               setReviewText(e.target.value);
             }}
+            value={reviewText}
           ></textarea>
         </div>
         <div className="photouploadsection">
@@ -145,6 +278,7 @@ function Ratingpage() {
             multiple
             id="uploadimage"
             className="displaynone"
+            accept="image/*"
             onChange={handleImageChange}
           />
           <label
@@ -154,17 +288,79 @@ function Ratingpage() {
           >
             사진선택
           </label>
+
           <div>
-            <img
-              src={previewUrl}
-              alt=""
-              style={{
-                width: "200px",
-                height: "200px",
-                marginTop: "20px",
-                marginBottom: "-10px",
-              }}
-            />
+            <h5>
+              고객 첨부이미지{" "}
+              {images.length !== 0 && <span>(클릭시 확대됩니다)</span>}
+            </h5>
+            {images.length === 0 && <span>첨부 이미지가 없습니다.</span>}
+            <br></br>
+            {console.log("previewUrl")}
+            {console.log(previewUrl)}
+            {images.length !== 0 ? (
+              previewUrl.map((url, index) => {
+                return (
+                  <div key={index}>
+                    <button
+                      type="button"
+                      class="btn"
+                      data-bs-toggle="modal"
+                      data-bs-target={`#number${index.toString()}`}
+                      style={{ width: "40%" }}
+                    >
+                      <img
+                        src={url}
+                        alt=""
+                        style={{
+                          display: "inline-block",
+                          width: "200px",
+                          height: "200px",
+                          marginTop: "20px",
+                          marginBottom: "-10px",
+                          borderRadius: "10px",
+                        }}
+                      />
+                    </button>
+                    <ImagesView
+                      images={url}
+                      index={`number${index.toString()}`}
+                    />
+                  </div>
+                );
+              })
+            ) : (
+              <div style={{ marginTop: 5 }}>
+                {images.map((image, index) => {
+                  return (
+                    <div className="imagefilenamebox">
+                      <div className="imagefilenamecontent">
+                        <span>{image.name}</span>
+                        <img
+                          src={image}
+                          width="40%"
+                          height="40%"
+                          style={{
+                            float: "left",
+                            width: "100%",
+                            borderRadius: "10px",
+                          }}
+                          alt=""
+                        />
+                        <div
+                          className="imagefilename-overlay cursor"
+                          onClick={() => {
+                            deleteimage(image.name);
+                          }}
+                        >
+                          <i class="bi bi-x-lg"></i>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
         </div>
         <div className="insertBtn" style={{ marginBottom: "50px" }}>
@@ -200,3 +396,21 @@ const Stars = styled.div`
     color: #fcc419;
   }
 `;
+
+const ImagesView = ({ images, index }) => {
+  return (
+    <div
+      class="modal fade"
+      id={index}
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" style={{ maxWidth: "800px" }}>
+        <div className="image-actualsize">
+          <img src={images} alt="" />
+        </div>
+      </div>
+    </div>
+  );
+};
