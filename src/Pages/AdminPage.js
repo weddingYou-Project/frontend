@@ -713,7 +713,7 @@ const AdminPage = () => {
                 )}
               </div>
               <div className="adminpage-researchBar">
-                <div className="박스1111">
+                <div className="adminpage-researchBox_">
                   <input
                     type="text"
                     className="form-control"
@@ -838,7 +838,7 @@ const AdminPage = () => {
                 )}
               </div>
               <div className="adminpage-researchBar">
-                <div className="박스1111">
+                <div className="adminpage-researchBox_">
                   <input
                     type="text"
                     className="form-control"
