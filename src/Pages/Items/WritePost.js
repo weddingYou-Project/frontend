@@ -27,7 +27,7 @@ const selectedCategory = {
   weddingoutfit: "의상",
   studio: "스튜디오",
   makeup: "메이크업",
-  honeymooon: "신혼여행",
+  honeymoon: "신혼여행",
   bouquet: "부케",
 };
 
@@ -41,7 +41,7 @@ const WritePost = () => {
   const [selectedCategory1, setSelectedCategory1] = useState(
     selectedCategory[category1]
   );
-  console.log(image);
+  console.log(selectedCategory1);
   const postItem = () => {
     if (content !== "" && itemName !== "") {
       if (imgFile.current.value !== "") {
