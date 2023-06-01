@@ -250,6 +250,10 @@ function Ratingpage() {
     //   }
     // }
   };
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+  }, []);
   return (
     <div className="mainlayout">
       <p className="headtxt">서비스가 어떠셨나요?</p>
