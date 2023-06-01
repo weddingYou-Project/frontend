@@ -2341,43 +2341,45 @@ function Home() {
 
               <br />
             </div>
-            <div
-              style={{
-                width: "560px",
-                position: "fixed",
-                bottom: "120px",
-                height: "50px",
-                display: "flex",
-                justifyContent: "end",
-                paddingRight: "23px",
-                paddingLeft: "50px",
-                paddingBottom: "10px",
-                zIndex: "999",
-              }}
-            >
-              <div style={{}}>
-                <div className="estimate-write-btn">
-                  <i
-                    class="bi bi-pencil-square"
-                    style={{ marginLeft: "50px", zIndex: "999" }}
-                  ></i>
-                  <div
-                    className="estimate-write-btn-overlay"
-                    onClick={() => {
-                      navigate("/estimateform");
-                    }}
-                    style={{
-                      marginRight: "-20px",
-                      marginLeft: "12px",
-                      zIndex: "999",
-                      height: "50px",
-                    }}
-                  >
-                    <span>견적작성하기</span>
+            {sessionStorage.getItem("category") === "user" ? (
+              <div
+                style={{
+                  width: "560px",
+                  position: "fixed",
+                  bottom: "120px",
+                  height: "50px",
+                  display: "flex",
+                  justifyContent: "end",
+                  paddingRight: "23px",
+                  paddingLeft: "50px",
+                  paddingBottom: "10px",
+                  zIndex: "999",
+                }}
+              >
+                <div style={{}}>
+                  <div className="estimate-write-btn">
+                    <i
+                      class="bi bi-pencil-square"
+                      style={{ marginLeft: "50px", zIndex: "999" }}
+                    ></i>
+                    <div
+                      className="estimate-write-btn-overlay"
+                      onClick={() => {
+                        navigate("/estimateform");
+                      }}
+                      style={{
+                        marginRight: "-20px",
+                        marginLeft: "12px",
+                        zIndex: "999",
+                        height: "50px",
+                      }}
+                    >
+                      <span>견적작성하기</span>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            ) : null}
           </div>
           <div style={{ height: 94.19 }}></div>
         </div>

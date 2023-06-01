@@ -68,7 +68,7 @@ function App() {
       <Route path="/rating" element={<Ratingpage />} />
       <Route path="/sidesection" element={<Sidesection />} />
       {/*관리자페이지 Route */}
-      {/* <Route path="/adminpage" element={<AdminPage />} /> */}
+      <Route path="/adminpage" element={<AdminPage />} />
     </Routes>
   );
 }

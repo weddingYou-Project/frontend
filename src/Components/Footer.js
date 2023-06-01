@@ -175,6 +175,10 @@ function Footer() {
       <div
         className="icon"
         onClick={() => {
+          if (sessionStorage.getItem("email") === "admin@email.com") {
+            navigate(`/adminpage`);
+            return;
+          }
           if (sessionStorage.getItem("category") !== null) {
             const category = sessionStorage.getItem("category");
             navigate(`/mypage/${category}`);
