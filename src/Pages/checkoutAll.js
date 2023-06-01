@@ -42,7 +42,7 @@ function CheckoutAll() {
       {
         pg: "kcp",
         pay_method: { paymentMethod },
-        merchant_uid: `56907801-${estimateId}` + IMP,
+        merchant_uid: `57907801-${estimateId}` + IMP,
         name: "플래너 매칭서비스",
         amount: paymentAmount1,
         buyer_email: sessionStorage.getItem("email"),
@@ -131,33 +131,35 @@ function CheckoutAll() {
     );
   }
   useEffect(() => {
-    axios
-      .post("/payment/callback", {
-        estimateId: estimateId,
-        paymentMethod: paymentMethod,
-        tempPaymentStatus: "cancelled",
-        paymentType: "all",
-      })
-      .then((res) => {
-        console.log(res);
-        const value = res.data;
-        if (value == -2) {
-          alert("계약금 결제 먼저 해주세요.");
-        } else if (value == -1) {
-          alert("유효하지 않은 결제 유형입니다.");
-        } else if (value == 0) {
-          //계약금 처리만 된 상태(취소 상태로 paymentStatus 자동으로 바뀜)
-        } else if (value == 1) {
-          alert("전체 금액 결제가 완료되었습니다!");
-        } else if (value == 2) {
-          console.log("+++++++++++++");
-          alert("이미 전체 결제가 이루어진 건입니다!");
-          navigate("/matching");
-        }
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    if (sessionStorage.getItem("checkout") !== "all") {
+      axios
+        .post("/payment/callback", {
+          estimateId: estimateId,
+          paymentMethod: paymentMethod,
+          tempPaymentStatus: "cancelled",
+          paymentType: "all",
+        })
+        .then((res) => {
+          console.log(res);
+          const value = res.data;
+          if (value == -2) {
+            alert("계약금 결제 먼저 해주세요.");
+          } else if (value == -1) {
+            alert("유효하지 않은 결제 유형입니다.");
+          } else if (value == 0) {
+            //계약금 처리만 된 상태(취소 상태로 paymentStatus 자동으로 바뀜)
+          } else if (value == 1) {
+            alert("전체 금액 결제가 완료되었습니다!");
+          } else if (value == 2) {
+            console.log("+++++++++++++");
+            alert("이미 전체 결제가 이루어진 건입니다!");
+            navigate("/matching");
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
   }, []);
 
   return (
