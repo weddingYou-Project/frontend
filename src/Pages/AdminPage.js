@@ -884,15 +884,11 @@ const AdminPage = () => {
             onClick={() => {
               window.sessionStorage.removeItem("email");
               window.sessionStorage.removeItem("category");
-              navigate("/");
+              navigate("/login");
             }}
             className="btn-colour-1"
-            style={{ marginRight: "15px" }}
           >
             로그아웃
-          </button>
-          <button onClick={() => {}} className="btn-colour-1">
-            계정삭제
           </button>
         </div>
         <div style={{ height: 94.19 }}></div>
