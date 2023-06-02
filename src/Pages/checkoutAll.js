@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "../Css/main.css";
 import "../Css/Ratingpage.css";
 import "../Css/checkout.css";
@@ -29,13 +29,20 @@ function CheckoutAll() {
   const [paymentAmount, setPaymentAmount] = useState(depositprice * quantity);
   const [paymentMethod, setPaymetMethod] = useState("card");
   const [paymentStatus, setPaymentStatus] = useState("paid");
-  const [depositAmount, setDepositAmount] = useState(paymentAmount * 0.05);
+  const [depositAmount, setDepositAmount] = useState(depositprice);
 
   const [depositStatus, setDepositStatus] = useState("paid");
   const [paymentType, setPaymentType] = useState("all");
   const [userEmail, setUserEmail] = useState(sessionStorage.getItem("email"));
   const [plannerEmail, setPlannerEmail] = useState(planneremail);
   let paymentAmount1 = paymentAmount - depositAmount;
+
+  const plannerMatchingPriceCheckInput = useRef();
+  const plannerMatchingPriceFeedback = useRef();
+  const plannerMatchingPriceConfirm = useRef();
+  const [plannerMatchingPriceMessage, setPlannerMatchingPriceMessage] =
+    useState("");
+  const [allprice, setAllPrice] = useState(0);
 
   function requestPay() {
     IMP.request_pay(
@@ -246,6 +253,141 @@ function CheckoutAll() {
         결제하기
       </button>
       <Footer />
+      {/* 플래너 매칭 비용 modal 창 */}
+      <div
+        class="modal fade"
+        id="plannerMatchingPriceModal"
+        tabindex="-1"
+        aria-labelledby="plannerMatchingPriceModal"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1
+                class="modal-title justify-content-center "
+                id="plannerMatchingPriceModal"
+                style={{ fontSize: "1.5em" }}
+              >
+                - 플래너 매칭 비용 입력 -
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <div class="has-validation col col-md-10">
+                <input
+                  type="password"
+                  class="form-control "
+                  id="plannerMatchingPriceCheck"
+                  ref={plannerMatchingPriceCheckInput}
+                  value={allprice}
+                  onChange={(e) => {
+                    console.log(e.target.value);
+                    if (e.target.value == 0) {
+                      this.plannerMatchingPriceCheckInput.current.classList.add(
+                        "is-invalid"
+                      );
+                      this.plannerMatchingPriceCheckInput.current.classList.remove(
+                        "is-valid"
+                      );
+                      this.plannerMatchingPriceFeedback.current.classList.remove(
+                        "invisible"
+                      );
+                      this.plannerMatchingPriceFeedback.current.classList.add(
+                        "invalid-feedback"
+                      );
+                      this.plannerMatchingPriceFeedback.current.classList.remove(
+                        "valid-feedback"
+                      );
+                      setPlannerMatchingPriceMessage(
+                        "금액은 0이 될 수 없습니다."
+                      );
+                      this.plannerMatchingPriceConfirm.current.disabled = true;
+                    } else {
+                      if (e.target.value == "") {
+                        this.plannerMatchingPriceCheckInput.current.classList.add(
+                          "is-invalid"
+                        );
+                        this.plannerMatchingPriceCheckInput.current.classList.remove(
+                          "is-valid"
+                        );
+                        this.plannerMatchingPriceFeedback.current.classList.remove(
+                          "invisible"
+                        );
+                        this.plannerMatchingPriceFeedback.current.classList.add(
+                          "invalid-feedback"
+                        );
+                        this.plannerMatchingPriceFeedback.current.classList.remove(
+                          "valid-feedback"
+                        );
+                        setPlannerMatchingPriceMessage("금액을 입력해주세요!");
+                        this.plannerMatchingPriceConfirm.current.disabled = true;
+                      } else {
+                        this.plannerMatchingPriceCheckInput.current.classList.remove(
+                          "is-invalid"
+                        );
+                        this.plannerMatchingPriceCheckInput.current.classList.add(
+                          "is-valid"
+                        );
+                        this.plannerMatchingPriceFeedback.current.classList.add(
+                          "invisible"
+                        );
+                        this.plannerMatchingPriceFeedback.current.classList.remove(
+                          "invalid-feedback"
+                        );
+                        this.plannerMatchingPriceFeedback.current.classList.add(
+                          "valid-feedback"
+                        );
+                        setPlannerMatchingPriceMessage("all good!");
+                        this.plannerMatchingPriceConfirm.current.disabled = false;
+                      }
+                    }
+                    setAllPrice(e.target.value);
+                  }}
+                  style={{ fontSize: "1.2em" }}
+                  placeholder="플래너와 상의한 매칭 비용을 입력해주세요."
+                  //    onKeyPress={submitPasswordCheck}
+                  required
+                  autocomplete="off"
+                  maxLength="20"
+                />
+                <div
+                  class="invisible text-start password-feedback"
+                  style={{ fontSize: "1em" }}
+                  ref={plannerMatchingPriceFeedback}
+                >
+                  {plannerMatchingPriceMessage}
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                닫기
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#passwordcheckMessageModal"
+                ref={plannerMatchingPriceConfirm}
+                disabled
+              >
+                확인
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* 플래너 매칭 비용 모달 */}
     </div>
   );
 }

@@ -57,6 +57,14 @@ function Matching() {
   const [paymentStatus2, setPaymentStatus2] = useState([]);
   const [paymentStatus3, setPaymentStatus3] = useState([]);
 
+  const [allprice, setAllPrice] = useState(0);
+
+  const plannerMatchingPriceCheckInput = useRef();
+  const plannerMatchingPriceFeedback = useRef();
+  const plannerMatchingPriceConfirm = useRef();
+  const [plannerMatchingPriceMessage, setPlannerMatchingPriceMessage] =
+    useState("");
+
   useEffect(() => {
     if (sessionStorage.getItem("category") === "user") {
       //user일 경우
@@ -338,6 +346,7 @@ function Matching() {
                 plannerName: plannerName,
                 plannerImg: plannerImgUrl,
                 depositprice: depositprice,
+                allprice: allprice,
               },
             });
           } else if (res.data === -1) {
@@ -986,6 +995,8 @@ function Matching() {
                         className="plannerMatchingBtn"
                         data-bs-estimateNum={estimateNum[keyIndex]}
                         onClick={goPay}
+                        // data-bs-toggle="modal"
+                        // data-bs-target="#plannerMatchingPriceModal"
                       >
                         결제하기
                       </button>
@@ -1349,7 +1360,6 @@ function Matching() {
                     type="button"
                     className="btn btn-primary"
                     onClick={goMatching}
-                    data-bs-dismiss="modal"
                   >
                     매칭하기
                   </button>
@@ -1905,7 +1915,6 @@ function Matching() {
                     type="button"
                     className="btn btn-primary"
                     onClick={goMatching}
-                    data-bs-dismiss="modal"
                   >
                     매칭하기
                   </button>
@@ -1954,7 +1963,6 @@ function Matching() {
                     type="button"
                     className="btn btn-primary"
                     onClick={goMatchingUser}
-                    data-bs-dismiss="modal"
                   >
                     매칭하기
                   </button>
