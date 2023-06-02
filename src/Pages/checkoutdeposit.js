@@ -20,7 +20,7 @@ function Checkoutdeposit() {
   const { userPhone } = useLocation().state;
   const { planneremail } = useLocation().state;
   const { plannerName } = useLocation().state;
-  const { price } = useLocation().state;
+  const { depositprice } = useLocation().state;
   const { plannerImg } = useLocation().state;
   console.log("estimateId:" + estimateId);
   console.log("userName:" + userName);
@@ -28,18 +28,21 @@ function Checkoutdeposit() {
   console.log("planneremail:" + planneremail);
   console.log("plannerName:" + plannerName);
   console.log("plannerImg" + plannerImg);
+  console.log("depositprice: " + depositprice);
 
   //const [price, setPrice] = useState(10000);
+  console.log("depositprice:" + depositprice);
   const [quantity, setQuantity] = useState(1);
-  const [paymentAmount, setPaymentAmount] = useState(price * quantity);
+  const [paymentAmount, setPaymentAmount] = useState(depositprice * quantity);
   const [paymentMethod, setPaymetMethod] = useState("card");
   const [paymentStatus, setPaymentStatus] = useState("other");
-  const [depositAmount, setDepositAmount] = useState(paymentAmount * 0.05);
+  const [depositAmount, setDepositAmount] = useState(depositprice);
   console.log("depositAmount:" + depositAmount);
   const [depositStatus, setDepositStatus] = useState("paid");
   const [paymentType, setPaymentType] = useState("deposit");
   const [userEmail, setUserEmail] = useState(sessionStorage.getItem("email"));
   const [plannerEmail, setPlannerEmail] = useState(planneremail);
+  const [plannerCareerYears, setPlannerCareerYears] = useState(0);
   let depositAmount1 = depositAmount;
 
   function requestPay() {
@@ -63,7 +66,7 @@ function Checkoutdeposit() {
 
           axios
             .post("/deposit/callback", {
-              price: price,
+              price: depositprice,
               quantity: quantity,
               paymentMethod: paymentMethod,
               paymentAmount: paymentAmount,
@@ -85,7 +88,7 @@ function Checkoutdeposit() {
                   plannerImg: plannerImg,
                   plannerName: plannerName,
                   planneremail: planneremail,
-                  price: price,
+                  price: depositprice,
                 },
               });
             })
@@ -98,7 +101,7 @@ function Checkoutdeposit() {
 
           axios
             .post("/deposit/callback", {
-              price: price,
+              price: depositprice,
               quantity: quantity,
               paymentMethod: paymentMethod,
               paymentAmount: paymentAmount,
@@ -124,7 +127,7 @@ function Checkoutdeposit() {
   useEffect(() => {
     axios
       .post("/deposit/callback", {
-        price: price,
+        price: depositprice,
         quantity: quantity,
         paymentMethod: paymentMethod,
         paymentAmount: paymentAmount,
@@ -138,6 +141,15 @@ function Checkoutdeposit() {
       })
       .then((res) => {
         console.log(res);
+        const plannerCareerYearsData = res.data;
+        setPlannerCareerYears(plannerCareerYearsData);
+        if (plannerCareerYears >= 0 && plannerCareerYearsData < 5) {
+          setDepositAmount(50000);
+        } else if (plannerCareerYearsData < 15) {
+          setDepositAmount(100000);
+        } else {
+          setDepositAmount(150000);
+        }
       })
       .catch((e) => {
         console.log(e);
@@ -197,12 +209,24 @@ function Checkoutdeposit() {
         <div className="col-sm-8">
           <input
             type="text"
-            readonly
+            readonlyvm
             className="form-control-plaintext"
             id="itemName"
-            value="플래너 매칭 계약금(전체금액 * 5%)"
+            value="플래너 매칭 계약금"
             style={{ fontSize: "0.9em" }}
           />
+        </div>
+        <div
+          style={{
+            fontSize: "0.6em",
+            marginBottom: "-30px",
+            marginLeft: "180px",
+            width: "350px",
+          }}
+        >
+          {" "}
+          (경력 5년 미만 : 50,000 / 경력 15년 미만 : 100,000 / 경력 15년 이상 :
+          150,000)
         </div>
       </div>
       {/* <hr /> */}

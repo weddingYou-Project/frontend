@@ -177,7 +177,7 @@ function Matching() {
           res.data.indexOf("[") + 1,
           res.data.indexOf(",")
         );
-        const budget = res.data.slice(
+        const depositprice = res.data.slice(
           res.data.indexOf(",") + 1,
           res.data.indexOf("*")
         );
@@ -194,7 +194,7 @@ function Matching() {
             userPhone: userPhone,
             planneremail: plannerEmail,
             plannerName: plannerName,
-            price: budget,
+            depositprice: depositprice,
             plannerImg: plannerImgUrl,
           },
         });
@@ -317,7 +317,7 @@ function Matching() {
               res.data.indexOf(",")
             );
             console.log(plannerName);
-            const price = res.data.slice(
+            const depositprice = res.data.slice(
               res.data.indexOf(",") + 1,
               res.data.lastIndexOf("*")
             );
@@ -337,7 +337,7 @@ function Matching() {
                 planneremail: plannerEmail,
                 plannerName: plannerName,
                 plannerImg: plannerImgUrl,
-                price: price,
+                depositprice: depositprice,
               },
             });
           } else if (res.data === -1) {
@@ -362,7 +362,7 @@ function Matching() {
               res.data.indexOf("[") + 1,
               res.data.indexOf(",")
             );
-            const price = res.data.slice(
+            const depositprice = res.data.slice(
               res.data.indexOf(",") + 1,
               res.data.lastIndexOf("*")
             );
@@ -381,7 +381,7 @@ function Matching() {
                 planneremail: plannerEmail,
                 plannerName: plannerName,
                 plannerImg: plannerImgUrl,
-                price: price,
+                depositprice: depositprice,
               },
             });
           }

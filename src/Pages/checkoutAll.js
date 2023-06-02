@@ -19,14 +19,14 @@ function CheckoutAll() {
   const { plannerName } = useLocation().state;
   console.log(plannerName);
   const { plannerImg } = useLocation().state;
-  const { price } = useLocation().state;
+  const { depositprice } = useLocation().state;
   console.log(plannerImg);
 
   const navigate = useNavigate();
 
   //const [price, setPrice] = useState(10000);
   const [quantity, setQuantity] = useState(1);
-  const [paymentAmount, setPaymentAmount] = useState(price * quantity);
+  const [paymentAmount, setPaymentAmount] = useState(depositprice * quantity);
   const [paymentMethod, setPaymetMethod] = useState("card");
   const [paymentStatus, setPaymentStatus] = useState("paid");
   const [depositAmount, setDepositAmount] = useState(paymentAmount * 0.05);
@@ -78,7 +78,7 @@ function CheckoutAll() {
                     plannerImg: plannerImg,
                     plannerName: plannerName,
                     planneremail: planneremail,
-                    price: price,
+                    price: depositprice,
                   },
                 });
               } else if (value == 2) {
