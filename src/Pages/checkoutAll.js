@@ -7,6 +7,9 @@ import NavigationBar from "../Components/NavigationBar";
 import Footer from "../Components/Footer";
 import defaultprofileimage from "../Assets/defaultprofileimage.jpg";
 import axios from "axios";
+// import "../Css/checkoutall.css";
+import $ from "jquery";
+import "bootstrap";
 
 function CheckoutAll() {
   var IMP = window.IMP;
@@ -167,6 +170,9 @@ function CheckoutAll() {
           console.log(e);
         });
     }
+    $(document).ready(function () {
+      window.$("#plannerMatchingPriceModal").modal("show");
+    });
   }, []);
 
   return (
