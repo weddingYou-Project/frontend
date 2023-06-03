@@ -20,6 +20,8 @@ div {
     /* background: coral; */
 }
 
+
+/*검색창*/
 .EstimateListSearchbarBox {
     width: 100%;
     margin-top: 8px;
@@ -27,6 +29,10 @@ div {
     padding-bottom: 10px;
     position: relative;
     
+  
+   /*추가*/
+   /* background: red;  */
+    display: flex;
 }
 
 
@@ -34,7 +40,19 @@ div {
     font-size: var(--main-fontsize);
     border-radius: 20px;
     text-indent: 40px;
+    width: 100%;
+    
+    
+    /*추가*/
+    border-radius: 0px;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    outline: none;
+    border: 1px solid #ced4da;
+    /* border-right: none; */
 }
+    
+
 
 .EstimateListSearchIcon {
     width: 10%;
@@ -45,6 +63,10 @@ div {
     align-items: center;
     font-size: var(--main-fontsize);
     position: absolute;
+
+    /*추가*/
+    transform: translate(3px,2px);
+
 }
 /*검색창 끝*/
 /*정렬*/
