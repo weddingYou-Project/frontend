@@ -244,7 +244,9 @@ function Checkoutdeposit() {
             readonly
             className="form-control-plaintext"
             id="itemName"
-            value={`${depositAmount}원`}
+            value={`${depositAmount
+              .toString()
+              .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원`}
             style={{ fontSize: "0.9em" }}
           />
         </div>

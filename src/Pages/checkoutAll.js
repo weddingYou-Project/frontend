@@ -29,6 +29,7 @@ function CheckoutAll() {
 
   //const [price, setPrice] = useState(10000);
   const [quantity, setQuantity] = useState(1);
+  const [allprice, setAllPrice] = useState("");
   const [paymentAmount, setPaymentAmount] = useState(depositprice * quantity);
   const [paymentMethod, setPaymetMethod] = useState("card");
   const [paymentStatus, setPaymentStatus] = useState("paid");
@@ -45,8 +46,7 @@ function CheckoutAll() {
   const plannerMatchingPriceConfirm = useRef();
   const [plannerMatchingPriceMessage, setPlannerMatchingPriceMessage] =
     useState("");
-  const [allprice, setAllPrice] = useState(0);
-
+  const [changedPrice, setChangedPrice] = useState(false);
   function requestPay() {
     IMP.request_pay(
       {
@@ -175,6 +175,10 @@ function CheckoutAll() {
     });
   }, []);
 
+  // useEffect(() => {
+  //   setPaymentAmount(allprice);
+  // }, [changedPrice]);
+
   return (
     <div className="mainlayout" style={{ minHeight: "100vh" }}>
       <NavigationBar title={"결제하기"} />
@@ -227,7 +231,10 @@ function CheckoutAll() {
         <div className="col-sm-8">
           <p className="detailcheckout" style={{ fontSize: "0.9em" }}>
             전체금액 - 계약금
-            <br /> ({paymentAmount}원) - ({depositAmount}원)
+            <br /> (
+            {paymentAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원)
+            - ({depositAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+            원)
           </p>
         </div>
       </div>
@@ -287,73 +294,113 @@ function CheckoutAll() {
             <div class="modal-body">
               <div class="has-validation col col-md-10">
                 <input
-                  type="password"
+                  type="text"
                   class="form-control "
                   id="plannerMatchingPriceCheck"
                   ref={plannerMatchingPriceCheckInput}
                   value={allprice}
                   onChange={(e) => {
                     console.log(e.target.value);
-                    if (e.target.value == 0) {
-                      this.plannerMatchingPriceCheckInput.current.classList.add(
+                    if (e.target.value === "0") {
+                      plannerMatchingPriceCheckInput.current.classList.add(
                         "is-invalid"
                       );
-                      this.plannerMatchingPriceCheckInput.current.classList.remove(
+                      plannerMatchingPriceCheckInput.current.classList.remove(
                         "is-valid"
                       );
-                      this.plannerMatchingPriceFeedback.current.classList.remove(
+                      plannerMatchingPriceFeedback.current.classList.remove(
                         "invisible"
                       );
-                      this.plannerMatchingPriceFeedback.current.classList.add(
+                      plannerMatchingPriceFeedback.current.classList.add(
                         "invalid-feedback"
                       );
-                      this.plannerMatchingPriceFeedback.current.classList.remove(
+                      plannerMatchingPriceFeedback.current.classList.remove(
                         "valid-feedback"
                       );
                       setPlannerMatchingPriceMessage(
                         "금액은 0이 될 수 없습니다."
                       );
-                      this.plannerMatchingPriceConfirm.current.disabled = true;
+                      plannerMatchingPriceConfirm.current.disabled = true;
                     } else {
                       if (e.target.value == "") {
-                        this.plannerMatchingPriceCheckInput.current.classList.add(
+                        plannerMatchingPriceCheckInput.current.classList.add(
                           "is-invalid"
                         );
-                        this.plannerMatchingPriceCheckInput.current.classList.remove(
+                        plannerMatchingPriceCheckInput.current.classList.remove(
                           "is-valid"
                         );
-                        this.plannerMatchingPriceFeedback.current.classList.remove(
+                        plannerMatchingPriceFeedback.current.classList.remove(
                           "invisible"
                         );
-                        this.plannerMatchingPriceFeedback.current.classList.add(
+                        plannerMatchingPriceFeedback.current.classList.add(
                           "invalid-feedback"
                         );
-                        this.plannerMatchingPriceFeedback.current.classList.remove(
+                        plannerMatchingPriceFeedback.current.classList.remove(
                           "valid-feedback"
                         );
                         setPlannerMatchingPriceMessage("금액을 입력해주세요!");
-                        this.plannerMatchingPriceConfirm.current.disabled = true;
-                      } else {
-                        this.plannerMatchingPriceCheckInput.current.classList.remove(
+                        plannerMatchingPriceConfirm.current.disabled = true;
+                      } else if (isNaN(e.target.value)) {
+                        plannerMatchingPriceCheckInput.current.classList.add(
                           "is-invalid"
                         );
-                        this.plannerMatchingPriceCheckInput.current.classList.add(
+                        plannerMatchingPriceCheckInput.current.classList.remove(
                           "is-valid"
                         );
-                        this.plannerMatchingPriceFeedback.current.classList.add(
+                        plannerMatchingPriceFeedback.current.classList.remove(
                           "invisible"
                         );
-                        this.plannerMatchingPriceFeedback.current.classList.remove(
+                        plannerMatchingPriceFeedback.current.classList.add(
                           "invalid-feedback"
                         );
-                        this.plannerMatchingPriceFeedback.current.classList.add(
+                        plannerMatchingPriceFeedback.current.classList.remove(
+                          "valid-feedback"
+                        );
+                        setPlannerMatchingPriceMessage("숫자를 입력하세요!");
+                        plannerMatchingPriceConfirm.current.disabled = true;
+                      } else if (parseInt(e.target.value) <= depositAmount) {
+                        plannerMatchingPriceCheckInput.current.classList.add(
+                          "is-invalid"
+                        );
+                        plannerMatchingPriceCheckInput.current.classList.remove(
+                          "is-valid"
+                        );
+                        plannerMatchingPriceFeedback.current.classList.remove(
+                          "invisible"
+                        );
+                        plannerMatchingPriceFeedback.current.classList.add(
+                          "invalid-feedback"
+                        );
+                        plannerMatchingPriceFeedback.current.classList.remove(
+                          "valid-feedback"
+                        );
+                        setPlannerMatchingPriceMessage(
+                          "예약금보다 작거나 같은 금액은 입력 불가입니다!"
+                        );
+                        plannerMatchingPriceConfirm.current.disabled = true;
+                      } else {
+                        plannerMatchingPriceCheckInput.current.classList.remove(
+                          "is-invalid"
+                        );
+                        plannerMatchingPriceCheckInput.current.classList.add(
+                          "is-valid"
+                        );
+                        plannerMatchingPriceFeedback.current.classList.remove(
+                          "invisible"
+                        );
+                        plannerMatchingPriceFeedback.current.classList.remove(
+                          "invalid-feedback"
+                        );
+                        plannerMatchingPriceFeedback.current.classList.add(
                           "valid-feedback"
                         );
                         setPlannerMatchingPriceMessage("all good!");
-                        this.plannerMatchingPriceConfirm.current.disabled = false;
+                        plannerMatchingPriceConfirm.current.disabled = false;
+
+                        setPaymentAmount(e.target.value);
                       }
+                      setAllPrice(e.target.value);
                     }
-                    setAllPrice(e.target.value);
                   }}
                   style={{ fontSize: "1.2em" }}
                   placeholder="플래너와 상의한 매칭 비용을 입력해주세요."
@@ -382,9 +429,11 @@ function CheckoutAll() {
               <button
                 type="button"
                 class="btn btn-primary"
-                data-bs-toggle="modal"
-                data-bs-target="#passwordcheckMessageModal"
+                data-bs-dismiss="modal"
                 ref={plannerMatchingPriceConfirm}
+                onClick={() => {
+                  // setChangedPrice(!changedPrice);
+                }}
                 disabled
               >
                 확인
