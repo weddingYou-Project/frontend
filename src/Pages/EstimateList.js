@@ -10,12 +10,7 @@ import styles from "../Css/EstimateList.css";
 import NavigationBar from "../Components/NavigationBar";
 import Footer from "../Components/Footer.js";
 
-//날짜 선택 달력을 위한 import
-import { ko } from "date-fns/esm/locale";
-import { format } from "date-fns";
-import "react-datepicker/dist/react-datepicker.css";
-import DatePicker from "react-datepicker";
-import "../Css/DatePicker.css";
+//내용물세팅 width :80% margin : 0 auto를 이용한 중앙 정렬 margin-top : 100px, /맨위 패딩 20px 0px 마진 탑 8px=검색창이 될듯
 
 const EstimateList = () => {
   let [dataCount, setDataCount] = useState();
@@ -29,15 +24,6 @@ const EstimateList = () => {
   let [dressfilterstyle, setDressfilterstyle] = useState(0);
   let [makeupfilterstyle, setmakeupfilterstyle] = useState(0);
   let [studiofilterstyle, setstudiofilterstyle] = useState(0);
-
-  //달력세팅 위한 값
-  let [startDate, setStartDate] = useState(null);
-  let [endDate, setEndDate] = useState(null);
-
-  const handleChange = ([newStartDate, newEndDate]) => {
-    setStartDate(newStartDate);
-    setEndDate(newEndDate);
-  };
 
   useEffect(() => {
     axios
@@ -82,56 +68,12 @@ const EstimateList = () => {
         params: { search: search },
       })
       .then((res) => {
-        console.log(res.data);
-        if (startDate === null && endDate === null) {
-          let { data } = res;
-          setWithCompletelist(false);
-          setSlicenum(7);
-          setSort("최신순");
-          setDataCount(data.filter((e) => e.matchstatus === false).length);
-          setData(data);
-        } else if (startDate !== null && endDate === null) {
-          let dateArrays = [];
-          let { data } = res;
-          setWithCompletelist(false);
-          setSlicenum(7);
-          setSort("최신순");
-          for (let i = 0; i < data.length; i++) {
-            let parsingData = JSON.parse(data[i].weddingdate);
-            for (let j = 0; j < parsingData.length; j++) {
-              if (parsingData[j] >= format(startDate, "yyyy-MM-dd")) {
-                dateArrays.push(data[i]);
-                break;
-              }
-            }
-          }
-          setDataCount(
-            dateArrays.filter((e) => e.matchstatus === false).length
-          );
-          setData(dateArrays);
-        } else if (startDate !== null && endDate !== null) {
-          let dateArrays = [];
-          let { data } = res;
-          setWithCompletelist(false);
-          setSlicenum(7);
-          setSort("최신순");
-          for (let i = 0; i < data.length; i++) {
-            let parsingData = JSON.parse(data[i].weddingdate);
-            for (let j = 0; j < parsingData.length; j++) {
-              if (
-                parsingData[j] >= format(startDate, "yyyy-MM-dd") &&
-                parsingData[j] <= format(endDate, "yyyy-MM-dd")
-              ) {
-                dateArrays.push(data[i]);
-                break;
-              }
-            }
-          }
-          setDataCount(
-            dateArrays.filter((e) => e.matchstatus === false).length
-          );
-          setData(dateArrays);
-        }
+        let { data } = res;
+        setWithCompletelist(false);
+        setSlicenum(7);
+        setSort("최신순");
+        setDataCount(data.filter((e) => e.matchstatus === false).length);
+        setData(data);
       })
       .catch((e) => {
         console.log(e);
@@ -259,11 +201,10 @@ const EstimateList = () => {
           <span>견적작성하기</span>
         </div>
       </div>
-      {/*여기다 */}
       <div className="EstimateListContainer">
         <div className="EstimateListSearchbarBox">
           <input
-            // className="form-control"
+            className="form-control"
             placeholder="검색어를 입력해주세요"
             type="text"
             onChange={enterSearch}
@@ -275,22 +216,6 @@ const EstimateList = () => {
           />
           <div className="EstimateListSearchIcon">
             <i class="bi bi-search"></i>
-          </div>
-          <div className="캘린더">
-            <DatePicker
-              selected={startDate}
-              onChange={handleChange}
-              selectsRange
-              startDate={startDate}
-              endDate={endDate}
-              dateFormat="yyyy-MM"
-              // showMonthYearPicker
-              locale={ko}
-              showPopperArrow={false}
-              popperPlacement="top-end"
-              placeholderText="희망날짜선택"
-              isClearable={true}
-            />
           </div>
         </div>
         <div className="EstimateListDataCountAndSortBox">
@@ -353,47 +278,43 @@ const EstimateList = () => {
 export default EstimateList;
 
 const DataListComp = ({ list, navigate }) => {
-  if (list.length >= 1) {
-    return (
-      <>
-        {list.map((e, index) => {
-          return (
-            <div
-              className="EstimateListData"
-              key={index}
-              onClick={() => {
-                navigate(`/estimatedetail/${e.id}`);
-              }}
-            >
-              {e.matchstatus === true ? (
-                <div className="EstimateListComplete">매칭완료</div>
-              ) : (
-                ""
-              )}
-              <div className="EstimateListDataTitle">
-                {e.writer.slice(0, 3) + "***"} 님의 견적서
-              </div>
-              <div className="EstimateListDataRegion">
-                희망지역 : &nbsp;
-                {JSON.parse(e.region).map((e, index) => {
-                  return <span>{e}&nbsp;&nbsp;</span>;
-                })}
-              </div>
-              <div className="EstimateListDataBudget">
-                희망 예산 : {e.budget.toLocaleString()}원
-              </div>
-              <div className="EstimateListDataViewCountAndDate">
-                <div className="ViewCountAndDate">조회수 : {e.viewcount} </div>
-                <div className="ViewCountAndDate">작성일 : {e.date}</div>
-              </div>
+  return (
+    <>
+      {list.map((e, index) => {
+        return (
+          <div
+            className="EstimateListData"
+            key={index}
+            onClick={() => {
+              navigate(`/estimatedetail/${e.id}`);
+            }}
+          >
+            {e.matchstatus === true ? (
+              <div className="EstimateListComplete">매칭완료</div>
+            ) : (
+              ""
+            )}
+            <div className="EstimateListDataTitle">
+              {e.writer.slice(0, 3) + "***"} 님의 견적서
             </div>
-          );
-        })}
-      </>
-    );
-  } else {
-    <div>검색결과가 없습니다.</div>;
-  }
+            <div className="EstimateListDataRegion">
+              희망지역 : &nbsp;
+              {JSON.parse(e.region).map((e, index) => {
+                return <span>{e}&nbsp;&nbsp;</span>;
+              })}
+            </div>
+            <div className="EstimateListDataBudget">
+              희망 예산 : {e.budget.toLocaleString()}원
+            </div>
+            <div className="EstimateListDataViewCountAndDate">
+              <div className="ViewCountAndDate">조회수 : {e.viewcount} </div>
+              <div className="ViewCountAndDate">작성일 : {e.date}</div>
+            </div>
+          </div>
+        );
+      })}
+    </>
+  );
 };
 
 const SortModal = ({
