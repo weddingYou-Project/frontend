@@ -173,12 +173,9 @@ function CheckoutAll() {
           console.log(e);
         });
     }
-    //console.log("path__+_+_+_+_+_+____+_+_+_+_+_+_+");
-    //console.log(path);
+
     if (path.indexOf("/checkoutall") !== -1) {
-      console.log("path2__+_+_+_+_+_+____+_+_+_+_+_+_+");
-      console.log(path);
-      // $("#plannerMatchingPriceModal").modal("show");
+      window.$("#plannerMatchingPriceModal").modal("show");
     }
   }, []);
 
