@@ -2,7 +2,7 @@ import "../Css/main.css";
 import Footer from "../Components/Footer";
 import NavigationBar from "../Components/NavigationBar";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function Review() {
@@ -14,6 +14,7 @@ function Review() {
   const [estimateIds, setEstimatesIds] = useState([]);
   const [reviewIndex, setReviewIndex] = useState([]);
 
+  const navigate = useNavigate();
   const handleSortClick = (sort) => {
     setSelectedSort(sort); // 선택한 정렬로 버튼명 변경
   };
@@ -124,7 +125,22 @@ function Review() {
           <tbody>
             {reviewIndex.map((index) => {
               return (
-                <tr>
+                <tr
+                  style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    axios
+                      .put(`/reviewcount/${estimateIds[index]}`)
+                      .then((res) => {
+                        console.log(res);
+                      })
+                      .catch((e) => {
+                        console.log(e);
+                      });
+                    navigate(`/review/detail`, {
+                      state: { estimateId: estimateIds[index] },
+                    });
+                  }}
+                >
                   <td
                     style={{
                       height: 50,

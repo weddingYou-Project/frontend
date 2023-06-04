@@ -2,13 +2,46 @@ import "../Css/main.css";
 import "../Css/CustomerCenter.css";
 import Footer from "../Components/Footer";
 import NavigationBar from "../Components/NavigationBar";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import axios from "axios";
+import moment from "moment";
+import "moment/locale/ko";
 
 function Reviewdetail() {
   const [editMode, setEditMode] = useState(false);
   const [editedComment, setEditedComment] = useState("댓글 Smaple");
 
   const [actionmode, setActionmode] = useState(0);
+
+  const { estimateId } = useLocation().state;
+  console.log("estimateId=-=-=-=-=-=- : " + estimateId);
+
+  const [reviewTitle, setReviewTitle] = useState([]);
+  const [rating, setReviewStars] = useState([]);
+  const [reviewComments, setReviewComments] = useState([]);
+  const [reviewViews, setReviewViews] = useState([]);
+  const [reviewDate, setReviewDate] = useState([]);
+  const [reviewText, setReviewText] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(`/estimateIdReview/${estimateId}`)
+      .then((res) => {
+        console.log(res);
+        const data = res.data;
+
+        setReviewText(data.reviewText);
+        setReviewTitle(data.reviewTitle);
+        setReviewStars(data.reviewStars);
+        setReviewComments(data.comments);
+        setReviewViews(data.reviewCounts);
+        setReviewDate(data.reviewDate);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
 
   const handleEditClick = () => {
     setEditMode(true);
@@ -29,8 +62,6 @@ function Reviewdetail() {
   const updateReview = () => {
     setActionmode(0);
   };
-
-  const rating = 2;
 
   // 채워진 별 아이콘
   const filledStar = (
@@ -85,16 +116,18 @@ function Reviewdetail() {
         <NavigationBar title={"이용후기"} />
         <div style={{ height: 64 }}></div>
         <div className="titleArea">
-          <p className="titleTxt">000플래너 Review</p>
-          <p className="dateTxt">2023.05.22</p>
-          <p className="viewCountTxt">조회수 : 63</p>
+          <p className="titleTxt">{reviewTitle}</p>
+          <p className="dateTxt">{reviewDate.slice(0, 10)}</p>
+          <p className="viewCountTxt">조회수 : {reviewViews}</p>
           <div className="ratingStars">
             <Rating />
           </div>
         </div>
         <hr />
         <div className="ContentArea">
-          <p className="noticeContxt">이용후기 txt</p>
+          <p className="noticeContxt" style={{ paddingLeft: "20px" }}>
+            {reviewText}
+          </p>
           <div className="BtnArea"></div>
           <button className="upAndDelBtn2" onClick={reviewUpdateForm}>
             수정
