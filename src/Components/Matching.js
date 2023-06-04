@@ -59,12 +59,6 @@ function Matching() {
 
   const [allprice, setAllPrice] = useState(0);
 
-  const plannerMatchingPriceCheckInput = useRef();
-  const plannerMatchingPriceFeedback = useRef();
-  const plannerMatchingPriceConfirm = useRef();
-  const [plannerMatchingPriceMessage, setPlannerMatchingPriceMessage] =
-    useState("");
-
   useEffect(() => {
     if (sessionStorage.getItem("category") === "user") {
       //user일 경우
@@ -1359,6 +1353,7 @@ function Matching() {
                   <button
                     type="button"
                     className="btn btn-primary"
+                    data-bs-dismiss="modal"
                     onClick={goMatching}
                   >
                     매칭하기
@@ -1915,6 +1910,7 @@ function Matching() {
                     type="button"
                     className="btn btn-primary"
                     onClick={goMatching}
+                    data-bs-dismiss="modal"
                   >
                     매칭하기
                   </button>
@@ -1963,6 +1959,7 @@ function Matching() {
                     type="button"
                     className="btn btn-primary"
                     onClick={goMatchingUser}
+                    data-bs-dismiss="modal"
                   >
                     매칭하기
                   </button>

@@ -178,7 +178,7 @@ function CheckoutAll() {
     if (path.indexOf("/checkoutall") !== -1) {
       console.log("path2__+_+_+_+_+_+____+_+_+_+_+_+_+");
       console.log(path);
-      $("#plannerMatchingPriceModal").modal("show");
+      // $("#plannerMatchingPriceModal").modal("show");
     }
   }, []);
 
