@@ -18,6 +18,7 @@ function PlannerProfileDetail() {
   const [avgReviewStars, setAvgReviewStars] = useState(0);
   const [reviewStars, setReviewStars] = useState([]);
   const [reviewUsers, setReviewUsers] = useState([]);
+  const [reviewContents, setReviewContents] = useState([]);
   const [portfolio, setPortfolio] = useState("아직 포트폴리오가 없습니다!");
   const [portfolioIndex, setPortfolioIndex] = useState([]);
   const [plannerYears, setPlannerYears] = useState("");
@@ -38,6 +39,7 @@ function PlannerProfileDetail() {
   const [selected, setSelected] = useState(false);
   const [finish, setFinish] = useState(false);
   const [userMatching, setUserMatching] = useState(null);
+  const [portfolioReview, setPortfolioReview] = useState("");
 
   const navigate = useNavigate();
   const goMatch = () => {
@@ -90,8 +92,11 @@ function PlannerProfileDetail() {
         const reviewUsersArr = [];
         const reviewUserIndex = [];
         const reviewStarsIndex = [];
+        const reviewContentsIndex = [];
+        const reviewContentsArr = [];
         const portfolioDataArr = [];
         const portfolioIndexArr = [];
+        const portfolioReviewArr = [];
 
         for (let i = 0; i < data.length; i++) {
           setReviewCount(data[i]);
@@ -116,9 +121,21 @@ function PlannerProfileDetail() {
           console.log(arr);
           i++;
 
-          const reviewStarsData = data[i].slice(1, data[i].length - 1);
+          const reviewContentsData = data[i].slice(1, data[i].length - 1);
+          const arr3 = reviewContentsData.split(",");
 
+          const reviewContentsLength = arr3.length;
+          for (let m = 0; m < reviewContentsLength; m++) {
+            reviewContentsIndex.push(m);
+            reviewContentsArr.push(arr3[m]);
+          }
+          setReviewContents(arr3);
+          console.log(arr3);
+          i++;
+
+          const reviewStarsData = data[i].slice(1, data[i].length - 1);
           const arr2 = reviewStarsData.split(",");
+
           const starsLength = arr2.length;
           for (let k = 0; k < starsLength; k++) {
             reviewStarsIndex.push(k);
@@ -133,12 +150,14 @@ function PlannerProfileDetail() {
         if (reviewStarsArr[0] !== "") {
           for (let m = 0; m < reviewStarsArr.length; m++) {
             const portfolioData = `${reviewUsersArr[m]} - ${reviewStarsArr[m]}점\n`;
-
+            const portfolioReview = `${reviewContentsArr[m]}\n`;
             portfolioDataArr.push(portfolioData);
+            portfolioReviewArr.push(portfolioReview);
             portfolioIndexArr.push(m);
             console.log(portfolioData);
           }
           setPortfolio(portfolioDataArr);
+          setPortfolioReview(portfolioReviewArr);
 
           setPortfolioIndex(portfolioIndexArr);
           console.log(portfolioDataArr);
@@ -399,7 +418,7 @@ function PlannerProfileDetail() {
               overflowY: "scroll",
             }}
           >
-            <div style={{ fontSize: "1.1em" }}>
+            <div style={{ fontSize: "1.1em", borderTop: "1px double grey" }}>
               {portfolioIndex.length === 0 ? (
                 <div
                   style={{
@@ -413,9 +432,35 @@ function PlannerProfileDetail() {
               ) : (
                 portfolioIndex.map((index) => {
                   return (
-                    <div style={{ display: "flex", justifyContent: "start" }}>
-                      {portfolio[index]}
-                      <br />
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "start",
+                          height: "50px",
+                          paddingTop: "10px",
+                        }}
+                      >
+                        {index + 1}.{portfolio[index]}
+                        <br />
+                      </div>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "start",
+                          height: "50px",
+                          fontSize: "0.9em",
+                          borderBottom: "1px double grey",
+                        }}
+                      >
+                        : {portfolioReview[index]}
+                        <br />
+                      </div>
                     </div>
                   );
                 })
