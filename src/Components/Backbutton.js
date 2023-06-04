@@ -87,6 +87,8 @@ function BackButton({ engTitle }) {
             navigate(`/matching`);
           } else if (path.indexOf("/estimatedetail/") !== -1) {
             navigate(-1);
+          } else if (path.indexOf("/review/detail") !== -1) {
+            navigate("/review");
           } else {
             navigate("/");
           }
