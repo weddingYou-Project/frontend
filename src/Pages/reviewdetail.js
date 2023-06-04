@@ -271,11 +271,12 @@ function Reviewdetail() {
     formData.append("userEmail", sessionStorage.getItem("email"));
     formData.append("plannerEmail", plannerEmail);
     formData.append("estimateId", estimateId);
+    formData.append("reviewTitle", reviewTitle);
     if (reviewText === undefined || reviewText === "") {
       alert("리뷰를 작성하시려면 리뷰 후기를 적어주세요!");
     } else {
       axios
-        .post("/reviews", formData)
+        .post("/updatedreviews", formData)
         .then((res) => {
           console.log("성공:", res);
           alert("리뷰 수정 완료!");
