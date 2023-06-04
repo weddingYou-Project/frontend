@@ -28,10 +28,33 @@ import Matching from "./Components/Matching";
 import CheckoutAll from "./Pages/checkoutAll";
 import CheckoutComp from "./Pages/checkoutComp";
 import AdminPage from "./Pages/AdminPage";
+import CustomerCenter from "./Pages/CustomerCenter";
+import QnA from "./Pages/QnA";
+import Notice from "./Pages/Notice";
+import Review from "./Pages/Review";
+import Noticedetail from "./Pages/noticedetail";
+import QnAdetail from "./Pages/QnAdetail";
+import Reviewdetail from "./Pages/reviewdetail";
+import ContentWrite from "./Pages/contentwrite";
 
 function App() {
   return (
     <Routes>
+      <Route path="/contentwrite" element={<ContentWrite />} />
+      <Route path="/review" element={<Review />} />
+      <Route path="/review/detail" element={<Reviewdetail />} />
+      <Route path="/qnapage" element={<QnA />} />
+      <Route path="/qna/detail" element={<QnAdetail />} />
+      <Route path="/noticepage" element={<Notice />} />
+      <Route path="/notice/detail" element={<Noticedetail />} />
+      <Route path="/customerCenter" element={<CustomerCenter />} />
+      <Route path="/matching" element={<Matching />} />
+      <Route path="/checkoutcomp" element={<CheckoutComp />} />
+      <Route path="/checkoutall" element={<CheckoutAll />} />
+      <Route path="/checkoutdeposit" element={<Checkoutdeposit />} />
+      <Route path="/rating" element={<Ratingpage />} />
+      <Route path="/sidesection" element={<Sidesection />} />
+      <Route path="/estimateform" element={<EstimateForm />} />
       <Route path="/" element={<Home />}></Route>
       <Route path="/likeList" element={<LikeList />}></Route>
       <Route path="/searchItems" element={<SearchItems />}></Route>
