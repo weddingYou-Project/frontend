@@ -23,6 +23,7 @@ function Reviewdetail() {
   const [reviewViews, setReviewViews] = useState([]);
   const [reviewDate, setReviewDate] = useState([]);
   const [reviewText, setReviewText] = useState([]);
+  const [images, setImages] = useState([]);
 
   useEffect(() => {
     axios
@@ -37,6 +38,31 @@ function Reviewdetail() {
         setReviewComments(data.comments);
         setReviewViews(data.reviewCounts);
         setReviewDate(data.reviewDate);
+        const imagearray = JSON.parse(data.reviewImg);
+        const getImages = async () => {
+          try {
+            const imagePromises = imagearray.map((image) => {
+              return axios.get("/review/imageview", {
+                params: { image },
+                responseType: "blob",
+              });
+            });
+            const responses = await Promise.all(imagePromises);
+
+            const imageUrls = responses.map((res, index) => {
+              const resdata = URL.createObjectURL(res.data);
+              console.log("aaaaaaaaa");
+              console.log(res.data);
+
+              return resdata;
+            });
+            console.log(imageUrls);
+            setImages(imageUrls);
+          } catch (e) {
+            console.log(e);
+          }
+        };
+        getImages();
       })
       .catch((e) => {
         console.log(e);
@@ -183,6 +209,47 @@ function Reviewdetail() {
           </div>
         </div>
         <hr />
+        <div className="contentbox-detail" style={{ paddingLeft: "20px" }}>
+          <h5 style={{ marginBottom: "-15px" }}>
+            고객 첨부이미지{" "}
+            {images.length !== 0 && <span>(클릭시 확대됩니다)</span>}
+          </h5>
+          {images.length === 0 && <span>첨부 이미지가 없습니다.</span>}
+          <br></br>
+          <div>
+            {images.map((e, index) => {
+              return (
+                <div key={index}>
+                  <>
+                    <button
+                      type="button"
+                      class="btn"
+                      data-bs-toggle="modal"
+                      data-bs-target={`#number${index.toString()}`}
+                      style={{ width: "40%" }}
+                    >
+                      <img
+                        src={e}
+                        width="40%"
+                        height="40%"
+                        style={{
+                          float: "left",
+                          width: "100%",
+                          borderRadius: "10px",
+                        }}
+                        alt=""
+                      />
+                    </button>
+                    <ImagesView
+                      images={e}
+                      index={`number${index.toString()}`}
+                    />
+                  </>
+                </div>
+              );
+            })}
+          </div>
+        </div>
         <p className="ComentTitle">댓글</p>
         <div className="ComentArea">
           <div className="Coment">
@@ -318,3 +385,20 @@ function Reviewdetail() {
 }
 
 export default Reviewdetail;
+const ImagesView = ({ images, index }) => {
+  return (
+    <div
+      class="modal fade"
+      id={index}
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" style={{ maxWidth: "800px" }}>
+        <div className="image-actualsize">
+          <img src={images} />
+        </div>
+      </div>
+    </div>
+  );
+};
