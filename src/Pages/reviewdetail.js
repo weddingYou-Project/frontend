@@ -3,7 +3,7 @@ import "../Css/CustomerCenter.css";
 import Footer from "../Components/Footer";
 import NavigationBar from "../Components/NavigationBar";
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import moment from "moment";
 import "moment/locale/ko";
@@ -24,7 +24,7 @@ function Reviewdetail() {
   const [reviewDate, setReviewDate] = useState([]);
   const [reviewText, setReviewText] = useState([]);
   const [images, setImages] = useState([]);
-
+  const navigate = useNavigate();
   useEffect(() => {
     axios
       .get(`/estimateIdReview/${estimateId}`)
@@ -132,8 +132,13 @@ function Reviewdetail() {
     return stars;
   };
 
-  const handleRefresh = () => {
-    window.location.reload(); // 페이지 새로고침
+  const handleDelete = () => {
+    axios.delete(`/review/delete/${estimateId}`).then((res) => {
+      console.log(res);
+      alert(`글이 삭제되었습니다!`);
+      navigate(`/review`);
+    });
+    // window.location.reload(); // 페이지 새로고침
   };
 
   if (actionmode === 0) {
@@ -192,7 +197,8 @@ function Reviewdetail() {
                   <button
                     type="button"
                     class="btn btn-primary"
-                    onClick={handleRefresh}
+                    data-bs-dismiss="modal"
+                    onClick={handleDelete}
                   >
                     삭제
                   </button>
@@ -310,7 +316,7 @@ function Reviewdetail() {
                           <button
                             type="button"
                             class="btn btn-primary"
-                            onClick={handleRefresh}
+                            onClick={handleDelete}
                           >
                             삭제
                           </button>
