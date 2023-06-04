@@ -1,15 +1,54 @@
 import "../Css/main.css";
 import Footer from "../Components/Footer";
 import NavigationBar from "../Components/NavigationBar";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 function Review() {
   const [selectedSort, setSelectedSort] = useState("정렬"); // 초기 버튼명 설정
+  const [reviewTitle, setReviewTitle] = useState([]);
+  const [reviewStars, setReviewStars] = useState([]);
+  const [reviewComments, setReviewComments] = useState([]);
+  const [reviewViews, setReviewViews] = useState([]);
+  const [estimateIds, setEstimatesIds] = useState([]);
+  const [reviewIndex, setReviewIndex] = useState([]);
 
   const handleSortClick = (sort) => {
     setSelectedSort(sort); // 선택한 정렬로 버튼명 변경
   };
+
+  useEffect(() => {
+    axios
+      .get(`/getreviewslist`)
+      .then((res) => {
+        console.log(res);
+        const data = res.data;
+        const reviewTitleArr = [];
+        const reviewStarsArr = [];
+        const reviewCommentsArr = [];
+        const reviewViewsArr = [];
+        const estimateIdArr = [];
+        const reviewIndexArr = [];
+        for (let i = 0; i < data.length; i++) {
+          reviewTitleArr.push(data[i].reviewTitle);
+          reviewStarsArr.push(data[i].reviewStars);
+          reviewCommentsArr.push(data[i].comments.length);
+          reviewViewsArr.push(data[i].reviewCounts);
+          estimateIdArr.push(data[i].estimateId);
+          reviewIndexArr.push(i);
+        }
+        setReviewTitle(reviewTitleArr);
+        setReviewStars(reviewStarsArr);
+        setReviewComments(reviewCommentsArr);
+        setReviewViews(reviewViewsArr);
+        setEstimatesIds(estimateIdArr);
+        setReviewIndex(reviewIndexArr);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
 
   return (
     <div className="mainlayout">
@@ -83,81 +122,30 @@ function Review() {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td style={{ height: 50 }}>
-                <a
-                  href="http://localhost:3000/review/detail"
-                  className="noticeTxt"
-                >
-                  000플래너 Review
-                </a>
-              </td>
-              <td>
-                <p className="noticeTxtCenter">4/5</p>
-              </td>
-              <td>
-                <p className="noticeTxtCenter">1</p>
-              </td>
-              <td>
-                <p className="noticeTxtCenter">52</p>
-              </td>
-            </tr>
-            <tr>
-              <td style={{ height: 50 }}>
-                <a className="noticeTxt">000플래너 Review</a>
-              </td>
-              <td>
-                <p className="noticeTxtCenter">3/5</p>
-              </td>
-              <td>
-                <p className="noticeTxtCenter">3</p>
-              </td>
-              <td>
-                <p className="noticeTxtCenter">62</p>
-              </td>
-            </tr>
-            <tr>
-              <td style={{ height: 50 }}>
-                <a className="noticeTxt">000플래너 Review</a>
-              </td>
-              <td>
-                <p className="noticeTxtCenter">2/5</p>
-              </td>
-              <td>
-                <p className="noticeTxtCenter">5</p>
-              </td>
-              <td>
-                <p className="noticeTxtCenter">37</p>
-              </td>
-            </tr>
-            <tr>
-              <td style={{ height: 50 }}>
-                <a className="noticeTxt">000플래너 Review</a>
-              </td>
-              <td>
-                <p className="noticeTxtCenter">3/5</p>
-              </td>
-              <td>
-                <p className="noticeTxtCenter">2</p>
-              </td>
-              <td>
-                <p className="noticeTxtCenter">84</p>
-              </td>
-            </tr>
-            <tr>
-              <td style={{ height: 50 }}>
-                <a className="noticeTxt">000플래너 Review</a>
-              </td>
-              <td>
-                <p className="noticeTxtCenter">4/5</p>
-              </td>
-              <td>
-                <p className="noticeTxtCenter">6</p>
-              </td>
-              <td>
-                <p className="noticeTxtCenter">36</p>
-              </td>
-            </tr>
+            {reviewIndex.map((index) => {
+              return (
+                <tr>
+                  <td
+                    style={{
+                      height: 50,
+                      fontSize: "1.5em",
+                      paddingLeft: "20px",
+                    }}
+                  >
+                    {reviewTitle[index]}
+                  </td>
+                  <td>
+                    <p className="noticeTxtCenter">{reviewStars[index]}/5</p>
+                  </td>
+                  <td>
+                    <p className="noticeTxtCenter">{reviewComments[index]}</p>
+                  </td>
+                  <td>
+                    <p className="noticeTxtCenter">{reviewViews[index]}</p>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </tabel>
       </div>
