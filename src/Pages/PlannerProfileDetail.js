@@ -87,6 +87,7 @@ function PlannerProfileDetail() {
       .post(`/plannerProfile/getProfileDetail`, formData)
       .then((res) => {
         const data = res.data;
+        console.log("abababababababa+_+_+_+_+_+");
         console.log(data);
         const reviewStarsArr = [];
         const reviewUsersArr = [];
@@ -401,25 +402,25 @@ function PlannerProfileDetail() {
             총 매칭수 : {matchingCount}
           </div>
 
-          <div
-            style={{
-              marginTop: "20px",
-              borderRadius: "10px",
-              fontSize: "1.4em",
-              border: "1px solid grey",
-              height: "180px",
-              width: "500px",
-              margin: "0 auto",
-              backgroundColor: "#ebecf0",
-              paddingTop: "20px",
-              paddingLeft: "20px",
-              paddingBottom: "20px",
-              paddingRight: "20px",
-              overflowY: "scroll",
-            }}
-          >
-            <div style={{ fontSize: "1.1em", borderTop: "1px double grey" }}>
-              {portfolioIndex.length === 0 ? (
+          {portfolioIndex.length === 0 ? (
+            <div
+              style={{
+                marginTop: "20px",
+                borderRadius: "10px",
+                fontSize: "1.4em",
+                border: "1px solid grey",
+                height: "180px",
+                width: "500px",
+                margin: "0 auto",
+                backgroundColor: "#ebecf0",
+                paddingTop: "20px",
+                paddingLeft: "20px",
+                paddingBottom: "20px",
+                paddingRight: "20px",
+                overflowY: "scroll",
+              }}
+            >
+              <div style={{ fontSize: "1.1em" }}>
                 <div
                   style={{
                     fontSize: "0.9em",
@@ -429,9 +430,30 @@ function PlannerProfileDetail() {
                 >
                   아직 포트폴리오가 없습니다!
                 </div>
-              ) : (
-                portfolioIndex.map((index) => {
-                  return (
+              </div>
+            </div>
+          ) : (
+            portfolioIndex.map((index) => {
+              return (
+                <div
+                  style={{
+                    marginTop: "20px",
+                    borderRadius: "10px",
+                    fontSize: "1.4em",
+                    border: "1px solid grey",
+                    height: "130px",
+                    width: "500px",
+                    margin: "0 auto",
+                    backgroundColor: "#ebecf0",
+                    paddingTop: "20px",
+                    paddingLeft: "20px",
+                    paddingBottom: "20px",
+                    paddingRight: "20px",
+                    overflowY: "scroll",
+                    marginBottom: "5px",
+                  }}
+                >
+                  <div style={{ fontSize: "1.1em" }}>
                     <div
                       style={{
                         display: "flex",
@@ -455,18 +477,17 @@ function PlannerProfileDetail() {
                           justifyContent: "start",
                           height: "50px",
                           fontSize: "0.9em",
-                          borderBottom: "1px double grey",
                         }}
                       >
                         : {portfolioReview[index]}
                         <br />
                       </div>
                     </div>
-                  );
-                })
-              )}
-            </div>
-          </div>
+                  </div>
+                </div>
+              );
+            })
+          )}
         </div>
         {sessionStorage.getItem("category") === "user" ? (
           existEstimates ? (
