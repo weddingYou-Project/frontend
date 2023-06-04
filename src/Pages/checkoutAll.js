@@ -47,12 +47,13 @@ function CheckoutAll() {
   const [plannerMatchingPriceMessage, setPlannerMatchingPriceMessage] =
     useState("");
   const [changedPrice, setChangedPrice] = useState(false);
+  const path = useLocation().pathname;
   function requestPay() {
     IMP.request_pay(
       {
         pg: "kcp",
         pay_method: { paymentMethod },
-        merchant_uid: `56907801-${estimateId}` + IMP,
+        merchant_uid: `53907801-${estimateId}` + IMP,
         name: "플래너 매칭서비스",
         amount: paymentAmount1,
         buyer_email: sessionStorage.getItem("email"),
@@ -70,7 +71,6 @@ function CheckoutAll() {
               paymentMethod: paymentMethod,
               tempPaymentStatus: "paid",
               paymentType: "all",
-              price: paymentAmount,
               paymentAmount: paymentAmount,
             })
             .then((res) => {
@@ -150,6 +150,7 @@ function CheckoutAll() {
           paymentMethod: paymentMethod,
           tempPaymentStatus: "cancelled",
           paymentType: "all",
+          paymentAmount: paymentAmount,
         })
         .then((res) => {
           console.log(res);
@@ -172,9 +173,13 @@ function CheckoutAll() {
           console.log(e);
         });
     }
-    $(document).ready(function () {
-      window.$("#plannerMatchingPriceModal").modal("show");
-    });
+    //console.log("path__+_+_+_+_+_+____+_+_+_+_+_+_+");
+    //console.log(path);
+    if (path.indexOf("/checkoutall") !== -1) {
+      console.log("path2__+_+_+_+_+_+____+_+_+_+_+_+_+");
+      console.log(path);
+      $("#plannerMatchingPriceModal").modal("show");
+    }
   }, []);
 
   // useEffect(() => {
