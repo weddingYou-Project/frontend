@@ -42,6 +42,8 @@ const AdminPage = () => {
   let [passwordCheck, setPasswordCheck] = useState();
   let [phoneCheck, setPhoneCheck] = useState();
 
+  // const [matchedPlanner, setMatchedPlanner] = useState("");
+
   const onNameChange = (e) => {
     const koreanNameRegExp = /^[가-힣\s]{1,5}$/;
     setUserName(e.target.value);
@@ -272,6 +274,7 @@ const AdminPage = () => {
     viewcount: null,
     date: "",
     matchstatus: null,
+    matchedplanner: "",
   });
   const postDetail = (
     id,
@@ -280,7 +283,8 @@ const AdminPage = () => {
     writer,
     viewcount,
     date,
-    matchstatus
+    matchstatus,
+    matchedplanner
   ) => {
     setPostArticle({
       id: id,
@@ -290,6 +294,7 @@ const AdminPage = () => {
       viewcount: viewcount,
       date: date,
       matchstatus: matchstatus,
+      matchedplanner: matchedplanner,
     });
     setModalMode("post");
   };
@@ -1006,6 +1011,9 @@ const PostListData = ({ array2, postDetail }) => {
   return (
     <>
       {array2.map((e, index) => {
+        console.log("matchedplanner:" + JSON.parse(e.plannermatching)[0]);
+        const matchedplanner = JSON.parse(e.plannermatching)[0];
+        // setMatchedPlanner(matchedplanner);
         return (
           <div
             className="adminpage-Administration-list-body-box cursor"
@@ -1020,7 +1028,8 @@ const PostListData = ({ array2, postDetail }) => {
                 e.writer,
                 e.viewcount,
                 e.date,
-                e.matchstatus
+                e.matchstatus,
+                matchedplanner
               );
             }}
           >
@@ -1127,6 +1136,9 @@ const DetailModal = ({
               <div className="Modal-detail">
                 <p>제목 : {postArticle.title}</p>
                 <p>글쓴이 : {postArticle.writer} </p>
+                {postArticle.matchstatus == true ? (
+                  <p>매칭 플래너 : {postArticle.matchedplanner} </p>
+                ) : null}
                 <p>작성일시 : {postArticle.date}</p>
                 <p>조회수 : {postArticle.viewcount}</p>
                 <p>
