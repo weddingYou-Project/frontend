@@ -2,15 +2,42 @@ import "../Css/main.css";
 import Footer from "../Components/Footer";
 import NavigationBar from "../Components/NavigationBar";
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 function QnA() {
+  const [qnaContent, setQnaContent] = useState([]);
+  const [qnaTitle, setQnaTitle] = useState([]);
+  const [qnaViewCount, setQnaViewCount] = useState([]);
+  const [qnaId, setQnaId] = useState([]);
+  const [index, setIndex] = useState([]);
+  const [qnaComments, setQnaComments] = useState([]);
   useEffect(() => {
     axios
       .get(`/qna/list`)
       .then((res) => {
         console.log(res);
+        const data = res.data;
+        const qnaContentArr = [];
+        const qnaIdArr = [];
+        const qnaTitleArr = [];
+        const qnaViewCountArr = [];
+        const qnaIndexArr = [];
+        const qnaCommentsArr = [];
+        for (let i = 0; i < data.length; i++) {
+          qnaContentArr.push(data[i].qnaContent);
+          qnaIdArr.push(data[i].qnaId);
+          qnaTitleArr.push(data[i].qnaTitle);
+          qnaViewCountArr.push(data[i].qnaViewCount);
+          qnaCommentsArr.push(data[i].comments.length);
+          qnaIndexArr.push(i);
+        }
+        setQnaContent(qnaContentArr);
+        setQnaTitle(qnaTitleArr);
+        setQnaViewCount(qnaViewCountArr);
+        setQnaId(qnaIdArr);
+        setIndex(qnaIndexArr);
+        setQnaComments(qnaCommentsArr);
       })
       .catch((e) => {
         console.log(e);
@@ -48,27 +75,37 @@ function QnA() {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td style={{ height: 50 }}>
-                <a
-                  href="http://localhost:3000/qna/detail"
-                  className="noticeTxt"
-                  style={{ fontSize: "1.5em" }}
-                >
-                  Q&A TitleSample
-                </a>
-              </td>
-              <td>
-                <p className="noticeTxtCenter" style={{ fontSize: "1.5em" }}>
-                  2
-                </p>
-              </td>
-              <td>
-                <p className="noticeTxtCenter" style={{ fontSize: "1.5em" }}>
-                  14
-                </p>
-              </td>
-            </tr>
+            {index.map((i) => {
+              return (
+                <tr>
+                  <td style={{ height: 50 }}>
+                    <a
+                      href="http://localhost:3000/qna/detail"
+                      className="noticeTxt"
+                      style={{ fontSize: "1.5em" }}
+                    >
+                      {qnaTitle[i]}
+                    </a>
+                  </td>
+                  <td>
+                    <p
+                      className="noticeTxtCenter"
+                      style={{ fontSize: "1.5em" }}
+                    >
+                      {qnaComments[i]}
+                    </p>
+                  </td>
+                  <td>
+                    <p
+                      className="noticeTxtCenter"
+                      style={{ fontSize: "1.5em" }}
+                    >
+                      {qnaViewCount[i]}
+                    </p>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </tabel>
       </div>
