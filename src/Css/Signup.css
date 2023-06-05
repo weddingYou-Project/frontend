@@ -7,6 +7,7 @@ margin: 0 auto;
 background: white;
 border: 2px solid rgb(173, 166, 166);
 border-radius: 10px;
+font-family: 'omyu_pretty';
 
 }
 
@@ -29,7 +30,7 @@ border-radius: 10px;
     justify-content: center;
     align-items: center;
     border-bottom: 1px solid grey;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
 }
 
 .Signup-logo {
@@ -207,6 +208,7 @@ border-radius: 10px;
     transition: all 1s;
     top : 20px;
     opacity: 1;
+    font-size: 23px;
 
 }
 /*회원가입 성공 페이지 CSS 끝*/

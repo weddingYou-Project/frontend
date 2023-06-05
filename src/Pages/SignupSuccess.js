@@ -27,7 +27,7 @@ const SignupSuccess = () => {
         <div className="Signup-header">회원가입 완료</div>
         <div className="Signup-guidebar">
           <div className="guideline"></div>
-          <span>회원가입 완료</span>
+          <span style={{ fontSize: "23px" }}>회원가입 완료</span>
           <div className="guideline"></div>
         </div>
 

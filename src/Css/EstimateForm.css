@@ -57,6 +57,7 @@
     width: 90%; 
     float: left;
     transition: all 0.2s;
+    position: relative;
 }
 
 
@@ -245,4 +246,13 @@
 
 .modal-title>span{
     font-size: 35px;
+}
+
+
+.ranking { 
+    font-size: 15px;
+    position: absolute;
+    top: 0;
+    right: 15px;
+    color : black;
 }

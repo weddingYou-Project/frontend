@@ -1,6 +1,6 @@
 //리액트 임포트
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 //스타일 중복을 피하기 위한 종속
@@ -10,7 +10,12 @@ import styles from "../Css/EstimateList.css";
 import NavigationBar from "../Components/NavigationBar";
 import Footer from "../Components/Footer.js";
 
-//내용물세팅 width :80% margin : 0 auto를 이용한 중앙 정렬 margin-top : 100px, /맨위 패딩 20px 0px 마진 탑 8px=검색창이 될듯
+//날짜 선택 달력을 위한 import
+import { ko } from "date-fns/esm/locale";
+import { format } from "date-fns";
+import "react-datepicker/dist/react-datepicker.css";
+import DatePicker from "react-datepicker";
+import "../Css/DatePicker.css";
 
 const EstimateList = () => {
   let [dataCount, setDataCount] = useState();
@@ -24,6 +29,15 @@ const EstimateList = () => {
   let [dressfilterstyle, setDressfilterstyle] = useState(0);
   let [makeupfilterstyle, setmakeupfilterstyle] = useState(0);
   let [studiofilterstyle, setstudiofilterstyle] = useState(0);
+
+  //달력세팅 위한 값
+  let [startDate, setStartDate] = useState(null);
+  let [endDate, setEndDate] = useState(null);
+
+  const handleChange = ([newStartDate, newEndDate]) => {
+    setStartDate(newStartDate);
+    setEndDate(newEndDate);
+  };
 
   useEffect(() => {
     axios
@@ -68,16 +82,62 @@ const EstimateList = () => {
         params: { search: search },
       })
       .then((res) => {
-        let { data } = res;
-        setWithCompletelist(false);
-        setSlicenum(7);
-        setSort("최신순");
-        setDataCount(data.filter((e) => e.matchstatus === false).length);
-        setData(data);
+        console.log(res.data);
+        if (startDate === null && endDate === null) {
+          let { data } = res;
+          setWithCompletelist(false);
+          setSlicenum(7);
+          setSort("최신순");
+          setDataCount(data.filter((e) => e.matchstatus === false).length);
+          setData(data);
+        } else if (startDate !== null && endDate === null) {
+          let dateArrays = [];
+          let { data } = res;
+          setWithCompletelist(false);
+          setSlicenum(7);
+          setSort("최신순");
+          for (let i = 0; i < data.length; i++) {
+            let parsingData = JSON.parse(data[i].weddingdate);
+            for (let j = 0; j < parsingData.length; j++) {
+              if (parsingData[j] >= format(startDate, "yyyy-MM-dd")) {
+                dateArrays.push(data[i]);
+                break;
+              }
+            }
+          }
+          setDataCount(
+            dateArrays.filter((e) => e.matchstatus === false).length
+          );
+          setData(dateArrays);
+        } else if (startDate !== null && endDate !== null) {
+          let dateArrays = [];
+          let { data } = res;
+          setWithCompletelist(false);
+          setSlicenum(7);
+          setSort("최신순");
+          for (let i = 0; i < data.length; i++) {
+            let parsingData = JSON.parse(data[i].weddingdate);
+            for (let j = 0; j < parsingData.length; j++) {
+              if (
+                parsingData[j] >= format(startDate, "yyyy-MM-dd") &&
+                parsingData[j] <= format(endDate, "yyyy-MM-dd")
+              ) {
+                dateArrays.push(data[i]);
+                break;
+              }
+            }
+          }
+          setDataCount(
+            dateArrays.filter((e) => e.matchstatus === false).length
+          );
+          setData(dateArrays);
+        }
       })
       .catch((e) => {
         console.log(e);
       });
+    //검색하면 닫기
+    datePickerRef.current.setOpen(false);
   };
 
   const onCompleteHandler = () => {
@@ -173,92 +233,38 @@ const EstimateList = () => {
     setstudiofilterstyle(0);
   };
 
+  let datePickerRef = useRef();
+
+  //검색창 누르면 달력 보이게 하는 것.
+  const datePickerOpen = () => {
+    // datePickerRef.current.setOpen(true);
+  };
+
+  useEffect(() => {
+    searchResult();
+  }, [endDate]);
+
   return (
     <div className="mainlayout">
       <NavigationBar title={"견적서 목록"} />
 
-      {/* {sessionStorage.getItem("category") === "user" ? (
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <div
-            style={{
-              width: "560px",
-              position: "fixed",
-              bottom: "130px",
-              height: "50px",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "end",
-              alignItems: "end",
-              paddingRight: "35px",
-              paddingLeft: "50px",
-              paddingBottom: "10px",
-              zIndex: "999",
-            }}
-          >
-            <div style={{}}>
-              <div className="estimate-write-btn">
-                <i
-                  class="bi bi-pencil-square"
-                  style={{ marginLeft: "50px", zIndex: "999" }}
-                ></i>
-                <div
-                  className="estimate-write-btn-overlay"
-                  onClick={() => {
-                    navigate("/estimateform");
-                  }}
-                  style={{
-                    marginRight: "-30px",
-                    marginLeft: "10px",
-                    zIndex: "999",
-                    height: "50px",
-                    display: "flex",
-                  }}
-                >
-                  <span
-                    style={{
-                      display: "block",
-                      height: "50px",
-                      paddingTop: "10px",
-                      paddingRight: "10px",
-                      marginLeft: "-1px",
-                      paddingLeft: "10px",
-                      color: "black",
-                    }}
-                  >
-                    견적작성하기
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div
-              className="scrolltop"
-              onClick={() => {
-                onScrollTop();
-              }}
-              style={{ marginRight: "5px" }}
-            >
-              <i class="bi bi-chevron-up"></i>
-            </div>
-          </div>
-        </div>
-      ) : null} */}
-      {sessionStorage.getItem("category") === "user" ? (
-        <div
-          style={{
-            width: "560px",
-            position: "fixed",
-            bottom: "120px",
-            height: "50px",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "end",
-            alignItems: "end",
-            paddingRight: "23px",
-            paddingLeft: "50px",
-            paddingBottom: "10px",
-            zIndex: "999",
-          }}
-        >
+      <div
+        style={{
+          width: "560px",
+          position: "fixed",
+          bottom: "120px",
+          height: "50px",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "end",
+          alignItems: "end",
+          paddingRight: "23px",
+          paddingLeft: "50px",
+          paddingBottom: "10px",
+          zIndex: "999",
+        }}
+      >
+        {window.sessionStorage.getItem("category") === "user" && (
           <div style={{}}>
             <div className="estimate-write-btn">
               <i
@@ -281,22 +287,23 @@ const EstimateList = () => {
               </div>
             </div>
           </div>
-          <div
-            className="scrolltop"
-            onClick={() => {
-              onScrollTop();
-            }}
-            style={{ marginRight: "5px" }}
-          >
-            <i class="bi bi-chevron-up"></i>
-          </div>
+        )}
+        <div
+          className="scrolltop"
+          onClick={() => {
+            onScrollTop();
+          }}
+          style={{ marginRight: "5px" }}
+        >
+          <i class="bi bi-chevron-up"></i>
         </div>
-      ) : null}
-
+      </div>
+      {/*여기다 */}
       <div className="EstimateListContainer">
         <div className="EstimateListSearchbarBox">
           <input
-            className="form-control"
+            // className="form-control"
+            onClick={datePickerOpen}
             placeholder="검색어를 입력해주세요"
             type="text"
             onChange={enterSearch}
@@ -308,6 +315,23 @@ const EstimateList = () => {
           />
           <div className="EstimateListSearchIcon">
             <i class="bi bi-search"></i>
+          </div>
+          <div className="캘린더">
+            <DatePicker
+              selected={startDate}
+              onChange={handleChange}
+              selectsRange
+              startDate={startDate}
+              endDate={endDate}
+              dateFormat="yyyy-MM-dd"
+              // showMonthYearPicker
+              locale={ko}
+              showPopperArrow={false}
+              popperPlacement="top-end"
+              placeholderText="희망일선택 검색"
+              isClearable={true}
+              ref={datePickerRef}
+            />
           </div>
         </div>
         <div className="EstimateListDataCountAndSortBox">
@@ -341,6 +365,9 @@ const EstimateList = () => {
             </label>
           </p>
         </div>
+        {getdata.length === 0 && (
+          <div className="noneSearchData">검색결과가 존재하지 않습니다.</div>
+        )}
         <div className="EstimateListDataBox">
           {withcomplete === false ? (
             <DataListComp list={dataArraywithoutComplete} navigate={navigate} />
@@ -370,43 +397,47 @@ const EstimateList = () => {
 export default EstimateList;
 
 const DataListComp = ({ list, navigate }) => {
-  return (
-    <>
-      {list.map((e, index) => {
-        return (
-          <div
-            className="EstimateListData"
-            key={index}
-            onClick={() => {
-              navigate(`/estimatedetail/${e.id}`);
-            }}
-          >
-            {e.matchstatus === true ? (
-              <div className="EstimateListComplete">매칭완료</div>
-            ) : (
-              ""
-            )}
-            <div className="EstimateListDataTitle">
-              {e.writer.slice(0, 3) + "***"} 님의 견적서
+  if (list.length >= 1) {
+    return (
+      <>
+        {list.map((e, index) => {
+          return (
+            <div
+              className="EstimateListData"
+              key={index}
+              onClick={() => {
+                navigate(`/estimatedetail/${e.id}`);
+              }}
+            >
+              {e.matchstatus === true ? (
+                <div className="EstimateListComplete">매칭완료</div>
+              ) : (
+                ""
+              )}
+              <div className="EstimateListDataTitle">
+                {e.writer.slice(0, 3) + "***"} 님의 견적서
+              </div>
+              <div className="EstimateListDataRegion">
+                희망지역 : &nbsp;
+                {JSON.parse(e.region).map((e, index) => {
+                  return <span>{e}&nbsp;&nbsp;</span>;
+                })}
+              </div>
+              <div className="EstimateListDataBudget">
+                희망 예산 : {e.budget.toLocaleString()}원
+              </div>
+              <div className="EstimateListDataViewCountAndDate">
+                <div className="ViewCountAndDate">조회수 : {e.viewcount} </div>
+                <div className="ViewCountAndDate">작성일 : {e.date}</div>
+              </div>
             </div>
-            <div className="EstimateListDataRegion">
-              희망지역 : &nbsp;
-              {JSON.parse(e.region).map((e, index) => {
-                return <span>{e}&nbsp;&nbsp;</span>;
-              })}
-            </div>
-            <div className="EstimateListDataBudget">
-              희망 예산 : {e.budget.toLocaleString()}원
-            </div>
-            <div className="EstimateListDataViewCountAndDate">
-              <div className="ViewCountAndDate">조회수 : {e.viewcount} </div>
-              <div className="ViewCountAndDate">작성일 : {e.date}</div>
-            </div>
-          </div>
-        );
-      })}
-    </>
-  );
+          );
+        })}
+      </>
+    );
+  } else {
+    <div>검색결과가 없습니다.</div>;
+  }
 };
 
 const SortModal = ({

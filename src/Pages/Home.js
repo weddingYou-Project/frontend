@@ -1096,6 +1096,10 @@ function Home() {
   // console.log("bouquetLikeState");
   // console.log(bouquetLikeState);
 
+  const onScrollTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
     <div className="mainlayout" style={{ position: "relative" }}>
       {window.scrollY !== 0 ? (
@@ -2341,7 +2345,7 @@ function Home() {
 
               <br />
             </div>
-            {sessionStorage.getItem("category") === "user" ? (
+            {/* {sessionStorage.getItem("category") === "user" ? (
               <div
                 style={{
                   width: "560px",
@@ -2379,7 +2383,57 @@ function Home() {
                   </div>
                 </div>
               </div>
-            ) : null}
+            ) : null} */}
+            <div
+              style={{
+                width: "560px",
+                position: "fixed",
+                bottom: "120px",
+                height: "50px",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "end",
+                alignItems: "end",
+                paddingRight: "23px",
+                paddingLeft: "50px",
+                paddingBottom: "10px",
+                zIndex: "999",
+              }}
+            >
+              {window.sessionStorage.getItem("category") === "user" && (
+                <div style={{}}>
+                  <div className="estimate-write-btn">
+                    <i
+                      class="bi bi-pencil-square"
+                      style={{ marginLeft: "50px", zIndex: "999" }}
+                    ></i>
+                    <div
+                      className="estimate-write-btn-overlay"
+                      onClick={() => {
+                        navigate("/estimateform");
+                      }}
+                      style={{
+                        marginRight: "-20px",
+                        marginLeft: "12px",
+                        zIndex: "999",
+                        height: "50px",
+                      }}
+                    >
+                      <span>견적작성하기</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+              <div
+                className="scrolltop"
+                onClick={() => {
+                  onScrollTop();
+                }}
+                style={{ marginRight: "5px" }}
+              >
+                <i class="bi bi-chevron-up"></i>
+              </div>
+            </div>
           </div>
           <div style={{ height: 94.19 }}></div>
         </div>
