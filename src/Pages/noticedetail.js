@@ -4,15 +4,31 @@ import Footer from "../Components/Footer";
 import NavigationBar from "../Components/NavigationBar";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import selectImg from "../Assets/selectImg.webp";
 import axios from "axios";
 function Noticedetail() {
   const { noticeId } = useLocation().state;
 
   const [title, setTitle] = useState("");
+  const [img, setImg] = useState(null);
   const [date, setDate] = useState("");
   const [view, setView] = useState(0);
   const [content, setContent] = useState("");
-
+  const [previewUrl, setPreviewUrl] = useState(selectImg);
+  const onChangePic = (e) => {
+    console.log(e);
+    const selectedFile = e.target.files[0];
+    setImg(selectedFile);
+    try {
+      const fileReader = new FileReader();
+      fileReader.onload = () => {
+        setPreviewUrl(fileReader.result);
+      };
+      fileReader.readAsDataURL(selectedFile);
+    } catch {
+      setPreviewUrl(selectImg);
+    }
+  };
   useEffect(() => {
     axios
       .get(`/notice/${noticeId}`)
@@ -23,6 +39,29 @@ function Noticedetail() {
         setDate(data.noticeWriteDate.slice(0, 10));
         setView(data.noticeViewCount);
         setContent(data.noticeContent);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+    const formData = new FormData();
+    formData.append("noticeId", noticeId);
+    axios
+      .post(`/notice/getnoticeimg`, formData)
+      .then((res) => {
+        console.log(res.data);
+        const byteCharacters = atob(res.data);
+        const byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+          byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        const blob = new Blob([byteArray], { type: "image/jpeg" });
+
+        const reader = new FileReader();
+        reader.onload = () => {
+          setPreviewUrl(reader.result);
+        };
+        reader.readAsDataURL(blob);
       })
       .catch((e) => {
         console.log(e);
@@ -39,6 +78,19 @@ function Noticedetail() {
   };
 
   const updatenotice = () => {
+    const formData = new FormData();
+    formData.append("file", img);
+    formData.append("content", content);
+    formData.append("title", title);
+    axios
+      .put(`/notice/update/${noticeId}`)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+
     setActionmode(0);
   };
 
@@ -93,9 +145,22 @@ function Noticedetail() {
           >
             {content}
           </p>
+          <img
+            src={previewUrl}
+            alt=""
+            style={{
+              width: "200px",
+              height: "200px",
+              display: "block",
+              borderRadius: "10px",
+              marginTop: "150px",
+
+              marginLeft: "40px",
+            }}
+          />
         </div>
         {/* <hr /> */}
-        <div style={{ height: 90 }}></div>
+        <div style={{ height: 150 }}></div>
         <div
           class="modal fade"
           id="noticeDelete"
@@ -147,29 +212,68 @@ function Noticedetail() {
         <NavigationBar title={"글수정"} />
         <div style={{ height: 74 }}></div>
         <div className="titleArea">
-          <p className="titleTxt">공지사항 TitleSample</p>
+          <input
+            type="text"
+            className="titleTxt"
+            style={{
+              marginLeft: "10px",
+              borderRadius: "10px",
+              paddingTop: "-10px",
+              height: "50px",
+              paddingBottom: "20px",
+              marginTop: "20px",
+            }}
+            placeholder={title}
+            value={title}
+            onChange={(e) => {
+              setTitle(e.target.value);
+            }}
+          ></input>
         </div>
         <hr />
         <div className="writeContent">
           <textarea
             className="form-control contentinput"
             rows="15"
-            placeholder="수정내용을 입력해주세요"
+            placeholder={content}
+            value={content}
+            onChange={(e) => {
+              setContent(e.target.value);
+            }}
             style={{ fontSize: 20 }}
           ></textarea>
         </div>
         <hr />
         <div className="fileatt">
-          <p className="uploadphoto">사진 첨부</p>
+          <p className="uploadphoto" style={{ fontSize: "1.5em" }}>
+            사진 첨부
+          </p>
           <input
             type="file"
             multiple
             id="uploadimage"
             className="displaynone"
+            onChange={onChangePic}
           />
-          <label htmlFor="uploadimage" className="cursor imageBtn">
+          <label
+            htmlFor="uploadimage"
+            style={{ fontSize: "1.5em" }}
+            className="cursor imageBtn"
+          >
             사진선택
           </label>
+          <img
+            src={previewUrl}
+            alt=""
+            style={{
+              width: "200px",
+              height: "200px",
+              display: "block",
+              borderRadius: "10px",
+              marginTop: "30px",
+              marginLeft: "20px",
+            }}
+          />
         </div>
         <br />
         <div className="writeBtnArea">
@@ -177,7 +281,7 @@ function Noticedetail() {
             수정하기
           </button>
         </div>
-        <div style={{ height: 90 }}></div>
+        <div style={{ height: 200 }}></div>
         <Footer />
       </div>
     );
