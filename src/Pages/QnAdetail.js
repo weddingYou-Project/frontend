@@ -2,13 +2,80 @@ import "../Css/main.css";
 import "../Css/CustomerCenter.css";
 import Footer from "../Components/Footer";
 import NavigationBar from "../Components/NavigationBar";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
+import selectImg from "../Assets/selectImg.webp";
 
 function QnAdetail() {
   const [editMode, setEditMode] = useState(false);
   const [editedComment, setEditedComment] = useState("답변 Smaple");
 
   const [actionmode, setActionmode] = useState(0);
+
+  const { qnaId } = useLocation().state;
+
+  const [title, setTitle] = useState("");
+  const [img, setImg] = useState(null);
+  const [date, setDate] = useState("");
+  const [view, setView] = useState(0);
+  const [content, setContent] = useState("");
+  const [previewUrl, setPreviewUrl] = useState("");
+
+  const navigate = useNavigate();
+  const onChangePic = (e) => {
+    console.log(e);
+    const selectedFile = e.target.files[0];
+    setImg(selectedFile);
+    try {
+      const fileReader = new FileReader();
+      fileReader.onload = () => {
+        setPreviewUrl(fileReader.result);
+      };
+      fileReader.readAsDataURL(selectedFile);
+    } catch {
+      setPreviewUrl(selectImg);
+    }
+  };
+
+  useEffect(() => {
+    axios
+      .get(`/qna/${qnaId}`)
+      .then((res) => {
+        console.log(res);
+        const data = res.data;
+        setTitle(data.qnaTitle);
+        setDate(data.qnaWriteDate.slice(0, 10));
+        setView(data.qnaViewCount);
+        setContent(data.qnaContent);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+    const formData = new FormData();
+    formData.append("qnaId", qnaId);
+    axios
+      .post(`/qna/getqnaimg`, formData)
+      .then((res) => {
+        console.log(res.data);
+        const byteCharacters = atob(res.data);
+        const byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+          byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        const blob = new Blob([byteArray], { type: "image/jpeg" });
+
+        const reader = new FileReader();
+        reader.onload = () => {
+          setPreviewUrl(reader.result);
+        };
+        reader.readAsDataURL(blob);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
 
   const handleEditClick = () => {
     setEditMode(true);
@@ -40,24 +107,46 @@ function QnAdetail() {
         <NavigationBar title={"Q&A"} />
         <div style={{ height: 64 }}></div>
         <div className="titleArea">
-          <p className="titleTxt">Q&A TitleSample</p>
-          <p className="dateTxt">2023.05.22</p>
-          <p className="viewCountTxt">조회수 : 63</p>
+          <p className="titleTxt">{title}</p>
+          <p className="dateTxt">{date}</p>
+          <p className="viewCountTxt">조회수 : {view}</p>
         </div>
         <hr />
         <div className="ContentArea">
-          <p className="noticeContxt">Q&A txt</p>
-          <div className="BtnArea"></div>
-          <button className="upAndDelBtn2" onClick={qnaUpdateForm}>
-            수정
-          </button>
-          <button
-            className="upAndDelBtn2"
-            data-bs-toggle="modal"
-            data-bs-target="#qnaDelete"
-          >
-            삭제
-          </button>
+          <p className="noticeContxt">{content}</p>
+          {previewUrl !== "" ? (
+            <div
+              style={{
+                marginTop: "200px",
+                marginLeft: "30px",
+                marginBottom: "20px",
+              }}
+            >
+              <p style={{ fontSize: "1.5em" }}>고객 첨부 이미지</p>
+              <img
+                src={previewUrl}
+                alt=""
+                style={{
+                  width: "200px",
+                  height: "200px",
+                  display: "block",
+                  borderRadius: "10px",
+                }}
+              />
+            </div>
+          ) : null}
+          <div style={{ display: "flex", justifyContent: "end" }}>
+            <button className="upAndDelBtn2" onClick={qnaUpdateForm}>
+              수정
+            </button>
+            <button
+              className="upAndDelBtn2"
+              data-bs-toggle="modal"
+              data-bs-target="#qnaDelete"
+            >
+              삭제
+            </button>
+          </div>
         </div>
         <div
           class="modal fade"
