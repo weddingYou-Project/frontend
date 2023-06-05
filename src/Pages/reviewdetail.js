@@ -608,7 +608,7 @@ function Reviewdetail() {
               <input
                 type="text"
                 className="comentinput"
-                style={{ fontSize: 20 }}
+                style={{ fontSize: 20, marginLeft: "30px" }}
                 value={commentcontent}
                 onChange={(e) => {
                   setCommentContent(e.target.value);
