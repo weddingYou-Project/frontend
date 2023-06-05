@@ -1,6 +1,6 @@
 //리액트 임포트
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 //스타일 중복을 피하기 위한 종속
@@ -136,6 +136,8 @@ const EstimateList = () => {
       .catch((e) => {
         console.log(e);
       });
+    //검색하면 닫기
+    datePickerRef.current.setOpen(false);
   };
 
   const onCompleteHandler = () => {
@@ -231,6 +233,17 @@ const EstimateList = () => {
     setstudiofilterstyle(0);
   };
 
+  let datePickerRef = useRef();
+
+  //검색창 누르면 달력 보이게 하는 것.
+  const datePickerOpen = () => {
+    // datePickerRef.current.setOpen(true);
+  };
+
+  useEffect(() => {
+    searchResult();
+  }, [endDate]);
+
   return (
     <div className="mainlayout">
       <NavigationBar title={"견적서 목록"} />
@@ -264,6 +277,7 @@ const EstimateList = () => {
         <div className="EstimateListSearchbarBox">
           <input
             // className="form-control"
+            onClick={datePickerOpen}
             placeholder="검색어를 입력해주세요"
             type="text"
             onChange={enterSearch}
@@ -288,8 +302,9 @@ const EstimateList = () => {
               locale={ko}
               showPopperArrow={false}
               popperPlacement="top-end"
-              placeholderText="희망날짜선택"
+              placeholderText="희망일선택 검색"
               isClearable={true}
+              ref={datePickerRef}
             />
           </div>
         </div>

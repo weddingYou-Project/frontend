@@ -2,6 +2,8 @@
     width:55%
 }
 
+
+
 .react-datepicker__input-container input {
     border-radius: 0px !important;
     border-top-right-radius: 20px !important;
@@ -93,25 +95,26 @@
 
 /*날짜 선택 디자인*/
 .react-datepicker__day--in-selecting-range {
-    background: rgb(127, 23, 224) !important;
+    background: rgb(225, 233, 248) !important;
+    color:black;
 }
 .react-datepicker__day--selecting-range-end {
-    background: rgb(127, 23, 224) !important;
+    background: rgb(225, 233, 248) !important;
 }
 .react-datepicker__day--selected {
-    background: rgb(127, 23, 224) !important;
-}
-.react-datepicker__day--in-range{
-    background: rgb(127, 23, 224);
-}
-
-.react-datepicker__day--range-end {
-    background: rgb(127, 23, 224) !important;
+    background: rgb(225, 233, 248) !important;
 }
 
 .react-datepicker__day--keyboard-selected { 
     background: white;
-    color: black;;
+}
+.react-datepicker__day--in-range{
+    background: rgb(225, 233, 248);
+    color:black;
+}
+
+.react-datepicker__day--range-end {
+    background: rgb(225, 233, 248) !important;
 }
 
 /*날짜 초기화 버튼 스타일링*/
@@ -120,4 +123,18 @@
     color:white;
     width: 20px;
     height: 20px;
+}
+
+
+
+.react-datepicker__day--today {
+    font-weight: normal;
+}
+.react-datepicker__day--today:hover {
+    background: #eee;
+}
+
+
+.react-datepicker__day--in-range:hover {
+    background: #eee;
 }
