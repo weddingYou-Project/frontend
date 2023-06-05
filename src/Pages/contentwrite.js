@@ -34,6 +34,23 @@ function ContentWrite() {
           console.log(e);
         });
     } else if (page === "qna") {
+      const formData = new FormData();
+      formData.append("file", img);
+      formData.append("title", title);
+      formData.append("content", content);
+      formData.append("email", sessionStorage.getItem("email"));
+      axios
+        .post(`/qna/post`, formData)
+        .then((res) => {
+          console.log(res);
+          if (res.data != null) {
+            alert(`Q&A 글 작성이 완료되었습니다!`);
+            navigate(`/qnapage`);
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     }
   };
   const onChangePic = (e) => {
