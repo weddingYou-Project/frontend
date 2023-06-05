@@ -14,7 +14,7 @@ function Noticedetail() {
   const [date, setDate] = useState("");
   const [view, setView] = useState(0);
   const [content, setContent] = useState("");
-  const [previewUrl, setPreviewUrl] = useState(selectImg);
+  const [previewUrl, setPreviewUrl] = useState("");
 
   const navigate = useNavigate();
   const onChangePic = (e) => {
@@ -157,19 +157,27 @@ function Noticedetail() {
           >
             {content}
           </p>
-          <img
-            src={previewUrl}
-            alt=""
-            style={{
-              width: "200px",
-              height: "200px",
-              display: "block",
-              borderRadius: "10px",
-              marginTop: "150px",
-
-              marginLeft: "40px",
-            }}
-          />
+          {previewUrl !== "" ? (
+            <div
+              style={{
+                marginTop: "250px",
+                marginLeft: "30px",
+                marginBottom: "-30px",
+              }}
+            >
+              <p style={{ fontSize: "1.5em" }}>사진 첨부</p>
+              <img
+                src={previewUrl}
+                alt=""
+                style={{
+                  width: "200px",
+                  height: "200px",
+                  display: "block",
+                  borderRadius: "10px",
+                }}
+              />
+            </div>
+          ) : null}
         </div>
         {/* <hr /> */}
         <div style={{ height: 150 }}></div>
