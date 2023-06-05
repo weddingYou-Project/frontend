@@ -24,7 +24,36 @@ function Review() {
       .get(`/getreviewslist`)
       .then((res) => {
         console.log(res);
-        const data = res.data;
+        let data = res.data;
+        if (selectedSort === "별점 높은 순") {
+          data.sort(function (a, b) {
+            if (a.reviewStars < b.reviewStars) return 1;
+            if (a.reviewStars > b.reviewStars) return -1;
+            if (a.reviewStars === b.reviewStars) {
+              return new Date(b.reviewDate) - new Date(a.reviewDate);
+            }
+          });
+        } else if (selectedSort === "댓글순") {
+          data.sort(function (a, b) {
+            if (a.reviewCount < b.reviewCount) return 1;
+            if (a.reviewCount > b.reviewCount) return -1;
+            if (a.reviewCount === b.reviewCount) {
+              return new Date(b.reviewDate) - new Date(a.reviewDate);
+            }
+          });
+        } else if (selectedSort === "조회순") {
+          data.sort(function (a, b) {
+            if (a.comments.length < b.comments.length) return 1;
+            if (a.comments.length > b.comments.length) return -1;
+            if (a.comments.length === b.comments.length) {
+              return new Date(b.reviewDate) - new Date(a.reviewDate);
+            }
+          });
+        } else if (selectedSort === "최신순") {
+          data.sort(function (a, b) {
+            return new Date(b.reviewDate) - new Date(a.reviewDate);
+          });
+        }
         const reviewTitleArr = [];
         const reviewStarsArr = [];
         const reviewCommentsArr = [];
@@ -49,7 +78,7 @@ function Review() {
       .catch((e) => {
         console.log(e);
       });
-  }, []);
+  }, [selectedSort]);
 
   return (
     <div className="mainlayout">
