@@ -239,10 +239,14 @@
 
 .estimate-write-btn-overlay {
     
+   visibility: hidden;
+    
 }
 
 
 .estimate-write-btn:hover .estimate-write-btn-overlay  {
+    visibility: visible;
+
     position: absolute;
     height: 50px;
     font-size: 20px;
