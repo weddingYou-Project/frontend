@@ -18,6 +18,8 @@ const EstimateForm = () => {
   useEffect(() => {
     if (window.sessionStorage.getItem("email") === null) {
       navigate("../login");
+    } else if (window.sessionStorage.getItem("category") === "planner") {
+      navigate("/");
     }
   }, []);
 
