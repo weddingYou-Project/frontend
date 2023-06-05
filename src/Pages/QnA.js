@@ -79,18 +79,47 @@ function QnA() {
               return (
                 <tr>
                   <td style={{ height: 50 }}>
-                    <a
-                      href="http://localhost:3000/qna/detail"
+                    <div
                       className="noticeTxt"
-                      style={{ fontSize: "1.5em" }}
+                      style={{ fontSize: "1.5em", cursor: "pointer" }}
+                      onClick={() => {
+                        const formData = new FormData();
+                        formData.append("qnaId", qnaId[i]);
+                        axios
+                          .post(`/qna/addviewcount`, formData)
+                          .then((res) => {
+                            console.log(res);
+                          })
+                          .catch((e) => {
+                            console.log(e);
+                          });
+                        navigate(`/qna/detail`, {
+                          state: { qnaId: qnaId[i] },
+                        });
+                      }}
                     >
                       {qnaTitle[i]}
-                    </a>
+                    </div>
                   </td>
                   <td>
                     <p
                       className="noticeTxtCenter"
-                      style={{ fontSize: "1.5em" }}
+                      style={{ fontSize: "1.5em", cursor: "pointer" }}
+                      onClick={() => {
+                        const formData = new FormData();
+                        formData.append("qnaId", qnaId[i]);
+                        axios
+                          .post(`/qna/addviewcount`, formData)
+                          .then((res) => {
+                            console.log(res);
+                          })
+                          .catch((e) => {
+                            console.log(e);
+                          });
+                        navigate(`/qna/detail`, {
+                          state: { qnaId: qnaId[i] },
+                        });
+                      }}
                     >
                       {qnaComments[i]}
                     </p>
@@ -98,7 +127,22 @@ function QnA() {
                   <td>
                     <p
                       className="noticeTxtCenter"
-                      style={{ fontSize: "1.5em" }}
+                      style={{ fontSize: "1.5em", cursor: "pointer" }}
+                      onClick={() => {
+                        const formData = new FormData();
+                        formData.append("qnaId", qnaId[i]);
+                        axios
+                          .post(`/qna/addviewcount`, formData)
+                          .then((res) => {
+                            console.log(res);
+                          })
+                          .catch((e) => {
+                            console.log(e);
+                          });
+                        navigate(`/qna/detail`, {
+                          state: { qnaId: qnaId[i] },
+                        });
+                      }}
                     >
                       {qnaViewCount[i]}
                     </p>
