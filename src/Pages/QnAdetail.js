@@ -109,7 +109,19 @@ function QnAdetail() {
         <div className="titleArea">
           <p className="titleTxt">{title}</p>
           <p className="dateTxt">{date}</p>
-          <p className="viewCountTxt">조회수 : {view}</p>
+          <p className="viewCountTxt" style={{ marginRight: "20px" }}>
+            조회수 : {view}
+          </p>
+          <button className="upAndDelBtn2" onClick={qnaUpdateForm}>
+            수정
+          </button>
+          <button
+            className="upAndDelBtn2"
+            data-bs-toggle="modal"
+            data-bs-target="#qnaDelete"
+          >
+            삭제
+          </button>
         </div>
         <hr />
         <div className="ContentArea">
@@ -135,18 +147,6 @@ function QnAdetail() {
               />
             </div>
           ) : null}
-          <div style={{ display: "flex", justifyContent: "end" }}>
-            <button className="upAndDelBtn2" onClick={qnaUpdateForm}>
-              수정
-            </button>
-            <button
-              className="upAndDelBtn2"
-              data-bs-toggle="modal"
-              data-bs-target="#qnaDelete"
-            >
-              삭제
-            </button>
-          </div>
         </div>
         <div
           class="modal fade"
