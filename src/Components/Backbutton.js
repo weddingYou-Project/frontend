@@ -90,7 +90,7 @@ function BackButton({ engTitle }) {
           } else if (path.indexOf("/review/detail") !== -1) {
             navigate("/review");
           } else {
-            navigate("/");
+            navigate(-1);
           }
         }}
       >

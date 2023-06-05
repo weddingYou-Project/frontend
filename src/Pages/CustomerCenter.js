@@ -8,13 +8,17 @@ function CustomerCenter() {
   return (
     <div className="mainlayout">
       <NavigationBar title={"고객센터"} />
-      <div style={{ height: 74 }}></div>
+      <div style={{ height: 80 }}></div>
       <div className="noticeSection">
         <table>
           <thead>
             <tr>
               <td>
-                <Link to="/noticepage" className="LinkTxt">
+                <Link
+                  to="/noticepage"
+                  className="LinkTxt"
+                  style={{ fontSize: "1.8em" }}
+                >
                   공지사항
                 </Link>
               </td>
@@ -23,64 +27,25 @@ function CustomerCenter() {
             </tr>
           </thead>
           <tbody>
-            <tr>
+            <tr style={{ height: "30px" }}>
               <td style={{ width: 140 }}>
-                <p className="customCenterTxt">006</p>
+                <p className="customCenterTxt" style={{ fontSize: "1.5em" }}>
+                  006
+                </p>
               </td>
               <td style={{ width: 350 }}>
                 <a
                   href="http://localhost:3000/notice/detail"
                   className="customCenterTxt"
+                  style={{ fontSize: "1.5em" }}
                 >
                   공지사항 SampleTitle
                 </a>
               </td>
               <td>
-                <p className="customCenterTxt">124</p>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <p className="customCenterTxt">005</p>
-              </td>
-              <td>
-                <a className="customCenterTxt">공지사항 SampleTitle</a>
-              </td>
-              <td>
-                <p className="customCenterTxt">234</p>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <p className="customCenterTxt">004</p>
-              </td>
-              <td>
-                <a className="customCenterTxt">공지사항 SampleTitle</a>
-              </td>
-              <td>
-                <p className="customCenterTxt">147</p>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <p className="customCenterTxt">003</p>
-              </td>
-              <td>
-                <a className="customCenterTxt">공지사항 SampleTitle</a>
-              </td>
-              <td>
-                <p className="customCenterTxt">183</p>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <p className="customCenterTxt">002</p>
-              </td>
-              <td>
-                <a className="customCenterTxt">공지사항 SampleTitle</a>
-              </td>
-              <td>
-                <p className="customCenterTxt">246</p>
+                <p className="customCenterTxt" style={{ fontSize: "1.5em" }}>
+                  124
+                </p>
               </td>
             </tr>
           </tbody>
@@ -91,7 +56,11 @@ function CustomerCenter() {
           <thead>
             <tr>
               <td style={{ width: 140 }}>
-                <Link to="/qnapage" className="LinkTxt">
+                <Link
+                  to="/qnapage"
+                  className="LinkTxt"
+                  style={{ fontSize: "1.8em" }}
+                >
                   Q&A
                 </Link>
               </td>
@@ -102,62 +71,23 @@ function CustomerCenter() {
           <tbody>
             <tr>
               <td style={{ width: 140 }}>
-                <p className="customCenterTxt">006</p>
+                <p className="customCenterTxt" style={{ fontSize: "1.5em" }}>
+                  006
+                </p>
               </td>
               <td style={{ width: 350 }}>
                 <a
                   href="http://localhost:3000/qna/detail"
                   className="customCenterTxt"
+                  style={{ fontSize: "1.5em" }}
                 >
                   Q&A SampleTitle
                 </a>
               </td>
               <td>
-                <p className="customCenterTxt">43</p>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <p className="customCenterTxt">005</p>
-              </td>
-              <td>
-                <a className="customCenterTxt">Q&A SampleTitle</a>
-              </td>
-              <td>
-                <p className="customCenterTxt">48</p>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <p className="customCenterTxt">004</p>
-              </td>
-              <td>
-                <a className="customCenterTxt">Q&A SampleTitle</a>
-              </td>
-              <td>
-                <p className="customCenterTxt">62</p>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <p className="customCenterTxt">003</p>
-              </td>
-              <td>
-                <a className="customCenterTxt">Q&A SampleTitle</a>
-              </td>
-              <td>
-                <p className="customCenterTxt">73</p>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <p className="customCenterTxt">002</p>
-              </td>
-              <td>
-                <a className="customCenterTxt">Q&A SampleTitle</a>
-              </td>
-              <td>
-                <p className="customCenterTxt">48</p>
+                <p className="customCenterTxt" style={{ fontSize: "1.5em" }}>
+                  43
+                </p>
               </td>
             </tr>
           </tbody>
