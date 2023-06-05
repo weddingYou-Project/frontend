@@ -2,8 +2,20 @@ import "../Css/main.css";
 import Footer from "../Components/Footer";
 import NavigationBar from "../Components/NavigationBar";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import axios from "axios";
 
 function QnA() {
+  useEffect(() => {
+    axios
+      .get(`/qna/list`)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
   return (
     <div className="mainlayout">
       <NavigationBar title={"Q&A"} />
@@ -40,59 +52,20 @@ function QnA() {
                 <a
                   href="http://localhost:3000/qna/detail"
                   className="noticeTxt"
+                  style={{ fontSize: "1.5em" }}
                 >
                   Q&A TitleSample
                 </a>
               </td>
               <td>
-                <p className="noticeTxtCenter">2</p>
+                <p className="noticeTxtCenter" style={{ fontSize: "1.5em" }}>
+                  2
+                </p>
               </td>
               <td>
-                <p className="noticeTxtCenter">14</p>
-              </td>
-            </tr>
-            <tr>
-              <td style={{ height: 50 }}>
-                <a className="noticeTxt">Q&A TitleSample</a>
-              </td>
-              <td>
-                <p className="noticeTxtCenter">6</p>
-              </td>
-              <td>
-                <p className="noticeTxtCenter">23</p>
-              </td>
-            </tr>
-            <tr>
-              <td style={{ height: 50 }}>
-                <a className="noticeTxt">Q&A TitleSample</a>
-              </td>
-              <td>
-                <p className="noticeTxtCenter">4</p>
-              </td>
-              <td>
-                <p className="noticeTxtCenter">21</p>
-              </td>
-            </tr>
-            <tr>
-              <td style={{ height: 50 }}>
-                <a className="noticeTxt">Q&A TitleSample</a>
-              </td>
-              <td>
-                <p className="noticeTxtCenter">3</p>
-              </td>
-              <td>
-                <p className="noticeTxtCenter">16</p>
-              </td>
-            </tr>
-            <tr>
-              <td style={{ height: 50 }}>
-                <a className="noticeTxt">Q&A TitleSample</a>
-              </td>
-              <td>
-                <p className="noticeTxtCenter">7</p>
-              </td>
-              <td>
-                <p className="noticeTxtCenter">27</p>
+                <p className="noticeTxtCenter" style={{ fontSize: "1.5em" }}>
+                  14
+                </p>
               </td>
             </tr>
           </tbody>
