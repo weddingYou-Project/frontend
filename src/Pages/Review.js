@@ -13,9 +13,12 @@ function Review() {
   const [reviewViews, setReviewViews] = useState([]);
   const [estimateIds, setEstimatesIds] = useState([]);
   const [reviewIndex, setReviewIndex] = useState([]);
+  const [checksort, setCheckSort] = useState(false);
 
   const navigate = useNavigate();
   const handleSortClick = (sort) => {
+    console.log(sort);
+    setCheckSort(!checksort);
     setSelectedSort(sort); // 선택한 정렬로 버튼명 변경
   };
 
@@ -25,33 +28,34 @@ function Review() {
       .then((res) => {
         console.log(res);
         let data = res.data;
-        if (selectedSort === "별점 높은 순") {
+        if (selectedSort === "별점순") {
           data.sort(function (a, b) {
+            console.log(a.reviewStars);
             if (a.reviewStars < b.reviewStars) return 1;
             if (a.reviewStars > b.reviewStars) return -1;
             if (a.reviewStars === b.reviewStars) {
-              return new Date(b.reviewDate) - new Date(a.reviewDate);
-            }
-          });
-        } else if (selectedSort === "댓글순") {
-          data.sort(function (a, b) {
-            if (a.reviewCount < b.reviewCount) return 1;
-            if (a.reviewCount > b.reviewCount) return -1;
-            if (a.reviewCount === b.reviewCount) {
-              return new Date(b.reviewDate) - new Date(a.reviewDate);
+              return new Date(a.reviewDate) - new Date(b.reviewDate);
             }
           });
         } else if (selectedSort === "조회순") {
           data.sort(function (a, b) {
+            if (a.reviewCounts < b.reviewCounts) return 1;
+            if (a.reviewCounts > b.reviewCounts) return -1;
+            if (a.reviewCounts === b.reviewCounts) {
+              return new Date(a.reviewDate) - new Date(b.reviewDate);
+            }
+          });
+        } else if (selectedSort === "댓글순") {
+          data.sort(function (a, b) {
             if (a.comments.length < b.comments.length) return 1;
             if (a.comments.length > b.comments.length) return -1;
             if (a.comments.length === b.comments.length) {
-              return new Date(b.reviewDate) - new Date(a.reviewDate);
+              return new Date(a.reviewDate) - new Date(b.reviewDate);
             }
           });
         } else if (selectedSort === "최신순") {
           data.sort(function (a, b) {
-            return new Date(b.reviewDate) - new Date(a.reviewDate);
+            return new Date(a.reviewDate) - new Date(b.reviewDate);
           });
         }
         const reviewTitleArr = [];
@@ -78,7 +82,7 @@ function Review() {
       .catch((e) => {
         console.log(e);
       });
-  }, [selectedSort]);
+  }, [checksort, selectedSort]);
 
   return (
     <div className="mainlayout">
