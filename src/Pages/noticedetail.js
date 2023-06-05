@@ -3,7 +3,7 @@ import "../Css/CustomerCenter.css";
 import Footer from "../Components/Footer";
 import NavigationBar from "../Components/NavigationBar";
 import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import selectImg from "../Assets/selectImg.webp";
 import axios from "axios";
 function Noticedetail() {
@@ -15,6 +15,8 @@ function Noticedetail() {
   const [view, setView] = useState(0);
   const [content, setContent] = useState("");
   const [previewUrl, setPreviewUrl] = useState(selectImg);
+
+  const navigate = useNavigate();
   const onChangePic = (e) => {
     console.log(e);
     const selectedFile = e.target.files[0];
@@ -67,8 +69,17 @@ function Noticedetail() {
         console.log(e);
       });
   }, []);
-  const handleRefresh = () => {
+  const handleDelete = () => {
     //  window.location.reload(); // 페이지 새로고침
+    axios
+      .delete(`/notice/delete/${noticeId}`)
+      .then((res) => {
+        console.log(res);
+        navigate(`/noticepage`);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
   const [actionmode, setActionmode] = useState(0);
@@ -189,7 +200,8 @@ function Noticedetail() {
                 <button
                   type="button"
                   class="btn btn-primary"
-                  onClick={handleRefresh}
+                  onClick={handleDelete}
+                  data-bs-dismiss="modal"
                 >
                   삭제
                 </button>
