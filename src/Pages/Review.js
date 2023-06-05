@@ -191,6 +191,7 @@ function Review() {
     axios
       .post(`/plannerinforeview`, formData)
       .then((res) => {
+        console.log(res.data);
         const plannerEmail = res.data.slice(0, res.data.indexOf("["));
 
         const plannerName = res.data.slice(
@@ -348,7 +349,9 @@ function Review() {
         ) : (
           <button
             class="writeBtn"
-            // onClick={goMatch}
+            onClick={() => {
+              alert("리뷰를 쓰려면 견적서 결제 내역이 있어야 합니다!");
+            }}
           >
             글쓰기
           </button>
