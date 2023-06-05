@@ -1,17 +1,38 @@
 import "../Css/main.css";
 import "../Css/CustomerCenter.css";
-import { Link } from "react-router-dom";
-import { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import Footer from "../Components/Footer";
 import NavigationBar from "../Components/NavigationBar";
 import axios from "axios";
 
 function CustomerCenter() {
+  const [noticeViewCount, setNoticeViewCount] = useState(0);
+  const [noticeTitle, setNoticeTitle] = useState("");
+  const [noticeIndex, setNoticeIndex] = useState([]);
+  const [noticeId, setNoticeId] = useState([]);
+
+  const navigate = useNavigate();
   useEffect(() => {
     axios
       .get(`/notice/list`)
       .then((res) => {
         console.log(res);
+        const data = res.data;
+        const noticeviewcountarr = [];
+        const noticeTitleArr = [];
+        const noticeIndexArr = [];
+        const noticeIdArr = [];
+        for (let i = 0; i < data.length; i++) {
+          noticeviewcountarr.push(data[i].noticeViewCount);
+          noticeTitleArr.push(data[i].noticeTitle);
+          noticeIdArr.push(data[i].noticeId);
+          noticeIndexArr.push(i);
+        }
+        setNoticeViewCount(noticeviewcountarr);
+        setNoticeTitle(noticeTitleArr);
+        setNoticeIndex(noticeIndexArr);
+        setNoticeId(noticeIdArr);
       })
       .catch((e) => {
         console.log(e);
@@ -48,27 +69,51 @@ function CustomerCenter() {
             </tr>
           </thead>
           <tbody>
-            <tr style={{ height: "30px" }}>
-              <td style={{ width: 140 }}>
-                <p className="customCenterTxt" style={{ fontSize: "1.5em" }}>
-                  006
-                </p>
-              </td>
-              <td style={{ width: 350 }}>
-                <a
-                  href="http://localhost:3000/notice/detail"
-                  className="customCenterTxt"
-                  style={{ fontSize: "1.5em" }}
-                >
-                  공지사항 SampleTitle
-                </a>
-              </td>
-              <td>
-                <p className="customCenterTxt" style={{ fontSize: "1.5em" }}>
-                  124
-                </p>
-              </td>
-            </tr>
+            {noticeIndex.map((index) => {
+              return (
+                <tr style={{ height: "30px" }}>
+                  <td style={{ width: 140 }}>
+                    <p
+                      onClick={() => {
+                        navigate(`/notice/detail`, {
+                          state: { noticeId: noticeId[index] },
+                        });
+                      }}
+                      className="customCenterTxt"
+                      style={{ fontSize: "1.5em", cursor: "pointer" }}
+                    >
+                      {index + 1}
+                    </p>
+                  </td>
+                  <td style={{ width: 350 }}>
+                    <div
+                      onClick={() => {
+                        navigate(`/notice/detail`, {
+                          state: { noticeId: noticeId[index] },
+                        });
+                      }}
+                      className="customCenterTxt"
+                      style={{ fontSize: "1.5em", cursor: "pointer" }}
+                    >
+                      {noticeTitle[index]}
+                    </div>
+                  </td>
+                  <td>
+                    <p
+                      onClick={() => {
+                        navigate(`/notice/detail`, {
+                          state: { noticeId: noticeId[index] },
+                        });
+                      }}
+                      className="customCenterTxt"
+                      style={{ fontSize: "1.5em", cursor: "pointer" }}
+                    >
+                      {noticeViewCount[index]}
+                    </p>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
