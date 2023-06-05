@@ -176,25 +176,123 @@ const EstimateList = () => {
   return (
     <div className="mainlayout">
       <NavigationBar title={"견적서 목록"} />
-      <div
-        className="scrolltop"
-        onClick={() => {
-          onScrollTop();
-        }}
-      >
-        <i class="bi bi-chevron-up"></i>
-      </div>
-      <div className="estimate-write-btn">
-        <i class="bi bi-pencil-square"></i>
+
+      {/* {sessionStorage.getItem("category") === "user" ? (
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <div
+            style={{
+              width: "560px",
+              position: "fixed",
+              bottom: "130px",
+              height: "50px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "end",
+              alignItems: "end",
+              paddingRight: "35px",
+              paddingLeft: "50px",
+              paddingBottom: "10px",
+              zIndex: "999",
+            }}
+          >
+            <div style={{}}>
+              <div className="estimate-write-btn">
+                <i
+                  class="bi bi-pencil-square"
+                  style={{ marginLeft: "50px", zIndex: "999" }}
+                ></i>
+                <div
+                  className="estimate-write-btn-overlay"
+                  onClick={() => {
+                    navigate("/estimateform");
+                  }}
+                  style={{
+                    marginRight: "-30px",
+                    marginLeft: "10px",
+                    zIndex: "999",
+                    height: "50px",
+                    display: "flex",
+                  }}
+                >
+                  <span
+                    style={{
+                      display: "block",
+                      height: "50px",
+                      paddingTop: "10px",
+                      paddingRight: "10px",
+                      marginLeft: "-1px",
+                      paddingLeft: "10px",
+                      color: "black",
+                    }}
+                  >
+                    견적작성하기
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div
+              className="scrolltop"
+              onClick={() => {
+                onScrollTop();
+              }}
+              style={{ marginRight: "5px" }}
+            >
+              <i class="bi bi-chevron-up"></i>
+            </div>
+          </div>
+        </div>
+      ) : null} */}
+      {sessionStorage.getItem("category") === "user" ? (
         <div
-          className="estimate-write-btn-overlay"
-          onClick={() => {
-            navigate("/estimateform");
+          style={{
+            width: "560px",
+            position: "fixed",
+            bottom: "120px",
+            height: "50px",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "end",
+            alignItems: "end",
+            paddingRight: "23px",
+            paddingLeft: "50px",
+            paddingBottom: "10px",
+            zIndex: "999",
           }}
         >
-          <span>견적작성하기</span>
+          <div style={{}}>
+            <div className="estimate-write-btn">
+              <i
+                class="bi bi-pencil-square"
+                style={{ marginLeft: "50px", zIndex: "999" }}
+              ></i>
+              <div
+                className="estimate-write-btn-overlay"
+                onClick={() => {
+                  navigate("/estimateform");
+                }}
+                style={{
+                  marginRight: "-20px",
+                  marginLeft: "12px",
+                  zIndex: "999",
+                  height: "50px",
+                }}
+              >
+                <span>견적작성하기</span>
+              </div>
+            </div>
+          </div>
+          <div
+            className="scrolltop"
+            onClick={() => {
+              onScrollTop();
+            }}
+            style={{ marginRight: "5px" }}
+          >
+            <i class="bi bi-chevron-up"></i>
+          </div>
         </div>
-      </div>
+      ) : null}
+
       <div className="EstimateListContainer">
         <div className="EstimateListSearchbarBox">
           <input

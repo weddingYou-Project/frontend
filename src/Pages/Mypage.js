@@ -20,6 +20,7 @@ function Mypage() {
   const [gender, setGender] = useState("");
 
   const [career, setCareer] = useState("");
+  const [introduction, setIntroduction] = useState("");
 
   const [passwordMessage, setPasswordMessage] = useState("looks good!");
   const [passwordCheck, setPasswordCheck] = useState("");
@@ -97,7 +98,13 @@ function Mypage() {
         .catch((e) => {
           setPreviewUrl(profileimage);
           console.log(e);
-          setFinish(true);
+          if (e.response.data.message === "프로필 사진이 없습니다!") {
+            setFinish(true);
+          } else if (e.reponse.data.message === "로그인 하세요!") {
+            setFinish(true);
+          } else {
+            setFinish(false);
+          }
         });
     }
     if (category === "planner") {
@@ -110,6 +117,7 @@ function Mypage() {
           setPhone(res.data.phoneNum);
           setGender(res.data.gender);
           setCareer(res.data.plannerCareerYears);
+          setIntroduction(res.data.introduction);
         })
         .catch((e) => {
           console.log(e);
@@ -134,7 +142,13 @@ function Mypage() {
         })
         .catch((e) => {
           setPreviewUrl(profileimage);
-          setFinish(true);
+          if (e.response.data.message === "프로필 사진이 없습니다!") {
+            setFinish(true);
+          } else if (e.reponse.data.message === "로그인 하세요!") {
+            setFinish(true);
+          } else {
+            setFinish(false);
+          }
         });
     }
   };
@@ -260,50 +274,52 @@ function Mypage() {
       <NavigationBar title={title} />
       {finish === false ? (
         <Animation />
-      ) : (
+      ) : sessionStorage.getItem("category") === "user" ? (
         <div
-          className="content mypagecontainer text-center"
+          class="mypagecontainer text-center"
           style={{
             minHeight: "100vh",
-            height: "100%",
+            height: "1000px",
             width: "100%",
             zIndex: 1,
             display: "flex",
             flexDirection: "column",
             justifyContent: "start",
-            marginTop: "100px",
+            paddingTop: "210px",
           }}
         >
           {previewUrl === null ? (
             <div style={{ width: "200px", height: "200px" }}></div>
           ) : (
-            <img
-              src={previewUrl}
-              style={
-                category === "user"
-                  ? {
-                      width: "200px",
-                      height: "200px",
-                      marginBottom: "20px",
-                      marginTop: "-85px",
-                    }
-                  : {
-                      width: "200px",
-                      height: "200px",
-                      marginBottom: "20px",
-                      marginTop: "-95px",
-                    }
-              }
-              alt=""
-            />
+            <div>
+              <img
+                src={previewUrl}
+                style={
+                  category === "user"
+                    ? {
+                        width: "200px",
+                        height: "200px",
+                        marginBottom: "20px",
+                        marginTop: "-85px",
+                      }
+                    : {
+                        width: "200px",
+                        height: "200px",
+                        marginBottom: "20px",
+                        marginTop: "-95px",
+                      }
+                }
+                alt=""
+              />
+            </div>
           )}
-          <form style={{ marginTop: "10px" }}>
+          <form style={{ marginTop: "20px" }}>
             <div
               className=" justify-content-md-center mb-2"
               style={{ display: "flex", flexDirection: "row", width: "100%" }}
             >
               <label
-                htmlFor="name"
+                htmlFor="email"
                 className="form-label  mt-2"
                 style={{
                   marginRight: "10px",
@@ -311,7 +327,7 @@ function Mypage() {
                   fontSize: "1.3em",
                 }}
               >
-                이름
+                이메일
               </label>
               <div
                 className=" mb-4"
@@ -320,8 +336,8 @@ function Mypage() {
                 <input
                   type="text"
                   className="form-control "
-                  id="name"
-                  value={name}
+                  id="email"
+                  value={email}
                   autocomplete="off"
                   disabled
                   style={{ fontSize: "1.1em" }}
@@ -363,7 +379,7 @@ function Mypage() {
               style={{ display: "flex", flexDirection: "row", width: "100%" }}
             >
               <label
-                htmlFor="email"
+                htmlFor="name"
                 className="form-label  mt-2"
                 style={{
                   marginRight: "10px",
@@ -371,7 +387,7 @@ function Mypage() {
                   fontSize: "1.3em",
                 }}
               >
-                이메일
+                이름
               </label>
               <div
                 className="has-validation  mb-4"
@@ -380,8 +396,8 @@ function Mypage() {
                 <input
                   type="text"
                   className="form-control "
-                  id="email"
-                  value={email}
+                  id="name"
+                  value={name}
                   autocomplete="off"
                   disabled
                   style={{ fontSize: "1.1em" }}
@@ -482,38 +498,414 @@ function Mypage() {
               </div>
             </div>
             {category === "planner" ? (
-              <div
-                class=" justify-content-md-center mb-2 mt-4"
-                style={{ display: "flex", flexDirection: "row", width: "100%" }}
-              >
-                <label
-                  for="phone"
-                  class="form-label mt-2"
+              <div style={{ height: "300px" }}>
+                <div
+                  class=" justify-content-md-center mb-2 mt-4"
                   style={{
-                    marginRight: "10px",
-                    width: "200px",
-                    fontSize: "1.3em",
+                    display: "flex",
+                    flexDirection: "row",
+                    width: "100%",
                   }}
                 >
-                  경력
-                </label>
+                  <label
+                    for="phone"
+                    class="form-label mt-2"
+                    style={{
+                      marginRight: "10px",
+                      width: "200px",
+                      fontSize: "1.3em",
+                    }}
+                  >
+                    경력
+                  </label>
+                  <div
+                    class="has-validation "
+                    style={{ width: "250px", marginRight: "20px" }}
+                  >
+                    <input
+                      type="number"
+                      class="form-control "
+                      id="career"
+                      value={career}
+                      onChange={onChange}
+                      placeholder={career}
+                      autoComplete="off"
+                      min="0"
+                      max="30"
+                      disabled
+                      style={{ fontSize: "1.1em" }}
+                    />
+                  </div>
+                </div>
                 <div
-                  class="has-validation "
-                  style={{ width: "250px", marginRight: "20px" }}
+                  class=" justify-content-md-center mb-2 mt-4"
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    width: "100%",
+                  }}
                 >
+                  <label
+                    for="introduction"
+                    class="form-label mt-2"
+                    style={{
+                      marginRight: "10px",
+                      width: "200px",
+                      fontSize: "1.3em",
+                    }}
+                  >
+                    소개글
+                  </label>
+                  <div style={{ width: "250px", marginRight: "20px" }}>
+                    <textarea
+                      type="textarea"
+                      class="form-control "
+                      id="introduction"
+                      style={{ overflowY: "scroll" }}
+                      value={introduction}
+                      onChange={onChange}
+                      placeholder="아직 소개글이 없습니다."
+                      autoComplete="off"
+                      cols="10"
+                      rows="8"
+                      disabled
+                      style={{ fontSize: "1.1em" }}
+                      maxLength="1000"
+                    />
+                  </div>
+                </div>
+              </div>
+            ) : null}
+            <button
+              type="button"
+              class="update btn-colour-1"
+              data-bs-toggle="modal"
+              data-bs-target="#passwordcheckmodal"
+              onClick={deletePassword}
+              style={{ marginTop: "20px" }}
+            >
+              정보 수정하기
+            </button>
+
+            <div>
+              <button
+                className="logout btn-colour-1"
+                onClick={() => {
+                  logout();
+                  navigate("/login");
+                }}
+              >
+                로그아웃
+              </button>
+              <button
+                type="button"
+                className="deleteMember btn-colour-1"
+                data-bs-toggle="modal"
+                data-bs-target="#deleteMemberModal"
+              >
+                회원탈퇴
+              </button>
+            </div>
+          </form>
+          <div style={{ width: "568px", height: "400px" }}></div>
+        </div>
+      ) : (
+        <div
+          className="content mypagecontainer text-center"
+          style={{
+            minHeight: "100vh",
+            height: "100%",
+            width: "100%",
+            zIndex: 1,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "start",
+            marginTop: "100px",
+          }}
+        >
+          {previewUrl === null ? (
+            <div style={{ width: "200px", height: "200px" }}></div>
+          ) : (
+            <img
+              src={previewUrl}
+              style={
+                category === "user"
+                  ? {
+                      width: "200px",
+                      height: "200px",
+                      marginBottom: "20px",
+                      marginTop: "-85px",
+                    }
+                  : {
+                      width: "200px",
+                      height: "200px",
+                      marginBottom: "20px",
+                      marginTop: "-95px",
+                    }
+              }
+              alt=""
+            />
+          )}
+          <form style={{ marginTop: "10px" }}>
+            <div
+              className=" justify-content-md-center mb-2"
+              style={{ display: "flex", flexDirection: "row", width: "100%" }}
+            >
+              <label
+                htmlFor="email"
+                className="form-label  mt-2"
+                style={{
+                  marginRight: "10px",
+                  width: "200px",
+                  fontSize: "1.3em",
+                }}
+              >
+                이메일
+              </label>
+              <div
+                className=" mb-4"
+                style={{ width: "250px", marginRight: "20px" }}
+              >
+                <input
+                  type="text"
+                  className="form-control "
+                  id="email"
+                  value={email}
+                  autocomplete="off"
+                  disabled
+                  style={{ fontSize: "1.1em" }}
+                />
+              </div>
+            </div>
+            <div
+              className=" justify-content-md-center mb-2"
+              style={{ display: "flex", flexDirection: "row", width: "100%" }}
+            >
+              <label
+                htmlFor="password"
+                className="form-label  mt-2"
+                style={{
+                  marginRight: "10px",
+                  width: "200px",
+                  fontSize: "1.3em",
+                }}
+              >
+                비밀번호
+              </label>
+              <div
+                className="has-validation  mb-4"
+                style={{ width: "250px", marginRight: "20px" }}
+              >
+                <input
+                  type="text"
+                  className="form-control "
+                  id="password"
+                  value={password}
+                  autocomplete="off"
+                  disabled
+                  style={{ fontSize: "1.1em" }}
+                />
+              </div>
+            </div>
+            <div
+              className=" justify-content-md-center mb-2"
+              style={{ display: "flex", flexDirection: "row", width: "100%" }}
+            >
+              <label
+                htmlFor="name"
+                className="form-label  mt-2"
+                style={{
+                  marginRight: "10px",
+                  width: "200px",
+                  fontSize: "1.3em",
+                }}
+              >
+                이름
+              </label>
+              <div
+                className="has-validation  mb-4"
+                style={{ width: "250px", marginRight: "20px" }}
+              >
+                <input
+                  type="text"
+                  className="form-control "
+                  id="name"
+                  value={name}
+                  autocomplete="off"
+                  disabled
+                  style={{ fontSize: "1.1em" }}
+                />
+              </div>
+            </div>
+            <div
+              className=" justify-content-md-center mb-2"
+              style={{ display: "flex", flexDirection: "row", width: "100%" }}
+            >
+              <label
+                htmlFor="phone"
+                className="form-label  mt-2"
+                style={{
+                  marginRight: "10px",
+                  width: "200px",
+                  fontSize: "1.3em",
+                }}
+              >
+                휴대폰
+              </label>
+              <div
+                className="has-validation  mb-4"
+                style={{ width: "250px", marginRight: "20px" }}
+              >
+                <input
+                  type="text"
+                  className="form-control "
+                  id="phone"
+                  value={phone}
+                  autocomplete="off"
+                  disabled
+                  style={{ fontSize: "1.1em" }}
+                />
+              </div>
+            </div>
+            <div
+              className=" justify-content-md-center mb-2"
+              style={{ display: "flex", flexDirection: "row", width: "100%" }}
+            >
+              <label
+                htmlFor="gender"
+                className="form-label  mt-2"
+                style={{
+                  marginRight: "10px",
+                  width: "200px",
+                  fontSize: "1.3em",
+                }}
+              >
+                성별
+              </label>
+              <div
+                class="input-group"
+                style={{ width: "250px", marginRight: "20px" }}
+              >
+                <div class="input-group-text">
                   <input
-                    type="number"
-                    class="form-control "
-                    id="career"
-                    value={career}
-                    onChange={onChange}
-                    placeholder={career}
-                    autoComplete="off"
-                    min="0"
-                    max="30"
+                    class="form-check-input mt-0"
+                    type="radio"
+                    value=""
+                    name="gender"
+                    htmlFor="male"
+                    checked={gender === "male" ? true : false}
                     disabled
-                    style={{ fontSize: "1.1em" }}
+                    aria-label="Radio button for following text input"
                   />
+                </div>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="male"
+                  aria-label="male btn"
+                  value="남자"
+                  disabled
+                  style={{ fontSize: "1.1em" }}
+                />
+                <div class="input-group-text">
+                  <input
+                    class="form-check-input mt-0"
+                    type="radio"
+                    value=""
+                    name="gender"
+                    htmlFor="female"
+                    checked={gender === "female" ? true : false}
+                    disabled
+                    aria-label="Radio button for following text input"
+                  />
+                </div>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="female"
+                  aria-label="female btn"
+                  value="여자"
+                  disabled
+                  style={{ fontSize: "1.1em" }}
+                />
+              </div>
+            </div>
+            {category === "planner" ? (
+              <div style={{ height: "300px" }}>
+                <div
+                  class=" justify-content-md-center mb-2 mt-4"
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    width: "100%",
+                  }}
+                >
+                  <label
+                    for="phone"
+                    class="form-label mt-2"
+                    style={{
+                      marginRight: "10px",
+                      width: "200px",
+                      fontSize: "1.3em",
+                    }}
+                  >
+                    경력
+                  </label>
+                  <div
+                    class="has-validation "
+                    style={{ width: "250px", marginRight: "20px" }}
+                  >
+                    <input
+                      type="number"
+                      class="form-control "
+                      id="career"
+                      value={career}
+                      onChange={onChange}
+                      placeholder={career}
+                      autoComplete="off"
+                      min="0"
+                      max="30"
+                      disabled
+                      style={{ fontSize: "1.1em" }}
+                    />
+                  </div>
+                </div>
+                <div
+                  class=" justify-content-md-center mb-2 mt-4"
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    width: "100%",
+                  }}
+                >
+                  <label
+                    for="introduction"
+                    class="form-label mt-2"
+                    style={{
+                      marginRight: "10px",
+                      width: "200px",
+                      fontSize: "1.3em",
+                    }}
+                  >
+                    소개글
+                  </label>
+                  <div style={{ width: "250px", marginRight: "20px" }}>
+                    <textarea
+                      type="textarea"
+                      class="form-control "
+                      id="introduction"
+                      style={{ overflowY: "scroll" }}
+                      value={introduction}
+                      onChange={onChange}
+                      placeholder="아직 소개글이 없습니다."
+                      autoComplete="off"
+                      cols="10"
+                      rows="8"
+                      disabled
+                      style={{ fontSize: "1.1em" }}
+                      maxLength="1000"
+                    />
+                  </div>
                 </div>
               </div>
             ) : null}

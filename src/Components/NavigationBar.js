@@ -12,8 +12,6 @@ function NavigationBar({ title, goUpdate, category1, isAdmin, engTitle }) {
   const [navigationBorder, setNavigationBorder] = useState(false);
   console.log(window.scrollY);
   window.addEventListener("scroll", () => {
-    console.log(document.body.clientHeight);
-    console.log("top:" + window.scrollY);
     if (0 <= window.scrollY && window.scrollY < 1) {
       setNavigationBorder(true);
     } else {

@@ -20,6 +20,7 @@ function UserUpdate() {
   }
   const title = `${userOrPlanner}정보 수정`;
   const [name, setName] = useState("");
+  const [defaultName, setDefaultName] = useState("");
   const [password, setPassword] = useState("");
   const [defaultPassword, setDefaultPassword] = useState("");
   const [email, setEmail] = useState(sessionStorage.getItem(""));
@@ -30,6 +31,8 @@ function UserUpdate() {
   const [defaultGender, setDefaultGender] = useState("");
   const [career, setCareer] = useState(0);
   const [defaultCareer, setDefaultCareer] = useState(0);
+  const [introduction, setIntroduction] = useState("");
+  const [defaultIntroduction, setDefaultIntroduction] = useState(0);
   const [profileImg, setProfileImg] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [defaultViewUrl, setDefaultViewUrl] = useState(null);
@@ -41,20 +44,23 @@ function UserUpdate() {
   const maleInput = useRef();
   const femaleInput = useRef();
   const careerInput = useRef();
+  const introInput = useRef();
 
   const nameFeedback = useRef();
   const passwordFeedback = useRef();
   const emailFeedback = useRef();
   const phoneFeedback = useRef();
   const careerFeedback = useRef();
+  const introFeedback = useRef();
   const profileUpdateModal = useRef();
 
-  const [nameMessage, setNameMessage] = useState("looks good!");
-  const [passwordMessage, setPasswordMessage] = useState("looks good!");
   const [emailMessage, setEmailMessage] = useState("looks good!");
+  const [passwordMessage, setPasswordMessage] = useState("looks good!");
+  const [nameMessage, setNameMessage] = useState("looks good!");
   const [phoneMessage, setPhoneMessage] = useState("looks good!");
   const [careerMessage, setCareerMessage] = useState("looks good!");
   const [genderMessage, setGenderMessage] = useState("looks good!");
+  const [introMessage, setIntroMessage] = useState("looks good!");
 
   const [allcheck, setAllCheck] = useState(true);
   const [anyChange, setAnyChange] = useState(false);
@@ -100,8 +106,8 @@ function UserUpdate() {
         .post("/user/userSearch", { email: sessionStorage.getItem("email") })
         .then((res) => {
           setName(res.data.name);
+          setDefaultName(res.data.name);
           setEmail(res.data.email);
-          setDefaultEmail(res.data.email);
           setPassword(res.data.password);
           setDefaultPassword(res.data.password);
           setPhone(res.data.phoneNum);
@@ -143,8 +149,8 @@ function UserUpdate() {
         })
         .then((res) => {
           setName(res.data.name);
+          setDefaultName(res.data.name);
           setEmail(res.data.email);
-          setDefaultEmail(res.data.email);
           setPassword(res.data.password);
           setDefaultPassword(res.data.password);
           setPhone(res.data.phoneNum);
@@ -153,6 +159,8 @@ function UserUpdate() {
           setDefaultGender(res.data.gender);
           setCareer(res.data.plannerCareerYears);
           setDefaultCareer(res.data.plannerCareerYears);
+          setIntroduction(res.data.introduction);
+          setDefaultIntroduction(res.data.introduction);
         })
         .catch((e) => {
           console.log(e);
@@ -184,72 +192,72 @@ function UserUpdate() {
     }
   };
 
-  const emailDuplicateCheck = (e) => {
-    if (category === "user") {
-      if (e.target.value !== defaultEmail) {
-        axios
-          .post("/user/userSearch", {
-            email: e.target.value,
-          })
-          .then((res) => {
-            console.log(e.target.value);
-            if (res.data === "") {
-              setEmailDuplicate(false);
-              setEmailMessage("올바른 이메일 형식입니다.");
-              emailInput.current.classList.remove("is-invalid");
-              emailInput.current.classList.add("is-valid");
-              emailFeedback.current.classList.remove("invisible");
-              emailFeedback.current.classList.remove("invalid-feedback");
-              emailFeedback.current.classList.add("valid-feedback");
-              setAllCheck(true);
-              setAnyChange(true);
-            } else {
-              setEmailDuplicate(true);
-              setEmailMessage("이메일이 중복됩니다.");
-              emailFeedback.current.classList.remove("invisible");
-              emailFeedback.current.classList.remove("valid-feedback");
-              emailFeedback.current.classList.add("invalid-feedback");
-              emailInput.current.classList.remove("is-valid");
-              emailInput.current.classList.add("is-invalid");
-              setAllCheck(false);
-            }
-          })
-          .catch((e) => {
-            console.log(e);
-          });
-      }
-    }
-    if (category === "planner") {
-      if (e.target.value !== defaultEmail) {
-        axios
-          .post("/planner/plannerSearch", {
-            email: e.target.value,
-          })
-          .then((res) => {
-            setEmailDuplicate(true);
-            setEmailMessage("이메일이 중복됩니다.");
-            emailFeedback.current.classList.remove("invisible");
-            emailFeedback.current.classList.remove("valid-feedback");
-            emailFeedback.current.classList.add("invalid-feedback");
-            emailInput.current.classList.remove("is-valid");
-            emailInput.current.classList.add("is-invalid");
-            setAllCheck(false);
-          })
-          .catch((e) => {
-            console.log(e);
-            setEmailDuplicate(false);
-            setEmailMessage("올바른 이메일 형식입니다.");
-            emailInput.current.classList.remove("is-invalid");
-            emailInput.current.classList.add("is-valid");
-            emailFeedback.current.classList.remove("invisible");
-            emailFeedback.current.classList.remove("invalid-feedback");
-            emailFeedback.current.classList.add("valid-feedback");
-            setAllCheck(true);
-            setAnyChange(true);
-          });
-      }
-    }
-  };
+  // const emailDuplicateCheck = (e) => {
+  //   if (category === "user") {
+  //     if (e.target.value !== defaultEmail) {
+  //       axios
+  //         .post("/user/userSearch", {
+  //           email: e.target.value,
+  //         })
+  //         .then((res) => {
+  //           console.log(e.target.value);
+  //           if (res.data === "") {
+  //             setEmailDuplicate(false);
+  //             setEmailMessage("올바른 이메일 형식입니다.");
+  //             emailInput.current.classList.remove("is-invalid");
+  //             emailInput.current.classList.add("is-valid");
+  //             emailFeedback.current.classList.remove("invisible");
+  //             emailFeedback.current.classList.remove("invalid-feedback");
+  //             emailFeedback.current.classList.add("valid-feedback");
+  //             setAllCheck(true);
+  //             setAnyChange(true);
+  //           } else {
+  //             setEmailDuplicate(true);
+  //             setEmailMessage("이메일이 중복됩니다.");
+  //             emailFeedback.current.classList.remove("invisible");
+  //             emailFeedback.current.classList.remove("valid-feedback");
+  //             emailFeedback.current.classList.add("invalid-feedback");
+  //             emailInput.current.classList.remove("is-valid");
+  //             emailInput.current.classList.add("is-invalid");
+  //             setAllCheck(false);
+  //           }
+  //         })
+  //         .catch((e) => {
+  //           console.log(e);
+  //         });
+  //     }
+  //   }
+  //   if (category === "planner") {
+  //     if (e.target.value !== defaultEmail) {
+  //       axios
+  //         .post("/planner/plannerSearch", {
+  //           email: e.target.value,
+  //         })
+  //         .then((res) => {
+  //           setEmailDuplicate(true);
+  //           setEmailMessage("이메일이 중복됩니다.");
+  //           emailFeedback.current.classList.remove("invisible");
+  //           emailFeedback.current.classList.remove("valid-feedback");
+  //           emailFeedback.current.classList.add("invalid-feedback");
+  //           emailInput.current.classList.remove("is-valid");
+  //           emailInput.current.classList.add("is-invalid");
+  //           setAllCheck(false);
+  //         })
+  //         .catch((e) => {
+  //           console.log(e);
+  //           setEmailDuplicate(false);
+  //           setEmailMessage("올바른 이메일 형식입니다.");
+  //           emailInput.current.classList.remove("is-invalid");
+  //           emailInput.current.classList.add("is-valid");
+  //           emailFeedback.current.classList.remove("invisible");
+  //           emailFeedback.current.classList.remove("invalid-feedback");
+  //           emailFeedback.current.classList.add("valid-feedback");
+  //           setAllCheck(true);
+  //           setAnyChange(true);
+  //         });
+  //     }
+  //   }
+  // };
 
   useEffect(() => {
     checkInputs();
@@ -257,7 +265,7 @@ function UserUpdate() {
 
   const setDefaultValue = () => {
     setPassword(defaultPassword);
-    setEmail(defaultEmail);
+    setName(defaultName);
     setPhone(defaultPhone);
     setGender(defaultGender);
     setCareer(defaultCareer);
@@ -268,12 +276,12 @@ function UserUpdate() {
     passwordInput.current.classList.remove("is-invalid");
     setPasswordMessage("returning to default");
 
-    emailFeedback.current.classList.add("invisible");
-    emailFeedback.current.classList.remove("valid-feedback");
-    emailFeedback.current.classList.remove("invalid-feedback");
-    emailInput.current.classList.remove("is-valid");
-    emailInput.current.classList.remove("is-invalid");
-    setEmailMessage("returning to default");
+    nameFeedback.current.classList.add("invisible");
+    nameFeedback.current.classList.remove("valid-feedback");
+    nameFeedback.current.classList.remove("invalid-feedback");
+    nameInput.current.classList.remove("is-valid");
+    nameInput.current.classList.remove("is-invalid");
+    setNameMessage("returning to default");
 
     phoneFeedback.current.classList.add("invisible");
     phoneFeedback.current.classList.remove("valid-feedback");
@@ -289,6 +297,12 @@ function UserUpdate() {
       careerInput.current.classList.remove("is-valid");
       careerInput.current.classList.remove("is-invalid");
       setCareerMessage("returning to default");
+      introFeedback.current.classList.add("invisible");
+      introFeedback.current.classList.remove("valid-feedback");
+      introFeedback.current.classList.remove("invalid-feedback");
+      introInput.current.classList.remove("is-valid");
+      introInput.current.classList.remove("is-invalid");
+      setIntroMessage("returning to default");
     }
     setAllCheck(true);
     setAnyChange(false);
@@ -302,11 +316,11 @@ function UserUpdate() {
     passwordInput.current.classList.remove("is-invalid");
     setPasswordMessage("returning to default");
 
-    emailFeedback.current.classList.add("invisible");
-    emailFeedback.current.classList.remove("valid-feedback");
-    emailFeedback.current.classList.remove("invalid-feedback");
-    emailInput.current.classList.remove("is-valid");
-    emailInput.current.classList.remove("is-invalid");
+    nameFeedback.current.classList.add("invisible");
+    nameFeedback.current.classList.remove("valid-feedback");
+    nameFeedback.current.classList.remove("invalid-feedback");
+    nameInput.current.classList.remove("is-valid");
+    nameInput.current.classList.remove("is-invalid");
 
     phoneFeedback.current.classList.add("invisible");
     phoneFeedback.current.classList.remove("valid-feedback");
@@ -320,6 +334,11 @@ function UserUpdate() {
       careerFeedback.current.classList.remove("invalid-feedback");
       careerInput.current.classList.remove("is-valid");
       careerInput.current.classList.remove("is-invalid");
+      introFeedback.current.classList.add("invisible");
+      introFeedback.current.classList.remove("valid-feedback");
+      introFeedback.current.classList.remove("invalid-feedback");
+      introInput.current.classList.remove("is-valid");
+      introInput.current.classList.remove("is-invalid");
     }
 
     setAllCheck(true);
@@ -330,6 +349,7 @@ function UserUpdate() {
     //초기화 설정
     setAllCheck(true);
     setAnyChange(false);
+
     if (e.target.id === "password") {
       setPassword(e.target.value);
       const passwordRegExp =
@@ -366,31 +386,39 @@ function UserUpdate() {
         passwordInput.current.classList.add("is-invalid");
         setAllCheck(false);
       }
-    } else if (e.target.id === "email") {
-      setEmail(e.target.value);
-      const emailRegExp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-      if (emailRegExp.test(e.target.value)) {
-        if (e.target.value === defaultEmail) {
-          emailFeedback.current.classList.add("invisible");
-          emailFeedback.current.classList.remove("valid-feedback");
-          emailFeedback.current.classList.remove("invalid-feedback");
-          emailInput.current.classList.remove("is-valid");
-          emailInput.current.classList.remove("is-invalid");
+    } else if (e.target.id === "name") {
+      console.log(e.target.value);
+      setName(e.target.value);
+      const koreanNameRegExp = /^[가-힣\s]+$/;
+
+      if (koreanNameRegExp.test(e.target.value)) {
+        if (e.target.value === defaultName) {
+          setNameMessage("same name");
+          nameFeedback.current.classList.add("invisible");
+          nameFeedback.current.classList.remove("valid-feedback");
+          nameFeedback.current.classList.remove("invalid-feedback");
+          nameInput.current.classList.remove("is-valid");
+          nameInput.current.classList.remove("is-invalid");
         } else {
-          emailDuplicateCheck(e);
+          setNameMessage("올바른 이름 형식입니다");
+          nameInput.current.classList.remove("is-invalid");
+          nameInput.current.classList.add("is-valid");
+          nameFeedback.current.classList.remove("invisible");
+          nameFeedback.current.classList.remove("invalid-feedback");
+          nameFeedback.current.classList.add("valid-feedback");
+          setAnyChange(true);
         }
       } else {
         if (e.target.value === "") {
-          setEmailMessage("이메일을 작성해주세요.");
+          setNameMessage("이름을 작성해주세요.");
         } else {
-          setEmailMessage("올바른 이메일 형식으로 작성해주세요.");
+          setNameMessage("한굴 5자 이하");
         }
-
-        emailFeedback.current.classList.remove("invisible");
-        emailFeedback.current.classList.remove("valid-feedback");
-        emailFeedback.current.classList.add("invalid-feedback");
-        emailInput.current.classList.remove("is-valid");
-        emailInput.current.classList.add("is-invalid");
+        nameFeedback.current.classList.remove("invisible");
+        nameFeedback.current.classList.remove("valid-feedback");
+        nameFeedback.current.classList.add("invalid-feedback");
+        nameInput.current.classList.remove("is-valid");
+        nameInput.current.classList.add("is-invalid");
         setAllCheck(false);
       }
     } else if (e.target.id === "phone") {
@@ -484,6 +512,41 @@ function UserUpdate() {
         careerInput.current.classList.add("is-invalid");
         setAllCheck(false);
       }
+    } else if (e.target.id === "introduction") {
+      setIntroduction(e.target.value);
+      let introductionText = e.target.value;
+      let length = introductionText.length;
+
+      if (length > 0 && length < 1000) {
+        if (e.target.value === defaultIntroduction) {
+          introFeedback.current.classList.add("invisible");
+          introFeedback.current.classList.remove("valid-feedback");
+          introFeedback.current.classList.remove("invalid-feedback");
+          introInput.current.classList.remove("is-valid");
+          introInput.current.classList.remove("is-invalid");
+        } else {
+          setIntroMessage("looks good!");
+          introInput.current.classList.remove("is-invalid");
+          introInput.current.classList.add("is-valid");
+          introFeedback.current.classList.remove("invisible");
+          introFeedback.current.classList.remove("invalid-feedback");
+          introFeedback.current.classList.add("valid-feedback");
+          setAnyChange(true);
+        }
+      } else {
+        if (length === 0) {
+          setIntroMessage("소개글을 써주세요!");
+        } else {
+          setIntroMessage("소개글은 1000자 미만입니다.");
+        }
+
+        introFeedback.current.classList.remove("invisible");
+        introFeedback.current.classList.remove("valid-feedback");
+        introFeedback.current.classList.add("invalid-feedback");
+        introInput.current.classList.remove("is-valid");
+        introInput.current.classList.add("is-invalid");
+        setAllCheck(false);
+      }
     }
   };
 
@@ -491,7 +554,7 @@ function UserUpdate() {
     if (category === "user") {
       if (
         passwordInput.current.value === defaultPassword &&
-        emailInput.current.value === defaultEmail &&
+        nameInput.current.value === defaultName &&
         phoneInput.current.value === defaultPhone &&
         gender === defaultGender
       ) {
@@ -500,7 +563,7 @@ function UserUpdate() {
 
       if (
         passwordFeedback.current.classList.contains("invalid-feedback") ||
-        emailFeedback.current.classList.contains("invalid-feedback") ||
+        nameFeedback.current.classList.contains("invalid-feedback") ||
         phoneFeedback.current.classList.contains("invalid-feedback")
       ) {
         setAllCheck(false);
@@ -508,7 +571,7 @@ function UserUpdate() {
 
       if (
         passwordFeedback.current.classList.contains("valid-feedback") ||
-        emailFeedback.current.classList.contains("valid-feedback") ||
+        nameFeedback.current.classList.contains("valid-feedback") ||
         phoneFeedback.current.classList.contains("valid-feedback") ||
         gender !== defaultGender
       ) {
@@ -517,26 +580,29 @@ function UserUpdate() {
     } else if (category === "planner") {
       if (
         passwordInput.current.value === defaultPassword &&
-        emailInput.current.value === defaultEmail &&
+        nameInput.current.value === defaultName &&
         phoneInput.current.value === defaultPhone &&
         gender === defaultGender &&
-        careerInput.current.value === defaultCareer
+        careerInput.current.value === defaultCareer &&
+        introInput.current.value === defaultIntroduction
       ) {
         setAnyChange(false);
       }
       if (
         passwordFeedback.current.classList.contains("invalid-feedback") ||
-        emailFeedback.current.classList.contains("invalid-feedback") ||
+        nameFeedback.current.classList.contains("invalid-feedback") ||
         phoneFeedback.current.classList.contains("invalid-feedback") ||
-        careerFeedback.current.classList.contains("invalid-feedback")
+        careerFeedback.current.classList.contains("invalid-feedback") ||
+        introFeedback.current.classList.contains("invalid-feedback")
       ) {
         setAllCheck(false);
       }
       if (
         passwordFeedback.current.classList.contains("valid-feedback") ||
-        emailFeedback.current.classList.contains("valid-feedback") ||
+        nameFeedback.current.classList.contains("valid-feedback") ||
         phoneFeedback.current.classList.contains("valid-feedback") ||
         careerFeedback.current.classList.contains("valid-feedback") ||
+        introFeedback.current.classList.contains("valid-feedback") ||
         gender !== defaultGender
       ) {
         setAnyChange(true);
@@ -553,22 +619,24 @@ function UserUpdate() {
         .then((res) => {
           axios
             .post("/user/userUpdate", {
-              preemail: sessionStorage.getItem("email"),
+              email: sessionStorage.getItem("email"),
               password: password,
-              email: email,
+              name: name,
               phoneNum: phone,
               gender: gender,
             })
             .then((res) => {
               setEmail(res.data.email);
               setDefaultEmail(res.data.email);
+              setName(res.data.name);
+              setDefaultName(res.data.name);
               setPassword(res.data.password);
               setDefaultPassword(res.data.password);
               setPhone(res.data.phoneNum);
               setDefaultPhone(res.data.phoneNum);
               setGender(res.data.gender);
               setDefaultGender(res.data.gender);
-              window.sessionStorage.setItem("email", email);
+
               alert("수정 완료!");
             })
             .catch((e) => {
@@ -588,16 +656,20 @@ function UserUpdate() {
         .then((res) => {
           axios
             .post("/planner/userUpdate", {
-              preemail: sessionStorage.getItem("email"),
+              email: sessionStorage.getItem("email"),
               password: password,
-              email: email,
+              name: name,
               phoneNum: phone,
               gender: gender,
               career: career,
+              introduction: introduction,
             })
             .then((res) => {
+              console.log(res);
               setEmail(res.data.email);
               setDefaultEmail(res.data.email);
+              setName(res.data.name);
+              setDefaultName(res.data.name);
               setPassword(res.data.password);
               setDefaultPassword(res.data.password);
               setPhone(res.data.phoneNum);
@@ -606,7 +678,8 @@ function UserUpdate() {
               setDefaultGender(res.data.gender);
               setCareer(res.data.plannerCareerYears);
               setDefaultCareer(res.data.plannerCareerYears);
-              window.sessionStorage.setItem("email", email);
+              setIntroduction(res.data.introduction);
+              setDefaultIntroduction(res.data.introduction);
               alert("수정 완료!");
             })
             .catch((e) => {
@@ -683,264 +756,172 @@ function UserUpdate() {
   return (
     <div class="mainlayout" style={{ minHeight: "100vh", height: "100%" }}>
       <NavigationBar title={title} />
-      <div
-        class="mypagecontainer text-center"
-        style={{
-          minHeight: "100vh",
-          height: "830px",
-          width: "100%",
-          zIndex: 1,
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "start",
-          paddingTop: "130px",
-          marginTop: "120px",
-        }}
-      >
-        {defaultViewUrl === null ? (
-          <div style={{ width: "200px", height: "100px" }}></div>
-        ) : (
-          <img
-            src={defaultViewUrl}
-            style={
-              category === "user"
-                ? {
-                    width: "200px",
-                    height: "200px",
-                    cursor: "pointer",
-                    marginTop: "-100px",
-                    marginBottom: "10px",
-                  }
-                : {
-                    width: "200px",
-                    height: "200px",
-                    cursor: "pointer",
-                    marginTop: "-110px",
-                  }
-            }
-            data-bs-toggle="modal"
-            data-bs-target="#profileUpdateModal"
-            alt=""
-          />
-        )}
-        <form style={{ width: "560px", height: "610px", zIndex: 3 }}>
-          <div
-            style={{
-              display: "flex",
-              alginItems: "center",
-              justifyContent: "center",
-              marginBottom: "30px",
-            }}
-          ></div>
-          <div
-            class="justify-content-md-center mb-2"
-            style={{ display: "flex", flexDirection: "row", width: "100%" }}
-          >
-            <label
-              for="name"
-              class="form-label mt-2 text-center"
-              style={{ marginRight: "10px", width: "200px", fontSize: "1.3em" }}
-            >
-              이름
-            </label>
-            <div style={{ width: "250px", marginRight: "20px" }}>
-              <input
-                type="text"
-                class="form-control "
-                id="name"
-                ref={nameInput}
-                value={name}
-                autoComplete="off"
-                disabled
-                style={{ fontSize: "1.1em" }}
-              />
-              <div
-                class="invisible text-start name-feedback"
-                ref={nameFeedback}
-                style={{ fontSize: "1.1em" }}
-              >
-                {nameMessage}
-              </div>
-            </div>
-          </div>
-          <div
-            class="justify-content-md-center mb-2"
-            style={{ display: "flex", flexDirection: "row" }}
-          >
-            <label
-              for="password"
-              class="form-label mt-2 text-center"
-              style={{ marginRight: "10px", width: "200px", fontSize: "1.3em" }}
-            >
-              비밀번호
-            </label>
+      {category === "planner" ? (
+        <div
+          class="mypagecontainer text-center"
+          style={{
+            minHeight: "100vh",
+            height: "1210px",
+            width: "100%",
+            zIndex: 1,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "start",
+            paddingTop: "210px",
+          }}
+        >
+          {defaultViewUrl === null ? (
+            <div style={{ width: "200px", height: "100px" }}></div>
+          ) : (
+            <img
+              src={defaultViewUrl}
+              style={
+                category === "user"
+                  ? {
+                      width: "200px",
+                      height: "200px",
+                      cursor: "pointer",
+                      marginTop: "-100px",
+                      marginBottom: "10px",
+                    }
+                  : {
+                      width: "200px",
+                      height: "200px",
+                      cursor: "pointer",
+                      marginTop: "-110px",
+                    }
+              }
+              data-bs-toggle="modal"
+              data-bs-target="#profileUpdateModal"
+              alt=""
+            />
+          )}
+          <form style={{ width: "560px", height: "610px", zIndex: 3 }}>
             <div
-              class="has-validation "
-              style={{ width: "250px", marginRight: "20px" }}
-            >
-              <input
-                type="text"
-                class="form-control "
-                id="password"
-                ref={passwordInput}
-                value={password}
-                placeholder={password}
-                onChange={onChange}
-                autoComplete="off"
-                maxLength="20"
-                style={{ fontSize: "1.1em" }}
-              />
-              <div
-                class="invisible text-start password-feedback"
-                ref={passwordFeedback}
-                style={{ fontSize: "1.1em" }}
-              >
-                {passwordMessage}
-              </div>
-            </div>
-          </div>
-          <div
-            class="justify-content-md-center mb-2"
-            style={{ display: "flex", flexDirection: "row" }}
-          >
-            <label
-              for="email"
-              class="form-label mt-2"
-              style={{ marginRight: "10px", width: "200px", fontSize: "1.3em" }}
-            >
-              이메일
-            </label>
+              style={{
+                display: "flex",
+                alginItems: "center",
+                justifyContent: "center",
+                marginBottom: "30px",
+              }}
+            ></div>
             <div
-              class="has-validation "
-              style={{ width: "250px", marginRight: "20px" }}
+              class="justify-content-md-center mb-2"
+              style={{ display: "flex", flexDirection: "row", width: "100%" }}
             >
-              <input
-                type="text"
-                class="form-control "
-                id="email"
-                ref={emailInput}
-                value={email}
-                placeholder={email}
-                onChange={onChange}
-                autoComplete="off"
-                maxLength="100"
-                style={{ fontSize: "1.1em" }}
-              />
-              <div
-                class="invisible text-start email-feedback"
-                ref={emailFeedback}
-                style={{ fontSize: "1.1em" }}
+              <label
+                for="name"
+                class="form-label mt-2 text-center"
+                style={{
+                  marginRight: "10px",
+                  width: "200px",
+                  fontSize: "1.3em",
+                }}
               >
-                {emailMessage}
-              </div>
-            </div>
-          </div>
-          <div
-            class="justify-content-md-center mb-2"
-            style={{ display: "flex", flexDirection: "row" }}
-          >
-            <label
-              for="phone"
-              class="form-label mt-2"
-              style={{ marginRight: "10px", width: "200px", fontSize: "1.3em" }}
-            >
-              휴대폰
-            </label>
-            <div
-              class="has-validation"
-              style={{ width: "250px", marginRight: "20px" }}
-            >
-              <input
-                type="text"
-                class="form-control "
-                id="phone"
-                ref={phoneInput}
-                value={phone}
-                onChange={onChange}
-                placeholder={phone}
-                autoComplete="off"
-                maxLength="13"
-                style={{ fontSize: "1.1em" }}
-              />
-              <div
-                class="invisible text-start phone-feedback"
-                ref={phoneFeedback}
-                style={{ fontSize: "1.1em" }}
-              >
-                {phoneMessage}
-              </div>
-            </div>
-          </div>
-          <div
-            class="justify-content-md-center mb-2"
-            style={{ display: "flex", flexDirection: "row" }}
-          >
-            <label
-              htmlFor="gender"
-              className="form-label  mt-2"
-              style={{ marginRight: "10px", width: "200px", fontSize: "1.3em" }}
-            >
-              성별
-            </label>
-            <div
-              class="input-group"
-              id="gender"
-              name="gender"
-              onChange={onChange}
-              value={gender}
-              style={{ width: "250px", marginRight: "20px" }}
-            >
-              <div class="input-group-text">
+                이메일
+              </label>
+              <div style={{ width: "250px", marginRight: "20px" }}>
                 <input
-                  class="form-check-input mt-0"
-                  type="radio"
-                  value="male"
-                  name="gender"
-                  htmlFor="male"
-                  checked={gender === "male"}
-                  onChange={onChange}
-                  aria-label="Radio button for following text input"
-                  style={{ cursor: "pointer" }}
-                  ref={maleInput}
+                  type="text"
+                  class="form-control "
+                  id="email"
+                  ref={emailInput}
+                  value={email}
+                  autoComplete="off"
+                  disabled
+                  style={{ fontSize: "1.1em" }}
                 />
+                <div
+                  class="invisible text-start name-feedback"
+                  ref={nameFeedback}
+                  style={{ fontSize: "1.1em" }}
+                >
+                  {emailMessage}
+                </div>
               </div>
-              <input
-                type="text"
-                class="form-control"
-                id="male"
-                aria-label="male btn"
-                value="남자"
-                style={{ background: "white", fontSize: "1.1em" }}
-                disabled
-              />
-              <div class="input-group-text">
-                <input
-                  class="form-check-input mt-0"
-                  type="radio"
-                  value="female"
-                  name="gender"
-                  htmlFor="female"
-                  onChange={onChange}
-                  aria-label="Radio button for following text input"
-                  style={{ cursor: "pointer" }}
-                  checked={gender === "female"}
-                  ref={femaleInput}
-                />
-              </div>
-              <input
-                type="text"
-                class="form-control"
-                id="female"
-                aria-label="female btn"
-                value="여자"
-                style={{ background: "white", fontSize: "1.1em" }}
-                disabled
-              />
             </div>
-          </div>
-          {userOrPlanner === "플래너" ? (
             <div
-              class="justify-content-md-center mb-2 mt-4"
+              class="justify-content-md-center mb-2"
+              style={{ display: "flex", flexDirection: "row" }}
+            >
+              <label
+                for="password"
+                class="form-label mt-2 text-center"
+                style={{
+                  marginRight: "10px",
+                  width: "200px",
+                  fontSize: "1.3em",
+                }}
+              >
+                비밀번호
+              </label>
+              <div
+                class="has-validation "
+                style={{ width: "250px", marginRight: "20px" }}
+              >
+                <input
+                  type="text"
+                  class="form-control "
+                  id="password"
+                  ref={passwordInput}
+                  value={password}
+                  placeholder={password}
+                  onChange={onChange}
+                  autoComplete="off"
+                  maxLength="20"
+                  style={{ fontSize: "1.1em" }}
+                />
+                <div
+                  class="invisible text-start password-feedback"
+                  ref={passwordFeedback}
+                  style={{ fontSize: "1.1em" }}
+                >
+                  {passwordMessage}
+                </div>
+              </div>
+            </div>
+            <div
+              class="justify-content-md-center mb-2"
+              style={{ display: "flex", flexDirection: "row" }}
+            >
+              <label
+                for="name"
+                class="form-label mt-2"
+                style={{
+                  marginRight: "10px",
+                  width: "200px",
+                  fontSize: "1.3em",
+                }}
+              >
+                이름
+              </label>
+              <div
+                class="has-validation "
+                style={{ width: "250px", marginRight: "20px" }}
+              >
+                <input
+                  type="text"
+                  class="form-control "
+                  id="name"
+                  ref={nameInput}
+                  value={name}
+                  placeholder={name}
+                  onChange={onChange}
+                  autoComplete="off"
+                  maxLength="100"
+                  style={{ fontSize: "1.1em" }}
+                />
+                <div
+                  class="invisible text-start name-feedback"
+                  ref={nameFeedback}
+                  style={{ fontSize: "1.1em" }}
+                >
+                  {nameMessage}
+                </div>
+              </div>
+            </div>
+            <div
+              class="justify-content-md-center mb-2"
               style={{ display: "flex", flexDirection: "row" }}
             >
               <label
@@ -952,47 +933,599 @@ function UserUpdate() {
                   fontSize: "1.3em",
                 }}
               >
-                경력
+                휴대폰
+              </label>
+              <div
+                class="has-validation"
+                style={{ width: "250px", marginRight: "20px" }}
+              >
+                <input
+                  type="text"
+                  class="form-control "
+                  id="phone"
+                  ref={phoneInput}
+                  value={phone}
+                  onChange={onChange}
+                  placeholder={phone}
+                  autoComplete="off"
+                  maxLength="13"
+                  style={{ fontSize: "1.1em" }}
+                />
+                <div
+                  class="invisible text-start phone-feedback"
+                  ref={phoneFeedback}
+                  style={{ fontSize: "1.1em" }}
+                >
+                  {phoneMessage}
+                </div>
+              </div>
+            </div>
+            <div
+              class="justify-content-md-center mb-2"
+              style={{ display: "flex", flexDirection: "row" }}
+            >
+              <label
+                htmlFor="gender"
+                className="form-label  mt-2"
+                style={{
+                  marginRight: "10px",
+                  width: "200px",
+                  fontSize: "1.3em",
+                }}
+              >
+                성별
+              </label>
+              <div
+                class="input-group"
+                id="gender"
+                name="gender"
+                onChange={onChange}
+                value={gender}
+                style={{ width: "250px", marginRight: "20px" }}
+              >
+                <div class="input-group-text">
+                  <input
+                    class="form-check-input mt-0"
+                    type="radio"
+                    value="male"
+                    name="gender"
+                    htmlFor="male"
+                    checked={gender === "male"}
+                    onChange={onChange}
+                    aria-label="Radio button for following text input"
+                    style={{ cursor: "pointer" }}
+                    ref={maleInput}
+                  />
+                </div>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="male"
+                  aria-label="male btn"
+                  value="남자"
+                  style={{ background: "white", fontSize: "1.1em" }}
+                  disabled
+                />
+                <div class="input-group-text">
+                  <input
+                    class="form-check-input mt-0"
+                    type="radio"
+                    value="female"
+                    name="gender"
+                    htmlFor="female"
+                    onChange={onChange}
+                    aria-label="Radio button for following text input"
+                    style={{ cursor: "pointer" }}
+                    checked={gender === "female"}
+                    ref={femaleInput}
+                  />
+                </div>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="female"
+                  aria-label="female btn"
+                  value="여자"
+                  style={{ background: "white", fontSize: "1.1em" }}
+                  disabled
+                />
+              </div>
+            </div>
+            {userOrPlanner === "플래너" ? (
+              <div style={{ height: "360px" }}>
+                <div
+                  class="justify-content-md-center "
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    marginTop: "40px",
+                  }}
+                >
+                  <label
+                    for="career"
+                    class="form-label mt-2"
+                    style={{
+                      marginRight: "10px",
+                      width: "200px",
+                      fontSize: "1.3em",
+                    }}
+                  >
+                    경력
+                  </label>
+                  <div
+                    class="has-validation "
+                    style={{ width: "250px", marginRight: "20px" }}
+                  >
+                    <input
+                      type="number"
+                      class="form-control "
+                      id="career"
+                      ref={careerInput}
+                      value={career}
+                      onChange={onChange}
+                      placeholder={career}
+                      autoComplete="off"
+                      min="0"
+                      max="30"
+                      style={{ fontSize: "1.1em" }}
+                    />
+                    <div
+                      class="invisible text-start phone-feedback"
+                      ref={careerFeedback}
+                      style={{ fontSize: "1.1em" }}
+                    >
+                      {careerMessage}
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class=" justify-content-md-center"
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    width: "100%",
+                    marginTop: "10px",
+                  }}
+                >
+                  <label
+                    for="introduction"
+                    class="form-label mt-2"
+                    style={{
+                      marginRight: "10px",
+                      width: "200px",
+                      fontSize: "1.3em",
+                    }}
+                  >
+                    소개글
+                  </label>
+                  <div
+                    class="has-validation "
+                    style={{ width: "250px", marginRight: "20px" }}
+                  >
+                    <textarea
+                      type="textarea"
+                      class="form-control "
+                      id="introduction"
+                      ref={introInput}
+                      style={{ overflowY: "scroll" }}
+                      value={introduction}
+                      onChange={onChange}
+                      placeholder={introduction}
+                      autoComplete="off"
+                      cols="10"
+                      rows="8"
+                      style={{ fontSize: "1.1em" }}
+                      maxLength="1000"
+                    />
+                    <div
+                      class="invisible text-start phone-feedback"
+                      ref={introFeedback}
+                      style={{ fontSize: "1.1em" }}
+                    >
+                      {introMessage}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : null}
+            <div class="col-12">
+              <button
+                class="btn-colour-1 updatebtn"
+                type="submit"
+                onClick={updateCheck}
+                style={category === "user" ? null : { marginTop: "-30px" }}
+              >
+                회원정보 수정하기
+              </button>
+            </div>
+          </form>
+        </div>
+      ) : (
+        <div
+          class="mypagecontainer text-center"
+          style={{
+            minHeight: "100vh",
+            height: "890px",
+            width: "100%",
+            zIndex: 1,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "start",
+            paddingTop: "200px",
+          }}
+        >
+          {defaultViewUrl === null ? (
+            <div style={{ width: "200px", height: "100px" }}></div>
+          ) : (
+            <img
+              src={defaultViewUrl}
+              style={
+                category === "user"
+                  ? {
+                      width: "200px",
+                      height: "200px",
+                      cursor: "pointer",
+                      marginTop: "-100px",
+                      marginBottom: "10px",
+                    }
+                  : {
+                      width: "200px",
+                      height: "200px",
+                      cursor: "pointer",
+                      marginTop: "-110px",
+                    }
+              }
+              data-bs-toggle="modal"
+              data-bs-target="#profileUpdateModal"
+              alt=""
+            />
+          )}
+          <form style={{ width: "560px", height: "610px", zIndex: 3 }}>
+            <div
+              style={{
+                display: "flex",
+                alginItems: "center",
+                justifyContent: "center",
+                marginBottom: "30px",
+              }}
+            ></div>
+            <div
+              class="justify-content-md-center mb-2"
+              style={{ display: "flex", flexDirection: "row", width: "100%" }}
+            >
+              <label
+                for="name"
+                class="form-label mt-2 text-center"
+                style={{
+                  marginRight: "10px",
+                  width: "200px",
+                  fontSize: "1.3em",
+                }}
+              >
+                이메일
+              </label>
+              <div style={{ width: "250px", marginRight: "20px" }}>
+                <input
+                  type="text"
+                  class="form-control "
+                  id="email"
+                  ref={emailInput}
+                  value={email}
+                  autoComplete="off"
+                  disabled
+                  style={{ fontSize: "1.1em" }}
+                />
+                <div
+                  class="invisible text-start name-feedback"
+                  ref={nameFeedback}
+                  style={{ fontSize: "1.1em" }}
+                >
+                  {emailMessage}
+                </div>
+              </div>
+            </div>
+            <div
+              class="justify-content-md-center mb-2"
+              style={{ display: "flex", flexDirection: "row" }}
+            >
+              <label
+                for="password"
+                class="form-label mt-2 text-center"
+                style={{
+                  marginRight: "10px",
+                  width: "200px",
+                  fontSize: "1.3em",
+                }}
+              >
+                비밀번호
               </label>
               <div
                 class="has-validation "
                 style={{ width: "250px", marginRight: "20px" }}
               >
                 <input
-                  type="number"
+                  type="text"
                   class="form-control "
-                  id="career"
-                  ref={careerInput}
-                  value={career}
+                  id="password"
+                  ref={passwordInput}
+                  value={password}
+                  placeholder={password}
                   onChange={onChange}
-                  placeholder={career}
                   autoComplete="off"
-                  min="0"
-                  max="30"
+                  maxLength="20"
+                  style={{ fontSize: "1.1em" }}
+                />
+                <div
+                  class="invisible text-start password-feedback"
+                  ref={passwordFeedback}
+                  style={{ fontSize: "1.1em" }}
+                >
+                  {passwordMessage}
+                </div>
+              </div>
+            </div>
+            <div
+              class="justify-content-md-center mb-2"
+              style={{ display: "flex", flexDirection: "row" }}
+            >
+              <label
+                for="name"
+                class="form-label mt-2"
+                style={{
+                  marginRight: "10px",
+                  width: "200px",
+                  fontSize: "1.3em",
+                }}
+              >
+                이름
+              </label>
+              <div
+                class="has-validation "
+                style={{ width: "250px", marginRight: "20px" }}
+              >
+                <input
+                  type="text"
+                  class="form-control "
+                  id="name"
+                  ref={nameInput}
+                  value={name}
+                  placeholder={name}
+                  onChange={onChange}
+                  autoComplete="off"
+                  maxLength="100"
+                  style={{ fontSize: "1.1em" }}
+                />
+                <div
+                  class="invisible text-start name-feedback"
+                  ref={nameFeedback}
+                  style={{ fontSize: "1.1em" }}
+                >
+                  {nameMessage}
+                </div>
+              </div>
+            </div>
+            <div
+              class="justify-content-md-center mb-2"
+              style={{ display: "flex", flexDirection: "row" }}
+            >
+              <label
+                for="phone"
+                class="form-label mt-2"
+                style={{
+                  marginRight: "10px",
+                  width: "200px",
+                  fontSize: "1.3em",
+                }}
+              >
+                휴대폰
+              </label>
+              <div
+                class="has-validation"
+                style={{ width: "250px", marginRight: "20px" }}
+              >
+                <input
+                  type="text"
+                  class="form-control "
+                  id="phone"
+                  ref={phoneInput}
+                  value={phone}
+                  onChange={onChange}
+                  placeholder={phone}
+                  autoComplete="off"
+                  maxLength="13"
                   style={{ fontSize: "1.1em" }}
                 />
                 <div
                   class="invisible text-start phone-feedback"
-                  ref={careerFeedback}
+                  ref={phoneFeedback}
                   style={{ fontSize: "1.1em" }}
                 >
-                  {careerMessage}
+                  {phoneMessage}
                 </div>
               </div>
             </div>
-          ) : null}
-          <div class="col-12">
-            <button
-              class="btn-colour-1 updatebtn"
-              type="submit"
-              onClick={updateCheck}
-              style={category === "user" ? null : { marginTop: "-1px" }}
+            <div
+              class="justify-content-md-center mb-2"
+              style={{ display: "flex", flexDirection: "row" }}
             >
-              회원정보 수정하기
-            </button>
-          </div>
-        </form>
-      </div>
+              <label
+                htmlFor="gender"
+                className="form-label  mt-2"
+                style={{
+                  marginRight: "10px",
+                  width: "200px",
+                  fontSize: "1.3em",
+                }}
+              >
+                성별
+              </label>
+              <div
+                class="input-group"
+                id="gender"
+                name="gender"
+                onChange={onChange}
+                value={gender}
+                style={{ width: "250px", marginRight: "20px" }}
+              >
+                <div class="input-group-text">
+                  <input
+                    class="form-check-input mt-0"
+                    type="radio"
+                    value="male"
+                    name="gender"
+                    htmlFor="male"
+                    checked={gender === "male"}
+                    onChange={onChange}
+                    aria-label="Radio button for following text input"
+                    style={{ cursor: "pointer" }}
+                    ref={maleInput}
+                  />
+                </div>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="male"
+                  aria-label="male btn"
+                  value="남자"
+                  style={{ background: "white", fontSize: "1.1em" }}
+                  disabled
+                />
+                <div class="input-group-text">
+                  <input
+                    class="form-check-input mt-0"
+                    type="radio"
+                    value="female"
+                    name="gender"
+                    htmlFor="female"
+                    onChange={onChange}
+                    aria-label="Radio button for following text input"
+                    style={{ cursor: "pointer" }}
+                    checked={gender === "female"}
+                    ref={femaleInput}
+                  />
+                </div>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="female"
+                  aria-label="female btn"
+                  value="여자"
+                  style={{ background: "white", fontSize: "1.1em" }}
+                  disabled
+                />
+              </div>
+            </div>
+            {userOrPlanner === "플래너" ? (
+              <div style={{ height: "360px" }}>
+                <div
+                  class="justify-content-md-center "
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    marginTop: "40px",
+                  }}
+                >
+                  <label
+                    for="career"
+                    class="form-label mt-2"
+                    style={{
+                      marginRight: "10px",
+                      width: "200px",
+                      fontSize: "1.3em",
+                    }}
+                  >
+                    경력
+                  </label>
+                  <div
+                    class="has-validation "
+                    style={{ width: "250px", marginRight: "20px" }}
+                  >
+                    <input
+                      type="number"
+                      class="form-control "
+                      id="career"
+                      ref={careerInput}
+                      value={career}
+                      onChange={onChange}
+                      placeholder={career}
+                      autoComplete="off"
+                      min="0"
+                      max="30"
+                      style={{ fontSize: "1.1em" }}
+                    />
+                    <div
+                      class="invisible text-start phone-feedback"
+                      ref={careerFeedback}
+                      style={{ fontSize: "1.1em" }}
+                    >
+                      {careerMessage}
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class=" justify-content-md-center"
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    width: "100%",
+                    marginTop: "10px",
+                  }}
+                >
+                  <label
+                    for="introduction"
+                    class="form-label mt-2"
+                    style={{
+                      marginRight: "10px",
+                      width: "200px",
+                      fontSize: "1.3em",
+                    }}
+                  >
+                    소개글
+                  </label>
+                  <div
+                    class="has-validation "
+                    style={{ width: "250px", marginRight: "20px" }}
+                  >
+                    <textarea
+                      type="textarea"
+                      class="form-control "
+                      id="introduction"
+                      ref={introInput}
+                      style={{ overflowY: "scroll" }}
+                      value={introduction}
+                      onChange={onChange}
+                      placeholder={introduction}
+                      autoComplete="off"
+                      cols="10"
+                      rows="8"
+                      style={{ fontSize: "1.1em" }}
+                      maxLength="1000"
+                    />
+                    <div
+                      class="invisible text-start phone-feedback"
+                      ref={introFeedback}
+                      style={{ fontSize: "1.1em" }}
+                    >
+                      {introMessage}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : null}
+            <div class="col-12">
+              <button
+                class="btn-colour-1 updatebtn"
+                type="submit"
+                onClick={updateCheck}
+                style={category === "user" ? null : { marginTop: "-1px" }}
+              >
+                회원정보 수정하기
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
+
       <Footer />
       {/* 프로필 변경 업로드 파일 올리는 모달창 */}
       <div

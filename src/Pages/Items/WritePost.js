@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import NavigationBar from "../../Components/NavigationBar";
@@ -27,7 +27,7 @@ const selectedCategory = {
   weddingoutfit: "의상",
   studio: "스튜디오",
   makeup: "메이크업",
-  honeymooon: "신혼여행",
+  honeymoon: "신혼여행",
   bouquet: "부케",
 };
 
@@ -41,42 +41,46 @@ const WritePost = () => {
   const [selectedCategory1, setSelectedCategory1] = useState(
     selectedCategory[category1]
   );
-
+  console.log(selectedCategory1);
   const postItem = () => {
     if (content !== "" && itemName !== "") {
-      const formData = new FormData();
-      formData.append("itemName", itemName);
-      formData.append("content", content);
-      formData.append("category1", selectedCategory1);
-      formData.append("category2", category2);
-      formData.append("file", image);
+      if (imgFile.current.value !== "") {
+        const formData = new FormData();
+        formData.append("itemName", itemName);
+        formData.append("content", content);
+        formData.append("category1", selectedCategory1);
+        formData.append("category2", category2);
+        formData.append("file", image);
 
-      axios
-        .post("/item/insertItem", formData)
-        .then((response) => {
-          console.log("성공:", response.data);
-          setItemName("");
-          setContent("");
-          setImage(null);
-          setCategory2(categoryOptions[category1][0]);
-          setPreviewUrl(selectImg);
-          setImage(null);
-        })
-        .catch((e) => {
-          console.log("실패:", e);
-          if (e.response.data.message === "파일이 중복됩니다!") {
-            alert("첨부파일이 중복됩니다!");
-          }
-        });
+        axios
+          .post("/item/insertItem", formData)
+          .then((response) => {
+            console.log("성공:", response.data);
+            setItemName("");
+            setContent("");
+            setImage(null);
+            setPreviewUrl(selectImg);
+            imgFile.current.value = null;
+            alert("아이템 업로드 완료!");
+          })
+          .catch((e) => {
+            console.log("실패:", e);
+            if (e.response.data.message === "파일이 중복됩니다!") {
+              alert("첨부파일이 중복됩니다!");
+            }
+          });
+      } else {
+        alert("이미지를 선택해주세요!");
+      }
     } else {
       alert("제목과 내용을 입력하세요!");
     }
   };
-
+  const imgFile = useRef();
   const handleCancel = () => {
     setItemName("");
     setContent("");
-    setImage(null);
+    imgFile.current.value = null;
     setCategory2(categoryOptions[category1][0]);
     setPreviewUrl(selectImg);
     setImage(null);
@@ -95,6 +99,9 @@ const WritePost = () => {
       setPreviewUrl(selectImg);
     }
   };
+  useEffect(() => {
+    setImage(null);
+  }, []);
   return (
     <div className="mainlayout">
       <NavigationBar title="글 작성" />
@@ -130,7 +137,7 @@ const WritePost = () => {
           value={content}
           onChange={(event) => setContent(event.target.value)}
         />
-        <input type="file" onChange={handleImageChange} />
+        <input ref={imgFile} type="file" onChange={handleImageChange} />
         <img
           src={previewUrl}
           alt=""

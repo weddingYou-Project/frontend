@@ -61,8 +61,6 @@ function BackButton({ engTitle }) {
             path.indexOf("/menu/bouquet") !== -1
           ) {
             navigate("/menu");
-          } else if (path.indexOf("/writepost/weddinghall") !== -1) {
-            navigate("/menu/weddinghall");
           } else if (path.indexOf("/writepost/studio") !== -1) {
             navigate("/menu/studio");
           } else if (path.indexOf("/writepost/weddingoutfit") !== -1) {
@@ -75,6 +73,22 @@ function BackButton({ engTitle }) {
             navigate("/menu/bouquet");
           } else if (path.indexOf("/editpost") !== -1) {
             navigate(`/menu/${engTitle}`);
+          } else if (path.indexOf("/estimatedetail") !== -1) {
+            navigate(-1);
+          } else if (path.indexOf("/plannerprofiledetail") !== -1) {
+            navigate(-1);
+          } else if (path.indexOf("/matching") !== -1) {
+            const category = sessionStorage.getItem("category");
+            navigate(`/mypage/${category}`);
+          } else if (
+            path.indexOf("/checkoutdeposit") !== -1 ||
+            path.indexOf("/checkoutall") !== -1
+          ) {
+            navigate(`/matching`);
+          } else if (path.indexOf("/estimatedetail/") !== -1) {
+            navigate(-1);
+          } else if (path.indexOf("/review/detail") !== -1) {
+            navigate("/review");
           } else {
             navigate("/");
           }

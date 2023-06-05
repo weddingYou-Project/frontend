@@ -114,7 +114,8 @@ function Footer() {
       <div
         className="icon"
         onClick={() => {
-          navigate("/");
+          navigate("/plannerprofile");
+          window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
         }}
       >
         <svg
@@ -154,7 +155,7 @@ function Footer() {
       <div
         className="icon"
         onClick={() => {
-          navigate("/");
+          navigate("/estimatelist");
         }}
       >
         <svg
@@ -174,6 +175,10 @@ function Footer() {
       <div
         className="icon"
         onClick={() => {
+          if (sessionStorage.getItem("email") === "admin@email.com") {
+            navigate(`/adminpage`);
+            return;
+          }
           if (sessionStorage.getItem("category") !== null) {
             const category = sessionStorage.getItem("category");
             navigate(`/mypage/${category}`);

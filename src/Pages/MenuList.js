@@ -18,8 +18,8 @@ const Category1 = [
 ];
 
 const Service = [
-  { label: "공지사항", value: "notice" },
-  { label: "고객센터", value: "customerservice" },
+  { label: "고객센터", value: "customercenter" },
+  { label: "이용후기", value: "review" },
 ];
 
 const MenuList = () => {
