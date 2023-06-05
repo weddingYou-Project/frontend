@@ -27,9 +27,15 @@ function ContentWrite() {
       </div>
       <hr />
       <div className="fileatt">
-        <p className="uploadphoto">사진 첨부</p>
+        <p className="uploadphoto" style={{ fontSize: "1.5em" }}>
+          사진 첨부
+        </p>
         <input type="file" multiple id="uploadimage" className="displaynone" />
-        <label htmlFor="uploadimage" className="cursor imageBtn">
+        <label
+          htmlFor="uploadimage"
+          className="cursor imageBtn"
+          style={{ fontSize: "1.5em" }}
+        >
           사진선택
         </label>
       </div>
@@ -37,7 +43,7 @@ function ContentWrite() {
       <div className="writeBtnArea">
         <button className="writeBtn">작성하기</button>
       </div>
-      <div style={{ height: 90 }}></div>
+      <div style={{ height: 200 }}></div>
       <Footer />
     </div>
   );
