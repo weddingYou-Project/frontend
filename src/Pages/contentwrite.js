@@ -2,16 +2,37 @@ import "../Css/main.css";
 import "../Css/CustomerCenter.css";
 import Footer from "../Components/Footer";
 import NavigationBar from "../Components/NavigationBar";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import selectImg from "../Assets/selectImg.webp";
+import axios from "axios";
 
 function ContentWrite() {
   const { page } = useLocation().state;
   const [img, setImg] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(selectImg);
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+
+  const navigate = useNavigate();
   const writeContent = () => {
     if (page === "notice") {
+      const formData = new FormData();
+      formData.append("file", img);
+      formData.append("title", title);
+      formData.append("content", content);
+      axios
+        .post(`/notice/post`, formData)
+        .then((res) => {
+          console.log(res);
+          if (res.data != null) {
+            alert(`공지사항 글 작성이 완료되었습니다!`);
+            navigate(`/noticepage`);
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     } else if (page === "qna") {
     }
   };
@@ -37,6 +58,10 @@ function ContentWrite() {
           type="text"
           placeholder="제목"
           className="form-control titleinput"
+          value={title}
+          onChange={(e) => {
+            setTitle(e.target.value);
+          }}
           style={{ fontSize: 20 }}
         ></input>
       </div>
@@ -45,7 +70,11 @@ function ContentWrite() {
         <textarea
           className="form-control contentinput"
           rows="15"
-          placeholder="이용후기를 입력해주세요"
+          placeholder="내용을 입력해주세요"
+          value={content}
+          onChange={(e) => {
+            setContent(e.target.value);
+          }}
           style={{ fontSize: 20 }}
         ></textarea>
       </div>

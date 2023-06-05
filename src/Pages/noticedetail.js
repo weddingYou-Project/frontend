@@ -2,9 +2,32 @@ import "../Css/main.css";
 import "../Css/CustomerCenter.css";
 import Footer from "../Components/Footer";
 import NavigationBar from "../Components/NavigationBar";
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import axios from "axios";
 function Noticedetail() {
+  const { noticeId } = useLocation().state;
+
+  const [title, setTitle] = useState("");
+  const [date, setDate] = useState("");
+  const [view, setView] = useState(0);
+  const [content, setContent] = useState("");
+
+  useEffect(() => {
+    axios
+      .get(`/notice/${noticeId}`)
+      .then((res) => {
+        console.log(res);
+        const data = res.data;
+        setTitle(data.noticeTitle);
+        setDate(data.noticeWriteDate.slice(0, 10));
+        setView(data.noticeViewCount);
+        setContent(data.noticeContent);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
   const handleRefresh = () => {
     window.location.reload(); // 페이지 새로고침
   };
@@ -22,9 +45,9 @@ function Noticedetail() {
   const checkadminsession = window.sessionStorage.getItem("email");
 
   const Buttons = ({ checkadmin }) => {
-    if (checkadmin === "admin") {
+    if (checkadmin === "admin@email.com") {
       return (
-        <div>
+        <div style={{ display: "inline-block" }}>
           <button className="upAndDelBtn" onClick={noticeupdateform}>
             수정
           </button>
@@ -48,30 +71,28 @@ function Noticedetail() {
         <NavigationBar title={"공지사항"} />
         <div style={{ height: 64 }}></div>
         <div className="titleArea">
-          <p className="titleTxt">공지사항 TitleSample</p>
+          <p
+            className="titleTxt"
+            style={{ marginLeft: "5px", fontSize: "2em" }}
+          >
+            {title}
+          </p>
           <div>
-            <p className="dateTxt">2023.02.20</p>
-            <p className="viewCountTxt">조회수 : 150</p>
-            {sessionStorage.getItem("email") === "admin@email.com" ? (
-              <div style={{ display: "inline-block" }}>
-                <button className="upAndDelBtn" onClick={noticeupdateform}>
-                  수정
-                </button>
-                <button
-                  className="upAndDelBtn"
-                  data-bs-toggle="modal"
-                  data-bs-target="#noticeDelete"
-                >
-                  삭제
-                </button>
-              </div>
-            ) : null}
+            <p className="dateTxt" style={{ marginLeft: "10px" }}>
+              {date}
+            </p>
+            <p className="viewCountTxt">조회수 : {view}</p>
+            <Buttons checkadmin={checkadminsession} />
           </div>
-          <Buttons checkadmin={checkadminsession} />
         </div>
         <hr />
         <div className="noticeContent">
-          <p className="noticeContxt">공지사항 txt</p>
+          <p
+            className="noticeContxt"
+            style={{ marginLeft: "10px", fontSize: "1.5em" }}
+          >
+            {content}
+          </p>
         </div>
         {/* <hr /> */}
         <div style={{ height: 90 }}></div>

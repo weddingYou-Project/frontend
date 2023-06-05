@@ -4,14 +4,37 @@ import Footer from "../Components/Footer";
 import NavigationBar from "../Components/NavigationBar";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 function Notice() {
+  const [title, setTitle] = useState([]);
+  const [date, setDate] = useState([]);
+  const [view, setView] = useState([]);
+  const [index, setIndex] = useState([]);
+  const [noticeId, setNoticeId] = useState([]);
   useEffect(() => {
     axios
       .get(`/notice/list`)
       .then((res) => {
         console.log(res);
+        const data = res.data;
+        const titleArr = [];
+        const dateArr = [];
+        const viewArr = [];
+        const indexArr = [];
+        const noticeIdArr = [];
+        for (let i = 0; i < data.length; i++) {
+          titleArr.push(data[i].noticeTitle);
+          dateArr.push(data[i].noticeWriteDate.slice(0, 10));
+          viewArr.push(data[i].noticeViewCount);
+          noticeIdArr.push(data[i].noticeId);
+          indexArr.push(i);
+        }
+        setTitle(titleArr);
+        setDate(dateArr);
+        setView(viewArr);
+        setIndex(indexArr);
+        setNoticeId(noticeIdArr);
       })
       .catch((e) => {
         console.log(e);
@@ -38,27 +61,51 @@ function Notice() {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td style={{ height: 50 }}>
-                <a
-                  href="http://localhost:3000/notice/detail"
-                  className="noticeTxt"
-                  style={{ fontSize: "1.5em" }}
-                >
-                  공지사항 TitleSample
-                </a>
-              </td>
-              <td>
-                <p className="noticeTxtCenter" style={{ fontSize: "1.5em" }}>
-                  23.05.06
-                </p>
-              </td>
-              <td>
-                <p className="noticeTxtCenter" style={{ fontSize: "1.5em" }}>
-                  421
-                </p>
-              </td>
-            </tr>
+            {index.map((i) => {
+              return (
+                <tr>
+                  <td style={{ height: 50 }}>
+                    <div
+                      onClick={() => {
+                        navigate(`/notice/detail`, {
+                          state: { noticeId: noticeId[i] },
+                        });
+                      }}
+                      className="noticeTxt"
+                      style={{ fontSize: "1.5em", cursor: "pointer" }}
+                    >
+                      {title[i]}
+                    </div>
+                  </td>
+                  <td>
+                    <p
+                      onClick={() => {
+                        navigate(`/notice/detail`, {
+                          state: { noticeId: noticeId[i] },
+                        });
+                      }}
+                      className="noticeTxtCenter"
+                      style={{ fontSize: "1.5em", cursor: "pointer" }}
+                    >
+                      {date[i]}
+                    </p>
+                  </td>
+                  <td>
+                    <p
+                      onClick={() => {
+                        navigate(`/notice/detail`, {
+                          state: { noticeId: noticeId[i] },
+                        });
+                      }}
+                      className="noticeTxtCenter"
+                      style={{ fontSize: "1.5em", cursor: "pointer" }}
+                    >
+                      {view[i]}
+                    </p>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </tabel>
       </div>
