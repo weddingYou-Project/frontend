@@ -93,6 +93,11 @@ function BackButton({ engTitle }) {
             navigate("/customercenter");
           } else if (path.indexOf("/qnapage") !== -1) {
             navigate("/customercenter");
+          } else if (
+            path.indexOf("/customercenter") !== -1 ||
+            path.indexOf("/review") !== -1
+          ) {
+            navigate("/menu");
           } else {
             navigate(-1);
           }
