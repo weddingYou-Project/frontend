@@ -89,6 +89,10 @@ function BackButton({ engTitle }) {
             navigate(-1);
           } else if (path.indexOf("/review/detail") !== -1) {
             navigate("/review");
+          } else if (path.indexOf("/noticepage") !== -1) {
+            navigate("/customercenter");
+          } else if (path.indexOf("/qnapage") !== -1) {
+            navigate("/customercenter");
           } else {
             navigate(-1);
           }
