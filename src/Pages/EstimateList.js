@@ -297,7 +297,7 @@ const EstimateList = () => {
               selectsRange
               startDate={startDate}
               endDate={endDate}
-              dateFormat="yyyy-MM"
+              dateFormat="yyyy-MM-dd"
               // showMonthYearPicker
               locale={ko}
               showPopperArrow={false}
@@ -339,6 +339,9 @@ const EstimateList = () => {
             </label>
           </p>
         </div>
+        {getdata.length === 0 && (
+          <div className="noneSearchData">검색결과가 존재하지 않습니다.</div>
+        )}
         <div className="EstimateListDataBox">
           {withcomplete === false ? (
             <DataListComp list={dataArraywithoutComplete} navigate={navigate} />

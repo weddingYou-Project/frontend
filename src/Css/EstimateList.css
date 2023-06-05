@@ -291,3 +291,10 @@ div {
 
 /*임시 작성버튼 끝*/
 
+.noneSearchData {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    font-size: 30px;
+}
