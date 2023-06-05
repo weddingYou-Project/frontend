@@ -89,8 +89,18 @@ function QnAdetail() {
     setEditedComment(e.target.value);
   };
 
-  const handleRefresh = () => {
-    window.location.reload(); // 페이지 새로고침
+  const handleDelete = () => {
+    // window.location.reload(); // 페이지 새로고침
+    axios
+      .delete(`/qna/delete/${qnaId}`)
+      .then((res) => {
+        console.log(res);
+        alert(`Q&A 글이 삭제되었습니다!`);
+        navigate(`/qnapage`);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
   const qnaUpdateForm = () => {
@@ -188,7 +198,8 @@ function QnAdetail() {
                 <button
                   type="button"
                   class="btn btn-primary"
-                  onClick={handleRefresh}
+                  data-bs-dismiss="modal"
+                  onClick={handleDelete}
                 >
                   삭제
                 </button>
@@ -264,7 +275,7 @@ function QnAdetail() {
                           <button
                             type="button"
                             class="btn btn-primary"
-                            onClick={handleRefresh}
+                            onClick={handleDelete}
                           >
                             삭제
                           </button>

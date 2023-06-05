@@ -230,7 +230,7 @@ function Noticedetail() {
   } else if (actionmode === 1) {
     return (
       <div className="mainlayout">
-        <NavigationBar title={"글수정"} />
+        <NavigationBar title={"공지사항 글수정"} />
         <div style={{ height: 74 }}></div>
         <div className="titleArea">
           <input
