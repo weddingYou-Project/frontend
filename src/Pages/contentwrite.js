@@ -4,11 +4,12 @@ import Footer from "../Components/Footer";
 import NavigationBar from "../Components/NavigationBar";
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
+import selectImg from "../Assets/selectImg.webp";
 
 function ContentWrite() {
   const { page } = useLocation().state;
   const [img, setImg] = useState(null);
-  const [previewUrl, setPreviewUrl] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(selectImg);
   const writeContent = () => {
     if (page === "notice") {
     } else if (page === "qna") {
@@ -17,11 +18,15 @@ function ContentWrite() {
   const onChangePic = (e) => {
     const selectedFile = e.target.files[0];
     setImg(selectedFile);
-    const fileReader = new FileReader();
-    fileReader.onload = () => {
-      setPreviewUrl(fileReader.result);
-    };
-    fileReader.readAsDataURL(selectedFile);
+    try {
+      const fileReader = new FileReader();
+      fileReader.onload = () => {
+        setPreviewUrl(fileReader.result);
+      };
+      fileReader.readAsDataURL(selectedFile);
+    } catch {
+      setPreviewUrl(selectImg);
+    }
   };
   return (
     <div className="mainlayout">
