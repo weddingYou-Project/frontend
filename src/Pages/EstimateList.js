@@ -247,23 +247,24 @@ const EstimateList = () => {
   return (
     <div className="mainlayout">
       <NavigationBar title={"견적서 목록"} />
-      {sessionStorage.getItem("category") === "user" ? (
-        <div
-          style={{
-            width: "560px",
-            position: "fixed",
-            bottom: "120px",
-            height: "50px",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "end",
-            alignItems: "end",
-            paddingRight: "23px",
-            paddingLeft: "50px",
-            paddingBottom: "10px",
-            zIndex: "999",
-          }}
-        >
+
+      <div
+        style={{
+          width: "560px",
+          position: "fixed",
+          bottom: "120px",
+          height: "50px",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "end",
+          alignItems: "end",
+          paddingRight: "23px",
+          paddingLeft: "50px",
+          paddingBottom: "10px",
+          zIndex: "999",
+        }}
+      >
+        {window.sessionStorage.getItem("category") === "user" && (
           <div style={{}}>
             <div className="estimate-write-btn">
               <i
@@ -286,43 +287,17 @@ const EstimateList = () => {
               </div>
             </div>
           </div>
-          <div
-            className="scrolltop"
-            onClick={() => {
-              onScrollTop();
-            }}
-            style={{ marginRight: "5px" }}
-          >
-            <i class="bi bi-chevron-up"></i>
-          </div>
-        </div>
-      ) : null}
-
-      {/* <div
-        className="scrolltop"
-        onClick={() => {
-          onScrollTop();
-        }}
-      >
-        <i class="bi bi-chevron-up"></i>
-      </div>
-      <div className="estimate-write-btn">
-        <i class="bi bi-pencil-square"></i>
+        )}
         <div
-          className="estimate-write-btn-overlay"
+          className="scrolltop"
           onClick={() => {
-            if (window.sessionStorage.getItem("category") === "user")
-              navigate("/estimateform");
-            else if (window.sessionStorage.getItem("category") === "planner") {
-              alert("일반회원으로 로그인해주세요");
-            } else {
-              navigate("../login");
-            }
+            onScrollTop();
           }}
+          style={{ marginRight: "5px" }}
         >
-          <span>견적작성하기</span>
+          <i class="bi bi-chevron-up"></i>
         </div>
-      </div> */}
+      </div>
       {/*여기다 */}
       <div className="EstimateListContainer">
         <div className="EstimateListSearchbarBox">
