@@ -15,7 +15,49 @@ function Review() {
   const [reviewIndex, setReviewIndex] = useState([]);
   const [checksort, setCheckSort] = useState(false);
 
+  const [selectIndex, setSelectIndex] = useState(0);
+  const [selectEstimateId, setSelectEstimateId] = useState(0);
+  let [estimateData, SetEstimateData] = useState(null);
+  let [images, setImages] = useState([]);
+  let [estimateIdArr, setEstimateIdArr] = useState([]);
+  const [userMatching, setUserMatching] = useState(null);
+  const [estimateIndex, setEstimateIndex] = useState([]);
+  const [selected, setSelected] = useState(false);
+  const [existEstimates, setExistEstimates] = useState(true);
+
   const navigate = useNavigate();
+
+  const fetchData = async (selectedEstimateId) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/estimate/getdetail/${selectedEstimateId}`
+      );
+      const { data } = response;
+      console.log(data);
+      SetEstimateData(data);
+      if (data.userMatching === null) {
+        setUserMatching(null);
+      } else {
+        setUserMatching(JSON.parse(data.userMatching));
+      }
+      // 이미지 데이터 가져오기
+      const imagearray = JSON.parse(data.img);
+      const imagePromises = imagearray.map((image) => {
+        return axios.get("http://localhost:8080/estimate/imageview", {
+          params: { image },
+          responseType: "blob",
+        });
+      });
+      const responses = await Promise.all(imagePromises);
+      const imageUrls = responses.map((res) => {
+        const resdata = URL.createObjectURL(res.data);
+        return resdata;
+      });
+      setImages(imageUrls);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const handleSortClick = (sort) => {
     console.log(sort);
     setCheckSort(!checksort);
@@ -83,6 +125,99 @@ function Review() {
         console.log(e);
       });
   }, [checksort, selectedSort]);
+
+  useEffect(() => {
+    const formData = new FormData();
+    formData.append("userEmail", sessionStorage.getItem("email"));
+    axios.post(`/existreviewpaid`, formData).then((res) => {
+      console.log("data:++++++++++++++" + res.data);
+      console.log(res);
+      let indexArr = [];
+      if (res.data.length !== 0) {
+        const data = res.data;
+        for (let i = 0; i < data.length; i++) {
+          estimateIdArr.push(data[i]);
+          indexArr.push(i);
+        }
+        setEstimateIdArr(estimateIdArr);
+        setEstimateIndex(indexArr);
+        setSelectEstimateId(estimateIdArr[0]);
+        console.log(estimateIdArr[0]);
+        const defaultEstimateId = estimateIdArr[0];
+        const fetchData1 = async () => {
+          try {
+            const response = await axios.get(
+              `http://localhost:8080/estimate/getdetail/${defaultEstimateId}`
+            );
+            const { data } = response;
+            console.log(data);
+            SetEstimateData(data);
+            if (data.userMatching === null) {
+              setUserMatching(null);
+            } else {
+              setUserMatching(JSON.parse(data.userMatching));
+            }
+            // 이미지 데이터 가져오기
+            const imagearray = JSON.parse(data.img);
+            const imagePromises = imagearray.map((image) => {
+              return axios.get("http://localhost:8080/estimate/imageview", {
+                params: { image },
+                responseType: "blob",
+              });
+            });
+            const responses = await Promise.all(imagePromises);
+            const imageUrls = responses.map((res) => {
+              const resdata = URL.createObjectURL(res.data);
+              return resdata;
+            });
+            setImages(imageUrls);
+          } catch (error) {
+            console.log(error);
+          }
+        };
+        fetchData1();
+      } else {
+        setExistEstimates(false);
+      }
+    });
+  }, []);
+
+  const goChooseEstimate = (e) => {
+    const estimateId = selectEstimateId;
+
+    const formData = new FormData();
+    formData.append("targetEstimateId", estimateId);
+
+    axios
+      .post(`/plannerinforeview`, formData)
+      .then((res) => {
+        const plannerEmail = res.data.slice(0, res.data.indexOf("["));
+
+        const plannerName = res.data.slice(
+          res.data.indexOf("[") + 1,
+          res.data.indexOf(",")
+        );
+
+        const plannerImg = res.data.slice(
+          res.data.indexOf(",") + 1,
+          res.data.length
+        );
+        let plannerImgUrl = "data:image/jpeg;base64," + plannerImg;
+
+        navigate("/rating", {
+          state: {
+            estimateId: estimateId,
+
+            planneremail: plannerEmail,
+            plannerImg: plannerImgUrl,
+            plannerName: plannerName,
+          },
+        });
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
 
   return (
     <div className="mainlayout">
@@ -198,11 +333,314 @@ function Review() {
           </tbody>
         </tabel>
       </div>
-      <Link to="/rating">
-        <button className="writeBtn">글쓰기</button>
-      </Link>
+      {sessionStorage.getItem("category") === "user" ? (
+        existEstimates ? (
+          <button
+            class="writeBtn"
+            data-bs-toggle="modal"
+            data-bs-target="#chooseEstimate"
+            onClick={() => {
+              setSelected(true);
+            }}
+          >
+            글쓰기
+          </button>
+        ) : (
+          <button
+            class="writeBtn"
+            // onClick={goMatch}
+          >
+            글쓰기
+          </button>
+        )
+      ) : null}
       <div style={{ height: 90 }}></div>
       <Footer />
+      {/* 견적서 선택 모달창 */}
+      <div
+        class="modal fade"
+        id="chooseEstimate"
+        tabindex="-1"
+        aria-labelledby="chooseEstimate"
+        aria-hidden="true"
+      >
+        <div
+          class="modal-dialog modal-dialog-centered"
+          style={{ width: "800px" }}
+        >
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1
+                class="modal-title justify-content-center "
+                id="chooseEstimate"
+                style={{ fontSize: "1.9em" }}
+              >
+                견적서 선택하기
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div
+              class="modal-body"
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alginItems: "center",
+                displayContent: "center",
+                height: "100%",
+                width: "100%",
+                marginTop: "10px",
+              }}
+            >
+              <div
+                style={{
+                  height: "100%",
+                  width: "480px",
+                }}
+              >
+                <select
+                  class="form-select form-select-lg mb-3"
+                  aria-label=".form-select-lg example"
+                  style={{ width: "460px" }}
+                  onChange={(e) => {
+                    console.log(e);
+                    console.log(e.target.value);
+                    setSelectIndex(e.target.value);
+                    const index = e.target.value;
+                    setSelectEstimateId(estimateIdArr[index]);
+                    fetchData(estimateIdArr[index]);
+                  }}
+                >
+                  {estimateIndex.map((index) => {
+                    return <option value={index}>견적서{index + 1}</option>;
+                  })}
+                </select>
+
+                <div
+                  style={{
+                    fontSize: "1.5em",
+                    padding: "10px",
+                  }}
+                >
+                  견적서 상세정보
+                </div>
+                <p
+                  style={{
+                    fontSize: "1.3em",
+                    width: "550px",
+
+                    marginLeft: "-35px",
+                    marginTop: "-100px",
+                  }}
+                >
+                  {console.log(estimateData)}
+                  {console.log(estimateData === null)}
+                  {estimateData !== null ? (
+                    <div className="contentcontainer-detail">
+                      <div className="contentbox-detail">
+                        <h5 onClick={() => {}}>희망 결혼 예정일</h5>
+                        {JSON.parse(estimateData?.weddingdate).map(
+                          (e, index) => {
+                            return (
+                              <div className="choosebox-detail">
+                                {e === "" ? (
+                                  <></>
+                                ) : (
+                                  <>
+                                    <div>{index + 1}순위</div>
+                                    <div className="result-detail">{e}</div>
+                                  </>
+                                )}
+                              </div>
+                            );
+                          }
+                        )}
+                      </div>
+                      <div className="contentbox-detail">
+                        <h5>희망 결혼 지역</h5>
+                        {JSON.parse(estimateData?.region).map((e, index) => {
+                          return (
+                            <div className="choosebox-detail">
+                              {e === "" ? (
+                                <></>
+                              ) : (
+                                <>
+                                  <div>{index + 1}순위</div>
+                                  <div className="result-detail">{e}</div>
+                                </>
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
+                      <div className="contentbox-detail">
+                        <h5>예산 한도</h5>
+                        <div
+                          className="choosebox-detail"
+                          style={{ width: "150px" }}
+                        >
+                          <div className="result-detail">
+                            {estimateData?.budget.toLocaleString()}원
+                          </div>
+                        </div>
+                      </div>
+                      <div className="contentbox-detail">
+                        <h5>희망 스튜디오 스타일</h5>
+                        <div className="choosebox-detail">
+                          <div className="result-detail">
+                            {estimateData?.studio}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="contentbox-detail">
+                        <h5>신부 드레스 스타일</h5>
+                        {estimateData?.dress === "[]" && (
+                          <div className="choosebox-detail">
+                            <div className="result-noneChoose">
+                              *선택사항 없음*
+                            </div>
+                          </div>
+                        )}
+                        {JSON.parse(estimateData?.dress).map((e, index) => {
+                          return (
+                            <div className="choosebox-detail">
+                              {e === "" ? (
+                                <></>
+                              ) : (
+                                <>
+                                  <div>{index + 1}순위</div>
+                                  <div className="result-detail">{e}</div>
+                                </>
+                              )}
+                            </div>
+                          );
+                        })}
+                        <div></div>
+                      </div>
+                      <div className="contentbox-detail">
+                        <h5>신부 메이크업 스타일</h5>
+                        {estimateData?.dress === "[]" && (
+                          <div className="choosebox-detail">
+                            <div className="result-noneChoose">
+                              *선택사항 없음*
+                            </div>
+                          </div>
+                        )}
+                        {JSON.parse(estimateData?.makeup).map((e, index) => {
+                          return (
+                            <div className="choosebox-detail">
+                              {e === "" ? (
+                                <></>
+                              ) : (
+                                <>
+                                  <div>{index + 1}순위</div>
+                                  <div className="result-detail">{e}</div>
+                                </>
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
+                      <div className="contentbox-detail">
+                        <h5>희망 신혼여행지</h5>
+                        <div className="choosebox-detail">
+                          {estimateData?.honeymoon === "" && (
+                            <div className="result-noneChoose">
+                              *선택사항 없음*
+                            </div>
+                          )}
+                          {estimateData?.honeymoon !== "" && (
+                            <div className="result-detail">
+                              {estimateData?.honeymoon.slice(3)}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="contentbox-detail">
+                        {images.length === 0 ? (
+                          <h5>고객 첨부이미지 </h5>
+                        ) : (
+                          <h5 style={{ marginTop: "-20px" }}>
+                            고객 첨부이미지{" "}
+                          </h5>
+                        )}
+
+                        {images.length === 0 && (
+                          <span>첨부 이미지가 없습니다.</span>
+                        )}
+                        <br></br>
+                        <div>
+                          {images.map((e, index) => {
+                            return (
+                              <div key={index}>
+                                <>
+                                  <img
+                                    src={e}
+                                    width="100%"
+                                    height="40%"
+                                    style={{
+                                      width: "100%",
+                                      borderRadius: "10px",
+                                      marginBottom: "20px",
+                                      marginTop: "-15px",
+                                      marginLeft: "-5px",
+                                    }}
+                                    alt=""
+                                  />
+                                </>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+
+                      <div
+                        className="contentbox-detail"
+                        style={{ borderBottom: "none", marginTop: "10px" }}
+                      >
+                        <h5>고객 요청사항</h5>
+                        <div
+                          className="choosebox-detail w-100"
+                          style={{ color: "black" }}
+                        >
+                          {estimateData?.requirement === "" && (
+                            <span>고객요청사항이 없습니다.</span>
+                          )}
+                          {estimateData?.requirement}
+                        </div>
+                      </div>
+                    </div>
+                  ) : null}
+                </p>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-bs-dismiss="modal"
+                onClick={goChooseEstimate}
+              >
+                선택
+              </button>
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                취소
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/*견적서 선택  모달창  */}
     </div>
   );
 }
