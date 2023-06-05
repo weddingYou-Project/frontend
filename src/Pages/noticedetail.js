@@ -68,7 +68,7 @@ function Noticedetail() {
       });
   }, []);
   const handleRefresh = () => {
-    window.location.reload(); // 페이지 새로고침
+    //  window.location.reload(); // 페이지 새로고침
   };
 
   const [actionmode, setActionmode] = useState(0);
@@ -82,8 +82,9 @@ function Noticedetail() {
     formData.append("file", img);
     formData.append("content", content);
     formData.append("title", title);
+
     axios
-      .put(`/notice/update/${noticeId}`)
+      .post(`/notice/update/${noticeId}`, formData)
       .then((res) => {
         console.log(res);
       })
