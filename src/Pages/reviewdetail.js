@@ -35,6 +35,8 @@ function Reviewdetail() {
   const [authorityBtns, setShowAuthorityBtns] = useState(true);
   const navigate = useNavigate();
 
+  const [commentcontent, setCommentContent] = useState("");
+
   const handleStarClick = (index) => {
     let clickStates = [...clicked];
     for (let i = 0; i < 5; i++) {
@@ -375,6 +377,22 @@ function Reviewdetail() {
     // window.location.reload(); // 페이지 새로고침
   };
 
+  const createcomment = (e) => {
+    const formData = new FormData();
+    formData.append("email", sessionStorage.getItem("email"));
+    formData.append("category", sessionStorage.getItem("category"));
+    formData.append("commentContent", commentcontent);
+    formData.append("estimateId", estimateId);
+    axios
+      .post(`/createcomment`, formData)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
   if (actionmode === 0) {
     return (
       <div className="mainlayout">
@@ -584,12 +602,23 @@ function Reviewdetail() {
               </div>
             );
           })}
-          <input
-            type="text"
-            className="comentinput"
-            style={{ fontSize: 20 }}
-          ></input>
-          <button className="writeBtn2">작성</button>
+
+          {sessionStorage.getItem("email") !== null ? (
+            <div>
+              <input
+                type="text"
+                className="comentinput"
+                style={{ fontSize: 20 }}
+                value={commentcontent}
+                onChange={(e) => {
+                  setCommentContent(e.target.value);
+                }}
+              ></input>
+              <button onClick={createcomment} className="writeBtn2">
+                작성
+              </button>
+            </div>
+          ) : null}
         </div>
         <div style={{ height: 90 }}></div>
         <Footer />
