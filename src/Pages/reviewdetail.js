@@ -20,6 +20,7 @@ function Reviewdetail() {
   const [reviewTitle, setReviewTitle] = useState([]);
   const [rating, setReviewStars] = useState([]);
   const [reviewComments, setReviewComments] = useState([]);
+  const [reviewCommentsIndex, setReviewCommentsIndex] = useState([]);
   const [reviewViews, setReviewViews] = useState([]);
   const [reviewDate, setReviewDate] = useState([]);
   const [reviewText, setReviewText] = useState([]);
@@ -98,6 +99,12 @@ function Reviewdetail() {
         setReviewTitle(data.reviewTitle);
         setReviewStars(data.reviewStars);
         setReviewComments(data.comments);
+        const reviewCommentsIndexArr = [];
+
+        for (let i = 0; i < data.comments.length; i++) {
+          reviewCommentsIndexArr.push(i);
+        }
+        setReviewCommentsIndex(reviewCommentsIndexArr);
         setReviewViews(data.reviewCounts);
         setReviewDate(data.reviewDate);
         setPlannerEmail(data.plannerEmail);
@@ -490,83 +497,93 @@ function Reviewdetail() {
         </div>
         <p className="ComentTitle">댓글</p>
         <div className="ComentArea">
-          <div className="Coment">
-            <p className="nickname">사용자 1</p>
-            <p className="dateTxt">2023.05.22</p>
-            <br />
-            <div>
-              {editMode ? (
+          {reviewCommentsIndex.map((index) => {
+            return (
+              <div className="Coment">
+                <p className="nickname">사용자 1</p>
+                <p className="dateTxt">2023.05.22</p>
+                <br />
                 <div>
-                  <input
-                    type="text"
-                    placeholder={editedComment}
-                    onChange={handleChange}
-                    className="comentinput"
-                    style={{ fontSize: 20 }}
-                  />
-                  <button onClick={handleSaveClick} className="writeBtn2">
-                    완료
-                  </button>
-                </div>
-              ) : (
-                <div>
-                  <p className="AnsTxt">{editedComment}</p>
-                  <button onClick={handleEditClick} className="upAndDelBtn3">
-                    수정
-                  </button>
-                  <button
-                    className="upAndDelBtn3"
-                    data-bs-toggle="modal"
-                    data-bs-target="#reviewComentDelete"
-                  >
-                    삭제
-                  </button>
-                  <div
-                    class="modal fade"
-                    id="reviewComentDelete"
-                    tabindex="-1"
-                    aria-labelledby="reviewComentDelete"
-                    aria-hidden="true"
-                  >
-                    <div class="modal-dialog modal-dialog-centered">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h1 class="modal-title fs-5" id="exampleModalLabel">
-                            댓글 삭제
-                          </h1>
-                          <button
-                            type="button"
-                            class="btn-close"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"
-                          ></button>
-                        </div>
-                        <div class="modal-body" style={{ fontSize: 26 }}>
-                          정말로 삭제하시겠습니까?
-                        </div>
-                        <div class="modal-footer">
-                          <button
-                            type="button"
-                            class="btn btn-primary"
-                            onClick={handleDelete}
-                          >
-                            삭제
-                          </button>
-                          <button
-                            type="button"
-                            class="btn btn-secondary"
-                            data-bs-dismiss="modal"
-                          >
-                            취소
-                          </button>
+                  {editMode ? (
+                    <div>
+                      <input
+                        type="text"
+                        placeholder={editedComment}
+                        onChange={handleChange}
+                        className="comentinput"
+                        style={{ fontSize: 20 }}
+                      />
+                      <button onClick={handleSaveClick} className="writeBtn2">
+                        완료
+                      </button>
+                    </div>
+                  ) : (
+                    <div>
+                      <p className="AnsTxt">{editedComment}</p>
+                      <button
+                        onClick={handleEditClick}
+                        className="upAndDelBtn3"
+                      >
+                        수정
+                      </button>
+                      <button
+                        className="upAndDelBtn3"
+                        data-bs-toggle="modal"
+                        data-bs-target="#reviewComentDelete"
+                      >
+                        삭제
+                      </button>
+                      <div
+                        class="modal fade"
+                        id="reviewComentDelete"
+                        tabindex="-1"
+                        aria-labelledby="reviewComentDelete"
+                        aria-hidden="true"
+                      >
+                        <div class="modal-dialog modal-dialog-centered">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h1
+                                class="modal-title fs-5"
+                                id="exampleModalLabel"
+                              >
+                                댓글 삭제
+                              </h1>
+                              <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                              ></button>
+                            </div>
+                            <div class="modal-body" style={{ fontSize: 26 }}>
+                              정말로 삭제하시겠습니까?
+                            </div>
+                            <div class="modal-footer">
+                              <button
+                                type="button"
+                                class="btn btn-primary"
+                                onClick={handleDelete}
+                              >
+                                삭제
+                              </button>
+                              <button
+                                type="button"
+                                class="btn btn-secondary"
+                                data-bs-dismiss="modal"
+                              >
+                                취소
+                              </button>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
+                  )}
                 </div>
-              )}
-            </div>
-          </div>
+              </div>
+            );
+          })}
           <input
             type="text"
             className="comentinput"
