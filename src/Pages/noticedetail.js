@@ -49,18 +49,24 @@ function Noticedetail() {
         <div style={{ height: 64 }}></div>
         <div className="titleArea">
           <p className="titleTxt">공지사항 TitleSample</p>
-          <p className="dateTxt">2023.02.20</p>
-          <p className="viewCountTxt">조회수 : 150</p>
-          <button className="upAndDelBtn" onClick={noticeupdateform}>
-            수정
-          </button>
-          <button
-            className="upAndDelBtn"
-            data-bs-toggle="modal"
-            data-bs-target="#noticeDelete"
-          >
-            삭제
-          </button>
+          <div>
+            <p className="dateTxt">2023.02.20</p>
+            <p className="viewCountTxt">조회수 : 150</p>
+            {sessionStorage.getItem("email") === "admin@email.com" ? (
+              <div style={{ display: "inline-block" }}>
+                <button className="upAndDelBtn" onClick={noticeupdateform}>
+                  수정
+                </button>
+                <button
+                  className="upAndDelBtn"
+                  data-bs-toggle="modal"
+                  data-bs-target="#noticeDelete"
+                >
+                  삭제
+                </button>
+              </div>
+            ) : null}
+          </div>
           <Buttons checkadmin={checkadminsession} />
         </div>
         <hr />
