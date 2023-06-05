@@ -2,7 +2,7 @@ import "../Css/main.css";
 import "../Css/CustomerCenter.css";
 import Footer from "../Components/Footer";
 import NavigationBar from "../Components/NavigationBar";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useEffect } from "react";
 
@@ -17,6 +17,7 @@ function Notice() {
         console.log(e);
       });
   }, []);
+  const navigate = useNavigate();
   return (
     <div className="mainlayout">
       <NavigationBar title={"공지사항"} />
@@ -62,9 +63,14 @@ function Notice() {
         </tabel>
       </div>
       {sessionStorage.getItem("email") === "admin@email.com" ? (
-        <Link to="/contentwrite">
-          <button className="writeBtn">글쓰기</button>
-        </Link>
+        <button
+          className="writeBtn"
+          onClick={() => {
+            navigate(`/contentwrite`, { state: { page: "notice" } });
+          }}
+        >
+          글쓰기
+        </button>
       ) : null}
 
       <div style={{ height: 90 }}></div>

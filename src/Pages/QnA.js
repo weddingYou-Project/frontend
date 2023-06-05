@@ -1,7 +1,7 @@
 import "../Css/main.css";
 import Footer from "../Components/Footer";
 import NavigationBar from "../Components/NavigationBar";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import axios from "axios";
 
@@ -16,6 +16,7 @@ function QnA() {
         console.log(e);
       });
   }, []);
+  const navigate = useNavigate();
   return (
     <div className="mainlayout">
       <NavigationBar title={"Q&A"} />
@@ -71,9 +72,16 @@ function QnA() {
           </tbody>
         </tabel>
       </div>
-      <Link to="/contentwrite">
-        <button className="writeBtn">글쓰기</button>
-      </Link>
+
+      <button
+        className="writeBtn"
+        onClick={() => {
+          navigate(`/contentwrite`, { state: { page: "qna" } });
+        }}
+      >
+        글쓰기
+      </button>
+
       <div style={{ height: 90 }}></div>
       <Footer />
     </div>

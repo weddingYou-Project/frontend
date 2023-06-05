@@ -2,8 +2,15 @@ import "../Css/main.css";
 import "../Css/CustomerCenter.css";
 import Footer from "../Components/Footer";
 import NavigationBar from "../Components/NavigationBar";
+import { useLocation } from "react-router-dom";
 
 function ContentWrite() {
+  const { page } = useLocation().state;
+  const writeContent = () => {
+    if (page === "notice") {
+    } else if (page === "qna") {
+    }
+  };
   return (
     <div className="mainlayout">
       <NavigationBar title={"글작성"} />
@@ -41,7 +48,9 @@ function ContentWrite() {
       </div>
       <br />
       <div className="writeBtnArea">
-        <button className="writeBtn">작성하기</button>
+        <button className="writeBtn" onClick={writeContent}>
+          작성하기
+        </button>
       </div>
       <div style={{ height: 200 }}></div>
       <Footer />
