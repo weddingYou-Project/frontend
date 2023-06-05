@@ -54,7 +54,7 @@ function CustomerCenter() {
       <div className="noticeSection">
         <table>
           <thead>
-            <tr>
+            <div style={{ marginBottom: "-10px" }}>
               <td>
                 <Link
                   to="/noticepage"
@@ -66,15 +66,32 @@ function CustomerCenter() {
               </td>
               <td></td>
               <td></td>
-            </tr>
+            </div>
           </thead>
           <tbody>
             {noticeIndex.map((index) => {
               return (
-                <tr style={{ height: "30px" }}>
+                <div
+                  style={{
+                    height: "20px",
+
+                    paddingTop: "10px",
+                    paddingBottom: "30px",
+                  }}
+                >
                   <td style={{ width: 140 }}>
                     <p
                       onClick={() => {
+                        const formData = new FormData();
+                        formData.append("noticeId", noticeId[index]);
+                        axios
+                          .post(`/notice/addviewcount`, formData)
+                          .then((res) => {
+                            console.log(res);
+                          })
+                          .catch((e) => {
+                            console.log(e);
+                          });
                         navigate(`/notice/detail`, {
                           state: { noticeId: noticeId[index] },
                         });
@@ -88,6 +105,16 @@ function CustomerCenter() {
                   <td style={{ width: 350 }}>
                     <div
                       onClick={() => {
+                        const formData = new FormData();
+                        formData.append("noticeId", noticeId[index]);
+                        axios
+                          .post(`/notice/addviewcount`, formData)
+                          .then((res) => {
+                            console.log(res);
+                          })
+                          .catch((e) => {
+                            console.log(e);
+                          });
                         navigate(`/notice/detail`, {
                           state: { noticeId: noticeId[index] },
                         });
@@ -101,6 +128,16 @@ function CustomerCenter() {
                   <td>
                     <p
                       onClick={() => {
+                        const formData = new FormData();
+                        formData.append("noticeId", noticeId[index]);
+                        axios
+                          .post(`/notice/addviewcount`, formData)
+                          .then((res) => {
+                            console.log(res);
+                          })
+                          .catch((e) => {
+                            console.log(e);
+                          });
                         navigate(`/notice/detail`, {
                           state: { noticeId: noticeId[index] },
                         });
@@ -111,7 +148,7 @@ function CustomerCenter() {
                       {noticeViewCount[index]}
                     </p>
                   </td>
-                </tr>
+                </div>
               );
             })}
           </tbody>
