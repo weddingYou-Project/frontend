@@ -36,7 +36,12 @@ function Reviewdetail() {
   const navigate = useNavigate();
 
   const [commentcontent, setCommentContent] = useState("");
-
+  const [editIndex, setEditIndex] = useState(0);
+  const [updated, setUpdated] = useState(false);
+  const [created, setCreated] = useState(false);
+  const [deleted, setDeleted] = useState(false);
+  const [inputEditedComment, setInputEditedComment] = useState("");
+  const [bsIndex, setBsIndex] = useState(0);
   const handleStarClick = (index) => {
     let clickStates = [...clicked];
     for (let i = 0; i < 5; i++) {
@@ -102,11 +107,13 @@ function Reviewdetail() {
         setReviewStars(data.reviewStars);
         setReviewComments(data.comments);
         const reviewCommentsIndexArr = [];
-
+        const commentContentArr = [];
         for (let i = 0; i < data.comments.length; i++) {
           reviewCommentsIndexArr.push(i);
+          commentContentArr.push(data.comments[i].commentContent);
         }
         setReviewCommentsIndex(reviewCommentsIndexArr);
+        setEditedComment(commentContentArr);
         setReviewViews(data.reviewCounts);
         setReviewDate(data.reviewDate);
         setPlannerEmail(data.plannerEmail);
@@ -139,18 +146,7 @@ function Reviewdetail() {
       .catch((e) => {
         console.log(e);
       });
-    const formData = new FormData();
-    formData.append("estimateId", estimateId);
-    console.log("abababbbbbbbbbbbbbbbbbbbbbbb");
-    axios
-      .post(`/getcomment`, formData)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  }, []);
+  }, [updated, created, deleted]);
 
   useEffect(() => {
     const formData = new FormData();
@@ -170,26 +166,34 @@ function Reviewdetail() {
       });
   }, []);
 
-  const handleEditClick = () => {
+  const handleEditClick = (e) => {
+    console.log(e.target.dataset.bsIndex);
+    const index = e.target.dataset.bsIndex;
+    setEditIndex(e.target.dataset.bsIndex);
+    setEditMode(true);
+  };
+
+  const handleSaveClick = (e) => {
+    const index = e.target.dataset.bsIndex;
+    const formData = new FormData();
+    formData.append("index", index);
+    formData.append("estimateId", estimateId);
+    formData.append("commentContent", inputEditedComment);
     axios
-      .get(`/reviewauthority/${estimateId}`)
+      .post(`/updatecomment`, formData)
       .then((res) => {
         console.log(res);
-        if (res.data == 1) {
-          setEditMode(true);
-        }
+        setUpdated(!updated);
+        setInputEditedComment("");
       })
       .catch((e) => {
         console.log(e);
       });
-  };
-
-  const handleSaveClick = () => {
     setEditMode(false);
   };
 
   const handleChange = (e) => {
-    setEditedComment(e.target.value);
+    setInputEditedComment(e.target.value);
   };
 
   const reviewUpdateForm = () => {
@@ -388,6 +392,23 @@ function Reviewdetail() {
     // window.location.reload(); // 페이지 새로고침
   };
 
+  const handleDelete2 = (e) => {
+    console.log("===============================");
+
+    console.log(bsIndex);
+    const index = bsIndex;
+    const formData = new FormData();
+    formData.append("index", index);
+    formData.append("estimateId", estimateId);
+
+    axios.post(`/deletecomment`, formData).then((res) => {
+      console.log(res);
+      alert(`댓글이 삭제되었습니다!`);
+      setDeleted(!deleted);
+    });
+    // window.location.reload(); // 페이지 새로고침
+  };
+
   const createcomment = (e) => {
     const formData = new FormData();
     formData.append("email", sessionStorage.getItem("email"));
@@ -398,6 +419,8 @@ function Reviewdetail() {
       .post(`/createcomment`, formData)
       .then((res) => {
         console.log(res);
+        setCreated(!created);
+        setCommentContent("");
       })
       .catch((e) => {
         console.log(e);
@@ -527,6 +550,8 @@ function Reviewdetail() {
         <p className="ComentTitle">댓글</p>
         <div className="ComentArea">
           {reviewCommentsIndex.map((index) => {
+            // setEditedComment(reviewComments[index].commentContent);
+            console.log("index=>" + index);
             return (
               <div className="Coment">
                 <p className="nickname">
@@ -537,25 +562,31 @@ function Reviewdetail() {
                 </p>
                 <br />
                 <div>
-                  {editMode ? (
+                  {editMode && editIndex == index ? (
                     <div>
                       <input
                         type="text"
                         placeholder={reviewComments[index].commentContent}
                         onChange={handleChange}
                         className="comentinput"
-                        style={{ fontSize: 20 }}
+                        value={inputEditedComment}
+                        style={{ fontSize: 20, marginLeft: "30px" }}
                       />
-                      <button onClick={handleSaveClick} className="writeBtn2">
+                      <button
+                        data-bs-index={index}
+                        onClick={handleSaveClick}
+                        className="writeBtn2"
+                      >
                         완료
                       </button>
                     </div>
                   ) : (
                     <div>
-                      <p className="AnsTxt">
+                      <p className="AnsTxt" style={{ marginLeft: "10px" }}>
                         {reviewComments[index].commentContent}
                       </p>
                       <button
+                        data-bs-index={index}
                         onClick={handleEditClick}
                         className="upAndDelBtn3"
                       >
@@ -563,6 +594,10 @@ function Reviewdetail() {
                       </button>
                       <button
                         className="upAndDelBtn3"
+                        data-bs-index={index}
+                        onClick={() => {
+                          setBsIndex(index);
+                        }}
                         data-bs-toggle="modal"
                         data-bs-target="#reviewComentDelete"
                       >
@@ -597,8 +632,10 @@ function Reviewdetail() {
                             <div class="modal-footer">
                               <button
                                 type="button"
+                                data-bs-index={index}
                                 class="btn btn-primary"
-                                onClick={handleDelete}
+                                data-bs-dismiss="modal"
+                                onClick={handleDelete2}
                               >
                                 삭제
                               </button>
