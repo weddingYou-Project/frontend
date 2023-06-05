@@ -67,6 +67,16 @@ function Notice() {
                   <td style={{ height: 50 }}>
                     <div
                       onClick={() => {
+                        const formData = new FormData();
+                        formData.append("noticeId", noticeId[i]);
+                        axios
+                          .post(`/notice/addviewcount`, formData)
+                          .then((res) => {
+                            console.log(res);
+                          })
+                          .catch((e) => {
+                            console.log(e);
+                          });
                         navigate(`/notice/detail`, {
                           state: { noticeId: noticeId[i] },
                         });
@@ -80,6 +90,14 @@ function Notice() {
                   <td>
                     <p
                       onClick={() => {
+                        axios
+                          .post(`/notice/addviewcount`)
+                          .then((res) => {
+                            console.log(res);
+                          })
+                          .catch((e) => {
+                            console.log(e);
+                          });
                         navigate(`/notice/detail`, {
                           state: { noticeId: noticeId[i] },
                         });
@@ -93,6 +111,14 @@ function Notice() {
                   <td>
                     <p
                       onClick={() => {
+                        axios
+                          .post(`/notice/addviewcount`)
+                          .then((res) => {
+                            console.log(res);
+                          })
+                          .catch((e) => {
+                            console.log(e);
+                          });
                         navigate(`/notice/detail`, {
                           state: { noticeId: noticeId[i] },
                         });
