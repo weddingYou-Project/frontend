@@ -98,6 +98,19 @@ function QnAdetail() {
   };
 
   const updateQna = () => {
+    const formData = new FormData();
+    formData.append("file", img);
+    formData.append("content", content);
+    formData.append("title", title);
+
+    axios
+      .post(`/qna/update/${qnaId}`, formData)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
     setActionmode(0);
   };
 
@@ -287,29 +300,69 @@ function QnAdetail() {
         <NavigationBar title={"글수정"} />
         <div style={{ height: 74 }}></div>
         <div className="titleArea">
-          <p className="titleTxt">Q&A TitleSample</p>
+          <input
+            type="text"
+            className="titleTxt"
+            value={title}
+            onChange={(e) => {
+              setTitle(e.target.value);
+            }}
+            placeholder={title}
+            style={{
+              borderRadius: "10px",
+              height: "50px",
+              marginLeft: "20px",
+              marginTop: "20px",
+              paddingBottom: "15px",
+            }}
+          ></input>
         </div>
         <hr />
         <div className="writeContent">
           <textarea
             className="form-control contentinput"
             rows="15"
-            placeholder="수정내용을 입력해주세요"
+            placeholder={content}
+            value={content}
+            onChange={(e) => {
+              setContent(e.target.value);
+            }}
             style={{ fontSize: 20 }}
           ></textarea>
         </div>
         <hr />
         <div className="fileatt">
-          <p className="uploadphoto">사진 첨부</p>
+          <p className="uploadphoto" style={{ fontSize: "1.5em" }}>
+            사진 첨부
+          </p>
           <input
             type="file"
             multiple
             id="uploadimage"
             className="displaynone"
+            onChange={onChangePic}
           />
-          <label htmlFor="uploadimage" className="cursor imageBtn">
+          <label
+            htmlFor="uploadimage"
+            className="cursor imageBtn"
+            style={{ fontSize: "1.5em" }}
+          >
             사진선택
           </label>
+          {previewUrl !== "" ? (
+            <img
+              src={previewUrl}
+              alt=""
+              style={{
+                width: "200px",
+                height: "200px",
+                display: "block",
+                borderRadius: "10px",
+                marginTop: "30px",
+                marginLeft: "20px",
+              }}
+            />
+          ) : null}
         </div>
         <br />
         <div className="writeBtnArea">
@@ -317,7 +370,7 @@ function QnAdetail() {
             수정하기
           </button>
         </div>
-        <div style={{ height: 90 }}></div>
+        <div style={{ height: 200 }}></div>
         <Footer />
       </div>
     );

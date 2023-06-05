@@ -283,18 +283,20 @@ function Noticedetail() {
           >
             사진선택
           </label>
-          <img
-            src={previewUrl}
-            alt=""
-            style={{
-              width: "200px",
-              height: "200px",
-              display: "block",
-              borderRadius: "10px",
-              marginTop: "30px",
-              marginLeft: "20px",
-            }}
-          />
+          {previewUrl !== "" ? (
+            <img
+              src={previewUrl}
+              alt=""
+              style={{
+                width: "200px",
+                height: "200px",
+                display: "block",
+                borderRadius: "10px",
+                marginTop: "30px",
+                marginLeft: "20px",
+              }}
+            />
+          ) : null}
         </div>
         <br />
         <div className="writeBtnArea">
