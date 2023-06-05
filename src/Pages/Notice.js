@@ -3,8 +3,20 @@ import "../Css/CustomerCenter.css";
 import Footer from "../Components/Footer";
 import NavigationBar from "../Components/NavigationBar";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { useEffect } from "react";
 
 function Notice() {
+  useEffect(() => {
+    axios
+      .get(`/notice/list`)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
   return (
     <div className="mainlayout">
       <NavigationBar title={"공지사항"} />
@@ -30,67 +42,31 @@ function Notice() {
                 <a
                   href="http://localhost:3000/notice/detail"
                   className="noticeTxt"
+                  style={{ fontSize: "1.5em" }}
                 >
                   공지사항 TitleSample
                 </a>
               </td>
               <td>
-                <p className="noticeTxtCenter">23.05.06</p>
+                <p className="noticeTxtCenter" style={{ fontSize: "1.5em" }}>
+                  23.05.06
+                </p>
               </td>
               <td>
-                <p className="noticeTxtCenter">421</p>
-              </td>
-            </tr>
-            <tr>
-              <td style={{ height: 50 }}>
-                <a className="noticeTxt">공지사항 TitleSample</a>
-              </td>
-              <td>
-                <p className="noticeTxtCenter">23.05.06</p>
-              </td>
-              <td>
-                <p className="noticeTxtCenter">253</p>
-              </td>
-            </tr>
-            <tr>
-              <td style={{ height: 50 }}>
-                <a className="noticeTxt">공지사항 TitleSample</a>
-              </td>
-              <td>
-                <p className="noticeTxtCenter">23.05.06</p>
-              </td>
-              <td>
-                <p className="noticeTxtCenter">423</p>
-              </td>
-            </tr>
-            <tr>
-              <td style={{ height: 50 }}>
-                <a className="noticeTxt">공지사항 TitleSample</a>
-              </td>
-              <td>
-                <p className="noticeTxtCenter">23.05.06</p>
-              </td>
-              <td>
-                <p className="noticeTxtCenter">152</p>
-              </td>
-            </tr>
-            <tr>
-              <td style={{ height: 50 }}>
-                <a className="noticeTxt">공지사항 TitleSample</a>
-              </td>
-              <td>
-                <p className="noticeTxtCenter">23.05.06</p>
-              </td>
-              <td>
-                <p className="noticeTxtCenter">512</p>
+                <p className="noticeTxtCenter" style={{ fontSize: "1.5em" }}>
+                  421
+                </p>
               </td>
             </tr>
           </tbody>
         </tabel>
       </div>
-      <Link to="/contentwrite">
-        <button className="writeBtn">글쓰기</button>
-      </Link>
+      {sessionStorage.getItem("email") === "admin@email.com" ? (
+        <Link to="/contentwrite">
+          <button className="writeBtn">글쓰기</button>
+        </Link>
+      ) : null}
+
       <div style={{ height: 90 }}></div>
       <Footer />
     </div>

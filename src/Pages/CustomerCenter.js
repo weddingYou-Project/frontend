@@ -1,10 +1,31 @@
 import "../Css/main.css";
 import "../Css/CustomerCenter.css";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 import Footer from "../Components/Footer";
 import NavigationBar from "../Components/NavigationBar";
+import axios from "axios";
 
 function CustomerCenter() {
+  useEffect(() => {
+    axios
+      .get(`/notice/list`)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+
+    axios
+      .get(`/qna/list`)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
   return (
     <div className="mainlayout">
       <NavigationBar title={"고객센터"} />
