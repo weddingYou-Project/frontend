@@ -31,6 +31,7 @@ function Reviewdetail() {
   const [originImagesFile, setOriginImagesFile] = useState([]);
   const [imgArr, setImgArr] = useState([]);
   const [plannerEmail, setPlannerEmail] = useState("");
+  const [authorityBtns, setShowAuthorityBtns] = useState(true);
   const navigate = useNavigate();
 
   const handleStarClick = (index) => {
@@ -131,10 +132,36 @@ function Reviewdetail() {
       });
   }, []);
 
-  useEffect(() => {}, [editMode]);
+  useEffect(() => {
+    const formData = new FormData();
+    formData.append("userEmail", sessionStorage.getItem("email"));
+    axios
+      .post(`/reviewauthority/${estimateId}`, formData)
+      .then((res) => {
+        console.log(res);
+        if (res.data == 1) {
+          setShowAuthorityBtns(true);
+        } else {
+          setShowAuthorityBtns(false);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
 
   const handleEditClick = () => {
-    setEditMode(true);
+    axios
+      .get(`/reviewauthority/${estimateId}`)
+      .then((res) => {
+        console.log(res);
+        if (res.data == 1) {
+          setEditMode(true);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
   const handleSaveClick = () => {
@@ -359,17 +386,22 @@ function Reviewdetail() {
           <p className="noticeContxt" style={{ paddingLeft: "20px" }}>
             {reviewText}
           </p>
-          <div className="BtnArea"></div>
-          <button className="upAndDelBtn2" onClick={reviewUpdateForm}>
-            수정
-          </button>
-          <button
-            className="upAndDelBtn2"
-            data-bs-toggle="modal"
-            data-bs-target="#reviewDelete"
-          >
-            삭제
-          </button>
+
+          {authorityBtns === true ? (
+            <div style={{ display: "flex", justifyContent: "end" }}>
+              <button className="upAndDelBtn2" onClick={reviewUpdateForm}>
+                수정
+              </button>
+              <button
+                className="upAndDelBtn2"
+                data-bs-toggle="modal"
+                data-bs-target="#reviewDelete"
+              >
+                삭제
+              </button>
+            </div>
+          ) : null}
+
           <div
             class="modal fade"
             id="reviewDelete"
