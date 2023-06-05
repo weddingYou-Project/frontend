@@ -139,6 +139,17 @@ function Reviewdetail() {
       .catch((e) => {
         console.log(e);
       });
+    const formData = new FormData();
+    formData.append("estimateId", estimateId);
+    console.log("abababbbbbbbbbbbbbbbbbbbbbbb");
+    axios
+      .post(`/getcomment`, formData)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   }, []);
 
   useEffect(() => {
@@ -518,15 +529,19 @@ function Reviewdetail() {
           {reviewCommentsIndex.map((index) => {
             return (
               <div className="Coment">
-                <p className="nickname">사용자 1</p>
-                <p className="dateTxt">2023.05.22</p>
+                <p className="nickname">
+                  {reviewComments[index].commentWriter}
+                </p>
+                <p className="dateTxt">
+                  {reviewComments[index].commentDate.slice(0, 10)}
+                </p>
                 <br />
                 <div>
                   {editMode ? (
                     <div>
                       <input
                         type="text"
-                        placeholder={editedComment}
+                        placeholder={reviewComments[index].commentContent}
                         onChange={handleChange}
                         className="comentinput"
                         style={{ fontSize: 20 }}
@@ -537,7 +552,9 @@ function Reviewdetail() {
                     </div>
                   ) : (
                     <div>
-                      <p className="AnsTxt">{editedComment}</p>
+                      <p className="AnsTxt">
+                        {reviewComments[index].commentContent}
+                      </p>
                       <button
                         onClick={handleEditClick}
                         className="upAndDelBtn3"
