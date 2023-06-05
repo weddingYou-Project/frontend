@@ -36,6 +36,7 @@ function Reviewdetail() {
   const navigate = useNavigate();
 
   const [commentcontent, setCommentContent] = useState("");
+  const [commentEmail, setCommentEmail] = useState([]);
   const [editIndex, setEditIndex] = useState(0);
   const [updated, setUpdated] = useState(false);
   const [created, setCreated] = useState(false);
@@ -108,11 +109,14 @@ function Reviewdetail() {
         setReviewComments(data.comments);
         const reviewCommentsIndexArr = [];
         const commentContentArr = [];
+        const commentEmailArr = [];
         for (let i = 0; i < data.comments.length; i++) {
           reviewCommentsIndexArr.push(i);
           commentContentArr.push(data.comments[i].commentContent);
+          commentEmailArr.push(data.comments[i].commentEmail);
         }
         setReviewCommentsIndex(reviewCommentsIndexArr);
+        setCommentEmail(commentEmailArr);
         setEditedComment(commentContentArr);
         setReviewViews(data.reviewCounts);
         setReviewDate(data.reviewDate);
@@ -580,7 +584,8 @@ function Reviewdetail() {
                         완료
                       </button>
                     </div>
-                  ) : (
+                  ) : commentEmail[index] ===
+                    sessionStorage.getItem("email") ? (
                     <div>
                       <p className="AnsTxt" style={{ marginLeft: "10px" }}>
                         {reviewComments[index].commentContent}
@@ -650,6 +655,12 @@ function Reviewdetail() {
                           </div>
                         </div>
                       </div>
+                    </div>
+                  ) : (
+                    <div>
+                      <p className="AnsTxt" style={{ marginLeft: "10px" }}>
+                        {reviewComments[index].commentContent}
+                      </p>
                     </div>
                   )}
                 </div>
