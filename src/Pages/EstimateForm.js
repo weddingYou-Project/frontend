@@ -7,6 +7,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRef } from "react";
+import { format } from "date-fns";
 //컴포넌트
 import Footer from "../Components/Footer";
 import BackButton from "../Components/Backbutton";
@@ -51,8 +52,13 @@ const EstimateForm = () => {
 
   //날짜
   const weddingdateSelect = (e) => {
-    let copy = { ...weddingdate, [e.target.name]: e.target.value };
-    setweddingdate(copy);
+    if (e.target.value < format(new Date(), "yyyy-MM-dd")) {
+      alert("오늘 이전의 날짜는 선택할 수 없습니다.");
+      return false;
+    } else {
+      let copy = { ...weddingdate, [e.target.name]: e.target.value };
+      setweddingdate(copy);
+    }
   };
 
   //지역
@@ -313,6 +319,7 @@ const EstimateForm = () => {
               ref={dateRef}
               className="form-control"
               onChange={weddingdateSelect}
+              value={weddingdate.datefirst}
               name="datefirst"
             />
           </div>
@@ -322,6 +329,7 @@ const EstimateForm = () => {
               type="date"
               className="form-control"
               onChange={weddingdateSelect}
+              value={weddingdate.datesecond}
               name="datesecond"
             />
           </div>
@@ -331,6 +339,7 @@ const EstimateForm = () => {
               type="date"
               className="form-control"
               onChange={weddingdateSelect}
+              value={weddingdate.datethird}
               name="datethird"
             />
           </div>
@@ -477,6 +486,13 @@ const EstimateForm = () => {
             />
             <label htmlFor="머메이드" className="label-design w-100 cursor">
               머메이드
+              {dress.includes("머메이드") ? (
+                <span className="ranking">
+                  {dress.indexOf("머메이드") + 1}순위
+                </span>
+              ) : (
+                ""
+              )}
             </label>
           </div>
           <div className="choosebox">
@@ -490,6 +506,13 @@ const EstimateForm = () => {
             />
             <label htmlFor="A라인" className="label-design w-100 cursor">
               A라인
+              {dress.includes("A라인") ? (
+                <span className="ranking">
+                  {dress.indexOf("A라인") + 1}순위
+                </span>
+              ) : (
+                ""
+              )}
             </label>
           </div>
           <div className="choosebox">
@@ -503,6 +526,13 @@ const EstimateForm = () => {
             />
             <label htmlFor="H라인" className="label-design w-100 cursor">
               H라인
+              {dress.includes("H라인") ? (
+                <span className="ranking">
+                  {dress.indexOf("H라인") + 1}순위
+                </span>
+              ) : (
+                ""
+              )}
             </label>
           </div>
           <div className="choosebox">
@@ -516,6 +546,13 @@ const EstimateForm = () => {
             />
             <label htmlFor="벨라인" className="label-design w-100 cursor">
               벨라인
+              {dress.includes("벨라인") ? (
+                <span className="ranking">
+                  {dress.indexOf("벨라인") + 1}순위
+                </span>
+              ) : (
+                ""
+              )}
             </label>
           </div>
           <div className="choosebox">
@@ -529,6 +566,13 @@ const EstimateForm = () => {
             />
             <label htmlFor="엠파이어" className="label-design w-100 cursor">
               엠파이어
+              {dress.includes("엠파이어") ? (
+                <span className="ranking">
+                  {dress.indexOf("엠파이어") + 1}순위
+                </span>
+              ) : (
+                ""
+              )}
             </label>
           </div>
           <div className="choosebox">
@@ -542,6 +586,13 @@ const EstimateForm = () => {
             />
             <label htmlFor="프린세스" className="label-design w-100 cursor">
               프린세스
+              {dress.includes("프린세스") ? (
+                <span className="ranking">
+                  {dress.indexOf("프린세스") + 1}순위
+                </span>
+              ) : (
+                ""
+              )}
             </label>
           </div>
           <span>
@@ -569,6 +620,13 @@ const EstimateForm = () => {
             />
             <label htmlFor="로맨틱한" className="label-design w-100 cursor">
               로맨틱한
+              {makeup.includes("로맨틱한") ? (
+                <span className="ranking">
+                  {makeup.indexOf("로맨틱한") + 1}순위
+                </span>
+              ) : (
+                ""
+              )}
             </label>
           </div>
           <div className="choosebox">
@@ -576,12 +634,19 @@ const EstimateForm = () => {
               id="포인트"
               type="checkbox"
               name="makeup"
-              value="우아한"
+              value="포인트"
               onChange={makeupcheck}
               className="displaynone"
             />
             <label htmlFor="포인트" className="label-design w-100 cursor">
               포인트
+              {makeup.includes("포인트") ? (
+                <span className="ranking">
+                  {makeup.indexOf("포인트") + 1}순위
+                </span>
+              ) : (
+                ""
+              )}
             </label>
           </div>
           <div className="choosebox">
@@ -595,6 +660,13 @@ const EstimateForm = () => {
             />
             <label htmlFor="내추럴" className="label-design w-100 cursor">
               내추럴
+              {makeup.includes("내추럴") ? (
+                <span className="ranking">
+                  {makeup.indexOf("내추럴") + 1}순위
+                </span>
+              ) : (
+                ""
+              )}
             </label>
           </div>
           <div className="choosebox">
@@ -608,6 +680,13 @@ const EstimateForm = () => {
             />
             <label htmlFor="스모키" className="label-design w-100 cursor">
               스모키
+              {makeup.includes("스모키") ? (
+                <span className="ranking">
+                  {makeup.indexOf("스모키") + 1}순위
+                </span>
+              ) : (
+                ""
+              )}
             </label>
           </div>
           <div className="choosebox">
@@ -621,6 +700,13 @@ const EstimateForm = () => {
             />
             <label htmlFor="큐티" className="label-design w-100 cursor">
               큐티
+              {makeup.includes("큐티") ? (
+                <span className="ranking">
+                  {makeup.indexOf("큐티") + 1}순위
+                </span>
+              ) : (
+                ""
+              )}
             </label>
           </div>
           <div className="choosebox">
@@ -634,6 +720,13 @@ const EstimateForm = () => {
             />
             <label htmlFor="러블리" className="label-design w-100 cursor">
               러블리
+              {makeup.includes("러블리") ? (
+                <span className="ranking">
+                  {makeup.indexOf("러블리") + 1}순위
+                </span>
+              ) : (
+                ""
+              )}
             </label>
           </div>
           <span>
