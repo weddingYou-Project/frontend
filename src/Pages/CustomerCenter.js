@@ -12,6 +12,11 @@ function CustomerCenter() {
   const [noticeIndex, setNoticeIndex] = useState([]);
   const [noticeId, setNoticeId] = useState([]);
 
+  const [qnaViewCount, setQnaViewCount] = useState(0);
+  const [qnaTitle, setQnaTitle] = useState("");
+  const [qnaIndex, setQnaIndex] = useState([]);
+  const [qnaId, setQnaId] = useState([]);
+
   const navigate = useNavigate();
   useEffect(() => {
     axios
@@ -42,6 +47,21 @@ function CustomerCenter() {
       .get(`/qna/list`)
       .then((res) => {
         console.log(res);
+        const data = res.data;
+        const qnaviewcountarr = [];
+        const qnaTitleArr = [];
+        const qnaIndexArr = [];
+        const qnaIdArr = [];
+        for (let i = 0; i < data.length; i++) {
+          qnaviewcountarr.push(data[i].qnaViewCount);
+          qnaTitleArr.push(data[i].qnaTitle);
+          qnaIdArr.push(data[i].qnaId);
+          qnaIndexArr.push(i);
+        }
+        setQnaViewCount(qnaviewcountarr);
+        setQnaTitle(qnaTitleArr);
+        setQnaIndex(qnaIndexArr);
+        setQnaId(qnaIdArr);
       })
       .catch((e) => {
         console.log(e);
@@ -158,7 +178,7 @@ function CustomerCenter() {
         <table>
           <thead>
             <tr>
-              <td style={{ width: 140 }}>
+              <div style={{ marginBottom: "-10px" }}>
                 <Link
                   to="/qnapage"
                   className="LinkTxt"
@@ -166,33 +186,94 @@ function CustomerCenter() {
                 >
                   Q&A
                 </Link>
-              </td>
+              </div>
               <td></td>
               <td></td>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td style={{ width: 140 }}>
-                <p className="customCenterTxt" style={{ fontSize: "1.5em" }}>
-                  006
-                </p>
-              </td>
-              <td style={{ width: 350 }}>
-                <a
-                  href="http://localhost:3000/qna/detail"
-                  className="customCenterTxt"
-                  style={{ fontSize: "1.5em" }}
+            {qnaIndex.map((index) => {
+              return (
+                <div
+                  style={{
+                    height: "20px",
+
+                    paddingTop: "10px",
+                    paddingBottom: "30px",
+                  }}
                 >
-                  Q&A SampleTitle
-                </a>
-              </td>
-              <td>
-                <p className="customCenterTxt" style={{ fontSize: "1.5em" }}>
-                  43
-                </p>
-              </td>
-            </tr>
+                  <td style={{ width: 140 }}>
+                    <p
+                      onClick={() => {
+                        const formData = new FormData();
+                        formData.append("qnaId", qnaId[index]);
+                        axios
+                          .post(`/qna/addviewcount`, formData)
+                          .then((res) => {
+                            console.log(res);
+                          })
+                          .catch((e) => {
+                            console.log(e);
+                          });
+                        navigate(`/qna/detail`, {
+                          state: { qnaId: qnaId[index] },
+                        });
+                      }}
+                      className="customCenterTxt"
+                      style={{ fontSize: "1.5em", cursor: "pointer" }}
+                    >
+                      {index + 1}
+                    </p>
+                  </td>
+                  <td style={{ width: 350 }}>
+                    <div
+                      onClick={() => {
+                        const formData = new FormData();
+                        formData.append("qnaId", qnaId[index]);
+                        axios
+                          .post(`/qna/addviewcount`, formData)
+                          .then((res) => {
+                            console.log(res);
+                          })
+                          .catch((e) => {
+                            console.log(e);
+                          });
+                        navigate(`/qna/detail`, {
+                          state: { qnaId: qnaId[index] },
+                        });
+                      }}
+                      className="customCenterTxt"
+                      style={{ fontSize: "1.5em", cursor: "pointer" }}
+                    >
+                      {qnaTitle[index]}
+                    </div>
+                  </td>
+                  <td>
+                    <p
+                      onClick={() => {
+                        const formData = new FormData();
+                        formData.append("qnaId", qnaId[index]);
+                        axios
+                          .post(`/qna/addviewcount`, formData)
+                          .then((res) => {
+                            console.log(res);
+                          })
+                          .catch((e) => {
+                            console.log(e);
+                          });
+                        navigate(`/qna/detail`, {
+                          state: { qnaId: qnaId[index] },
+                        });
+                      }}
+                      className="customCenterTxt"
+                      style={{ fontSize: "1.5em", cursor: "pointer" }}
+                    >
+                      {qnaViewCount[index]}
+                    </p>
+                  </td>
+                </div>
+              );
+            })}
           </tbody>
         </table>
       </div>
