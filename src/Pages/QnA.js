@@ -12,6 +12,8 @@ function QnA() {
   const [qnaId, setQnaId] = useState([]);
   const [index, setIndex] = useState([]);
   const [qnaComments, setQnaComments] = useState([]);
+  const [search, setSearch] = useState(false);
+  const [searchKeyword, setSearchKeyword] = useState("");
   useEffect(() => {
     axios
       .get(`/qna/list`)
@@ -42,7 +44,45 @@ function QnA() {
       .catch((e) => {
         console.log(e);
       });
-  }, []);
+  }, [search]);
+
+  const submitSearch = (e) => {
+    console.log(e);
+    if (e.key === "Enter") {
+      if (e.target.value === "") {
+        setSearch(!search);
+      } else {
+        axios
+          .get(`/qna/search/${searchKeyword}`)
+          .then((res) => {
+            const data = res.data;
+            const qnaContentArr = [];
+            const qnaIdArr = [];
+            const qnaTitleArr = [];
+            const qnaViewCountArr = [];
+            const qnaIndexArr = [];
+            const qnaCommentsArr = [];
+            for (let i = 0; i < data.length; i++) {
+              qnaContentArr.push(data[i].qnaContent);
+              qnaIdArr.push(data[i].qnaId);
+              qnaTitleArr.push(data[i].qnaTitle);
+              qnaViewCountArr.push(data[i].qnaViewCount);
+              qnaCommentsArr.push(data[i].comments.length);
+              qnaIndexArr.push(i);
+            }
+            setQnaContent(qnaContentArr);
+            setQnaTitle(qnaTitleArr);
+            setQnaViewCount(qnaViewCountArr);
+            setQnaId(qnaIdArr);
+            setIndex(qnaIndexArr);
+            setQnaComments(qnaCommentsArr);
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      }
+    }
+  };
   const navigate = useNavigate();
   return (
     <div className="mainlayout">
@@ -57,6 +97,11 @@ function QnA() {
           placeholder="검색어를 입력해주세요"
           type="text"
           aria-describedby="search"
+          value={searchKeyword}
+          onChange={(e) => {
+            setSearchKeyword(e.target.value);
+          }}
+          onKeyPress={submitSearch}
         />
       </div>
       <div className="noticeSection2">
