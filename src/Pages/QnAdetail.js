@@ -22,6 +22,17 @@ function QnAdetail() {
   const [content, setContent] = useState("");
   const [previewUrl, setPreviewUrl] = useState("");
 
+  const [commentcontent, setCommentContent] = useState("");
+  const [commentEmail, setCommentEmail] = useState([]);
+  const [editIndex, setEditIndex] = useState(0);
+  const [updated, setUpdated] = useState(false);
+  const [created, setCreated] = useState(false);
+  const [deleted, setDeleted] = useState(false);
+  const [inputEditedComment, setInputEditedComment] = useState("");
+  const [bsIndex, setBsIndex] = useState(0);
+  const [commentsIndex, setCommentsIndex] = useState([]);
+  const [comments, setComments] = useState([]);
+
   const navigate = useNavigate();
   const onChangePic = (e) => {
     console.log(e);
@@ -48,10 +59,48 @@ function QnAdetail() {
         setDate(data.qnaWriteDate.slice(0, 10));
         setView(data.qnaViewCount);
         setContent(data.qnaContent);
+        setComments(data.comments);
+        const commentsIndexArr = [];
+        const commentContentArr = [];
+        const commentEmailArr = [];
+        for (let i = 0; i < data.comments.length; i++) {
+          commentsIndexArr.push(i);
+          commentContentArr.push(data.comments[i].commentContent);
+          commentEmailArr.push(data.comments[i].commentEmail);
+        }
+        setCommentsIndex(commentsIndexArr);
+        setCommentEmail(commentEmailArr);
+        setEditedComment(commentContentArr);
+        const formData = new FormData();
+        formData.append("qnaId", qnaId);
+        axios
+          .post(`/qna/getqnaimg`, formData)
+          .then((res) => {
+            console.log(res.data);
+            const byteCharacters = atob(res.data);
+            const byteNumbers = new Array(byteCharacters.length);
+            for (let i = 0; i < byteCharacters.length; i++) {
+              byteNumbers[i] = byteCharacters.charCodeAt(i);
+            }
+            const byteArray = new Uint8Array(byteNumbers);
+            const blob = new Blob([byteArray], { type: "image/jpeg" });
+
+            const reader = new FileReader();
+            reader.onload = () => {
+              setPreviewUrl(reader.result);
+            };
+            reader.readAsDataURL(blob);
+          })
+          .catch((e) => {
+            console.log(e);
+          });
       })
       .catch((e) => {
         console.log(e);
       });
+  }, [updated, created, deleted]);
+
+  useEffect(() => {
     const formData = new FormData();
     formData.append("qnaId", qnaId);
     axios
@@ -77,16 +126,34 @@ function QnAdetail() {
       });
   }, []);
 
-  const handleEditClick = () => {
+  const handleEditClick = (e) => {
+    console.log(e.target.dataset.bsIndex);
+    const index = e.target.dataset.bsIndex;
+    setEditIndex(e.target.dataset.bsIndex);
     setEditMode(true);
   };
 
-  const handleSaveClick = () => {
+  const handleSaveClick = (e) => {
+    const index = e.target.dataset.bsIndex;
+    const formData = new FormData();
+    formData.append("index", index);
+    formData.append("qnaId", qnaId);
+    formData.append("commentContent", inputEditedComment);
+    axios
+      .post(`/qna/updatecomment`, formData)
+      .then((res) => {
+        console.log(res);
+        setUpdated(!updated);
+        setInputEditedComment("");
+      })
+      .catch((e) => {
+        console.log(e);
+      });
     setEditMode(false);
   };
 
   const handleChange = (e) => {
-    setEditedComment(e.target.value);
+    setInputEditedComment(e.target.value);
   };
 
   const handleDelete = () => {
@@ -117,11 +184,47 @@ function QnAdetail() {
       .post(`/qna/update/${qnaId}`, formData)
       .then((res) => {
         console.log(res);
+        setUpdated(!updated);
       })
       .catch((e) => {
         console.log(e);
       });
     setActionmode(0);
+  };
+
+  const handleDelete2 = (e) => {
+    console.log("===============================");
+
+    console.log(bsIndex);
+    const index = bsIndex;
+    const formData = new FormData();
+    formData.append("index", index);
+    formData.append("qnaId", qnaId);
+
+    axios.post(`/qna/deletecomment`, formData).then((res) => {
+      console.log(res);
+      alert(`댓글이 삭제되었습니다!`);
+      setDeleted(!deleted);
+    });
+    // window.location.reload(); // 페이지 새로고침
+  };
+
+  const createcomment = (e) => {
+    const formData = new FormData();
+    formData.append("email", sessionStorage.getItem("email"));
+    formData.append("category", sessionStorage.getItem("category"));
+    formData.append("commentContent", commentcontent);
+    formData.append("qnaId", qnaId);
+    axios
+      .post(`/qna/createcomment`, formData)
+      .then((res) => {
+        console.log(res);
+        setCreated(!created);
+        setCommentContent("");
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
   if (actionmode === 0) {
@@ -217,89 +320,130 @@ function QnAdetail() {
         <hr />
         <p className="ComentTitle">답변</p>
         <div className="ComentArea">
-          <div className="Coment">
-            <p className="nickname">운영자</p>
-            <p className="dateTxt">2023.05.22</p>
-            <br />
-            <div>
-              {editMode ? (
+          {commentsIndex.map((index) => {
+            // setEditedComment(comments[index].commentContent);
+            console.log("index=>" + index);
+            return (
+              <div className="Coment">
+                <p className="nickname">{comments[index].commentWriter}</p>
+                <p className="dateTxt">
+                  {comments[index].commentDate.slice(0, 10)}
+                </p>
+                <br />
                 <div>
-                  <input
-                    type="text"
-                    placeholder={editedComment}
-                    onChange={handleChange}
-                    className="comentinput"
-                    style={{ fontSize: 20 }}
-                  />
-                  <button onClick={handleSaveClick} className="writeBtn2">
-                    완료
-                  </button>
-                </div>
-              ) : (
-                <div>
-                  <p className="AnsTxt">{editedComment}</p>
-                  <button onClick={handleEditClick} className="upAndDelBtn3">
-                    수정
-                  </button>
-                  <button
-                    className="upAndDelBtn3"
-                    data-bs-toggle="modal"
-                    data-bs-target="#qnaComentDelete"
-                  >
-                    삭제
-                  </button>
-                  <div
-                    class="modal fade"
-                    id="qnaComentDelete"
-                    tabindex="-1"
-                    aria-labelledby="qnaComentDelete"
-                    aria-hidden="true"
-                  >
-                    <div class="modal-dialog modal-dialog-centered">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h1 class="modal-title fs-5" id="exampleModalLabel">
-                            댓글 삭제
-                          </h1>
-                          <button
-                            type="button"
-                            class="btn-close"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"
-                          ></button>
-                        </div>
-                        <div class="modal-body" style={{ fontSize: 26 }}>
-                          정말로 삭제하시겠습니까?
-                        </div>
-                        <div class="modal-footer">
-                          <button
-                            type="button"
-                            class="btn btn-primary"
-                            onClick={handleDelete}
-                          >
-                            삭제
-                          </button>
-                          <button
-                            type="button"
-                            class="btn btn-secondary"
-                            data-bs-dismiss="modal"
-                          >
-                            취소
-                          </button>
+                  {editMode && editIndex == index ? (
+                    <div>
+                      <input
+                        type="text"
+                        placeholder={comments[index].commentContent}
+                        onChange={handleChange}
+                        className="comentinput"
+                        value={inputEditedComment}
+                        style={{ fontSize: 20, marginLeft: "30px" }}
+                      />
+                      <button
+                        data-bs-index={index}
+                        onClick={handleSaveClick}
+                        className="writeBtn2"
+                      >
+                        완료
+                      </button>
+                    </div>
+                  ) : commentEmail[index] ===
+                    sessionStorage.getItem("email") ? (
+                    <div>
+                      <p className="AnsTxt" style={{ marginLeft: "10px" }}>
+                        {comments[index].commentContent}
+                      </p>
+                      <button
+                        data-bs-index={index}
+                        onClick={handleEditClick}
+                        className="upAndDelBtn3"
+                      >
+                        수정
+                      </button>
+                      <button
+                        className="upAndDelBtn3"
+                        data-bs-index={index}
+                        onClick={() => {
+                          setBsIndex(index);
+                        }}
+                        data-bs-toggle="modal"
+                        data-bs-target="#reviewComentDelete"
+                      >
+                        삭제
+                      </button>
+                      <div
+                        class="modal fade"
+                        id="reviewComentDelete"
+                        tabindex="-1"
+                        aria-labelledby="reviewComentDelete"
+                        aria-hidden="true"
+                      >
+                        <div class="modal-dialog modal-dialog-centered">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h1
+                                class="modal-title fs-5"
+                                id="exampleModalLabel"
+                              >
+                                댓글 삭제
+                              </h1>
+                              <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                              ></button>
+                            </div>
+                            <div class="modal-body" style={{ fontSize: 26 }}>
+                              정말로 삭제하시겠습니까?
+                            </div>
+                            <div class="modal-footer">
+                              <button
+                                type="button"
+                                data-bs-index={index}
+                                class="btn btn-primary"
+                                data-bs-dismiss="modal"
+                                onClick={handleDelete2}
+                              >
+                                삭제
+                              </button>
+                              <button
+                                type="button"
+                                class="btn btn-secondary"
+                                data-bs-dismiss="modal"
+                              >
+                                취소
+                              </button>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
+                  ) : (
+                    <div>
+                      <p className="AnsTxt" style={{ marginLeft: "10px" }}>
+                        {comments[index].commentContent}
+                      </p>
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-          </div>
+              </div>
+            );
+          })}
           <input
             type="text"
             className="comentinput"
-            style={{ fontSize: 20 }}
+            style={{ fontSize: 20, marginLeft: "30px" }}
+            value={commentcontent}
+            onChange={(e) => {
+              setCommentContent(e.target.value);
+            }}
           ></input>
-          <button className="writeBtn2">작성</button>
+          <button className="writeBtn2" onClick={createcomment}>
+            작성
+          </button>
         </div>
         <div style={{ height: 90 }}></div>
         <Footer />

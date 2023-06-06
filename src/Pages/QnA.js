@@ -157,7 +157,7 @@ function QnA() {
       <button
         className="writeBtn"
         onClick={() => {
-          navigate(`/contentwrite`, { state: { page: "qna" } });
+          navigate(`/contentwrite`, { state: { page: "Q&A" } });
         }}
       >
         글쓰기

@@ -33,7 +33,7 @@ function ContentWrite() {
         .catch((e) => {
           console.log(e);
         });
-    } else if (page === "qna") {
+    } else if (page === "Q&A") {
       const formData = new FormData();
       formData.append("file", img);
       formData.append("title", title);
@@ -68,7 +68,7 @@ function ContentWrite() {
   };
   return (
     <div className="mainlayout">
-      <NavigationBar title={"글작성"} />
+      <NavigationBar title={`${page} 글작성`} />
       <div style={{ height: 74 }}></div>
       <div className="titleArea">
         <input
