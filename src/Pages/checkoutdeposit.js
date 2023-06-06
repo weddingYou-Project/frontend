@@ -12,7 +12,7 @@ import axios from "axios";
 function Checkoutdeposit() {
   var IMP = window.IMP;
   IMP.init("imp57211510");
-
+  // IMP.init("imp83460455");
   const navigate = useNavigate();
 
   const { estimateId } = useLocation().state;
@@ -52,7 +52,8 @@ function Checkoutdeposit() {
         pay_method: { paymentMethod },
         merchant_uid: `57126841-${estimateId}` + IMP,
         name: "플래너 매칭 계약금",
-        amount: depositAmount1,
+        // amount: depositAmount1,
+        amount: 500,
         buyer_email: sessionStorage.getItem("email"),
         buyer_name: userName,
         buyer_tel: userPhone,
@@ -72,6 +73,7 @@ function Checkoutdeposit() {
               paymentAmount: paymentAmount,
               tempPaymentStatus: "other",
               depositAmount: depositAmount,
+
               tempDepositStatus: "paid",
               paymentType: "deposit",
               userEmail: userEmail,
@@ -102,6 +104,7 @@ function Checkoutdeposit() {
           axios
             .post("/deposit/callback", {
               price: depositprice,
+
               quantity: quantity,
               paymentMethod: paymentMethod,
               paymentAmount: paymentAmount,
