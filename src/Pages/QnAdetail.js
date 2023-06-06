@@ -331,7 +331,9 @@ function QnAdetail() {
                 </p>
                 <br />
                 <div>
-                  {editMode && editIndex == index ? (
+                  {editMode &&
+                  editIndex == index &&
+                  sessionStorage.getItem("email") === "admin@email.com" ? (
                     <div>
                       <input
                         type="text"
@@ -420,30 +422,34 @@ function QnAdetail() {
                           </div>
                         </div>
                       </div>
+                      <div></div>
                     </div>
                   ) : (
-                    <div>
-                      <p className="AnsTxt" style={{ marginLeft: "10px" }}>
-                        {comments[index].commentContent}
-                      </p>
-                    </div>
+                    <p className="AnsTxt" style={{ marginLeft: "10px" }}>
+                      {comments[index].commentContent}
+                    </p>
                   )}
                 </div>
               </div>
             );
           })}
-          <input
-            type="text"
-            className="comentinput"
-            style={{ fontSize: 20, marginLeft: "30px" }}
-            value={commentcontent}
-            onChange={(e) => {
-              setCommentContent(e.target.value);
-            }}
-          ></input>
-          <button className="writeBtn2" onClick={createcomment}>
-            작성
-          </button>
+          {sessionStorage.getItem("email") === "admin@email.com" ? (
+            <div>
+              {" "}
+              <input
+                type="text"
+                className="comentinput"
+                style={{ fontSize: 20, marginLeft: "30px" }}
+                value={commentcontent}
+                onChange={(e) => {
+                  setCommentContent(e.target.value);
+                }}
+              ></input>
+              <button className="writeBtn2" onClick={createcomment}>
+                작성
+              </button>
+            </div>
+          ) : null}
         </div>
         <div style={{ height: 90 }}></div>
         <Footer />
