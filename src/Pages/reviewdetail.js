@@ -437,11 +437,42 @@ function Reviewdetail() {
         <NavigationBar title={"이용후기"} />
         <div style={{ height: 64 }}></div>
         <div className="titleArea">
-          <p className="titleTxt">{reviewTitle}</p>
-          <p className="dateTxt">{reviewDate.slice(0, 10)}</p>
-          <p className="viewCountTxt">조회수 : {reviewViews}</p>
-          <div className="ratingStars">
-            <Rating />
+          <div style={{ display: "flex" }}>
+            <p className="titleTxt">{reviewTitle}</p>
+            {authorityBtns === true ? (
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "end",
+                  marginTop: "25px",
+                  marginLeft: "20px",
+                }}
+              >
+                <button
+                  className="upAndDelBtn2"
+                  style={{ width: "90px" }}
+                  onClick={reviewUpdateForm}
+                >
+                  수정
+                </button>
+                <button
+                  className="upAndDelBtn2"
+                  data-bs-toggle="modal"
+                  data-bs-target="#reviewDelete"
+                  style={{ width: "90px" }}
+                >
+                  삭제
+                </button>
+              </div>
+            ) : null}
+          </div>
+
+          <div style={{ display: "flex" }}>
+            <p className="dateTxt">{reviewDate.slice(0, 10)}</p>
+            <p className="viewCountTxt">조회수 : {reviewViews}</p>
+            <div className="ratingStars">
+              <Rating />
+            </div>{" "}
           </div>
         </div>
         <hr />
@@ -449,21 +480,6 @@ function Reviewdetail() {
           <p className="noticeContxt" style={{ paddingLeft: "20px" }}>
             {reviewText}
           </p>
-
-          {authorityBtns === true ? (
-            <div style={{ display: "flex", justifyContent: "end" }}>
-              <button className="upAndDelBtn2" onClick={reviewUpdateForm}>
-                수정
-              </button>
-              <button
-                className="upAndDelBtn2"
-                data-bs-toggle="modal"
-                data-bs-target="#reviewDelete"
-              >
-                삭제
-              </button>
-            </div>
-          ) : null}
 
           <div
             class="modal fade"
