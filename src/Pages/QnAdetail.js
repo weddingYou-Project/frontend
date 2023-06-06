@@ -32,6 +32,7 @@ function QnAdetail() {
   const [bsIndex, setBsIndex] = useState(0);
   const [commentsIndex, setCommentsIndex] = useState([]);
   const [comments, setComments] = useState([]);
+  const [qnaWriter, setQnaWriter] = useState("");
 
   const navigate = useNavigate();
   const onChangePic = (e) => {
@@ -60,6 +61,7 @@ function QnAdetail() {
         setView(data.qnaViewCount);
         setContent(data.qnaContent);
         setComments(data.comments);
+        setQnaWriter(data.qnaWriter);
         const commentsIndexArr = [];
         const commentContentArr = [];
         const commentEmailArr = [];
@@ -238,16 +240,20 @@ function QnAdetail() {
           <p className="viewCountTxt" style={{ marginRight: "20px" }}>
             조회수 : {view}
           </p>
-          <button className="upAndDelBtn2" onClick={qnaUpdateForm}>
-            수정
-          </button>
-          <button
-            className="upAndDelBtn2"
-            data-bs-toggle="modal"
-            data-bs-target="#qnaDelete"
-          >
-            삭제
-          </button>
+          {qnaWriter === sessionStorage.getItem("email") ? (
+            <div style={{ display: "inline-block" }}>
+              <button className="upAndDelBtn2" onClick={qnaUpdateForm}>
+                수정
+              </button>
+              <button
+                className="upAndDelBtn2"
+                data-bs-toggle="modal"
+                data-bs-target="#qnaDelete"
+              >
+                삭제
+              </button>
+            </div>
+          ) : null}
         </div>
         <hr />
         <div className="ContentArea">

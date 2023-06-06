@@ -139,7 +139,7 @@ function Notice() {
         <button
           className="writeBtn"
           onClick={() => {
-            navigate(`/contentwrite`, { state: { page: "notice" } });
+            navigate(`/contentwrite`, { state: { page: "공지사항" } });
           }}
         >
           글쓰기

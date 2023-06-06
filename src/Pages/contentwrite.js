@@ -16,7 +16,7 @@ function ContentWrite() {
 
   const navigate = useNavigate();
   const writeContent = () => {
-    if (page === "notice") {
+    if (page === "공지사항") {
       const formData = new FormData();
       formData.append("file", img);
       formData.append("title", title);
