@@ -110,6 +110,9 @@ function Home() {
   const modalImgTitle = useRef();
   const modalItemId = useRef();
 
+  const [currentSrc, setCurrentSrc] = useState("");
+  const [currentItemId, setCurrentItemId] = useState("");
+
   const weddingAutoplayBtn = useRef();
   const studioAutoplayBtn = useRef();
   const dressAutoplayBtn = useRef();
@@ -129,7 +132,9 @@ function Home() {
   };
 
   const gotoDetailInfo = (e) => {
-    navigate("/imgDetail");
+    navigate("/imgDetail", {
+      state: { itemId: currentItemId, imgsrc: currentSrc },
+    });
   };
 
   useEffect(() => {
@@ -617,8 +622,10 @@ function Home() {
 
   const showimgDetail = (e) => {
     modalImg.current.src = e.target.dataset.bsSrc;
+    setCurrentSrc(e.target.dataset.bsSrc);
     const index = e.target.dataset.bsKeyindex;
     modalItemId.current.id = e.target.dataset.bsItemid;
+    setCurrentItemId(e.target.dataset.bsItemid);
     modalItemId.current.dataset.index = index;
     setSelectedCategory(e.target.dataset.bsCategory);
 

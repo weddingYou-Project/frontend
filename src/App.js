@@ -36,6 +36,7 @@ import Noticedetail from "./Pages/noticedetail";
 import QnAdetail from "./Pages/QnAdetail";
 import Reviewdetail from "./Pages/reviewdetail";
 import ContentWrite from "./Pages/contentwrite";
+import ImgDetail from "./Pages/ImgDetail";
 
 function App() {
   return (
@@ -62,7 +63,7 @@ function App() {
       <Route path="/signup" element={<Signup />}></Route>
       <Route path="/signup/:category" element={<SignupForm />}></Route>
       <Route path="/passwordSearch" element={<PasswordSearch />} />
-
+      <Route path="/imgDetail" element={<ImgDetail />} />
       <Route
         path="/passwordSearch/temporaryPasswordLogin"
         element={<TemporaryPasswordLogin />}

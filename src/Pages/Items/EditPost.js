@@ -9,6 +9,8 @@ const EditPost = () => {
   const { itemId } = useParams();
   const location = useLocation();
   const originalContent = location.state.originalContent;
+  const originalimgDetailContent = location.state.originalimgDetailContent;
+  console.log(location.state);
   const originalTitle = location.state.originalTitle;
   const engTitle = location.state.engTitle;
   const navigate = useNavigate();
@@ -17,6 +19,9 @@ const EditPost = () => {
   const [image, setImage] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [selectedFile, setSelectedFile] = useState(image);
+  const [imgDetailContent, setImgDetailContent] = useState(
+    originalimgDetailContent
+  );
 
   const handleCancel = () => {
     navigate(`/menu/${engTitle}`);
@@ -65,6 +70,7 @@ const EditPost = () => {
     formData.append("file", selectedFile);
     formData.append("itemName", itemName);
     formData.append("content", content);
+    formData.append("imgDetailContent", imgDetailContent);
     axios
       .post(`/item/updateItem/${itemId}`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
@@ -113,8 +119,19 @@ const EditPost = () => {
             setContent(event.target.value);
           }}
         />
+        <textarea
+          className="content-textarea"
+          placeholder={imgDetailContent}
+          value={imgDetailContent}
+          onChange={(event) => {
+            setImgDetailContent(event.target.value);
+          }}
+        />
       </div>
-      <div className="button-wrap" style={{ marginLeft: "170px" }}>
+      <div
+        className="button-wrap"
+        style={{ marginLeft: "170px", marginBottom: "110px" }}
+      >
         <button
           className="submit-button"
           onClick={() => {

@@ -35,6 +35,7 @@ const WritePost = () => {
   const { category1 } = useParams();
   const [itemName, setItemName] = useState("");
   const [content, setContent] = useState("");
+  const [imgDetailContent, setImgDetailContent] = useState("");
   const [image, setImage] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(selectImg);
   const [category2, setCategory2] = useState(categoryOptions[category1][0]);
@@ -51,13 +52,14 @@ const WritePost = () => {
         formData.append("category1", selectedCategory1);
         formData.append("category2", category2);
         formData.append("file", image);
-
+        formData.append("imgDetailContent", imgDetailContent);
         axios
           .post("/item/insertItem", formData)
           .then((response) => {
             console.log("성공:", response.data);
             setItemName("");
             setContent("");
+            setImgDetailContent("");
             setImage(null);
             setPreviewUrl(selectImg);
             imgFile.current.value = null;
@@ -80,6 +82,7 @@ const WritePost = () => {
   const handleCancel = () => {
     setItemName("");
     setContent("");
+    setImgDetailContent("");
     imgFile.current.value = null;
     setCategory2(categoryOptions[category1][0]);
     setPreviewUrl(selectImg);
@@ -136,6 +139,12 @@ const WritePost = () => {
           placeholder="내용"
           value={content}
           onChange={(event) => setContent(event.target.value)}
+        />
+        <textarea
+          className="content-textarea"
+          placeholder="상세내용"
+          value={imgDetailContent}
+          onChange={(event) => setImgDetailContent(event.target.value)}
         />
         <input ref={imgFile} type="file" onChange={handleImageChange} />
         <img

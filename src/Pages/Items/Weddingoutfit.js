@@ -37,6 +37,7 @@ const Weddingoutfit = () => {
   const [itemName, setItemName] = useState([]);
   const [itemContent, setItemContent] = useState([]);
   const [keyIndex, setKeyIndex] = useState([]);
+  const [imgDetailContent, setImgDetailContent] = useState([]);
 
   let keyIndexArr = [];
   let list = [];
@@ -44,6 +45,7 @@ const Weddingoutfit = () => {
   let previewImgArr = [];
   let itemNameArr = [];
   let itemContentArr = [];
+  let itemDetailContentArr = [];
 
   const modalImg = useRef();
   const modalImgContent = useRef();
@@ -52,6 +54,8 @@ const Weddingoutfit = () => {
 
   const [modalImgoriginalTitle, setModalImgoriginalTitle] = useState("");
   const [selectedItemId, setSelectedItemId] = useState();
+  const [selectedImgDetail, setSelectedImgDetail] = useState("");
+  const [selectedImgSrc, setSelectedImgSrc] = useState("");
   const navigate = useNavigate();
 
   const [update, setUpdate] = useState(false);
@@ -107,6 +111,10 @@ const Weddingoutfit = () => {
             itemContentArr.push(newitemContent);
             setItemContent(itemContentArr);
             i++;
+            let newItemDetailContent = dataList[i];
+            itemDetailContentArr.push(newItemDetailContent);
+            setImgDetailContent(itemDetailContentArr);
+            i++;
           }
         } else {
           setKeyIndex([]);
@@ -119,12 +127,14 @@ const Weddingoutfit = () => {
 
   const showingDetail = (e) => {
     modalImg.current.src = e.target.dataset.bsSrc;
+    setSelectedImgSrc(e.target.dataset.bsSrc);
     modalImg.current.dataset.category = e.target.dataset.bsCategory;
     modalImg.current.dataset.itemId = e.target.dataset.bsItemid;
     modalImgContent.current.innerText = e.target.dataset.bsItemcontent;
     modalImgTitle.current.innerText = `- ${e.target.dataset.bsItemname} -`;
     setModalImgoriginalTitle(e.target.dataset.bsItemname);
     setSelectedItemId(e.target.dataset.bsItemid);
+    setSelectedImgDetail(e.target.dataset.bsItemdetailcontent);
     console.log("e.target.dataset.bsItemid:" + e.target.dataset.bsItemid);
   };
 
@@ -142,6 +152,7 @@ const Weddingoutfit = () => {
         originalTitle: title,
         originalContent: content,
         engTitle: engTitle,
+        originalimgDetailContent: selectedImgDetail,
       },
     });
   };
@@ -163,7 +174,9 @@ const Weddingoutfit = () => {
   }, [selectedCategory, update]);
 
   const gotoDetailInfo = (e) => {
-    navigate("/imgDetail");
+    navigate("/imgDetail", {
+      state: { itemId: selectedItemId, imgsrc: selectedImgSrc },
+    });
   };
   return (
     <div className="mainlayout">
@@ -223,6 +236,7 @@ const Weddingoutfit = () => {
             data-bs-itemName={itemName[i]}
             data-bs-itemContent={itemContent[i]}
             data-bs-itemId={itemId[i]}
+            data-bs-itemDetailContent={imgDetailContent[i]}
           />
         ))}
       </div>
