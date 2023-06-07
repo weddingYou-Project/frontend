@@ -105,7 +105,7 @@ function PasswordChange() {
       <NavigationBar title={"비밀번호 변경하기"} />
       <div
         className="container text-center"
-        style={{ marginTop: "100px", height: "700px" }}
+        style={{ marginTop: "50px", height: "400px" }}
       >
         <div className="row">
           <div className="col"></div>

@@ -87,7 +87,7 @@ function TemporaryPasswordLogin() {
   return (
     <div className="mainlayout">
       <NavigationBar title={"임시 로그인"} />
-      <div className="container text-center">
+      <div className="container text-center" style={{ marginTop: "100px" }}>
         <div className="row">
           <div className="col"></div>
           <div className="col-6">
@@ -96,7 +96,10 @@ function TemporaryPasswordLogin() {
           <div className="col"></div>
         </div>
       </div>
-      <div className="container text-center" style={{ height: "400px" }}>
+      <div
+        className="container text-center"
+        style={{ height: "400px", marginTop: "50px" }}
+      >
         <div className="row">
           <div className="col"></div>
           <div className="col-6">
