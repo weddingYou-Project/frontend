@@ -11,8 +11,8 @@ import axios from "axios";
 
 function Checkoutdeposit() {
   var IMP = window.IMP;
-  IMP.init("imp57211510");
-  // IMP.init("imp83460455");
+  //IMP.init("imp57211510");
+  IMP.init("imp01206222");
   const navigate = useNavigate();
 
   const { estimateId } = useLocation().state;
@@ -218,18 +218,16 @@ function Checkoutdeposit() {
             value="플래너 매칭 계약금"
             style={{ fontSize: "0.9em" }}
           />
-        </div>
-        <div
-          style={{
-            fontSize: "0.6em",
-            marginBottom: "-30px",
-            marginLeft: "180px",
-            width: "350px",
-          }}
-        >
-          {" "}
-          (경력 5년 미만 : 50,000 / 경력 15년 미만 : 100,000 / 경력 15년 이상 :
-          150,000)
+          <div
+            style={{
+              fontSize: "0.6em",
+              marginRight: "15px",
+            }}
+          >
+            {" "}
+            (경력 5년 미만 : 50,000 / 경력 15년 미만 : 100,000 / 경력 15년 이상
+            : 150,000)
+          </div>
         </div>
       </div>
       {/* <hr /> */}

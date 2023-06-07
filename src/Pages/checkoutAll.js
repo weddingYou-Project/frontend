@@ -13,7 +13,8 @@ import "bootstrap";
 
 function CheckoutAll() {
   var IMP = window.IMP;
-  IMP.init("imp67011510");
+  // IMP.init("imp67011510");
+  IMP.init("imp01206222");
   const { estimateId } = useLocation().state;
   console.log(estimateId);
   const { userName } = useLocation().state;
