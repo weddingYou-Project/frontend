@@ -278,6 +278,8 @@ function CheckoutAll() {
         tabindex="-1"
         aria-labelledby="plannerMatchingPriceModal"
         aria-hidden="true"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
       >
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
@@ -289,12 +291,6 @@ function CheckoutAll() {
               >
                 - 플래너 매칭 비용 입력 -
               </h1>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
             </div>
             <div class="modal-body">
               <div class="has-validation col col-md-10">
@@ -424,13 +420,6 @@ function CheckoutAll() {
               </div>
             </div>
             <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                닫기
-              </button>
               <button
                 type="button"
                 class="btn btn-primary"
