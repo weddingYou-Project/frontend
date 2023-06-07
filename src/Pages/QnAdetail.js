@@ -336,7 +336,7 @@ function QnAdetail() {
         </div>
         <hr />
         <p className="ComentTitle">답변</p>
-        <div className="ComentArea">
+        <div className="ComentArea" style={{ marginBottom: "20px" }}>
           {commentsIndex.map((index) => {
             // setEditedComment(comments[index].commentContent);
             console.log("index=>" + index);

@@ -52,8 +52,7 @@ function Checkoutdeposit() {
         pay_method: { paymentMethod },
         merchant_uid: `57126841-${estimateId}` + IMP,
         name: "플래너 매칭 계약금",
-        // amount: depositAmount1,
-        amount: 500,
+        amount: depositAmount1,
         buyer_email: sessionStorage.getItem("email"),
         buyer_name: userName,
         buyer_tel: userPhone,
@@ -73,7 +72,6 @@ function Checkoutdeposit() {
               paymentAmount: paymentAmount,
               tempPaymentStatus: "other",
               depositAmount: depositAmount,
-
               tempDepositStatus: "paid",
               paymentType: "deposit",
               userEmail: userEmail,
@@ -104,7 +102,6 @@ function Checkoutdeposit() {
           axios
             .post("/deposit/callback", {
               price: depositprice,
-
               quantity: quantity,
               paymentMethod: paymentMethod,
               paymentAmount: paymentAmount,
