@@ -185,26 +185,18 @@ function Mypage() {
   };
 
   const deleteMember = () => {
-    if (category === "user") {
-      axios
-        .post("/user/userDelete", { email: userEmail })
-        .then((res) => {
-          window.sessionStorage.clear();
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    }
-    if (category === "planner") {
-      axios
-        .post("/planner/plannerDelete", { email: userEmail })
-        .then((res) => {
-          window.sessionStorage.clear();
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    }
+    const formData = new FormData();
+    formData.append("email", sessionStorage.getItem("email"));
+    formData.append("category", sessionStorage.getItem("category"));
+    axios
+      .post("/user/userDelete", formData)
+      .then((res) => {
+        window.sessionStorage.clear();
+        navigate("/login");
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
   useEffect(() => {
