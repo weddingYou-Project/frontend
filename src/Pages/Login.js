@@ -13,7 +13,9 @@ function Login() {
   const [inputId, setInputId] = useState("");
   const [inputPw, setInputPw] = useState("");
   const [Role, setRole] = useState("회원");
-
+  // console.log("-=-=-=-=-=-=-=-=-=-=-==-=-=-=-");
+  // console.log(sessionStorage.getItem("email"));
+  // console.log(sessionStorage.getItem("email") !== null);
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
       // 엔터키로 이동

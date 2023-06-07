@@ -986,14 +986,26 @@ function SearchItems() {
             height: "100px",
           }}
         >
-          <img
-            className="mainlogo"
-            src={imgLogo}
-            alt="로고"
-            onClick={() => {
-              navigate("/login");
-            }}
-          />
+          {sessionStorage.getItem("email") !== null ? (
+            <img
+              className="mainlogo"
+              src={imgLogo}
+              style={{ cursor: "pointer" }}
+              alt="로고"
+              data-bs-toggle="modal"
+              data-bs-target="#logoutmodal"
+            />
+          ) : (
+            <img
+              className="mainlogo"
+              src={imgLogo}
+              style={{ cursor: "pointer" }}
+              onClick={() => {
+                navigate("/login");
+              }}
+              alt="로고"
+            />
+          )}
           <input
             type="text"
             name="search"
@@ -1053,14 +1065,26 @@ function SearchItems() {
             height: "100px",
           }}
         >
-          <img
-            className="mainlogo"
-            src={imgLogo}
-            alt="로고"
-            onClick={() => {
-              navigate("/login");
-            }}
-          />
+          {sessionStorage.getItem("email") !== null ? (
+            <img
+              className="mainlogo"
+              src={imgLogo}
+              style={{ cursor: "pointer" }}
+              alt="로고"
+              data-bs-toggle="modal"
+              data-bs-target="#logoutmodal"
+            />
+          ) : (
+            <img
+              className="mainlogo"
+              src={imgLogo}
+              style={{ cursor: "pointer" }}
+              onClick={() => {
+                navigate("/login");
+              }}
+              alt="로고"
+            />
+          )}
           <input
             type="text"
             name="search"
@@ -1837,6 +1861,52 @@ function SearchItems() {
         </div>
       )}
       <Footer />
+      <div
+        class="modal fade"
+        id="logoutmodal"
+        tabindex="-1"
+        aria-labelledby="logoutmodal"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">
+                로그아웃
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body" style={{ fontSize: 26 }}>
+              로그아웃하시겠습니까?
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-bs-dismiss="modal"
+                onClick={() => {
+                  sessionStorage.clear();
+                  navigate("/login");
+                }}
+              >
+                네
+              </button>
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                아니요
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
