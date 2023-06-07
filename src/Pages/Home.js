@@ -535,9 +535,9 @@ function Home() {
                 setBouquetItemName(itemNameList);
                 setBouquetItemLike(itemLikeList);
               }
-              setFinish(true);
             }
           }
+          setFinish(true);
         }
       } catch (error) {
         console.log(error);

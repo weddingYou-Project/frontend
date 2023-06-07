@@ -41,11 +41,11 @@ const MenuList = () => {
       //   setImgTop(170);
 
       setImgOpacity(1);
+      setTimeout(() => {
+        //  setPTop(150);
+        setPOpacity(1);
+      }, 700);
     }, 500);
-    setTimeout(() => {
-      //  setPTop(150);
-      setPOpacity(1);
-    }, 900);
 
     setSelectImg(images[num]);
   }, []);

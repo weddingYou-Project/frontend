@@ -78,7 +78,6 @@ function App() {
       <Route path="/menu/:category1" element={<Item />} />
       <Route path="/writepost/:category1" element={<WritePost />} />
       <Route path="/editpost/:itemId" element={<EditPost />} />
-      <Route path="*" element={<NotFound />} />
       <Route path="/estimateform" element={<EstimateForm />} />
       <Route path="/estimatedetail/:id" element={<EstimateDetail />} />
       <Route path="/estimatemodify/:id" element={<EstimateModify />} />
@@ -93,6 +92,7 @@ function App() {
       <Route path="/sidesection" element={<Sidesection />} />
       {/*관리자페이지 Route */}
       <Route path="/adminpage" element={<AdminPage />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }
