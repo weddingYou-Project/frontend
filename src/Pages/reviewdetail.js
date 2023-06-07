@@ -477,9 +477,18 @@ function Reviewdetail() {
         </div>
         <hr />
         <div className="ContentArea">
-          <p className="noticeContxt" style={{ paddingLeft: "20px" }}>
-            {reviewText}
-          </p>
+          <textarea
+            className="noticeContxt"
+            style={{
+              marginLeft: "10px",
+              fontSize: "1.5em",
+              border: "none",
+              width: "96%",
+              height: "500px",
+            }}
+            value={reviewText}
+            disabled
+          ></textarea>
 
           <div
             class="modal fade"
