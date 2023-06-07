@@ -151,16 +151,22 @@ function Noticedetail() {
         </div>
         <hr />
         <div className="noticeContent">
-          <p
+          <textarea
             className="noticeContxt"
-            style={{ marginLeft: "10px", fontSize: "1.5em" }}
-          >
-            {content}
-          </p>
+            style={{
+              marginLeft: "10px",
+              fontSize: "1.5em",
+              border: "none",
+              width: "96%",
+              height: "500px",
+            }}
+            value={content}
+            disabled
+          ></textarea>
           {previewUrl !== "" ? (
             <div
               style={{
-                marginTop: "250px",
+                marginTop: "20px",
                 marginLeft: "30px",
                 marginBottom: "-30px",
               }}

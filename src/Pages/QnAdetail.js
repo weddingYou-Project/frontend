@@ -257,11 +257,22 @@ function QnAdetail() {
         </div>
         <hr />
         <div className="ContentArea">
-          <p className="noticeContxt">{content}</p>
+          <textarea
+            className="noticeContxt"
+            style={{
+              marginLeft: "10px",
+              fontSize: "1.5em",
+              border: "none",
+              width: "96%",
+              height: "500px",
+            }}
+            value={content}
+            disabled
+          ></textarea>
           {previewUrl !== "" ? (
             <div
               style={{
-                marginTop: "200px",
+                marginTop: "20px",
                 marginLeft: "30px",
                 marginBottom: "20px",
               }}
@@ -359,10 +370,8 @@ function QnAdetail() {
                     </div>
                   ) : commentEmail[index] ===
                     sessionStorage.getItem("email") ? (
-                    <div>
-                      <p className="AnsTxt" style={{ marginLeft: "10px" }}>
-                        {comments[index].commentContent}
-                      </p>
+                    <div style={{ marginLeft: "20px", marginRight: "20px" }}>
+                      <p className="AnsTxt">{comments[index].commentContent}</p>
                       <button
                         data-bs-index={index}
                         onClick={handleEditClick}
@@ -431,9 +440,11 @@ function QnAdetail() {
                       <div></div>
                     </div>
                   ) : (
-                    <p className="AnsTxt" style={{ marginLeft: "10px" }}>
-                      {comments[index].commentContent}
-                    </p>
+                    <div style={{ marginLeft: "20px", marginRight: "20px" }}>
+                      <p className="AnsTxt" style={{ marginLeft: "10px" }}>
+                        {comments[index].commentContent}
+                      </p>
+                    </div>
                   )}
                 </div>
               </div>
