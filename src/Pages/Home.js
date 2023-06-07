@@ -148,10 +148,11 @@ function Home() {
   }, [finish]);
   useEffect(() => {
     //웨딩홀
-    axios
-      .get(`/item/itemList/${category[0]}`)
-      .then((res) => {
-        const dataList = res.data;
+    const getWeddingHallItem = async () => {
+      try {
+        const response = await axios.get(`/item/itemList/${category[0]}`);
+        const { data } = response;
+        const dataList = data;
         console.log(dataList);
         if (dataList.length !== 0) {
           let index = 0;
@@ -168,70 +169,57 @@ function Home() {
               index++;
               setKeyIndex(keyIndexArr);
 
-              axios
-                .post(`/like/findlist`, {
-                  itemId: newitemId,
-                  email: sessionStorage.getItem("email"),
-                })
-                .then((res) => {
-                  if (res.data === 1) {
-                    likeIndexArr.push(true);
-                    setWeddingHallLikeState(likeIndexArr);
-                  } else if (res.data === 0) {
-                    likeIndexArr.push(undefined);
-                    setWeddingHallLikeState(likeIndexArr);
-                  } else {
-                    //로그인하지 않았을 때
-                    likeIndexArr.push(-1);
-                    setWeddingHallLikeState(likeIndexArr);
-                  }
-                })
-                .catch((e) => {
-                  console.log(e);
-                });
+              const res = await axios.post(`/like/findlist`, {
+                itemId: newitemId,
+                email: sessionStorage.getItem("email"),
+              });
+              let { data } = res;
+              if (data === 1) {
+                likeIndexArr.push(true);
+                setWeddingHallLikeState(likeIndexArr);
+              } else if (data === 0) {
+                likeIndexArr.push(undefined);
+                setWeddingHallLikeState(likeIndexArr);
+              } else {
+                //로그인하지 않았을 때
+                likeIndexArr.push(-1);
+                setWeddingHallLikeState(likeIndexArr);
+              }
 
-              axios
-                .get(`/item/getItemList/${newitemId}`)
-                .then((res) => {
-                  let newItem = res.data;
-                  itemDataArr.push(newItem);
-                  itemDataArr.sort(function (a, b) {
-                    return (
-                      new Date(b.itemWriteDate) - new Date(a.itemWriteDate)
-                    );
-                  });
-                  setItem([...item, newItem]);
-                  setItem(itemDataArr);
-                  let itemNameList = [];
-                  let itemLikeList = [];
-                  for (var j = 0; j < itemDataArr.length; j++) {
-                    const newItemName = itemDataArr[j].itemName;
-                    const newItemLike = itemDataArr[j].like.length;
-                    itemNameList.push(newItemName);
-                    itemLikeList.push(newItemLike);
-                    setItemName(itemNameList);
-                    setItemLike(itemLikeList);
-                  }
-                })
-                .catch((e) => {
-                  console.log(e);
-                });
+              const res2 = await axios.get(`/item/getItemList/${newitemId}`);
+              let newItem = res2.data;
+              itemDataArr.push(newItem);
+              itemDataArr.sort(function (a, b) {
+                return new Date(b.itemWriteDate) - new Date(a.itemWriteDate);
+              });
+              setItem([...item, newItem]);
+              setItem(itemDataArr);
+              let itemNameList = [];
+              let itemLikeList = [];
+              for (var j = 0; j < itemDataArr.length; j++) {
+                const newItemName = itemDataArr[j].itemName;
+                const newItemLike = itemDataArr[j].like.length;
+                itemNameList.push(newItemName);
+                itemLikeList.push(newItemLike);
+                setItemName(itemNameList);
+                setItemLike(itemLikeList);
+              }
             }
           }
         }
-        //  else {
-        //   setFinish(true);
-        // }
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-    //스튜디오
-    axios
-      .get(`/item/itemList/${category[1]}`)
-      .then((res) => {
-        const dataList = res.data;
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getWeddingHallItem();
 
+    //스튜디오
+    const getStudioItem = async () => {
+      try {
+        const response = await axios.get(`/item/itemList/${category[1]}`);
+        const { data } = response;
+        const dataList = data;
+        console.log(dataList);
         if (dataList.length !== 0) {
           let index = 0;
           for (var i = 0; i < dataList.length; i++) {
@@ -246,71 +234,59 @@ function Home() {
               keyIndexArr1.push(index);
               index++;
               setStudioKeyIndex(keyIndexArr1);
-              axios
-                .post(`/like/findlist`, {
-                  itemId: newitemId,
-                  email: sessionStorage.getItem("email"),
-                })
-                .then((res) => {
-                  if (res.data === 1) {
-                    likeIndexArr1.push(true);
-                    setStudioLikeState(likeIndexArr1);
-                  } else if (res.data === 0) {
-                    likeIndexArr1.push(undefined);
-                    setStudioLikeState(likeIndexArr1);
-                  } else {
-                    //로그인하지 않았을 때
-                    likeIndexArr1.push(-1);
-                    setStudioLikeState(likeIndexArr1);
-                  }
-                })
-                .catch((e) => {
-                  console.log(e);
-                });
 
-              axios
-                .get(`/item/getItemList/${newitemId}`)
-                .then((res) => {
-                  let newItem = res.data;
-                  itemDataArr1.push(newItem);
-                  itemDataArr1.sort(function (a, b) {
-                    return (
-                      new Date(b.itemWriteDate) - new Date(a.itemWriteDate)
-                    );
-                  });
-                  setStudioItem([...studioItem, newItem]);
-                  setStudioItem(itemDataArr1);
+              const res = await axios.post(`/like/findlist`, {
+                itemId: newitemId,
+                email: sessionStorage.getItem("email"),
+              });
+              let { data } = res;
+              if (data === 1) {
+                likeIndexArr1.push(true);
+                setStudioLikeState(likeIndexArr1);
+              } else if (data === 0) {
+                likeIndexArr1.push(undefined);
+                setStudioLikeState(likeIndexArr1);
+              } else {
+                //로그인하지 않았을 때
+                likeIndexArr1.push(-1);
+                setStudioLikeState(likeIndexArr1);
+              }
 
-                  let itemNameList = [];
-                  let itemLikeList = [];
-                  for (var j = 0; j < itemDataArr1.length; j++) {
-                    const newItemName = itemDataArr1[j].itemName;
-                    const newItemLike = itemDataArr1[j].like.length;
-                    itemNameList.push(newItemName);
-                    itemLikeList.push(newItemLike);
-                    setStudioItemName(itemNameList);
-                    setStudioItemLike(itemLikeList);
-                  }
-                })
-                .catch((e) => {
-                  console.log(e);
-                });
+              const res2 = await axios.get(`/item/getItemList/${newitemId}`);
+              let newItem = res2.data;
+              itemDataArr1.push(newItem);
+              itemDataArr1.sort(function (a, b) {
+                return new Date(b.itemWriteDate) - new Date(a.itemWriteDate);
+              });
+              setStudioItem([...studioItem, newItem]);
+              setStudioItem(itemDataArr1);
+
+              let itemNameList = [];
+              let itemLikeList = [];
+              for (var j = 0; j < itemDataArr1.length; j++) {
+                const newItemName = itemDataArr1[j].itemName;
+                const newItemLike = itemDataArr1[j].like.length;
+                itemNameList.push(newItemName);
+                itemLikeList.push(newItemLike);
+                setStudioItemName(itemNameList);
+                setStudioItemLike(itemLikeList);
+              }
             }
           }
         }
-        // else {
-        //   setFinish(true);
-        // }
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-    //의상
-    axios
-      .get(`/item/itemList/${category[2]}`)
-      .then((res) => {
-        const dataList = res.data;
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getStudioItem();
 
+    //의상
+    const getDressItem = async () => {
+      try {
+        const response = await axios.get(`/item/itemList/${category[2]}`);
+        const { data } = response;
+        const dataList = data;
+        console.log(dataList);
         if (dataList.length !== 0) {
           let index = 0;
           for (var i = 0; i < dataList.length; i++) {
@@ -325,70 +301,58 @@ function Home() {
               keyIndexArr2.push(index);
               index++;
               setDressKeyIndex(keyIndexArr2);
-              axios
-                .post(`/like/findlist`, {
-                  itemId: newitemId,
-                  email: sessionStorage.getItem("email"),
-                })
-                .then((res) => {
-                  if (res.data === 1) {
-                    likeIndexArr2.push(true);
-                    setDressLikeState(likeIndexArr2);
-                  } else if (res.data === 0) {
-                    likeIndexArr2.push(undefined);
-                    setDressLikeState(likeIndexArr2);
-                  } else {
-                    //로그인하지 않았을 때
-                    likeIndexArr2.push(-1);
-                    setDressLikeState(likeIndexArr2);
-                  }
-                })
-                .catch((e) => {
-                  console.log(e);
-                });
 
-              axios
-                .get(`/item/getItemList/${newitemId}`)
-                .then((res) => {
-                  let newItem = res.data;
-                  itemDataArr2.push(newItem);
-                  itemDataArr2.sort(function (a, b) {
-                    return (
-                      new Date(b.itemWriteDate) - new Date(a.itemWriteDate)
-                    );
-                  });
-                  setDressItem([...dressItem, newItem]);
-                  setDressItem(itemDataArr2);
-                  let itemNameList = [];
-                  let itemLikeList = [];
-                  for (var j = 0; j < itemDataArr2.length; j++) {
-                    const newItemName = itemDataArr2[j].itemName;
-                    const newItemLike = itemDataArr2[j].like.length;
-                    itemNameList.push(newItemName);
-                    itemLikeList.push(newItemLike);
-                    setDressItemName(itemNameList);
-                    setDressItemLike(itemLikeList);
-                  }
-                })
-                .catch((e) => {
-                  console.log(e);
-                });
+              const res = await axios.post(`/like/findlist`, {
+                itemId: newitemId,
+                email: sessionStorage.getItem("email"),
+              });
+              let { data } = res;
+              if (data === 1) {
+                likeIndexArr2.push(true);
+                setDressLikeState(likeIndexArr2);
+              } else if (data === 0) {
+                likeIndexArr2.push(undefined);
+                setDressLikeState(likeIndexArr2);
+              } else {
+                //로그인하지 않았을 때
+                likeIndexArr2.push(-1);
+                setDressLikeState(likeIndexArr2);
+              }
+
+              const res2 = await axios.get(`/item/getItemList/${newitemId}`);
+              let newItem = res2.data;
+              itemDataArr2.push(newItem);
+              itemDataArr2.sort(function (a, b) {
+                return new Date(b.itemWriteDate) - new Date(a.itemWriteDate);
+              });
+              setDressItem([...dressItem, newItem]);
+              setDressItem(itemDataArr2);
+              let itemNameList = [];
+              let itemLikeList = [];
+              for (var j = 0; j < itemDataArr2.length; j++) {
+                const newItemName = itemDataArr2[j].itemName;
+                const newItemLike = itemDataArr2[j].like.length;
+                itemNameList.push(newItemName);
+                itemLikeList.push(newItemLike);
+                setDressItemName(itemNameList);
+                setDressItemLike(itemLikeList);
+              }
             }
           }
         }
-        // else {
-        //   setFinish(true);
-        // }
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-    //메이크업
-    axios
-      .get(`/item/itemList/${category[3]}`)
-      .then((res) => {
-        const dataList = res.data;
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getDressItem();
 
+    //메이크업
+    const getMakeupItem = async () => {
+      try {
+        const response = await axios.get(`/item/itemList/${category[3]}`);
+        const { data } = response;
+        const dataList = data;
+        console.log(dataList);
         if (dataList.length !== 0) {
           let index = 0;
           for (var i = 0; i < dataList.length; i++) {
@@ -403,70 +367,58 @@ function Home() {
               keyIndexArr3.push(index);
               index++;
               setMakeupKeyIndex(keyIndexArr3);
-              axios
-                .post(`/like/findlist`, {
-                  itemId: newitemId,
-                  email: sessionStorage.getItem("email"),
-                })
-                .then((res) => {
-                  if (res.data === 1) {
-                    likeIndexArr3.push(true);
-                    setMakeupLikeState(likeIndexArr3);
-                  } else if (res.data === 0) {
-                    likeIndexArr3.push(undefined);
-                    setMakeupLikeState(likeIndexArr3);
-                  } else {
-                    //로그인하지 않았을 때
-                    likeIndexArr3.push(-1);
-                    setMakeupLikeState(likeIndexArr3);
-                  }
-                })
-                .catch((e) => {
-                  console.log(e);
-                });
 
-              axios
-                .get(`/item/getItemList/${newitemId}`)
-                .then((res) => {
-                  let newItem = res.data;
-                  itemDataArr3.push(newItem);
-                  itemDataArr3.sort(function (a, b) {
-                    return (
-                      new Date(b.itemWriteDate) - new Date(a.itemWriteDate)
-                    );
-                  });
-                  setMakeupItem([...makeupItem, newItem]);
-                  setMakeupItem(itemDataArr3);
-                  let itemNameList = [];
-                  let itemLikeList = [];
-                  for (var j = 0; j < itemDataArr3.length; j++) {
-                    const newItemName = itemDataArr3[j].itemName;
-                    const newItemLike = itemDataArr3[j].like.length;
-                    itemNameList.push(newItemName);
-                    itemLikeList.push(newItemLike);
-                    setMakeupItemName(itemNameList);
-                    setMakeupItemLike(itemLikeList);
-                  }
-                })
-                .catch((e) => {
-                  console.log(e);
-                });
+              const res = await axios.post(`/like/findlist`, {
+                itemId: newitemId,
+                email: sessionStorage.getItem("email"),
+              });
+              let { data } = res;
+              if (data === 1) {
+                likeIndexArr3.push(true);
+                setMakeupLikeState(likeIndexArr3);
+              } else if (data === 0) {
+                likeIndexArr3.push(undefined);
+                setMakeupLikeState(likeIndexArr3);
+              } else {
+                //로그인하지 않았을 때
+                likeIndexArr3.push(-1);
+                setMakeupLikeState(likeIndexArr3);
+              }
+
+              const res2 = await axios.get(`/item/getItemList/${newitemId}`);
+              let newItem = res2.data;
+              itemDataArr3.push(newItem);
+              itemDataArr3.sort(function (a, b) {
+                return new Date(b.itemWriteDate) - new Date(a.itemWriteDate);
+              });
+              setMakeupItem([...makeupItem, newItem]);
+              setMakeupItem(itemDataArr3);
+              let itemNameList = [];
+              let itemLikeList = [];
+              for (var j = 0; j < itemDataArr3.length; j++) {
+                const newItemName = itemDataArr3[j].itemName;
+                const newItemLike = itemDataArr3[j].like.length;
+                itemNameList.push(newItemName);
+                itemLikeList.push(newItemLike);
+                setMakeupItemName(itemNameList);
+                setMakeupItemLike(itemLikeList);
+              }
             }
           }
         }
-        //  else {
-        //   setFinish(true);
-        // }
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-    //신혼여행
-    axios
-      .get(`/item/itemList/${category[4]}`)
-      .then((res) => {
-        const dataList = res.data;
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getMakeupItem();
 
+    //신혼여행
+    const getHoneyMoonItem = async () => {
+      try {
+        const response = await axios.get(`/item/itemList/${category[4]}`);
+        const { data } = response;
+        const dataList = data;
+        console.log(dataList);
         if (dataList.length !== 0) {
           let index = 0;
           for (var i = 0; i < dataList.length; i++) {
@@ -481,70 +433,58 @@ function Home() {
               keyIndexArr4.push(index);
               index++;
               setHoneyMoonKeyIndex(keyIndexArr4);
-              axios
-                .post(`/like/findlist`, {
-                  itemId: newitemId,
-                  email: sessionStorage.getItem("email"),
-                })
-                .then((res) => {
-                  if (res.data === 1) {
-                    likeIndexArr4.push(true);
-                    setHoneyMoonLikeState(likeIndexArr4);
-                  } else if (res.data === 0) {
-                    likeIndexArr4.push(undefined);
-                    setHoneyMoonLikeState(likeIndexArr4);
-                  } else {
-                    //로그인하지 않았을 때
-                    likeIndexArr4.push(-1);
-                    setHoneyMoonLikeState(likeIndexArr4);
-                  }
-                })
-                .catch((e) => {
-                  console.log(e);
-                });
 
-              axios
-                .get(`/item/getItemList/${newitemId}`)
-                .then((res) => {
-                  let newItem = res.data;
-                  itemDataArr4.push(newItem);
-                  itemDataArr4.sort(function (a, b) {
-                    return (
-                      new Date(b.itemWriteDate) - new Date(a.itemWriteDate)
-                    );
-                  });
-                  setHoneyMoonItem([...honeyMoonItem, newItem]);
-                  setHoneyMoonItem(itemDataArr4);
-                  let itemNameList = [];
-                  let itemLikeList = [];
-                  for (var j = 0; j < itemDataArr4.length; j++) {
-                    const newItemName = itemDataArr4[j].itemName;
-                    const newItemLike = itemDataArr4[j].like.length;
-                    itemNameList.push(newItemName);
-                    itemLikeList.push(newItemLike);
-                    setHoneyMoonItemName(itemNameList);
-                    setHoneyMoonItemLike(itemLikeList);
-                  }
-                })
-                .catch((e) => {
-                  console.log(e);
-                });
+              const res = await axios.post(`/like/findlist`, {
+                itemId: newitemId,
+                email: sessionStorage.getItem("email"),
+              });
+              let { data } = res;
+              if (data === 1) {
+                likeIndexArr4.push(true);
+                setHoneyMoonLikeState(likeIndexArr4);
+              } else if (data === 0) {
+                likeIndexArr4.push(undefined);
+                setHoneyMoonLikeState(likeIndexArr4);
+              } else {
+                //로그인하지 않았을 때
+                likeIndexArr4.push(-1);
+                setHoneyMoonLikeState(likeIndexArr4);
+              }
+
+              const res2 = await axios.get(`/item/getItemList/${newitemId}`);
+              let newItem = res2.data;
+              itemDataArr4.push(newItem);
+              itemDataArr4.sort(function (a, b) {
+                return new Date(b.itemWriteDate) - new Date(a.itemWriteDate);
+              });
+              setHoneyMoonItem([...honeyMoonItem, newItem]);
+              setHoneyMoonItem(itemDataArr4);
+              let itemNameList = [];
+              let itemLikeList = [];
+              for (var j = 0; j < itemDataArr4.length; j++) {
+                const newItemName = itemDataArr4[j].itemName;
+                const newItemLike = itemDataArr4[j].like.length;
+                itemNameList.push(newItemName);
+                itemLikeList.push(newItemLike);
+                setHoneyMoonItemName(itemNameList);
+                setHoneyMoonItemLike(itemLikeList);
+              }
             }
           }
         }
-        // else {
-        //   setFinish(true);
-        // }
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-    //부케
-    axios
-      .get(`/item/itemList/${category[5]}`)
-      .then((res) => {
-        const dataList = res.data;
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getHoneyMoonItem();
 
+    //부케
+    const getBouquetItem = async () => {
+      try {
+        const response = await axios.get(`/item/itemList/${category[5]}`);
+        const { data } = response;
+        const dataList = data;
+        console.log(dataList);
         if (dataList.length !== 0) {
           let index = 0;
           for (var i = 0; i < dataList.length; i++) {
@@ -559,65 +499,51 @@ function Home() {
               keyIndexArr5.push(index);
               index++;
               setBouquetKeyIndex(keyIndexArr5);
-              axios
-                .post(`/like/findlist`, {
-                  itemId: newitemId,
-                  email: sessionStorage.getItem("email"),
-                })
-                .then((res) => {
-                  if (res.data === 1) {
-                    likeIndexArr5.push(true);
-                    setBouquetLikeState(likeIndexArr5);
-                  } else if (res.data === 0) {
-                    likeIndexArr5.push(undefined);
-                    setBouquetLikeState(likeIndexArr5);
-                  } else {
-                    //로그인하지 않았을 때
-                    likeIndexArr5.push(-1);
-                    setBouquetLikeState(likeIndexArr5);
-                  }
-                })
-                .catch((e) => {
-                  console.log(e);
-                });
 
-              axios
-                .get(`/item/getItemList/${newitemId}`)
-                .then((res) => {
-                  let newItem = res.data;
-                  itemDataArr5.push(newItem);
-                  itemDataArr5.sort(function (a, b) {
-                    return (
-                      new Date(b.itemWriteDate) - new Date(a.itemWriteDate)
-                    );
-                  });
-                  setBouquetItem([...bouquetItem, newItem]);
-                  setBouquetItem(itemDataArr5);
-                  let itemNameList = [];
-                  let itemLikeList = [];
-                  for (var j = 0; j < itemDataArr5.length; j++) {
-                    const newItemName = itemDataArr5[j].itemName;
-                    const newItemLike = itemDataArr5[j].like.length;
-                    itemNameList.push(newItemName);
-                    itemLikeList.push(newItemLike);
-                    setBouquetItemName(itemNameList);
-                    setBouquetItemLike(itemLikeList);
-                  }
-                  setFinish(true);
-                })
-                .catch((e) => {
-                  console.log(e);
-                });
+              const res = await axios.post(`/like/findlist`, {
+                itemId: newitemId,
+                email: sessionStorage.getItem("email"),
+              });
+              let { data } = res;
+              if (data === 1) {
+                likeIndexArr5.push(true);
+                setBouquetLikeState(likeIndexArr5);
+              } else if (data === 0) {
+                likeIndexArr5.push(undefined);
+                setBouquetLikeState(likeIndexArr5);
+              } else {
+                //로그인하지 않았을 때
+                likeIndexArr5.push(-1);
+                setBouquetLikeState(likeIndexArr5);
+              }
+
+              const res2 = await axios.get(`/item/getItemList/${newitemId}`);
+              let newItem = res2.data;
+              itemDataArr5.push(newItem);
+              itemDataArr5.sort(function (a, b) {
+                return new Date(b.itemWriteDate) - new Date(a.itemWriteDate);
+              });
+              setBouquetItem([...bouquetItem, newItem]);
+              setBouquetItem(itemDataArr5);
+              let itemNameList = [];
+              let itemLikeList = [];
+              for (var j = 0; j < itemDataArr5.length; j++) {
+                const newItemName = itemDataArr5[j].itemName;
+                const newItemLike = itemDataArr5[j].like.length;
+                itemNameList.push(newItemName);
+                itemLikeList.push(newItemLike);
+                setBouquetItemName(itemNameList);
+                setBouquetItemLike(itemLikeList);
+              }
+              setFinish(true);
             }
           }
         }
-        // else {
-        //   setFinish(true);
-        // }
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getBouquetItem();
   }, []);
 
   const showimgDetail = (e) => {

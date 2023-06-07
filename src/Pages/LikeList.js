@@ -186,6 +186,7 @@ function LikeList() {
               axios
                 .get(`/item/getItemList/${newitemId}`)
                 .then((res) => {
+                  console.log("=======================");
                   console.log(res);
 
                   let newItem = res.data;
