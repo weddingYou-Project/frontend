@@ -31,29 +31,16 @@ function PasswordChange() {
   }, []);
 
   const onClickpwUpdate = () => {
-    if (sessionStorage.getItem("user_name") !== null) {
-      axios
-        .post("/user/updatePassword", {
-          email: sessionStorage.getItem("email"),
-          password: password,
-        })
-        .then((res) => {
-          console.log("======================", "유저 비밀번호 변경완료");
-          sessionStorage.clear();
-        })
-        .catch();
-    } else {
-      axios
-        .post("/planner/updatePassword", {
-          email: sessionStorage.getItem("email"),
-          password: password,
-        })
-        .then((res) => {
-          console.log("======================", "플래너 비밀번호 변경완료");
-          sessionStorage.clear();
-        })
-        .catch();
-    }
+    const formData = new FormData();
+    formData.append("email", sessionStorage.getItem("email"));
+    formData.append("password", password);
+    axios
+      .post("/user/updatePassword", formData)
+      .then((res) => {
+        console.log("======================", "비밀번호 변경완료");
+        sessionStorage.clear();
+      })
+      .catch();
   };
 
   useEffect(() => {
