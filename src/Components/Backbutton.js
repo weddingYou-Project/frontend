@@ -89,8 +89,17 @@ function BackButton({ engTitle }) {
             navigate(-1);
           } else if (path.indexOf("/review/detail") !== -1) {
             navigate("/review");
+          } else if (path.indexOf("/noticepage") !== -1) {
+            navigate("/customercenter");
+          } else if (path.indexOf("/qnapage") !== -1) {
+            navigate("/customercenter");
+          } else if (
+            path.indexOf("/customercenter") !== -1 ||
+            path.indexOf("/review") !== -1
+          ) {
+            navigate("/menu");
           } else {
-            navigate("/");
+            navigate(-1);
           }
         }}
       >

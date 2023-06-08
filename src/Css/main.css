@@ -77,3 +77,31 @@ body {
     background: grey;
     font-size:1.2em;
   }
+
+  .containerbox {
+    margin: 0 auto;
+    display: flex;
+  }
+.box1 {
+    margin-right: 0;
+}
+.box2 {
+    background-color: #F6F6F6;
+    width: 50px;
+  }
+  .box3 {
+   
+    margin-left: 0;
+    margin-right: auto;
+  }
+  @media (max-width: 1006px) {
+    .box1 {
+        margin: 0 auto;
+    }
+    .box2 {
+      display: none;
+    }
+    .box3 {
+        display: none;
+    }
+  }

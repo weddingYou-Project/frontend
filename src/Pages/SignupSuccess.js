@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import "../Css/mypage.css";
+import Sidesection from "../Components/Sidesection";
 
 const SignupSuccess = () => {
   let [top, setTop] = useState(20);
@@ -19,8 +20,8 @@ const SignupSuccess = () => {
   });
 
   return (
-    <div className="bg">
-      <div className="Signup-wrap">
+    <div className="bg containerbox">
+      <div className="mainlayout box1">
         <div className="Signup-backicon" onClick={handleBack}>
           <i class="bi bi-chevron-left" style={{ fontSize: 30 }}></i>
         </div>
@@ -54,6 +55,10 @@ const SignupSuccess = () => {
             </button>
           </div>
         </div>
+      </div>
+      <div className="box2"></div>
+      <div className="box3">
+        <Sidesection />
       </div>
     </div>
   );

@@ -9,6 +9,7 @@ import NavigationBar from "../Components/NavigationBar";
 import { useState, useEffect } from "react";
 import "../Css/mypage.css";
 import axios from "axios";
+import Sidesection from "../Components/Sidesection";
 
 function PasswordChange() {
   let [passwordcheck, setPasswordcheck] = useState(false);
@@ -31,29 +32,16 @@ function PasswordChange() {
   }, []);
 
   const onClickpwUpdate = () => {
-    if (sessionStorage.getItem("user_name") !== null) {
-      axios
-        .post("/user/updatePassword", {
-          email: sessionStorage.getItem("email"),
-          password: password,
-        })
-        .then((res) => {
-          console.log("======================", "유저 비밀번호 변경완료");
-          sessionStorage.clear();
-        })
-        .catch();
-    } else {
-      axios
-        .post("/planner/updatePassword", {
-          email: sessionStorage.getItem("email"),
-          password: password,
-        })
-        .then((res) => {
-          console.log("======================", "플래너 비밀번호 변경완료");
-          sessionStorage.clear();
-        })
-        .catch();
-    }
+    const formData = new FormData();
+    formData.append("email", sessionStorage.getItem("email"));
+    formData.append("password", password);
+    axios
+      .post("/user/updatePassword", formData)
+      .then((res) => {
+        console.log("======================", "비밀번호 변경완료");
+        sessionStorage.clear();
+      })
+      .catch();
   };
 
   useEffect(() => {
@@ -101,124 +89,130 @@ function PasswordChange() {
   };
 
   return (
-    <div className="mainlayout">
-      <NavigationBar title={"비밀번호 변경하기"} />
-      <div
-        className="container text-center"
-        style={{ marginTop: "100px", height: "700px" }}
-      >
-        <div className="row">
-          <div className="col"></div>
-          <div className="col-6">
-            <img className="logo" src={imgLogo} alt="로고" />
-          </div>
-          <div className="col"></div>
-        </div>
-      </div>
-      <div className="container text-center" style={{ height: "450px" }}>
-        {/* <form> */}
-        <div className="row">
-          <div className="col"></div>
-          <div className="col-6">
-            {/* <p className="loginmessage">변경할 비밀번호를 입력하세요</p> */}
-            <div className="mb-3">
-              <InputComp
-                content="변경할 비밀번호"
-                EventHandler={EventHandlerPassword}
-                style={passwordstyle}
-                message="최소8자 이상, 대문자, 소문자, 숫자, 특수문자를 포함"
-                length={20}
-                type="password"
-              />
-              <InputComp
-                content="비밀번호 확인"
-                EventHandler={EventHandlerPassword2}
-                style={passwordstyle2}
-                message="비밀번호 불일치"
-                length={20}
-                type="password"
-              />
-            </div>
-          </div>
-          <div className="col"></div>
-        </div>
-        <br />
-        <button
-          type="submit"
-          className="btn-colour-2"
-          data-bs-toggle="modal"
-          data-bs-target="#exampleModal"
-          disabled={!passwordcheck || !passwordcheck2}
-          style={{
-            marginBottom: "15px",
-          }}
-          id="changepasswordbtn"
-          onClick={onClickpwUpdate}
+    <div className="containerbox">
+      <div className="mainlayout box1">
+        <NavigationBar title={"비밀번호 변경하기"} />
+        <div
+          className="container text-center"
+          style={{ marginTop: "50px", height: "400px" }}
         >
-          비밀번호 변경하기
-        </button>
-        {/* </form> */}
-        <br />
-        <button type="submit" className="btn-colour-1">
-          <Link
-            to="/login"
+          <div className="row">
+            <div className="col"></div>
+            <div className="col-6">
+              <img className="logo" src={imgLogo} alt="로고" />
+            </div>
+            <div className="col"></div>
+          </div>
+        </div>
+        <div className="container text-center" style={{ height: "450px" }}>
+          {/* <form> */}
+          <div className="row">
+            <div className="col"></div>
+            <div className="col-6">
+              {/* <p className="loginmessage">변경할 비밀번호를 입력하세요</p> */}
+              <div className="mb-3">
+                <InputComp
+                  content="변경할 비밀번호"
+                  EventHandler={EventHandlerPassword}
+                  style={passwordstyle}
+                  message="최소8자 이상, 대문자, 소문자, 숫자, 특수문자를 포함"
+                  length={20}
+                  type="password"
+                />
+                <InputComp
+                  content="비밀번호 확인"
+                  EventHandler={EventHandlerPassword2}
+                  style={passwordstyle2}
+                  message="비밀번호 불일치"
+                  length={20}
+                  type="password"
+                />
+              </div>
+            </div>
+            <div className="col"></div>
+          </div>
+          <br />
+          <button
+            type="submit"
+            className="btn-colour-2"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+            disabled={!passwordcheck || !passwordcheck2}
             style={{
-              color: "white",
-              textDecorationLine: "none",
+              marginBottom: "15px",
             }}
+            id="changepasswordbtn"
+            onClick={onClickpwUpdate}
           >
-            메인으로 돌아가기
-          </Link>
-        </button>
-        <br />
-        <br />
-      </div>
-      <div
-        class="modal fade"
-        id="exampleModal"
-        tabindex="-1"
-        aria-labelledby="PasswordChange"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <div className="infotext4">
-                <i className="bi bi-dash-lg"></i>&nbsp;&nbsp;
-                <span style={{ fontSize: "1.4em" }}>비밀번호 변경 완료</span>
-                &nbsp;&nbsp;
-                <i className="bi bi-dash-lg"></i>
+            비밀번호 변경하기
+          </button>
+          {/* </form> */}
+          <br />
+          <button type="submit" className="btn-colour-1">
+            <Link
+              to="/login"
+              style={{
+                color: "white",
+                textDecorationLine: "none",
+              }}
+            >
+              메인으로 돌아가기
+            </Link>
+          </button>
+          <br />
+          <br />
+        </div>
+        <div
+          class="modal fade"
+          id="exampleModal"
+          tabindex="-1"
+          aria-labelledby="PasswordChange"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <div className="infotext4">
+                  <i className="bi bi-dash-lg"></i>&nbsp;&nbsp;
+                  <span style={{ fontSize: "1.4em" }}>비밀번호 변경 완료</span>
+                  &nbsp;&nbsp;
+                  <i className="bi bi-dash-lg"></i>
+                </div>
               </div>
-            </div>
-            <div class="modal-body infotext4">
-              <div className="infotext4" style={{ fontSize: "1.2em" }}>
-                비밀번호가 변경되었습니다.
-                <br />
-                바뀐 비밀번호로 로그인해주세요!
+              <div class="modal-body infotext4">
+                <div className="infotext4" style={{ fontSize: "1.2em" }}>
+                  비밀번호가 변경되었습니다.
+                  <br />
+                  바뀐 비밀번호로 로그인해주세요!
+                </div>
               </div>
-            </div>
-            <div class="modal-footer infotext4">
-              <button
-                type="button"
-                class="btn btn-primary"
-                data-bs-dismiss="modal"
-                style={{ fontSize: "1.3em" }}
-              >
-                <Link
-                  to="/login"
-                  style={{
-                    color: "white",
-                    textDecorationLine: "none",
-                  }}
+              <div class="modal-footer infotext4">
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  data-bs-dismiss="modal"
+                  style={{ fontSize: "1.3em" }}
                 >
-                  메인으로 돌아가기
-                </Link>
-              </button>
+                  <Link
+                    to="/login"
+                    style={{
+                      color: "white",
+                      textDecorationLine: "none",
+                    }}
+                  >
+                    메인으로 돌아가기
+                  </Link>
+                </button>
+              </div>
             </div>
           </div>
         </div>
+        <Footer />
       </div>
-      <Footer />
+      <div className="box2"></div>
+      <div className="box3">
+        <Sidesection />
+      </div>
     </div>
   );
 }

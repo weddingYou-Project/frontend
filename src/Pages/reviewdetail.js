@@ -7,6 +7,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FaStar } from "react-icons/fa";
 import styled from "styled-components";
+import Sidesection from "../Components/Sidesection";
 
 function Reviewdetail() {
   const [editMode, setEditMode] = useState(false);
@@ -20,6 +21,7 @@ function Reviewdetail() {
   const [reviewTitle, setReviewTitle] = useState([]);
   const [rating, setReviewStars] = useState([]);
   const [reviewComments, setReviewComments] = useState([]);
+  const [reviewCommentsIndex, setReviewCommentsIndex] = useState([]);
   const [reviewViews, setReviewViews] = useState([]);
   const [reviewDate, setReviewDate] = useState([]);
   const [reviewText, setReviewText] = useState([]);
@@ -34,6 +36,14 @@ function Reviewdetail() {
   const [authorityBtns, setShowAuthorityBtns] = useState(true);
   const navigate = useNavigate();
 
+  const [commentcontent, setCommentContent] = useState("");
+  const [commentEmail, setCommentEmail] = useState([]);
+  const [editIndex, setEditIndex] = useState(0);
+  const [updated, setUpdated] = useState(false);
+  const [created, setCreated] = useState(false);
+  const [deleted, setDeleted] = useState(false);
+  const [inputEditedComment, setInputEditedComment] = useState("");
+  const [bsIndex, setBsIndex] = useState(0);
   const handleStarClick = (index) => {
     let clickStates = [...clicked];
     for (let i = 0; i < 5; i++) {
@@ -98,6 +108,17 @@ function Reviewdetail() {
         setReviewTitle(data.reviewTitle);
         setReviewStars(data.reviewStars);
         setReviewComments(data.comments);
+        const reviewCommentsIndexArr = [];
+        const commentContentArr = [];
+        const commentEmailArr = [];
+        for (let i = 0; i < data.comments.length; i++) {
+          reviewCommentsIndexArr.push(i);
+          commentContentArr.push(data.comments[i].commentContent);
+          commentEmailArr.push(data.comments[i].commentEmail);
+        }
+        setReviewCommentsIndex(reviewCommentsIndexArr);
+        setCommentEmail(commentEmailArr);
+        setEditedComment(commentContentArr);
         setReviewViews(data.reviewCounts);
         setReviewDate(data.reviewDate);
         setPlannerEmail(data.plannerEmail);
@@ -130,7 +151,7 @@ function Reviewdetail() {
       .catch((e) => {
         console.log(e);
       });
-  }, []);
+  }, [updated, created, deleted]);
 
   useEffect(() => {
     const formData = new FormData();
@@ -150,26 +171,34 @@ function Reviewdetail() {
       });
   }, []);
 
-  const handleEditClick = () => {
+  const handleEditClick = (e) => {
+    console.log(e.target.dataset.bsIndex);
+    const index = e.target.dataset.bsIndex;
+    setEditIndex(e.target.dataset.bsIndex);
+    setEditMode(true);
+  };
+
+  const handleSaveClick = (e) => {
+    const index = e.target.dataset.bsIndex;
+    const formData = new FormData();
+    formData.append("index", index);
+    formData.append("estimateId", estimateId);
+    formData.append("commentContent", inputEditedComment);
     axios
-      .get(`/reviewauthority/${estimateId}`)
+      .post(`/updatecomment`, formData)
       .then((res) => {
         console.log(res);
-        if (res.data == 1) {
-          setEditMode(true);
-        }
+        setUpdated(!updated);
+        setInputEditedComment("");
       })
       .catch((e) => {
         console.log(e);
       });
-  };
-
-  const handleSaveClick = () => {
     setEditMode(false);
   };
 
   const handleChange = (e) => {
-    setEditedComment(e.target.value);
+    setInputEditedComment(e.target.value);
   };
 
   const reviewUpdateForm = () => {
@@ -368,382 +397,502 @@ function Reviewdetail() {
     // window.location.reload(); // 페이지 새로고침
   };
 
+  const handleDelete2 = (e) => {
+    console.log("===============================");
+
+    console.log(bsIndex);
+    const index = bsIndex;
+    const formData = new FormData();
+    formData.append("index", index);
+    formData.append("estimateId", estimateId);
+
+    axios.post(`/deletecomment`, formData).then((res) => {
+      console.log(res);
+      alert(`댓글이 삭제되었습니다!`);
+      setDeleted(!deleted);
+    });
+    // window.location.reload(); // 페이지 새로고침
+  };
+
+  const createcomment = (e) => {
+    const formData = new FormData();
+    formData.append("email", sessionStorage.getItem("email"));
+    formData.append("category", sessionStorage.getItem("category"));
+    formData.append("commentContent", commentcontent);
+    formData.append("estimateId", estimateId);
+    axios
+      .post(`/createcomment`, formData)
+      .then((res) => {
+        console.log(res);
+        setCreated(!created);
+        setCommentContent("");
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
   if (actionmode === 0) {
     return (
-      <div className="mainlayout">
-        <NavigationBar title={"이용후기"} />
-        <div style={{ height: 64 }}></div>
-        <div className="titleArea">
-          <p className="titleTxt">{reviewTitle}</p>
-          <p className="dateTxt">{reviewDate.slice(0, 10)}</p>
-          <p className="viewCountTxt">조회수 : {reviewViews}</p>
-          <div className="ratingStars">
-            <Rating />
-          </div>
-        </div>
-        <hr />
-        <div className="ContentArea">
-          <p className="noticeContxt" style={{ paddingLeft: "20px" }}>
-            {reviewText}
-          </p>
-
-          {authorityBtns === true ? (
-            <div style={{ display: "flex", justifyContent: "end" }}>
-              <button className="upAndDelBtn2" onClick={reviewUpdateForm}>
-                수정
-              </button>
-              <button
-                className="upAndDelBtn2"
-                data-bs-toggle="modal"
-                data-bs-target="#reviewDelete"
-              >
-                삭제
-              </button>
-            </div>
-          ) : null}
-
-          <div
-            class="modal fade"
-            id="reviewDelete"
-            tabindex="-1"
-            aria-labelledby="reviewDelete"
-            aria-hidden="true"
-          >
-            <div class="modal-dialog modal-dialog-centered">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="exampleModalLabel">
-                    이용후기 삭제
-                  </h1>
+      <div className="containerbox">
+        <div className="mainlayout box1">
+          <NavigationBar title={"이용후기"} />
+          <div style={{ height: 64 }}></div>
+          <div className="titleArea">
+            <div style={{ display: "flex" }}>
+              <p className="titleTxt">{reviewTitle}</p>
+              {authorityBtns === true ? (
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "end",
+                    marginTop: "25px",
+                    marginLeft: "20px",
+                  }}
+                >
                   <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                  ></button>
-                </div>
-                <div class="modal-body" style={{ fontSize: 26 }}>
-                  정말로 삭제하시겠습니까?
-                </div>
-                <div class="modal-footer">
+                    className="upAndDelBtn2"
+                    style={{ width: "90px" }}
+                    onClick={reviewUpdateForm}
+                  >
+                    수정
+                  </button>
                   <button
-                    type="button"
-                    class="btn btn-primary"
-                    data-bs-dismiss="modal"
-                    onClick={handleDelete}
+                    className="upAndDelBtn2"
+                    data-bs-toggle="modal"
+                    data-bs-target="#reviewDelete"
+                    style={{ width: "90px" }}
                   >
                     삭제
                   </button>
-                  <button
-                    type="button"
-                    class="btn btn-secondary"
-                    data-bs-dismiss="modal"
-                  >
-                    취소
-                  </button>
+                </div>
+              ) : null}
+            </div>
+
+            <div style={{ display: "flex" }}>
+              <p className="dateTxt">{reviewDate.slice(0, 10)}</p>
+              <p className="viewCountTxt">조회수 : {reviewViews}</p>
+              <div className="ratingStars">
+                <Rating />
+              </div>{" "}
+            </div>
+          </div>
+          <hr />
+          <div className="ContentArea">
+            <textarea
+              className="noticeContxt"
+              style={{
+                marginLeft: "10px",
+                fontSize: "1.5em",
+                border: "none",
+                width: "96%",
+                height: "500px",
+              }}
+              value={reviewText}
+              disabled
+            ></textarea>
+
+            <div
+              class="modal fade"
+              id="reviewDelete"
+              tabindex="-1"
+              aria-labelledby="reviewDelete"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">
+                      이용후기 삭제
+                    </h1>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div class="modal-body" style={{ fontSize: 26 }}>
+                    정말로 삭제하시겠습니까?
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      data-bs-dismiss="modal"
+                      onClick={handleDelete}
+                    >
+                      삭제
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                    >
+                      취소
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <hr />
-        <div className="contentbox-detail" style={{ paddingLeft: "20px" }}>
-          <h5 style={{ marginBottom: "-15px" }}>
-            고객 첨부이미지{" "}
-            {images.length !== 0 && <span>(클릭시 확대됩니다)</span>}
-          </h5>
-          {images.length === 0 && <span>첨부 이미지가 없습니다.</span>}
-          <br></br>
-          <div>
-            {images.map((e, index) => {
-              return (
-                <div key={index}>
-                  <>
-                    <button
-                      type="button"
-                      class="btn"
-                      data-bs-toggle="modal"
-                      data-bs-target={`#number${index.toString()}`}
-                      style={{ width: "40%" }}
-                    >
-                      <img
-                        src={e}
-                        width="40%"
-                        height="40%"
-                        style={{
-                          float: "left",
-                          width: "100%",
-                          borderRadius: "10px",
-                        }}
-                        alt=""
+          <hr />
+          <div className="contentbox-detail" style={{ paddingLeft: "20px" }}>
+            <h5 style={{ marginBottom: "-15px" }}>
+              고객 첨부이미지{" "}
+              {images.length !== 0 && <span>(클릭시 확대됩니다)</span>}
+            </h5>
+            {images.length === 0 && <span>첨부 이미지가 없습니다.</span>}
+            <br></br>
+            <div>
+              {images.map((e, index) => {
+                return (
+                  <div key={index}>
+                    <>
+                      <button
+                        type="button"
+                        class="btn"
+                        data-bs-toggle="modal"
+                        data-bs-target={`#number${index.toString()}`}
+                        style={{ width: "40%" }}
+                      >
+                        <img
+                          src={e}
+                          width="40%"
+                          height="40%"
+                          style={{
+                            float: "left",
+                            width: "100%",
+                            borderRadius: "10px",
+                          }}
+                          alt=""
+                        />
+                      </button>
+                      <ImagesView
+                        images={e}
+                        index={`number${index.toString()}`}
                       />
-                    </button>
-                    <ImagesView
-                      images={e}
-                      index={`number${index.toString()}`}
-                    />
-                  </>
+                    </>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          <p className="ComentTitle">댓글</p>
+          <div className="ComentArea">
+            {reviewCommentsIndex.map((index) => {
+              // setEditedComment(reviewComments[index].commentContent);
+              console.log("index=>" + index);
+              return (
+                <div className="Coment">
+                  <p className="nickname">
+                    {reviewComments[index].commentWriter}
+                  </p>
+                  <p className="dateTxt">
+                    {reviewComments[index].commentDate.slice(0, 10)}
+                  </p>
+                  <br />
+                  <div>
+                    {editMode && editIndex == index ? (
+                      <div>
+                        <input
+                          type="text"
+                          placeholder={reviewComments[index].commentContent}
+                          onChange={handleChange}
+                          className="comentinput"
+                          value={inputEditedComment}
+                          style={{ fontSize: 20, marginLeft: "30px" }}
+                        />
+                        <button
+                          data-bs-index={index}
+                          onClick={handleSaveClick}
+                          className="writeBtn2"
+                        >
+                          완료
+                        </button>
+                      </div>
+                    ) : commentEmail[index] ===
+                      sessionStorage.getItem("email") ? (
+                      <div>
+                        <p className="AnsTxt" style={{ marginLeft: "10px" }}>
+                          {reviewComments[index].commentContent}
+                        </p>
+                        <button
+                          data-bs-index={index}
+                          onClick={handleEditClick}
+                          className="upAndDelBtn3"
+                        >
+                          수정
+                        </button>
+                        <button
+                          className="upAndDelBtn3"
+                          data-bs-index={index}
+                          onClick={() => {
+                            setBsIndex(index);
+                          }}
+                          data-bs-toggle="modal"
+                          data-bs-target="#reviewComentDelete"
+                        >
+                          삭제
+                        </button>
+                        <div
+                          class="modal fade"
+                          id="reviewComentDelete"
+                          tabindex="-1"
+                          aria-labelledby="reviewComentDelete"
+                          aria-hidden="true"
+                        >
+                          <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h1
+                                  class="modal-title fs-5"
+                                  id="exampleModalLabel"
+                                >
+                                  댓글 삭제
+                                </h1>
+                                <button
+                                  type="button"
+                                  class="btn-close"
+                                  data-bs-dismiss="modal"
+                                  aria-label="Close"
+                                ></button>
+                              </div>
+                              <div class="modal-body" style={{ fontSize: 26 }}>
+                                정말로 삭제하시겠습니까?
+                              </div>
+                              <div class="modal-footer">
+                                <button
+                                  type="button"
+                                  data-bs-index={index}
+                                  class="btn btn-primary"
+                                  data-bs-dismiss="modal"
+                                  onClick={handleDelete2}
+                                >
+                                  삭제
+                                </button>
+                                <button
+                                  type="button"
+                                  class="btn btn-secondary"
+                                  data-bs-dismiss="modal"
+                                >
+                                  취소
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ) : (
+                      <div>
+                        <p className="AnsTxt" style={{ marginLeft: "10px" }}>
+                          {reviewComments[index].commentContent}
+                        </p>
+                      </div>
+                    )}
+                  </div>
                 </div>
               );
             })}
+
+            {sessionStorage.getItem("email") !== null ? (
+              <div>
+                <input
+                  type="text"
+                  className="comentinput"
+                  style={{ fontSize: 20, marginLeft: "30px" }}
+                  value={commentcontent}
+                  onChange={(e) => {
+                    setCommentContent(e.target.value);
+                  }}
+                ></input>
+                <button onClick={createcomment} className="writeBtn2">
+                  작성
+                </button>
+              </div>
+            ) : null}
           </div>
+          <div style={{ height: 90 }}></div>
+          <Footer />
         </div>
-        <p className="ComentTitle">댓글</p>
-        <div className="ComentArea">
-          <div className="Coment">
-            <p className="nickname">사용자 1</p>
-            <p className="dateTxt">2023.05.22</p>
-            <br />
-            <div>
-              {editMode ? (
-                <div>
-                  <input
-                    type="text"
-                    placeholder={editedComment}
-                    onChange={handleChange}
-                    className="comentinput"
-                    style={{ fontSize: 20 }}
-                  />
-                  <button onClick={handleSaveClick} className="writeBtn2">
-                    완료
-                  </button>
-                </div>
-              ) : (
-                <div>
-                  <p className="AnsTxt">{editedComment}</p>
-                  <button onClick={handleEditClick} className="upAndDelBtn3">
-                    수정
-                  </button>
-                  <button
-                    className="upAndDelBtn3"
-                    data-bs-toggle="modal"
-                    data-bs-target="#reviewComentDelete"
-                  >
-                    삭제
-                  </button>
-                  <div
-                    class="modal fade"
-                    id="reviewComentDelete"
-                    tabindex="-1"
-                    aria-labelledby="reviewComentDelete"
-                    aria-hidden="true"
-                  >
-                    <div class="modal-dialog modal-dialog-centered">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h1 class="modal-title fs-5" id="exampleModalLabel">
-                            댓글 삭제
-                          </h1>
-                          <button
-                            type="button"
-                            class="btn-close"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"
-                          ></button>
-                        </div>
-                        <div class="modal-body" style={{ fontSize: 26 }}>
-                          정말로 삭제하시겠습니까?
-                        </div>
-                        <div class="modal-footer">
-                          <button
-                            type="button"
-                            class="btn btn-primary"
-                            onClick={handleDelete}
-                          >
-                            삭제
-                          </button>
-                          <button
-                            type="button"
-                            class="btn btn-secondary"
-                            data-bs-dismiss="modal"
-                          >
-                            취소
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-          <input
-            type="text"
-            className="comentinput"
-            style={{ fontSize: 20 }}
-          ></input>
-          <button className="writeBtn2">작성</button>
+        <div className="box2"></div>
+        <div className="box3">
+          <Sidesection />
         </div>
-        <div style={{ height: 90 }}></div>
-        <Footer />
       </div>
     );
   } else if (actionmode === 1) {
     return (
-      <div className="mainlayout">
-        <NavigationBar title={"글수정"} />
-        <div style={{ height: 74 }}></div>
-        <div className="titleArea" style={{ display: "flex" }}>
-          <input
-            className="titleTxt"
-            type="text"
-            style={{
-              marginLeft: "20px",
-              marginRight: "20px",
-              height: "45px",
-              marginTop: "20px",
-              textAlign: "start",
-              paddingBottom: "20px",
-              borderRadius: "10px",
-            }}
-            value={reviewTitle}
-            onChange={(e) => {
-              setReviewTitle(e.target.value);
-            }}
-          ></input>
-          <div className="stars" style={{ marginTop: "10px" }}>
-            <Stars>
-              {ARRAY.map((el, idx) => {
-                return (
-                  <FaStar
-                    key={idx}
-                    size="25"
-                    onClick={() => handleStarClick(el)}
-                    className={clicked[el] && "yellowStar"}
-                  />
-                );
-              })}
-            </Stars>
-            <input type="hidden" value={rating} />
+      <div className="containerbox">
+        <div className="mainlayout box1">
+          <NavigationBar title={"글수정"} />
+          <div style={{ height: 74 }}></div>
+          <div className="titleArea" style={{ display: "flex" }}>
+            <input
+              className="titleTxt"
+              type="text"
+              style={{
+                marginLeft: "20px",
+                marginRight: "20px",
+                height: "45px",
+                marginTop: "20px",
+                textAlign: "start",
+                paddingBottom: "20px",
+                borderRadius: "10px",
+              }}
+              value={reviewTitle}
+              onChange={(e) => {
+                setReviewTitle(e.target.value);
+              }}
+            ></input>
+            <div className="stars" style={{ marginTop: "10px" }}>
+              <Stars>
+                {ARRAY.map((el, idx) => {
+                  return (
+                    <FaStar
+                      key={idx}
+                      size="25"
+                      onClick={() => handleStarClick(el)}
+                      className={clicked[el] && "yellowStar"}
+                    />
+                  );
+                })}
+              </Stars>
+              <input type="hidden" value={rating} />
+            </div>
           </div>
-        </div>
-        <hr />
-        <div className="writeContent">
-          <textarea
-            className="form-control contentinput"
-            rows="15"
-            placeholder="수정내용을 입력해주세요"
-            value={reviewText}
-            onChange={(e) => {
-              setReviewText(e.target.value);
-            }}
-            style={{ fontSize: 20 }}
-          ></textarea>
-        </div>
-        <hr />
+          <hr />
+          <div className="writeContent">
+            <textarea
+              className="form-control contentinput"
+              rows="15"
+              placeholder="수정내용을 입력해주세요"
+              value={reviewText}
+              onChange={(e) => {
+                setReviewText(e.target.value);
+              }}
+              style={{ fontSize: 20 }}
+            ></textarea>
+          </div>
+          <hr />
 
-        <div className="photouploadsection">
-          <p className="uploadphoto" style={{ fontSize: "1.5em" }}>
-            사진 첨부
-          </p>
-          <input
-            type="file"
-            multiple
-            id="uploadimage"
-            className="displaynone"
-            accept="image/*"
-            onChange={handleImageChange}
-          />
-          <label
-            htmlFor="uploadimage"
-            style={{ fontSize: "1.5em" }}
-            className="cursor imageBtn"
-          >
-            사진선택
-          </label>
+          <div className="photouploadsection">
+            <p className="uploadphoto" style={{ fontSize: "1.5em" }}>
+              사진 첨부
+            </p>
+            <input
+              type="file"
+              multiple
+              id="uploadimage"
+              className="displaynone"
+              accept="image/*"
+              onChange={handleImageChange}
+            />
+            <label
+              htmlFor="uploadimage"
+              style={{ fontSize: "1.5em" }}
+              className="cursor imageBtn"
+            >
+              사진선택
+            </label>
 
-          <div>
-            <h5>
-              고객 첨부이미지{" "}
-              {previewUrl.length !== 0 && <span>(클릭시 삭제됩니다)</span>}
-            </h5>
-            {previewUrl.length === 0 && <span>첨부 이미지가 없습니다.</span>}
-            <br></br>
-            {console.log("previewUrl")}
-            {console.log(previewUrl)}
-            {previewUrl.length !== 0 ? (
-              previewUrl.map((url, index) => {
-                return (
-                  <div key={index} style={{ marginBottom: "20px" }}>
-                    <button
-                      type="button"
-                      class="btn imgOverlay"
-                      // data-bs-toggle="modal"
-                      // data-bs-target={`#number${index.toString()}`}
-                      style={{
-                        width: "200px",
-                        pointer: "cursor",
-                        padding: 0,
-                        height: "100%",
-                        borderRadius: "10px",
-                        margin: 0,
-                      }}
-                      onClick={() => {
-                        deleteImg(index);
-                      }}
-                    >
-                      <img
-                        src={url}
-                        alt=""
+            <div>
+              <h5>
+                고객 첨부이미지{" "}
+                {previewUrl.length !== 0 && <span>(클릭시 삭제됩니다)</span>}
+              </h5>
+              {previewUrl.length === 0 && <span>첨부 이미지가 없습니다.</span>}
+              <br></br>
+              {console.log("previewUrl")}
+              {console.log(previewUrl)}
+              {previewUrl.length !== 0 ? (
+                previewUrl.map((url, index) => {
+                  return (
+                    <div key={index} style={{ marginBottom: "20px" }}>
+                      <button
+                        type="button"
+                        class="btn imgOverlay"
+                        // data-bs-toggle="modal"
+                        // data-bs-target={`#number${index.toString()}`}
                         style={{
-                          display: "inline-block",
                           width: "200px",
-                          height: "200px",
-
+                          pointer: "cursor",
+                          padding: 0,
+                          height: "100%",
                           borderRadius: "10px",
+                          margin: 0,
                         }}
-                      />
-                    </button>
-                    {/* <ImagesView
+                        onClick={() => {
+                          deleteImg(index);
+                        }}
+                      >
+                        <img
+                          src={url}
+                          alt=""
+                          style={{
+                            display: "inline-block",
+                            width: "200px",
+                            height: "200px",
+
+                            borderRadius: "10px",
+                          }}
+                        />
+                      </button>
+                      {/* <ImagesView
                       images={url}
                       index={`number${index.toString()}`}
                     /> */}
-                  </div>
-                );
-              })
-            ) : (
-              <div></div>
-              // <div style={{ marginTop: 5 }}>
-              //   {images.map((image, index) => {
-              //     return (
-              //       <div className="imagefilenamebox">
-              //         <div className="imagefilenamecontent">
-              //           <span>{image.name}</span>
-              //           <img
-              //             src={image}
-              //             width="40%"
-              //             height="40%"
-              //             style={{
-              //               float: "left",
-              //               width: "100%",
-              //               borderRadius: "10px",
-              //             }}
-              //             alt=""
-              //           />
-              //           <div
-              //             className="imagefilename-overlay cursor"
-              //             onClick={() => {
-              //               deleteimage(image.name);
-              //             }}
-              //           >
-              //             <i class="bi bi-x-lg"></i>
-              //           </div>
-              //         </div>
-              //       </div>
-              //     );
-              //   })}
-              // </div>
-            )}
+                    </div>
+                  );
+                })
+              ) : (
+                <div></div>
+                // <div style={{ marginTop: 5 }}>
+                //   {images.map((image, index) => {
+                //     return (
+                //       <div className="imagefilenamebox">
+                //         <div className="imagefilenamecontent">
+                //           <span>{image.name}</span>
+                //           <img
+                //             src={image}
+                //             width="40%"
+                //             height="40%"
+                //             style={{
+                //               float: "left",
+                //               width: "100%",
+                //               borderRadius: "10px",
+                //             }}
+                //             alt=""
+                //           />
+                //           <div
+                //             className="imagefilename-overlay cursor"
+                //             onClick={() => {
+                //               deleteimage(image.name);
+                //             }}
+                //           >
+                //             <i class="bi bi-x-lg"></i>
+                //           </div>
+                //         </div>
+                //       </div>
+                //     );
+                //   })}
+                // </div>
+              )}
+            </div>
           </div>
+          <br />
+          <div className="writeBtnArea" style={{ marginTop: "-40px" }}>
+            <button className="writeBtn" onClick={updateReview}>
+              수정하기
+            </button>
+          </div>
+          <div style={{ height: 200 }}></div>
+          <Footer />
         </div>
-        <br />
-        <div className="writeBtnArea" style={{ marginTop: "-40px" }}>
-          <button className="writeBtn" onClick={updateReview}>
-            수정하기
-          </button>
+        <div className="box2"></div>
+        <div className="box3">
+          <Sidesection />
         </div>
-        <div style={{ height: 200 }}></div>
-        <Footer />
       </div>
     );
   }

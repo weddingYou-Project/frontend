@@ -10,10 +10,12 @@ import axios from "axios";
 // import "../Css/checkoutall.css";
 import $ from "jquery";
 import "bootstrap";
+import Sidesection from "../Components/Sidesection";
 
 function CheckoutAll() {
   var IMP = window.IMP;
-  IMP.init("imp67011510");
+  // IMP.init("imp67011510");
+  IMP.init("imp01206222");
   const { estimateId } = useLocation().state;
   console.log(estimateId);
   const { userName } = useLocation().state;
@@ -184,185 +186,126 @@ function CheckoutAll() {
   // }, [changedPrice]);
 
   return (
-    <div className="mainlayout" style={{ minHeight: "100vh" }}>
-      <NavigationBar title={"결제하기"} />
-      <div className="plannerpro" style={{ marginTop: 110 }}>
-        {plannerImg === "data:image/jpeg;base64," ? (
-          <img
-            src={defaultprofileimage}
-            style={{ width: "250px", height: "230px" }}
-            className="plannerproimg"
-            alt={defaultprofileimage}
-          />
-        ) : (
-          <img
-            src={plannerImg}
-            style={{ width: "250px", height: "230px" }}
-            className="plannerproimg"
-            alt={defaultprofileimage}
-          />
-        )}
-        <p className="plannerName">{plannerName}</p>
-      </div>
-      <div className="mb-3 row checkouttext">
-        <label
-          for="staticEmail"
-          style={{ fontSize: "0.9em" }}
-          className="col-sm-4 col-form-label"
-        >
-          상품명
-        </label>
-        <div className="col-sm-8">
-          <input
-            type="text"
-            readonly
-            className="form-control-plaintext"
-            id="itemName"
-            value="맞춤형 웨딩플래너 서비스"
+    <div className="containerbox">
+      <div className="mainlayout box1" style={{ minHeight: "100vh" }}>
+        <NavigationBar title={"결제하기"} />
+        <div className="plannerpro" style={{ marginTop: 110 }}>
+          {plannerImg === "data:image/jpeg;base64," ? (
+            <img
+              src={defaultprofileimage}
+              style={{ width: "250px", height: "230px" }}
+              className="plannerproimg"
+              alt={defaultprofileimage}
+            />
+          ) : (
+            <img
+              src={plannerImg}
+              style={{ width: "250px", height: "230px" }}
+              className="plannerproimg"
+              alt={defaultprofileimage}
+            />
+          )}
+          <p className="plannerName">{plannerName}</p>
+        </div>
+        <div className="mb-3 row checkouttext">
+          <label
+            for="staticEmail"
             style={{ fontSize: "0.9em" }}
-          />
+            className="col-sm-4 col-form-label"
+          >
+            상품명
+          </label>
+          <div className="col-sm-8">
+            <input
+              type="text"
+              readonly
+              className="form-control-plaintext"
+              id="itemName"
+              value="맞춤형 웨딩플래너 서비스"
+              style={{ fontSize: "0.9em" }}
+            />
+          </div>
         </div>
-      </div>
-      {/* <hr /> */}
-      <div className="mb-3 row checkouttext">
-        <label
-          for="staticEmail"
-          style={{ fontSize: "0.9em" }}
-          className="col-sm-4 col-form-label"
-        >
-          상품 상세정보
-        </label>
-        <div className="col-sm-8">
-          <p className="detailcheckout" style={{ fontSize: "0.9em" }}>
-            전체금액 - 계약금
-            <br /> (
-            {paymentAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원)
-            - ({depositAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-            원)
-          </p>
-        </div>
-      </div>
-      {/* <hr /> */}
-      <div className="mb-3 row checkouttext">
-        <label
-          for="staticEmail"
-          style={{ fontSize: "0.9em" }}
-          className="col-sm-4 col-form-label"
-        >
-          상품 금액
-        </label>
-        <div className="col-sm-8">
-          <input
-            type="text"
-            readonly
-            className="form-control-plaintext"
-            id="itemName"
-            value={`${paymentAmount1}원`}
+        {/* <hr /> */}
+        <div className="mb-3 row checkouttext">
+          <label
+            for="staticEmail"
             style={{ fontSize: "0.9em" }}
-          />
+            className="col-sm-4 col-form-label"
+          >
+            상품 상세정보
+          </label>
+          <div className="col-sm-8">
+            <p className="detailcheckout" style={{ fontSize: "0.9em" }}>
+              전체금액 - 계약금
+              <br /> (
+              {paymentAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+              원) - (
+              {depositAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+              원)
+            </p>
+          </div>
         </div>
-      </div>
-      <button
-        onClick={requestPay}
-        className="checkoutBtn"
-        style={{ marginTop: "10px" }}
-      >
-        결제하기
-      </button>
-      <Footer />
-      {/* 플래너 매칭 비용 modal 창 */}
-      <div
-        class="modal fade"
-        id="plannerMatchingPriceModal"
-        tabindex="-1"
-        aria-labelledby="plannerMatchingPriceModal"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1
-                class="modal-title justify-content-center "
-                id="plannerMatchingPriceModal"
-                style={{ fontSize: "1.5em" }}
-              >
-                - 플래너 매칭 비용 입력 -
-              </h1>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body">
-              <div class="has-validation col col-md-10">
-                <input
-                  type="text"
-                  class="form-control "
-                  id="plannerMatchingPriceCheck"
-                  ref={plannerMatchingPriceCheckInput}
-                  value={allprice}
-                  onChange={(e) => {
-                    console.log(e.target.value);
-                    if (e.target.value === "0") {
-                      plannerMatchingPriceCheckInput.current.classList.add(
-                        "is-invalid"
-                      );
-                      plannerMatchingPriceCheckInput.current.classList.remove(
-                        "is-valid"
-                      );
-                      plannerMatchingPriceFeedback.current.classList.remove(
-                        "invisible"
-                      );
-                      plannerMatchingPriceFeedback.current.classList.add(
-                        "invalid-feedback"
-                      );
-                      plannerMatchingPriceFeedback.current.classList.remove(
-                        "valid-feedback"
-                      );
-                      setPlannerMatchingPriceMessage(
-                        "금액은 0이 될 수 없습니다."
-                      );
-                      plannerMatchingPriceConfirm.current.disabled = true;
-                    } else {
-                      if (e.target.value == "") {
-                        plannerMatchingPriceCheckInput.current.classList.add(
-                          "is-invalid"
-                        );
-                        plannerMatchingPriceCheckInput.current.classList.remove(
-                          "is-valid"
-                        );
-                        plannerMatchingPriceFeedback.current.classList.remove(
-                          "invisible"
-                        );
-                        plannerMatchingPriceFeedback.current.classList.add(
-                          "invalid-feedback"
-                        );
-                        plannerMatchingPriceFeedback.current.classList.remove(
-                          "valid-feedback"
-                        );
-                        setPlannerMatchingPriceMessage("금액을 입력해주세요!");
-                        plannerMatchingPriceConfirm.current.disabled = true;
-                      } else if (isNaN(e.target.value)) {
-                        plannerMatchingPriceCheckInput.current.classList.add(
-                          "is-invalid"
-                        );
-                        plannerMatchingPriceCheckInput.current.classList.remove(
-                          "is-valid"
-                        );
-                        plannerMatchingPriceFeedback.current.classList.remove(
-                          "invisible"
-                        );
-                        plannerMatchingPriceFeedback.current.classList.add(
-                          "invalid-feedback"
-                        );
-                        plannerMatchingPriceFeedback.current.classList.remove(
-                          "valid-feedback"
-                        );
-                        setPlannerMatchingPriceMessage("숫자를 입력하세요!");
-                        plannerMatchingPriceConfirm.current.disabled = true;
-                      } else if (parseInt(e.target.value) <= depositAmount) {
+        {/* <hr /> */}
+        <div className="mb-3 row checkouttext">
+          <label
+            for="staticEmail"
+            style={{ fontSize: "0.9em" }}
+            className="col-sm-4 col-form-label"
+          >
+            상품 금액
+          </label>
+          <div className="col-sm-8">
+            <input
+              type="text"
+              readonly
+              className="form-control-plaintext"
+              id="itemName"
+              value={`${paymentAmount1}원`}
+              style={{ fontSize: "0.9em" }}
+            />
+          </div>
+        </div>
+        <button
+          onClick={requestPay}
+          className="checkoutBtn"
+          style={{ marginTop: "10px" }}
+        >
+          결제하기
+        </button>
+        <Footer />
+        {/* 플래너 매칭 비용 modal 창 */}
+        <div
+          class="modal fade"
+          id="plannerMatchingPriceModal"
+          tabindex="-1"
+          aria-labelledby="plannerMatchingPriceModal"
+          aria-hidden="true"
+          data-bs-backdrop="static"
+          data-bs-keyboard="false"
+        >
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1
+                  class="modal-title justify-content-center "
+                  id="plannerMatchingPriceModal"
+                  style={{ fontSize: "1.5em" }}
+                >
+                  - 플래너 매칭 비용 입력 -
+                </h1>
+              </div>
+              <div class="modal-body">
+                <div class="has-validation col col-md-10">
+                  <input
+                    type="text"
+                    class="form-control "
+                    id="plannerMatchingPriceCheck"
+                    ref={plannerMatchingPriceCheckInput}
+                    value={allprice}
+                    onChange={(e) => {
+                      console.log(e.target.value);
+                      if (e.target.value === "0") {
                         plannerMatchingPriceCheckInput.current.classList.add(
                           "is-invalid"
                         );
@@ -379,74 +322,131 @@ function CheckoutAll() {
                           "valid-feedback"
                         );
                         setPlannerMatchingPriceMessage(
-                          "예약금보다 작거나 같은 금액은 입력 불가입니다!"
+                          "금액은 0이 될 수 없습니다."
                         );
                         plannerMatchingPriceConfirm.current.disabled = true;
                       } else {
-                        plannerMatchingPriceCheckInput.current.classList.remove(
-                          "is-invalid"
-                        );
-                        plannerMatchingPriceCheckInput.current.classList.add(
-                          "is-valid"
-                        );
-                        plannerMatchingPriceFeedback.current.classList.remove(
-                          "invisible"
-                        );
-                        plannerMatchingPriceFeedback.current.classList.remove(
-                          "invalid-feedback"
-                        );
-                        plannerMatchingPriceFeedback.current.classList.add(
-                          "valid-feedback"
-                        );
-                        setPlannerMatchingPriceMessage("all good!");
-                        plannerMatchingPriceConfirm.current.disabled = false;
+                        if (e.target.value == "") {
+                          plannerMatchingPriceCheckInput.current.classList.add(
+                            "is-invalid"
+                          );
+                          plannerMatchingPriceCheckInput.current.classList.remove(
+                            "is-valid"
+                          );
+                          plannerMatchingPriceFeedback.current.classList.remove(
+                            "invisible"
+                          );
+                          plannerMatchingPriceFeedback.current.classList.add(
+                            "invalid-feedback"
+                          );
+                          plannerMatchingPriceFeedback.current.classList.remove(
+                            "valid-feedback"
+                          );
+                          setPlannerMatchingPriceMessage(
+                            "금액을 입력해주세요!"
+                          );
+                          plannerMatchingPriceConfirm.current.disabled = true;
+                        } else if (isNaN(e.target.value)) {
+                          plannerMatchingPriceCheckInput.current.classList.add(
+                            "is-invalid"
+                          );
+                          plannerMatchingPriceCheckInput.current.classList.remove(
+                            "is-valid"
+                          );
+                          plannerMatchingPriceFeedback.current.classList.remove(
+                            "invisible"
+                          );
+                          plannerMatchingPriceFeedback.current.classList.add(
+                            "invalid-feedback"
+                          );
+                          plannerMatchingPriceFeedback.current.classList.remove(
+                            "valid-feedback"
+                          );
+                          setPlannerMatchingPriceMessage("숫자를 입력하세요!");
+                          plannerMatchingPriceConfirm.current.disabled = true;
+                        } else if (parseInt(e.target.value) <= depositAmount) {
+                          plannerMatchingPriceCheckInput.current.classList.add(
+                            "is-invalid"
+                          );
+                          plannerMatchingPriceCheckInput.current.classList.remove(
+                            "is-valid"
+                          );
+                          plannerMatchingPriceFeedback.current.classList.remove(
+                            "invisible"
+                          );
+                          plannerMatchingPriceFeedback.current.classList.add(
+                            "invalid-feedback"
+                          );
+                          plannerMatchingPriceFeedback.current.classList.remove(
+                            "valid-feedback"
+                          );
+                          setPlannerMatchingPriceMessage(
+                            "예약금보다 작거나 같은 금액은 입력 불가입니다!"
+                          );
+                          plannerMatchingPriceConfirm.current.disabled = true;
+                        } else {
+                          plannerMatchingPriceCheckInput.current.classList.remove(
+                            "is-invalid"
+                          );
+                          plannerMatchingPriceCheckInput.current.classList.add(
+                            "is-valid"
+                          );
+                          plannerMatchingPriceFeedback.current.classList.remove(
+                            "invisible"
+                          );
+                          plannerMatchingPriceFeedback.current.classList.remove(
+                            "invalid-feedback"
+                          );
+                          plannerMatchingPriceFeedback.current.classList.add(
+                            "valid-feedback"
+                          );
+                          setPlannerMatchingPriceMessage("all good!");
+                          plannerMatchingPriceConfirm.current.disabled = false;
 
-                        setPaymentAmount(e.target.value);
+                          setPaymentAmount(e.target.value);
+                        }
+                        setAllPrice(e.target.value);
                       }
-                      setAllPrice(e.target.value);
-                    }
-                  }}
-                  style={{ fontSize: "1.2em" }}
-                  placeholder="플래너와 상의한 매칭 비용을 입력해주세요."
-                  //    onKeyPress={submitPasswordCheck}
-                  required
-                  autocomplete="off"
-                  maxLength="20"
-                />
-                <div
-                  class="invisible text-start password-feedback"
-                  style={{ fontSize: "1em" }}
-                  ref={plannerMatchingPriceFeedback}
-                >
-                  {plannerMatchingPriceMessage}
+                    }}
+                    style={{ fontSize: "1.2em" }}
+                    placeholder="플래너와 상의한 매칭 비용을 입력해주세요."
+                    //    onKeyPress={submitPasswordCheck}
+                    required
+                    autocomplete="off"
+                    maxLength="20"
+                  />
+                  <div
+                    class="invisible text-start password-feedback"
+                    style={{ fontSize: "1em" }}
+                    ref={plannerMatchingPriceFeedback}
+                  >
+                    {plannerMatchingPriceMessage}
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                닫기
-              </button>
-              <button
-                type="button"
-                class="btn btn-primary"
-                data-bs-dismiss="modal"
-                ref={plannerMatchingPriceConfirm}
-                onClick={() => {
-                  // setChangedPrice(!changedPrice);
-                }}
-                disabled
-              >
-                확인
-              </button>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  data-bs-dismiss="modal"
+                  ref={plannerMatchingPriceConfirm}
+                  onClick={() => {
+                    // setChangedPrice(!changedPrice);
+                  }}
+                  disabled
+                >
+                  확인
+                </button>
+              </div>
             </div>
           </div>
         </div>
+        {/* 플래너 매칭 비용 모달 */}
       </div>
-      {/* 플래너 매칭 비용 모달 */}
+      <div className="box2"></div>
+      <div className="box3">
+        <Sidesection />
+      </div>
     </div>
   );
 }

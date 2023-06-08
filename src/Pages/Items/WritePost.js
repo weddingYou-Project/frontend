@@ -5,6 +5,7 @@ import NavigationBar from "../../Components/NavigationBar";
 import Footer from "../../Components/Footer";
 import "../../Css/WritePost.css";
 import selectImg from "../../Assets/selectImg.webp";
+import Sidesection from "../../Components/Sidesection";
 const categoryOptions = {
   weddinghall: ["일반", "호텔", "채플", "스몰", "야외", "전통혼례"],
   weddingoutfit: [
@@ -35,6 +36,7 @@ const WritePost = () => {
   const { category1 } = useParams();
   const [itemName, setItemName] = useState("");
   const [content, setContent] = useState("");
+  const [imgDetailContent, setImgDetailContent] = useState("");
   const [image, setImage] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(selectImg);
   const [category2, setCategory2] = useState(categoryOptions[category1][0]);
@@ -51,13 +53,14 @@ const WritePost = () => {
         formData.append("category1", selectedCategory1);
         formData.append("category2", category2);
         formData.append("file", image);
-
+        formData.append("imgDetailContent", imgDetailContent);
         axios
           .post("/item/insertItem", formData)
           .then((response) => {
             console.log("성공:", response.data);
             setItemName("");
             setContent("");
+            setImgDetailContent("");
             setImage(null);
             setPreviewUrl(selectImg);
             imgFile.current.value = null;
@@ -80,6 +83,7 @@ const WritePost = () => {
   const handleCancel = () => {
     setItemName("");
     setContent("");
+    setImgDetailContent("");
     imgFile.current.value = null;
     setCategory2(categoryOptions[category1][0]);
     setPreviewUrl(selectImg);
@@ -103,75 +107,87 @@ const WritePost = () => {
     setImage(null);
   }, []);
   return (
-    <div className="mainlayout">
-      <NavigationBar title="글 작성" />
-      <div className="category-container" style={{ marginTop: "100px" }}>
-        <div className="category-buttons">
-          {categoryOptions[category1].map((option, index) => (
-            <button
-              key={index}
-              className={`category-button ${
-                category2 === option ? "active" : ""
-              }`}
-              onClick={() => {
-                setCategory2(option);
-              }}
-              style={{ marginBottom: "5px" }}
-            >
-              {option}
-            </button>
-          ))}
+    <div className="containerbox">
+      <div className="mainlayout box1">
+        <NavigationBar title="글 작성" />
+        <div className="category-container" style={{ marginTop: "100px" }}>
+          <div className="category-buttons">
+            {categoryOptions[category1].map((option, index) => (
+              <button
+                key={index}
+                className={`category-button ${
+                  category2 === option ? "active" : ""
+                }`}
+                onClick={() => {
+                  setCategory2(option);
+                }}
+                style={{ marginBottom: "5px" }}
+              >
+                {option}
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
-      <div className="post-inputwrap">
-        <input
-          className="title-input"
-          type="text"
-          placeholder="제목"
-          value={itemName}
-          onChange={(event) => setItemName(event.target.value)}
-        />
-        <textarea
-          className="content-textarea"
-          placeholder="내용"
-          value={content}
-          onChange={(event) => setContent(event.target.value)}
-        />
-        <input ref={imgFile} type="file" onChange={handleImageChange} />
-        <img
-          src={previewUrl}
-          alt=""
+        <div className="post-inputwrap">
+          <input
+            className="title-input"
+            type="text"
+            placeholder="제목"
+            value={itemName}
+            onChange={(event) => setItemName(event.target.value)}
+          />
+          <textarea
+            className="content-textarea"
+            placeholder="내용"
+            value={content}
+            onChange={(event) => setContent(event.target.value)}
+          />
+          <textarea
+            className="content-textarea"
+            placeholder="상세내용"
+            value={imgDetailContent}
+            onChange={(event) => setImgDetailContent(event.target.value)}
+          />
+          <input ref={imgFile} type="file" onChange={handleImageChange} />
+          <img
+            src={previewUrl}
+            alt=""
+            style={{
+              width: "200px",
+              height: "200px",
+              marginTop: "20px",
+              marginBottom: "-20px",
+            }}
+          />
+        </div>
+        <div
+          className="button-wrap"
           style={{
-            width: "200px",
-            height: "200px",
-            marginTop: "20px",
-            marginBottom: "-20px",
+            justifyContent: "center",
+            marginRight: "20px",
+            marginTop: "-10px",
           }}
-        />
-      </div>
-      <div
-        className="button-wrap"
-        style={{
-          justifyContent: "center",
-          marginRight: "20px",
-          marginTop: "-10px",
-        }}
-      >
-        <button
-          className="submit-button"
-          onClick={() => {
-            postItem();
-          }}
-          style={{ fontSize: "1.3em" }}
         >
-          게시하기
-        </button>
+          <button
+            className="submit-button"
+            onClick={() => {
+              postItem();
+            }}
+            style={{ fontSize: "1.3em" }}
+          >
+            게시하기
+          </button>
 
-        <button className="cancel-button" onClick={handleCancel}>
-          취소
-        </button>
+          <button className="cancel-button" onClick={handleCancel}>
+            취소
+          </button>
+        </div>
+        <Footer />
       </div>
-      <Footer />
+      <div className="box2"></div>
+      <div className="box3">
+        <Sidesection />
+      </div>
     </div>
   );
 };

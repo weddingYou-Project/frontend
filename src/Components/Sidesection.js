@@ -7,7 +7,10 @@ import appdown from "../Assets/AppStore.png";
 function Sidesection() {
   return (
     <div className="sidesection">
-      <div className="sidecontent">
+      <div
+        className="sidecontent"
+        style={{ position: "fixed", top: 50, width: 395 }}
+      >
         <div className="sideHeader">
           <img src={Loadingimg2} style={{ width: 150 }} />
           <div>

@@ -5,6 +5,7 @@ import imgLogo from "../Assets/logo.png";
 import { useNavigate } from "react-router-dom";
 import { useState, useLayoutEffect, useEffect, useRef } from "react";
 import Animation from "../Components/Animation";
+import Sidesection from "../Components/Sidesection";
 
 import axios from "axios";
 
@@ -110,6 +111,9 @@ function Home() {
   const modalImgTitle = useRef();
   const modalItemId = useRef();
 
+  const [currentSrc, setCurrentSrc] = useState("");
+  const [currentItemId, setCurrentItemId] = useState("");
+
   const weddingAutoplayBtn = useRef();
   const studioAutoplayBtn = useRef();
   const dressAutoplayBtn = useRef();
@@ -129,7 +133,9 @@ function Home() {
   };
 
   const gotoDetailInfo = (e) => {
-    navigate("/imgDetail");
+    navigate("/imgDetail", {
+      state: { itemId: currentItemId, imgsrc: currentSrc },
+    });
   };
 
   useEffect(() => {
@@ -143,10 +149,11 @@ function Home() {
   }, [finish]);
   useEffect(() => {
     //웨딩홀
-    axios
-      .get(`/item/itemList/${category[0]}`)
-      .then((res) => {
-        const dataList = res.data;
+    const getWeddingHallItem = async () => {
+      try {
+        const response = await axios.get(`/item/itemList/${category[0]}`);
+        const { data } = response;
+        const dataList = data;
         console.log(dataList);
         if (dataList.length !== 0) {
           let index = 0;
@@ -163,70 +170,57 @@ function Home() {
               index++;
               setKeyIndex(keyIndexArr);
 
-              axios
-                .post(`/like/findlist`, {
-                  itemId: newitemId,
-                  email: sessionStorage.getItem("email"),
-                })
-                .then((res) => {
-                  if (res.data === 1) {
-                    likeIndexArr.push(true);
-                    setWeddingHallLikeState(likeIndexArr);
-                  } else if (res.data === 0) {
-                    likeIndexArr.push(undefined);
-                    setWeddingHallLikeState(likeIndexArr);
-                  } else {
-                    //로그인하지 않았을 때
-                    likeIndexArr.push(-1);
-                    setWeddingHallLikeState(likeIndexArr);
-                  }
-                })
-                .catch((e) => {
-                  console.log(e);
-                });
+              const res = await axios.post(`/like/findlist`, {
+                itemId: newitemId,
+                email: sessionStorage.getItem("email"),
+              });
+              let { data } = res;
+              if (data === 1) {
+                likeIndexArr.push(true);
+                setWeddingHallLikeState(likeIndexArr);
+              } else if (data === 0) {
+                likeIndexArr.push(undefined);
+                setWeddingHallLikeState(likeIndexArr);
+              } else {
+                //로그인하지 않았을 때
+                likeIndexArr.push(-1);
+                setWeddingHallLikeState(likeIndexArr);
+              }
 
-              axios
-                .get(`/item/getItemList/${newitemId}`)
-                .then((res) => {
-                  let newItem = res.data;
-                  itemDataArr.push(newItem);
-                  itemDataArr.sort(function (a, b) {
-                    return (
-                      new Date(b.itemWriteDate) - new Date(a.itemWriteDate)
-                    );
-                  });
-                  setItem([...item, newItem]);
-                  setItem(itemDataArr);
-                  let itemNameList = [];
-                  let itemLikeList = [];
-                  for (var j = 0; j < itemDataArr.length; j++) {
-                    const newItemName = itemDataArr[j].itemName;
-                    const newItemLike = itemDataArr[j].like.length;
-                    itemNameList.push(newItemName);
-                    itemLikeList.push(newItemLike);
-                    setItemName(itemNameList);
-                    setItemLike(itemLikeList);
-                  }
-                })
-                .catch((e) => {
-                  console.log(e);
-                });
+              const res2 = await axios.get(`/item/getItemList/${newitemId}`);
+              let newItem = res2.data;
+              itemDataArr.push(newItem);
+              itemDataArr.sort(function (a, b) {
+                return new Date(b.itemWriteDate) - new Date(a.itemWriteDate);
+              });
+              setItem([...item, newItem]);
+              setItem(itemDataArr);
+              let itemNameList = [];
+              let itemLikeList = [];
+              for (var j = 0; j < itemDataArr.length; j++) {
+                const newItemName = itemDataArr[j].itemName;
+                const newItemLike = itemDataArr[j].like.length;
+                itemNameList.push(newItemName);
+                itemLikeList.push(newItemLike);
+                setItemName(itemNameList);
+                setItemLike(itemLikeList);
+              }
             }
           }
         }
-        //  else {
-        //   setFinish(true);
-        // }
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-    //스튜디오
-    axios
-      .get(`/item/itemList/${category[1]}`)
-      .then((res) => {
-        const dataList = res.data;
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getWeddingHallItem();
 
+    //스튜디오
+    const getStudioItem = async () => {
+      try {
+        const response = await axios.get(`/item/itemList/${category[1]}`);
+        const { data } = response;
+        const dataList = data;
+        console.log(dataList);
         if (dataList.length !== 0) {
           let index = 0;
           for (var i = 0; i < dataList.length; i++) {
@@ -241,71 +235,59 @@ function Home() {
               keyIndexArr1.push(index);
               index++;
               setStudioKeyIndex(keyIndexArr1);
-              axios
-                .post(`/like/findlist`, {
-                  itemId: newitemId,
-                  email: sessionStorage.getItem("email"),
-                })
-                .then((res) => {
-                  if (res.data === 1) {
-                    likeIndexArr1.push(true);
-                    setStudioLikeState(likeIndexArr1);
-                  } else if (res.data === 0) {
-                    likeIndexArr1.push(undefined);
-                    setStudioLikeState(likeIndexArr1);
-                  } else {
-                    //로그인하지 않았을 때
-                    likeIndexArr1.push(-1);
-                    setStudioLikeState(likeIndexArr1);
-                  }
-                })
-                .catch((e) => {
-                  console.log(e);
-                });
 
-              axios
-                .get(`/item/getItemList/${newitemId}`)
-                .then((res) => {
-                  let newItem = res.data;
-                  itemDataArr1.push(newItem);
-                  itemDataArr1.sort(function (a, b) {
-                    return (
-                      new Date(b.itemWriteDate) - new Date(a.itemWriteDate)
-                    );
-                  });
-                  setStudioItem([...studioItem, newItem]);
-                  setStudioItem(itemDataArr1);
+              const res = await axios.post(`/like/findlist`, {
+                itemId: newitemId,
+                email: sessionStorage.getItem("email"),
+              });
+              let { data } = res;
+              if (data === 1) {
+                likeIndexArr1.push(true);
+                setStudioLikeState(likeIndexArr1);
+              } else if (data === 0) {
+                likeIndexArr1.push(undefined);
+                setStudioLikeState(likeIndexArr1);
+              } else {
+                //로그인하지 않았을 때
+                likeIndexArr1.push(-1);
+                setStudioLikeState(likeIndexArr1);
+              }
 
-                  let itemNameList = [];
-                  let itemLikeList = [];
-                  for (var j = 0; j < itemDataArr1.length; j++) {
-                    const newItemName = itemDataArr1[j].itemName;
-                    const newItemLike = itemDataArr1[j].like.length;
-                    itemNameList.push(newItemName);
-                    itemLikeList.push(newItemLike);
-                    setStudioItemName(itemNameList);
-                    setStudioItemLike(itemLikeList);
-                  }
-                })
-                .catch((e) => {
-                  console.log(e);
-                });
+              const res2 = await axios.get(`/item/getItemList/${newitemId}`);
+              let newItem = res2.data;
+              itemDataArr1.push(newItem);
+              itemDataArr1.sort(function (a, b) {
+                return new Date(b.itemWriteDate) - new Date(a.itemWriteDate);
+              });
+              setStudioItem([...studioItem, newItem]);
+              setStudioItem(itemDataArr1);
+
+              let itemNameList = [];
+              let itemLikeList = [];
+              for (var j = 0; j < itemDataArr1.length; j++) {
+                const newItemName = itemDataArr1[j].itemName;
+                const newItemLike = itemDataArr1[j].like.length;
+                itemNameList.push(newItemName);
+                itemLikeList.push(newItemLike);
+                setStudioItemName(itemNameList);
+                setStudioItemLike(itemLikeList);
+              }
             }
           }
         }
-        // else {
-        //   setFinish(true);
-        // }
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-    //의상
-    axios
-      .get(`/item/itemList/${category[2]}`)
-      .then((res) => {
-        const dataList = res.data;
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getStudioItem();
 
+    //의상
+    const getDressItem = async () => {
+      try {
+        const response = await axios.get(`/item/itemList/${category[2]}`);
+        const { data } = response;
+        const dataList = data;
+        console.log(dataList);
         if (dataList.length !== 0) {
           let index = 0;
           for (var i = 0; i < dataList.length; i++) {
@@ -320,70 +302,58 @@ function Home() {
               keyIndexArr2.push(index);
               index++;
               setDressKeyIndex(keyIndexArr2);
-              axios
-                .post(`/like/findlist`, {
-                  itemId: newitemId,
-                  email: sessionStorage.getItem("email"),
-                })
-                .then((res) => {
-                  if (res.data === 1) {
-                    likeIndexArr2.push(true);
-                    setDressLikeState(likeIndexArr2);
-                  } else if (res.data === 0) {
-                    likeIndexArr2.push(undefined);
-                    setDressLikeState(likeIndexArr2);
-                  } else {
-                    //로그인하지 않았을 때
-                    likeIndexArr2.push(-1);
-                    setDressLikeState(likeIndexArr2);
-                  }
-                })
-                .catch((e) => {
-                  console.log(e);
-                });
 
-              axios
-                .get(`/item/getItemList/${newitemId}`)
-                .then((res) => {
-                  let newItem = res.data;
-                  itemDataArr2.push(newItem);
-                  itemDataArr2.sort(function (a, b) {
-                    return (
-                      new Date(b.itemWriteDate) - new Date(a.itemWriteDate)
-                    );
-                  });
-                  setDressItem([...dressItem, newItem]);
-                  setDressItem(itemDataArr2);
-                  let itemNameList = [];
-                  let itemLikeList = [];
-                  for (var j = 0; j < itemDataArr2.length; j++) {
-                    const newItemName = itemDataArr2[j].itemName;
-                    const newItemLike = itemDataArr2[j].like.length;
-                    itemNameList.push(newItemName);
-                    itemLikeList.push(newItemLike);
-                    setDressItemName(itemNameList);
-                    setDressItemLike(itemLikeList);
-                  }
-                })
-                .catch((e) => {
-                  console.log(e);
-                });
+              const res = await axios.post(`/like/findlist`, {
+                itemId: newitemId,
+                email: sessionStorage.getItem("email"),
+              });
+              let { data } = res;
+              if (data === 1) {
+                likeIndexArr2.push(true);
+                setDressLikeState(likeIndexArr2);
+              } else if (data === 0) {
+                likeIndexArr2.push(undefined);
+                setDressLikeState(likeIndexArr2);
+              } else {
+                //로그인하지 않았을 때
+                likeIndexArr2.push(-1);
+                setDressLikeState(likeIndexArr2);
+              }
+
+              const res2 = await axios.get(`/item/getItemList/${newitemId}`);
+              let newItem = res2.data;
+              itemDataArr2.push(newItem);
+              itemDataArr2.sort(function (a, b) {
+                return new Date(b.itemWriteDate) - new Date(a.itemWriteDate);
+              });
+              setDressItem([...dressItem, newItem]);
+              setDressItem(itemDataArr2);
+              let itemNameList = [];
+              let itemLikeList = [];
+              for (var j = 0; j < itemDataArr2.length; j++) {
+                const newItemName = itemDataArr2[j].itemName;
+                const newItemLike = itemDataArr2[j].like.length;
+                itemNameList.push(newItemName);
+                itemLikeList.push(newItemLike);
+                setDressItemName(itemNameList);
+                setDressItemLike(itemLikeList);
+              }
             }
           }
         }
-        // else {
-        //   setFinish(true);
-        // }
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-    //메이크업
-    axios
-      .get(`/item/itemList/${category[3]}`)
-      .then((res) => {
-        const dataList = res.data;
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getDressItem();
 
+    //메이크업
+    const getMakeupItem = async () => {
+      try {
+        const response = await axios.get(`/item/itemList/${category[3]}`);
+        const { data } = response;
+        const dataList = data;
+        console.log(dataList);
         if (dataList.length !== 0) {
           let index = 0;
           for (var i = 0; i < dataList.length; i++) {
@@ -398,70 +368,58 @@ function Home() {
               keyIndexArr3.push(index);
               index++;
               setMakeupKeyIndex(keyIndexArr3);
-              axios
-                .post(`/like/findlist`, {
-                  itemId: newitemId,
-                  email: sessionStorage.getItem("email"),
-                })
-                .then((res) => {
-                  if (res.data === 1) {
-                    likeIndexArr3.push(true);
-                    setMakeupLikeState(likeIndexArr3);
-                  } else if (res.data === 0) {
-                    likeIndexArr3.push(undefined);
-                    setMakeupLikeState(likeIndexArr3);
-                  } else {
-                    //로그인하지 않았을 때
-                    likeIndexArr3.push(-1);
-                    setMakeupLikeState(likeIndexArr3);
-                  }
-                })
-                .catch((e) => {
-                  console.log(e);
-                });
 
-              axios
-                .get(`/item/getItemList/${newitemId}`)
-                .then((res) => {
-                  let newItem = res.data;
-                  itemDataArr3.push(newItem);
-                  itemDataArr3.sort(function (a, b) {
-                    return (
-                      new Date(b.itemWriteDate) - new Date(a.itemWriteDate)
-                    );
-                  });
-                  setMakeupItem([...makeupItem, newItem]);
-                  setMakeupItem(itemDataArr3);
-                  let itemNameList = [];
-                  let itemLikeList = [];
-                  for (var j = 0; j < itemDataArr3.length; j++) {
-                    const newItemName = itemDataArr3[j].itemName;
-                    const newItemLike = itemDataArr3[j].like.length;
-                    itemNameList.push(newItemName);
-                    itemLikeList.push(newItemLike);
-                    setMakeupItemName(itemNameList);
-                    setMakeupItemLike(itemLikeList);
-                  }
-                })
-                .catch((e) => {
-                  console.log(e);
-                });
+              const res = await axios.post(`/like/findlist`, {
+                itemId: newitemId,
+                email: sessionStorage.getItem("email"),
+              });
+              let { data } = res;
+              if (data === 1) {
+                likeIndexArr3.push(true);
+                setMakeupLikeState(likeIndexArr3);
+              } else if (data === 0) {
+                likeIndexArr3.push(undefined);
+                setMakeupLikeState(likeIndexArr3);
+              } else {
+                //로그인하지 않았을 때
+                likeIndexArr3.push(-1);
+                setMakeupLikeState(likeIndexArr3);
+              }
+
+              const res2 = await axios.get(`/item/getItemList/${newitemId}`);
+              let newItem = res2.data;
+              itemDataArr3.push(newItem);
+              itemDataArr3.sort(function (a, b) {
+                return new Date(b.itemWriteDate) - new Date(a.itemWriteDate);
+              });
+              setMakeupItem([...makeupItem, newItem]);
+              setMakeupItem(itemDataArr3);
+              let itemNameList = [];
+              let itemLikeList = [];
+              for (var j = 0; j < itemDataArr3.length; j++) {
+                const newItemName = itemDataArr3[j].itemName;
+                const newItemLike = itemDataArr3[j].like.length;
+                itemNameList.push(newItemName);
+                itemLikeList.push(newItemLike);
+                setMakeupItemName(itemNameList);
+                setMakeupItemLike(itemLikeList);
+              }
             }
           }
         }
-        //  else {
-        //   setFinish(true);
-        // }
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-    //신혼여행
-    axios
-      .get(`/item/itemList/${category[4]}`)
-      .then((res) => {
-        const dataList = res.data;
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getMakeupItem();
 
+    //신혼여행
+    const getHoneyMoonItem = async () => {
+      try {
+        const response = await axios.get(`/item/itemList/${category[4]}`);
+        const { data } = response;
+        const dataList = data;
+        console.log(dataList);
         if (dataList.length !== 0) {
           let index = 0;
           for (var i = 0; i < dataList.length; i++) {
@@ -476,70 +434,58 @@ function Home() {
               keyIndexArr4.push(index);
               index++;
               setHoneyMoonKeyIndex(keyIndexArr4);
-              axios
-                .post(`/like/findlist`, {
-                  itemId: newitemId,
-                  email: sessionStorage.getItem("email"),
-                })
-                .then((res) => {
-                  if (res.data === 1) {
-                    likeIndexArr4.push(true);
-                    setHoneyMoonLikeState(likeIndexArr4);
-                  } else if (res.data === 0) {
-                    likeIndexArr4.push(undefined);
-                    setHoneyMoonLikeState(likeIndexArr4);
-                  } else {
-                    //로그인하지 않았을 때
-                    likeIndexArr4.push(-1);
-                    setHoneyMoonLikeState(likeIndexArr4);
-                  }
-                })
-                .catch((e) => {
-                  console.log(e);
-                });
 
-              axios
-                .get(`/item/getItemList/${newitemId}`)
-                .then((res) => {
-                  let newItem = res.data;
-                  itemDataArr4.push(newItem);
-                  itemDataArr4.sort(function (a, b) {
-                    return (
-                      new Date(b.itemWriteDate) - new Date(a.itemWriteDate)
-                    );
-                  });
-                  setHoneyMoonItem([...honeyMoonItem, newItem]);
-                  setHoneyMoonItem(itemDataArr4);
-                  let itemNameList = [];
-                  let itemLikeList = [];
-                  for (var j = 0; j < itemDataArr4.length; j++) {
-                    const newItemName = itemDataArr4[j].itemName;
-                    const newItemLike = itemDataArr4[j].like.length;
-                    itemNameList.push(newItemName);
-                    itemLikeList.push(newItemLike);
-                    setHoneyMoonItemName(itemNameList);
-                    setHoneyMoonItemLike(itemLikeList);
-                  }
-                })
-                .catch((e) => {
-                  console.log(e);
-                });
+              const res = await axios.post(`/like/findlist`, {
+                itemId: newitemId,
+                email: sessionStorage.getItem("email"),
+              });
+              let { data } = res;
+              if (data === 1) {
+                likeIndexArr4.push(true);
+                setHoneyMoonLikeState(likeIndexArr4);
+              } else if (data === 0) {
+                likeIndexArr4.push(undefined);
+                setHoneyMoonLikeState(likeIndexArr4);
+              } else {
+                //로그인하지 않았을 때
+                likeIndexArr4.push(-1);
+                setHoneyMoonLikeState(likeIndexArr4);
+              }
+
+              const res2 = await axios.get(`/item/getItemList/${newitemId}`);
+              let newItem = res2.data;
+              itemDataArr4.push(newItem);
+              itemDataArr4.sort(function (a, b) {
+                return new Date(b.itemWriteDate) - new Date(a.itemWriteDate);
+              });
+              setHoneyMoonItem([...honeyMoonItem, newItem]);
+              setHoneyMoonItem(itemDataArr4);
+              let itemNameList = [];
+              let itemLikeList = [];
+              for (var j = 0; j < itemDataArr4.length; j++) {
+                const newItemName = itemDataArr4[j].itemName;
+                const newItemLike = itemDataArr4[j].like.length;
+                itemNameList.push(newItemName);
+                itemLikeList.push(newItemLike);
+                setHoneyMoonItemName(itemNameList);
+                setHoneyMoonItemLike(itemLikeList);
+              }
             }
           }
         }
-        // else {
-        //   setFinish(true);
-        // }
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-    //부케
-    axios
-      .get(`/item/itemList/${category[5]}`)
-      .then((res) => {
-        const dataList = res.data;
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getHoneyMoonItem();
 
+    //부케
+    const getBouquetItem = async () => {
+      try {
+        const response = await axios.get(`/item/itemList/${category[5]}`);
+        const { data } = response;
+        const dataList = data;
+        console.log(dataList);
         if (dataList.length !== 0) {
           let index = 0;
           for (var i = 0; i < dataList.length; i++) {
@@ -554,71 +500,59 @@ function Home() {
               keyIndexArr5.push(index);
               index++;
               setBouquetKeyIndex(keyIndexArr5);
-              axios
-                .post(`/like/findlist`, {
-                  itemId: newitemId,
-                  email: sessionStorage.getItem("email"),
-                })
-                .then((res) => {
-                  if (res.data === 1) {
-                    likeIndexArr5.push(true);
-                    setBouquetLikeState(likeIndexArr5);
-                  } else if (res.data === 0) {
-                    likeIndexArr5.push(undefined);
-                    setBouquetLikeState(likeIndexArr5);
-                  } else {
-                    //로그인하지 않았을 때
-                    likeIndexArr5.push(-1);
-                    setBouquetLikeState(likeIndexArr5);
-                  }
-                })
-                .catch((e) => {
-                  console.log(e);
-                });
 
-              axios
-                .get(`/item/getItemList/${newitemId}`)
-                .then((res) => {
-                  let newItem = res.data;
-                  itemDataArr5.push(newItem);
-                  itemDataArr5.sort(function (a, b) {
-                    return (
-                      new Date(b.itemWriteDate) - new Date(a.itemWriteDate)
-                    );
-                  });
-                  setBouquetItem([...bouquetItem, newItem]);
-                  setBouquetItem(itemDataArr5);
-                  let itemNameList = [];
-                  let itemLikeList = [];
-                  for (var j = 0; j < itemDataArr5.length; j++) {
-                    const newItemName = itemDataArr5[j].itemName;
-                    const newItemLike = itemDataArr5[j].like.length;
-                    itemNameList.push(newItemName);
-                    itemLikeList.push(newItemLike);
-                    setBouquetItemName(itemNameList);
-                    setBouquetItemLike(itemLikeList);
-                  }
-                  setFinish(true);
-                })
-                .catch((e) => {
-                  console.log(e);
-                });
+              const res = await axios.post(`/like/findlist`, {
+                itemId: newitemId,
+                email: sessionStorage.getItem("email"),
+              });
+              let { data } = res;
+              if (data === 1) {
+                likeIndexArr5.push(true);
+                setBouquetLikeState(likeIndexArr5);
+              } else if (data === 0) {
+                likeIndexArr5.push(undefined);
+                setBouquetLikeState(likeIndexArr5);
+              } else {
+                //로그인하지 않았을 때
+                likeIndexArr5.push(-1);
+                setBouquetLikeState(likeIndexArr5);
+              }
+
+              const res2 = await axios.get(`/item/getItemList/${newitemId}`);
+              let newItem = res2.data;
+              itemDataArr5.push(newItem);
+              itemDataArr5.sort(function (a, b) {
+                return new Date(b.itemWriteDate) - new Date(a.itemWriteDate);
+              });
+              setBouquetItem([...bouquetItem, newItem]);
+              setBouquetItem(itemDataArr5);
+              let itemNameList = [];
+              let itemLikeList = [];
+              for (var j = 0; j < itemDataArr5.length; j++) {
+                const newItemName = itemDataArr5[j].itemName;
+                const newItemLike = itemDataArr5[j].like.length;
+                itemNameList.push(newItemName);
+                itemLikeList.push(newItemLike);
+                setBouquetItemName(itemNameList);
+                setBouquetItemLike(itemLikeList);
+              }
             }
           }
+          setFinish(true);
         }
-        // else {
-        //   setFinish(true);
-        // }
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getBouquetItem();
   }, []);
 
   const showimgDetail = (e) => {
     modalImg.current.src = e.target.dataset.bsSrc;
+    setCurrentSrc(e.target.dataset.bsSrc);
     const index = e.target.dataset.bsKeyindex;
     modalItemId.current.id = e.target.dataset.bsItemid;
+    setCurrentItemId(e.target.dataset.bsItemid);
     modalItemId.current.dataset.index = index;
     setSelectedCategory(e.target.dataset.bsCategory);
 
@@ -1101,1251 +1035,1307 @@ function Home() {
   };
 
   return (
-    <div className="mainlayout" style={{ position: "relative" }}>
-      {window.scrollY !== 0 ? (
-        <div
-          className="header "
-          style={{
-            position: "fixed",
-            top: 0,
-            width: "556px",
-            zIndex: 99,
-            background: "white",
-            borderRadius: "10px 10px 0 0",
-          }}
-        >
-          <img
-            className="mainlogo"
-            src={imgLogo}
-            style={{ cursor: "pointer" }}
-            onClick={() => {
-              navigate("/login");
-            }}
-            alt="로고"
-          />
-          <input
-            type="text"
-            name="search"
-            className="searchbar"
-            placeholder="검색어를 입력하세요!"
-            value={searchItem}
-            onChange={handleChange}
-            onKeyPress={handleKeyPress}
-            autoComplete="off"
-          />
+    <div className="containerbox">
+      <div className="mainlayout box1" style={{ position: "relative" }}>
+        {window.scrollY !== 0 ? (
           <div
-            className="likeListBtn"
-            onClick={() => {
-              navigate("/likeList", { state: { originalLocation: "home" } });
+            className="header "
+            style={{
+              position: "fixed",
+              top: 0,
+              width: "556px",
+              zIndex: 99,
+              background: "white",
+              borderRadius: "10px 10px 0 0",
             }}
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="40"
-              height="40"
-              fill="currentColor"
-              class="bi bi-heart likeicon"
-              viewBox="0 0 16 16"
-            >
-              <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
-            </svg>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="40"
-              height="40"
-              fill="currentColor"
-              class="bi bi-heart-fill likeiconfill"
-              viewBox="0 0 16 16"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"
+            {sessionStorage.getItem("email") !== null ? (
+              <img
+                className="mainlogo"
+                src={imgLogo}
+                style={{ cursor: "pointer" }}
+                alt="로고"
+                data-bs-toggle="modal"
+                data-bs-target="#logoutmodal"
               />
-            </svg>
-          </div>
-        </div>
-      ) : (
-        <div
-          className="header "
-          style={{
-            position: "fixed",
-            top: 0,
-            borderRadius: "10px 10px 0 0",
-            zIndex: 99,
-            background: "white",
-            width: "556px",
-          }}
-        >
-          <img
-            className="mainlogo"
-            src={imgLogo}
-            style={{ cursor: "pointer" }}
-            onClick={() => {
-              navigate("/login");
-            }}
-            alt="로고"
-          />
-          <input
-            type="text"
-            name="search"
-            className="searchbar"
-            placeholder="검색어를 입력하세요!"
-            value={searchItem}
-            onChange={handleChange}
-            onKeyPress={handleKeyPress}
-            autoComplete="off"
-          />
-          <div
-            className="likeListBtn"
-            onClick={() => {
-              navigate("/likeList", { state: { originalLocation: "home" } });
-            }}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="40"
-              height="40"
-              fill="currentColor"
-              class="bi bi-heart likeicon"
-              viewBox="0 0 16 16"
-            >
-              <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
-            </svg>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="40"
-              height="40"
-              fill="currentColor"
-              class="bi bi-heart-fill likeiconfill"
-              viewBox="0 0 16 16"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"
+            ) : (
+              <img
+                className="mainlogo"
+                src={imgLogo}
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  navigate("/login");
+                }}
+                alt="로고"
               />
-            </svg>
-          </div>
-        </div>
-      )}
-      {finish === false ? (
-        <Animation />
-      ) : (
-        <div>
-          <div className="NavBar">
-            <nav
-              id="navbar-example2"
-              class="navbar bg-light px-3 mb-3"
-              style={{
-                position: "fixed",
-                top: 80,
-                zIndex: 99,
-                background: "white",
+            )}
+
+            <input
+              type="text"
+              name="search"
+              className="searchbar"
+              placeholder="검색어를 입력하세요!"
+              value={searchItem}
+              onChange={handleChange}
+              onKeyPress={handleKeyPress}
+              autoComplete="off"
+            />
+            <div
+              className="likeListBtn"
+              onClick={() => {
+                navigate("/likeList", { state: { originalLocation: "home" } });
               }}
             >
-              <ul class="nav sortingList" style={{ width: "525px" }}>
-                <li class="nav-item">
-                  <div
-                    class="nav-link"
-                    onClick={() => {
-                      window.scrollTo({ top: 20 });
-                    }}
-                    style={{ cursor: "pointer" }}
-                    // href="#scrollspyHeading1"
-                  >
-                    웨딩홀
-                  </div>
-                </li>
-                <li class="nav-item">
-                  <div
-                    class="nav-link"
-                    onClick={() => {
-                      window.scrollTo({
-                        top: 500,
-                        left: 0,
-                        behavior: "smooth",
-                      });
-                    }}
-                    style={{ cursor: "pointer" }}
-                    //   href="#scrollspyHeading2"
-                  >
-                    스튜디오
-                  </div>
-                </li>
-                <li class="nav-item">
-                  <div
-                    class="nav-link"
-                    onClick={() => {
-                      window.scrollTo({
-                        top: 1070,
-                        left: 0,
-                        behavior: "smooth",
-                      });
-                    }}
-                    style={{ cursor: "pointer" }}
-                  >
-                    의상
-                  </div>
-                </li>
-                <li class="nav-item">
-                  <div
-                    class="nav-link"
-                    onClick={() => {
-                      window.scrollTo({
-                        top: 1730,
-                        left: 0,
-                        behavior: "smooth",
-                      });
-                    }}
-                    style={{ cursor: "pointer" }}
-                  >
-                    메이크업
-                  </div>
-                </li>
-                <li class="nav-item">
-                  <div
-                    class="nav-link"
-                    onClick={() => {
-                      window.scrollTo({
-                        top: 2370,
-                        left: 0,
-                        behavior: "smooth",
-                      });
-                    }}
-                    style={{ cursor: "pointer" }}
-                  >
-                    신혼여행
-                  </div>
-                </li>
-                <li class="nav-item">
-                  <div
-                    class="nav-link"
-                    onClick={() => {
-                      window.scrollTo({
-                        top: 3300,
-                        left: 0,
-                        behavior: "smooth",
-                      });
-                    }}
-                    style={{ cursor: "pointer" }}
-                  >
-                    부케
-                  </div>
-                </li>
-              </ul>
-            </nav>
-            <div
-              data-bs-spy="scroll"
-              data-bs-target="#navbar-example2"
-              data-bs-root-margin="0px 0px -40%"
-              data-bs-smooth-scroll="true"
-              class="scrollspy-example bg-light p-3 rounded-2"
-              tabindex="0"
-              style={{ marginTop: "150px" }}
-            >
-              <h4 id="scrollspyHeading1">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  fill="red"
-                  class="bi bi-suit-heart-fill"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z" />
-                </svg>
-                &nbsp;Wedding Hall&nbsp;
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  fill="red"
-                  class="bi bi-suit-heart-fill"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z" />
-                </svg>
-              </h4>
-              <br />
-              {keyIndex.length !== 0 ? (
-                <div
-                  id="weddingHallFade"
-                  className="carousel slide carousel-fade"
-                  data-bs-ride="carousel"
-                  data-bs-interval="5000"
-                >
-                  <div class="carousel-inner">
-                    <div
-                      class="carousel-item active"
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        width: "500px",
-                        height: "400px",
-                      }}
-                      data-bs-interval="5000"
-                    >
-                      <img
-                        id={0}
-                        style={{
-                          width: "400px",
-                          height: "340px",
-                          marginLeft: "25px",
-                          cursor: "pointer",
-                        }}
-                        src={previewImg[0]} //previewImg배열 하나하나요소가 src에 들어가야 함.
-                        data-bs-toggle="modal"
-                        data-bs-target="#imgDetailModal"
-                        data-bs-src={previewImg[0]}
-                        data-bs-category={category[0]}
-                        data-bs-keyIndex={0}
-                        data-bs-itemId={itemId[0]}
-                        onClick={showimgDetail}
-                        alt="..."
-                      />
-                      <br />
-                      <div className="itemName" style={{ marginTop: "-10px" }}>
-                        {itemName[0]}&nbsp;&nbsp; ❤️
-                        {itemLike[0]}
-                      </div>
-                    </div>
-
-                    {keyIndex.map((i) =>
-                      i === 0 ? null : (
-                        <div
-                          class="carousel-item"
-                          style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "center",
-                            width: "500px",
-                            height: "400px",
-                          }}
-                          data-bs-interval=""
-                        >
-                          <img
-                            style={{
-                              width: "400px",
-                              height: "340px",
-                              marginLeft: "25px",
-                              cursor: "pointer",
-                            }}
-                            onClick={showimgDetail}
-                            data-bs-toggle="modal"
-                            data-bs-target="#imgDetailModal"
-                            data-bs-src={previewImg[i]}
-                            data-bs-category={category[0]}
-                            data-bs-keyIndex={i}
-                            data-bs-itemid={itemId[i]}
-                            src={previewImg[i]}
-                            alt="..."
-                          />
-                          <br />
-                          <div
-                            className="itemName"
-                            style={{ marginTop: "-10px" }}
-                          >
-                            {itemName[i]} &nbsp;&nbsp;❤️{itemLike[i]}
-                          </div>
-                        </div>
-                      )
-                    )}
-                  </div>
-                  <button
-                    class="carousel-control-prev"
-                    type="button"
-                    data-bs-target="#weddingHallFade"
-                    data-bs-slide="prev"
-                    style={{ marginLeft: "-10px" }}
-                  >
-                    <span
-                      class="carousel-control-prev-icon fadeBtnColor"
-                      aria-hidden="true"
-                    ></span>
-                    <span class="visually-hidden">Previous</span>
-                  </button>
-                  <button
-                    ref={weddingAutoplayBtn}
-                    class="carousel-control-next"
-                    type="button"
-                    data-bs-target="#weddingHallFade"
-                    data-bs-slide="next"
-                    style={{ marginRight: "-10px" }}
-                  >
-                    <span
-                      class="carousel-control-next-icon fadeBtnColor"
-                      aria-hidden="true"
-                    ></span>
-                    <span class="visually-hidden">Next</span>
-                  </button>
-                </div>
-              ) : (
-                <div style={{ fontSize: "1.3em" }}>아직 이미지가 없습니다!</div>
-              )}
-              <hr />
-              {/* 이미지 상세정보 모달창 */}
-              <div
-                class="modal fade"
-                id="imgDetailModal"
-                tabindex="-1"
-                aria-labelledby="imgDetailModal"
-                aria-hidden="true"
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="40"
+                height="40"
+                fill="currentColor"
+                class="bi bi-heart likeicon"
+                viewBox="0 0 16 16"
               >
-                <div
-                  class="modal-dialog modal-dialog-centered"
-                  style={{ width: "510px" }}
-                >
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h1
-                        class="modal-title justify-content-center "
-                        id="imgDetailModal"
-                        style={{ fontSize: "1.9em" }}
-                        ref={modalImgTitle}
-                      >
-                        - -
-                      </h1>
-                      <button
-                        type="button"
-                        class="btn-close"
-                        data-bs-dismiss="modal"
-                        aria-label="Close"
-                      ></button>
-                    </div>
+                <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+              </svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="40"
+                height="40"
+                fill="currentColor"
+                class="bi bi-heart-fill likeiconfill"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"
+                />
+              </svg>
+            </div>
+          </div>
+        ) : (
+          <div
+            className="header "
+            style={{
+              position: "fixed",
+              top: 0,
+              borderRadius: "10px 10px 0 0",
+              zIndex: 99,
+              background: "white",
+              width: "556px",
+            }}
+          >
+            {sessionStorage.getItem("email") !== null ? (
+              <img
+                className="mainlogo"
+                src={imgLogo}
+                style={{ cursor: "pointer" }}
+                alt="로고"
+                data-bs-toggle="modal"
+                data-bs-target="#logoutmodal"
+              />
+            ) : (
+              <img
+                className="mainlogo"
+                src={imgLogo}
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  navigate("/login");
+                }}
+                alt="로고"
+              />
+            )}
+            <input
+              type="text"
+              name="search"
+              className="searchbar"
+              placeholder="검색어를 입력하세요!"
+              value={searchItem}
+              onChange={handleChange}
+              onKeyPress={handleKeyPress}
+              autoComplete="off"
+            />
+            <div
+              className="likeListBtn"
+              onClick={() => {
+                navigate("/likeList", { state: { originalLocation: "home" } });
+              }}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="40"
+                height="40"
+                fill="currentColor"
+                class="bi bi-heart likeicon"
+                viewBox="0 0 16 16"
+              >
+                <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+              </svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="40"
+                height="40"
+                fill="currentColor"
+                class="bi bi-heart-fill likeiconfill"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"
+                />
+              </svg>
+            </div>
+          </div>
+        )}
+        {finish === false ? (
+          <Animation />
+        ) : (
+          <div>
+            <div className="NavBar">
+              <nav
+                id="navbar-example2"
+                class="navbar bg-light px-3 mb-3"
+                style={{
+                  position: "fixed",
+                  top: 80,
+                  zIndex: 99,
+                  background: "white",
+                }}
+              >
+                <ul class="nav sortingList" style={{ width: "525px" }}>
+                  <li class="nav-item">
                     <div
-                      class="modal-body"
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alginItems: "center",
-                        displayContent: "center",
-                        height: "100%",
-                        width: "100%",
-                        marginTop: "50px",
+                      class="nav-link"
+                      onClick={() => {
+                        window.scrollTo({ top: 20 });
                       }}
+                      style={{ cursor: "pointer" }}
+                      // href="#scrollspyHeading1"
                     >
+                      웨딩홀
+                    </div>
+                  </li>
+                  <li class="nav-item">
+                    <div
+                      class="nav-link"
+                      onClick={() => {
+                        window.scrollTo({
+                          top: 500,
+                          left: 0,
+                          behavior: "smooth",
+                        });
+                      }}
+                      style={{ cursor: "pointer" }}
+                      //   href="#scrollspyHeading2"
+                    >
+                      스튜디오
+                    </div>
+                  </li>
+                  <li class="nav-item">
+                    <div
+                      class="nav-link"
+                      onClick={() => {
+                        window.scrollTo({
+                          top: 1070,
+                          left: 0,
+                          behavior: "smooth",
+                        });
+                      }}
+                      style={{ cursor: "pointer" }}
+                    >
+                      의상
+                    </div>
+                  </li>
+                  <li class="nav-item">
+                    <div
+                      class="nav-link"
+                      onClick={() => {
+                        window.scrollTo({
+                          top: 1730,
+                          left: 0,
+                          behavior: "smooth",
+                        });
+                      }}
+                      style={{ cursor: "pointer" }}
+                    >
+                      메이크업
+                    </div>
+                  </li>
+                  <li class="nav-item">
+                    <div
+                      class="nav-link"
+                      onClick={() => {
+                        window.scrollTo({
+                          top: 2370,
+                          left: 0,
+                          behavior: "smooth",
+                        });
+                      }}
+                      style={{ cursor: "pointer" }}
+                    >
+                      신혼여행
+                    </div>
+                  </li>
+                  <li class="nav-item">
+                    <div
+                      class="nav-link"
+                      onClick={() => {
+                        window.scrollTo({
+                          top: 3300,
+                          left: 0,
+                          behavior: "smooth",
+                        });
+                      }}
+                      style={{ cursor: "pointer" }}
+                    >
+                      부케
+                    </div>
+                  </li>
+                </ul>
+              </nav>
+              <div
+                data-bs-spy="scroll"
+                data-bs-target="#navbar-example2"
+                data-bs-root-margin="0px 0px -40%"
+                data-bs-smooth-scroll="true"
+                class="scrollspy-example bg-light p-3 rounded-2"
+                tabindex="0"
+                style={{ marginTop: "150px" }}
+              >
+                <h4 id="scrollspyHeading1">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    fill="red"
+                    class="bi bi-suit-heart-fill"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z" />
+                  </svg>
+                  &nbsp;Wedding Hall&nbsp;
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    fill="red"
+                    class="bi bi-suit-heart-fill"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z" />
+                  </svg>
+                </h4>
+                <br />
+                {keyIndex.length !== 0 ? (
+                  <div
+                    id="weddingHallFade"
+                    className="carousel slide carousel-fade"
+                    data-bs-ride="carousel"
+                    data-bs-interval="5000"
+                  >
+                    <div class="carousel-inner">
                       <div
-                        class="has-validation"
+                        class="carousel-item active"
                         style={{
-                          height: "100%",
-                          width: "480px",
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          width: "500px",
+                          height: "400px",
                         }}
+                        data-bs-interval="5000"
                       >
                         <img
-                          src=""
+                          id={0}
                           style={{
-                            width: "430px",
-                            height: "470px",
-                            marginBottom: "20px",
-                            marginTop: "-50px",
-                            marginLeft: "20px",
+                            width: "400px",
+                            height: "340px",
+                            marginLeft: "25px",
+                            cursor: "pointer",
                           }}
-                          alt=""
-                          ref={modalImg}
+                          src={previewImg[0]} //previewImg배열 하나하나요소가 src에 들어가야 함.
+                          data-bs-toggle="modal"
+                          data-bs-target="#imgDetailModal"
+                          data-bs-src={previewImg[0]}
+                          data-bs-category={category[0]}
+                          data-bs-keyIndex={0}
+                          data-bs-itemId={itemId[0]}
+                          onClick={showimgDetail}
+                          alt="..."
                         />
+                        <br />
                         <div
-                          style={{
-                            fontSize: "1.5em",
-                            padding: "10px",
-                          }}
+                          className="itemName"
+                          style={{ marginTop: "-10px" }}
                         >
-                          상세정보
-                          {selectLikeState === true ? (
-                            <button
-                              style={{
-                                marginLeft: "240px",
-                                width: "130px",
-                                marginBottom: "10px",
-                                fontSize: "1em",
-                                backgroundColor: "##fce1e4",
-                                border: "grey 1px solid",
-                              }}
-                              ref={modalItemId}
-                              onClick={manageLikeList}
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="20"
-                                height="20"
-                                fill="red"
-                                class="bi bi-heart-fill "
-                                viewBox="0 0 16 16"
-                                style={{ cursor: "pointer" }}
-                              >
-                                <path
-                                  fill-rule="evenodd"
-                                  d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"
-                                />
-                              </svg>{" "}
-                              찜하기
-                            </button>
-                          ) : (
-                            <button
-                              style={{
-                                marginLeft: "240px",
-                                width: "130px",
-                                marginBottom: "10px",
-                                fontSize: "1em",
-                                backgroundColor: "#ebebeb",
-                                border: "grey 1px solid",
-                              }}
-                              ref={modalItemId}
-                              onClick={manageLikeList}
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="20"
-                                height="20"
-                                fill="currentColor"
-                                class="bi bi-heart"
-                                viewBox="0 0 16 16"
-                                style={{ cursor: "pointer" }}
-                              >
-                                <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
-                              </svg>{" "}
-                              찜하기
-                            </button>
-                          )}
+                          {itemName[0]}&nbsp;&nbsp; ❤️
+                          {itemLike[0]}
                         </div>
-                        <p
-                          style={{
-                            fontSize: "1.3em",
-                            width: "460px",
-                            border: "1px solid black",
-                            padding: "10px",
-                          }}
-                          ref={modalImgContent}
-                        ></p>
                       </div>
-                    </div>
-                    <div class="modal-footer">
-                      <button
-                        type="button"
-                        class="btn btn-secondary"
-                        data-bs-dismiss="modal"
-                        onClick={gotoDetailInfo}
-                      >
-                        상세정보 페이지 이동
-                      </button>
-                      <button
-                        type="button"
-                        class="btn btn-primary"
-                        data-bs-dismiss="modal"
-                      >
-                        닫기
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              {/*이미지 상세정보 모달창  */}
-              <h4 id="scrollspyHeading2">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  fill="red"
-                  class="bi bi-suit-heart-fill"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z" />
-                </svg>
-                &nbsp;Studio&nbsp;
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  fill="red"
-                  class="bi bi-suit-heart-fill"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z" />
-                </svg>
-              </h4>
-              <br />
-              {studioKeyIndex.length !== 0 ? (
-                <div
-                  id="studioFade"
-                  className="carousel slide carousel-fade"
-                  data-bs-ride="carousel"
-                  data-bs-interval="5000"
-                >
-                  <div class="carousel-inner">
-                    <div
-                      class="carousel-item active"
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        width: "500px",
-                        height: "450px",
-                      }}
-                      data-bs-interval="5000"
-                    >
-                      <img
-                        id="targetImg"
-                        style={{
-                          width: "400px",
-                          height: "400px",
-                          marginLeft: "25px",
-                          cursor: "pointer",
-                        }}
-                        data-bs-toggle="modal"
-                        data-bs-target="#imgDetailModal"
-                        data-bs-src={studioImg[0]}
-                        data-bs-category={category[1]}
-                        data-bs-keyIndex={0}
-                        data-bs-itemId={studioItemId[0]}
-                        onClick={showimgDetail}
-                        src={studioImg[0]}
-                        alt="..."
-                      />
-                      <br />
-                      <div className="itemName" style={{ marginTop: "-10px" }}>
-                        {studioItemName[0]}&nbsp;&nbsp; ❤️{studioItemLike[0]}
-                      </div>
-                    </div>
 
-                    {studioKeyIndex.map((i) =>
-                      i === 0 ? null : (
-                        <div
-                          class="carousel-item"
-                          style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "center",
-                            width: "500px",
-                            height: "450px",
-                          }}
-                          data-bs-interval="5000"
-                        >
-                          <img
-                            style={{
-                              width: "400px",
-                              height: "400px",
-                              marginLeft: "25px",
-                              cursor: "pointer",
-                            }}
-                            data-bs-toggle="modal"
-                            data-bs-target="#imgDetailModal"
-                            data-bs-src={studioImg[i]}
-                            data-bs-category={category[1]}
-                            data-bs-keyIndex={i}
-                            data-bs-itemid={studioItemId[i]}
-                            onClick={showimgDetail}
-                            src={studioImg[i]}
-                            alt="..."
-                          />
-                          <br />
+                      {keyIndex.map((i) =>
+                        i === 0 ? null : (
                           <div
-                            className="itemName"
-                            style={{ marginTop: "-10px" }}
+                            class="carousel-item"
+                            style={{
+                              display: "flex",
+                              flexDirection: "column",
+                              alignItems: "center",
+                              width: "500px",
+                              height: "400px",
+                            }}
+                            data-bs-interval=""
                           >
-                            {studioItemName[i]} &nbsp;&nbsp;❤️
-                            {studioItemLike[i]}
+                            <img
+                              style={{
+                                width: "400px",
+                                height: "340px",
+                                marginLeft: "25px",
+                                cursor: "pointer",
+                              }}
+                              onClick={showimgDetail}
+                              data-bs-toggle="modal"
+                              data-bs-target="#imgDetailModal"
+                              data-bs-src={previewImg[i]}
+                              data-bs-category={category[0]}
+                              data-bs-keyIndex={i}
+                              data-bs-itemid={itemId[i]}
+                              src={previewImg[i]}
+                              alt="..."
+                            />
+                            <br />
+                            <div
+                              className="itemName"
+                              style={{ marginTop: "-10px" }}
+                            >
+                              {itemName[i]} &nbsp;&nbsp;❤️{itemLike[i]}
+                            </div>
                           </div>
-                        </div>
-                      )
-                    )}
-                  </div>
-                  <button
-                    class="carousel-control-prev"
-                    type="button"
-                    data-bs-target="#studioFade"
-                    data-bs-slide="prev"
-                  >
-                    <span
-                      class="carousel-control-prev-icon fadeBtnColor"
-                      aria-hidden="true"
-                    ></span>
-                    <span class="visually-hidden">Previous</span>
-                  </button>
-                  <button
-                    ref={studioAutoplayBtn}
-                    class="carousel-control-next"
-                    type="button"
-                    data-bs-target="#studioFade"
-                    data-bs-slide="next"
-                  >
-                    <span
-                      class="carousel-control-next-icon fadeBtnColor"
-                      aria-hidden="true"
-                    ></span>
-                    <span class="visually-hidden">Next</span>
-                  </button>
-                </div>
-              ) : (
-                <div style={{ fontSize: "1.3em" }}>아직 이미지가 없습니다!</div>
-              )}
-
-              <br />
-
-              <hr />
-              <h4 id="scrollspyHeading3">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  fill="red"
-                  class="bi bi-suit-heart-fill"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z" />
-                </svg>
-                &nbsp;Clothes&nbsp;
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  fill="red"
-                  class="bi bi-suit-heart-fill"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z" />
-                </svg>
-              </h4>
-              <br />
-              {dressKeyIndex.length !== 0 ? (
-                <div
-                  id="clothesFade"
-                  className="carousel slide carousel-fade"
-                  data-bs-ride="carousel"
-                  data-bs-interval="5000"
-                >
-                  <div class="carousel-inner">
-                    <div
-                      class="carousel-item active"
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        width: "500px",
-                        height: "530px",
-                      }}
-                      data-bs-interval="5000"
-                    >
-                      <img
-                        id="targetImg"
-                        style={{
-                          width: "400px",
-                          height: "480px",
-                          marginLeft: "20px",
-                          cursor: "pointer",
-                        }}
-                        data-bs-toggle="modal"
-                        data-bs-target="#imgDetailModal"
-                        data-bs-src={dressImg[0]}
-                        data-bs-category={category[2]}
-                        data-bs-keyIndex={0}
-                        data-bs-itemId={dressItemId[0]}
-                        onClick={showimgDetail}
-                        src={dressImg[0]} //previewImg배열 하나하나요소가 src에 들어가야 함.
-                        alt="..."
-                      />
-                      <br />
-                      <div className="itemName" style={{ marginTop: "-10px" }}>
-                        {dressItemName[0]}&nbsp;&nbsp; ❤️{dressItemLike[0]}
-                      </div>
+                        )
+                      )}
                     </div>
-
-                    {dressKeyIndex.map((i) =>
-                      i === 0 ? null : (
+                    <button
+                      class="carousel-control-prev"
+                      type="button"
+                      data-bs-target="#weddingHallFade"
+                      data-bs-slide="prev"
+                      style={{ marginLeft: "-10px" }}
+                    >
+                      <span
+                        class="carousel-control-prev-icon fadeBtnColor"
+                        aria-hidden="true"
+                      ></span>
+                      <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button
+                      ref={weddingAutoplayBtn}
+                      class="carousel-control-next"
+                      type="button"
+                      data-bs-target="#weddingHallFade"
+                      data-bs-slide="next"
+                      style={{ marginRight: "-10px" }}
+                    >
+                      <span
+                        class="carousel-control-next-icon fadeBtnColor"
+                        aria-hidden="true"
+                      ></span>
+                      <span class="visually-hidden">Next</span>
+                    </button>
+                  </div>
+                ) : (
+                  <div style={{ fontSize: "1.3em" }}>
+                    아직 이미지가 없습니다!
+                  </div>
+                )}
+                <hr />
+                {/* 이미지 상세정보 모달창 */}
+                <div
+                  class="modal fade"
+                  id="imgDetailModal"
+                  tabindex="-1"
+                  aria-labelledby="imgDetailModal"
+                  aria-hidden="true"
+                >
+                  <div
+                    class="modal-dialog modal-dialog-centered"
+                    style={{ width: "510px" }}
+                  >
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h1
+                          class="modal-title justify-content-center "
+                          id="imgDetailModal"
+                          style={{ fontSize: "1.9em" }}
+                          ref={modalImgTitle}
+                        >
+                          - -
+                        </h1>
+                        <button
+                          type="button"
+                          class="btn-close"
+                          data-bs-dismiss="modal"
+                          aria-label="Close"
+                        ></button>
+                      </div>
+                      <div
+                        class="modal-body"
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          alginItems: "center",
+                          displayContent: "center",
+                          height: "100%",
+                          width: "100%",
+                          marginTop: "50px",
+                        }}
+                      >
                         <div
-                          class="carousel-item"
+                          class="has-validation"
                           style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "center",
-                            width: "500px",
-                            height: "530px",
+                            height: "100%",
+                            width: "480px",
                           }}
-                          data-bs-interval="5000"
                         >
                           <img
+                            src=""
                             style={{
-                              width: "400px",
-                              height: "480px",
+                              width: "430px",
+                              height: "470px",
+                              marginBottom: "20px",
+                              marginTop: "-50px",
                               marginLeft: "20px",
-                              cursor: "pointer",
                             }}
-                            data-bs-toggle="modal"
-                            data-bs-target="#imgDetailModal"
-                            data-bs-src={dressImg[i]}
-                            data-bs-category={category[2]}
-                            data-bs-keyIndex={i}
-                            data-bs-itemid={dressItemId[i]}
-                            onClick={showimgDetail}
-                            src={dressImg[i]}
-                            alt="..."
+                            alt=""
+                            ref={modalImg}
                           />
-                          <br />
                           <div
-                            className="itemName"
-                            style={{ marginTop: "-10px" }}
+                            style={{
+                              fontSize: "1.5em",
+                              padding: "10px",
+                            }}
                           >
-                            {dressItemName[i]} &nbsp;&nbsp;❤️{dressItemLike[i]}
+                            상세정보
+                            {selectLikeState === true ? (
+                              <button
+                                style={{
+                                  marginLeft: "240px",
+                                  width: "130px",
+                                  marginBottom: "10px",
+                                  fontSize: "1em",
+                                  backgroundColor: "##fce1e4",
+                                  border: "grey 1px solid",
+                                }}
+                                ref={modalItemId}
+                                onClick={manageLikeList}
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="20"
+                                  height="20"
+                                  fill="red"
+                                  class="bi bi-heart-fill "
+                                  viewBox="0 0 16 16"
+                                  style={{ cursor: "pointer" }}
+                                >
+                                  <path
+                                    fill-rule="evenodd"
+                                    d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"
+                                  />
+                                </svg>{" "}
+                                찜하기
+                              </button>
+                            ) : (
+                              <button
+                                style={{
+                                  marginLeft: "240px",
+                                  width: "130px",
+                                  marginBottom: "10px",
+                                  fontSize: "1em",
+                                  backgroundColor: "#ebebeb",
+                                  border: "grey 1px solid",
+                                }}
+                                ref={modalItemId}
+                                onClick={manageLikeList}
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="20"
+                                  height="20"
+                                  fill="currentColor"
+                                  class="bi bi-heart"
+                                  viewBox="0 0 16 16"
+                                  style={{ cursor: "pointer" }}
+                                >
+                                  <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+                                </svg>{" "}
+                                찜하기
+                              </button>
+                            )}
                           </div>
+                          <p
+                            style={{
+                              fontSize: "1.3em",
+                              width: "460px",
+                              border: "1px solid black",
+                              padding: "10px",
+                            }}
+                            ref={modalImgContent}
+                          ></p>
                         </div>
-                      )
-                    )}
-                  </div>
-                  <button
-                    class="carousel-control-prev"
-                    type="button"
-                    data-bs-target="#clothesFade"
-                    data-bs-slide="prev"
-                  >
-                    <span
-                      class="carousel-control-prev-icon fadeBtnColor"
-                      aria-hidden="true"
-                    ></span>
-                    <span class="visually-hidden">Previous</span>
-                  </button>
-                  <button
-                    ref={dressAutoplayBtn}
-                    class="carousel-control-next"
-                    type="button"
-                    data-bs-target="#clothesFade"
-                    data-bs-slide="next"
-                  >
-                    <span
-                      class="carousel-control-next-icon fadeBtnColor"
-                      aria-hidden="true"
-                    ></span>
-                    <span class="visually-hidden">Next</span>
-                  </button>
-                </div>
-              ) : (
-                <div style={{ fontSize: "1.3em" }}>아직 이미지가 없습니다!</div>
-              )}
-
-              <br />
-              <hr />
-              <h4 id="scrollspyHeading4">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  fill="red"
-                  class="bi bi-suit-heart-fill"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z" />
-                </svg>
-                &nbsp;Make Up&nbsp;
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  fill="red"
-                  class="bi bi-suit-heart-fill"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z" />
-                </svg>
-              </h4>
-              <br />
-              {makeupKeyIndex.length !== 0 ? (
-                <div
-                  id="makeUpFade"
-                  className="carousel slide carousel-fade"
-                  data-bs-ride="carousel"
-                  data-bs-interval="5000"
-                >
-                  <div class="carousel-inner">
-                    <div
-                      class="carousel-item active"
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        width: "500px",
-                        height: "530px",
-                      }}
-                      data-bs-interval="5000"
-                    >
-                      <img
-                        id="targetImg"
-                        style={{
-                          width: "400px",
-                          height: "460px",
-                          marginLeft: "25px",
-                          cursor: "pointer",
-                        }}
-                        data-bs-toggle="modal"
-                        data-bs-target="#imgDetailModal"
-                        data-bs-src={makeupImg[0]}
-                        data-bs-category={category[3]}
-                        data-bs-keyIndex={0}
-                        data-bs-itemId={makeupItemId[0]}
-                        onClick={showimgDetail}
-                        src={makeupImg[0]} //previewImg배열 하나하나요소가 src에 들어가야 함.
-                        alt="..."
-                      />
-                      <br />
-                      <div className="itemName" style={{ marginTop: "-10px" }}>
-                        {makeupItemName[0]}&nbsp;&nbsp; ❤️{makeupItemLike[0]}
+                      </div>
+                      <div class="modal-footer">
+                        <button
+                          type="button"
+                          class="btn btn-secondary"
+                          data-bs-dismiss="modal"
+                          onClick={gotoDetailInfo}
+                        >
+                          상세정보 페이지 이동
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-primary"
+                          data-bs-dismiss="modal"
+                        >
+                          닫기
+                        </button>
                       </div>
                     </div>
-
-                    {makeupKeyIndex.map((i) =>
-                      i === 0 ? null : (
-                        <div
-                          class="carousel-item"
-                          style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "center",
-                            width: "500px",
-                            height: "530px",
-                          }}
-                          data-bs-interval="5000"
-                        >
-                          <img
-                            style={{
-                              width: "400px",
-                              height: "460px",
-                              marginLeft: "25px",
-                              cursor: "pointer",
-                            }}
-                            data-bs-toggle="modal"
-                            data-bs-target="#imgDetailModal"
-                            data-bs-src={makeupImg[i]}
-                            data-bs-category={category[3]}
-                            data-bs-keyIndex={i}
-                            data-bs-itemid={makeupItemId[i]}
-                            onClick={showimgDetail}
-                            src={makeupImg[i]}
-                            alt="..."
-                          />
-                          <br />
-                          <div
-                            className="itemName"
-                            style={{ marginTop: "-10px" }}
-                          >
-                            {makeupItemName[i]} &nbsp;&nbsp;❤️
-                            {makeupItemLike[i]}
-                          </div>
-                        </div>
-                      )
-                    )}
                   </div>
-                  <button
-                    class="carousel-control-prev"
-                    type="button"
-                    data-bs-target="#makeUpFade"
-                    data-bs-slide="prev"
-                  >
-                    <span
-                      class="carousel-control-prev-icon fadeBtnColor"
-                      aria-hidden="true"
-                    ></span>
-                    <span class="visually-hidden">Previous</span>
-                  </button>
-                  <button
-                    ref={makeupAutoplayBtn}
-                    class="carousel-control-next"
-                    type="button"
-                    data-bs-target="#makeUpFade"
-                    data-bs-slide="next"
-                  >
-                    <span
-                      class="carousel-control-next-icon fadeBtnColor"
-                      aria-hidden="true"
-                    ></span>
-                    <span class="visually-hidden">Next</span>
-                  </button>
                 </div>
-              ) : (
-                <div style={{ fontSize: "1.3em" }}>아직 이미지가 없습니다!</div>
-              )}
-
-              <br />
-
-              <hr />
-              <h4 id="scrollspyHeading5">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  fill="red"
-                  class="bi bi-suit-heart-fill"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z" />
-                </svg>
-                &nbsp;Honey Moon&nbsp;
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  fill="red"
-                  class="bi bi-suit-heart-fill"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z" />
-                </svg>
-              </h4>
-              <br />
-              {honeyMoonKeyIndex.length !== 0 ? (
-                <div
-                  id="honeyMoonFade"
-                  className="carousel slide carousel-fade"
-                  data-bs-ride="carousel"
-                >
-                  <div class="carousel-inner">
-                    <div
-                      class="carousel-item active"
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        width: "500px",
-                        height: "430px",
-                      }}
-                      data-bs-interval="5000"
-                    >
-                      <img
-                        id="targetImg"
+                {/*이미지 상세정보 모달창  */}
+                <h4 id="scrollspyHeading2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    fill="red"
+                    class="bi bi-suit-heart-fill"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z" />
+                  </svg>
+                  &nbsp;Studio&nbsp;
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    fill="red"
+                    class="bi bi-suit-heart-fill"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z" />
+                  </svg>
+                </h4>
+                <br />
+                {studioKeyIndex.length !== 0 ? (
+                  <div
+                    id="studioFade"
+                    className="carousel slide carousel-fade"
+                    data-bs-ride="carousel"
+                    data-bs-interval="5000"
+                  >
+                    <div class="carousel-inner">
+                      <div
+                        class="carousel-item active"
                         style={{
-                          width: "400px",
-                          height: "380px",
-                          marginLeft: "25px",
-                          cursor: "pointer",
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          width: "500px",
+                          height: "450px",
                         }}
-                        data-bs-toggle="modal"
-                        data-bs-target="#imgDetailModal"
-                        data-bs-src={honeyMoonImg[0]}
-                        data-bs-category={category[4]}
-                        data-bs-keyIndex={0}
-                        data-bs-itemId={honeyMoonItemId[0]}
-                        onClick={showimgDetail}
-                        src={honeyMoonImg[0]} //previewImg배열 하나하나요소가 src에 들어가야 함.
-                        alt="..."
-                      />
-                      <br />
-                      <div className="itemName" style={{ marginTop: "-10px" }}>
-                        {honeyMoonItemName[0]}&nbsp;&nbsp; ❤️
-                        {honeyMoonItemLike[0]}
-                      </div>
-                    </div>
-
-                    {honeyMoonKeyIndex.map((i) =>
-                      i === 0 ? null : (
-                        <div
-                          class="carousel-item"
+                        data-bs-interval="5000"
+                      >
+                        <img
+                          id="targetImg"
                           style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "center",
-                            width: "500px",
-                            height: "430px",
+                            width: "400px",
+                            height: "400px",
+                            marginLeft: "25px",
+                            cursor: "pointer",
                           }}
-                          data-bs-interval="5000"
+                          data-bs-toggle="modal"
+                          data-bs-target="#imgDetailModal"
+                          data-bs-src={studioImg[0]}
+                          data-bs-category={category[1]}
+                          data-bs-keyIndex={0}
+                          data-bs-itemId={studioItemId[0]}
+                          onClick={showimgDetail}
+                          src={studioImg[0]}
+                          alt="..."
+                        />
+                        <br />
+                        <div
+                          className="itemName"
+                          style={{ marginTop: "-10px" }}
                         >
-                          <img
-                            style={{
-                              width: "400px",
-                              height: "380px",
-                              marginLeft: "25px",
-                              cursor: "pointer",
-                            }}
-                            data-bs-toggle="modal"
-                            data-bs-target="#imgDetailModal"
-                            data-bs-src={honeyMoonImg[i]}
-                            data-bs-category={category[4]}
-                            data-bs-keyIndex={i}
-                            data-bs-itemid={honeyMoonItemId[i]}
-                            onClick={showimgDetail}
-                            src={honeyMoonImg[i]}
-                            alt="..."
-                          />
-                          <br />
-                          <div
-                            className="itemName"
-                            style={{ marginTop: "-10px" }}
-                          >
-                            {honeyMoonItemName[i]} &nbsp;&nbsp;❤️
-                            {honeyMoonItemLike[i]}
-                          </div>
+                          {studioItemName[0]}&nbsp;&nbsp; ❤️{studioItemLike[0]}
                         </div>
-                      )
-                    )}
-                  </div>
-                  <button
-                    class="carousel-control-prev"
-                    type="button"
-                    data-bs-target="#honeyMoonFade"
-                    data-bs-slide="prev"
-                  >
-                    <span
-                      class="carousel-control-prev-icon fadeBtnColor"
-                      aria-hidden="true"
-                    ></span>
-                    <span class="visually-hidden">Previous</span>
-                  </button>
-                  <button
-                    ref={honeymoonAutoplayBtn}
-                    class="carousel-control-next"
-                    type="button"
-                    data-bs-target="#honeyMoonFade"
-                    data-bs-slide="next"
-                  >
-                    <span
-                      class="carousel-control-next-icon fadeBtnColor"
-                      aria-hidden="true"
-                    ></span>
-                    <span class="visually-hidden">Next</span>
-                  </button>
-                </div>
-              ) : (
-                <div style={{ fontSize: "1.3em" }}>아직 이미지가 없습니다!</div>
-              )}
+                      </div>
 
-              <br />
-
-              <hr />
-              <h4 id="scrollspyHeading6">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  fill="red"
-                  class="bi bi-suit-heart-fill"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z" />
-                </svg>
-                &nbsp;Bouquet&nbsp;
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  fill="red"
-                  class="bi bi-suit-heart-fill"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z" />
-                </svg>
-              </h4>
-              <br />
-              {bouquetKeyIndex.length !== 0 ? (
-                <div
-                  id="bouquetFade"
-                  className="carousel slide carousel-fade"
-                  data-bs-ride="carousel"
-                >
-                  <div class="carousel-inner">
-                    <div
-                      class="carousel-item active"
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        width: "500px",
-                        height: "450px",
-                      }}
-                      data-bs-interval="5000"
+                      {studioKeyIndex.map((i) =>
+                        i === 0 ? null : (
+                          <div
+                            class="carousel-item"
+                            style={{
+                              display: "flex",
+                              flexDirection: "column",
+                              alignItems: "center",
+                              width: "500px",
+                              height: "450px",
+                            }}
+                            data-bs-interval="5000"
+                          >
+                            <img
+                              style={{
+                                width: "400px",
+                                height: "400px",
+                                marginLeft: "25px",
+                                cursor: "pointer",
+                              }}
+                              data-bs-toggle="modal"
+                              data-bs-target="#imgDetailModal"
+                              data-bs-src={studioImg[i]}
+                              data-bs-category={category[1]}
+                              data-bs-keyIndex={i}
+                              data-bs-itemid={studioItemId[i]}
+                              onClick={showimgDetail}
+                              src={studioImg[i]}
+                              alt="..."
+                            />
+                            <br />
+                            <div
+                              className="itemName"
+                              style={{ marginTop: "-10px" }}
+                            >
+                              {studioItemName[i]} &nbsp;&nbsp;❤️
+                              {studioItemLike[i]}
+                            </div>
+                          </div>
+                        )
+                      )}
+                    </div>
+                    <button
+                      class="carousel-control-prev"
+                      type="button"
+                      data-bs-target="#studioFade"
+                      data-bs-slide="prev"
                     >
-                      <img
-                        id="targetImg"
-                        style={{
-                          width: "400px",
-                          height: "400px",
-                          marginLeft: "25px",
-                          cursor: "pointer",
-                        }}
-                        data-bs-toggle="modal"
-                        data-bs-target="#imgDetailModal"
-                        data-bs-src={bouquetImg[0]}
-                        data-bs-category={category[5]}
-                        data-bs-keyIndex={0}
-                        data-bs-itemId={bouquetItemId[0]}
-                        onClick={showimgDetail}
-                        src={bouquetImg[0]} //previewImg배열 하나하나요소가 src에 들어가야 함.
-                        alt="..."
-                      />
-                      <br />
-                      <div className="itemName" style={{ marginTop: "-10px" }}>
-                        {bouquetItemName[0]}&nbsp;&nbsp; ❤️{bouquetItemLike[0]}
-                      </div>
-                    </div>
-
-                    {bouquetKeyIndex.map((i) =>
-                      i === 0 ? null : (
-                        <div
-                          class="carousel-item"
-                          style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "center",
-                            width: "500px",
-                            height: "450px",
-                          }}
-                          data-bs-interval="5000"
-                        >
-                          <img
-                            style={{
-                              width: "400px",
-                              height: "400px",
-                              marginLeft: "25px",
-                              cursor: "pointer",
-                            }}
-                            data-bs-toggle="modal"
-                            data-bs-target="#imgDetailModal"
-                            data-bs-src={bouquetImg[i]}
-                            data-bs-category={category[5]}
-                            data-bs-keyIndex={i}
-                            data-bs-itemid={bouquetItemId[i]}
-                            onClick={showimgDetail}
-                            src={bouquetImg[i]}
-                            alt="..."
-                          />
-                          <br />
-                          <div
-                            className="itemName"
-                            style={{ marginTop: "-10px" }}
-                          >
-                            {bouquetItemName[i]} &nbsp;&nbsp;❤️
-                            {bouquetItemLike[i]}
-                          </div>
-                        </div>
-                      )
-                    )}
+                      <span
+                        class="carousel-control-prev-icon fadeBtnColor"
+                        aria-hidden="true"
+                      ></span>
+                      <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button
+                      ref={studioAutoplayBtn}
+                      class="carousel-control-next"
+                      type="button"
+                      data-bs-target="#studioFade"
+                      data-bs-slide="next"
+                    >
+                      <span
+                        class="carousel-control-next-icon fadeBtnColor"
+                        aria-hidden="true"
+                      ></span>
+                      <span class="visually-hidden">Next</span>
+                    </button>
                   </div>
-                  <button
-                    class="carousel-control-prev"
-                    type="button"
-                    data-bs-target="#bouquetFade"
-                    data-bs-slide="prev"
-                  >
-                    <span
-                      class="carousel-control-prev-icon fadeBtnColor"
-                      aria-hidden="true"
-                    ></span>
-                    <span class="visually-hidden">Previous</span>
-                  </button>
-                  <button
-                    ref={bouquetAutoplayBtn}
-                    class="carousel-control-next"
-                    type="button"
-                    data-bs-target="#bouquetFade"
-                    data-bs-slide="next"
-                  >
-                    <span
-                      class="carousel-control-next-icon fadeBtnColor"
-                      aria-hidden="true"
-                    ></span>
-                    <span class="visually-hidden">Next</span>
-                  </button>
-                </div>
-              ) : (
-                <div style={{ fontSize: "1.3em" }}>아직 이미지가 없습니다!</div>
-              )}
+                ) : (
+                  <div style={{ fontSize: "1.3em" }}>
+                    아직 이미지가 없습니다!
+                  </div>
+                )}
 
-              <br />
-            </div>
-            {/* {sessionStorage.getItem("category") === "user" ? (
+                <br />
+
+                <hr />
+                <h4 id="scrollspyHeading3">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    fill="red"
+                    class="bi bi-suit-heart-fill"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z" />
+                  </svg>
+                  &nbsp;Clothes&nbsp;
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    fill="red"
+                    class="bi bi-suit-heart-fill"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z" />
+                  </svg>
+                </h4>
+                <br />
+                {dressKeyIndex.length !== 0 ? (
+                  <div
+                    id="clothesFade"
+                    className="carousel slide carousel-fade"
+                    data-bs-ride="carousel"
+                    data-bs-interval="5000"
+                  >
+                    <div class="carousel-inner">
+                      <div
+                        class="carousel-item active"
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          width: "500px",
+                          height: "530px",
+                        }}
+                        data-bs-interval="5000"
+                      >
+                        <img
+                          id="targetImg"
+                          style={{
+                            width: "400px",
+                            height: "480px",
+                            marginLeft: "20px",
+                            cursor: "pointer",
+                          }}
+                          data-bs-toggle="modal"
+                          data-bs-target="#imgDetailModal"
+                          data-bs-src={dressImg[0]}
+                          data-bs-category={category[2]}
+                          data-bs-keyIndex={0}
+                          data-bs-itemId={dressItemId[0]}
+                          onClick={showimgDetail}
+                          src={dressImg[0]} //previewImg배열 하나하나요소가 src에 들어가야 함.
+                          alt="..."
+                        />
+                        <br />
+                        <div
+                          className="itemName"
+                          style={{ marginTop: "-10px" }}
+                        >
+                          {dressItemName[0]}&nbsp;&nbsp; ❤️{dressItemLike[0]}
+                        </div>
+                      </div>
+
+                      {dressKeyIndex.map((i) =>
+                        i === 0 ? null : (
+                          <div
+                            class="carousel-item"
+                            style={{
+                              display: "flex",
+                              flexDirection: "column",
+                              alignItems: "center",
+                              width: "500px",
+                              height: "530px",
+                            }}
+                            data-bs-interval="5000"
+                          >
+                            <img
+                              style={{
+                                width: "400px",
+                                height: "480px",
+                                marginLeft: "20px",
+                                cursor: "pointer",
+                              }}
+                              data-bs-toggle="modal"
+                              data-bs-target="#imgDetailModal"
+                              data-bs-src={dressImg[i]}
+                              data-bs-category={category[2]}
+                              data-bs-keyIndex={i}
+                              data-bs-itemid={dressItemId[i]}
+                              onClick={showimgDetail}
+                              src={dressImg[i]}
+                              alt="..."
+                            />
+                            <br />
+                            <div
+                              className="itemName"
+                              style={{ marginTop: "-10px" }}
+                            >
+                              {dressItemName[i]} &nbsp;&nbsp;❤️
+                              {dressItemLike[i]}
+                            </div>
+                          </div>
+                        )
+                      )}
+                    </div>
+                    <button
+                      class="carousel-control-prev"
+                      type="button"
+                      data-bs-target="#clothesFade"
+                      data-bs-slide="prev"
+                    >
+                      <span
+                        class="carousel-control-prev-icon fadeBtnColor"
+                        aria-hidden="true"
+                      ></span>
+                      <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button
+                      ref={dressAutoplayBtn}
+                      class="carousel-control-next"
+                      type="button"
+                      data-bs-target="#clothesFade"
+                      data-bs-slide="next"
+                    >
+                      <span
+                        class="carousel-control-next-icon fadeBtnColor"
+                        aria-hidden="true"
+                      ></span>
+                      <span class="visually-hidden">Next</span>
+                    </button>
+                  </div>
+                ) : (
+                  <div style={{ fontSize: "1.3em" }}>
+                    아직 이미지가 없습니다!
+                  </div>
+                )}
+
+                <br />
+                <hr />
+                <h4 id="scrollspyHeading4">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    fill="red"
+                    class="bi bi-suit-heart-fill"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z" />
+                  </svg>
+                  &nbsp;Make Up&nbsp;
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    fill="red"
+                    class="bi bi-suit-heart-fill"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z" />
+                  </svg>
+                </h4>
+                <br />
+                {makeupKeyIndex.length !== 0 ? (
+                  <div
+                    id="makeUpFade"
+                    className="carousel slide carousel-fade"
+                    data-bs-ride="carousel"
+                    data-bs-interval="5000"
+                  >
+                    <div class="carousel-inner">
+                      <div
+                        class="carousel-item active"
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          width: "500px",
+                          height: "530px",
+                        }}
+                        data-bs-interval="5000"
+                      >
+                        <img
+                          id="targetImg"
+                          style={{
+                            width: "400px",
+                            height: "460px",
+                            marginLeft: "25px",
+                            cursor: "pointer",
+                          }}
+                          data-bs-toggle="modal"
+                          data-bs-target="#imgDetailModal"
+                          data-bs-src={makeupImg[0]}
+                          data-bs-category={category[3]}
+                          data-bs-keyIndex={0}
+                          data-bs-itemId={makeupItemId[0]}
+                          onClick={showimgDetail}
+                          src={makeupImg[0]} //previewImg배열 하나하나요소가 src에 들어가야 함.
+                          alt="..."
+                        />
+                        <br />
+                        <div
+                          className="itemName"
+                          style={{ marginTop: "-10px" }}
+                        >
+                          {makeupItemName[0]}&nbsp;&nbsp; ❤️{makeupItemLike[0]}
+                        </div>
+                      </div>
+
+                      {makeupKeyIndex.map((i) =>
+                        i === 0 ? null : (
+                          <div
+                            class="carousel-item"
+                            style={{
+                              display: "flex",
+                              flexDirection: "column",
+                              alignItems: "center",
+                              width: "500px",
+                              height: "530px",
+                            }}
+                            data-bs-interval="5000"
+                          >
+                            <img
+                              style={{
+                                width: "400px",
+                                height: "460px",
+                                marginLeft: "25px",
+                                cursor: "pointer",
+                              }}
+                              data-bs-toggle="modal"
+                              data-bs-target="#imgDetailModal"
+                              data-bs-src={makeupImg[i]}
+                              data-bs-category={category[3]}
+                              data-bs-keyIndex={i}
+                              data-bs-itemid={makeupItemId[i]}
+                              onClick={showimgDetail}
+                              src={makeupImg[i]}
+                              alt="..."
+                            />
+                            <br />
+                            <div
+                              className="itemName"
+                              style={{ marginTop: "-10px" }}
+                            >
+                              {makeupItemName[i]} &nbsp;&nbsp;❤️
+                              {makeupItemLike[i]}
+                            </div>
+                          </div>
+                        )
+                      )}
+                    </div>
+                    <button
+                      class="carousel-control-prev"
+                      type="button"
+                      data-bs-target="#makeUpFade"
+                      data-bs-slide="prev"
+                    >
+                      <span
+                        class="carousel-control-prev-icon fadeBtnColor"
+                        aria-hidden="true"
+                      ></span>
+                      <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button
+                      ref={makeupAutoplayBtn}
+                      class="carousel-control-next"
+                      type="button"
+                      data-bs-target="#makeUpFade"
+                      data-bs-slide="next"
+                    >
+                      <span
+                        class="carousel-control-next-icon fadeBtnColor"
+                        aria-hidden="true"
+                      ></span>
+                      <span class="visually-hidden">Next</span>
+                    </button>
+                  </div>
+                ) : (
+                  <div style={{ fontSize: "1.3em" }}>
+                    아직 이미지가 없습니다!
+                  </div>
+                )}
+
+                <br />
+
+                <hr />
+                <h4 id="scrollspyHeading5">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    fill="red"
+                    class="bi bi-suit-heart-fill"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z" />
+                  </svg>
+                  &nbsp;Honey Moon&nbsp;
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    fill="red"
+                    class="bi bi-suit-heart-fill"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z" />
+                  </svg>
+                </h4>
+                <br />
+                {honeyMoonKeyIndex.length !== 0 ? (
+                  <div
+                    id="honeyMoonFade"
+                    className="carousel slide carousel-fade"
+                    data-bs-ride="carousel"
+                  >
+                    <div class="carousel-inner">
+                      <div
+                        class="carousel-item active"
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          width: "500px",
+                          height: "430px",
+                        }}
+                        data-bs-interval="5000"
+                      >
+                        <img
+                          id="targetImg"
+                          style={{
+                            width: "400px",
+                            height: "380px",
+                            marginLeft: "25px",
+                            cursor: "pointer",
+                          }}
+                          data-bs-toggle="modal"
+                          data-bs-target="#imgDetailModal"
+                          data-bs-src={honeyMoonImg[0]}
+                          data-bs-category={category[4]}
+                          data-bs-keyIndex={0}
+                          data-bs-itemId={honeyMoonItemId[0]}
+                          onClick={showimgDetail}
+                          src={honeyMoonImg[0]} //previewImg배열 하나하나요소가 src에 들어가야 함.
+                          alt="..."
+                        />
+                        <br />
+                        <div
+                          className="itemName"
+                          style={{ marginTop: "-10px" }}
+                        >
+                          {honeyMoonItemName[0]}&nbsp;&nbsp; ❤️
+                          {honeyMoonItemLike[0]}
+                        </div>
+                      </div>
+
+                      {honeyMoonKeyIndex.map((i) =>
+                        i === 0 ? null : (
+                          <div
+                            class="carousel-item"
+                            style={{
+                              display: "flex",
+                              flexDirection: "column",
+                              alignItems: "center",
+                              width: "500px",
+                              height: "430px",
+                            }}
+                            data-bs-interval="5000"
+                          >
+                            <img
+                              style={{
+                                width: "400px",
+                                height: "380px",
+                                marginLeft: "25px",
+                                cursor: "pointer",
+                              }}
+                              data-bs-toggle="modal"
+                              data-bs-target="#imgDetailModal"
+                              data-bs-src={honeyMoonImg[i]}
+                              data-bs-category={category[4]}
+                              data-bs-keyIndex={i}
+                              data-bs-itemid={honeyMoonItemId[i]}
+                              onClick={showimgDetail}
+                              src={honeyMoonImg[i]}
+                              alt="..."
+                            />
+                            <br />
+                            <div
+                              className="itemName"
+                              style={{ marginTop: "-10px" }}
+                            >
+                              {honeyMoonItemName[i]} &nbsp;&nbsp;❤️
+                              {honeyMoonItemLike[i]}
+                            </div>
+                          </div>
+                        )
+                      )}
+                    </div>
+                    <button
+                      class="carousel-control-prev"
+                      type="button"
+                      data-bs-target="#honeyMoonFade"
+                      data-bs-slide="prev"
+                    >
+                      <span
+                        class="carousel-control-prev-icon fadeBtnColor"
+                        aria-hidden="true"
+                      ></span>
+                      <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button
+                      ref={honeymoonAutoplayBtn}
+                      class="carousel-control-next"
+                      type="button"
+                      data-bs-target="#honeyMoonFade"
+                      data-bs-slide="next"
+                    >
+                      <span
+                        class="carousel-control-next-icon fadeBtnColor"
+                        aria-hidden="true"
+                      ></span>
+                      <span class="visually-hidden">Next</span>
+                    </button>
+                  </div>
+                ) : (
+                  <div style={{ fontSize: "1.3em" }}>
+                    아직 이미지가 없습니다!
+                  </div>
+                )}
+
+                <br />
+
+                <hr />
+                <h4 id="scrollspyHeading6">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    fill="red"
+                    class="bi bi-suit-heart-fill"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z" />
+                  </svg>
+                  &nbsp;Bouquet&nbsp;
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    fill="red"
+                    class="bi bi-suit-heart-fill"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z" />
+                  </svg>
+                </h4>
+                <br />
+                {bouquetKeyIndex.length !== 0 ? (
+                  <div
+                    id="bouquetFade"
+                    className="carousel slide carousel-fade"
+                    data-bs-ride="carousel"
+                  >
+                    <div class="carousel-inner">
+                      <div
+                        class="carousel-item active"
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          width: "500px",
+                          height: "450px",
+                        }}
+                        data-bs-interval="5000"
+                      >
+                        <img
+                          id="targetImg"
+                          style={{
+                            width: "400px",
+                            height: "400px",
+                            marginLeft: "25px",
+                            cursor: "pointer",
+                          }}
+                          data-bs-toggle="modal"
+                          data-bs-target="#imgDetailModal"
+                          data-bs-src={bouquetImg[0]}
+                          data-bs-category={category[5]}
+                          data-bs-keyIndex={0}
+                          data-bs-itemId={bouquetItemId[0]}
+                          onClick={showimgDetail}
+                          src={bouquetImg[0]} //previewImg배열 하나하나요소가 src에 들어가야 함.
+                          alt="..."
+                        />
+                        <br />
+                        <div
+                          className="itemName"
+                          style={{ marginTop: "-10px" }}
+                        >
+                          {bouquetItemName[0]}&nbsp;&nbsp; ❤️
+                          {bouquetItemLike[0]}
+                        </div>
+                      </div>
+
+                      {bouquetKeyIndex.map((i) =>
+                        i === 0 ? null : (
+                          <div
+                            class="carousel-item"
+                            style={{
+                              display: "flex",
+                              flexDirection: "column",
+                              alignItems: "center",
+                              width: "500px",
+                              height: "450px",
+                            }}
+                            data-bs-interval="5000"
+                          >
+                            <img
+                              style={{
+                                width: "400px",
+                                height: "400px",
+                                marginLeft: "25px",
+                                cursor: "pointer",
+                              }}
+                              data-bs-toggle="modal"
+                              data-bs-target="#imgDetailModal"
+                              data-bs-src={bouquetImg[i]}
+                              data-bs-category={category[5]}
+                              data-bs-keyIndex={i}
+                              data-bs-itemid={bouquetItemId[i]}
+                              onClick={showimgDetail}
+                              src={bouquetImg[i]}
+                              alt="..."
+                            />
+                            <br />
+                            <div
+                              className="itemName"
+                              style={{ marginTop: "-10px" }}
+                            >
+                              {bouquetItemName[i]} &nbsp;&nbsp;❤️
+                              {bouquetItemLike[i]}
+                            </div>
+                          </div>
+                        )
+                      )}
+                    </div>
+                    <button
+                      class="carousel-control-prev"
+                      type="button"
+                      data-bs-target="#bouquetFade"
+                      data-bs-slide="prev"
+                    >
+                      <span
+                        class="carousel-control-prev-icon fadeBtnColor"
+                        aria-hidden="true"
+                      ></span>
+                      <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button
+                      ref={bouquetAutoplayBtn}
+                      class="carousel-control-next"
+                      type="button"
+                      data-bs-target="#bouquetFade"
+                      data-bs-slide="next"
+                    >
+                      <span
+                        class="carousel-control-next-icon fadeBtnColor"
+                        aria-hidden="true"
+                      ></span>
+                      <span class="visually-hidden">Next</span>
+                    </button>
+                  </div>
+                ) : (
+                  <div style={{ fontSize: "1.3em" }}>
+                    아직 이미지가 없습니다!
+                  </div>
+                )}
+
+                <br />
+              </div>
+              {/* {sessionStorage.getItem("category") === "user" ? (
               <div
                 style={{
                   width: "560px",
@@ -2384,61 +2374,112 @@ function Home() {
                 </div>
               </div>
             ) : null} */}
-            <div
-              style={{
-                width: "560px",
-                position: "fixed",
-                bottom: "120px",
-                height: "50px",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "end",
-                alignItems: "end",
-                paddingRight: "23px",
-                paddingLeft: "50px",
-                paddingBottom: "10px",
-                zIndex: "999",
-              }}
-            >
-              {window.sessionStorage.getItem("category") === "user" && (
-                <div style={{}}>
-                  <div className="estimate-write-btn">
-                    <i
-                      class="bi bi-pencil-square"
-                      style={{ marginLeft: "50px", zIndex: "999" }}
-                    ></i>
-                    <div
-                      className="estimate-write-btn-overlay"
-                      onClick={() => {
-                        navigate("/estimateform");
-                      }}
-                      style={{
-                        marginRight: "-20px",
-                        marginLeft: "12px",
-                        zIndex: "999",
-                        height: "50px",
-                      }}
-                    >
-                      <span>견적작성하기</span>
+              <div
+                style={{
+                  width: "560px",
+                  position: "fixed",
+                  bottom: "120px",
+                  height: "50px",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "end",
+                  alignItems: "end",
+                  paddingRight: "23px",
+                  paddingLeft: "50px",
+                  paddingBottom: "10px",
+                  zIndex: "999",
+                }}
+              >
+                {window.sessionStorage.getItem("category") === "user" && (
+                  <div style={{}}>
+                    <div className="estimate-write-btn">
+                      <i
+                        class="bi bi-pencil-square"
+                        style={{ marginLeft: "50px", zIndex: "999" }}
+                      ></i>
+                      <div
+                        className="estimate-write-btn-overlay"
+                        onClick={() => {
+                          navigate("/estimateform");
+                        }}
+                        style={{
+                          marginRight: "-20px",
+                          marginLeft: "12px",
+                          zIndex: "999",
+                          height: "50px",
+                        }}
+                      >
+                        <span>견적작성하기</span>
+                      </div>
                     </div>
                   </div>
+                )}
+                <div
+                  className="scrolltop"
+                  onClick={() => {
+                    onScrollTop();
+                  }}
+                  style={{ marginRight: "5px" }}
+                >
+                  <i class="bi bi-chevron-up"></i>
                 </div>
-              )}
-              <div
-                className="scrolltop"
-                onClick={() => {
-                  onScrollTop();
-                }}
-                style={{ marginRight: "5px" }}
-              >
-                <i class="bi bi-chevron-up"></i>
+              </div>
+            </div>
+            <div style={{ height: 94.19 }}></div>
+          </div>
+        )}
+        <Footer />
+        <div
+          class="modal fade"
+          id="logoutmodal"
+          tabindex="-1"
+          aria-labelledby="logoutmodal"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">
+                  로그아웃
+                </h1>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body" style={{ fontSize: 26 }}>
+                로그아웃하시겠습니까?
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  data-bs-dismiss="modal"
+                  onClick={() => {
+                    sessionStorage.clear();
+                    navigate("/login");
+                  }}
+                >
+                  네
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  아니요
+                </button>
               </div>
             </div>
           </div>
-          <div style={{ height: 94.19 }}></div>
         </div>
-      )}
-      <Footer />
+      </div>
+      <div className="box2"></div>
+      <div className="box3">
+        <Sidesection />
+      </div>
     </div>
   );
 }

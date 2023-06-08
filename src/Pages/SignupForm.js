@@ -7,6 +7,7 @@ import SignupSuccess from "./SignupSuccess";
 import Footer from "../Components/Footer";
 import NavigationBar from "../Components/NavigationBar";
 import "../Css/mypage.css";
+import Sidesection from "../Components/Sidesection";
 
 function SignupForm() {
   //회원가입 성공 여부
@@ -275,8 +276,8 @@ function SignupForm() {
 
   if (sign === "before") {
     return (
-      <div className="bg">
-        <div className="mainlayout">
+      <div className="bg containerbox">
+        <div className="mainlayout box1">
           {category === "user" ? (
             <NavigationBar title={"일반회원"} />
           ) : (
@@ -487,6 +488,10 @@ function SignupForm() {
           </div>
           <div style={{ height: 94.19 }}></div>
           <Footer />
+        </div>
+        <div className="box2"></div>
+        <div className="box3">
+          <Sidesection />
         </div>
       </div>
     );

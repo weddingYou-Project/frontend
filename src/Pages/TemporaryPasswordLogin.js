@@ -7,6 +7,7 @@ import NavigationBar from "../Components/NavigationBar";
 import { useState } from "react";
 import axios from "axios";
 import "../Css/mypage.css";
+import Sidesection from "../Components/Sidesection";
 
 function TemporaryPasswordLogin() {
   const [inputId, setInputId] = useState("");
@@ -85,98 +86,107 @@ function TemporaryPasswordLogin() {
   };
 
   return (
-    <div className="mainlayout">
-      <NavigationBar title={"임시 로그인"} />
-      <div className="container text-center">
-        <div className="row">
-          <div className="col"></div>
-          <div className="col-6">
-            <img className="logo" src={imgLogo} alt="로고" />
+    <div className="containerbox">
+      <div className="mainlayout box1">
+        <NavigationBar title={"임시 로그인"} />
+        <div className="container text-center" style={{ marginTop: "100px" }}>
+          <div className="row">
+            <div className="col"></div>
+            <div className="col-6">
+              <img className="logo" src={imgLogo} alt="로고" />
+            </div>
+            <div className="col"></div>
           </div>
-          <div className="col"></div>
         </div>
-      </div>
-      <div className="container text-center" style={{ height: "400px" }}>
-        <div className="row">
-          <div className="col"></div>
-          <div className="col-6">
-            <div className="mb-3">
-              <input
-                type="text"
-                className="inputarea"
-                placeholder="아이디(이메일)"
-                maxLength="100"
-                value={inputId}
-                onChange={handleInputId}
-                style={{ fontSize: "1.2em" }}
-              />
-              <input
-                type="password"
-                className="inputarea"
-                placeholder="임시 비밀번호"
-                value={inputPw}
-                onChange={handleInputPw}
-                style={{ fontSize: "1.2em" }}
-                onKeyPress={handleKeyPress}
-              />
-              <div class="input-group" id="Role" style={{ width: 256 }}>
-                <div class="input-group-text">
+        <div
+          className="container text-center"
+          style={{ height: "400px", marginTop: "50px" }}
+        >
+          <div className="row">
+            <div className="col"></div>
+            <div className="col-6">
+              <div className="mb-3">
+                <input
+                  type="text"
+                  className="inputarea"
+                  placeholder="아이디(이메일)"
+                  maxLength="100"
+                  value={inputId}
+                  onChange={handleInputId}
+                  style={{ fontSize: "1.2em" }}
+                />
+                <input
+                  type="password"
+                  className="inputarea"
+                  placeholder="임시 비밀번호"
+                  value={inputPw}
+                  onChange={handleInputPw}
+                  style={{ fontSize: "1.2em" }}
+                  onKeyPress={handleKeyPress}
+                />
+                <div class="input-group" id="Role" style={{ width: 256 }}>
+                  <div class="input-group-text">
+                    <input
+                      class="form-check-input mt-0"
+                      type="radio"
+                      value="회원"
+                      name="Role"
+                      htmlFor="회원"
+                      checked={Role === "회원"}
+                      onChange={handleRole}
+                      aria-label="Radio button for following text input"
+                      style={{ cursor: "pointer" }}
+                    />
+                  </div>
                   <input
-                    class="form-check-input mt-0"
-                    type="radio"
+                    type="text"
+                    class="form-control"
+                    id="custom"
+                    aria-label="custom btn"
                     value="회원"
-                    name="Role"
-                    htmlFor="회원"
-                    checked={Role === "회원"}
-                    onChange={handleRole}
-                    aria-label="Radio button for following text input"
-                    style={{ cursor: "pointer" }}
+                    disabled
+                    style={{ background: "white", fontSize: "1.2em" }}
                   />
-                </div>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="custom"
-                  aria-label="custom btn"
-                  value="회원"
-                  disabled
-                  style={{ background: "white", fontSize: "1.2em" }}
-                />
-                <div class="input-group-text">
+                  <div class="input-group-text">
+                    <input
+                      class="form-check-input mt-0"
+                      type="radio"
+                      value="플래너"
+                      name="Role"
+                      checked={Role === "플래너"}
+                      htmlFor="플래너"
+                      onChange={handleRole}
+                      aria-label="Radio button for following text input"
+                      style={{ cursor: "pointer" }}
+                    />
+                  </div>
                   <input
-                    class="form-check-input mt-0"
-                    type="radio"
+                    type="text"
+                    class="form-control"
+                    id="planner"
+                    aria-label="palnner btn"
                     value="플래너"
-                    name="Role"
-                    checked={Role === "플래너"}
-                    htmlFor="플래너"
-                    onChange={handleRole}
-                    aria-label="Radio button for following text input"
-                    style={{ cursor: "pointer" }}
+                    disabled
+                    style={{ background: "white", fontSize: "1.2em" }}
                   />
                 </div>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="planner"
-                  aria-label="palnner btn"
-                  value="플래너"
-                  disabled
-                  style={{ background: "white", fontSize: "1.2em" }}
-                />
               </div>
             </div>
+            <div className="col"></div>
           </div>
-          <div className="col"></div>
+          <br />
+          <button type="button" className="btn-colour-1" onClick={onClickLogin}>
+            로그인
+          </button>
+          <br />
+          <br />
         </div>
-        <br />
-        <button type="button" className="btn-colour-1" onClick={onClickLogin}>
-          로그인
-        </button>
-        <br />
-        <br />
+        <Footer />
       </div>
-      <Footer />
+      <div className="box2"></div>
+      <div className="box3">
+        <Sidesection />
+      </div>
     </div>
   );
 }

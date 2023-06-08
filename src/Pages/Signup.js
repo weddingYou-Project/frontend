@@ -4,14 +4,16 @@ import { useNavigate } from "react-router-dom";
 import Footer from "../Components/Footer";
 import "../Css/mypage.css";
 import NavigationBar from "../Components/NavigationBar";
+import Sidesection from "../Components/Sidesection";
+
 function Signup() {
   const navigate = useNavigate();
   const handleBack = () => {
     navigate(-1);
   };
   return (
-    <div className="bg">
-      <div className="mainlayout">
+    <div className="bg containerbox">
+      <div className="mainlayout box1">
         <NavigationBar title={"회원가입"} />
 
         <div className="Signup-logo" style={{ marginTop: "200px" }}></div>
@@ -38,6 +40,10 @@ function Signup() {
         {/*빈공간 채우는 박스입니다. */}
         <div style={{ height: 150 }}></div>
         <Footer />
+      </div>
+      <div className="box2"></div>
+      <div className="box3">
+        <Sidesection />
       </div>
     </div>
   );
