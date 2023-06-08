@@ -948,21 +948,25 @@ function SearchItems() {
   // console.log(itemLike);
   // console.log(itemName);
   // console.log(itemContent);
-  console.log("weddinghalllikestate");
-  console.log(weddingHallLikeState);
-  console.log("stuidolikestate");
-  console.log(studioLikeState);
-  console.log("dresslikestate");
-  console.log(dressLikeState);
-  console.log("makeuplikestate");
-  console.log(makeupLikeState);
-  console.log("honeymoonlikestate");
-  console.log(honeyMoonLikeState);
-  console.log("bouquetlikestate");
-  console.log(bouquetLikeState);
+  // console.log("weddinghalllikestate");
+  // console.log(weddingHallLikeState);
+  // console.log("stuidolikestate");
+  // console.log(studioLikeState);
+  // console.log("dresslikestate");
+  // console.log(dressLikeState);
+  // console.log("makeuplikestate");
+  // console.log(makeupLikeState);
+  // console.log("honeymoonlikestate");
+  // console.log(honeyMoonLikeState);
+  // console.log("bouquetlikestate");
+  // console.log(bouquetLikeState);
   // console.log(weddingHallImgContent);
   // console.log(countIndex);
   console.log(window.scrollY);
+
+  const onScrollTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
@@ -1690,18 +1694,60 @@ function SearchItems() {
                 ))}
               </Swiper>
             </div>
-          </div>
-          <div style={{ height: 94.19 }}></div>
-          <div className="button-container">
-            <button
-              className="probutton"
-              onClick={() => {
-                navigate("/estimateform");
+            <div
+              style={{
+                width: "560px",
+                position: "fixed",
+                bottom: "120px",
+                height: "50px",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "end",
+                alignItems: "end",
+                paddingRight: "23px",
+                paddingLeft: "50px",
+                paddingBottom: "10px",
+                zIndex: "999",
               }}
             >
-              견적작성
-            </button>
+              {window.sessionStorage.getItem("category") === "user" && (
+                <div style={{}}>
+                  <div className="estimate-write-btn">
+                    <i
+                      class="bi bi-pencil-square"
+                      style={{ marginLeft: "50px", zIndex: "999" }}
+                    ></i>
+                    <div
+                      className="estimate-write-btn-overlay"
+                      onClick={() => {
+                        navigate("/estimateform");
+                      }}
+                      style={{
+                        marginRight: "-20px",
+                        marginLeft: "12px",
+                        zIndex: "999",
+                        height: "50px",
+                      }}
+                    >
+                      <span>견적작성하기</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+              <div
+                className="scrolltop"
+                onClick={() => {
+                  onScrollTop();
+                }}
+                style={{ marginRight: "5px" }}
+              >
+                <i class="bi bi-chevron-up"></i>
+              </div>
+            </div>
           </div>
+
+          <div style={{ height: 94.19 }}></div>
+
           {/* 이미지 상세정보 모달창 */}
           <div
             class="modal fade"
