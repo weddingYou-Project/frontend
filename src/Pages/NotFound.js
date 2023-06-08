@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import BackButton from "../Components/Backbutton";
 import "../Css/Signup.css";
 import "../Css/NotFound.css";
+import Sidesection from "../Components/Sidesection";
 
 function NotFound() {
   const [num, setNum] = useState(0);
@@ -41,9 +42,9 @@ function NotFound() {
     setSelectImg(images[num]);
   }, []);
   return (
-    <div style={{}}>
+    <div className="containerbox">
       <div
-        className="mainlayout"
+        className="mainlayout box1"
         style={{
           display: "flex",
           justifyContent: "center",
@@ -152,6 +153,10 @@ function NotFound() {
           </div>
         </div>
         <Footer />
+      </div>
+      <div className="box2"></div>
+      <div className="box3">
+        <Sidesection />
       </div>
     </div>
   );

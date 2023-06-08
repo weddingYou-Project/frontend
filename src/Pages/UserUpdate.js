@@ -7,6 +7,7 @@ import Footer from "../Components/Footer";
 import React, { useState, useRef, useEffect } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
+import Sidesection from "../Components/Sidesection";
 
 function UserUpdate() {
   const { state: passwordCheck } = useLocation();
@@ -754,869 +755,878 @@ function UserUpdate() {
   };
 
   return (
-    <div class="mainlayout" style={{ minHeight: "100vh", height: "100%" }}>
-      <NavigationBar title={title} />
-      {category === "planner" ? (
-        <div
-          class="mypagecontainer text-center"
-          style={{
-            minHeight: "100vh",
-            height: "1210px",
-            width: "100%",
-            zIndex: 1,
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "start",
-            paddingTop: "210px",
-          }}
-        >
-          {defaultViewUrl === null ? (
-            <div style={{ width: "200px", height: "100px" }}></div>
-          ) : (
-            <img
-              src={defaultViewUrl}
-              style={
-                category === "user"
-                  ? {
-                      width: "200px",
-                      height: "200px",
-                      cursor: "pointer",
-                      marginTop: "-100px",
-                      marginBottom: "10px",
-                    }
-                  : {
-                      width: "200px",
-                      height: "200px",
-                      cursor: "pointer",
-                      marginTop: "-110px",
-                    }
-              }
-              data-bs-toggle="modal"
-              data-bs-target="#profileUpdateModal"
-              alt=""
-            />
-          )}
-          <form style={{ width: "560px", height: "610px", zIndex: 3 }}>
-            <div
-              style={{
-                display: "flex",
-                alginItems: "center",
-                justifyContent: "center",
-                marginBottom: "30px",
-              }}
-            ></div>
-            <div
-              class="justify-content-md-center mb-2"
-              style={{ display: "flex", flexDirection: "row", width: "100%" }}
-            >
-              <label
-                for="name"
-                class="form-label mt-2 text-center"
-                style={{
-                  marginRight: "10px",
-                  width: "200px",
-                  fontSize: "1.3em",
-                }}
-              >
-                이메일
-              </label>
-              <div style={{ width: "250px", marginRight: "20px" }}>
-                <input
-                  type="text"
-                  class="form-control "
-                  id="email"
-                  ref={emailInput}
-                  value={email}
-                  autoComplete="off"
-                  disabled
-                  style={{ fontSize: "1.1em" }}
-                />
-                <div
-                  class="invisible text-start name-feedback"
-                  ref={nameFeedback}
-                  style={{ fontSize: "1.1em" }}
-                >
-                  {emailMessage}
-                </div>
-              </div>
-            </div>
-            <div
-              class="justify-content-md-center mb-2"
-              style={{ display: "flex", flexDirection: "row" }}
-            >
-              <label
-                for="password"
-                class="form-label mt-2 text-center"
-                style={{
-                  marginRight: "10px",
-                  width: "200px",
-                  fontSize: "1.3em",
-                }}
-              >
-                비밀번호
-              </label>
-              <div
-                class="has-validation "
-                style={{ width: "250px", marginRight: "20px" }}
-              >
-                <input
-                  type="text"
-                  class="form-control "
-                  id="password"
-                  ref={passwordInput}
-                  value={password}
-                  placeholder={password}
-                  onChange={onChange}
-                  autoComplete="off"
-                  maxLength="20"
-                  style={{ fontSize: "1.1em" }}
-                />
-                <div
-                  class="invisible text-start password-feedback"
-                  ref={passwordFeedback}
-                  style={{ fontSize: "1.1em" }}
-                >
-                  {passwordMessage}
-                </div>
-              </div>
-            </div>
-            <div
-              class="justify-content-md-center mb-2"
-              style={{ display: "flex", flexDirection: "row" }}
-            >
-              <label
-                for="name"
-                class="form-label mt-2"
-                style={{
-                  marginRight: "10px",
-                  width: "200px",
-                  fontSize: "1.3em",
-                }}
-              >
-                이름
-              </label>
-              <div
-                class="has-validation "
-                style={{ width: "250px", marginRight: "20px" }}
-              >
-                <input
-                  type="text"
-                  class="form-control "
-                  id="name"
-                  ref={nameInput}
-                  value={name}
-                  placeholder={name}
-                  onChange={onChange}
-                  autoComplete="off"
-                  maxLength="100"
-                  style={{ fontSize: "1.1em" }}
-                />
-                <div
-                  class="invisible text-start name-feedback"
-                  ref={nameFeedback}
-                  style={{ fontSize: "1.1em" }}
-                >
-                  {nameMessage}
-                </div>
-              </div>
-            </div>
-            <div
-              class="justify-content-md-center mb-2"
-              style={{ display: "flex", flexDirection: "row" }}
-            >
-              <label
-                for="phone"
-                class="form-label mt-2"
-                style={{
-                  marginRight: "10px",
-                  width: "200px",
-                  fontSize: "1.3em",
-                }}
-              >
-                휴대폰
-              </label>
-              <div
-                class="has-validation"
-                style={{ width: "250px", marginRight: "20px" }}
-              >
-                <input
-                  type="text"
-                  class="form-control "
-                  id="phone"
-                  ref={phoneInput}
-                  value={phone}
-                  onChange={onChange}
-                  placeholder={phone}
-                  autoComplete="off"
-                  maxLength="13"
-                  style={{ fontSize: "1.1em" }}
-                />
-                <div
-                  class="invisible text-start phone-feedback"
-                  ref={phoneFeedback}
-                  style={{ fontSize: "1.1em" }}
-                >
-                  {phoneMessage}
-                </div>
-              </div>
-            </div>
-            <div
-              class="justify-content-md-center mb-2"
-              style={{ display: "flex", flexDirection: "row" }}
-            >
-              <label
-                htmlFor="gender"
-                className="form-label  mt-2"
-                style={{
-                  marginRight: "10px",
-                  width: "200px",
-                  fontSize: "1.3em",
-                }}
-              >
-                성별
-              </label>
-              <div
-                class="input-group"
-                id="gender"
-                name="gender"
-                onChange={onChange}
-                value={gender}
-                style={{ width: "250px", marginRight: "20px" }}
-              >
-                <div class="input-group-text">
-                  <input
-                    class="form-check-input mt-0"
-                    type="radio"
-                    value="male"
-                    name="gender"
-                    htmlFor="male"
-                    checked={gender === "male"}
-                    onChange={onChange}
-                    aria-label="Radio button for following text input"
-                    style={{ cursor: "pointer" }}
-                    ref={maleInput}
-                  />
-                </div>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="male"
-                  aria-label="male btn"
-                  value="남자"
-                  style={{ background: "white", fontSize: "1.1em" }}
-                  disabled
-                />
-                <div class="input-group-text">
-                  <input
-                    class="form-check-input mt-0"
-                    type="radio"
-                    value="female"
-                    name="gender"
-                    htmlFor="female"
-                    onChange={onChange}
-                    aria-label="Radio button for following text input"
-                    style={{ cursor: "pointer" }}
-                    checked={gender === "female"}
-                    ref={femaleInput}
-                  />
-                </div>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="female"
-                  aria-label="female btn"
-                  value="여자"
-                  style={{ background: "white", fontSize: "1.1em" }}
-                  disabled
-                />
-              </div>
-            </div>
-            {userOrPlanner === "플래너" ? (
-              <div style={{ height: "360px" }}>
-                <div
-                  class="justify-content-md-center "
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    marginTop: "40px",
-                  }}
-                >
-                  <label
-                    for="career"
-                    class="form-label mt-2"
-                    style={{
-                      marginRight: "10px",
-                      width: "200px",
-                      fontSize: "1.3em",
-                    }}
-                  >
-                    경력
-                  </label>
-                  <div
-                    class="has-validation "
-                    style={{ width: "250px", marginRight: "20px" }}
-                  >
-                    <input
-                      type="number"
-                      class="form-control "
-                      id="career"
-                      ref={careerInput}
-                      value={career}
-                      onChange={onChange}
-                      placeholder={career}
-                      autoComplete="off"
-                      min="0"
-                      max="30"
-                      style={{ fontSize: "1.1em" }}
-                    />
-                    <div
-                      class="invisible text-start phone-feedback"
-                      ref={careerFeedback}
-                      style={{ fontSize: "1.1em" }}
-                    >
-                      {careerMessage}
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class=" justify-content-md-center"
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    width: "100%",
-                    marginTop: "10px",
-                  }}
-                >
-                  <label
-                    for="introduction"
-                    class="form-label mt-2"
-                    style={{
-                      marginRight: "10px",
-                      width: "200px",
-                      fontSize: "1.3em",
-                    }}
-                  >
-                    소개글
-                  </label>
-                  <div
-                    class="has-validation "
-                    style={{ width: "250px", marginRight: "20px" }}
-                  >
-                    <textarea
-                      type="textarea"
-                      class="form-control "
-                      id="introduction"
-                      ref={introInput}
-                      style={{ overflowY: "scroll" }}
-                      value={introduction}
-                      onChange={onChange}
-                      placeholder={introduction}
-                      autoComplete="off"
-                      cols="10"
-                      rows="8"
-                      style={{ fontSize: "1.1em" }}
-                      maxLength="1000"
-                    />
-                    <div
-                      class="invisible text-start phone-feedback"
-                      ref={introFeedback}
-                      style={{ fontSize: "1.1em" }}
-                    >
-                      {introMessage}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ) : null}
-            <div class="col-12">
-              <button
-                class="btn-colour-1 updatebtn"
-                type="submit"
-                onClick={updateCheck}
-                style={category === "user" ? null : { marginTop: "-30px" }}
-              >
-                회원정보 수정하기
-              </button>
-            </div>
-          </form>
-        </div>
-      ) : (
-        <div
-          class="mypagecontainer text-center"
-          style={{
-            minHeight: "100vh",
-            height: "890px",
-            width: "100%",
-            zIndex: 1,
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "start",
-            paddingTop: "200px",
-          }}
-        >
-          {defaultViewUrl === null ? (
-            <div style={{ width: "200px", height: "100px" }}></div>
-          ) : (
-            <img
-              src={defaultViewUrl}
-              style={
-                category === "user"
-                  ? {
-                      width: "200px",
-                      height: "200px",
-                      cursor: "pointer",
-                      marginTop: "-100px",
-                      marginBottom: "10px",
-                    }
-                  : {
-                      width: "200px",
-                      height: "200px",
-                      cursor: "pointer",
-                      marginTop: "-110px",
-                    }
-              }
-              data-bs-toggle="modal"
-              data-bs-target="#profileUpdateModal"
-              alt=""
-            />
-          )}
-          <form style={{ width: "560px", height: "610px", zIndex: 3 }}>
-            <div
-              style={{
-                display: "flex",
-                alginItems: "center",
-                justifyContent: "center",
-                marginBottom: "30px",
-              }}
-            ></div>
-            <div
-              class="justify-content-md-center mb-2"
-              style={{ display: "flex", flexDirection: "row", width: "100%" }}
-            >
-              <label
-                for="name"
-                class="form-label mt-2 text-center"
-                style={{
-                  marginRight: "10px",
-                  width: "200px",
-                  fontSize: "1.3em",
-                }}
-              >
-                이메일
-              </label>
-              <div style={{ width: "250px", marginRight: "20px" }}>
-                <input
-                  type="text"
-                  class="form-control "
-                  id="email"
-                  ref={emailInput}
-                  value={email}
-                  autoComplete="off"
-                  disabled
-                  style={{ fontSize: "1.1em" }}
-                />
-                <div
-                  class="invisible text-start name-feedback"
-                  ref={nameFeedback}
-                  style={{ fontSize: "1.1em" }}
-                >
-                  {emailMessage}
-                </div>
-              </div>
-            </div>
-            <div
-              class="justify-content-md-center mb-2"
-              style={{ display: "flex", flexDirection: "row" }}
-            >
-              <label
-                for="password"
-                class="form-label mt-2 text-center"
-                style={{
-                  marginRight: "10px",
-                  width: "200px",
-                  fontSize: "1.3em",
-                }}
-              >
-                비밀번호
-              </label>
-              <div
-                class="has-validation "
-                style={{ width: "250px", marginRight: "20px" }}
-              >
-                <input
-                  type="text"
-                  class="form-control "
-                  id="password"
-                  ref={passwordInput}
-                  value={password}
-                  placeholder={password}
-                  onChange={onChange}
-                  autoComplete="off"
-                  maxLength="20"
-                  style={{ fontSize: "1.1em" }}
-                />
-                <div
-                  class="invisible text-start password-feedback"
-                  ref={passwordFeedback}
-                  style={{ fontSize: "1.1em" }}
-                >
-                  {passwordMessage}
-                </div>
-              </div>
-            </div>
-            <div
-              class="justify-content-md-center mb-2"
-              style={{ display: "flex", flexDirection: "row" }}
-            >
-              <label
-                for="name"
-                class="form-label mt-2"
-                style={{
-                  marginRight: "10px",
-                  width: "200px",
-                  fontSize: "1.3em",
-                }}
-              >
-                이름
-              </label>
-              <div
-                class="has-validation "
-                style={{ width: "250px", marginRight: "20px" }}
-              >
-                <input
-                  type="text"
-                  class="form-control "
-                  id="name"
-                  ref={nameInput}
-                  value={name}
-                  placeholder={name}
-                  onChange={onChange}
-                  autoComplete="off"
-                  maxLength="100"
-                  style={{ fontSize: "1.1em" }}
-                />
-                <div
-                  class="invisible text-start name-feedback"
-                  ref={nameFeedback}
-                  style={{ fontSize: "1.1em" }}
-                >
-                  {nameMessage}
-                </div>
-              </div>
-            </div>
-            <div
-              class="justify-content-md-center mb-2"
-              style={{ display: "flex", flexDirection: "row" }}
-            >
-              <label
-                for="phone"
-                class="form-label mt-2"
-                style={{
-                  marginRight: "10px",
-                  width: "200px",
-                  fontSize: "1.3em",
-                }}
-              >
-                휴대폰
-              </label>
-              <div
-                class="has-validation"
-                style={{ width: "250px", marginRight: "20px" }}
-              >
-                <input
-                  type="text"
-                  class="form-control "
-                  id="phone"
-                  ref={phoneInput}
-                  value={phone}
-                  onChange={onChange}
-                  placeholder={phone}
-                  autoComplete="off"
-                  maxLength="13"
-                  style={{ fontSize: "1.1em" }}
-                />
-                <div
-                  class="invisible text-start phone-feedback"
-                  ref={phoneFeedback}
-                  style={{ fontSize: "1.1em" }}
-                >
-                  {phoneMessage}
-                </div>
-              </div>
-            </div>
-            <div
-              class="justify-content-md-center mb-2"
-              style={{ display: "flex", flexDirection: "row" }}
-            >
-              <label
-                htmlFor="gender"
-                className="form-label  mt-2"
-                style={{
-                  marginRight: "10px",
-                  width: "200px",
-                  fontSize: "1.3em",
-                }}
-              >
-                성별
-              </label>
-              <div
-                class="input-group"
-                id="gender"
-                name="gender"
-                onChange={onChange}
-                value={gender}
-                style={{ width: "250px", marginRight: "20px" }}
-              >
-                <div class="input-group-text">
-                  <input
-                    class="form-check-input mt-0"
-                    type="radio"
-                    value="male"
-                    name="gender"
-                    htmlFor="male"
-                    checked={gender === "male"}
-                    onChange={onChange}
-                    aria-label="Radio button for following text input"
-                    style={{ cursor: "pointer" }}
-                    ref={maleInput}
-                  />
-                </div>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="male"
-                  aria-label="male btn"
-                  value="남자"
-                  style={{ background: "white", fontSize: "1.1em" }}
-                  disabled
-                />
-                <div class="input-group-text">
-                  <input
-                    class="form-check-input mt-0"
-                    type="radio"
-                    value="female"
-                    name="gender"
-                    htmlFor="female"
-                    onChange={onChange}
-                    aria-label="Radio button for following text input"
-                    style={{ cursor: "pointer" }}
-                    checked={gender === "female"}
-                    ref={femaleInput}
-                  />
-                </div>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="female"
-                  aria-label="female btn"
-                  value="여자"
-                  style={{ background: "white", fontSize: "1.1em" }}
-                  disabled
-                />
-              </div>
-            </div>
-            {userOrPlanner === "플래너" ? (
-              <div style={{ height: "360px" }}>
-                <div
-                  class="justify-content-md-center "
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    marginTop: "40px",
-                  }}
-                >
-                  <label
-                    for="career"
-                    class="form-label mt-2"
-                    style={{
-                      marginRight: "10px",
-                      width: "200px",
-                      fontSize: "1.3em",
-                    }}
-                  >
-                    경력
-                  </label>
-                  <div
-                    class="has-validation "
-                    style={{ width: "250px", marginRight: "20px" }}
-                  >
-                    <input
-                      type="number"
-                      class="form-control "
-                      id="career"
-                      ref={careerInput}
-                      value={career}
-                      onChange={onChange}
-                      placeholder={career}
-                      autoComplete="off"
-                      min="0"
-                      max="30"
-                      style={{ fontSize: "1.1em" }}
-                    />
-                    <div
-                      class="invisible text-start phone-feedback"
-                      ref={careerFeedback}
-                      style={{ fontSize: "1.1em" }}
-                    >
-                      {careerMessage}
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class=" justify-content-md-center"
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    width: "100%",
-                    marginTop: "10px",
-                  }}
-                >
-                  <label
-                    for="introduction"
-                    class="form-label mt-2"
-                    style={{
-                      marginRight: "10px",
-                      width: "200px",
-                      fontSize: "1.3em",
-                    }}
-                  >
-                    소개글
-                  </label>
-                  <div
-                    class="has-validation "
-                    style={{ width: "250px", marginRight: "20px" }}
-                  >
-                    <textarea
-                      type="textarea"
-                      class="form-control "
-                      id="introduction"
-                      ref={introInput}
-                      style={{ overflowY: "scroll" }}
-                      value={introduction}
-                      onChange={onChange}
-                      placeholder={introduction}
-                      autoComplete="off"
-                      cols="10"
-                      rows="8"
-                      style={{ fontSize: "1.1em" }}
-                      maxLength="1000"
-                    />
-                    <div
-                      class="invisible text-start phone-feedback"
-                      ref={introFeedback}
-                      style={{ fontSize: "1.1em" }}
-                    >
-                      {introMessage}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ) : null}
-            <div class="col-12">
-              <button
-                class="btn-colour-1 updatebtn"
-                type="submit"
-                onClick={updateCheck}
-                style={category === "user" ? null : { marginTop: "-1px" }}
-              >
-                회원정보 수정하기
-              </button>
-            </div>
-          </form>
-        </div>
-      )}
-
-      <Footer />
-      {/* 프로필 변경 업로드 파일 올리는 모달창 */}
+    <div className="containerbox">
       <div
-        class="modal fade"
-        id="profileUpdateModal"
-        tabindex="-1"
-        aria-labelledby="profileUpdateModal"
-        aria-hidden="true"
-        ref={profileUpdateModal}
+        class="mainlayout box1"
+        style={{ minHeight: "100vh", height: "100%" }}
       >
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1
-                class="modal-title justify-content-center "
-                id="profileUpdateModal"
-                style={{ fontSize: "1.5em" }}
-              >
-                - 프로필 변경 -
-              </h1>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div
-              class="modal-body"
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alginItems: "center",
-                displayContent: "center",
-                height: "100%",
-                width: "100%",
-                marginTop: "50px",
-              }}
-            >
+        <NavigationBar title={title} />
+        {category === "planner" ? (
+          <div
+            class="mypagecontainer text-center"
+            style={{
+              minHeight: "100vh",
+              height: "1210px",
+              width: "100%",
+              zIndex: 1,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "start",
+              paddingTop: "210px",
+            }}
+          >
+            {defaultViewUrl === null ? (
+              <div style={{ width: "200px", height: "100px" }}></div>
+            ) : (
+              <img
+                src={defaultViewUrl}
+                style={
+                  category === "user"
+                    ? {
+                        width: "200px",
+                        height: "200px",
+                        cursor: "pointer",
+                        marginTop: "-100px",
+                        marginBottom: "10px",
+                      }
+                    : {
+                        width: "200px",
+                        height: "200px",
+                        cursor: "pointer",
+                        marginTop: "-110px",
+                      }
+                }
+                data-bs-toggle="modal"
+                data-bs-target="#profileUpdateModal"
+                alt=""
+              />
+            )}
+            <form style={{ width: "560px", height: "610px", zIndex: 3 }}>
               <div
-                class="has-validation col col-md-10"
-                style={{ height: "100%", width: "100%" }}
+                style={{
+                  display: "flex",
+                  alginItems: "center",
+                  justifyContent: "center",
+                  marginBottom: "30px",
+                }}
+              ></div>
+              <div
+                class="justify-content-md-center mb-2"
+                style={{ display: "flex", flexDirection: "row", width: "100%" }}
               >
-                <img
-                  src={previewUrl}
+                <label
+                  for="name"
+                  class="form-label mt-2 text-center"
                   style={{
+                    marginRight: "10px",
                     width: "200px",
-                    height: "200px",
-                    marginBottom: "20px",
-                    marginTop: "-50px",
-                    cursor: "pointer",
-                    marginLeft: "140px",
+                    fontSize: "1.3em",
                   }}
-                  alt={profileimage}
-                  data-bs-toggle="modal"
-                  data-bs-target="#profileUpdateModal"
-                />
-                <input
-                  type="file"
-                  class="form-control"
-                  id="profileInput"
-                  onChange={onChangeProfile}
-                  placeholder="업로드할 이미지"
-                  required
-                  autocomplete="off"
-                  enctype="multipart/form-data"
-                  style={{ fontSize: "1.3em" }}
-                />
+                >
+                  이메일
+                </label>
+                <div style={{ width: "250px", marginRight: "20px" }}>
+                  <input
+                    type="text"
+                    class="form-control "
+                    id="email"
+                    ref={emailInput}
+                    value={email}
+                    autoComplete="off"
+                    disabled
+                    style={{ fontSize: "1.1em" }}
+                  />
+                  <div
+                    class="invisible text-start name-feedback"
+                    ref={nameFeedback}
+                    style={{ fontSize: "1.1em" }}
+                  >
+                    {emailMessage}
+                  </div>
+                </div>
               </div>
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
+              <div
+                class="justify-content-md-center mb-2"
+                style={{ display: "flex", flexDirection: "row" }}
               >
-                닫기
-              </button>
-              <button
-                type="button"
-                class="btn btn-primary"
-                data-bs-dismiss="modal"
-                onClick={updateProfile}
+                <label
+                  for="password"
+                  class="form-label mt-2 text-center"
+                  style={{
+                    marginRight: "10px",
+                    width: "200px",
+                    fontSize: "1.3em",
+                  }}
+                >
+                  비밀번호
+                </label>
+                <div
+                  class="has-validation "
+                  style={{ width: "250px", marginRight: "20px" }}
+                >
+                  <input
+                    type="text"
+                    class="form-control "
+                    id="password"
+                    ref={passwordInput}
+                    value={password}
+                    placeholder={password}
+                    onChange={onChange}
+                    autoComplete="off"
+                    maxLength="20"
+                    style={{ fontSize: "1.1em" }}
+                  />
+                  <div
+                    class="invisible text-start password-feedback"
+                    ref={passwordFeedback}
+                    style={{ fontSize: "1.1em" }}
+                  >
+                    {passwordMessage}
+                  </div>
+                </div>
+              </div>
+              <div
+                class="justify-content-md-center mb-2"
+                style={{ display: "flex", flexDirection: "row" }}
               >
-                변경하기
-              </button>
+                <label
+                  for="name"
+                  class="form-label mt-2"
+                  style={{
+                    marginRight: "10px",
+                    width: "200px",
+                    fontSize: "1.3em",
+                  }}
+                >
+                  이름
+                </label>
+                <div
+                  class="has-validation "
+                  style={{ width: "250px", marginRight: "20px" }}
+                >
+                  <input
+                    type="text"
+                    class="form-control "
+                    id="name"
+                    ref={nameInput}
+                    value={name}
+                    placeholder={name}
+                    onChange={onChange}
+                    autoComplete="off"
+                    maxLength="100"
+                    style={{ fontSize: "1.1em" }}
+                  />
+                  <div
+                    class="invisible text-start name-feedback"
+                    ref={nameFeedback}
+                    style={{ fontSize: "1.1em" }}
+                  >
+                    {nameMessage}
+                  </div>
+                </div>
+              </div>
+              <div
+                class="justify-content-md-center mb-2"
+                style={{ display: "flex", flexDirection: "row" }}
+              >
+                <label
+                  for="phone"
+                  class="form-label mt-2"
+                  style={{
+                    marginRight: "10px",
+                    width: "200px",
+                    fontSize: "1.3em",
+                  }}
+                >
+                  휴대폰
+                </label>
+                <div
+                  class="has-validation"
+                  style={{ width: "250px", marginRight: "20px" }}
+                >
+                  <input
+                    type="text"
+                    class="form-control "
+                    id="phone"
+                    ref={phoneInput}
+                    value={phone}
+                    onChange={onChange}
+                    placeholder={phone}
+                    autoComplete="off"
+                    maxLength="13"
+                    style={{ fontSize: "1.1em" }}
+                  />
+                  <div
+                    class="invisible text-start phone-feedback"
+                    ref={phoneFeedback}
+                    style={{ fontSize: "1.1em" }}
+                  >
+                    {phoneMessage}
+                  </div>
+                </div>
+              </div>
+              <div
+                class="justify-content-md-center mb-2"
+                style={{ display: "flex", flexDirection: "row" }}
+              >
+                <label
+                  htmlFor="gender"
+                  className="form-label  mt-2"
+                  style={{
+                    marginRight: "10px",
+                    width: "200px",
+                    fontSize: "1.3em",
+                  }}
+                >
+                  성별
+                </label>
+                <div
+                  class="input-group"
+                  id="gender"
+                  name="gender"
+                  onChange={onChange}
+                  value={gender}
+                  style={{ width: "250px", marginRight: "20px" }}
+                >
+                  <div class="input-group-text">
+                    <input
+                      class="form-check-input mt-0"
+                      type="radio"
+                      value="male"
+                      name="gender"
+                      htmlFor="male"
+                      checked={gender === "male"}
+                      onChange={onChange}
+                      aria-label="Radio button for following text input"
+                      style={{ cursor: "pointer" }}
+                      ref={maleInput}
+                    />
+                  </div>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="male"
+                    aria-label="male btn"
+                    value="남자"
+                    style={{ background: "white", fontSize: "1.1em" }}
+                    disabled
+                  />
+                  <div class="input-group-text">
+                    <input
+                      class="form-check-input mt-0"
+                      type="radio"
+                      value="female"
+                      name="gender"
+                      htmlFor="female"
+                      onChange={onChange}
+                      aria-label="Radio button for following text input"
+                      style={{ cursor: "pointer" }}
+                      checked={gender === "female"}
+                      ref={femaleInput}
+                    />
+                  </div>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="female"
+                    aria-label="female btn"
+                    value="여자"
+                    style={{ background: "white", fontSize: "1.1em" }}
+                    disabled
+                  />
+                </div>
+              </div>
+              {userOrPlanner === "플래너" ? (
+                <div style={{ height: "360px" }}>
+                  <div
+                    class="justify-content-md-center "
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      marginTop: "40px",
+                    }}
+                  >
+                    <label
+                      for="career"
+                      class="form-label mt-2"
+                      style={{
+                        marginRight: "10px",
+                        width: "200px",
+                        fontSize: "1.3em",
+                      }}
+                    >
+                      경력
+                    </label>
+                    <div
+                      class="has-validation "
+                      style={{ width: "250px", marginRight: "20px" }}
+                    >
+                      <input
+                        type="number"
+                        class="form-control "
+                        id="career"
+                        ref={careerInput}
+                        value={career}
+                        onChange={onChange}
+                        placeholder={career}
+                        autoComplete="off"
+                        min="0"
+                        max="30"
+                        style={{ fontSize: "1.1em" }}
+                      />
+                      <div
+                        class="invisible text-start phone-feedback"
+                        ref={careerFeedback}
+                        style={{ fontSize: "1.1em" }}
+                      >
+                        {careerMessage}
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class=" justify-content-md-center"
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      width: "100%",
+                      marginTop: "10px",
+                    }}
+                  >
+                    <label
+                      for="introduction"
+                      class="form-label mt-2"
+                      style={{
+                        marginRight: "10px",
+                        width: "200px",
+                        fontSize: "1.3em",
+                      }}
+                    >
+                      소개글
+                    </label>
+                    <div
+                      class="has-validation "
+                      style={{ width: "250px", marginRight: "20px" }}
+                    >
+                      <textarea
+                        type="textarea"
+                        class="form-control "
+                        id="introduction"
+                        ref={introInput}
+                        style={{ overflowY: "scroll" }}
+                        value={introduction}
+                        onChange={onChange}
+                        placeholder={introduction}
+                        autoComplete="off"
+                        cols="10"
+                        rows="8"
+                        style={{ fontSize: "1.1em" }}
+                        maxLength="1000"
+                      />
+                      <div
+                        class="invisible text-start phone-feedback"
+                        ref={introFeedback}
+                        style={{ fontSize: "1.1em" }}
+                      >
+                        {introMessage}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : null}
+              <div class="col-12">
+                <button
+                  class="btn-colour-1 updatebtn"
+                  type="submit"
+                  onClick={updateCheck}
+                  style={category === "user" ? null : { marginTop: "-30px" }}
+                >
+                  회원정보 수정하기
+                </button>
+              </div>
+            </form>
+          </div>
+        ) : (
+          <div
+            class="mypagecontainer text-center"
+            style={{
+              minHeight: "100vh",
+              height: "890px",
+              width: "100%",
+              zIndex: 1,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "start",
+              paddingTop: "200px",
+            }}
+          >
+            {defaultViewUrl === null ? (
+              <div style={{ width: "200px", height: "100px" }}></div>
+            ) : (
+              <img
+                src={defaultViewUrl}
+                style={
+                  category === "user"
+                    ? {
+                        width: "200px",
+                        height: "200px",
+                        cursor: "pointer",
+                        marginTop: "-100px",
+                        marginBottom: "10px",
+                      }
+                    : {
+                        width: "200px",
+                        height: "200px",
+                        cursor: "pointer",
+                        marginTop: "-110px",
+                      }
+                }
+                data-bs-toggle="modal"
+                data-bs-target="#profileUpdateModal"
+                alt=""
+              />
+            )}
+            <form style={{ width: "560px", height: "610px", zIndex: 3 }}>
+              <div
+                style={{
+                  display: "flex",
+                  alginItems: "center",
+                  justifyContent: "center",
+                  marginBottom: "30px",
+                }}
+              ></div>
+              <div
+                class="justify-content-md-center mb-2"
+                style={{ display: "flex", flexDirection: "row", width: "100%" }}
+              >
+                <label
+                  for="name"
+                  class="form-label mt-2 text-center"
+                  style={{
+                    marginRight: "10px",
+                    width: "200px",
+                    fontSize: "1.3em",
+                  }}
+                >
+                  이메일
+                </label>
+                <div style={{ width: "250px", marginRight: "20px" }}>
+                  <input
+                    type="text"
+                    class="form-control "
+                    id="email"
+                    ref={emailInput}
+                    value={email}
+                    autoComplete="off"
+                    disabled
+                    style={{ fontSize: "1.1em" }}
+                  />
+                  <div
+                    class="invisible text-start name-feedback"
+                    ref={nameFeedback}
+                    style={{ fontSize: "1.1em" }}
+                  >
+                    {emailMessage}
+                  </div>
+                </div>
+              </div>
+              <div
+                class="justify-content-md-center mb-2"
+                style={{ display: "flex", flexDirection: "row" }}
+              >
+                <label
+                  for="password"
+                  class="form-label mt-2 text-center"
+                  style={{
+                    marginRight: "10px",
+                    width: "200px",
+                    fontSize: "1.3em",
+                  }}
+                >
+                  비밀번호
+                </label>
+                <div
+                  class="has-validation "
+                  style={{ width: "250px", marginRight: "20px" }}
+                >
+                  <input
+                    type="text"
+                    class="form-control "
+                    id="password"
+                    ref={passwordInput}
+                    value={password}
+                    placeholder={password}
+                    onChange={onChange}
+                    autoComplete="off"
+                    maxLength="20"
+                    style={{ fontSize: "1.1em" }}
+                  />
+                  <div
+                    class="invisible text-start password-feedback"
+                    ref={passwordFeedback}
+                    style={{ fontSize: "1.1em" }}
+                  >
+                    {passwordMessage}
+                  </div>
+                </div>
+              </div>
+              <div
+                class="justify-content-md-center mb-2"
+                style={{ display: "flex", flexDirection: "row" }}
+              >
+                <label
+                  for="name"
+                  class="form-label mt-2"
+                  style={{
+                    marginRight: "10px",
+                    width: "200px",
+                    fontSize: "1.3em",
+                  }}
+                >
+                  이름
+                </label>
+                <div
+                  class="has-validation "
+                  style={{ width: "250px", marginRight: "20px" }}
+                >
+                  <input
+                    type="text"
+                    class="form-control "
+                    id="name"
+                    ref={nameInput}
+                    value={name}
+                    placeholder={name}
+                    onChange={onChange}
+                    autoComplete="off"
+                    maxLength="100"
+                    style={{ fontSize: "1.1em" }}
+                  />
+                  <div
+                    class="invisible text-start name-feedback"
+                    ref={nameFeedback}
+                    style={{ fontSize: "1.1em" }}
+                  >
+                    {nameMessage}
+                  </div>
+                </div>
+              </div>
+              <div
+                class="justify-content-md-center mb-2"
+                style={{ display: "flex", flexDirection: "row" }}
+              >
+                <label
+                  for="phone"
+                  class="form-label mt-2"
+                  style={{
+                    marginRight: "10px",
+                    width: "200px",
+                    fontSize: "1.3em",
+                  }}
+                >
+                  휴대폰
+                </label>
+                <div
+                  class="has-validation"
+                  style={{ width: "250px", marginRight: "20px" }}
+                >
+                  <input
+                    type="text"
+                    class="form-control "
+                    id="phone"
+                    ref={phoneInput}
+                    value={phone}
+                    onChange={onChange}
+                    placeholder={phone}
+                    autoComplete="off"
+                    maxLength="13"
+                    style={{ fontSize: "1.1em" }}
+                  />
+                  <div
+                    class="invisible text-start phone-feedback"
+                    ref={phoneFeedback}
+                    style={{ fontSize: "1.1em" }}
+                  >
+                    {phoneMessage}
+                  </div>
+                </div>
+              </div>
+              <div
+                class="justify-content-md-center mb-2"
+                style={{ display: "flex", flexDirection: "row" }}
+              >
+                <label
+                  htmlFor="gender"
+                  className="form-label  mt-2"
+                  style={{
+                    marginRight: "10px",
+                    width: "200px",
+                    fontSize: "1.3em",
+                  }}
+                >
+                  성별
+                </label>
+                <div
+                  class="input-group"
+                  id="gender"
+                  name="gender"
+                  onChange={onChange}
+                  value={gender}
+                  style={{ width: "250px", marginRight: "20px" }}
+                >
+                  <div class="input-group-text">
+                    <input
+                      class="form-check-input mt-0"
+                      type="radio"
+                      value="male"
+                      name="gender"
+                      htmlFor="male"
+                      checked={gender === "male"}
+                      onChange={onChange}
+                      aria-label="Radio button for following text input"
+                      style={{ cursor: "pointer" }}
+                      ref={maleInput}
+                    />
+                  </div>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="male"
+                    aria-label="male btn"
+                    value="남자"
+                    style={{ background: "white", fontSize: "1.1em" }}
+                    disabled
+                  />
+                  <div class="input-group-text">
+                    <input
+                      class="form-check-input mt-0"
+                      type="radio"
+                      value="female"
+                      name="gender"
+                      htmlFor="female"
+                      onChange={onChange}
+                      aria-label="Radio button for following text input"
+                      style={{ cursor: "pointer" }}
+                      checked={gender === "female"}
+                      ref={femaleInput}
+                    />
+                  </div>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="female"
+                    aria-label="female btn"
+                    value="여자"
+                    style={{ background: "white", fontSize: "1.1em" }}
+                    disabled
+                  />
+                </div>
+              </div>
+              {userOrPlanner === "플래너" ? (
+                <div style={{ height: "360px" }}>
+                  <div
+                    class="justify-content-md-center "
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      marginTop: "40px",
+                    }}
+                  >
+                    <label
+                      for="career"
+                      class="form-label mt-2"
+                      style={{
+                        marginRight: "10px",
+                        width: "200px",
+                        fontSize: "1.3em",
+                      }}
+                    >
+                      경력
+                    </label>
+                    <div
+                      class="has-validation "
+                      style={{ width: "250px", marginRight: "20px" }}
+                    >
+                      <input
+                        type="number"
+                        class="form-control "
+                        id="career"
+                        ref={careerInput}
+                        value={career}
+                        onChange={onChange}
+                        placeholder={career}
+                        autoComplete="off"
+                        min="0"
+                        max="30"
+                        style={{ fontSize: "1.1em" }}
+                      />
+                      <div
+                        class="invisible text-start phone-feedback"
+                        ref={careerFeedback}
+                        style={{ fontSize: "1.1em" }}
+                      >
+                        {careerMessage}
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class=" justify-content-md-center"
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      width: "100%",
+                      marginTop: "10px",
+                    }}
+                  >
+                    <label
+                      for="introduction"
+                      class="form-label mt-2"
+                      style={{
+                        marginRight: "10px",
+                        width: "200px",
+                        fontSize: "1.3em",
+                      }}
+                    >
+                      소개글
+                    </label>
+                    <div
+                      class="has-validation "
+                      style={{ width: "250px", marginRight: "20px" }}
+                    >
+                      <textarea
+                        type="textarea"
+                        class="form-control "
+                        id="introduction"
+                        ref={introInput}
+                        style={{ overflowY: "scroll" }}
+                        value={introduction}
+                        onChange={onChange}
+                        placeholder={introduction}
+                        autoComplete="off"
+                        cols="10"
+                        rows="8"
+                        style={{ fontSize: "1.1em" }}
+                        maxLength="1000"
+                      />
+                      <div
+                        class="invisible text-start phone-feedback"
+                        ref={introFeedback}
+                        style={{ fontSize: "1.1em" }}
+                      >
+                        {introMessage}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : null}
+              <div class="col-12">
+                <button
+                  class="btn-colour-1 updatebtn"
+                  type="submit"
+                  onClick={updateCheck}
+                  style={category === "user" ? null : { marginTop: "-1px" }}
+                >
+                  회원정보 수정하기
+                </button>
+              </div>
+            </form>
+          </div>
+        )}
+
+        <Footer />
+        {/* 프로필 변경 업로드 파일 올리는 모달창 */}
+        <div
+          class="modal fade"
+          id="profileUpdateModal"
+          tabindex="-1"
+          aria-labelledby="profileUpdateModal"
+          aria-hidden="true"
+          ref={profileUpdateModal}
+        >
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1
+                  class="modal-title justify-content-center "
+                  id="profileUpdateModal"
+                  style={{ fontSize: "1.5em" }}
+                >
+                  - 프로필 변경 -
+                </h1>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div
+                class="modal-body"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alginItems: "center",
+                  displayContent: "center",
+                  height: "100%",
+                  width: "100%",
+                  marginTop: "50px",
+                }}
+              >
+                <div
+                  class="has-validation col col-md-10"
+                  style={{ height: "100%", width: "100%" }}
+                >
+                  <img
+                    src={previewUrl}
+                    style={{
+                      width: "200px",
+                      height: "200px",
+                      marginBottom: "20px",
+                      marginTop: "-50px",
+                      cursor: "pointer",
+                      marginLeft: "140px",
+                    }}
+                    alt={profileimage}
+                    data-bs-toggle="modal"
+                    data-bs-target="#profileUpdateModal"
+                  />
+                  <input
+                    type="file"
+                    class="form-control"
+                    id="profileInput"
+                    onChange={onChangeProfile}
+                    placeholder="업로드할 이미지"
+                    required
+                    autocomplete="off"
+                    enctype="multipart/form-data"
+                    style={{ fontSize: "1.3em" }}
+                  />
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  닫기
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  data-bs-dismiss="modal"
+                  onClick={updateProfile}
+                >
+                  변경하기
+                </button>
+              </div>
             </div>
           </div>
         </div>
+        {/*프로필 변경 업로드 파일 올리는 모달창 */}
       </div>
-      {/*프로필 변경 업로드 파일 올리는 모달창 */}
+      <div className="box2"></div>
+      <div className="box3">
+        <Sidesection />
+      </div>
     </div>
   );
 }

@@ -8,6 +8,7 @@ import NavigationBar from "../Components/NavigationBar";
 import Footer from "../Components/Footer";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import Sidesection from "../Components/Sidesection";
 
 function Checkoutdeposit() {
   var IMP = window.IMP;
@@ -157,106 +158,112 @@ function Checkoutdeposit() {
   }, []);
 
   return (
-    <div className="mainlayout" style={{ height: "950px" }}>
-      <NavigationBar title={"결제하기 (계약금)"} />
-      <div className="plannerpro" style={{ marginTop: 110 }}>
-        {plannerImg === "data:image/jpeg;base64," ? (
-          <img
-            src={defaultprofileimage}
-            style={{ width: "250px", height: "230px" }}
-            className="plannerproimg"
-            alt={defaultprofileimage}
-          />
-        ) : (
-          <img
-            src={plannerImg}
-            style={{ width: "250px", height: "230px" }}
-            className="plannerproimg"
-            alt={defaultprofileimage}
-          />
-        )}
+    <div className="containerbox">
+      <div className="mainlayout box1" style={{ height: "950px" }}>
+        <NavigationBar title={"결제하기 (계약금)"} />
+        <div className="plannerpro" style={{ marginTop: 110 }}>
+          {plannerImg === "data:image/jpeg;base64," ? (
+            <img
+              src={defaultprofileimage}
+              style={{ width: "250px", height: "230px" }}
+              className="plannerproimg"
+              alt={defaultprofileimage}
+            />
+          ) : (
+            <img
+              src={plannerImg}
+              style={{ width: "250px", height: "230px" }}
+              className="plannerproimg"
+              alt={defaultprofileimage}
+            />
+          )}
 
-        <p className="plannerName">{plannerName}</p>
-      </div>
-      <div className="mb-3 row checkouttext">
-        <label
-          for="staticEmail"
-          style={{ fontSize: "0.9em" }}
-          className="col-sm-4 col-form-label"
-        >
-          상품명
-        </label>
-        <div className="col-sm-8">
-          <input
-            type="text"
-            readonly
-            className="form-control-plaintext"
-            id="itemName"
-            value="맞춤형 웨딩플래너 서비스(계약)"
-            style={{ fontSize: "0.9em" }}
-          />
+          <p className="plannerName">{plannerName}</p>
         </div>
-      </div>
-      {/* <hr /> */}
-      <div className="mb-3 row checkouttext">
-        <label
-          for="staticEmail"
-          style={{ fontSize: "0.9em" }}
-          className="col-sm-4 col-form-label"
-        >
-          상품 상세정보
-        </label>
-        <div className="col-sm-8">
-          <input
-            type="text"
-            readonlyvm
-            className="form-control-plaintext"
-            id="itemName"
-            value="플래너 매칭 계약금"
+        <div className="mb-3 row checkouttext">
+          <label
+            for="staticEmail"
             style={{ fontSize: "0.9em" }}
-          />
-          <div
-            style={{
-              fontSize: "0.6em",
-              marginRight: "15px",
-            }}
+            className="col-sm-4 col-form-label"
           >
-            {" "}
-            (경력 5년 미만 : 50,000 / 경력 15년 미만 : 100,000 / 경력 15년 이상
-            : 150,000)
+            상품명
+          </label>
+          <div className="col-sm-8">
+            <input
+              type="text"
+              readonly
+              className="form-control-plaintext"
+              id="itemName"
+              value="맞춤형 웨딩플래너 서비스(계약)"
+              style={{ fontSize: "0.9em" }}
+            />
           </div>
         </div>
-      </div>
-      {/* <hr /> */}
-      <div className="mb-3 row checkouttext">
-        <label
-          for="staticEmail"
-          style={{ fontSize: "0.9em" }}
-          className="col-sm-4 col-form-label"
-        >
-          계약금 금액
-        </label>
-        <div className="col-sm-8">
-          <input
-            type="text"
-            readonly
-            className="form-control-plaintext"
-            id="itemName"
-            value={`${depositAmount
-              .toString()
-              .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원`}
+        {/* <hr /> */}
+        <div className="mb-3 row checkouttext">
+          <label
+            for="staticEmail"
             style={{ fontSize: "0.9em" }}
-          />
+            className="col-sm-4 col-form-label"
+          >
+            상품 상세정보
+          </label>
+          <div className="col-sm-8">
+            <input
+              type="text"
+              readonlyvm
+              className="form-control-plaintext"
+              id="itemName"
+              value="플래너 매칭 계약금"
+              style={{ fontSize: "0.9em" }}
+            />
+            <div
+              style={{
+                fontSize: "0.6em",
+                marginRight: "15px",
+              }}
+            >
+              {" "}
+              (경력 5년 미만 : 50,000 / 경력 15년 미만 : 100,000 / 경력 15년
+              이상 : 150,000)
+            </div>
+          </div>
         </div>
+        {/* <hr /> */}
+        <div className="mb-3 row checkouttext">
+          <label
+            for="staticEmail"
+            style={{ fontSize: "0.9em" }}
+            className="col-sm-4 col-form-label"
+          >
+            계약금 금액
+          </label>
+          <div className="col-sm-8">
+            <input
+              type="text"
+              readonly
+              className="form-control-plaintext"
+              id="itemName"
+              value={`${depositAmount
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원`}
+              style={{ fontSize: "0.9em" }}
+            />
+          </div>
+        </div>
+        <button
+          onClick={requestPay}
+          style={{ marginTop: "15px" }}
+          className="checkoutBtn"
+        >
+          결제하기
+        </button>
+        <Footer />
       </div>
-      <button
-        onClick={requestPay}
-        style={{ marginTop: "15px" }}
-        className="checkoutBtn"
-      >
-        결제하기
-      </button>
-      <Footer />
+      <div className="box2"></div>
+      <div className="box3">
+        <Sidesection />
+      </div>
     </div>
   );
 }

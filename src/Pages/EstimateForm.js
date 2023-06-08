@@ -12,6 +12,7 @@ import { format } from "date-fns";
 import Footer from "../Components/Footer";
 import BackButton from "../Components/Backbutton";
 import NavigationBar from "../Components/NavigationBar";
+import Sidesection from "../Components/Sidesection";
 
 const EstimateForm = () => {
   const navigate = useNavigate();
@@ -303,652 +304,653 @@ const EstimateForm = () => {
   };
 
   return (
-    <div className="mainlayout" style={{ height: "100%" }}>
-      <NavigationBar title="내가 원하는 웨딩은?" />
-      <div className="contentcontainer">
-        <div className="contentbox">
-          <h5
-            onClick={() => {
-              console.log(images);
-            }}
-          >
-            희망 결혼 예정일
-          </h5>
-          <div className="choosebox">
-            <span>1순위</span>
-            <input
-              type="date"
-              ref={dateRef}
-              className="form-control"
-              onChange={weddingdateSelect}
-              value={weddingdate.datefirst}
-              name="datefirst"
-            />
+    <div className="containerbox">
+      <div className="mainlayout box1" style={{ height: "100%" }}>
+        <NavigationBar title="내가 원하는 웨딩은?" />
+        <div className="contentcontainer">
+          <div className="contentbox">
+            <h5
+              onClick={() => {
+                console.log(images);
+              }}
+            >
+              희망 결혼 예정일
+            </h5>
+            <div className="choosebox">
+              <span>1순위</span>
+              <input
+                type="date"
+                ref={dateRef}
+                className="form-control"
+                onChange={weddingdateSelect}
+                value={weddingdate.datefirst}
+                name="datefirst"
+              />
+            </div>
+            <div className="choosebox">
+              <span>2순위</span>
+              <input
+                type="date"
+                className="form-control"
+                onChange={weddingdateSelect}
+                value={weddingdate.datesecond}
+                name="datesecond"
+              />
+            </div>
+            <div className="choosebox">
+              <span>3순위</span>
+              <input
+                type="date"
+                className="form-control"
+                onChange={weddingdateSelect}
+                value={weddingdate.datethird}
+                name="datethird"
+              />
+            </div>
+            {/* <hr></hr> */}
           </div>
-          <div className="choosebox">
-            <span>2순위</span>
-            <input
-              type="date"
-              className="form-control"
-              onChange={weddingdateSelect}
-              value={weddingdate.datesecond}
-              name="datesecond"
-            />
-          </div>
-          <div className="choosebox">
-            <span>3순위</span>
-            <input
-              type="date"
-              className="form-control"
-              onChange={weddingdateSelect}
-              value={weddingdate.datethird}
-              name="datethird"
-            />
-          </div>
-          {/* <hr></hr> */}
-        </div>
-        <div className="contentbox">
-          <h5>희망 결혼 지역</h5>
-          <div className="choosebox">
-            <span>1순위</span>
-            {/* <input
+          <div className="contentbox">
+            <h5>희망 결혼 지역</h5>
+            <div className="choosebox">
+              <span>1순위</span>
+              {/* <input
               type="text"
               className="w-100 form-control"
               onChange={weddingregionSelect}
               name="regionfirst"
               ref={regionRef}
             /> */}
-            <RegionList
-              name="regionfirst"
-              weddingregionSelect={weddingregionSelect}
-              regionRef={regionRef}
-            />
-          </div>
-          <div className="choosebox">
-            <span>2순위</span>
-            <RegionList
-              name="regionsecond"
-              weddingregionSelect={weddingregionSelect}
-            />
-          </div>
-          <div className="choosebox">
-            <span>3순위</span>
-            <RegionList
-              name="regionthird"
-              weddingregionSelect={weddingregionSelect}
-            />
-          </div>
-        </div>
-        <div className="contentbox">
-          <h5>예산</h5>
-          <div className="choosebox">
-            <input
-              type="text"
-              className="w-100 form-control budget-input"
-              value={budget}
-              onChange={budgetSelect}
-              ref={budgetRef}
-            />
-            <div
-              className="budget-btn cursor"
-              onClick={() => {
-                increasebudget1(1000000);
-              }}
-            >
-              +1백만
+              <RegionList
+                name="regionfirst"
+                weddingregionSelect={weddingregionSelect}
+                regionRef={regionRef}
+              />
             </div>
-            <div
-              className="budget-btn cursor"
-              onClick={() => {
-                increasebudget1(100000);
-              }}
-            >
-              +1십만
+            <div className="choosebox">
+              <span>2순위</span>
+              <RegionList
+                name="regionsecond"
+                weddingregionSelect={weddingregionSelect}
+              />
             </div>
-            <div
-              className="budget-btn cursor"
-              onClick={() => {
-                increasebudget1(10000);
-              }}
-            >
-              +1만
+            <div className="choosebox">
+              <span>3순위</span>
+              <RegionList
+                name="regionthird"
+                weddingregionSelect={weddingregionSelect}
+              />
             </div>
           </div>
-          <span>원</span>
-        </div>
-        <div className="contentbox">
-          <h5>스튜디오</h5>
-          <div className="choosebox">
-            <input
-              id="person"
-              name="studio"
-              type="radio"
-              value="인물중심"
-              onClick={studioSelect}
-              checked={studio === "인물중심"}
-              className="displaynone"
-            />
-            <label htmlFor="person" className="label-design w-100 cursor">
-              인물중심
-            </label>
+          <div className="contentbox">
+            <h5>예산</h5>
+            <div className="choosebox">
+              <input
+                type="text"
+                className="w-100 form-control budget-input"
+                value={budget}
+                onChange={budgetSelect}
+                ref={budgetRef}
+              />
+              <div
+                className="budget-btn cursor"
+                onClick={() => {
+                  increasebudget1(1000000);
+                }}
+              >
+                +1백만
+              </div>
+              <div
+                className="budget-btn cursor"
+                onClick={() => {
+                  increasebudget1(100000);
+                }}
+              >
+                +1십만
+              </div>
+              <div
+                className="budget-btn cursor"
+                onClick={() => {
+                  increasebudget1(10000);
+                }}
+              >
+                +1만
+              </div>
+            </div>
+            <span>원</span>
           </div>
-          <div className="choosebox">
-            <input
-              id="background"
-              name="studio"
-              type="radio"
-              value="배경중심"
-              checked={studio === "배경중심"}
-              onClick={studioSelect}
-              className="displaynone"
-            />
-            <label htmlFor="background" className="label-design w-100 cursor">
-              배경중심
-            </label>
+          <div className="contentbox">
+            <h5>스튜디오</h5>
+            <div className="choosebox">
+              <input
+                id="person"
+                name="studio"
+                type="radio"
+                value="인물중심"
+                onClick={studioSelect}
+                checked={studio === "인물중심"}
+                className="displaynone"
+              />
+              <label htmlFor="person" className="label-design w-100 cursor">
+                인물중심
+              </label>
+            </div>
+            <div className="choosebox">
+              <input
+                id="background"
+                name="studio"
+                type="radio"
+                value="배경중심"
+                checked={studio === "배경중심"}
+                onClick={studioSelect}
+                className="displaynone"
+              />
+              <label htmlFor="background" className="label-design w-100 cursor">
+                배경중심
+              </label>
+            </div>
+            <div className="choosebox">
+              <input
+                id="balanced"
+                name="studio"
+                type="radio"
+                value="균형적인"
+                checked={studio === "균형적인"}
+                onClick={studioSelect}
+                className="displaynone"
+              />
+              <label htmlFor="balanced" className="label-design w-100 cursor">
+                균형적인
+              </label>
+            </div>
+            <div>
+              <span>
+                스튜디오 스타일이 궁금하다면?&nbsp;
+                <span
+                  type="button"
+                  className="badge bg-primary"
+                  data-bs-toggle="modal"
+                  data-bs-target="#studioModal"
+                >
+                  Click
+                </span>
+              </span>
+            </div>
           </div>
-          <div className="choosebox">
-            <input
-              id="balanced"
-              name="studio"
-              type="radio"
-              value="균형적인"
-              checked={studio === "균형적인"}
-              onClick={studioSelect}
-              className="displaynone"
-            />
-            <label htmlFor="balanced" className="label-design w-100 cursor">
-              균형적인
-            </label>
-          </div>
-          <div>
+
+          <div className="contentbox">
+            <h5>신부 드레스 (3개까지 선택가능)</h5>
+            <div className="choosebox">
+              <input
+                id="머메이드"
+                type="checkbox"
+                name="dress"
+                value="머메이드"
+                onChange={dresscheck}
+                className="displaynone"
+              />
+              <label htmlFor="머메이드" className="label-design w-100 cursor">
+                머메이드
+                {dress.includes("머메이드") ? (
+                  <span className="ranking">
+                    {dress.indexOf("머메이드") + 1}순위
+                  </span>
+                ) : (
+                  ""
+                )}
+              </label>
+            </div>
+            <div className="choosebox">
+              <input
+                id="A라인"
+                type="checkbox"
+                name="dress"
+                value="A라인"
+                onChange={dresscheck}
+                className="displaynone"
+              />
+              <label htmlFor="A라인" className="label-design w-100 cursor">
+                A라인
+                {dress.includes("A라인") ? (
+                  <span className="ranking">
+                    {dress.indexOf("A라인") + 1}순위
+                  </span>
+                ) : (
+                  ""
+                )}
+              </label>
+            </div>
+            <div className="choosebox">
+              <input
+                id="H라인"
+                type="checkbox"
+                name="dress"
+                value="H라인"
+                onChange={dresscheck}
+                className="displaynone"
+              />
+              <label htmlFor="H라인" className="label-design w-100 cursor">
+                H라인
+                {dress.includes("H라인") ? (
+                  <span className="ranking">
+                    {dress.indexOf("H라인") + 1}순위
+                  </span>
+                ) : (
+                  ""
+                )}
+              </label>
+            </div>
+            <div className="choosebox">
+              <input
+                id="벨라인"
+                type="checkbox"
+                name="dress"
+                value="벨라인"
+                onChange={dresscheck}
+                className="displaynone"
+              />
+              <label htmlFor="벨라인" className="label-design w-100 cursor">
+                벨라인
+                {dress.includes("벨라인") ? (
+                  <span className="ranking">
+                    {dress.indexOf("벨라인") + 1}순위
+                  </span>
+                ) : (
+                  ""
+                )}
+              </label>
+            </div>
+            <div className="choosebox">
+              <input
+                id="엠파이어"
+                type="checkbox"
+                name="dress"
+                value="엠파이어"
+                onChange={dresscheck}
+                className="displaynone"
+              />
+              <label htmlFor="엠파이어" className="label-design w-100 cursor">
+                엠파이어
+                {dress.includes("엠파이어") ? (
+                  <span className="ranking">
+                    {dress.indexOf("엠파이어") + 1}순위
+                  </span>
+                ) : (
+                  ""
+                )}
+              </label>
+            </div>
+            <div className="choosebox">
+              <input
+                id="프린세스"
+                type="checkbox"
+                name="dress"
+                value="프린세스"
+                onChange={dresscheck}
+                className="displaynone"
+              />
+              <label htmlFor="프린세스" className="label-design w-100 cursor">
+                프린세스
+                {dress.includes("프린세스") ? (
+                  <span className="ranking">
+                    {dress.indexOf("프린세스") + 1}순위
+                  </span>
+                ) : (
+                  ""
+                )}
+              </label>
+            </div>
             <span>
-              스튜디오 스타일이 궁금하다면?&nbsp;
+              드레스 스타일이 궁금하다면?&nbsp;
               <span
                 type="button"
                 className="badge bg-primary"
                 data-bs-toggle="modal"
-                data-bs-target="#studioModal"
+                data-bs-target="#dressModal"
               >
                 Click
               </span>
             </span>
           </div>
-        </div>
-
-        <div className="contentbox">
-          <h5>신부 드레스 (3개까지 선택가능)</h5>
-          <div className="choosebox">
-            <input
-              id="머메이드"
-              type="checkbox"
-              name="dress"
-              value="머메이드"
-              onChange={dresscheck}
-              className="displaynone"
-            />
-            <label htmlFor="머메이드" className="label-design w-100 cursor">
-              머메이드
-              {dress.includes("머메이드") ? (
-                <span className="ranking">
-                  {dress.indexOf("머메이드") + 1}순위
-                </span>
-              ) : (
-                ""
-              )}
-            </label>
-          </div>
-          <div className="choosebox">
-            <input
-              id="A라인"
-              type="checkbox"
-              name="dress"
-              value="A라인"
-              onChange={dresscheck}
-              className="displaynone"
-            />
-            <label htmlFor="A라인" className="label-design w-100 cursor">
-              A라인
-              {dress.includes("A라인") ? (
-                <span className="ranking">
-                  {dress.indexOf("A라인") + 1}순위
-                </span>
-              ) : (
-                ""
-              )}
-            </label>
-          </div>
-          <div className="choosebox">
-            <input
-              id="H라인"
-              type="checkbox"
-              name="dress"
-              value="H라인"
-              onChange={dresscheck}
-              className="displaynone"
-            />
-            <label htmlFor="H라인" className="label-design w-100 cursor">
-              H라인
-              {dress.includes("H라인") ? (
-                <span className="ranking">
-                  {dress.indexOf("H라인") + 1}순위
-                </span>
-              ) : (
-                ""
-              )}
-            </label>
-          </div>
-          <div className="choosebox">
-            <input
-              id="벨라인"
-              type="checkbox"
-              name="dress"
-              value="벨라인"
-              onChange={dresscheck}
-              className="displaynone"
-            />
-            <label htmlFor="벨라인" className="label-design w-100 cursor">
-              벨라인
-              {dress.includes("벨라인") ? (
-                <span className="ranking">
-                  {dress.indexOf("벨라인") + 1}순위
-                </span>
-              ) : (
-                ""
-              )}
-            </label>
-          </div>
-          <div className="choosebox">
-            <input
-              id="엠파이어"
-              type="checkbox"
-              name="dress"
-              value="엠파이어"
-              onChange={dresscheck}
-              className="displaynone"
-            />
-            <label htmlFor="엠파이어" className="label-design w-100 cursor">
-              엠파이어
-              {dress.includes("엠파이어") ? (
-                <span className="ranking">
-                  {dress.indexOf("엠파이어") + 1}순위
-                </span>
-              ) : (
-                ""
-              )}
-            </label>
-          </div>
-          <div className="choosebox">
-            <input
-              id="프린세스"
-              type="checkbox"
-              name="dress"
-              value="프린세스"
-              onChange={dresscheck}
-              className="displaynone"
-            />
-            <label htmlFor="프린세스" className="label-design w-100 cursor">
-              프린세스
-              {dress.includes("프린세스") ? (
-                <span className="ranking">
-                  {dress.indexOf("프린세스") + 1}순위
-                </span>
-              ) : (
-                ""
-              )}
-            </label>
-          </div>
-          <span>
-            드레스 스타일이 궁금하다면?&nbsp;
-            <span
-              type="button"
-              className="badge bg-primary"
-              data-bs-toggle="modal"
-              data-bs-target="#dressModal"
-            >
-              Click
+          <div className="contentbox">
+            <h5>신부 메이크업 (3개까지 선택가능)</h5>
+            <div className="choosebox">
+              <input
+                id="로맨틱한"
+                type="checkbox"
+                name="makeup"
+                value="로맨틱한"
+                onChange={makeupcheck}
+                className="displaynone"
+              />
+              <label htmlFor="로맨틱한" className="label-design w-100 cursor">
+                로맨틱한
+                {makeup.includes("로맨틱한") ? (
+                  <span className="ranking">
+                    {makeup.indexOf("로맨틱한") + 1}순위
+                  </span>
+                ) : (
+                  ""
+                )}
+              </label>
+            </div>
+            <div className="choosebox">
+              <input
+                id="포인트"
+                type="checkbox"
+                name="makeup"
+                value="포인트"
+                onChange={makeupcheck}
+                className="displaynone"
+              />
+              <label htmlFor="포인트" className="label-design w-100 cursor">
+                포인트
+                {makeup.includes("포인트") ? (
+                  <span className="ranking">
+                    {makeup.indexOf("포인트") + 1}순위
+                  </span>
+                ) : (
+                  ""
+                )}
+              </label>
+            </div>
+            <div className="choosebox">
+              <input
+                id="내추럴"
+                type="checkbox"
+                name="makeup"
+                value="내추럴"
+                onChange={makeupcheck}
+                className="displaynone"
+              />
+              <label htmlFor="내추럴" className="label-design w-100 cursor">
+                내추럴
+                {makeup.includes("내추럴") ? (
+                  <span className="ranking">
+                    {makeup.indexOf("내추럴") + 1}순위
+                  </span>
+                ) : (
+                  ""
+                )}
+              </label>
+            </div>
+            <div className="choosebox">
+              <input
+                id="스모키"
+                type="checkbox"
+                name="makeup"
+                value="스모키"
+                onChange={makeupcheck}
+                className="displaynone"
+              />
+              <label htmlFor="스모키" className="label-design w-100 cursor">
+                스모키
+                {makeup.includes("스모키") ? (
+                  <span className="ranking">
+                    {makeup.indexOf("스모키") + 1}순위
+                  </span>
+                ) : (
+                  ""
+                )}
+              </label>
+            </div>
+            <div className="choosebox">
+              <input
+                id="큐티"
+                type="checkbox"
+                name="makeup"
+                value="큐티"
+                onChange={makeupcheck}
+                className="displaynone"
+              />
+              <label htmlFor="큐티" className="label-design w-100 cursor">
+                큐티
+                {makeup.includes("큐티") ? (
+                  <span className="ranking">
+                    {makeup.indexOf("큐티") + 1}순위
+                  </span>
+                ) : (
+                  ""
+                )}
+              </label>
+            </div>
+            <div className="choosebox">
+              <input
+                id="러블리"
+                type="checkbox"
+                name="makeup"
+                value="러블리"
+                onChange={makeupcheck}
+                className="displaynone"
+              />
+              <label htmlFor="러블리" className="label-design w-100 cursor">
+                러블리
+                {makeup.includes("러블리") ? (
+                  <span className="ranking">
+                    {makeup.indexOf("러블리") + 1}순위
+                  </span>
+                ) : (
+                  ""
+                )}
+              </label>
+            </div>
+            <span>
+              메이크업 스타일이 궁금하다면?&nbsp;
+              <span
+                type="button"
+                className="badge bg-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#makeupModal"
+              >
+                Click
+              </span>
             </span>
-          </span>
-        </div>
-        <div className="contentbox">
-          <h5>신부 메이크업 (3개까지 선택가능)</h5>
-          <div className="choosebox">
-            <input
-              id="로맨틱한"
-              type="checkbox"
-              name="makeup"
-              value="로맨틱한"
-              onChange={makeupcheck}
-              className="displaynone"
-            />
-            <label htmlFor="로맨틱한" className="label-design w-100 cursor">
-              로맨틱한
-              {makeup.includes("로맨틱한") ? (
-                <span className="ranking">
-                  {makeup.indexOf("로맨틱한") + 1}순위
-                </span>
-              ) : (
-                ""
-              )}
-            </label>
           </div>
-          <div className="choosebox">
-            <input
-              id="포인트"
-              type="checkbox"
-              name="makeup"
-              value="포인트"
-              onChange={makeupcheck}
-              className="displaynone"
-            />
-            <label htmlFor="포인트" className="label-design w-100 cursor">
-              포인트
-              {makeup.includes("포인트") ? (
-                <span className="ranking">
-                  {makeup.indexOf("포인트") + 1}순위
-                </span>
-              ) : (
-                ""
-              )}
-            </label>
+          <div className="contentbox">
+            <h5>신혼여행</h5>
+            <div className="choosebox">
+              <input
+                id="해외"
+                type="radio"
+                name="honeymoon"
+                value="해외"
+                onClick={honeymoonaccodian}
+                checked={acco1 === "view"}
+                className="displaynone"
+              />
+              <label htmlFor="해외" className="label-design w-100 cursor">
+                해외
+              </label>
+            </div>
+            <div className="choosebox">
+              <input
+                id="국내"
+                type="radio"
+                name="honeymoon"
+                value="국내"
+                onClick={honeymoonaccodian2}
+                checked={acco2 === "view"}
+                className="displaynone"
+              />
+              <label htmlFor="국내" className="label-design w-100 cursor">
+                국내
+              </label>
+            </div>
+            <div className={`hideeee ${acco1}`}>
+              <select
+                class="form-select form-select-lg mb-3 cursor"
+                aria-label=".form-select-lg example"
+                onChange={honeymoonSelect}
+                style={{ fontSize: 17 }}
+              >
+                <option selected={acco1 === "view"} disabled>
+                  해외 여행지를 선택해주세요
+                </option>
+                <optgroup label="아시아">
+                  <option value="해외-발리">발리</option>
+                  <option value="해외-코타키나발루">코타키나발루</option>
+                  <option value="해외-푸꾸옥제도">푸꾸옥제도</option>
+                  <option value="해외-하노이">하노이</option>
+                  <option value="해외-다낭">다낭</option>
+                  <option value="해외-호치민">호치민</option>
+                  <option value="해외-태국(방콕)">태국</option>
+                  <option value="해외-후쿠오카">후쿠오카</option>
+                  <option value="해외-오사카">오사카</option>
+                  <option value="해외-괌">괌</option>
+                </optgroup>
+                <optgroup label="북미">
+                  <option value="해외-하와이">하와이</option>
+                  <option value="해외-라스베이거스">라스베이거스</option>
+                  <option value="해외-로스앤젤레스">로스앤젤레스</option>
+                  <option value="해외-샌프란시스코">샌프란시스코</option>
+                  <option value="해외-뉴욕">뉴욕</option>
+                  <option value="해외-알래스카">알래스카</option>
+                  <option value="해외-캐나다">캐나다</option>
+                  <option value="해외-멕시코">멕시코</option>
+                </optgroup>
+                <optgroup label="유럽">
+                  <option value="해외-파리">파리</option>
+                  <option value="해외-로마">로마</option>
+                  <option value="해외-베니스">베니스</option>
+                  <option value="해외-프라하">프라하</option>
+                  <option value="해외-마드리드">마드리드</option>
+                  <option value="해외-바르셀로나">바르셀로나</option>
+                  <option value="해외-프라하">프라하</option>
+                  <option value="해외-산토리니">산토리니</option>
+                  <option value="해외-런던">런던</option>
+                </optgroup>
+                <optgroup label="중동">
+                  <option value="해외-두바이">두바이</option>
+                  <option value="해외-아부다비">아부다비</option>
+                </optgroup>
+                <optgroup label="오세아니아">
+                  <option value="해외-시드니">시드니</option>
+                  <option value="해외-골드코스트">골드코스트</option>
+                  <option value="해외-케언즈">케언즈</option>
+                  <option value="해외-뉴질랜드">뉴질랜드</option>
+                </optgroup>
+                <optgroup label="북유럽">
+                  <option value="해외-스웨덴">스웨덴</option>
+                  <option value="해외-노르웨이">노르웨이</option>
+                  <option value="해외-핀란드">핀란드</option>
+                  <option value="해외-덴마크">덴마크</option>
+                </optgroup>
+                <optgroup label="남미">
+                  <option value="해외-칠레">칠레</option>
+                  <option value="해외-아르헨티나">아르헨티나</option>
+                  <option value="해외-페루">페루</option>
+                </optgroup>
+                <optgroup label="아프리카">
+                  <option value="해외-모로코">모로코</option>
+                  <option value="해외-남아공">남아공</option>
+                </optgroup>
+                <optgroup label="기타">
+                  <option value="해외-기타">기타</option>
+                </optgroup>
+              </select>
+            </div>
+            <div className={`hideeee ${acco2}`}>
+              <select
+                class="form-select form-select-lg mb-3 cursor"
+                aria-label=".form-select-lg example"
+                onChange={honeymoonSelect}
+                style={{ fontSize: 17 }}
+              >
+                <option selected={acco2 === "view"} disabled>
+                  국내여행지를 선택해주세요
+                </option>
+                <optgroup label="섬">
+                  <option value="국내-제주도">제주도</option>
+                  <option value="국내-울릉도">울릉도</option>
+                  <option value="국내-남해도">남해도</option>
+                  <option value="국내-강화도">강화도</option>
+                  <option value="국내-완도">완도</option>
+                  <option value="국내-거제도"></option>
+                </optgroup>
+                <optgroup label="경기도">
+                  <option value="국내-가평">가평</option>
+                  <option value="국내-파주">파주</option>
+                  <option value="국내-양평">양평</option>
+                </optgroup>
+                <optgroup label="경상남도">
+                  <option value="국내-남해">남해</option>
+                  <option value="국내-통영">통영</option>
+                  <option value="국내-부산">부산</option>
+                </optgroup>
+                <optgroup label="경상북도">
+                  <option value="국내-안동">안동</option>
+                  <option value="국내-경주">경주</option>
+                  <option value="국내-포항">포항</option>
+                </optgroup>
+                <optgroup label="전라남도">
+                  <option value="국내-목포">목포</option>
+                  <option value="국내-여수">여수</option>
+                  <option value="국내-순천">순천</option>
+                </optgroup>
+                <optgroup label="전라북도">
+                  <option value="국내-전주">전주</option>
+                  <option value="국내-군산">군산</option>
+                  <option value="국내-순천">순천</option>
+                  <option value="국내-고창">고창</option>
+                </optgroup>
+                <optgroup label="충청남도">
+                  <option value="국내-보령">보령</option>
+                  <option value="국내-태안">태안</option>
+                  <option value="국내-아산">아산</option>
+                </optgroup>
+                <optgroup label="충청북도">
+                  <option value="국내-청주">청주</option>
+                  <option value="국내-단양">단양</option>
+                  <option value="국내-제천">제천</option>
+                </optgroup>
+                <optgroup label="강원도">
+                  <option value="국내-강릉">강릉</option>
+                  <option value="국내-속초">속초</option>
+                  <option value="국내-양양">양양</option>
+                  <option value="국내-춘천">춘천</option>
+                  <option value="국내-홍천">홍천</option>
+                </optgroup>
+                <optgroup label="기타">
+                  <option value="국내-기타">기타</option>
+                </optgroup>
+              </select>
+            </div>
           </div>
-          <div className="choosebox">
-            <input
-              id="내추럴"
-              type="checkbox"
-              name="makeup"
-              value="내추럴"
-              onChange={makeupcheck}
-              className="displaynone"
-            />
-            <label htmlFor="내추럴" className="label-design w-100 cursor">
-              내추럴
-              {makeup.includes("내추럴") ? (
-                <span className="ranking">
-                  {makeup.indexOf("내추럴") + 1}순위
-                </span>
-              ) : (
-                ""
-              )}
-            </label>
-          </div>
-          <div className="choosebox">
-            <input
-              id="스모키"
-              type="checkbox"
-              name="makeup"
-              value="스모키"
-              onChange={makeupcheck}
-              className="displaynone"
-            />
-            <label htmlFor="스모키" className="label-design w-100 cursor">
-              스모키
-              {makeup.includes("스모키") ? (
-                <span className="ranking">
-                  {makeup.indexOf("스모키") + 1}순위
-                </span>
-              ) : (
-                ""
-              )}
-            </label>
-          </div>
-          <div className="choosebox">
-            <input
-              id="큐티"
-              type="checkbox"
-              name="makeup"
-              value="큐티"
-              onChange={makeupcheck}
-              className="displaynone"
-            />
-            <label htmlFor="큐티" className="label-design w-100 cursor">
-              큐티
-              {makeup.includes("큐티") ? (
-                <span className="ranking">
-                  {makeup.indexOf("큐티") + 1}순위
-                </span>
-              ) : (
-                ""
-              )}
-            </label>
-          </div>
-          <div className="choosebox">
-            <input
-              id="러블리"
-              type="checkbox"
-              name="makeup"
-              value="러블리"
-              onChange={makeupcheck}
-              className="displaynone"
-            />
-            <label htmlFor="러블리" className="label-design w-100 cursor">
-              러블리
-              {makeup.includes("러블리") ? (
-                <span className="ranking">
-                  {makeup.indexOf("러블리") + 1}순위
-                </span>
-              ) : (
-                ""
-              )}
-            </label>
-          </div>
-          <span>
-            메이크업 스타일이 궁금하다면?&nbsp;
-            <span
-              type="button"
-              className="badge bg-primary"
-              data-bs-toggle="modal"
-              data-bs-target="#makeupModal"
-            >
-              Click
-            </span>
-          </span>
-        </div>
-        <div className="contentbox">
-          <h5>신혼여행</h5>
-          <div className="choosebox">
-            <input
-              id="해외"
-              type="radio"
-              name="honeymoon"
-              value="해외"
-              onClick={honeymoonaccodian}
-              checked={acco1 === "view"}
-              className="displaynone"
-            />
-            <label htmlFor="해외" className="label-design w-100 cursor">
-              해외
-            </label>
-          </div>
-          <div className="choosebox">
-            <input
-              id="국내"
-              type="radio"
-              name="honeymoon"
-              value="국내"
-              onClick={honeymoonaccodian2}
-              checked={acco2 === "view"}
-              className="displaynone"
-            />
-            <label htmlFor="국내" className="label-design w-100 cursor">
-              국내
-            </label>
-          </div>
-          <div className={`hideeee ${acco1}`}>
-            <select
-              class="form-select form-select-lg mb-3 cursor"
-              aria-label=".form-select-lg example"
-              onChange={honeymoonSelect}
-              style={{ fontSize: 17 }}
-            >
-              <option selected={acco1 === "view"} disabled>
-                해외 여행지를 선택해주세요
-              </option>
-              <optgroup label="아시아">
-                <option value="해외-발리">발리</option>
-                <option value="해외-코타키나발루">코타키나발루</option>
-                <option value="해외-푸꾸옥제도">푸꾸옥제도</option>
-                <option value="해외-하노이">하노이</option>
-                <option value="해외-다낭">다낭</option>
-                <option value="해외-호치민">호치민</option>
-                <option value="해외-태국(방콕)">태국</option>
-                <option value="해외-후쿠오카">후쿠오카</option>
-                <option value="해외-오사카">오사카</option>
-                <option value="해외-괌">괌</option>
-              </optgroup>
-              <optgroup label="북미">
-                <option value="해외-하와이">하와이</option>
-                <option value="해외-라스베이거스">라스베이거스</option>
-                <option value="해외-로스앤젤레스">로스앤젤레스</option>
-                <option value="해외-샌프란시스코">샌프란시스코</option>
-                <option value="해외-뉴욕">뉴욕</option>
-                <option value="해외-알래스카">알래스카</option>
-                <option value="해외-캐나다">캐나다</option>
-                <option value="해외-멕시코">멕시코</option>
-              </optgroup>
-              <optgroup label="유럽">
-                <option value="해외-파리">파리</option>
-                <option value="해외-로마">로마</option>
-                <option value="해외-베니스">베니스</option>
-                <option value="해외-프라하">프라하</option>
-                <option value="해외-마드리드">마드리드</option>
-                <option value="해외-바르셀로나">바르셀로나</option>
-                <option value="해외-프라하">프라하</option>
-                <option value="해외-산토리니">산토리니</option>
-                <option value="해외-런던">런던</option>
-              </optgroup>
-              <optgroup label="중동">
-                <option value="해외-두바이">두바이</option>
-                <option value="해외-아부다비">아부다비</option>
-              </optgroup>
-              <optgroup label="오세아니아">
-                <option value="해외-시드니">시드니</option>
-                <option value="해외-골드코스트">골드코스트</option>
-                <option value="해외-케언즈">케언즈</option>
-                <option value="해외-뉴질랜드">뉴질랜드</option>
-              </optgroup>
-              <optgroup label="북유럽">
-                <option value="해외-스웨덴">스웨덴</option>
-                <option value="해외-노르웨이">노르웨이</option>
-                <option value="해외-핀란드">핀란드</option>
-                <option value="해외-덴마크">덴마크</option>
-              </optgroup>
-              <optgroup label="남미">
-                <option value="해외-칠레">칠레</option>
-                <option value="해외-아르헨티나">아르헨티나</option>
-                <option value="해외-페루">페루</option>
-              </optgroup>
-              <optgroup label="아프리카">
-                <option value="해외-모로코">모로코</option>
-                <option value="해외-남아공">남아공</option>
-              </optgroup>
-              <optgroup label="기타">
-                <option value="해외-기타">기타</option>
-              </optgroup>
-            </select>
-          </div>
-          <div className={`hideeee ${acco2}`}>
-            <select
-              class="form-select form-select-lg mb-3 cursor"
-              aria-label=".form-select-lg example"
-              onChange={honeymoonSelect}
-              style={{ fontSize: 17 }}
-            >
-              <option selected={acco2 === "view"} disabled>
-                국내여행지를 선택해주세요
-              </option>
-              <optgroup label="섬">
-                <option value="국내-제주도">제주도</option>
-                <option value="국내-울릉도">울릉도</option>
-                <option value="국내-남해도">남해도</option>
-                <option value="국내-강화도">강화도</option>
-                <option value="국내-완도">완도</option>
-                <option value="국내-거제도"></option>
-              </optgroup>
-              <optgroup label="경기도">
-                <option value="국내-가평">가평</option>
-                <option value="국내-파주">파주</option>
-                <option value="국내-양평">양평</option>
-              </optgroup>
-              <optgroup label="경상남도">
-                <option value="국내-남해">남해</option>
-                <option value="국내-통영">통영</option>
-                <option value="국내-부산">부산</option>
-              </optgroup>
-              <optgroup label="경상북도">
-                <option value="국내-안동">안동</option>
-                <option value="국내-경주">경주</option>
-                <option value="국내-포항">포항</option>
-              </optgroup>
-              <optgroup label="전라남도">
-                <option value="국내-목포">목포</option>
-                <option value="국내-여수">여수</option>
-                <option value="국내-순천">순천</option>
-              </optgroup>
-              <optgroup label="전라북도">
-                <option value="국내-전주">전주</option>
-                <option value="국내-군산">군산</option>
-                <option value="국내-순천">순천</option>
-                <option value="국내-고창">고창</option>
-              </optgroup>
-              <optgroup label="충청남도">
-                <option value="국내-보령">보령</option>
-                <option value="국내-태안">태안</option>
-                <option value="국내-아산">아산</option>
-              </optgroup>
-              <optgroup label="충청북도">
-                <option value="국내-청주">청주</option>
-                <option value="국내-단양">단양</option>
-                <option value="국내-제천">제천</option>
-              </optgroup>
-              <optgroup label="강원도">
-                <option value="국내-강릉">강릉</option>
-                <option value="국내-속초">속초</option>
-                <option value="국내-양양">양양</option>
-                <option value="국내-춘천">춘천</option>
-                <option value="국내-홍천">홍천</option>
-              </optgroup>
-              <optgroup label="기타">
-                <option value="국내-기타">기타</option>
-              </optgroup>
-            </select>
-          </div>
-        </div>
 
-        <div className="contentbox">
-          <h5>이미지첨부</h5>
-          <div className="choosebox" style={{ width: "70%" }}>
-            <input
-              type="file"
-              multiple
-              onChange={imageSelect}
-              accept="image/*"
-              id="uploadimage"
-              className="displaynone"
-            />
-            <label htmlFor="uploadimage" className="cursor imageupload-btn">
-              이미지첨부하기
-            </label>
-            <div style={{ marginTop: 5 }}>
-              {images.map((image, index) => {
-                return (
-                  <div className="imagefilenamebox">
-                    <div className="imagefilenamecontent">
-                      <span>{image.name}</span>
-                      <div
-                        className="imagefilename-overlay cursor"
-                        onClick={() => {
-                          deleteimage(image.name);
-                        }}
-                      >
-                        <i class="bi bi-x-lg"></i>
+          <div className="contentbox">
+            <h5>이미지첨부</h5>
+            <div className="choosebox" style={{ width: "70%" }}>
+              <input
+                type="file"
+                multiple
+                onChange={imageSelect}
+                accept="image/*"
+                id="uploadimage"
+                className="displaynone"
+              />
+              <label htmlFor="uploadimage" className="cursor imageupload-btn">
+                이미지첨부하기
+              </label>
+              <div style={{ marginTop: 5 }}>
+                {images.map((image, index) => {
+                  return (
+                    <div className="imagefilenamebox">
+                      <div className="imagefilenamecontent">
+                        <span>{image.name}</span>
+                        <div
+                          className="imagefilename-overlay cursor"
+                          onClick={() => {
+                            deleteimage(image.name);
+                          }}
+                        >
+                          <i class="bi bi-x-lg"></i>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
-            </div>
+                  );
+                })}
+              </div>
 
-            {/* {images.length > 0 && (
+              {/* {images.length > 0 && (
               <span>
                 {images.length}개의 이미지{" "}
                 <div
@@ -961,46 +963,51 @@ const EstimateForm = () => {
                 </div>
               </span>
             )} */}
+            </div>
+          </div>
+          <div className="contentbox" style={{ borderBottom: "none" }}>
+            <h5>추가 요청사항</h5>
+            <div className="choosebox w-100">
+              <textarea
+                className="form-control"
+                rows="7"
+                value={requirement}
+                onChange={requirementChange}
+                placeholder="추가 요청사항을 입력해주세요"
+                style={{ fontSize: 20 }}
+              ></textarea>
+            </div>
+          </div>
+          <div className="Signup-button">
+            <button
+              onClick={() => {
+                onSubmit();
+              }}
+              className="btn-colour-1"
+              style={{ marginRight: "15px" }}
+            >
+              작성하기
+            </button>
+            <button
+              onClick={() => {
+                navigate(-1);
+              }}
+              className="btn-colour-1"
+            >
+              취소
+            </button>
           </div>
         </div>
-        <div className="contentbox" style={{ borderBottom: "none" }}>
-          <h5>추가 요청사항</h5>
-          <div className="choosebox w-100">
-            <textarea
-              className="form-control"
-              rows="7"
-              value={requirement}
-              onChange={requirementChange}
-              placeholder="추가 요청사항을 입력해주세요"
-              style={{ fontSize: 20 }}
-            ></textarea>
-          </div>
-        </div>
-        <div className="Signup-button">
-          <button
-            onClick={() => {
-              onSubmit();
-            }}
-            className="btn-colour-1"
-            style={{ marginRight: "15px" }}
-          >
-            작성하기
-          </button>
-          <button
-            onClick={() => {
-              navigate(-1);
-            }}
-            className="btn-colour-1"
-          >
-            취소
-          </button>
-        </div>
+        <div style={{ height: 94.19 }}></div>
+        <Footer />
+        <StudioModal />
+        <DressModal />
+        <MakeupModal />
       </div>
-      <div style={{ height: 94.19 }}></div>
-      <Footer />
-      <StudioModal />
-      <DressModal />
-      <MakeupModal />
+      <div className="box2"></div>
+      <div className="box3">
+        <Sidesection />
+      </div>
     </div>
   );
 };

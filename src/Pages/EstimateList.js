@@ -16,6 +16,7 @@ import { format } from "date-fns";
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
 import "../Css/DatePicker.css";
+import Sidesection from "../Components/Sidesection";
 
 const EstimateList = () => {
   let [dataCount, setDataCount] = useState();
@@ -245,151 +246,160 @@ const EstimateList = () => {
   }, [endDate]);
 
   return (
-    <div className="mainlayout">
-      <NavigationBar title={"견적서 목록"} />
+    <div className="containerbox">
+      <div className="mainlayout box1">
+        <NavigationBar title={"견적서 목록"} />
 
-      <div
-        style={{
-          width: "560px",
-          position: "fixed",
-          bottom: "120px",
-          height: "50px",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "end",
-          alignItems: "end",
-          paddingRight: "23px",
-          paddingLeft: "50px",
-          paddingBottom: "10px",
-          zIndex: "999",
-        }}
-      >
-        {window.sessionStorage.getItem("category") === "user" && (
-          <div style={{}}>
-            <div className="estimate-write-btn">
-              <i
-                class="bi bi-pencil-square"
-                style={{ marginLeft: "50px", zIndex: "999" }}
-              ></i>
-              <div
-                className="estimate-write-btn-overlay"
-                onClick={() => {
-                  navigate("/estimateform");
-                }}
-                style={{
-                  marginRight: "-20px",
-                  marginLeft: "12px",
-                  zIndex: "999",
-                  height: "50px",
-                }}
-              >
-                <span>견적작성하기</span>
+        <div
+          style={{
+            width: "560px",
+            position: "fixed",
+            bottom: "120px",
+            height: "50px",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "end",
+            alignItems: "end",
+            paddingRight: "23px",
+            paddingLeft: "50px",
+            paddingBottom: "10px",
+            zIndex: "999",
+          }}
+        >
+          {window.sessionStorage.getItem("category") === "user" && (
+            <div style={{}}>
+              <div className="estimate-write-btn">
+                <i
+                  class="bi bi-pencil-square"
+                  style={{ marginLeft: "50px", zIndex: "999" }}
+                ></i>
+                <div
+                  className="estimate-write-btn-overlay"
+                  onClick={() => {
+                    navigate("/estimateform");
+                  }}
+                  style={{
+                    marginRight: "-20px",
+                    marginLeft: "12px",
+                    zIndex: "999",
+                    height: "50px",
+                  }}
+                >
+                  <span>견적작성하기</span>
+                </div>
               </div>
             </div>
-          </div>
-        )}
-        <div
-          className="scrolltop"
-          onClick={() => {
-            onScrollTop();
-          }}
-          style={{ marginRight: "5px" }}
-        >
-          <i class="bi bi-chevron-up"></i>
-        </div>
-      </div>
-      {/*여기다 */}
-      <div className="EstimateListContainer">
-        <div className="EstimateListSearchbarBox">
-          <input
-            // className="form-control"
-            onClick={datePickerOpen}
-            placeholder="검색어를 입력해주세요"
-            type="text"
-            onChange={enterSearch}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" || e.code === "Enter") {
-                searchResult();
-              }
-            }}
-          />
-          <div className="EstimateListSearchIcon">
-            <i class="bi bi-search"></i>
-          </div>
-          <div className="캘린더">
-            <DatePicker
-              selected={startDate}
-              onChange={handleChange}
-              selectsRange
-              startDate={startDate}
-              endDate={endDate}
-              dateFormat="yyyy-MM-dd"
-              // showMonthYearPicker
-              locale={ko}
-              showPopperArrow={false}
-              popperPlacement="top-end"
-              placeholderText="희망일선택 검색"
-              isClearable={true}
-              ref={datePickerRef}
-            />
-          </div>
-        </div>
-        <div className="EstimateListDataCountAndSortBox">
-          <div className="EstimateListDataCount">
-            &nbsp;총&nbsp;{dataCount}개의 검색결과
-          </div>
-          <div className="EstimateListSort">
-            <span
-              type="button"
-              data-bs-toggle="modal"
-              data-bs-target="#exampleModal"
-              onClick={() => {
-                modalControl();
-              }}
-            >
-              {sort}▼
-            </span>
-          </div>
-        </div>
-        <div className="EstimateListMatchCompleteButton">
-          <p>
-            {/* &nbsp;<i class="bi bi-check-circle"></i> 매칭완료된 견적서 보기 */}
-            <input
-              type="checkbox"
-              id="check"
-              checked={withcomplete === true}
-              onClick={onCompleteHandler}
-            />
-            <label htmlFor="check" style={{ cursor: "pointer" }}>
-              &nbsp;&nbsp;매칭완료된 견적서 같이보기
-            </label>
-          </p>
-        </div>
-        {getdata.length === 0 && (
-          <div className="noneSearchData">검색결과가 존재하지 않습니다.</div>
-        )}
-        <div className="EstimateListDataBox">
-          {withcomplete === false ? (
-            <DataListComp list={dataArraywithoutComplete} navigate={navigate} />
-          ) : (
-            <DataListComp list={dataArraywithComplete} navigate={navigate} />
           )}
+          <div
+            className="scrolltop"
+            onClick={() => {
+              onScrollTop();
+            }}
+            style={{ marginRight: "5px" }}
+          >
+            <i class="bi bi-chevron-up"></i>
+          </div>
         </div>
-        <div style={{ height: 200 }}></div>
+        {/*여기다 */}
+        <div className="EstimateListContainer">
+          <div className="EstimateListSearchbarBox">
+            <input
+              // className="form-control"
+              onClick={datePickerOpen}
+              placeholder="검색어를 입력해주세요"
+              type="text"
+              onChange={enterSearch}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.code === "Enter") {
+                  searchResult();
+                }
+              }}
+            />
+            <div className="EstimateListSearchIcon">
+              <i class="bi bi-search"></i>
+            </div>
+            <div className="캘린더">
+              <DatePicker
+                selected={startDate}
+                onChange={handleChange}
+                selectsRange
+                startDate={startDate}
+                endDate={endDate}
+                dateFormat="yyyy-MM-dd"
+                // showMonthYearPicker
+                locale={ko}
+                showPopperArrow={false}
+                popperPlacement="top-end"
+                placeholderText="희망일선택 검색"
+                isClearable={true}
+                ref={datePickerRef}
+              />
+            </div>
+          </div>
+          <div className="EstimateListDataCountAndSortBox">
+            <div className="EstimateListDataCount">
+              &nbsp;총&nbsp;{dataCount}개의 검색결과
+            </div>
+            <div className="EstimateListSort">
+              <span
+                type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModal"
+                onClick={() => {
+                  modalControl();
+                }}
+              >
+                {sort}▼
+              </span>
+            </div>
+          </div>
+          <div className="EstimateListMatchCompleteButton">
+            <p>
+              {/* &nbsp;<i class="bi bi-check-circle"></i> 매칭완료된 견적서 보기 */}
+              <input
+                type="checkbox"
+                id="check"
+                checked={withcomplete === true}
+                onClick={onCompleteHandler}
+              />
+              <label htmlFor="check" style={{ cursor: "pointer" }}>
+                &nbsp;&nbsp;매칭완료된 견적서 같이보기
+              </label>
+            </p>
+          </div>
+          {getdata.length === 0 && (
+            <div className="noneSearchData">검색결과가 존재하지 않습니다.</div>
+          )}
+          <div className="EstimateListDataBox">
+            {withcomplete === false ? (
+              <DataListComp
+                list={dataArraywithoutComplete}
+                navigate={navigate}
+              />
+            ) : (
+              <DataListComp list={dataArraywithComplete} navigate={navigate} />
+            )}
+          </div>
+          <div style={{ height: 200 }}></div>
+        </div>
+        {/*컨테이너 */}
+        <Footer />
+        <SortModal
+          setSort={setSort}
+          close={close}
+          setClose={setClose}
+          dressfilterstyle={dressfilterstyle}
+          setDressfilterstyle={setDressfilterstyle}
+          makeupfilterstyle={makeupfilterstyle}
+          setmakeupfilterstyle={setmakeupfilterstyle}
+          studiofilterstyle={studiofilterstyle}
+          setstudiofilterstyle={setstudiofilterstyle}
+        />
       </div>
-      {/*컨테이너 */}
-      <Footer />
-      <SortModal
-        setSort={setSort}
-        close={close}
-        setClose={setClose}
-        dressfilterstyle={dressfilterstyle}
-        setDressfilterstyle={setDressfilterstyle}
-        makeupfilterstyle={makeupfilterstyle}
-        setmakeupfilterstyle={setmakeupfilterstyle}
-        studiofilterstyle={studiofilterstyle}
-        setstudiofilterstyle={setstudiofilterstyle}
-      />
+      <div className="box2"></div>
+      <div className="box3">
+        <Sidesection />
+      </div>
     </div>
   );
 };

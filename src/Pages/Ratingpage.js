@@ -7,6 +7,7 @@ import selectImg from "../Assets/selectImg.webp";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import defaultprofileimage from "../Assets/defaultprofileimage.jpg";
+import Sidesection from "../Components/Sidesection";
 
 const ARRAY = [0, 1, 2, 3, 4];
 
@@ -255,166 +256,172 @@ function Ratingpage() {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   }, []);
   return (
-    <div className="mainlayout">
-      <p className="headtxt">서비스가 어떠셨나요?</p>
-      <div className="plannerpro">
-        {plannerImg === "data:image/jpeg;base64," ? (
-          <img
-            src={defaultprofileimage}
-            style={{ width: "250px", height: "230px" }}
-            className="plannerproimg"
-            alt={defaultprofileimage}
-          />
-        ) : (
-          <img
-            src={plannerImg}
-            style={{ width: "250px", height: "230px" }}
-            className="plannerproimg"
-            alt={defaultprofileimage}
-          />
-        )}
-        <p className="plannerName">{plannerName}</p>
-      </div>
-      <form>
-        <div className="stars">
-          <Stars>
-            {ARRAY.map((el, idx) => {
-              return (
-                <FaStar
-                  key={idx}
-                  size="80"
-                  onClick={() => handleStarClick(el)}
-                  className={clicked[el] && "yellowStar"}
-                />
-              );
-            })}
-          </Stars>
-          <input type="hidden" value={rating} />
+    <div className="containerbox">
+      <div className="mainlayout box1">
+        <p className="headtxt">서비스가 어떠셨나요?</p>
+        <div className="plannerpro">
+          {plannerImg === "data:image/jpeg;base64," ? (
+            <img
+              src={defaultprofileimage}
+              style={{ width: "250px", height: "230px" }}
+              className="plannerproimg"
+              alt={defaultprofileimage}
+            />
+          ) : (
+            <img
+              src={plannerImg}
+              style={{ width: "250px", height: "230px" }}
+              className="plannerproimg"
+              alt={defaultprofileimage}
+            />
+          )}
+          <p className="plannerName">{plannerName}</p>
         </div>
-        <div className="reviewsection">
-          <p className="reviewcont">이용후기</p>
-          <textarea
-            ref={reviewtext}
-            className="form-control"
-            rows="7"
-            placeholder="이용후기를 입력해주세요"
-            style={{ fontSize: 20 }}
-            onChange={(e) => {
-              setReviewText(e.target.value);
-            }}
-            value={reviewText}
-          ></textarea>
-        </div>
-        <div className="photouploadsection">
-          <p className="uploadphoto" style={{ fontSize: "1.5em" }}>
-            사진 첨부
-          </p>
-          <input
-            type="file"
-            multiple
-            id="uploadimage"
-            className="displaynone"
-            accept="image/*"
-            onChange={handleImageChange}
-          />
-          <label
-            htmlFor="uploadimage"
-            style={{ fontSize: "1.5em" }}
-            className="cursor imageBtn"
-          >
-            사진선택
-          </label>
-
-          <div>
-            <h5>
-              고객 첨부이미지{" "}
-              {previewUrl.length !== 0 && <span>(클릭시 삭제됩니다)</span>}
-            </h5>
-            {previewUrl.length === 0 && <span>첨부 이미지가 없습니다.</span>}
-            <br></br>
-            {console.log("previewUrl")}
-            {console.log(previewUrl)}
-            {previewUrl.length !== 0 ? (
-              previewUrl.map((url, index) => {
+        <form>
+          <div className="stars">
+            <Stars>
+              {ARRAY.map((el, idx) => {
                 return (
-                  <div key={index} style={{ marginBottom: "20px" }}>
-                    <button
-                      type="button"
-                      class="btn imgOverlay"
-                      // data-bs-toggle="modal"
-                      // data-bs-target={`#number${index.toString()}`}
-                      style={{
-                        width: "200px",
-                        pointer: "cursor",
-                        padding: 0,
-                        height: "100%",
-                        borderRadius: "10px",
-                        margin: 0,
-                      }}
-                      onClick={() => {
-                        deleteImg(index);
-                      }}
-                    >
-                      <img
-                        src={url}
-                        alt=""
-                        style={{
-                          display: "inline-block",
-                          width: "200px",
-                          height: "200px",
+                  <FaStar
+                    key={idx}
+                    size="80"
+                    onClick={() => handleStarClick(el)}
+                    className={clicked[el] && "yellowStar"}
+                  />
+                );
+              })}
+            </Stars>
+            <input type="hidden" value={rating} />
+          </div>
+          <div className="reviewsection">
+            <p className="reviewcont">이용후기</p>
+            <textarea
+              ref={reviewtext}
+              className="form-control"
+              rows="7"
+              placeholder="이용후기를 입력해주세요"
+              style={{ fontSize: 20 }}
+              onChange={(e) => {
+                setReviewText(e.target.value);
+              }}
+              value={reviewText}
+            ></textarea>
+          </div>
+          <div className="photouploadsection">
+            <p className="uploadphoto" style={{ fontSize: "1.5em" }}>
+              사진 첨부
+            </p>
+            <input
+              type="file"
+              multiple
+              id="uploadimage"
+              className="displaynone"
+              accept="image/*"
+              onChange={handleImageChange}
+            />
+            <label
+              htmlFor="uploadimage"
+              style={{ fontSize: "1.5em" }}
+              className="cursor imageBtn"
+            >
+              사진선택
+            </label>
 
+            <div>
+              <h5>
+                고객 첨부이미지{" "}
+                {previewUrl.length !== 0 && <span>(클릭시 삭제됩니다)</span>}
+              </h5>
+              {previewUrl.length === 0 && <span>첨부 이미지가 없습니다.</span>}
+              <br></br>
+              {console.log("previewUrl")}
+              {console.log(previewUrl)}
+              {previewUrl.length !== 0 ? (
+                previewUrl.map((url, index) => {
+                  return (
+                    <div key={index} style={{ marginBottom: "20px" }}>
+                      <button
+                        type="button"
+                        class="btn imgOverlay"
+                        // data-bs-toggle="modal"
+                        // data-bs-target={`#number${index.toString()}`}
+                        style={{
+                          width: "200px",
+                          pointer: "cursor",
+                          padding: 0,
+                          height: "100%",
                           borderRadius: "10px",
+                          margin: 0,
                         }}
-                      />
-                    </button>
-                    {/* <ImagesView
+                        onClick={() => {
+                          deleteImg(index);
+                        }}
+                      >
+                        <img
+                          src={url}
+                          alt=""
+                          style={{
+                            display: "inline-block",
+                            width: "200px",
+                            height: "200px",
+
+                            borderRadius: "10px",
+                          }}
+                        />
+                      </button>
+                      {/* <ImagesView
                       images={url}
                       index={`number${index.toString()}`}
                     /> */}
-                  </div>
-                );
-              })
-            ) : (
-              <div></div>
-              // <div style={{ marginTop: 5 }}>
-              //   {images.map((image, index) => {
-              //     return (
-              //       <div className="imagefilenamebox">
-              //         <div className="imagefilenamecontent">
-              //           <span>{image.name}</span>
-              //           <img
-              //             src={image}
-              //             width="40%"
-              //             height="40%"
-              //             style={{
-              //               float: "left",
-              //               width: "100%",
-              //               borderRadius: "10px",
-              //             }}
-              //             alt=""
-              //           />
-              //           <div
-              //             className="imagefilename-overlay cursor"
-              //             onClick={() => {
-              //               deleteimage(image.name);
-              //             }}
-              //           >
-              //             <i class="bi bi-x-lg"></i>
-              //           </div>
-              //         </div>
-              //       </div>
-              //     );
-              //   })}
-              // </div>
-            )}
+                    </div>
+                  );
+                })
+              ) : (
+                <div></div>
+                // <div style={{ marginTop: 5 }}>
+                //   {images.map((image, index) => {
+                //     return (
+                //       <div className="imagefilenamebox">
+                //         <div className="imagefilenamecontent">
+                //           <span>{image.name}</span>
+                //           <img
+                //             src={image}
+                //             width="40%"
+                //             height="40%"
+                //             style={{
+                //               float: "left",
+                //               width: "100%",
+                //               borderRadius: "10px",
+                //             }}
+                //             alt=""
+                //           />
+                //           <div
+                //             className="imagefilename-overlay cursor"
+                //             onClick={() => {
+                //               deleteimage(image.name);
+                //             }}
+                //           >
+                //             <i class="bi bi-x-lg"></i>
+                //           </div>
+                //         </div>
+                //       </div>
+                //     );
+                //   })}
+                // </div>
+              )}
+            </div>
           </div>
-        </div>
-        <div className="insertBtn" style={{ marginBottom: "50px" }}>
-          <button className="reviewInsertBtn" onClick={insertReview}>
-            작성하기
-          </button>
-        </div>
-      </form>
+          <div className="insertBtn" style={{ marginBottom: "50px" }}>
+            <button className="reviewInsertBtn" onClick={insertReview}>
+              작성하기
+            </button>
+          </div>
+        </form>
+      </div>
+      <div className="box2"></div>
+      <div className="box3">
+        <Sidesection />
+      </div>
     </div>
   );
 }

@@ -7,6 +7,7 @@ import React, { useState, useEffect, useLayoutEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Animation from "../Components/Animation";
 import axios from "axios";
+import Sidesection from "../Components/Sidesection";
 
 function LikeList() {
   const category = [
@@ -341,223 +342,231 @@ function LikeList() {
     }
   };
   return (
-    <div className="mainlayout">
-      <NavigationBar title={"찜목록"} goUpdate={goUpdate} />
-      {finish === false ? (
-        <Animation />
-      ) : (
-        <div style={{ marginTop: "130px" }}>
-          <div>
-            <div className="Likecontent">
-              <div
-                style={{
-                  position: "fixed",
-                  top: 0,
-                  zIndex: 99,
-                  width: "556px",
-                  display: "block",
-                  background: "white",
-                }}
-              >
+    <div className="containerbox">
+      <div className="mainlayout box1">
+        <NavigationBar title={"찜목록"} goUpdate={goUpdate} />
+        {finish === false ? (
+          <Animation />
+        ) : (
+          <div style={{ marginTop: "130px" }}>
+            <div>
+              <div className="Likecontent">
                 <div
-                  className="filter"
                   style={{
                     position: "fixed",
-                    top: 64,
+                    top: 0,
                     zIndex: 99,
                     width: "556px",
                     display: "block",
                     background: "white",
-                    paddingTop: "5px",
-                    height: "80px",
                   }}
                 >
-                  <div style={{ marginLeft: "5px" }}>
-                    <div class="dropdown margin left">
-                      <button
-                        class="btn btn-secondary dropdown-toggle"
-                        type="button"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                      >
-                        {selectedItem}
-                      </button>
-
-                      <ul class="dropdown-menu">
-                        <li>
-                          <button
-                            class="dropdown-item"
-                            type="button"
-                            onClick={() => handleItemClick("전체")}
-                          >
-                            전체
-                          </button>
-                        </li>
-                        <li>
-                          <button
-                            class="dropdown-item"
-                            type="button"
-                            onClick={() => handleItemClick("웨딩홀")}
-                          >
-                            웨딩홀
-                          </button>
-                        </li>
-                        <li>
-                          <button
-                            class="dropdown-item"
-                            type="button"
-                            onClick={() => handleItemClick("스튜디오")}
-                          >
-                            스튜디오
-                          </button>
-                        </li>
-                        <li>
-                          <button
-                            class="dropdown-item"
-                            type="button"
-                            onClick={() => handleItemClick("의상")}
-                          >
-                            의상
-                          </button>
-                        </li>
-                        <li>
-                          <button
-                            class="dropdown-item"
-                            type="button"
-                            onClick={() => handleItemClick("메이크업")}
-                          >
-                            메이크업
-                          </button>
-                        </li>
-                        <li>
-                          <button
-                            class="dropdown-item"
-                            type="button"
-                            onClick={() => handleItemClick("신혼여행")}
-                          >
-                            신혼여행
-                          </button>
-                        </li>
-                        <li>
-                          <button
-                            class="dropdown-item"
-                            type="button"
-                            onClick={() => handleItemClick("부케")}
-                          >
-                            부케
-                          </button>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-
                   <div
+                    className="filter"
                     style={{
-                      marginRight: "8px",
+                      position: "fixed",
+                      top: 64,
+                      zIndex: 99,
+                      width: "556px",
+                      display: "block",
+                      background: "white",
+                      paddingTop: "5px",
+                      height: "80px",
                     }}
                   >
-                    <div class="dropdown  right-sort">
-                      <button
-                        class="btn btn-secondary dropdown-toggle"
-                        type="button"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                      >
-                        {selectedSort}
-                      </button>
-                      <ul class="dropdown-menu sortItem">
-                        <li className="">
-                          <button
-                            class="dropdown-item "
-                            type="button"
-                            onClick={() => handleSortClick("가나다순")}
-                          >
-                            가나다순
-                          </button>
-                        </li>
-                        <li>
-                          <button
-                            class="dropdown-item"
-                            type="button"
-                            onClick={() => handleSortClick("인기순")}
-                          >
-                            인기순
-                          </button>
-                        </li>
-                        <li>
-                          <button
-                            class="dropdown-item"
-                            type="button"
-                            onClick={() => handleSortClick("최신순")}
-                          >
-                            최신순
-                          </button>
-                        </li>
-                      </ul>
+                    <div style={{ marginLeft: "5px" }}>
+                      <div class="dropdown margin left">
+                        <button
+                          class="btn btn-secondary dropdown-toggle"
+                          type="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          {selectedItem}
+                        </button>
+
+                        <ul class="dropdown-menu">
+                          <li>
+                            <button
+                              class="dropdown-item"
+                              type="button"
+                              onClick={() => handleItemClick("전체")}
+                            >
+                              전체
+                            </button>
+                          </li>
+                          <li>
+                            <button
+                              class="dropdown-item"
+                              type="button"
+                              onClick={() => handleItemClick("웨딩홀")}
+                            >
+                              웨딩홀
+                            </button>
+                          </li>
+                          <li>
+                            <button
+                              class="dropdown-item"
+                              type="button"
+                              onClick={() => handleItemClick("스튜디오")}
+                            >
+                              스튜디오
+                            </button>
+                          </li>
+                          <li>
+                            <button
+                              class="dropdown-item"
+                              type="button"
+                              onClick={() => handleItemClick("의상")}
+                            >
+                              의상
+                            </button>
+                          </li>
+                          <li>
+                            <button
+                              class="dropdown-item"
+                              type="button"
+                              onClick={() => handleItemClick("메이크업")}
+                            >
+                              메이크업
+                            </button>
+                          </li>
+                          <li>
+                            <button
+                              class="dropdown-item"
+                              type="button"
+                              onClick={() => handleItemClick("신혼여행")}
+                            >
+                              신혼여행
+                            </button>
+                          </li>
+                          <li>
+                            <button
+                              class="dropdown-item"
+                              type="button"
+                              onClick={() => handleItemClick("부케")}
+                            >
+                              부케
+                            </button>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+
+                    <div
+                      style={{
+                        marginRight: "8px",
+                      }}
+                    >
+                      <div class="dropdown  right-sort">
+                        <button
+                          class="btn btn-secondary dropdown-toggle"
+                          type="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          {selectedSort}
+                        </button>
+                        <ul class="dropdown-menu sortItem">
+                          <li className="">
+                            <button
+                              class="dropdown-item "
+                              type="button"
+                              onClick={() => handleSortClick("가나다순")}
+                            >
+                              가나다순
+                            </button>
+                          </li>
+                          <li>
+                            <button
+                              class="dropdown-item"
+                              type="button"
+                              onClick={() => handleSortClick("인기순")}
+                            >
+                              인기순
+                            </button>
+                          </li>
+                          <li>
+                            <button
+                              class="dropdown-item"
+                              type="button"
+                              onClick={() => handleSortClick("최신순")}
+                            >
+                              최신순
+                            </button>
+                          </li>
+                        </ul>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="container text-center">
-                <div class="row row-cols-2">
-                  {/* 이미지카드 */}
-                  {keyIndex.length === 0 ? (
-                    <div
-                      class="text-start"
-                      style={{
-                        marginLeft: "10px",
-                        fontSize: "1.5em",
-                        marginTop: "40px",
-                      }}
-                    >
-                      결과가 없습니다.
-                    </div>
-                  ) : (
-                    keyIndex.map((i) => (
-                      <div class="col">
-                        <div class="card margT">
-                          <img
-                            style={{ height: "230px" }}
-                            src={previewImg[i]}
-                            class="card-img-top"
-                            alt="..."
-                          />
-                          <div class="card-body">
-                            <p class="card-text">
-                              {itemName[i]} &nbsp;&nbsp;
-                              <div className="likeListBtn1">
-                                <Like likeState={likeState} index={i} />
-                              </div>
-                              {itemLike[i]}
-                            </p>
+                <div class="container text-center">
+                  <div class="row row-cols-2">
+                    {/* 이미지카드 */}
+                    {keyIndex.length === 0 ? (
+                      <div
+                        class="text-start"
+                        style={{
+                          marginLeft: "10px",
+                          fontSize: "1.5em",
+                          marginTop: "40px",
+                        }}
+                      >
+                        결과가 없습니다.
+                      </div>
+                    ) : (
+                      keyIndex.map((i) => (
+                        <div class="col">
+                          <div class="card margT">
+                            <img
+                              style={{ height: "230px" }}
+                              src={previewImg[i]}
+                              class="card-img-top"
+                              alt="..."
+                            />
+                            <div class="card-body">
+                              <p class="card-text">
+                                {itemName[i]} &nbsp;&nbsp;
+                                <div className="likeListBtn1">
+                                  <Like likeState={likeState} index={i} />
+                                </div>
+                                {itemLike[i]}
+                              </p>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    ))
-                  )}
+                      ))
+                    )}
 
-                  {/* 이미지카드 */}
+                    {/* 이미지카드 */}
+                  </div>
+                  <br />
                 </div>
-                <br />
               </div>
             </div>
-          </div>
-          <div style={{ positon: "fixed", bottom: 0, right: 100 }}>
-            <div style={{ width: "100%", height: 150, position: "relative" }}>
-              <div style={{ position: "absolute", bottom: "110px", right: 0 }}>
+            <div style={{ positon: "fixed", bottom: 0, right: 100 }}>
+              <div style={{ width: "100%", height: 150, position: "relative" }}>
                 <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "right",
-                    marginRight: "20px",
-                  }}
-                ></div>
+                  style={{ position: "absolute", bottom: "110px", right: 0 }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "right",
+                      marginRight: "20px",
+                    }}
+                  ></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      )}
-      <Footer />
+        )}
+        <Footer />
+      </div>
+      <div className="box2"></div>
+      <div className="box3">
+        <Sidesection />
+      </div>
     </div>
   );
 }

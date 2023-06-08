@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Footer from "../Components/Footer";
 import NavigationBar from "../Components/NavigationBar";
+import Sidesection from "../Components/Sidesection";
 
 import "../Css/AdminPage.css";
 
@@ -620,302 +621,312 @@ const AdminPage = () => {
   };
 
   return (
-    <div className="mainlayout">
-      <NavigationBar title="마이페이지(관리자)" />
-      <div className="adminpage-container">
-        <div className={`adminpage-Administration ${rolldown}`}>
-          <div
-            className="adminpage-Administration-title cursor"
-            onClick={rolldownControl}
-            data-id="0"
-          >
-            유저관리
-          </div>
-          <div
-            className="adminpage-Administration-list"
-            onClick={() => {
-              console.log(userPage);
-            }}
-          >
-            <div className="adminpage-Administration-list-head-box">
-              <div
-                className="adminpage-Administration-list-head"
-                style={{ width: "20%" }}
-              >
-                이름
-              </div>
-              <div
-                className="adminpage-Administration-list-head"
-                style={{ width: "15%" }}
-              >
-                고객구분
-              </div>
-              <div
-                className="adminpage-Administration-list-head"
-                style={{ width: "30%" }}
-              >
-                휴대폰
-              </div>
-              <div
-                className="adminpage-Administration-list-head"
-                style={{ width: "15%" }}
-              >
-                성별
-              </div>
-              <div
-                className="adminpage-Administration-list-head"
-                style={{ width: "20%" }}
-              >
-                가입일자
-              </div>
+    <div className="containerbox">
+      <div className="mainlayout box1">
+        <NavigationBar title="마이페이지(관리자)" />
+        <div className="adminpage-container">
+          <div className={`adminpage-Administration ${rolldown}`}>
+            <div
+              className="adminpage-Administration-title cursor"
+              onClick={rolldownControl}
+              data-id="0"
+            >
+              유저관리
             </div>
-            {userList.length === 0 && (
-              <div className="nonedata">
-                <p>검색결과가 없습니다.</p>
-                <p style={{ fontSize: "20px" }}>검색어 : {userSearchPageing}</p>
-              </div>
-            )}
-            <UserListData
-              userList={userList}
-              setModalMode={setModalMode}
-              userDetail={userDetail}
-            />
-            <div className="adminpage-pagingAndResearchBox">
-              <div className="adminpage-pagingNumber">
-                {userPageLink.length === 0 && (
-                  <a className="ug1 cursor ugAll pageing-select nonepage"></a>
-                )}
-                {userPageLink.length !== 0 && (
-                  <div
-                    className="prevAndNextbtn cursor"
-                    onClick={() => {
-                      userPagePrev();
-                    }}
-                  >
-                    이전
-                  </div>
-                )}
-                {userPageLink.map((e, index) => {
-                  return (
-                    <UserPageLink
-                      num={e}
-                      index={index}
-                      kind="user"
-                      setUserPage={setUserPage}
-                      // onUserPageing={onUserPageing}
-                    />
-                  );
-                })}
-                {userPageLink.length !== 0 && (
-                  <div
-                    className="prevAndNextbtn cursor"
-                    onClick={() => {
-                      userPageNext();
-                    }}
-                  >
-                    다음
-                  </div>
-                )}
-              </div>
-              <div className="adminpage-researchBar">
-                <div className="adminpage-researchBox_">
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="usersearch"
-                    value={userSearch}
-                    ref={userSearchRef}
-                    placeholder="유저검색"
-                    onChange={onUserSearchChange}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" || e.code === "Enter") {
-                        userSearching();
-                      }
-                    }}
-                  />
-                  <button
-                    className="btn btnColor"
-                    onClick={() => {
-                      userSearching();
-                    }}
-                  >
-                    검색
-                  </button>
+            <div
+              className="adminpage-Administration-list"
+              onClick={() => {
+                console.log(userPage);
+              }}
+            >
+              <div className="adminpage-Administration-list-head-box">
+                <div
+                  className="adminpage-Administration-list-head"
+                  style={{ width: "20%" }}
+                >
+                  이름
                 </div>
                 <div
-                  className="전체보기버튼 cursor"
+                  className="adminpage-Administration-list-head"
+                  style={{ width: "15%" }}
+                >
+                  고객구분
+                </div>
+                <div
+                  className="adminpage-Administration-list-head"
+                  style={{ width: "30%" }}
+                >
+                  휴대폰
+                </div>
+                <div
+                  className="adminpage-Administration-list-head"
+                  style={{ width: "15%" }}
+                >
+                  성별
+                </div>
+                <div
+                  className="adminpage-Administration-list-head"
+                  style={{ width: "20%" }}
+                >
+                  가입일자
+                </div>
+              </div>
+              {userList.length === 0 && (
+                <div className="nonedata">
+                  <p>검색결과가 없습니다.</p>
+                  <p style={{ fontSize: "20px" }}>
+                    검색어 : {userSearchPageing}
+                  </p>
+                </div>
+              )}
+              <UserListData
+                userList={userList}
+                setModalMode={setModalMode}
+                userDetail={userDetail}
+              />
+              <div className="adminpage-pagingAndResearchBox">
+                <div className="adminpage-pagingNumber">
+                  {userPageLink.length === 0 && (
+                    <a className="ug1 cursor ugAll pageing-select nonepage"></a>
+                  )}
+                  {userPageLink.length !== 0 && (
+                    <div
+                      className="prevAndNextbtn cursor"
+                      onClick={() => {
+                        userPagePrev();
+                      }}
+                    >
+                      이전
+                    </div>
+                  )}
+                  {userPageLink.map((e, index) => {
+                    return (
+                      <UserPageLink
+                        num={e}
+                        index={index}
+                        kind="user"
+                        setUserPage={setUserPage}
+                        // onUserPageing={onUserPageing}
+                      />
+                    );
+                  })}
+                  {userPageLink.length !== 0 && (
+                    <div
+                      className="prevAndNextbtn cursor"
+                      onClick={() => {
+                        userPageNext();
+                      }}
+                    >
+                      다음
+                    </div>
+                  )}
+                </div>
+                <div className="adminpage-researchBar">
+                  <div className="adminpage-researchBox_">
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="usersearch"
+                      value={userSearch}
+                      ref={userSearchRef}
+                      placeholder="유저검색"
+                      onChange={onUserSearchChange}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.code === "Enter") {
+                          userSearching();
+                        }
+                      }}
+                    />
+                    <button
+                      className="btn btnColor"
+                      onClick={() => {
+                        userSearching();
+                      }}
+                    >
+                      검색
+                    </button>
+                  </div>
+                  <div
+                    className="전체보기버튼 cursor"
+                    onClick={() => {
+                      userListReset();
+                    }}
+                  >
+                    <i class="bi bi-arrow-counterclockwise"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* 여기까지 유저관리 */}
+          {/*===================================================================== */}
+          <div className={`adminpage-Administration ${rolldown2}`}>
+            <div
+              className="adminpage-Administration-title cursor"
+              onClick={rolldownControl}
+              data-id="1"
+            >
+              견적서게시물관리
+            </div>
+            <div className="adminpage-Administration-list">
+              <div className="adminpage-Administration-list-head-box">
+                <div
+                  className="adminpage-Administration-list-head"
+                  style={{ width: "14%" }}
                   onClick={() => {
-                    userListReset();
+                    console.log();
                   }}
                 >
-                  <i class="bi bi-arrow-counterclockwise"></i>
+                  글번호
+                </div>
+                <div
+                  className="adminpage-Administration-list-head"
+                  style={{ width: "50%" }}
+                >
+                  제목
+                </div>
+                <div
+                  className="adminpage-Administration-list-head"
+                  style={{ width: "18%" }}
+                >
+                  매칭상태
+                </div>
+                <div
+                  className="adminpage-Administration-list-head"
+                  style={{ width: "18%" }}
+                >
+                  작성일시
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-        {/* 여기까지 유저관리 */}
-        {/*===================================================================== */}
-        <div className={`adminpage-Administration ${rolldown2}`}>
-          <div
-            className="adminpage-Administration-title cursor"
-            onClick={rolldownControl}
-            data-id="1"
-          >
-            견적서게시물관리
-          </div>
-          <div className="adminpage-Administration-list">
-            <div className="adminpage-Administration-list-head-box">
-              <div
-                className="adminpage-Administration-list-head"
-                style={{ width: "14%" }}
-                onClick={() => {
-                  console.log();
-                }}
-              >
-                글번호
-              </div>
-              <div
-                className="adminpage-Administration-list-head"
-                style={{ width: "50%" }}
-              >
-                제목
-              </div>
-              <div
-                className="adminpage-Administration-list-head"
-                style={{ width: "18%" }}
-              >
-                매칭상태
-              </div>
-              <div
-                className="adminpage-Administration-list-head"
-                style={{ width: "18%" }}
-              >
-                작성일시
-              </div>
-            </div>
-            {postList.length === 0 && (
-              <div className="nonedata">
-                <p>검색결과가 없습니다.</p>
-                <p style={{ fontSize: "20px" }}>검색어 : {postSearchPageing}</p>
-              </div>
-            )}
-            <PostListData
-              array2={postList}
-              setModalMode={setModalMode}
-              postDetail={postDetail}
-            />
-            <div className="adminpage-pagingAndResearchBox">
-              <div className="adminpage-pagingNumber">
-                {postPageLink.length === 0 && (
-                  <a className="pg1 cursor pgAll pageing-select nonepage"></a>
-                )}
-                {postPageLink.length !== 0 && (
-                  <div
-                    className="prevAndNextbtn cursor"
-                    onClick={() => {
-                      postPagePrev();
-                    }}
-                  >
-                    이전
-                  </div>
-                )}
-                {postPageLink.map((e, index) => {
-                  return (
-                    <PostPageLink
-                      num={e}
-                      // onPostPageing={onPostPageing}
-                      setPostPage={setPostPage}
-                      index={index}
-                      kind="post"
+              {postList.length === 0 && (
+                <div className="nonedata">
+                  <p>검색결과가 없습니다.</p>
+                  <p style={{ fontSize: "20px" }}>
+                    검색어 : {postSearchPageing}
+                  </p>
+                </div>
+              )}
+              <PostListData
+                array2={postList}
+                setModalMode={setModalMode}
+                postDetail={postDetail}
+              />
+              <div className="adminpage-pagingAndResearchBox">
+                <div className="adminpage-pagingNumber">
+                  {postPageLink.length === 0 && (
+                    <a className="pg1 cursor pgAll pageing-select nonepage"></a>
+                  )}
+                  {postPageLink.length !== 0 && (
+                    <div
+                      className="prevAndNextbtn cursor"
+                      onClick={() => {
+                        postPagePrev();
+                      }}
+                    >
+                      이전
+                    </div>
+                  )}
+                  {postPageLink.map((e, index) => {
+                    return (
+                      <PostPageLink
+                        num={e}
+                        // onPostPageing={onPostPageing}
+                        setPostPage={setPostPage}
+                        index={index}
+                        kind="post"
+                      />
+                    );
+                  })}
+                  {postPageLink.length !== 0 && (
+                    <div
+                      className="prevAndNextbtn cursor"
+                      onClick={() => {
+                        postPageNext();
+                      }}
+                    >
+                      다음
+                    </div>
+                  )}
+                </div>
+                <div className="adminpage-researchBar">
+                  <div className="adminpage-researchBox_">
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="postsearch"
+                      value={postSearch}
+                      ref={postSearchRef}
+                      placeholder="게시물검색"
+                      onChange={onPostSearchChange}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.code === "Enter") {
+                          onSearching();
+                        }
+                      }}
                     />
-                  );
-                })}
-                {postPageLink.length !== 0 && (
-                  <div
-                    className="prevAndNextbtn cursor"
-                    onClick={() => {
-                      postPageNext();
-                    }}
-                  >
-                    다음
-                  </div>
-                )}
-              </div>
-              <div className="adminpage-researchBar">
-                <div className="adminpage-researchBox_">
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="postsearch"
-                    value={postSearch}
-                    ref={postSearchRef}
-                    placeholder="게시물검색"
-                    onChange={onPostSearchChange}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" || e.code === "Enter") {
+                    <button
+                      className="btn btnColor"
+                      onClick={() => {
                         onSearching();
-                      }
-                    }}
-                  />
-                  <button
-                    className="btn btnColor"
-                    onClick={() => {
-                      onSearching();
-                    }}
-                  >
-                    검색
-                  </button>
-                </div>
-                <div className="전체보기버튼 cursor" onClick={postListReset}>
-                  <i class="bi bi-arrow-counterclockwise"></i>
+                      }}
+                    >
+                      검색
+                    </button>
+                  </div>
+                  <div className="전체보기버튼 cursor" onClick={postListReset}>
+                    <i class="bi bi-arrow-counterclockwise"></i>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+          <div className="button-Box">
+            <button
+              onClick={() => {
+                navigate("../customercenter");
+              }}
+              className="btn-colour-1"
+            >
+              고객센터
+            </button>
+          </div>
+          <div className="button-Box" style={{ height: "60px" }}>
+            <button
+              onClick={() => {
+                window.sessionStorage.removeItem("email");
+                window.sessionStorage.removeItem("category");
+                navigate("/login");
+              }}
+              className="btn-colour-1"
+            >
+              로그아웃
+            </button>
+          </div>
+          <div style={{ height: 94.19 }}></div>
         </div>
-        <div className="button-Box">
-          <button
-            onClick={() => {
-              navigate("../customercenter");
-            }}
-            className="btn-colour-1"
-          >
-            고객센터
-          </button>
-        </div>
-        <div className="button-Box" style={{ height: "60px" }}>
-          <button
-            onClick={() => {
-              window.sessionStorage.removeItem("email");
-              window.sessionStorage.removeItem("category");
-              navigate("/login");
-            }}
-            className="btn-colour-1"
-          >
-            로그아웃
-          </button>
-        </div>
-        <div style={{ height: 94.19 }}></div>
+        <DetailModal
+          user={userArticle}
+          modalMode={modalMode}
+          postArticle={postArticle}
+          setModalMode={setModalMode}
+          onPostDelete={onPostDelete}
+          userArticle={userArticle}
+          onNameChange={onNameChange}
+          onPasswordChange={onPasswordChange}
+          onPhoneChange={onPhoneChange}
+          onUserDataModify={onUserDataModify}
+          userName={userName}
+          userPassword={userPassword}
+          userPhone={userPhone}
+          onUserDelete={onUserDelte}
+        />
+        {/* <PostDetailModal /> */}
+        <Footer />
       </div>
-      <DetailModal
-        user={userArticle}
-        modalMode={modalMode}
-        postArticle={postArticle}
-        setModalMode={setModalMode}
-        onPostDelete={onPostDelete}
-        userArticle={userArticle}
-        onNameChange={onNameChange}
-        onPasswordChange={onPasswordChange}
-        onPhoneChange={onPhoneChange}
-        onUserDataModify={onUserDataModify}
-        userName={userName}
-        userPassword={userPassword}
-        userPhone={userPhone}
-        onUserDelete={onUserDelte}
-      />
-      {/* <PostDetailModal /> */}
-      <Footer />
+      <div className="box2"></div>
+      <div className="box3">
+        <Sidesection />
+      </div>
     </div>
   );
 };

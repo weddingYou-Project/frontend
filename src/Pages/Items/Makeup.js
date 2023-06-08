@@ -5,6 +5,7 @@ import NavigationBar from "../../Components/NavigationBar";
 import Footer from "../../Components/Footer";
 import "../../Css/menuList.css";
 import "../../Css/items.css";
+import Sidesection from "../../Components/Sidesection";
 
 const Makeup = () => {
   const { category1 } = useParams();
@@ -177,220 +178,226 @@ const Makeup = () => {
     });
   };
   return (
-    <div className="mainlayout">
-      <NavigationBar title={title} category1={category1} isAdmin={isAdmin} />
-      <div
-        className="category-wrapper"
-        style={{
-          position: "fixed",
-          top: "58px",
-          background: "white",
-          height: "70px",
-          width: "557px",
-        }}
-      >
-        {category2.map((category) => (
-          <div
-            key={category}
-            className={`category ${
-              selectedCategory === category ? "active" : ""
-            }`}
-            onClick={() => {
-              handleCategoryClick(category);
-              setUpdate(!update);
-            }}
-            style={{ fontSize: "1.3em", marginTop: "20px" }}
-          >
-            {category}
-          </div>
-        ))}
-      </div>
-      <div
-        className="image-wrapper"
-        style={{
-          marginTop: "150px",
-          minHeight: "100%",
-          marginBottom: "100px",
-        }}
-      >
-        {keyIndex.map((i) => (
-          <img
-            //   key={image.id}
-            src={previewImg[i]}
-            alt=""
-            onClick={showingDetail}
-            data-bs-toggle="modal"
-            data-bs-target="#imgDetailModal"
-            style={{ cursor: "pointer", width: "250px", height: "250px" }}
-            data-bs-src={previewImg[i]}
-            data-bs-category="메이크업"
-            data-bs-itemName={itemName[i]}
-            data-bs-itemContent={itemContent[i]}
-            data-bs-itemId={itemId[i]}
-            data-bs-itemDetailContent={imgDetailContent[i]}
-          />
-        ))}
-      </div>
-
-      <Footer />
-      {/* 이미지 상세정보 모달창 */}
-      <div
-        class="modal fade"
-        id="imgDetailModal"
-        tabindex="-1"
-        aria-labelledby="imgDetailModal"
-        aria-hidden="true"
-      >
+    <div className="containerbox">
+      <div className="mainlayout box1">
+        <NavigationBar title={title} category1={category1} isAdmin={isAdmin} />
         <div
-          class="modal-dialog modal-dialog-centered"
-          style={{ width: "510px" }}
+          className="category-wrapper"
+          style={{
+            position: "fixed",
+            top: "58px",
+            background: "white",
+            height: "70px",
+            width: "557px",
+          }}
         >
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1
-                class="modal-title justify-content-center "
-                id="imgDetailModal"
-                style={{ fontSize: "1.9em" }}
-                ref={modalImgTitle}
-              >
-                - -
-              </h1>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
+          {category2.map((category) => (
             <div
-              class="modal-body"
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alginItems: "center",
-                displayContent: "center",
-                height: "100%",
-                width: "100%",
-                marginTop: "50px",
+              key={category}
+              className={`category ${
+                selectedCategory === category ? "active" : ""
+              }`}
+              onClick={() => {
+                handleCategoryClick(category);
+                setUpdate(!update);
               }}
+              style={{ fontSize: "1.3em", marginTop: "20px" }}
             >
-              <div
-                class="has-validation"
-                style={{
-                  height: "100%",
-                  width: "480px",
-                }}
-              >
-                <img
-                  src=""
-                  style={{
-                    width: "430px",
-                    height: "470px",
-                    marginBottom: "20px",
-                    marginTop: "-50px",
-                    marginLeft: "20px",
-                  }}
-                  alt=""
-                  ref={modalImg}
-                />
-                <div
-                  style={{
-                    fontSize: "1.5em",
-                    padding: "10px",
-                  }}
-                >
-                  상세정보
-                </div>
-                <p
-                  style={{
-                    fontSize: "1.3em",
-                    width: "460px",
-                    border: "1px solid black",
-                    padding: "10px",
-                  }}
-                  ref={modalImgContent}
-                ></p>
-              </div>
+              {category}
             </div>
-            <div class="modal-footer">
-              {isAdmin && (
-                <div className="button-wrapper" style={{ width: "320px" }}>
-                  <button
-                    className="edit-button"
-                    onClick={handleEditClick}
-                    data-bs-dismiss="modal"
-                  >
-                    수정
-                  </button>
-                  <button
-                    className="delete-button"
-                    data-bs-toggle="modal"
-                    data-bs-target="#deleteItemModal"
-                  >
-                    삭제
-                  </button>
-                </div>
-              )}
-              {isAdmin === true ? null : (
+          ))}
+        </div>
+        <div
+          className="image-wrapper"
+          style={{
+            marginTop: "150px",
+            minHeight: "100%",
+            marginBottom: "100px",
+          }}
+        >
+          {keyIndex.map((i) => (
+            <img
+              //   key={image.id}
+              src={previewImg[i]}
+              alt=""
+              onClick={showingDetail}
+              data-bs-toggle="modal"
+              data-bs-target="#imgDetailModal"
+              style={{ cursor: "pointer", width: "250px", height: "250px" }}
+              data-bs-src={previewImg[i]}
+              data-bs-category="메이크업"
+              data-bs-itemName={itemName[i]}
+              data-bs-itemContent={itemContent[i]}
+              data-bs-itemId={itemId[i]}
+              data-bs-itemDetailContent={imgDetailContent[i]}
+            />
+          ))}
+        </div>
+
+        <Footer />
+        {/* 이미지 상세정보 모달창 */}
+        <div
+          class="modal fade"
+          id="imgDetailModal"
+          tabindex="-1"
+          aria-labelledby="imgDetailModal"
+          aria-hidden="true"
+        >
+          <div
+            class="modal-dialog modal-dialog-centered"
+            style={{ width: "510px" }}
+          >
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1
+                  class="modal-title justify-content-center "
+                  id="imgDetailModal"
+                  style={{ fontSize: "1.9em" }}
+                  ref={modalImgTitle}
+                >
+                  - -
+                </h1>
                 <button
                   type="button"
-                  class="btn btn-secondary"
+                  class="btn-close"
                   data-bs-dismiss="modal"
-                  onClick={gotoDetailInfo}
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div
+                class="modal-body"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alginItems: "center",
+                  displayContent: "center",
+                  height: "100%",
+                  width: "100%",
+                  marginTop: "50px",
+                }}
+              >
+                <div
+                  class="has-validation"
+                  style={{
+                    height: "100%",
+                    width: "480px",
+                  }}
                 >
-                  상세정보 페이지 이동
+                  <img
+                    src=""
+                    style={{
+                      width: "430px",
+                      height: "470px",
+                      marginBottom: "20px",
+                      marginTop: "-50px",
+                      marginLeft: "20px",
+                    }}
+                    alt=""
+                    ref={modalImg}
+                  />
+                  <div
+                    style={{
+                      fontSize: "1.5em",
+                      padding: "10px",
+                    }}
+                  >
+                    상세정보
+                  </div>
+                  <p
+                    style={{
+                      fontSize: "1.3em",
+                      width: "460px",
+                      border: "1px solid black",
+                      padding: "10px",
+                    }}
+                    ref={modalImgContent}
+                  ></p>
+                </div>
+              </div>
+              <div class="modal-footer">
+                {isAdmin && (
+                  <div className="button-wrapper" style={{ width: "320px" }}>
+                    <button
+                      className="edit-button"
+                      onClick={handleEditClick}
+                      data-bs-dismiss="modal"
+                    >
+                      수정
+                    </button>
+                    <button
+                      className="delete-button"
+                      data-bs-toggle="modal"
+                      data-bs-target="#deleteItemModal"
+                    >
+                      삭제
+                    </button>
+                  </div>
+                )}
+                {isAdmin === true ? null : (
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                    onClick={gotoDetailInfo}
+                  >
+                    상세정보 페이지 이동
+                  </button>
+                )}
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  data-bs-dismiss="modal"
+                >
+                  닫기
                 </button>
-              )}
-              <button
-                type="button"
-                class="btn btn-primary"
-                data-bs-dismiss="modal"
-              >
-                닫기
-              </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      {/*이미지 상세정보 모달창  */}
-      {/* 아이템 삭제 메시지 창 */}
-      <div
-        class="modal fade"
-        id="deleteItemModal"
-        tabindex="-1"
-        aria-labelledby="deleteItemModal"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1
-                class="modal-title text-center "
-                id="deleteItemModal"
-                style={{ fontSize: "1.4em" }}
-              >
-                - 아이템 삭제 -
-              </h1>
-            </div>
-            <div class="modal-body text-center" style={{ fontSize: "1.4em" }}>
-              정말 삭제하시겠습니까?
-            </div>
-            <div class="modal-footer justify-content-center">
-              <button
-                className="edit-button"
-                onClick={handleDeleteClick}
-                data-bs-dismiss="modal"
-              >
-                예
-              </button>
-              <button className="delete-button" data-bs-dismiss="modal">
-                아니오
-              </button>
+        {/*이미지 상세정보 모달창  */}
+        {/* 아이템 삭제 메시지 창 */}
+        <div
+          class="modal fade"
+          id="deleteItemModal"
+          tabindex="-1"
+          aria-labelledby="deleteItemModal"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1
+                  class="modal-title text-center "
+                  id="deleteItemModal"
+                  style={{ fontSize: "1.4em" }}
+                >
+                  - 아이템 삭제 -
+                </h1>
+              </div>
+              <div class="modal-body text-center" style={{ fontSize: "1.4em" }}>
+                정말 삭제하시겠습니까?
+              </div>
+              <div class="modal-footer justify-content-center">
+                <button
+                  className="edit-button"
+                  onClick={handleDeleteClick}
+                  data-bs-dismiss="modal"
+                >
+                  예
+                </button>
+                <button className="delete-button" data-bs-dismiss="modal">
+                  아니오
+                </button>
+              </div>
             </div>
           </div>
         </div>
+        {/* 아이템 삭제 메시지 창 */}
       </div>
-      {/* 아이템 삭제 메시지 창 */}
+      <div className="box2"></div>
+      <div className="box3">
+        <Sidesection />
+      </div>
     </div>
   );
 };

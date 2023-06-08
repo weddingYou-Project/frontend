@@ -1,6 +1,7 @@
 import "../Css/main.css";
 import "../Css/checkout.css";
 import { useNavigate, useLocation } from "react-router-dom";
+import Sidesection from "../Components/Sidesection";
 
 const CheckoutComp = () => {
   const checkoutsession = window.sessionStorage.getItem("checkout");
@@ -61,14 +62,20 @@ const CheckoutComp = () => {
   };
 
   return (
-    <div className="mainlayout">
-      <div className="checkoutbox">
-        <div>
-          <p className="titlemsg" style={{ fontSize: "1.8em" }}>
-            결제 완료
-          </p>
-          <Checkout checkout={checkoutsession} />
+    <div className="containerbox">
+      <div className="mainlayout box1">
+        <div className="checkoutbox">
+          <div>
+            <p className="titlemsg" style={{ fontSize: "1.8em" }}>
+              결제 완료
+            </p>
+            <Checkout checkout={checkoutsession} />
+          </div>
         </div>
+      </div>
+      <div className="box2"></div>
+      <div className="box3">
+        <Sidesection />
       </div>
     </div>
   );

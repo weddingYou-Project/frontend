@@ -8,6 +8,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import Animation from "../Components/Animation";
 import axios from "axios";
 import defaultprofileimage from "../Assets/defaultprofileimage.jpg";
+import Sidesection from "../Components/Sidesection";
 
 function PlannerProfile() {
   const [profileImg, setProfileImg] = useState([]);
@@ -233,181 +234,182 @@ function PlannerProfile() {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   }, [selectedSort, sortClick]);
   return (
-    <div className="mainlayout">
-      <NavigationBar title={"플래너 프로필"} />
-      <br />
-      <div
-        style={{ display: "flex", justifyContent: "end", marginTop: "50px" }}
-      >
+    <div className="containerbox">
+      <div className="mainlayout box1">
+        <NavigationBar title={"플래너 프로필"} />
+        <br />
         <div
-          style={{
-            position: "fixed",
-            top: 0,
-            zIndex: 99,
-            width: "556px",
-            display: "block",
-            background: "white",
-          }}
+          style={{ display: "flex", justifyContent: "end", marginTop: "50px" }}
         >
           <div
-            className="filter"
             style={{
               position: "fixed",
-              top: 64,
+              top: 0,
               zIndex: 99,
               width: "556px",
               display: "block",
               background: "white",
-              paddingTop: "5px",
-              height: "80px",
             }}
           >
-            <div class="dropdown  right-sort" style={{ marginRight: "70px" }}>
-              <button
-                class="btn btn-secondary dropdown-toggle"
-                type="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                {selectedSort}
-              </button>
-              <ul class="dropdown-menu sortItem">
-                <li className="">
-                  <button
-                    class="dropdown-item "
-                    type="button"
-                    onClick={() => {
-                      setSortClick(!sortClick);
-                      handleSortClick("별점 높은 순");
-                    }}
-                  >
-                    별점 높은 순
-                  </button>
-                </li>
-                <li>
-                  <button
-                    class="dropdown-item"
-                    type="button"
-                    onClick={() => {
-                      setSortClick(!sortClick);
-                      handleSortClick("후기순");
-                    }}
-                  >
-                    후기순
-                  </button>
-                </li>
-                <li>
-                  <button
-                    class="dropdown-item"
-                    type="button"
-                    onClick={() => {
-                      setSortClick(!sortClick);
-                      handleSortClick("경력순");
-                    }}
-                  >
-                    경력순
-                  </button>
-                </li>
-                <li>
-                  <button
-                    class="dropdown-item"
-                    type="button"
-                    onClick={() => {
-                      setSortClick(!sortClick);
-                      handleSortClick("매칭순");
-                    }}
-                  >
-                    매칭순
-                  </button>
-                </li>
-                <li>
-                  <button
-                    class="dropdown-item"
-                    type="button"
-                    onClick={() => {
-                      setSortClick(!sortClick);
-                      handleSortClick("최신순");
-                    }}
-                  >
-                    최신순
-                  </button>
-                </li>
-                <li className="">
-                  <button
-                    class="dropdown-item "
-                    type="button"
-                    onClick={() => {
-                      setSortClick(!sortClick);
-                      handleSortClick("플래너 등록순");
-                    }}
-                  >
-                    플래너 등록순
-                  </button>
-                </li>
-              </ul>
+            <div
+              className="filter"
+              style={{
+                position: "fixed",
+                top: 64,
+                zIndex: 99,
+                width: "556px",
+                display: "block",
+                background: "white",
+                paddingTop: "5px",
+                height: "80px",
+              }}
+            >
+              <div class="dropdown  right-sort" style={{ marginRight: "70px" }}>
+                <button
+                  class="btn btn-secondary dropdown-toggle"
+                  type="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  {selectedSort}
+                </button>
+                <ul class="dropdown-menu sortItem">
+                  <li className="">
+                    <button
+                      class="dropdown-item "
+                      type="button"
+                      onClick={() => {
+                        setSortClick(!sortClick);
+                        handleSortClick("별점 높은 순");
+                      }}
+                    >
+                      별점 높은 순
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      class="dropdown-item"
+                      type="button"
+                      onClick={() => {
+                        setSortClick(!sortClick);
+                        handleSortClick("후기순");
+                      }}
+                    >
+                      후기순
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      class="dropdown-item"
+                      type="button"
+                      onClick={() => {
+                        setSortClick(!sortClick);
+                        handleSortClick("경력순");
+                      }}
+                    >
+                      경력순
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      class="dropdown-item"
+                      type="button"
+                      onClick={() => {
+                        setSortClick(!sortClick);
+                        handleSortClick("매칭순");
+                      }}
+                    >
+                      매칭순
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      class="dropdown-item"
+                      type="button"
+                      onClick={() => {
+                        setSortClick(!sortClick);
+                        handleSortClick("최신순");
+                      }}
+                    >
+                      최신순
+                    </button>
+                  </li>
+                  <li className="">
+                    <button
+                      class="dropdown-item "
+                      type="button"
+                      onClick={() => {
+                        setSortClick(!sortClick);
+                        handleSortClick("플래너 등록순");
+                      }}
+                    >
+                      플래너 등록순
+                    </button>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="container text-center" style={{ marginTop: "60px" }}>
-        <div
-          style={{
-            marginRight: "8px",
-          }}
-        ></div>
-        <div class="container text-center">
-          <div class="row row-cols-2">
-            {/* 이미지카드 */}
-            {keyIndex.length === 0 ? (
-              <div
-                class="text-start"
-                style={{
-                  marginLeft: "10px",
-                  fontSize: "1.5em",
-                  marginTop: "40px",
-                }}
-              >
-                결과가 없습니다.
-              </div>
-            ) : (
-              keyIndex.map((i) => (
-                <div class="col">
-                  <div class="card margT">
-                    <img
-                      style={{ height: "230px", cursor: "pointer" }}
-                      src={profileImg[i]}
-                      class="card-img-top"
-                      alt="..."
-                      data-bs-plannerEmail={plannerEmail[i]}
-                      data-bs-plannerName={plannerName[i]}
-                      data-bs-plannerImg={profileImg[i]}
-                      onClick={goProfileDetail}
-                    />
-                    <div class="card-body">
-                      <p
-                        class="card-text ms-4"
-                        style={{
-                          fontSize: "1.5em",
-                          margin: "0 auto",
-                          display: "flex",
-                          justifyContent: "center",
-                        }}
-                      >
-                        {plannerName[i]} &nbsp;&nbsp;
-                      </p>
+        <div class="container text-center" style={{ marginTop: "60px" }}>
+          <div
+            style={{
+              marginRight: "8px",
+            }}
+          ></div>
+          <div class="container text-center">
+            <div class="row row-cols-2">
+              {/* 이미지카드 */}
+              {keyIndex.length === 0 ? (
+                <div
+                  class="text-start"
+                  style={{
+                    marginLeft: "10px",
+                    fontSize: "1.5em",
+                    marginTop: "40px",
+                  }}
+                >
+                  결과가 없습니다.
+                </div>
+              ) : (
+                keyIndex.map((i) => (
+                  <div class="col">
+                    <div class="card margT">
+                      <img
+                        style={{ height: "230px", cursor: "pointer" }}
+                        src={profileImg[i]}
+                        class="card-img-top"
+                        alt="..."
+                        data-bs-plannerEmail={plannerEmail[i]}
+                        data-bs-plannerName={plannerName[i]}
+                        data-bs-plannerImg={profileImg[i]}
+                        onClick={goProfileDetail}
+                      />
+                      <div class="card-body">
+                        <p
+                          class="card-text ms-4"
+                          style={{
+                            fontSize: "1.5em",
+                            margin: "0 auto",
+                            display: "flex",
+                            justifyContent: "center",
+                          }}
+                        >
+                          {plannerName[i]} &nbsp;&nbsp;
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))
-            )}
+                ))
+              )}
 
-            {/* 이미지카드 */}
+              {/* 이미지카드 */}
+            </div>
+            <br />
+            <div style={{ marginBottom: "100px" }}></div>
           </div>
-          <br />
-          <div style={{ marginBottom: "100px" }}></div>
-        </div>
-        {/* <div class="row" style={{ marginTop: "20px" }}>
+          {/* <div class="row" style={{ marginTop: "20px" }}>
           <div class="col">
             <img
               // src={Loadingimg1}
@@ -438,8 +440,13 @@ function PlannerProfile() {
             <div>planner2</div>
           </div>
         </div> */}
+        </div>
+        <Footer />
       </div>
-      <Footer />
+      <div className="box2"></div>
+      <div className="box3">
+        <Sidesection />
+      </div>
     </div>
   );
 }
