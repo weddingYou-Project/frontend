@@ -37,16 +37,18 @@ const MenuList = () => {
     window.addEventListener("load", () => {
       setNum(Math.floor(Math.random() * 3));
     });
-    setTimeout(() => {
-      //   setImgTop(170);
-
-      setImgOpacity(1);
+    function A(callback) {
       setTimeout(() => {
-        //  setPTop(150);
+        setImgOpacity(1);
+        callback();
+      }, 500);
+    }
+    function B() {
+      setTimeout(() => {
         setPOpacity(1);
-      }, 700);
-    }, 500);
-
+      }, 200);
+    }
+    A(B);
     setSelectImg(images[num]);
   }, []);
   return (
