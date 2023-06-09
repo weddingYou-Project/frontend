@@ -182,6 +182,7 @@ const WritePost = () => {
             취소
           </button>
         </div>
+        <div style={{ height: 150 }}></div>
         <Footer />
       </div>
       <div className="box2"></div>
